@@ -11,10 +11,10 @@ import {
     HomeController,
     UsersController,
     AuthenticationController
-} from "./server/controllers";
-import { AuthVerifyMiddleware } from "./server/middlewares";
+} from "./controllers";
+import { AuthVerifyMiddleware } from "./middlewares";
 
-import config from "./server/config";
+import config from "./config";
 
 const app = express();
 let server = http.Server(app);
@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
 app.use('/api/authentication', AuthenticationController(app));
 
@@ -46,7 +46,7 @@ app.use("/api/users", UsersController());
 
 // express will serve up index.html if it doesn't recognize the route
 app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
