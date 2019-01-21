@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,700|Roboto:400,700');
+@media(min-width: 300px) {
+    body {
+        font-size: 20px;
+        background: #11162a;
+        font-family: 'Roboto', sans-serif;
+    }
+    .start-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .start-content h1 {
+        font-size: 140px;
+        line-height: normal;
+        width: 500px;
+        margin: 0;
+        font-family: 'Bai Jamjuree', sans-serif;
+    }
+    .login-page {
+        background: url('./bg-login.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        height: 100vh;
+    }
+    .login-page form {
+        background: #000;
+        width: 800px;
+        height: 450px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        clip-path: polygon(17% 15%, 100% 0, 100% 100%, 0% 100%);
+        border-radius: 2px;
+    }
+    .login-page input {
+        background: #101010;
+        border-radius: 2px;
+        padding: 10px 14px;
+        border: none;
+        color: #fff;
+        width: 300px;
+    }
+    .login-page label {
+        color: #fff;
+    }
+    .login-page button {
+        background: #D79634;
+        color: #000;
+        border: none;
+        border-radius: 2px;
+        padding: 12px 53px 12px 63px;
+        clip-path: polygon(17% 15%, 100% 0, 100% 100%, 0% 100%);
+        cursor: pointer;
+    }
+    .login-page span {
+        padding-left: 30px;
+        color: #999999;
+    }
+    .login-page a {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .login-btn {
+        padding-top: 30px;
+    }
+    .start-content button {
+        background: #FFA928;
+        color: #000;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 2px;
+        padding: 30px 150px 20px 150px;
+        clip-path: polygon(90.39% 22px, 100% 100%, 0% 100%, 0.09% 4.23%);
+        cursor: pointer;
+    }
+    .start-content div {
+        margin: 20px;
+    }
+}
+
+@media(min-width: 768px) {}
+
+@media(min-width: 991px) {}
+
+@media(min-width: 1200px) {
+    .login-page {
+        background-size: cover;
+    }
+}
