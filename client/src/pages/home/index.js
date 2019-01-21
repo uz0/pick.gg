@@ -32,7 +32,7 @@ class App extends Component {
     componentDidMount() {
         this.socket = io();
         this.socket.on("broadcastItems", this.handleItems.bind(this));
-        this.callApi();
+        // this.callApi();
     }
 
     componentWillUnmount() {
@@ -46,21 +46,21 @@ class App extends Component {
         }));
     }
 
-    callApi = async () => {
-        const response = await fetch("/api/home", {
-            headers: {
-                'x-access-token': this.AuthService.getToken()
-            }
-        });
-        const result = await response.json();
+    // callApi = async () => {
+    //     const response = await fetch("/api/home", {
+    //         headers: {
+    //             'x-access-token': this.AuthService.getToken()
+    //         }
+    //     });
+    //     const result = await response.json();
 
-        if (response.status !== 200) throw Error('Error');
+    //     if (response.status !== 200) throw Error('Error');
 
-        this.setState({ response: result.message })
-    }
+    //     this.setState({ response: result.message })
+    // }
 
     addItemToList = async () => {
-        const response = await fetch('/api/home/addItem', {
+        const response = await fetch('/api/home/items', {
             method: 'POST',
             body: JSON.stringify({item: this.state.itemToAdd}),
             headers: {

@@ -1,7 +1,7 @@
 import React from "react";
 import './Input.css';
 
-const Input = ({id, label, name, placeholder, type, autofocus, value, action, classes}) => {
+const Input = ({id, label, name, placeholder, type, autofocus, value, action, className}) => {
     const newId = new Date().getTime().toString();
     return (
         <div className="input-component">
@@ -11,7 +11,7 @@ const Input = ({id, label, name, placeholder, type, autofocus, value, action, cl
                 id={id || newId}
                 name={name}
                 placeholder={placeholder}
-                className={[...classes]}
+                className={className}
                 type={type}
                 autoFocus={autofocus}
                 value={value}
