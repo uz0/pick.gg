@@ -41,6 +41,7 @@ class TopMenuComponent extends Component {
                         <NavLink to="/topics">Topics</NavLink>
                     </li>
                 </ul>
+
                 <div className="user-info-wrapper">
                     <span>You are logged in as <strong>{this.state.profile ? this.state.profile.username : 'Anonimus'}</strong> | </span>
                     <a onClick={this.handleLogout.bind(this)}>Logout</a>

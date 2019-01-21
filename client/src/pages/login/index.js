@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import cx from 'classnames';
+
 import './Login.css';
 import AuthService from "../../services/authService";
 import Input from "../../components/InputComponent";
@@ -42,7 +44,7 @@ class Login extends Component {
                         placeholder='Username'
                         type="text"
                         autofocus={true}
-                        classes={['sarasa1', 'sarasa2']}
+                        className={cx('sarasa1', 'sarasa2')}
                         value={this.state.username}
                         action={this.handleChange} />
                     <Input 
@@ -51,7 +53,7 @@ class Login extends Component {
                         name="password"
                         placeholder="Password"
                         type="password"
-                        classes={['sarasa3', 'sarasa4']}
+                        className={cx('sarasa3', 'sarasa4')}
                         value={this.state.password}
                         action={this.handleChange} />
                     <button type="submit">Login</button>

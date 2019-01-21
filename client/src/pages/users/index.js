@@ -49,7 +49,7 @@ class Users extends Component {
 
     getUsers = async () => {
         try {
-            const response = await fetch("/api/users/getUsers", {
+            const response = await fetch("/api/users", {
                 headers: {
                     'x-access-token': this.Auth.getToken()
                 }
@@ -64,7 +64,7 @@ class Users extends Component {
     }
 
     saveUser = async () => {
-        const response = await fetch('/api/users/addUser', {
+        const response = await fetch('/api/users', {
             method: 'POST',
             body: JSON.stringify({user: this.state.user}),
             headers: {

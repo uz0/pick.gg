@@ -7,7 +7,7 @@ const AuthenticationController = (app) => {
     router.post("/authenticate", async (req, res) => {
         let username = req.body.username;
         let password = req.body.password;
-        let user = await UserModel.findOne({ username: username });
+        let user = await UserModel.findOne({ username });
 
         if (!user) {
             res.json({
@@ -25,6 +25,7 @@ const AuthenticationController = (app) => {
                     isAdmin: user.isAdmin,
                     username: user.username
                 };
+
                 let token = jwt.sign(payload, app.get("superSecret"), {
                     expiresIn : 60 * 60 * 24 // expires in 24 hours
                 });
@@ -32,7 +33,7 @@ const AuthenticationController = (app) => {
                 res.json({
                     success: true,
                     message: "Enjoy your token!",
-                    token: token
+                    token,
                 });
             }
         }

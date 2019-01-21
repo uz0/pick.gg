@@ -29,12 +29,6 @@ Setup
 
 *It will run the client app on [http://localhost:3000](http://localhost:3000) (with HMR) and the server on [http://localhost:3001](http://localhost:3001)*
 
-#### To deploy the app in production mode run:
-
-### `npm run deploy`
-
-*It will run the production app in [http://localhost:3001](http://localhost:3001)*
-
 ### Login
 
 To Login in the app for the first time use the following credentials:

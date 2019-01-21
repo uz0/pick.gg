@@ -10,6 +10,7 @@ import bodyParser from "body-parser";
 import { 
     HomeController,
     UsersController,
+    PingController,
     AuthenticationController
 } from "./controllers";
 import { AuthVerifyMiddleware } from "./middlewares";
@@ -42,6 +43,7 @@ app.use('/api/authentication', AuthenticationController(app));
 
 app.use('/api', AuthVerifyMiddleware(app));
 app.use("/api/home", HomeController(io));
+app.use("/api/ping", PingController());
 app.use("/api/users", UsersController());
 
 // express will serve up index.html if it doesn't recognize the route
