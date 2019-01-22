@@ -52,13 +52,17 @@ class Login extends Component {
 	render() {
 		return (
 			<div className="login-page">
+				<div className="bg-wrap" />
+
 				{this.state.startIsShown && (
 					<div className="start-content">
 						<h1>Fantasy league</h1>
-						<button onClick={this.clickLogin}>Start</button>
-						<div>
-							<span>or </span>
-							<a onClick={this.clickRegister}>register</a>
+						<div className="start-btns">
+							<button onClick={this.clickLogin}>Start</button>
+							<div>
+								<span>or </span>
+								<a onClick={this.clickRegister}>register</a>
+							</div>
 						</div>
 					</div>
 				)}
@@ -67,8 +71,11 @@ class Login extends Component {
 						<Input id="username" label="" name="username" placeholder="login" type="text" autofocus={true} className={cx('sarasa1', 'sarasa2')} value={this.state.username} action={this.handleChange} />
 						<Input id="password" label="" name="password" placeholder="password" type="password" className={cx('sarasa3', 'sarasa4')} value={this.state.password} action={this.handleChange} />
 						<div className="login-btn">
-							<button type="submit">Login</button> <span>or </span>
-							<a onClick={this.clickRegister}>register</a>
+							<button type="submit">Login</button>
+							<div>
+								<span>or </span>
+								<a onClick={this.clickRegister}>register</a>
+							</div>
 						</div>
 					</form>
 				)}
@@ -78,8 +85,11 @@ class Login extends Component {
 						<Input id="password" label="" name="password" placeholder="password" type="password" className={cx('sarasa3', 'sarasa4')} value={this.state.password} action={this.handleChange} />
 						<Input id="password" label="" name="password" placeholder="repeat password" type="password" className={cx('sarasa3', 'sarasa4')} value={this.state.password} action={this.handleChange} />
 						<div className="login-btn">
-							<button type="submit">Register</button> <span>or </span>
-							<a onClick={this.clickLogin}>login</a>
+							<button type="submit">Register</button>
+							<div>
+								<span>or </span>
+								<a onClick={this.clickLogin}>login</a>
+							</div>
 						</div>
 					</form>
 				)}
