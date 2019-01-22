@@ -11,16 +11,36 @@
         align-items: flex-start;
     }
     .start-content h1 {
-        font-size: 140px;
+        font-size: 70px;
         line-height: normal;
-        width: 500px;
-        margin: 0;
+        width: 310px;
+        margin: 0 0 100px;
         font-family: 'Bai Jamjuree', sans-serif;
     }
-    .login-page {
+    .bg-wrap {
+        position: absolute;
         background: url('./bg-login.png');
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: cover;
+        height: inherit;
+        z-index: -1;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+    .bg-wrap img {
+        position: relative;
+    }
+    .bg-wrap::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 100%;
+        background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
+    }
+    .login-page {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -28,23 +48,22 @@
         height: 100vh;
     }
     .login-page form {
-        background: #000;
-        width: 800px;
-        height: 450px;
+        background: rgba(0, 0, 0, 1);
+        padding: 80px 20px 60px 70px;
         display: flex;
         justify-content: center;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         clip-path: polygon(17% 15%, 100% 0, 100% 100%, 0% 100%);
         border-radius: 2px;
     }
     .login-page input {
         background: #101010;
         border-radius: 2px;
-        padding: 10px 14px;
+        padding: 8px 10px;
         border: none;
         color: #fff;
-        width: 300px;
+        width: 260px;
     }
     .login-page label {
         color: #fff;
@@ -75,21 +94,49 @@
         text-transform: uppercase;
         border: none;
         border-radius: 2px;
-        padding: 30px 150px 20px 150px;
+        padding: 30px 100px 20px 90px;
         clip-path: polygon(90.39% 22px, 100% 100%, 0% 100%, 0.09% 4.23%);
         cursor: pointer;
+        margin: 0 0 20px 20px;
     }
-    .start-content div {
-        margin: 20px;
+    .start-content .start-btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center
     }
 }
 
-@media(min-width: 768px) {}
+@media(min-width: 768px) {
+    .start-content h1 {
+        font-size: 120px;
+        line-height: normal;
+        width: 500px;
+    }
+    .login-page form {
+        padding: 130px 60px 90px 160px;
+    }
+    .login-page input {
+        width: 450px
+    }
+    .login-btn {
+        display: flex;
+        align-items: center
+    }
+    .start-content button {
+        padding: 30px 150px 20px 150px;
+    }
+}
 
-@media(min-width: 991px) {}
+@media(min-width: 991px) {
+    .login-page form {
+        padding: 130px 110px 100px 200px;
+    }
+}
 
 @media(min-width: 1200px) {
-    .login-page {
-        background-size: cover;
+    .start-content h1 {
+        font-size: 140px;
+        line-height: normal;
+        width: 500px;
     }
 }
