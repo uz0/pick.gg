@@ -9,8 +9,7 @@
     "build": "cross-env NODE_ENV=production concurrently --kill-others-on-fail \"npm run server:build\" \"npm run client:build\"",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail \"npm run server:start\" \"npm run client:start\"",
     "start": "node dist/app.js",
-    "postinstall": "cd client && npm install && cd .. && npm run build",
-    "heroku-postbuild": "npm run build"
+    "postinstall": "cd client && npm install && cd .. && npm run build"
   },
   "dependencies": {
     "classnames": "^2.2.6",
