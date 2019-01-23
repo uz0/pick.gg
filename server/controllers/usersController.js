@@ -3,23 +3,23 @@ import UserModel from "../models/user";
 let router = express.Router();
 
 const UsersController = () => {
+  router.get('/', async (req, res) => {
+    let users = await UserModel.find();
+    res.json({users: users});
+  });
 
-    router.get('/', async (req, res) => {
-        let users = await UserModel.find();
-        res.json({users: users});
+  router.post('/', (req, res) => {
+    let user = req.body.user;
+    let newUser = new UserModel(user);
+
+    newUser.save(err => {
+      if(err) throw err;
+
+      res.json({success: true, newUser: newUser});
     });
+  });
 
-    router.post('/', (req, res) => {
-        let user = req.body.user;
-        let newUser = new UserModel(user);
-        newUser.save(err => {
-            if(err) throw err;
-
-            res.json({success: true, newUser: newUser});
-        })
-    });
-
-    return router;
+  return router;
 }
 
 export default UsersController;
