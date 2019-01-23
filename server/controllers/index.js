@@ -3,9 +3,9 @@ import UsersController from "./usersController";
 import PingController from "./pingController";
 import AuthenticationController from "./authenticationController";
 
-export { 
-    HomeController,
-    UsersController,
-    PingController,
-    AuthenticationController
+export {
+  HomeController,
+  UsersController,
+  PingController,
+  AuthenticationController
 };
