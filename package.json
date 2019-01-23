@@ -12,6 +12,7 @@
     "postinstall": "cd client && npm install && cd .. && npm run build"
   },
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "classnames": "^2.2.6",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",

@@ -1,6 +1,8 @@
 import express from "express";
 import UserModel from "../models/user";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
 let router = express.Router();
 
 const AuthenticationController = (app) => {
@@ -15,7 +17,7 @@ const AuthenticationController = (app) => {
         message: "Authentication failed. User not found."
       });
     } else if (user) {
-      if (user.password != password) {
+      if (!bcrypt.compareSync(password, user.password)) {
         res.json({
           success: false,
           message: "Authentication failed. Wrong password."
@@ -36,6 +38,58 @@ const AuthenticationController = (app) => {
           token,
         });
       }
+    }
+  });
+
+  router.post("/register", async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+
+    let message = '';
+
+    if (!username) {
+      message = 'Enter username';
+    }
+
+    if (!password) {
+      message = 'Enter password';
+    }
+
+    if (!confirmPassword) {
+      message = 'Enter confirm password';
+    }
+
+    if (message) {
+      res.json({
+        success: false,
+        message,
+      });
+
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      res.json({
+        success: false,
+        message: 'Passwords is not equal',
+      });
+
+      return;
+    }
+
+    try {
+      const user = await UserModel.create({ username, password: bcrypt.hashSync(password, 10), isAdmin: false });
+
+      res.json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      res.json({
+        success: false,
+        message: 'User already exist',
+      });
     }
   });
 
