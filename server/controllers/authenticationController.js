@@ -11,14 +11,14 @@ const AuthenticationController = (app) => {
 
     if (!user) {
       res.json({
-          success: false,
-          message: "Authentication failed. User not found."
+        success: false,
+        message: "Authentication failed. User not found."
       });
     } else if (user) {
       if (user.password != password) {
         res.json({
-            success: false,
-            message: "Authentication failed. Wrong password."
+          success: false,
+          message: "Authentication failed. Wrong password."
         });
       } else {
         const payload = {
