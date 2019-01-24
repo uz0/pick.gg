@@ -91,7 +91,7 @@ class App extends Component {
                     <button type="submit">Add</button>
                 </form>
                 <ul>
-                    {this.state.itemsList.map((item, index) => 
+                    {this.state.itemsList.map((item, index) =>
                         <li key={index}>{item}</li>
                     )}
                 </ul>
