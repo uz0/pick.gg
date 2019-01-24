@@ -1,103 +1,58 @@
-import React, { Component } from "react";
-import "./Home.css";
-import logo from "../../logo.svg";
-import io from "socket.io-client";
-import AuthService from "../../services/authService";
+import React, { Component } from 'react'
+import './Home.css'
+import Input from '../../components/InputComponent'
+
+import AuthService from '../../services/authService'
 
 class App extends Component {
-    constructor() {
-        super();
-        this.AuthService = new AuthService();
-        this.handleAdd = this.handleAdd.bind(this);
-        this.handleItemToAddChange = this.handleItemToAddChange.bind(this);
-        this.state = {
-            response: "",
-            itemToAdd: '',
-            itemsList: []
-        };
-    }
+	constructor() {
+		super()
+		this.AuthService = new AuthService()
+		this.state = {}
+	}
 
-    handleItemToAddChange(e) {
-        e.preventDefault();
-        this.setState({itemToAdd: e.target.value});
-    }
+	render() {
+		function Blog(props) {
+			const content = props.posts.map(item => (
+				<div className="cardTournament">
+					<p>{item.title}</p>
+					<p>{item.date}</p>
+					<p>{item.users} users</p>
+					<p>$ {item.entry}</p>
+				</div>
+			))
+			return <div>{content}</div>
+		}
 
-    handleAdd(e) {
-        e.preventDefault();
-        if(this.state.itemToAdd !== '') {
-            this.addItemToList();
-        }
-    }
-
-    componentDidMount() {
-        this.socket = io();
-        this.socket.on("broadcastItems", this.handleItems.bind(this));
-        // this.callApi();
-    }
-
-    componentWillUnmount() {
-        this.socket.off("broadcastItems", this.handleItems);
-        this.socket.close();
-    }
-
-    handleItems(items) {
-        this.setState((prevState, prevProps) => ({
-            itemsList: items.list
-        }));
-    }
-
-    // callApi = async () => {
-    //     const response = await fetch("/api/home", {
-    //         headers: {
-    //             'x-access-token': this.AuthService.getToken()
-    //         }
-    //     });
-    //     const result = await response.json();
-
-    //     if (response.status !== 200) throw Error('Error');
-
-    //     this.setState({ response: result.message })
-    // }
-
-    addItemToList = async () => {
-        const response = await fetch('/api/home/items', {
-            method: 'POST',
-            body: JSON.stringify({item: this.state.itemToAdd}),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'x-access-token': this.AuthService.getToken()
-            }
-        });
-        const result = await response.json();
-
-        if (!result.success) throw Error();
-
-        this.setState((prevState, prevProps) => ({
-            itemToAdd: ''
-        }));
-    }
-
-    render() {
-        return (
-            <div className="home-page">
-                <header>
-                    <img src={logo} alt="logo" />
-                    <h1>Welcome to React</h1>
-                </header>
-                <p>{this.state.response}</p>
-                <form onSubmit={this.handleAdd}>
-                    <input placeholder="Socket.IO test" onChange={this.handleItemToAddChange} value={this.state.itemToAdd} />
-                    <button type="submit">Add</button>
-                </form>
-                <ul>
-                    {this.state.itemsList.map((item, index) =>
-                        <li key={index}>{item}</li>
-                    )}
-                </ul>
-            </div>
-        );
-    }
+		const items = [{ title: 'My Crazy League', date: 'Feb 02', users: '2023', entry: '3.97' }, { title: 'Mamkin tiger wanna play', date: 'Feb 03', users: '3052', entry: '10.00' }, { title: 'Only for hardcore fans', date: 'Feb 05', users: '1233', entry: '2.17' }]
+		return (
+			<div className="home-page">
+				<div className="bg-wrap" />
+				<div className="filters">
+					<h2>Tournaments</h2>
+					<form>
+						<Input label="End date" name="date" type="date" />
+						<Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
+					</form>
+					<div className="createTournament">
+						<p>Not satisfied?</p>
+						<button type="submit">Create a new tournament</button>
+					</div>
+				</div>
+				<div className="tournaments-block">
+					<div className="headerTournaments">
+						<p>Tournament Name</p>
+						<p>End Date</p>
+						<p>Users</p>
+						<p>Entry</p>
+					</div>
+					<Blog posts={items} />
+					<Blog posts={items} />
+					<Blog posts={items} />
+				</div>
+			</div>
+		)
+	}
 }
 
-export default App;
+export default App
