@@ -32,12 +32,18 @@ class App extends Component {
     componentDidMount() {
         this.socket = io();
         this.socket.on("broadcastItems", this.handleItems.bind(this));
+        this.socket.on("tournaments", this.handleTournaments.bind(this));
         // this.callApi();
     }
 
     componentWillUnmount() {
         this.socket.off("broadcastItems", this.handleItems);
+        this.socket.off("tournaments", this.handleTournaments);
         this.socket.close();
+    }
+
+    handleTournaments(data) {
+        console.log(data)
     }
 
     handleItems(items) {
