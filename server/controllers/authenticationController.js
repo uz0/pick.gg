@@ -1,7 +1,7 @@
 import express from "express";
 import UserModel from "../models/user";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import passwordHash from "password-hash";
 
 let router = express.Router();
 
@@ -17,7 +17,7 @@ const AuthenticationController = (app) => {
         message: "Authentication failed. User not found."
       });
     } else if (user) {
-      if (!bcrypt.compareSync(password, user.password)) {
+      if (!passwordHash.verify(password, user.password)) {
         res.json({
           success: false,
           message: "Authentication failed. Wrong password."
@@ -79,7 +79,7 @@ const AuthenticationController = (app) => {
     }
 
     try {
-      const user = await UserModel.create({ username, password: bcrypt.hashSync(password, 10), isAdmin: false });
+      const user = await UserModel.create({ username, password: passwordHash.generate(password), isAdmin: false });
 
       res.json({
         success: true,
