@@ -12,7 +12,6 @@
     "postinstall": "cd client && npm install && cd .. && npm run build"
   },
   "dependencies": {
-    "bcrypt": "^3.0.3",
     "classnames": "^2.2.6",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",
@@ -20,6 +19,7 @@
     "mongoose": "^5.0.3",
     "node-sass": "^4.11.0",
     "normalize.css": "^8.0.1",
+    "password-hash": "^1.2.2",
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
