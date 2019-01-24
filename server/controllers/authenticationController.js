@@ -24,6 +24,7 @@ const AuthenticationController = (app) => {
         });
       } else {
         const payload = {
+          _id: user._id,
           isAdmin: user.isAdmin,
           username: user.username
         };
@@ -86,9 +87,17 @@ const AuthenticationController = (app) => {
         user,
       });
     } catch (error) {
+      let message = '';
+
+      if (error.code === 11000) {
+        message = 'User already exist';
+      } else {
+        message = 'Error while register';
+      }
+
       res.json({
         success: false,
-        message: 'User already exist',
+        message,
       });
     }
   });

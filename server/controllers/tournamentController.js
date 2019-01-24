@@ -5,7 +5,11 @@ let router = express.Router();
 
 const TournamentController = () => {
   router.get('/', async (req, res) => {
-    const tournaments = await TournamentModel.find().populate('rules.rule');
+    const tournaments = await TournamentModel
+      .find()
+      .populate('rules.rule')
+      .populate({ path: 'users', select: '_id username' });
+
     res.json({ tournaments });
   });
 
@@ -63,6 +67,34 @@ const TournamentController = () => {
         error,
       });
     }
+  });
+
+  router.post('/:id/setup', async (req, res) => {
+    const id = req.params.id;
+    const userId = req.decoded._id;
+
+    const tournament = await TournamentModel.findOne({ _id: id }, 'users');
+    let tournamentUsers = tournament.users;
+
+    if (tournamentUsers.indexOf(userId) !== -1) {
+      res.json({
+        success: false,
+        message: 'You already participate in this championship',
+      });
+
+      return;
+    }
+
+    tournamentUsers.push(userId);
+
+    const newTournament = await TournamentModel
+      .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true })
+      .populate({ path: 'users', select: '_id username' });
+
+    res.json({
+      success: true,
+      tournament: newTournament,
+    });
   });
 
   return router;
