@@ -1,32 +1,60 @@
 .top-menu-component {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px; }
-  .top-menu-component > ul {
+    padding: 10px;
+    background: #252532;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.menuWrap {
+    width: 1200px;
     display: flex;
     align-items: center;
-    list-style: none;
-    padding: 0; }
-    .top-menu-component > ul > li > a {
-      width: 60px;
-      display: inline-block;
-      text-align: center;
-      text-decoration: none;
-      padding: 5px;
-      color: #5a5a5a;
-      font-weight: bold;
-      transition: color .2s ease-in-out, border .2s ease-in-out; }
-      .top-menu-component > ul > li > a.active {
-        border-bottom: 2px solid orange;
-        padding-bottom: 3px; }
-      .top-menu-component > ul > li > a:hover {
-        color: orange; }
-  .top-menu-component .user-info-wrapper span strong {
-    color: orange; }
-  .top-menu-component .user-info-wrapper a {
+    justify-content: space-between;
+}
+
+.top-menu-component h2 {
+    font-weight: bold;
+    line-height: 40px;
+    font-size: 20px;
+    color: rgb(252, 252, 252);
+    margin: 0;
+    font-family: 'Bai Jamjuree', sans-serif;
+}
+
+.top-menu-component>ul>li>a {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+    color: #5a5a5a;
+    font-weight: bold;
+    transition: color .2s ease-in-out, border .2s ease-in-out;
+}
+
+.top-menu-component>ul>li>a.active {
+    color: orange;
+    padding-bottom: 3px;
+}
+
+.top-menu-component>ul>li>a:hover {
+    color: orange;
+}
+
+.top-menu-component .user-info-wrapper span strong {
+    color: orange;
+}
+
+.top-menu-component .user-info-wrapper button {
     cursor: pointer;
-    color: blue;
-    font-weight: 600; }
-    .top-menu-component .user-info-wrapper a:hover {
-      color: red; }
+    font-size: 20px;
+    color: #D79634;
+    background: #060916;
+    border-radius: 4px;
+    padding: 8px 20px;
+    border: none;
+}
+
+.top-menu-component .user-info-wrapper button:hover {
+    color: rgb(250, 197, 118);
+}

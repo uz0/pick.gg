@@ -19,7 +19,7 @@
     }
     .bg-wrap {
         position: absolute;
-        background: url('./bg-login.png');
+        background: url('../../assets/bg-login.png');
         background-repeat: no-repeat;
         background-size: cover;
         height: inherit;
