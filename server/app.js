@@ -12,12 +12,15 @@ import {
   HomeController,
   UsersController,
   PingController,
-  AuthenticationController
+  AuthenticationController,
+  TournamentController,
+  RuleController,
 } from "./controllers";
 
+import RuleModel from './models/rule';
 import { AuthVerifyMiddleware } from "./middlewares";
-
 import config from "./config";
+import rules from './rules';
 
 const app = express();
 let server = http.Server(app);
@@ -40,12 +43,20 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
+RuleModel.find().then(data => {
+  if (data.length === 0) {
+    RuleModel.insertMany(rules);
+  }
+});
+
 app.use('/api/authentication', AuthenticationController(app));
 
 app.use('/api', AuthVerifyMiddleware(app));
 app.use("/api/home", HomeController(io));
 app.use("/api/ping", PingController());
 app.use("/api/users", UsersController());
+app.use("/api/rules", RuleController());
+app.use("/api/tournaments", TournamentController());
 
 // express will serve up index.html if it doesn't recognize the route
 app.get("/*", (req, res) => {
