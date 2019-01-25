@@ -7,12 +7,14 @@ import './index.css'
 
 import App from './App'
 import Login from './pages/login'
+import Register from './pages/register'
 // import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route exact path="/login" component={Login} />
+      <Route exact path="/register" component={Register} />
       <Route component={App} />
     </Switch>
   </BrowserRouter>,
