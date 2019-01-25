@@ -1,0 +1,53 @@
+.newTournament {
+    background: #11162af3;
+    padding: 20px;
+    position: absolute;
+    border-radius: 4px;
+}
+
+.newTournament form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 650px;
+}
+
+.newTournament .topBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.newTournament label {
+    font-weight: bold;
+    line-height: normal;
+    font-size: 12px;
+    color: #9D9FBB;
+    padding: 2px 10px;
+}
+
+.newTournament input {
+    background: #060916;
+    color: #D79634;
+    font-size: 18px;
+    border: 5px solid #252532;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    width: 250px;
+}
+
+.newTournament select {
+    background: #060916;
+    color: #D79634;
+    font-size: 18px;
+    border: 5px solid #252532;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    width: 280px;
+}
+
+.newTournament p {
+    color: #D79634;
+}
