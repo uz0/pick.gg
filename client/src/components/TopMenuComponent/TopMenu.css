@@ -3,7 +3,7 @@
     background: #252532;
     display: flex;
     justify-content: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .menuWrap {
@@ -11,6 +11,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.top-menu-component a {
+    text-decoration: none;
 }
 
 .top-menu-component h2 {

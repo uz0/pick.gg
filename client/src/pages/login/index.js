@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import './Login.css'
+import '../../components/style.css'
 import AuthService from '../../services/authService'
 import Input from '../../components/InputComponent'
 
@@ -35,17 +35,23 @@ class Login extends Component {
 		return (
 			<div className="login-page">
 				<div className="bg-wrap" />
-				<form onSubmit={this.handleLogin}>
-					<Input id="username" label="" name="username" placeholder="login" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
-					<Input id="password" label="" name="password" placeholder="password" type="password" value={this.state.password} action={this.handleChange} />
-					<div className="login-btn">
-						<button type="submit">Login</button>
-						<div>
-							<span>or </span>
-							<NavLink to="/register">register</NavLink>
-						</div>
+				<div className="formBlock">
+					<div className="plsBlock">
+						Please <br /> login <br /> in the <br />
+						system
 					</div>
-				</form>
+					<form onSubmit={this.handleLogin}>
+						<Input id="username" label="Email" name="username" placeholder="login" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
+						<Input id="password" label="Password" name="password" placeholder="password" type="password" value={this.state.password} action={this.handleChange} />
+						<div className="login-btn">
+							<button type="submit">Login</button>
+							<div>
+								<span>or </span>
+								<NavLink to="/register">register</NavLink>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		)
 	}
