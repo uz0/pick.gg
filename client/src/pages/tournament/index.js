@@ -9,10 +9,13 @@ class App extends Component {
     super()
     this.AuthService = new AuthService()
     this.state = {
-      newTournament: false,
+      chooseChamp: false,
     }
   }
-
+  showChoose = () =>
+    this.setState({
+      chooseChamp: true,
+    })
   render() {
     return (
       <div className="home-page">
@@ -25,23 +28,23 @@ class App extends Component {
               <p>$ 3.97</p>
             </div>
           </div>
-          <ChooseChamp />
+          {this.state.chooseChamp && <ChooseChamp />}
           <div className="teamBlock">
             <h3>Team</h3>
             <div className="tournamentTeam">
-              <div className="item">
+              <div onClick={this.showChoose} className="item">
                 <p>Add Player</p>
               </div>
-              <div className="item">
+              <div onClick={this.showChoose} className="item">
                 <p>Add Player</p>
               </div>
-              <div className="item">
+              <div onClick={this.showChoose} className="item">
                 <p>Add Player</p>
               </div>
-              <div className="item">
+              <div onClick={this.showChoose} className="item">
                 <p>Add Player</p>
               </div>
-              <div className="item">
+              <div onClick={this.showChoose} className="item">
                 <p>Add Player</p>
               </div>
             </div>
