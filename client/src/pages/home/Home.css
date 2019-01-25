@@ -112,11 +112,11 @@
 }
 
 .headerTournaments p:nth-child(2) {
-    width: 70px;
+    width: 75px;
 }
 
 .headerTournaments p:nth-child(3) {
-    width: 70px;
+    width: 75px;
 }
 
 .cardTournament {
@@ -144,6 +144,20 @@
 
 .cardTournament p:first-child {
     width: 360px;
+}
+
+.cardTournament p:nth-child(2) {
+    width: 50px;
+}
+
+.cardTournament p:nth-child(3) {
+    width: 80px;
+    text-align: center;
+}
+
+.cardTournament p:nth-child(4) {
+    width: 60px;
+    text-align: center;
 }
 
 .cardTournament:hover {
