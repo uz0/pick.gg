@@ -63,7 +63,7 @@ class App extends Component {
                 <p>{item.date}</p>
                 <p>{item.users} users</p>
                 <p>$ {item.entry}</p>
-                <img className="arrowCard" src={arrow} />
+                <img className="arrowCard" src={arrow} alt="arrow icon" />
               </div>
             </NavLink>
           ))}
