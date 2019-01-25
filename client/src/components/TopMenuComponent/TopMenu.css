@@ -22,29 +22,6 @@
     font-family: 'Bai Jamjuree', sans-serif;
 }
 
-.top-menu-component>ul>li>a {
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    padding: 5px;
-    color: #5a5a5a;
-    font-weight: bold;
-    transition: color .2s ease-in-out, border .2s ease-in-out;
-}
-
-.top-menu-component>ul>li>a.active {
-    color: orange;
-    padding-bottom: 3px;
-}
-
-.top-menu-component>ul>li>a:hover {
-    color: orange;
-}
-
-.top-menu-component .user-info-wrapper span strong {
-    color: orange;
-}
-
 .top-menu-component .user-info-wrapper button {
     cursor: pointer;
     font-size: 20px;

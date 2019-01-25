@@ -6,6 +6,18 @@ import { NavLink } from 'react-router-dom'
 import { arrow } from '../../assets/arrow.svg'
 import AuthService from '../../services/authService'
 
+const items = [
+	{ title: 'My Crazy League', date: 'Feb 02', users: '2023', entry: '3.97' },
+	{ title: 'Mamkin tiger wanna play', date: 'Feb 02', users: '3052', entry: '10.00' },
+	{ title: 'Only for hardcore fans', date: 'Feb 02', users: '1233', entry: '2.17' },
+	{ title: 'Crazy camp', date: 'Feb 02', users: '1652', entry: '1.00' },
+	{ title: 'Lvl up', date: 'Feb 03', users: '1054', entry: '5.35' },
+	{ title: 'Super win tonight', date: 'Feb 03', users: '2582', entry: '4.70' },
+	{ title: 'Mega HARDDD', date: 'Feb 03', users: '1629', entry: '1.30' },
+	{ title: 'Whats happened? AAAA!', date: 'Feb 03', users: '254', entry: '9.09' },
+	{ title: 'AAAAAAAAAAAAA!!!', date: 'Feb 03', users: '4346', entry: '7.77' },
+]
+
 class App extends Component {
 	constructor() {
 		super()
@@ -20,22 +32,6 @@ class App extends Component {
 		})
 
 	render() {
-		function Blog(props) {
-			const content = props.posts.map(item => (
-				<NavLink to="/">
-					<div className="cardTournament">
-						<p>{item.title}</p>
-						<p>{item.date}</p>
-						<p>{item.users} users</p>
-						<p className="lastItem">$ {item.entry}</p>
-					</div>
-					<img src={arrow} />
-				</NavLink>
-			))
-			return <div>{content}</div>
-		}
-
-		const items = [{ title: 'My Crazy League', date: 'Feb 02', users: '2023', entry: '3.97' }, { title: 'Mamkin tiger wanna play', date: 'Feb 03', users: '3052', entry: '10.00' }, { title: 'Only for hardcore fans', date: 'Feb 05', users: '1233', entry: '2.17' }]
 		return (
 			<div className="home-page">
 				<div className="bg-wrap" />
@@ -60,9 +56,17 @@ class App extends Component {
 						<p>Users</p>
 						<p>Entry</p>
 					</div>
-					<Blog posts={items} />
-					<Blog posts={items} />
-					<Blog posts={items} />
+					{items.map(item => (
+						<NavLink to="/">
+							<div className="cardTournament">
+								<p>{item.title}</p>
+								<p>{item.date}</p>
+								<p>{item.users} users</p>
+								<p>$ {item.entry}</p>
+							</div>
+							<img src={arrow} />
+						</NavLink>
+					))}
 				</div>
 			</div>
 		)
