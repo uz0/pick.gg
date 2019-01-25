@@ -1,6 +1,7 @@
 .home-page {
     text-align: center;
     display: flex;
+    justify-content: space-between;
     /* padding: 20px; */
     width: 1200px;
     margin: 0 auto;
@@ -88,6 +89,10 @@
     padding: 10px 20px;
 }
 
+.tournaments-block a {
+    text-decoration: none;
+}
+
 .headerTournaments {
     display: flex;
 }
@@ -130,11 +135,11 @@
     font-size: 16px;
     text-align: left;
     font-weight: normal;
+    text-decoration: none;
 }
 
 .cardTournament p:last-child {
     border: none;
-    text-align: right;
 }
 
 .cardTournament p:first-child {
@@ -148,25 +153,6 @@
 
 .cardTournament:hover p {
     color: #000;
-}
-
-.newTournament {
-    background: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    position: absolute;
-}
-
-.newTournament form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 550px;
-}
-
-.newTournament .topBlock {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
 }
 
 .bg-wrap {

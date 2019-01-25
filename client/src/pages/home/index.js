@@ -1,25 +1,36 @@
 import React, { Component } from 'react'
 import './Home.css'
 import Input from '../../components/InputComponent'
-
+import NewTournament from '../../components/newTournament'
+import { NavLink } from 'react-router-dom'
+import { arrow } from '../../assets/arrow.svg'
 import AuthService from '../../services/authService'
 
 class App extends Component {
 	constructor() {
 		super()
 		this.AuthService = new AuthService()
-		this.state = {}
+		this.state = {
+			newTournament: false,
+		}
 	}
+	createTournament = () =>
+		this.setState({
+			newTournament: !this.state.newTournament,
+		})
 
 	render() {
 		function Blog(props) {
 			const content = props.posts.map(item => (
-				<div className="cardTournament">
-					<p>{item.title}</p>
-					<p>{item.date}</p>
-					<p>{item.users} users</p>
-					<p>$ {item.entry}</p>
-				</div>
+				<NavLink to="/">
+					<div className="cardTournament">
+						<p>{item.title}</p>
+						<p>{item.date}</p>
+						<p>{item.users} users</p>
+						<p className="lastItem">$ {item.entry}</p>
+					</div>
+					<img src={arrow} />
+				</NavLink>
 			))
 			return <div>{content}</div>
 		}
@@ -36,9 +47,12 @@ class App extends Component {
 					</form>
 					<div className="createTournament">
 						<p>Not satisfied?</p>
-						<button type="submit">Create a new tournament</button>
+						<button onClick={this.createTournament} type="submit">
+							Create a new tournament
+						</button>
 					</div>
 				</div>
+				{this.state.newTournament && <NewTournament />}
 				<div className="tournaments-block">
 					<div className="headerTournaments">
 						<p>Tournament Name</p>
