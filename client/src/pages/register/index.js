@@ -1,25 +1,22 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import './Login.css'
 import AuthService from '../../services/authService'
 import Input from '../../components/InputComponent'
 
-class Login extends Component {
+class Register extends Component {
 	constructor() {
 		super()
 		this.auth = new AuthService()
-		this.handleChange = this.handleChange.bind(this)
-		this.handleLogin = this.handleLogin.bind(this)
 		this.state = {
 			username: '',
 			password: '',
 		}
 	}
 
-	handleChange(e) {
-		e.preventDefault()
-		this.setState({ [e.target.name]: e.target.value })
-	}
+	// handleChange(e) {
+	// 	e.preventDefault()
+	// 	this.setState({ [e.target.name]: e.target.value })
+	// }
 
 	handleLogin = async e => {
 		e.preventDefault()
@@ -38,11 +35,12 @@ class Login extends Component {
 				<form onSubmit={this.handleLogin}>
 					<Input id="username" label="" name="username" placeholder="login" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
 					<Input id="password" label="" name="password" placeholder="password" type="password" value={this.state.password} action={this.handleChange} />
+					<Input id="password" label="" name="password" placeholder="repeat password" type="password" value={this.state.password} action={this.handleChange} />
 					<div className="login-btn">
-						<button type="submit">Login</button>
+						<button type="submit">Register</button>
 						<div>
 							<span>or </span>
-							<NavLink to="/register">register</NavLink>
+							<NavLink to="/login">login</NavLink>
 						</div>
 					</div>
 				</form>
@@ -51,4 +49,4 @@ class Login extends Component {
 	}
 }
 
-export default Login
+export default Register
