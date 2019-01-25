@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthService from '../../services/authService'
 import Input from '../../components/InputComponent'
+import '../../components/style.css'
 
 class Register extends Component {
 	constructor() {
@@ -32,18 +33,25 @@ class Register extends Component {
 		return (
 			<div className="login-page">
 				<div className="bg-wrap" />
-				<form onSubmit={this.handleLogin}>
-					<Input id="username" label="" name="username" placeholder="login" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
-					<Input id="password" label="" name="password" placeholder="password" type="password" value={this.state.password} action={this.handleChange} />
-					<Input id="password" label="" name="password" placeholder="repeat password" type="password" value={this.state.password} action={this.handleChange} />
-					<div className="login-btn">
-						<button type="submit">Register</button>
-						<div>
-							<span>or </span>
-							<NavLink to="/login">login</NavLink>
-						</div>
+				<div className="formBlock">
+					<div className="plsBlock">
+						Please
+						<br /> register <br /> in the <br />
+						system
 					</div>
-				</form>
+					<form onSubmit={this.handleLogin}>
+						<Input id="username" label="Login" name="username" placeholder="" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
+						<Input id="password" label="Password" name="password" placeholder="" type="password" value={this.state.password} action={this.handleChange} />
+						<Input id="password" label="Password" name="password" placeholder="" type="password" value={this.state.password} action={this.handleChange} />
+						<div className="login-btn">
+							<button type="submit">Register</button>
+							<div>
+								<span>or </span>
+								<NavLink to="/login">login</NavLink>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		)
 	}
