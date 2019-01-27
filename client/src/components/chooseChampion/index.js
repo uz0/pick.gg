@@ -7,9 +7,9 @@ const chooseChampion = () => {
   return (
     <div>
       <div className="fade" />
-      <div className="addChampion">
+      <div className="add-champion">
         <h2>Choose your champion</h2>
-        <img className="closeBlock" onClick={this.closeChoose} src={close} alt="close icon" />
+        <img className="close-block" onClick={this.closeChoose} src={close} alt="close icon" />
         <form>
           <div className="players">
             {plays.map(item => (
