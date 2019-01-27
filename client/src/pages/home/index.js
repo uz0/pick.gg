@@ -53,7 +53,7 @@ class App extends Component {
             </button>
           </div>
         </div>
-        {this.state.newTournament && <NewTournament onclick={this.props.onClick} />}
+        {this.state.newTournament && <NewTournament closeTournament={this.closeTournament} />}
         <div className="tournaments-block">
           <div className="headerTournaments">
             <p>Tournament Name</p>

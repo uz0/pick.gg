@@ -4,7 +4,7 @@ import Select from '../SelectComponent'
 import './newTournament.css'
 import close from '../../assets/icon-close.svg'
 
-const newTournament = () => {
+const newTournament = ({ closeTournament }) => {
   return (
     <div>
       <div className="fade" />
@@ -15,7 +15,7 @@ const newTournament = () => {
           </p>
         </div>
         <form>
-          <img className="closeBlock" onClick={this.close} src={close} alt="close icon" />
+          <img className="closeBlock" onClick={closeTournament} src={close} alt="close icon" />
           <div className="wrapForm">
             <div className="topBlock">
               <Input label="Name" name="" placeholder="" type="text" />
