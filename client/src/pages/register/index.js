@@ -34,7 +34,7 @@ class Register extends Component {
 			<div className="login-page">
 				<div className="bg-wrap" />
 				<div className="formBlock">
-					<div className="plsBlock">
+					<div className="info-block">
 						Please
 						<br /> register <br /> in the <br />
 						system
