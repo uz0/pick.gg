@@ -14,10 +14,17 @@ class App extends Component {
       chooseChamp: false,
     }
   }
+
   showChoose = () =>
     this.setState({
       chooseChamp: true,
     })
+
+  closeChoose = () =>
+    this.setState({
+      chooseChamp: false,
+    })
+
   render() {
     return (
       <div className="home-page">
@@ -35,7 +42,7 @@ class App extends Component {
             <h3>Team</h3>
             <div className="tournamentTeam">
               {addCards.map(item => (
-                <div onClick={this.showChoose} className="item">
+                <div onClick={this.showChoose} close={this.closeChoose} className="item">
                   <p>Add Player</p>
                 </div>
               ))}
