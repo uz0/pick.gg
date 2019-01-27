@@ -194,7 +194,7 @@
     transition: all 0.3s;
     opacity: 1;
     animation-name: example;
-    animation-duration: 1s;
+    animation-duration: 0.7s;
     animation-iteration-count: 1;
 }
 

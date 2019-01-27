@@ -28,7 +28,12 @@ class App extends Component {
   }
   createTournament = () =>
     this.setState({
-      newTournament: !this.state.newTournament,
+      newTournament: true,
+    })
+
+  closeTournament = () =>
+    this.setState({
+      newTournament: false,
     })
 
   render() {
@@ -48,7 +53,7 @@ class App extends Component {
             </button>
           </div>
         </div>
-        {this.state.newTournament && <NewTournament />}
+        {this.state.newTournament && <NewTournament onclick={this.props.onClick} />}
         <div className="tournaments-block">
           <div className="headerTournaments">
             <p>Tournament Name</p>
