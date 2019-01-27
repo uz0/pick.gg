@@ -3,7 +3,9 @@ import './Tournament.css'
 import ChooseChamp from '../../components/chooseChampion'
 
 import AuthService from '../../services/authService'
-
+const addCards = [1, 2, 3, 4, 5]
+const matchesItems = [{ time: '10:30', nameMatch: 'First Match' }, { time: '12:40', nameMatch: 'Second Match' }, { time: '15:00', nameMatch: 'Third Match' }, { time: '18:20', nameMatch: 'Fourth Match' }, { time: '20:00', nameMatch: 'Final Grand Match' }]
+const leaders = [{ number: '1', name: 'DiscoBoy', points: '376' }, { number: '2', name: 'JonhWick', points: '323' }, { number: '3', name: 'Terminator', points: '290' }, { number: '4', name: 'MIB', points: '254' }, { number: '5', name: 'Wolverine', points: '206' }]
 class App extends Component {
   constructor() {
     super()
@@ -32,38 +34,22 @@ class App extends Component {
           <div className="teamBlock">
             <h3>Team</h3>
             <div className="tournamentTeam">
-              <div onClick={this.showChoose} className="item">
-                <p>Add Player</p>
-              </div>
-              <div onClick={this.showChoose} className="item">
-                <p>Add Player</p>
-              </div>
-              <div onClick={this.showChoose} className="item">
-                <p>Add Player</p>
-              </div>
-              <div onClick={this.showChoose} className="item">
-                <p>Add Player</p>
-              </div>
-              <div onClick={this.showChoose} className="item">
-                <p>Add Player</p>
-              </div>
+              {addCards.map(item => (
+                <div onClick={this.showChoose} className="item">
+                  <p>Add Player</p>
+                </div>
+              ))}
             </div>
           </div>
           <div className="tournamentBottom">
             <div className="tournamentMatches">
               <h3>Mathes</h3>
-              <p>
-                <span>10:30</span> Fisrt Match
-              </p>
-              <p>
-                <span>13:40</span> Second Match
-              </p>
-              <p>
-                <span>17:00</span> Third Match
-              </p>
-              <p>
-                <span>20:00</span> GrandFinal Match
-              </p>
+              {matchesItems.map(item => (
+                <p>
+                  <span>{item.time}</span>
+                  {item.nameMatch}
+                </p>
+              ))}
             </div>
             <div className="tournamentLeader">
               <div className="headerLeader">
@@ -72,31 +58,13 @@ class App extends Component {
               </div>
               <div className="tableLeader">
                 <div className="topFive">
-                  <div className="leader">
-                    <p className="number">1</p>
-                    <p className="nameLeader">DiscoBoy</p>
-                    <span>376</span>
-                  </div>
-                  <div className="leader">
-                    <p className="number">2</p>
-                    <p className="nameLeader">JonhWick</p>
-                    <span>376</span>
-                  </div>
-                  <div className="leader">
-                    <p className="number">3</p>
-                    <p className="nameLeader">Terminator</p>
-                    <span>349</span>
-                  </div>
-                  <div className="leader">
-                    <p className="number">4</p>
-                    <p className="nameLeader">MenInBlack</p>
-                    <span>311</span>
-                  </div>
-                  <div className="leader">
-                    <p className="number">5</p>
-                    <p className="nameLeader">Wolverine</p>
-                    <span>287</span>
-                  </div>
+                  {leaders.map(item => (
+                    <div className="leader">
+                      <p className="number">{item.number}</p>
+                      <p className="nameLeader">{item.name}</p>
+                      <span>{item.points}</span>
+                    </div>
+                  ))}
                 </div>
                 <div className="myNumber">
                   <p className="number">211</p>
