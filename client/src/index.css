@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,700|Roboto:400,700');
 @import '../~normalize.css';
 
 :root {
@@ -16,6 +17,6 @@
 
 body {
 	font-family: var(--font-family-base);
-	font-size: 14px;
+	font-size: 20px;
 	line-height: 1.25;
 }
