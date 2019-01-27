@@ -2,7 +2,7 @@ import React from 'react'
 import './chooseChampion.css'
 import close from '../../assets/icon-close.svg'
 import avatarPlayer from '../../assets/avatarPlayer.png'
-const plays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const plays = [{ name: 's1mple' }, { name: 'coldzera' }, { name: 'NiKo' }, { name: 'dev1ce' }, { name: 'Magisk' }, { name: 'tabseN' }, { name: 'Frozen' }, { name: 'swag' }, { name: 'pimp' }, { name: 'Jame' }]
 const chooseChampion = ({ closeChoose }) => {
   return (
     <div>
@@ -15,7 +15,7 @@ const chooseChampion = ({ closeChoose }) => {
             {plays.map(item => (
               <div className="player-item">
                 <img src={avatarPlayer} alt="avatar player" />
-                <p>item.name</p>
+                <p>{item.name}</p>
               </div>
             ))}
           </div>

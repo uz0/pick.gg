@@ -55,6 +55,12 @@
 
 .filters input[type='date'] {
     background: url('../../assets/icon-calendar.svg') 240px 7px no-repeat, #060916;
+    height: 22px;
+    cursor: pointer;
+}
+
+input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
 }
 
 .createTournament {

@@ -32,6 +32,10 @@
     right: 20px;
 }
 
+.addChampion form button {
+    text-transform: uppercase;
+}
+
 .fade {
     z-index: 0;
 }
