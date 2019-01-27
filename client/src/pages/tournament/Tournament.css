@@ -14,7 +14,7 @@
 }
 
 .tournamentHeader h2 {
-    font-family: Bai Jamjuree;
+    font-family: var(--font-family-title);
     font-size: 40px;
     color: #9696B0;
     text-shadow: 0px 1px 1px #000000;
@@ -26,7 +26,7 @@
 }
 
 .tournamentHeader p {
-    font-family: Bai Jamjuree;
+    font-family: var(--font-family-title);
     margin: 0;
     font-size: 40px;
     color: #9696B0;
@@ -35,7 +35,7 @@
 }
 
 .tournamentContent h3 {
-    font-family: Bai Jamjuree;
+    font-family: var(--font-family-title);
     line-height: 40px;
     font-size: 32px;
     color: #9696B0;
@@ -55,13 +55,13 @@
     text-align: center;
     padding: 130px 55px 60px;
     color: #9FA2BE;
-    font-weight: normal;
-    background: url(../../assets/plus-player.svg) no-repeat center 72px, #252532;
+    font-weight: var(--font-weight-regular);
+    background: url(../../assets/plus-player.svg) no-repeat center 72px, var(--primary-color);
     cursor: pointer;
 }
 
 .tournamentTeam .item:hover {
-    background: url(../../assets/plus-player-black.svg) no-repeat center 72px, #D79634;
+    background: url(../../assets/plus-player-black.svg) no-repeat center 72px, var(--accent-color);
     box-shadow: 0px 1px 1px #000000;
     border-radius: 4px;
     color: #000;
@@ -74,11 +74,11 @@
 }
 
 .tournamentMatches p {
-    background: #252532;
+    background: var(--primary-color);
     box-shadow: 0px 1px 1px #000000;
     border-radius: 4px;
     font-size: 20px;
-    color: #787888;
+    color: var(--primary-font-color);
     padding: 8px 24px;
     width: 370px;
     text-align-last: left;
@@ -86,7 +86,7 @@
 }
 
 .tournamentMatches p:hover {
-    background: #D79634;
+    background: var(--accent-color);
     box-shadow: 0px 1px 1px #000000;
     border-radius: 4px;
     color: #000;
@@ -104,7 +104,7 @@
 }
 
 .headerLeader p {
-    font-family: Bai Jamjuree;
+    font-family: var(--font-family-title);
     line-height: 40px;
     font-size: 32px;
     color: #9696B0;
@@ -126,7 +126,7 @@
 }
 
 .topFive {
-    background: #252532;
+    background: var(--primary-color);
     box-shadow: 0px 1px 1px #000000;
     border-radius: 4px;
     width: 740px;
@@ -146,7 +146,7 @@
 
 .tableLeader p {
     font-size: 20px;
-    color: #787888;
+    color: var(--primary-font-color);
     text-align-last: left;
 }
 
@@ -159,7 +159,7 @@
 }
 
 .tableLeader span {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     display: block;
     font-size: 16px;
     background: #9FA2BE;
@@ -171,7 +171,7 @@
 .myNumber {
     display: flex;
     align-items: center;
-    background: #252532;
+    background: var(--primary-color);
     box-shadow: 0px 1px 1px #000000;
     border-radius: 4px;
     width: 700px;
