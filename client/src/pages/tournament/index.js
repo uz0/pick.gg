@@ -37,12 +37,12 @@ class App extends Component {
               <p>$ 3.97</p>
             </div>
           </div>
-          {this.state.chooseChamp && <ChooseChamp />}
+          {this.state.chooseChamp && <ChooseChamp closeChoose={this.closeChoose} />}
           <div className="teamBlock">
             <h3>Team</h3>
             <div className="tournamentTeam">
               {addCards.map(item => (
-                <div onClick={this.showChoose} close={this.closeChoose} className="item">
+                <div onClick={this.showChoose} className="item">
                   <p>Add Player</p>
                 </div>
               ))}
@@ -50,7 +50,7 @@ class App extends Component {
           </div>
           <div className="tournamentBottom">
             <div className="tournamentMatches">
-              <h3>Mathes</h3>
+              <h3>Matches</h3>
               {matchesItems.map(item => (
                 <p>
                   <span>{item.time}</span>

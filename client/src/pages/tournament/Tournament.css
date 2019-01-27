@@ -130,12 +130,13 @@
     box-shadow: 0px 1px 1px #000000;
     border-radius: 4px;
     width: 740px;
+    margin-bottom: 10px;
 }
 
 .leader {
     display: flex;
     align-items: center;
-    margin: 10px 20px;
+    margin: 0px 20px;
     border-bottom: 1px solid #000;
 }
 
