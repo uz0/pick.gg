@@ -11,7 +11,7 @@
     position: absolute;
     padding: 20px 280px 74px 20px;
     background: #060916;
-    border: 1px solid #D79634;
+    border: 1px solid var(--accent-color);
     border-radius: 4px;
     z-index: 0;
     left: 35px;
@@ -26,7 +26,7 @@
 
 .newTournament form {
     z-index: 1;
-    background: #252532;
+    background: var(--primary-color);
     border-radius: 2px;
     padding: 70px 40px 40px 180px;
     clip-path: polygon(22% 7%, 100% 0, 100% 100%, 0% 100%);
@@ -60,7 +60,7 @@
 
 .newTournament input {
     background: #060916;
-    color: #D79634;
+    color: var(--accent-color);
     font-size: 18px;
     border: none;
     border-radius: 2px;
@@ -83,12 +83,12 @@
 .rules-inputs input {
     margin: 5px;
     width: 130px;
-    color: #D79634;
+    color: var(--accent-color);
 }
 
 .newTournament select {
     background: #060916;
-    color: #D79634;
+    color: var(--accent-color);
     font-size: 18px;
     border: none;
     border-radius: 2px;
@@ -99,7 +99,7 @@
 
 .newTournament p {
     font-size: 20px;
-    color: #D79634;
+    color: var(--accent-color);
     text-align: left;
     margin: 0;
 }
@@ -109,13 +109,13 @@
 }
 
 .bottom-btn button {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     border: none;
     text-transform: uppercase;
     font-size: 20px;
-    color: #000000;
+    color: var(--black-color);
     padding: 10px 20px;
-    background: #D79634;
+    background: var(--accent-color);
     border-radius: 2px;
 }
 

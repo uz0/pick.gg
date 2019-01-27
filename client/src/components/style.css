@@ -2,7 +2,7 @@
 @media(min-width: 300px) {
     body {
         font-size: 20px;
-        background: #11162a;
+        background-color: #11162a;
         font-family: 'Roboto', sans-serif;
     }
     .start-content {
@@ -15,7 +15,7 @@
         line-height: normal;
         width: 310px;
         margin: 0 0 100px;
-        font-family: 'Bai Jamjuree', sans-serif;
+        font-family: var(--font-family-title);
     }
     .bg-wrap {
         position: absolute;
@@ -44,11 +44,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        color: var(--white-color);
         height: 100vh;
     }
     .login-page form {
-        background: #252532;
+        background-color: var(--primary-color);
         padding: 80px 20px 55px 70px;
         display: flex;
         justify-content: center;
@@ -58,28 +58,28 @@
         border-radius: 2px;
     }
     .login-page input {
-        background: #101010;
+        background-color: #101010;
         border-radius: 2px;
         padding: 8px 10px;
         border: none;
-        color: #fff;
+        color: var(--white-color);
         width: 260px;
         margin-bottom: 20px
     }
     .login-page label {
         font-size: 20px;
-        color: #D79634;
+        color: var(--accent-color);
         margin-left: 0px;
         margin-bottom: 5px;
     }
     .login-page button {
-        background: #D79634;
-        color: #000;
+        background-color: var(--accent-color);
+        color: var(--black-color);
         border: none;
         border-radius: 2px;
         padding: 8px 20px;
         cursor: pointer;
-        font-weight: bold;
+        font-weight: var(--font-weight-bold);
         text-transform: uppercase;
     }
     .login-page span {
@@ -95,11 +95,11 @@
     }
     .login-btn a {
         text-decoration: none;
-        color: #fff;
+        color: var(--white-color);
     }
     .start-content button {
-        background: #FFA928;
-        color: #000;
+        background-color: #FFA928;
+        color: var(--black-color);
         text-transform: uppercase;
         border: none;
         border-radius: 2px;
@@ -119,13 +119,13 @@
     .plsBlock {
         position: absolute;
         left: -30px;
-        background: #060916;
-        border: 1px solid #D79634;
+        background-color: #060916;
+        border: 1px solid var(--accent-color);
         border-radius: 4px;
         padding: 40px 500px 40px 50px;
         font-weight: normal;
         font-size: 20px;
-        color: #D79634;
+        color: var(--accent-color);
     }
 }
 

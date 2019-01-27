@@ -1,7 +1,21 @@
 @import '../~normalize.css';
 
+:root {
+	--font-family-title: 'Bai Jamjuree';
+	--font-family-base: 'Roboto';
+
+	--font-weight-regular: 400;
+	--font-weight-bold: 700;
+
+	--white-color: #FFFFFF;
+	--black-color: #000000;
+	--accent-color: #D79634;
+	--primary-color: #252532;
+	--primary-font-color: #787888;
+}
+
 body {
-  font-family: Roboto;
-  font-size: 14px;
-  line-height: 1.3rem;
+	font-family: var(--font-family-base);
+	font-size: 14px;
+	line-height: 1.25;
 }
