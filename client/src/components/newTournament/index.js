@@ -15,7 +15,7 @@ const newTournament = ({ closeTournament }) => {
           </p>
         </div>
         <form>
-          <img className="closeBlock" onClick={closeTournament} src={close} alt="close icon" />
+          <img className="close-block" onClick={closeTournament} src={close} alt="close icon" />
           <div className="wrapForm">
             <div className="topBlock">
               <Input label="Name" name="" placeholder="" type="text" />
