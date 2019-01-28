@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import '../../components/style.css'
+import '../../components/style.module.css'
 import AuthService from '../../services/authService'
 import Input from '../../components/input'
+import Button from '../../components/button'
+import style from '../../components/style.module.css'
 
 class Login extends Component {
   constructor() {
@@ -33,18 +35,18 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="login-page">
-        <div className="bg-wrap" />
-        <div className="formBlock">
-          <div className="info-block">
+      <div className={style.loginPage}>
+        <div className={style.bgWrap} />
+        <div className={style.formBlock}>
+          <div className={style.infoBlock}>
             Please <br /> login <br /> in the <br />
             system
           </div>
           <form onSubmit={this.handleLogin}>
             <Input id="username" label="Email" name="username" placeholder="login" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
             <Input id="password" label="Password" name="password" placeholder="password" type="password" value={this.state.password} action={this.handleChange} />
-            <div className="login-btn">
-              <button type="submit">Login</button>
+            <div className={style.loginBtn}>
+              <Button type={'submit'} text={'Login'} />
               <div>
                 <span>or </span>
                 <NavLink to="/register">register</NavLink>

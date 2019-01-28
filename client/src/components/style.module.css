@@ -2,13 +2,13 @@ body {
   background-color: #11162a;
 }
 
-.start-content {
+.startContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.start-content h1 {
+.startContent h1 {
   font-size: 70px;
   line-height: normal;
   width: 310px;
@@ -16,7 +16,7 @@ body {
   font-family: var(--font-family-title);
 }
 
-.bg-wrap {
+.bgWrap {
   position: absolute;
   background-image: url('../assets/bg-login.png');
   background-repeat: no-repeat;
@@ -28,11 +28,11 @@ body {
   left: 0;
 }
 
-.bg-wrap img {
+.bgWrap img {
   position: relative;
 }
 
-.bg-wrap::before {
+.bgWrap::before {
   content: '';
   position: absolute;
   top: 0;
@@ -42,7 +42,7 @@ body {
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
 }
 
-.login-page {
+.loginPage {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +50,7 @@ body {
   height: 100vh;
 }
 
-.login-page form {
+.loginPage form {
   background-color: var(--primary-color);
   padding: 80px 20px 55px 70px;
   display: flex;
@@ -61,7 +61,7 @@ body {
   border-radius: 2px;
 }
 
-.login-page input {
+.loginPage input {
   background-color: #101010;
   border-radius: 2px;
   padding: 8px 10px;
@@ -71,14 +71,14 @@ body {
   margin-bottom: 20px
 }
 
-.login-page label {
+.loginPage label {
   font-size: 20px;
   color: var(--accent-color);
   margin-left: 0px;
   margin-bottom: 5px;
 }
 
-.login-page button {
+.loginPage button {
   background-color: var(--accent-color);
   color: var(--black-color);
   border: none;
@@ -89,26 +89,26 @@ body {
   text-transform: uppercase;
 }
 
-.login-page span {
+.loginPage span {
   padding-left: 20px;
   color: #999999;
 }
 
-.login-page a {
+.loginPage a {
   text-decoration: underline;
   cursor: pointer;
 }
 
-.login-btn {
+.loginBtn {
   padding-top: 30px;
 }
 
-.login-btn a {
+.loginBtn a {
   text-decoration: none;
   color: var(--white-color);
 }
 
-.start-content button {
+.startContent button {
   background-color: #FFA928;
   color: var(--black-color);
   text-transform: uppercase;
@@ -120,7 +120,7 @@ body {
   margin: 0 0 20px 20px;
 }
 
-.start-content .start-btns {
+.startContent .startBtns {
   display: flex;
   flex-direction: column;
   align-items: center
@@ -130,7 +130,7 @@ body {
   position: relative;
 }
 
-.info-block {
+.infoBlock {
   position: absolute;
   left: -30px;
   padding: 40px 500px 40px 50px;
@@ -142,7 +142,7 @@ body {
 }
 
 @media(max-width: 1200px) {
-  .start-content h1 {
+  .startContent h1 {
     font-size: 140px;
     line-height: normal;
     width: 500px;
@@ -150,28 +150,28 @@ body {
 }
 
 @media(min-width: 991px) {
-  .login-page form {
+  .loginPage form {
     padding: 90px 90px 45px 220px;
   }
 }
 
 @media(min-width: 768px) {
-  .start-content h1 {
+  .startContent h1 {
     font-size: 120px;
     line-height: normal;
     width: 500px;
   }
-  .login-page form {
+  .loginPage form {
     padding: 130px 60px 90px 160px;
   }
-  .login-page input {
+  .loginPage input {
     width: 450px
   }
-  .login-btn {
+  .loginBtn {
     display: flex;
     align-items: center
   }
-  .start-content button {
+  .startContent button {
     padding: 30px 150px 20px 150px;
   }
 }

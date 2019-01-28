@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import './Home.css'
 import Input from '../../components/input'
 import NewTournament from '../../components/newTournament'
 import { NavLink } from 'react-router-dom'
 import arrow from '../../assets/arrow.svg'
 import AuthService from '../../services/authService'
+import style from './home.module.css'
 
 const items = [
   { id: '1', title: 'My Crazy League', date: 'Feb 02', users: '2023', entry: '3.97' },
@@ -38,15 +38,15 @@ class App extends Component {
 
   render() {
     return (
-      <div className="home-page">
-        <div className="bg-wrap" />
-        <div className="filters">
+      <div className={style.homePage}>
+        <div className={style.bgWrap} />
+        <div className={style.filters}>
           <h2>Tournaments</h2>
           <form>
             <Input label="End date" name="date" type="date" />
             <Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
           </form>
-          <div className="createTournament">
+          <div className={style.createTournament}>
             <p>Not satisfied?</p>
             <button onClick={this.createTournament} type="submit">
               Create a new tournament
@@ -54,8 +54,8 @@ class App extends Component {
           </div>
         </div>
         {this.state.newTournament && <NewTournament closeTournament={this.closeTournament} />}
-        <div className="tournaments-block">
-          <div className="headerTournaments">
+        <div className={style.tournamentsBlock}>
+          <div className={style.headerTournaments}>
             <p>Tournament Name</p>
             <p>End Date</p>
             <p>Users</p>
@@ -63,12 +63,12 @@ class App extends Component {
           </div>
           {items.map(item => (
             <NavLink key={item.id} to="/tournament">
-              <div className="cardTournament">
+              <div className={style.cardTournament}>
                 <p>{item.title}</p>
                 <p>{item.date}</p>
                 <p>{item.users} users</p>
                 <p>$ {item.entry}</p>
-                <img className="arrowCard" src={arrow} alt="arrow icon" />
+                <img className={style.arrowCard} src={arrow} alt="arrow icon" />
               </div>
             </NavLink>
           ))}

@@ -1,22 +1,37 @@
-.add-champion {
-  z-index: 1;
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addChampion {
   background-color: var(--primary-color);
   box-shadow: 0px 1px 1px var(--black-color);
   border-radius: 4px;
-  padding: 30px;
-  position: absolute;
-  left: 50%;
-  margin-left: -550px;
-  top: 10px;
+  padding: 20px;
 }
 
-.add-champion form {
+.headerAdd {
+  display: flex;
+  align-items: flex-start;
+}
+
+.headerAdd h2 {
+  flex-grow: 1;
+}
+
+.addChampion form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.add-champion form button {
+.addChampion form button {
   font-weight: var(--font-weight-bold);
   font-size: 24px;
   color: var(--black-color);
@@ -27,22 +42,19 @@
   padding: 10px 20px;
 }
 
-.add-champion .close-block {
+.addChampion .closeBlock {
   background: url(../../assets/icon-close.svg) no-repeat center center, transparent;
   border: none;
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 
-.add-champion form button {
+.addChampion form button {
   text-transform: uppercase;
 }
 
-.fade {
-  z-index: 0;
-}
-
-.add-champion h2 {
+.addChampion h2 {
   font-family: var(--font-family-title);
   font-size: 40px;
   color: #9696B0;
@@ -58,7 +70,7 @@
   width: 1040px;
 }
 
-.player-item {
+.playerItem {
   background-color: var(--black-color);
   border-radius: 4px;
   padding: 8px 8px 20px;
@@ -67,14 +79,14 @@
   cursor: pointer;
 }
 
-.player-item p {
+.playerItem p {
   font-size: 20px;
   text-align: center;
   margin-bottom: 0;
   margin-top: 10px;
 }
 
-.player-item:hover {
+.playerItem:hover {
   background-color: var(--accent-color);
   color: var(--black-color);
 }
