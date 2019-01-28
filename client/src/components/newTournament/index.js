@@ -26,7 +26,7 @@ class newTournament extends Component {
     } else if (formattedInputValue <= -10) {
       value = -10;
     }
- 
+
     this.setState({
       rules: {
         ...this.state.rules,
