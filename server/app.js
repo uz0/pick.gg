@@ -15,12 +15,17 @@ import {
   AuthenticationController,
   TournamentController,
   RuleController,
+  PlayerController,
 } from "./controllers";
 
 import RuleModel from './models/rule';
+import PlayerModel from './models/player';
+
 import { AuthVerifyMiddleware } from "./middlewares";
 import config from "./config";
+
 import rules from './rules';
+import players from './players';
 
 const app = express();
 let server = http.Server(app);
@@ -49,6 +54,12 @@ RuleModel.find().then(data => {
   }
 });
 
+PlayerModel.find().then(data => {
+  if (data.length === 0) {
+    PlayerModel.insertMany(players);
+  }
+});
+
 app.use('/api/authentication', AuthenticationController(app));
 
 app.use('/api', AuthVerifyMiddleware(app));
@@ -56,6 +67,7 @@ app.use("/api/home", HomeController(io));
 app.use("/api/ping", PingController());
 app.use("/api/users", UsersController());
 app.use("/api/rules", RuleController());
+app.use("/api/players", PlayerController());
 app.use("/api/tournaments", TournamentController(io));
 
 // express will serve up index.html if it doesn't recognize the route

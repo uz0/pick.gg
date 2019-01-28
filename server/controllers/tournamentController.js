@@ -8,26 +8,31 @@ let router = express.Router();
 let list = [];
 
 const TournamentController = io => {
-  io.on('connection', async socket => {
-    const tournaments = await TournamentModel
-      .find()
-      .populate('rules.rule')
-      .populate({ path: 'users', select: '_id username' });
+  // io.on('connection', async socket => {
+  //   const tournaments = await TournamentModel
+  //     .find()
+  //     .populate('rules.rule')
+  //     .populate({ path: 'users.user', select: '_id username' })
+  //     .populate('users.players');
 
-    list = tournaments;
-    socket.emit('tournaments', { tournaments: list });
-  });
+  //   list = tournaments;
+  //   socket.emit('tournaments', { tournaments: list });
+  // });
 
   router.get('/', async (req, res) => {
+    const userId = req.decoded._id;
+
     const tournaments = await TournamentModel
-      .find()
+      .find({}, '-users.players')
+      .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
-      .populate({ path: 'users', select: '_id username' });
 
     res.json({ tournaments });
   });
 
   router.post('/', async (req, res) => {
+    // await TournamentModel.deleteMany({})
+    // return;
     const {
       tournamentId,
       name,
@@ -72,8 +77,8 @@ const TournamentController = io => {
       });
 
       const tournament = await TournamentModel.findOne({ _id: newTournament.id }).populate('rules.rule');
-      list.push(tournament);
-      io.emit('tournaments', { tournaments: list });
+      // list.push(tournament);
+      // io.emit('tournaments', { tournaments: list });
 
       res.json({
         success: true,
@@ -89,12 +94,13 @@ const TournamentController = io => {
 
   router.post('/:id/setup', async (req, res) => {
     const id = req.params.id;
+    const players = req.body.players;
     const userId = req.decoded._id;
 
     const tournament = await TournamentModel.findOne({ _id: id }, 'users');
     let tournamentUsers = tournament.users;
 
-    if (tournamentUsers.indexOf(userId) !== -1) {
+    if (_.find(tournamentUsers, user => `${user.user}` === userId)) {
       res.json({
         success: false,
         message: 'You already participate in this championship',
@@ -103,15 +109,19 @@ const TournamentController = io => {
       return;
     }
 
-    tournamentUsers.push(userId);
+    tournamentUsers.push({
+      userId,
+      user: userId,
+      players,
+    });
 
     const newTournament = await TournamentModel
-      .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true })
-      .populate({ path: 'users', select: '_id username' });
+      .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true, fields: '-users.players' })
+      .populate({ path: 'users.user', select: '_id username' })
 
-    const listTournamentIndex = _.findIndex(list, item => `${item._id}` === `${id}`);
-    list[listTournamentIndex] = newTournament;
-    io.emit('tournaments', { tournaments: list });
+    // const listTournamentIndex = _.findIndex(list, item => `${item._id}` === `${id}`);
+    // list[listTournamentIndex] = newTournament;
+    // io.emit('tournaments', { tournaments: list });
 
     res.json({
       success: true,

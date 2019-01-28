@@ -6,7 +6,12 @@ export default mongoose.model('Tournament', new Schema({
   name        : { type: String, required: true },
   date        : { type: Date, required: true },
   entry       : { type: Number, required: true },
-  users       : [{ type: Schema.Types.ObjectId, ref: 'User' }],
+
+  users       : [{
+    _id: { type: Schema.Types.ObjectId, ref: 'User' },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    players: [{ type: Schema.Types.ObjectId, ref: 'Player' }]
+  }],
 
   rules: [{
     _id: { type: Schema.Types.ObjectId, ref: 'Rule' },
