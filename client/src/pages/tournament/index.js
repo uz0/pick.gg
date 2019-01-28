@@ -5,14 +5,13 @@ import ChooseChamp from '../../components/chooseChampion'
 import AuthService from '../../services/authService'
 const addCards = [1, 2, 3, 4, 5]
 const matchesItems = [{ time: '10:30', nameMatch: 'First Match' }, { time: '12:40', nameMatch: 'Second Match' }, { time: '15:00', nameMatch: 'Third Match' }, { time: '18:20', nameMatch: 'Fourth Match' }, { time: '20:00', nameMatch: 'Final Grand Match' }]
-const leaders = [{ number: '1', name: 'DiscoBoy', points: '376' }, { number: '2', name: 'JonhWick', points: '323' }, { number: '3', name: 'Terminator', points: '290' }, { number: '4', name: 'MIB', points: '254' }, { number: '5', name: 'Wolverine', points: '206' }]
+const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
 class App extends Component {
   constructor() {
     super()
     this.AuthService = new AuthService()
     this.state = {
       chooseChamp: false,
-      width: 10,
     }
   }
 
@@ -25,10 +24,13 @@ class App extends Component {
     this.setState({
       chooseChamp: false,
     })
-  changeScala = () =>
-    this.setState({
-      style: { '--width': leaders.map(item => item.points) },
-    })
+
+  calcWidth = item => {
+    const logs = leaders.map(item => item.points)
+    const maxPoint = Math.max.apply(Math, logs)
+    return (item / maxPoint) * 100
+  }
+
   render() {
     return (
       <div className="home-page">
@@ -74,7 +76,7 @@ class App extends Component {
                       <p className="number">{item.number}</p>
                       <p className="nameLeader">{item.name}</p>
                       <div className="scale">
-                        <span style={{ width: `${this.state.width}%` }}>{item.points}</span>
+                        <span style={{ width: `${this.calcWidth(item.points)}%` }}>{item.points}</span>
                       </div>
                     </div>
                   ))}
@@ -83,7 +85,7 @@ class App extends Component {
                   <p className="number">211</p>
                   <p className="nameLeader">Me</p>
                   <div className="scale">
-                    <span>19</span>
+                    <span style={{ width: `${(19 / 376) * 100}%` }}>19</span>
                   </div>
                 </div>
               </div>
