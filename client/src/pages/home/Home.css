@@ -1,198 +1,242 @@
 .home-page {
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    /* padding: 20px; */
-    width: 1200px;
-    margin: 0 auto;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  /* padding: 20px; */
+  width: 1200px;
+  margin: 0 auto;
 }
 
 .home-page form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .filters {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .filters h2 {
-    font-size: 40px;
-    color: #9696B0;
-    font-family: 'Bai Jamjuree', sans-serif;
+  font-size: 40px;
+  color: #9696B0;
+  font-family: var(--font-family-title);
 }
 
 .filters form {
-    padding-bottom: 80px;
+  padding-bottom: 80px;
 }
 
 .filters .input-component {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start
 }
 
 .filters label {
-    font-weight: bold;
-    line-height: normal;
-    font-size: 12px;
-    color: #9D9FBB;
-    padding: 2px 10px;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  font-size: 12px;
+  color: #9D9FBB;
+  padding: 2px 10px;
 }
 
 .filters input {
-    background: #060916;
-    color: #D79634;
-    font-size: 20px;
-    border: 10px solid #252532;
-    border-radius: 4px;
-    padding: 8px 10px;
-    margin-bottom: 30px;
-    width: 250px;
+  background: #060916;
+  color: var(--accent-color);
+  font-size: 20px;
+  border: 10px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 30px;
+  width: 250px;
+}
+
+.filters input[type='date'] {
+  background: url('../../assets/icon-calendar.svg') 240px 7px no-repeat, #060916;
+  height: 22px;
+  cursor: pointer;
+}
+
+input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 .createTournament {
-    position: relative;
-    background: #060916;
-    border: 1px solid #D79634;
-    border-radius: 4px;
-    font-size: 20px;
-    text-align: center;
-    color: #D79634;
-    padding: 15px 90px 48px 20px;
-    width: 130px;
+  position: relative;
+  background: #060916;
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+  font-size: 20px;
+  text-align: center;
+  color: var(--accent-color);
+  padding: 15px 90px 48px 20px;
+  width: 130px;
 }
 
 .createTournament p {
-    margin: 0;
+  margin: 0;
 }
 
 .createTournament button {
-    background: #D79634;
-    border-radius: 2px;
-    border: none;
-    position: absolute;
-    font-size: 20px;
-    text-align: center;
-    padding: 30px 56px 20px 76px;
-    font-weight: bold;
-    width: 250px;
-    clip-path: polygon(17% 15%, 100% 0, 100% 100%, 0% 100%);
-    right: -35px;
-    bottom: -50px;
-    cursor: pointer;
+  background: var(--accent-color);
+  border-radius: 2px;
+  border: none;
+  position: absolute;
+  font-size: 20px;
+  text-align: center;
+  padding: 30px 56px 20px 76px;
+  font-weight: var(--font-weight-bold);
+  width: 250px;
+  clip-path: polygon(17% 15%, 100% 0, 100% 100%, 0% 100%);
+  right: -35px;
+  bottom: -50px;
+  cursor: pointer;
 }
 
 .tournaments-block {
-    padding: 10px 20px;
+  padding: 10px 20px;
 }
 
 .tournaments-block a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .headerTournaments {
-    display: flex;
+  display: flex;
 }
 
 .headerTournaments p {
-    font-weight: bold;
-    line-height: normal;
-    font-size: 12px;
-    color: #9D9FBB;
-    text-align-last: left;
-    padding: 0 40px;
-    margin-bottom: 6px;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  font-size: 12px;
+  color: #9D9FBB;
+  text-align-last: left;
+  padding: 0 40px;
+  margin-bottom: 6px;
 }
 
 .headerTournaments p:first-child {
-    width: 360px;
+  width: 360px;
 }
 
 .headerTournaments p:nth-child(2) {
-    width: 75px;
+  width: 75px;
 }
 
 .headerTournaments p:nth-child(3) {
-    width: 75px;
+  width: 75px;
 }
 
 .cardTournament {
-    display: flex;
-    background: #252532;
-    box-shadow: 0px 1px 1px #000000;
-    border-radius: 4px;
-    margin-bottom: 5px;
+  display: flex;
+  background: var(--primary-color);
+  box-shadow: 0px 1px 1px var(--black-color);
+  border-radius: 4px;
+  margin-bottom: 5px;
+  position: relative;
 }
 
 .cardTournament p {
-    padding: 0 40px;
-    margin: 15px 0;
-    color: #787888;
-    border-right: 1px solid rgba(6, 9, 22, 0.4);
-    font-size: 16px;
-    text-align: left;
-    font-weight: normal;
-    text-decoration: none;
+  padding: 0 40px;
+  margin: 15px 0;
+  color: var(--primary-font-color);
+  border-right: 1px solid rgba(6, 9, 22, 0.4);
+  font-size: 16px;
+  text-align: left;
+  font-weight: normal;
+  text-decoration: none;
 }
 
 .cardTournament p:last-child {
-    border: none;
+  border: none;
 }
 
 .cardTournament p:first-child {
-    width: 360px;
+  width: 360px;
 }
 
 .cardTournament p:nth-child(2) {
-    width: 50px;
+  width: 50px;
 }
 
 .cardTournament p:nth-child(3) {
-    width: 80px;
-    text-align: center;
+  width: 80px;
+  text-align: center;
 }
 
 .cardTournament p:nth-child(4) {
-    width: 60px;
-    text-align: center;
+  width: 60px;
+  text-align: center;
+  border-right: none;
+}
+
+.tournaments-block a {
+  position: relative;
+}
+
+@keyframes example {
+  0% {
+    right: -10px;
+  }
+  50% {
+    right: -20px;
+  }
+  100% {
+    right: -7px
+  }
+}
+
+.tournaments-block a .arrowCard {
+  position: absolute;
+  top: 15px;
+  right: -10px;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.cardTournament:hover .arrowCard {
+  transition: all 0.3s;
+  opacity: 1;
+  animation-name: example;
+  animation-duration: 0.7s;
+  animation-iteration-count: 1;
 }
 
 .cardTournament:hover {
-    background: #D79634;
-    cursor: pointer;
+  background: var(--accent-color);
+  cursor: pointer;
 }
 
 .cardTournament:hover p {
-    color: #000;
+  color: var(--black-color);
 }
 
 .bg-wrap {
-    position: absolute;
-    background: url('../../assets/bg-login.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: inherit;
-    z-index: -1;
-    width: 100%;
-    top: 0;
-    left: 0;
-    min-height: 600px;
-    opacity: 0.6;
+  position: absolute;
+  background: url('../../assets/bg-login.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: inherit;
+  z-index: -1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  min-height: 600px;
+  opacity: 0.6;
 }
 
 .bg-wrap img {
-    position: relative;
+  position: relative;
 }
 
 .bg-wrap::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 100%;
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
 }

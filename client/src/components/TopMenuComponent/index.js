@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
 import './TopMenu.css'
 import AuthService from '../../services/authService'
 import AuthWrapper from '../authWrapper'
@@ -26,7 +27,9 @@ class TopMenuComponent extends Component {
     return (
       <div className="top-menu-component">
         <div className="menuWrap">
-          <h2>Pick.gg</h2>
+          <NavLink to="/">
+            <h2>Pick.gg</h2>
+          </NavLink>
           <div className="user-info-wrapper">
             <button onClick={this.handleLogout.bind(this)}>Logout</button>
           </div>
