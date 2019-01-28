@@ -12,7 +12,7 @@ class App extends Component {
     this.AuthService = new AuthService()
     this.state = {
       chooseChamp: false,
-      percentage: '',
+      width: 10,
     }
   }
 
@@ -74,7 +74,7 @@ class App extends Component {
                       <p className="number">{item.number}</p>
                       <p className="nameLeader">{item.name}</p>
                       <div className="scale">
-                        <span style={{ width: '${this.state.percentage}%' }}>{item.points}</span>
+                        <span style={{ width: `${this.state.width}%` }}>{item.points}</span>
                       </div>
                     </div>
                   ))}
