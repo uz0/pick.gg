@@ -165,7 +165,13 @@
   background: #9FA2BE;
   box-shadow: 0px 2px 0px #000000;
   padding: 3px;
-  width: 55%;
+  padding-left: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.tableLeader .scale {
+  width: 58%;
 }
 
 .myNumber {
