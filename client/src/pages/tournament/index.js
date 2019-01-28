@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Tournament.css'
+import style from './tournament.module.css'
 import ChooseChamp from '../../components/chooseChampion'
 
 import AuthService from '../../services/authService'
@@ -33,29 +33,29 @@ class App extends Component {
 
   render() {
     return (
-      <div className="home-page">
-        <div className="bg-wrap" />
-        <div className="tournamentContent">
-          <div className="tournamentHeader">
+      <div className={style.homePage}>
+        <div className={style.bgWrap} />
+        <div className={style.tournamentContent}>
+          <div className={style.tournamentHeader}>
             <h2>Tournament Name</h2>
-            <div className="tournamentInfo">
+            <div className={style.tournamentInfo}>
               <p>Feb 27</p>
               <p>$ 3.97</p>
             </div>
           </div>
           {this.state.chooseChamp && <ChooseChamp closeChoose={this.closeChoose} />}
-          <div className="teamBlock">
+          <div className={style.teamBlock}>
             <h3>Team</h3>
-            <div className="tournamentTeam">
+            <div className={style.tournamentTeam}>
               {addCards.map(item => (
-                <div key={item.id} onClick={this.showChoose} className="item">
+                <div key={item.id} onClick={this.showChoose} className={style.item}>
                   <p>Add Player</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="tournamentBottom">
-            <div className="tournamentMatches">
+          <div className={style.tournamentBottom}>
+            <div className={style.tournamentMatches}>
               <h3>Matches</h3>
               {matchesItems.map(item => (
                 <p key={item.id}>
@@ -64,27 +64,27 @@ class App extends Component {
                 </p>
               ))}
             </div>
-            <div className="tournamentLeader">
-              <div className="headerLeader">
+            <div className={style.tournamentLeader}>
+              <div className={style.headerLeader}>
                 <h3>Leaderboard</h3>
                 <p>2019 users</p>
               </div>
-              <div className="tableLeader">
-                <div className="topFive">
+              <div className={style.tableLeader}>
+                <div className={style.topFive}>
                   {leaders.map(item => (
-                    <div key={item.number} className="leader">
-                      <p className="number">{item.number}</p>
-                      <p className="nameLeader">{item.name}</p>
-                      <div className="scale">
+                    <div key={item.number} className={style.leader}>
+                      <p className={style.number}>{item.number}</p>
+                      <p className={style.nameLeader}>{item.name}</p>
+                      <div className={style.scale}>
                         <span style={{ width: `${this.calcWidth(item.points)}%` }}>{item.points}</span>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="myNumber">
-                  <p className="number">211</p>
-                  <p className="nameLeader">Me</p>
-                  <div className="scale">
+                <div className={style.myNumber}>
+                  <p className={style.number}>211</p>
+                  <p className={style.nameLeader}>Me</p>
+                  <div className={style.scale}>
                     <span style={{ width: `${(19 / 376) * 100}%` }}>19</span>
                   </div>
                 </div>

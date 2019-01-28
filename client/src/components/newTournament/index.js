@@ -1,29 +1,27 @@
 import React from 'react'
 import Input from '../input'
-import Select from '../SelectComponent'
-import './newTournament.css'
-import close from '../../assets/icon-close.svg'
+import Select from '../select'
+import Button from '../button'
+import './newTournament.module.css'
+import style from './newTournament.module.css'
 
 const newTournament = ({ closeTournament }) => {
   return (
-    <div>
-      <div className="fade" />
-      <div className="newTournament">
-        <div className="createBlock">
-          <p>
-            Create <br /> a new <br /> tournament
-          </p>
+    <div className={style.wrap}>
+      <div className={style.newTournament}>
+        <div className={style.createBlock}>
+          <p>Create a new tournament</p>
         </div>
         <form>
-          <img className="close-block" onClick={closeTournament} src={close} alt="close icon" />
-          <div className="wrapForm">
-            <div className="topBlock">
+          <Button onClick={closeTournament} className={style.closeBlock} />
+          <div className={style.wrapForm}>
+            <div className={style.topBlock}>
               <Input label="Name" name="" placeholder="" type="text" />
               <Select label="Tournament (from list)" option="Tournament Name" />
               <Input label="Entry $" name="" placeholder="" type="text" />
             </div>
             <p>Rules</p>
-            <div className="rules-inputs">
+            <div className={style.rulesInputs}>
               <input placeholder="Cost" type="text" />
               <input placeholder="Cost" type="text" />
               <input placeholder="Cost" type="text" />
@@ -31,8 +29,8 @@ const newTournament = ({ closeTournament }) => {
               <input placeholder="Cost" type="text" />
               <input placeholder="Cost" type="text" />
             </div>
-            <div className="bottom-btn">
-              <button onClick="">Create</button>
+            <div className={style.bottomBtn}>
+              <Button text={'Create'} />
             </div>
           </div>
         </form>
