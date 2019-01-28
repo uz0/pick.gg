@@ -12,6 +12,7 @@ class App extends Component {
     this.AuthService = new AuthService()
     this.state = {
       chooseChamp: false,
+      percentage: '',
     }
   }
 
@@ -24,7 +25,10 @@ class App extends Component {
     this.setState({
       chooseChamp: false,
     })
-
+  changeScala = () =>
+    this.setState({
+      style: { '--width': leaders.map(item => item.points) },
+    })
   render() {
     return (
       <div className="home-page">
@@ -42,7 +46,7 @@ class App extends Component {
             <h3>Team</h3>
             <div className="tournamentTeam">
               {addCards.map(item => (
-                <div onClick={this.showChoose} className="item">
+                <div onClick={this.showChoose} close={this.closeChoose} className="item">
                   <p>Add Player</p>
                 </div>
               ))}
@@ -69,14 +73,18 @@ class App extends Component {
                     <div className="leader">
                       <p className="number">{item.number}</p>
                       <p className="nameLeader">{item.name}</p>
-                      <span>{item.points}</span>
+                      <div className="scale">
+                        <span style={{ width: '${this.state.percentage}%' }}>{item.points}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
                 <div className="myNumber">
                   <p className="number">211</p>
                   <p className="nameLeader">Me</p>
-                  <span>19</span>
+                  <div className="scale">
+                    <span>19</span>
+                  </div>
                 </div>
               </div>
             </div>
