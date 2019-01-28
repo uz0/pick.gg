@@ -30,6 +30,17 @@ const TournamentController = io => {
     res.json({ tournaments });
   });
 
+  router.get('/:id', async (req, res) => {
+    const id = req.params.id;
+
+    const tournament = await TournamentModel
+      .findOne({ _id: id }, '-users.players')
+      .populate({ path: 'users.user', select: '_id username' })
+      .populate('rules.rule')
+
+    res.json({ tournament });
+  });
+
   router.post('/', async (req, res) => {
     // await TournamentModel.deleteMany({})
     // return;
