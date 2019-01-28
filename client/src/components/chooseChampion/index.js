@@ -3,13 +3,14 @@ import './chooseChampion.css'
 import close from '../../assets/icon-close.svg'
 import avatarPlayer from '../../assets/avatarPlayer.png'
 const plays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-const chooseChampion = ({closeChoose}) => {
+
+const chooseChampion = ({ closeChoose }) => {
   return (
     <div>
       <div className="fade" />
       <div className="add-champion">
         <h2>Choose your champion</h2>
-        <img className="close-block" onClick={closeChoose} src={close} alt="close icon" />
+        <button className="close-block" onClick={closeChoose} />
         <form>
           <div className="players">
             {plays.map(item => (
@@ -26,4 +27,4 @@ const chooseChampion = ({closeChoose}) => {
   )
 }
 
-export default chooseChampion;
+export default chooseChampion

@@ -28,8 +28,10 @@
 }
 
 .add-champion .close-block {
-  top: 20px;
-  right: 20px;
+  background: url(../../assets/icon-close.svg) no-repeat center center, transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
 }
 
 .add-champion form button {
