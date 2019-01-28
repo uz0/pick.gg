@@ -4,6 +4,7 @@ import PingController from "./pingController";
 import AuthenticationController from "./authenticationController";
 import TournamentController from "./tournamentController";
 import RuleController from "./ruleController";
+import PlayerController from "./playerController";
 
 export {
   HomeController,
@@ -12,4 +13,5 @@ export {
   AuthenticationController,
   TournamentController,
   RuleController,
+  PlayerController,
 };
