@@ -4,7 +4,9 @@ import Input from '../../components/input'
 import NewTournament from '../../components/newTournament'
 import { NavLink } from 'react-router-dom'
 import arrow from '../../assets/arrow.svg'
+import moment from 'moment';
 import AuthService from '../../services/authService'
+import http from '../../services/httpService';
 
 const items = [
   { id: '1', title: 'My Crazy League', date: 'Feb 02', users: '2023', entry: '3.97' },
@@ -24,6 +26,8 @@ class App extends Component {
     this.AuthService = new AuthService()
     this.state = {
       newTournament: false,
+      tournaments: [],
+      rules: []
     }
   }
   createTournament = () =>
@@ -35,6 +39,19 @@ class App extends Component {
     this.setState({
       newTournament: false,
     })
+
+  async componentDidMount(){
+    let tournamentsQuery = await http('/api/tournaments');
+    let rulesQuery = await http('/api/rules');
+
+    let tournaments = await tournamentsQuery.json();
+    let rules = await rulesQuery.json();
+
+    this.setState({
+      tournaments: tournaments.tournaments,
+      rules: rules.rules,
+    }, () => console.log(this.state))
+  }
 
   render() {
     return (
@@ -53,7 +70,7 @@ class App extends Component {
             </button>
           </div>
         </div>
-        {this.state.newTournament && <NewTournament closeTournament={this.closeTournament} />}
+        {this.state.newTournament && <NewTournament rules={this.state.rules} closeTournament={this.closeTournament} />}
         <div className="tournaments-block">
           <div className="headerTournaments">
             <p>Tournament Name</p>
@@ -61,12 +78,12 @@ class App extends Component {
             <p>Users</p>
             <p>Entry</p>
           </div>
-          {items.map(item => (
-            <NavLink key={item.id} to="/tournament">
+          {this.state.tournaments.map(item => (
+            <NavLink key={item._id} to="/tournament">
               <div className="cardTournament">
-                <p>{item.title}</p>
-                <p>{item.date}</p>
-                <p>{item.users} users</p>
+                <p>{item.name}</p>
+                <p>{moment(item.date).format('MMM DD')}</p>
+                <p>{item.users.length}</p>
                 <p>$ {item.entry}</p>
                 <img className="arrowCard" src={arrow} alt="arrow icon" />
               </div>
