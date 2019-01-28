@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Home.css'
-import Input from '../../components/InputComponent'
+import Input from '../../components/input'
 import NewTournament from '../../components/newTournament'
 import { NavLink } from 'react-router-dom'
 import arrow from '../../assets/arrow.svg'
@@ -43,7 +43,7 @@ class App extends Component {
         <div className="filters">
           <h2>Tournaments</h2>
           <form>
-            <Input label="End date" name="date" type="date" />
+            <Input label="End date" value="2019-01-28" name="date" type="date" />
             <Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
           </form>
           <div className="createTournament">
