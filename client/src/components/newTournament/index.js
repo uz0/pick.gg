@@ -1,33 +1,42 @@
 import React from 'react'
+import Input from '../input'
+import Select from '../SelectComponent'
 import './newTournament.css'
+import close from '../../assets/icon-close.svg'
 
-const newTournament = () => {
+const newTournament = ({ closeTournament }) => {
   return (
-    <div className="newTournament">
-      <form>
-        <div className="topBlock">
-          <input type="text" />
-          <select>
-            <option>Tournament Game</option>
-            <option>Tournament Game</option>
-            <option>Tournament Game</option>
-          </select>
-          <input type="text" />
+    <div>
+      <div className="fade" />
+      <div className="newTournament">
+        <div className="createBlock">
+          <p>
+            Create <br /> a new <br /> tournament
+          </p>
         </div>
-        <p>Rules</p>
-        <div className="rules-inputs">
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
-        </div>
-        <div className="bottom-btn">
-          <button>Create</button>
-          <button>Cancel</button>
-        </div>
-      </form>
+        <form>
+          <img className="close-block" onClick={closeTournament} src={close} alt="close icon" />
+          <div className="wrapForm">
+            <div className="topBlock">
+              <Input label="Name" name="" placeholder="" type="text" />
+              <Select label="Tournament (from list)" option="Tournament Name" />
+              <Input label="Entry $" name="" placeholder="" type="text" />
+            </div>
+            <p>Rules</p>
+            <div className="rules-inputs">
+              <input placeholder="Cost" type="text" />
+              <input placeholder="Cost" type="text" />
+              <input placeholder="Cost" type="text" />
+              <input placeholder="Cost" type="text" />
+              <input placeholder="Cost" type="text" />
+              <input placeholder="Cost" type="text" />
+            </div>
+            <div className="bottom-btn">
+              <button onClick="">Create</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
