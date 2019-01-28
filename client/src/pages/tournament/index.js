@@ -48,7 +48,7 @@ class App extends Component {
             <h3>Team</h3>
             <div className="tournamentTeam">
               {addCards.map(item => (
-                <div onClick={this.showChoose} close={this.closeChoose} className="item">
+                <div onClick={this.showChoose} className="item">
                   <p>Add Player</p>
                 </div>
               ))}
