@@ -1,7 +1,7 @@
 import React from 'react'
 import './chooseChampion.css'
 import avatarPlayer from '../../assets/avatarPlayer.png'
-const plays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const plays = [{ id: 0 }, { id: 10 }, { id: 11 }, { id: 12 }, { id: 13 }, { id: 14 }, { id: 15 }, { id: 16 }, { id: 17 }, { id: 18 }]
 
 const chooseChampion = ({ closeChoose }) => {
   return (
@@ -13,7 +13,7 @@ const chooseChampion = ({ closeChoose }) => {
         <form>
           <div className="players">
             {plays.map(item => (
-              <div className="player-item">
+              <div key={item.id} className="player-item">
                 <img src={avatarPlayer} alt="avatar player" />
                 <p>item.name</p>
               </div>

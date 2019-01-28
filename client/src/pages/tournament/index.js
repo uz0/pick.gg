@@ -3,8 +3,8 @@ import './Tournament.css'
 import ChooseChamp from '../../components/chooseChampion'
 
 import AuthService from '../../services/authService'
-const addCards = [1, 2, 3, 4, 5]
-const matchesItems = [{ time: '10:30', nameMatch: 'First Match' }, { time: '12:40', nameMatch: 'Second Match' }, { time: '15:00', nameMatch: 'Third Match' }, { time: '18:20', nameMatch: 'Fourth Match' }, { time: '20:00', nameMatch: 'Final Grand Match' }]
+const addCards = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
+const matchesItems = [{ id: '1', time: '10:30', nameMatch: 'First Match' }, { id: '2', time: '12:40', nameMatch: 'Second Match' }, { id: '3', time: '15:00', nameMatch: 'Third Match' }, { id: '4', time: '18:20', nameMatch: 'Fourth Match' }, { id: '5', time: '20:00', nameMatch: 'Final Grand Match' }]
 const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
 class App extends Component {
   constructor() {
@@ -48,7 +48,7 @@ class App extends Component {
             <h3>Team</h3>
             <div className="tournamentTeam">
               {addCards.map(item => (
-                <div onClick={this.showChoose} className="item">
+                <div key={item.id} onClick={this.showChoose} className="item">
                   <p>Add Player</p>
                 </div>
               ))}
@@ -58,7 +58,7 @@ class App extends Component {
             <div className="tournamentMatches">
               <h3>Matches</h3>
               {matchesItems.map(item => (
-                <p>
+                <p key={item.id}>
                   <span>{item.time}</span>
                   {item.nameMatch}
                 </p>
@@ -72,7 +72,7 @@ class App extends Component {
               <div className="tableLeader">
                 <div className="topFive">
                   {leaders.map(item => (
-                    <div className="leader">
+                    <div key={item.number} className="leader">
                       <p className="number">{item.number}</p>
                       <p className="nameLeader">{item.name}</p>
                       <div className="scale">

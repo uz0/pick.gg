@@ -7,15 +7,15 @@ import arrow from '../../assets/arrow.svg'
 import AuthService from '../../services/authService'
 
 const items = [
-  { title: 'My Crazy League', date: 'Feb 02', users: '2023', entry: '3.97' },
-  { title: 'Mamkin tiger wanna play', date: 'Feb 02', users: '3052', entry: '10.00' },
-  { title: 'Only for hardcore fans', date: 'Feb 02', users: '1233', entry: '2.17' },
-  { title: 'Crazy camp', date: 'Feb 02', users: '1652', entry: '1.00' },
-  { title: 'Lvl up', date: 'Feb 03', users: '1054', entry: '5.35' },
-  { title: 'Super win tonight', date: 'Feb 03', users: '2582', entry: '4.70' },
-  { title: 'Mega HARDDD', date: 'Feb 03', users: '1629', entry: '1.30' },
-  { title: 'Whats happened? AAAA!', date: 'Feb 03', users: '254', entry: '9.09' },
-  { title: 'AAAAAAAAAAAAA!!!', date: 'Feb 03', users: '4346', entry: '7.77' },
+  { id: '1', title: 'My Crazy League', date: 'Feb 02', users: '2023', entry: '3.97' },
+  { id: '2', title: 'Mamkin tiger wanna play', date: 'Feb 02', users: '3052', entry: '10.00' },
+  { id: '3', title: 'Only for hardcore fans', date: 'Feb 02', users: '1233', entry: '2.17' },
+  { id: '4', title: 'Crazy camp', date: 'Feb 02', users: '1652', entry: '1.00' },
+  { id: '5', title: 'Lvl up', date: 'Feb 03', users: '1054', entry: '5.35' },
+  { id: '6', title: 'Super win tonight', date: 'Feb 03', users: '2582', entry: '4.70' },
+  { id: '7', title: 'Mega HARDDD', date: 'Feb 03', users: '1629', entry: '1.30' },
+  { id: '8', title: 'Whats happened? AAAA!', date: 'Feb 03', users: '254', entry: '9.09' },
+  { id: '9', title: 'AAAAAAAAAAAAA!!!', date: 'Feb 03', users: '4346', entry: '7.77' },
 ]
 
 class App extends Component {
@@ -43,7 +43,7 @@ class App extends Component {
         <div className="filters">
           <h2>Tournaments</h2>
           <form>
-            <Input label="End date" value="2019-01-28" name="date" type="date" />
+            <Input label="End date" name="date" type="date" />
             <Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
           </form>
           <div className="createTournament">
@@ -62,7 +62,7 @@ class App extends Component {
             <p>Entry</p>
           </div>
           {items.map(item => (
-            <NavLink to="/tournament">
+            <NavLink key={item.id} to="/tournament">
               <div className="cardTournament">
                 <p>{item.title}</p>
                 <p>{item.date}</p>
