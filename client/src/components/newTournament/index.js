@@ -1,5 +1,5 @@
 import React from 'react'
-import Input from '../InputComponent'
+import Input from '../input'
 import Select from '../SelectComponent'
 import './newTournament.css'
 import close from '../../assets/icon-close.svg'
