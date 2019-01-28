@@ -1,37 +1,41 @@
 .top-menu-component {
-    padding: 10px;
-    background: #252532;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 60px;
+  padding: 10px;
+  background: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 
 .menuWrap {
-    width: 1200px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-menu-component a {
+  text-decoration: none;
 }
 
 .top-menu-component h2 {
-    font-weight: bold;
-    line-height: 40px;
-    font-size: 20px;
-    color: rgb(252, 252, 252);
-    margin: 0;
-    font-family: 'Bai Jamjuree', sans-serif;
+  font-weight: var(--font-weight-bold);
+  line-height: 40px;
+  font-size: 20px;
+  color: rgb(252, 252, 252);
+  margin: 0;
+  font-family: var(--font-family-title);
 }
 
 .top-menu-component .user-info-wrapper button {
-    cursor: pointer;
-    font-size: 20px;
-    color: #D79634;
-    background: #060916;
-    border-radius: 4px;
-    padding: 8px 20px;
-    border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--accent-color);
+  background: #060916;
+  border-radius: 4px;
+  padding: 8px 20px;
+  border: none;
 }
 
 .top-menu-component .user-info-wrapper button:hover {
-    color: rgb(250, 197, 118);
+  color: rgb(250, 197, 118);
 }

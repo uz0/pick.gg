@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import './Start.css'
+import '../../components/style.css'
 import AuthService from '../../services/authService'
 
 class Start extends Component {
   constructor() {
     super()
     this.auth = new AuthService()
-    this.handleChange = this.handleChange.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
 
     this.state = {
       username: '',
@@ -16,7 +14,7 @@ class Start extends Component {
     }
   }
 
-  handleChange(e) {
+  handleChange = e => {
     e.preventDefault()
     this.setState({ [e.target.name]: e.target.value })
   }
