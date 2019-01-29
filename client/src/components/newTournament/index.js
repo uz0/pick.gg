@@ -64,7 +64,7 @@ class newTournament extends Component {
       body: JSON.stringify({
         name,
         entry,
-        normalizedRules,
+        rules: [...normalizedRules],
         tournamentId: 1,
       }),
     });
