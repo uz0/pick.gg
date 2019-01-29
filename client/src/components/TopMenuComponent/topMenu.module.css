@@ -1,6 +1,6 @@
 .topMenu {
   padding: 10px;
-  background: var(--primary-color);
+  background: var(--background-color);
   display: flex;
   justify-content: center;
   margin-bottom: 40px;
@@ -24,18 +24,4 @@
   color: rgb(252, 252, 252);
   margin: 0;
   font-family: var(--font-family-title);
-}
-
-.topMenu .userInfo button {
-  cursor: pointer;
-  font-size: 20px;
-  color: var(--accent-color);
-  background: #060916;
-  border-radius: 4px;
-  padding: 8px 20px;
-  border: none;
-}
-
-.topMenu .userInfo button:hover {
-  color: rgb(250, 197, 118);
 }
