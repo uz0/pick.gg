@@ -75,7 +75,11 @@ class Register extends Component {
             <Input label="Password" name="password" type="password" action={this.onChange('password')} />
             <Input label="Confirm password" name="confirmPassword" type="password" action={this.onChange('confirmPassword')} />
             <div className="login-btn">
-              <button type="submit">Register</button>
+              <Button
+                appearance={'_basic-accent'}
+                type={'submit'}
+                text={'Register'}
+              />
               <div>
                 <span>or </span>
                 <NavLink to="/login">login</NavLink>

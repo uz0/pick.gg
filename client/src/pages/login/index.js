@@ -45,8 +45,12 @@ class Login extends Component {
           <form onSubmit={this.handleLogin}>
             <Input id="username" label="Email" name="username" placeholder="login" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
             <Input id="password" label="Password" name="password" placeholder="password" type="password" value={this.state.password} action={this.handleChange} />
-            <div className={style.loginBtn}>
-              <Button type={'submit'} text={'Login'} />
+            <div>
+              <Button
+                appearance={'_basic-accent'}
+                type={'submit'}
+                text={'Login'}
+              />
               <div>
                 <span>or </span>
                 <NavLink to="/register">register</NavLink>

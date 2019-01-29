@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Input from '../input'
 import Select from '../select'
 import Button from '../button'
+import { ReactComponent as CloseIcon } from '../../assets/close.svg'
 import style from './newTournament.module.css'
 import http from '../../services/httpService'
 
@@ -84,7 +85,11 @@ class newTournament extends Component {
             </p>
           </div>
           <form onSubmit={this.submitForm}>
-            <Button onClick={closeTournament} className={style.closeBlock} />
+            <Button
+              appearance={'_icon-transparent'}
+              icon={<CloseIcon />}
+              onClick={closeTournament}
+            />
             <div>
               <div className={style.topBlock}>
                 <Input action={this.onChange} label="Name" name="name" type="text" />
@@ -98,7 +103,11 @@ class newTournament extends Component {
                 ))}
               </div>
               <div className={style.bottomBtn}>
-                <Button text={'Create'} />
+                <Button
+                  appearance={'_basic-accent'}
+                  type={'submit'}
+                  text={'Create'}
+                />
               </div>
             </div>
           </form>
