@@ -45,7 +45,6 @@ const AuthenticationController = (app) => {
   router.post("/register", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
 
     let message = '';
 
@@ -57,10 +56,6 @@ const AuthenticationController = (app) => {
       message = 'Enter password';
     }
 
-    if (!confirmPassword) {
-      message = 'Enter confirm password';
-    }
-
     if (message) {
       res.json({
         success: false,
@@ -70,17 +65,9 @@ const AuthenticationController = (app) => {
       return;
     }
 
-    if (password !== confirmPassword) {
-      res.json({
-        success: false,
-        message: 'Passwords is not equal',
-      });
-
-      return;
-    }
-
     try {
-      const user = await UserModel.create({ username, password: passwordHash.generate(password), isAdmin: false });
+      const hash = passwordHash.generate(password);
+      const user = await UserModel.create({ username, password: hash, isAdmin: false });
 
       res.json({
         success: true,
