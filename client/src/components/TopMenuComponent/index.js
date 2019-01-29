@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import './TopMenu.css'
+import './topMenu.module.css'
 import AuthService from '../../services/authService'
 import AuthWrapper from '../authWrapper'
+import style from './topMenu.module.css'
 
 class TopMenuComponent extends Component {
   constructor() {
@@ -25,12 +26,12 @@ class TopMenuComponent extends Component {
 
   render() {
     return (
-      <div className="top-menu-component">
-        <div className="menuWrap">
+      <div className={style.topMenu}>
+        <div className={style.menuWrap}>
           <NavLink to="/">
             <h2>Pick.gg</h2>
           </NavLink>
-          <div className="user-info-wrapper">
+          <div className={style.userInfo}>
             <button onClick={this.handleLogout.bind(this)}>Logout</button>
           </div>
         </div>

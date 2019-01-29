@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import Input from '../input'
 import Select from '../select'
+
+import Button from '../button'
+import './newTournament.module.css'
+import style from './newTournament.module.css'
+
 import './newTournament.css'
-import close from '../../assets/icon-close.svg'
 import http from '../../services/httpService'
 
 class newTournament extends Component {
@@ -75,30 +79,30 @@ class newTournament extends Component {
     let { closeTournament, rules } = this.props;
     
     return (
-      <div>
+      <div className={style.wrap}>
         <div className="fade" />
-        <div className="newTournament">
-          <div className="createBlock">
+        <div className={style.newTournament}>
+          <div className={style.createBlock}>
             <p>
-              Create <br /> a new <br /> tournament
+              Create a new tournament
             </p>
           </div>
           <form onSubmit={this.submitForm}>
-            <img className="close-block" onClick={closeTournament} src={close} alt="close icon" />
-            <div className="wrapForm">
-              <div className="topBlock">
+            <Button onClick={closeTournament} className={style.closeBlock} />
+            <div>
+              <div className={style.topBlock}>
                 <Input action={this.onChange} label="Name" name="name" type="text" />
                 <Select label="Tournament (from list)" option="Tournament Name" />
                 <Input action={this.onChange} label="Entry $" name="entry" type="text" />
               </div>
               <p>Rules</p>
-              <div className="rules-inputs">
+              <div className={style.rulesInputs}>
                 {rules && rules.map(item => (
                   <input name={item._id} onChange={this.onRulesInputChange} value={this.state.rules[item._id] || ''} key={item._id} placeholder={item.name} type="number" min="-10" max="10" />
                 ))}
               </div>
-              <div className="bottom-btn">
-                <button type="submit">Create</button>
+              <div className={style.bottomBtn}>
+                <Button text={'Create'} />
               </div>
             </div>
           </form>
@@ -108,4 +112,4 @@ class newTournament extends Component {
   }
 }
 
-export default newTournament
+export default newTournament;

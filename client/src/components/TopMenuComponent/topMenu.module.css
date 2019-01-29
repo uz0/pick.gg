@@ -1,4 +1,4 @@
-.top-menu-component {
+.topMenu {
   padding: 10px;
   background: var(--primary-color);
   display: flex;
@@ -13,11 +13,11 @@
   justify-content: space-between;
 }
 
-.top-menu-component a {
+.topMenu a {
   text-decoration: none;
 }
 
-.top-menu-component h2 {
+.topMenu h2 {
   font-weight: var(--font-weight-bold);
   line-height: 40px;
   font-size: 20px;
@@ -26,7 +26,7 @@
   font-family: var(--font-family-title);
 }
 
-.top-menu-component .user-info-wrapper button {
+.topMenu .userInfo button {
   cursor: pointer;
   font-size: 20px;
   color: var(--accent-color);
@@ -36,6 +36,6 @@
   border: none;
 }
 
-.top-menu-component .user-info-wrapper button:hover {
+.topMenu .userInfo button:hover {
   color: rgb(250, 197, 118);
 }
