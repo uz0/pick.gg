@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import '../../components/style.css'
+import style from '../../components/style.module.css'
 import AuthService from '../../services/authService'
 
 class Start extends Component {
@@ -31,11 +31,11 @@ class Start extends Component {
 
   render() {
     return (
-      <div className="login-page">
-        <div className="bg-wrap" />
-        <div className="start-content">
+      <div className={style.loginPage}>
+        <div className={style.bgWrap} />
+        <div className={style.startContent}>
           <h1>Fantasy league</h1>
-          <div className="start-btns">
+          <div className={style.startBtns}>
             <NavLink to="/login">
               <button>Start</button>
             </NavLink>

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthService from '../../services/authService'
 import Input from '../../components/input'
-import '../../components/style.css'
+import Button from '../../components/button'
+import style from '../../components/style.module.css'
 
 class Register extends Component {
   constructor() {
@@ -61,10 +62,10 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="login-page">
-        <div className="bg-wrap" />
-        <div className="formBlock">
-          <div className="info-block">
+      <div className={style.loginPage}>
+        <div className={style.bgWrap} />
+        <div className={style.formBlock}>
+          <div className={style.infoBlock}>
             Please
             <br /> register <br /> in the <br />
             system

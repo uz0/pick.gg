@@ -1,3 +1,40 @@
+.bgWrap {
+  position: absolute;
+  background: url('../../assets/bg-login.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: inherit;
+  z-index: -1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  min-height: 600px;
+  opacity: 0.6;
+}
+
+.bgWrap img {
+  position: relative;
+}
+
+.bgWrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
+}
+
+.homePage {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  /* padding: 20px; */
+  width: 1200px;
+  margin: 0 auto;
+}
+
 .tournamentContent {
   display: flex;
   flex-direction: column;
