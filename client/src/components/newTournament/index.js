@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
 import Input from '../input'
 import Select from '../select'
-
 import Button from '../button'
-import './newTournament.module.css'
 import style from './newTournament.module.css'
-
-import './newTournament.css'
 import http from '../../services/httpService'
 
 class newTournament extends Component {

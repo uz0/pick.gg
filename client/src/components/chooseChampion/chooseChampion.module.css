@@ -1,0 +1,92 @@
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addChampion {
+  background-color: var(--primary-color);
+  box-shadow: 0px 1px 1px var(--black-color);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.headerAdd {
+  display: flex;
+  align-items: flex-start;
+}
+
+.headerAdd h2 {
+  flex-grow: 1;
+}
+
+.addChampion form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.addChampion form button {
+  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+  color: var(--black-color);
+  background-color: var(--accent-color);
+  border-radius: 2px;
+  border: none;
+  margin: 10px 0px 0px 10px;
+  padding: 10px 20px;
+}
+
+.addChampion .closeBlock {
+  background: url(../../assets/icon-close.svg) no-repeat center center, transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.addChampion form button {
+  text-transform: uppercase;
+}
+
+.addChampion h2 {
+  font-family: var(--font-family-title);
+  font-size: 40px;
+  color: #9696B0;
+  text-shadow: 0px 1px 1px var(--black-color);
+  margin: 0 0 14px 14px;
+  text-align: left;
+}
+
+.players {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 1040px;
+}
+
+.playerItem {
+  background-color: var(--black-color);
+  border-radius: 4px;
+  padding: 8px 8px 20px;
+  margin: 8px 10px;
+  color: #9FA2BE;
+  cursor: pointer;
+}
+
+.playerItem p {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+
+.playerItem:hover {
+  background-color: var(--accent-color);
+  color: var(--black-color);
+}

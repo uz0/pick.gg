@@ -1,8 +1,6 @@
 import React from 'react';
 import uuid from 'uuid/v1';
 
-import './Input.css'
-import React from 'react'
 import style from './input.module.css'
 
 
