@@ -26,20 +26,30 @@ class Register extends Component {
   submitForm = async e => {
     e.preventDefault()
 
-    let { name, password, confirmPassword } = this.state
-    console.log(name)
-    let request = await http('/api/register', {
+    let { username, password, confirmPassword } = this.state
+
+    const request = await http('/api/authentication/register', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name,
+        username,
         password,
         confirmPassword,
       }),
     })
+
+    const result = await request.json()
+    if (!result.success) {
+      alert(result.message)
+      return false
+    }
+
+    console.log(result)
+    this.props.history.replace('/login')
+    console.log(this.props)
   }
 
   render() {
