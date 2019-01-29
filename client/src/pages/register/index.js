@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthService from '../../services/authService'
-import http from '../../services/httpService'
 import Input from '../../components/input'
 import '../../components/style.css'
 
@@ -17,29 +16,47 @@ class Register extends Component {
 
   componentWillMount() {}
 
-  onChange = e => {
+  onChange = name => event => {
     this.setState({
-      [e.target.name]: e.target.value,
+      [name]: event.target.value,
     })
   }
 
-  submitForm = async e => {
-    e.preventDefault()
+  submitForm = async event => {
+    event.preventDefault()
 
-    let { name, password, confirmPassword } = this.state
-    console.log(name)
-    let request = await http('/api/register', {
+    let { username, password, confirmPassword } = this.state;
+
+    if (password !== confirmPassword) {
+      // TODO RENDER ERROR!
+      console.error('passwords must be equal');
+
+      return;
+    }
+
+    await fetch('/api/authentication/register', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name,
+        username,
         password,
-        confirmPassword,
       }),
-    })
+    }).then(response => response.json())
+      .then(({success, message}) => {
+        // console.log(response)
+
+        if (!success) {
+          // TODO RENDER ERROR!
+          console.error(message);
+        }
+
+        if (success) {
+          this.props.history.replace('/login');
+        }
+      })
   }
 
   render() {
@@ -53,9 +70,9 @@ class Register extends Component {
             system
           </div>
           <form onSubmit={this.submitForm}>
-            <Input label="Login" name="username" type="text" action={this.onChange} autofocus={true} />
-            <Input label="Password" name="password" type="password" action={this.onChange} />
-            <Input label="Confirm password" name="confirmPassword" type="password" action={this.onChange} />
+            <Input label="Login" name="username" type="text" action={this.onChange('username')} autofocus={true} />
+            <Input label="Password" name="password" type="password" action={this.onChange('password')} />
+            <Input label="Confirm password" name="confirmPassword" type="password" action={this.onChange('confirmPassword')} />
             <div className="login-btn">
               <button type="submit">Register</button>
               <div>
