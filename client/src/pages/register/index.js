@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthService from '../../services/authService'
+import http from '../../services/httpService'
 import Input from '../../components/input'
 import '../../components/style.css'
 
@@ -14,19 +15,31 @@ class Register extends Component {
     }
   }
 
-  // handleChange(e) {
-  // 	e.preventDefault()
-  // 	this.setState({ [e.target.name]: e.target.value })
-  // }
+  componentWillMount() {}
 
-  handleLogin = async e => {
-    e.preventDefault()
-    let success = await this.auth.login(this.state.username, this.state.password)
-    if (success) this.props.history.replace('/')
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    })
   }
 
-  componentWillMount() {
-    if (this.auth.isLoggedIn()) this.props.history.replace('/')
+  submitForm = async e => {
+    e.preventDefault()
+
+    let { name, password, confirmPassword } = this.state
+    console.log(name)
+    let request = await http('/api/register', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        password,
+        confirmPassword,
+      }),
+    })
   }
 
   render() {
@@ -39,10 +52,10 @@ class Register extends Component {
             <br /> register <br /> in the <br />
             system
           </div>
-          <form onSubmit={this.handleLogin}>
-            <Input id="username" label="Login" name="username" placeholder="" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
-            <Input id="password" label="Password" name="password" placeholder="" type="password" value={this.state.password} action={this.handleChange} />
-            <Input id="password" label="Password" name="password" placeholder="" type="password" value={this.state.password} action={this.handleChange} />
+          <form onSubmit={this.submitForm}>
+            <Input label="Login" name="username" type="text" action={this.onChange} autofocus={true} />
+            <Input label="Password" name="password" type="password" action={this.onChange} />
+            <Input label="Confirm password" name="confirmPassword" type="password" action={this.onChange} />
             <div className="login-btn">
               <button type="submit">Register</button>
               <div>
