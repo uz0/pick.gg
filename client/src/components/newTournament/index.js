@@ -55,7 +55,7 @@ class newTournament extends Component {
       }
     });
 
-    let request = await http('/api/tournaments', {
+    await http('/api/tournaments', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
