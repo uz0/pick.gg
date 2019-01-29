@@ -46,12 +46,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--white-color);
+  color: #fff;
   height: 100vh;
 }
 
 .loginPage form {
-  background-color: var(--primary-color);
+  background-color: var(--background-color);
   padding: 80px 20px 55px 70px;
   display: flex;
   justify-content: center;
@@ -62,11 +62,11 @@ body {
 }
 
 .loginPage input {
-  background-color: #101010;
+  background-color: var(--primary-color);
   border-radius: 2px;
   padding: 8px 10px;
   border: none;
-  color: var(--white-color);
+  color: #fff;
   width: 260px;
   margin-bottom: 20px
 }
@@ -76,22 +76,6 @@ body {
   color: var(--accent-color);
   margin-left: 0px;
   margin-bottom: 5px;
-}
-
-.loginPage button {
-  background-color: var(--accent-color);
-  color: var(--black-color);
-  border: none;
-  border-radius: 2px;
-  padding: 8px 20px;
-  cursor: pointer;
-  font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
-}
-
-.loginPage span {
-  padding-left: 20px;
-  color: #999999;
 }
 
 .loginPage a {
@@ -105,12 +89,12 @@ body {
 
 .loginBtn a {
   text-decoration: none;
-  color: var(--white-color);
+  color: #fff;
 }
 
 .startContent button {
   background-color: #FFA928;
-  color: var(--black-color);
+  color: #000;
   text-transform: uppercase;
   border: none;
   border-radius: 2px;
@@ -136,7 +120,7 @@ body {
   padding: 40px 500px 40px 50px;
   font-size: 20px;
   color: var(--accent-color);
-  background-color: #060916;
+  background-color: var(--primary-color);
   border: 1px solid var(--accent-color);
   border-radius: 4px;
 }
