@@ -1,6 +1,8 @@
 import React from 'react'
-import style from './chooseChampion.module.css'
 import avatarPlayer from '../../assets/avatarPlayer.png'
+import Button from '../button/index'
+import { ReactComponent as CloseIcon } from '../../assets/close.svg'
+import style from './chooseChampion.module.css'
 const plays = [{ id: 0 }, { id: 10 }, { id: 11 }, { id: 12 }, { id: 13 }, { id: 14 }, { id: 15 }, { id: 16 }, { id: 17 }, { id: 18 }]
 
 const chooseChampion = ({ closeChoose }) => {
@@ -9,7 +11,11 @@ const chooseChampion = ({ closeChoose }) => {
       <div className={style.addChampion}>
         <div className={style.headerAdd}>
           <h2>Choose your champion</h2>
-          <button className={style.closeBlock} onClick={closeChoose} />
+          <Button
+            appearance={'_icon-transparent'}
+            icon={<CloseIcon />}
+            onClick={closeChoose}
+          />
         </div>
         <form>
           <div className={style.players}>
@@ -20,7 +26,11 @@ const chooseChampion = ({ closeChoose }) => {
               </div>
             ))}
           </div>
-          <button onClick="">Add player</button>
+          <Button
+            appearance={'_basic-accent'}
+            type={'submit'}
+            text={'Add player'}
+          />
         </form>
       </div>
     </div>

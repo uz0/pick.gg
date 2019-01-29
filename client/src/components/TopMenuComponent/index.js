@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import './topMenu.module.css'
 import AuthService from '../../services/authService'
 import AuthWrapper from '../authWrapper'
+import Button from '../button/index'
 import style from './topMenu.module.css'
 
 class TopMenuComponent extends Component {
@@ -14,7 +14,7 @@ class TopMenuComponent extends Component {
     }
   }
 
-  handleLogout() {
+  handleLogout = () => {
     this.Auth.logout()
     this.props.history.replace('/login')
   }
@@ -32,7 +32,11 @@ class TopMenuComponent extends Component {
             <h2>Pick.gg</h2>
           </NavLink>
           <div className={style.userInfo}>
-            <button onClick={this.handleLogout.bind(this)}>Logout</button>
+            <Button
+              appearance={'_basic-primary'}
+              text={'Logout'}
+              onClick={this.handleLogout}
+            />
           </div>
         </div>
       </div>
