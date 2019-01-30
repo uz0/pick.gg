@@ -31,11 +31,11 @@ class Start extends Component {
 
   render() {
     return (
-      <div className={style.loginPage}>
-        <div className={style.bgWrap} />
-        <div className={style.startContent}>
+      <div className={style.login_page}>
+        <div className={style.bg_wrap} />
+        <div className={style.start_content}>
           <h1>Fantasy league</h1>
-          <div className={style.startBtns}>
+          <div className={style.start_btns}>
             <NavLink to="/login">
               <button>Start</button>
             </NavLink>
