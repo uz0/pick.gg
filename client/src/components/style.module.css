@@ -2,13 +2,13 @@ body {
   background-color: #11162a;
 }
 
-.startContent {
+.start_content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.startContent h1 {
+.start_content h1 {
   font-size: 70px;
   line-height: normal;
   width: 310px;
@@ -16,7 +16,7 @@ body {
   font-family: var(--font-family-title);
 }
 
-.bgWrap {
+.bg_wrap {
   position: absolute;
   background-image: url('../assets/bg-login.png');
   background-repeat: no-repeat;
@@ -28,11 +28,11 @@ body {
   left: 0;
 }
 
-.bgWrap img {
+.bg_wrap img {
   position: relative;
 }
 
-.bgWrap::before {
+.bg_wrap::before {
   content: '';
   position: absolute;
   top: 0;
@@ -42,7 +42,7 @@ body {
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
 }
 
-.loginPage {
+.login_page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +50,7 @@ body {
   height: 100vh;
 }
 
-.loginPage form {
+.login_page form {
   background-color: var(--background-color);
   padding: 80px 20px 55px 70px;
   display: flex;
@@ -61,7 +61,7 @@ body {
   border-radius: 2px;
 }
 
-.loginPage input {
+.login_page input {
   background-color: var(--primary-color);
   border-radius: 2px;
   padding: 8px 10px;
@@ -71,28 +71,27 @@ body {
   margin-bottom: 20px
 }
 
-.loginPage label {
+.login_page label {
   font-size: 20px;
   color: var(--accent-color);
   margin-left: 0px;
   margin-bottom: 5px;
 }
 
-.loginPage a {
+.login_page a {
   text-decoration: underline;
   cursor: pointer;
 }
 
-.loginBtn {
-  padding-top: 30px;
-}
-
-.loginBtn a {
-  text-decoration: none;
+.bottom_login_btn>a {
   color: #fff;
 }
 
-.startContent button {
+.bottom_login_btn>span {
+  margin-left: 10px;
+}
+
+.start_content button {
   background-color: #FFA928;
   color: #000;
   text-transform: uppercase;
@@ -104,17 +103,29 @@ body {
   margin: 0 0 20px 20px;
 }
 
-.startContent .startBtns {
+.start_content .start_btns {
   display: flex;
   flex-direction: column;
   align-items: center
 }
 
-.formBlock {
+.start_btns a {
+  color: #fff;
+}
+
+.form_block {
   position: relative;
 }
 
-.infoBlock {
+.form_block a {
+  color: #fff
+}
+
+.btns>button {
+  margin-bottom: 10px;
+}
+
+.info_block {
   position: absolute;
   left: -30px;
   padding: 40px 500px 40px 50px;
@@ -123,10 +134,11 @@ body {
   background-color: var(--primary-color);
   border: 1px solid var(--accent-color);
   border-radius: 4px;
+  width: 50px;
 }
 
 @media(max-width: 1200px) {
-  .startContent h1 {
+  .start_content h1 {
     font-size: 140px;
     line-height: normal;
     width: 500px;
@@ -134,28 +146,28 @@ body {
 }
 
 @media(min-width: 991px) {
-  .loginPage form {
+  .login_page form {
     padding: 90px 90px 45px 220px;
   }
 }
 
 @media(min-width: 768px) {
-  .startContent h1 {
+  .start_content h1 {
     font-size: 120px;
     line-height: normal;
     width: 500px;
   }
-  .loginPage form {
+  .login_page form {
     padding: 130px 60px 90px 160px;
   }
-  .loginPage input {
+  .login_page input {
     width: 450px
   }
-  .loginBtn {
+  .login_btn {
     display: flex;
     align-items: center
   }
-  .startContent button {
+  .start_content button {
     padding: 30px 150px 20px 150px;
   }
 }

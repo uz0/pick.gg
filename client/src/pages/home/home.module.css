@@ -1,4 +1,4 @@
-.homePage {
+.home_page {
   text-align: center;
   display: flex;
   justify-content: space-between;
@@ -7,7 +7,7 @@
   margin: 0 auto;
 }
 
-.homePage form {
+.home_page form {
   display: flex;
   flex-direction: column;
 }
@@ -63,7 +63,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   -webkit-appearance: none;
 }
 
-.createTournament {
+.create_tournament {
   position: relative;
   background-color: var(--primary-color);
   border: 1px solid var(--accent-color);
@@ -75,11 +75,11 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   width: 130px;
 }
 
-.createTournament p {
+.create_tournament p {
   margin: 0;
 }
 
-.createTournament button {
+.create_tournament button {
   background: var(--accent-color);
   border-radius: 2px;
   border: none;
@@ -95,19 +95,19 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   cursor: pointer;
 }
 
-.tournamentsBlock {
+.tournaments_block {
   padding: 10px 20px;
 }
 
-.tournamentsBlock a {
+.tournaments_block a {
   text-decoration: none;
 }
 
-.headerTournaments {
+.header_tournaments {
   display: flex;
 }
 
-.headerTournaments p {
+.header_tournaments p {
   font-weight: var(--font-weight-bold);
   line-height: normal;
   font-size: 12px;
@@ -117,19 +117,19 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   margin-bottom: 6px;
 }
 
-.headerTournaments p:first-child {
+.header_tournaments p:first-child {
   width: 360px;
 }
 
-.headerTournaments p:nth-child(2) {
+.header_tournaments p:nth-child(2) {
   width: 75px;
 }
 
-.headerTournaments p:nth-child(3) {
+.header_tournaments p:nth-child(3) {
   width: 75px;
 }
 
-.cardTournament {
+.card_tournament {
   display: flex;
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000;
@@ -138,7 +138,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   position: relative;
 }
 
-.cardTournament p {
+.card_tournament p {
   padding: 0 40px;
   margin: 15px 0;
   color: var(--caption-color);
@@ -149,24 +149,24 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   text-decoration: none;
 }
 
-.cardTournament p:last-child {
+.card_tournament p:last-child {
   border: none;
 }
 
-.cardTournament p:first-child {
+.card_tournament p:first-child {
   width: 360px;
 }
 
-.cardTournament p:nth-child(2) {
+.card_tournament p:nth-child(2) {
   width: 50px;
 }
 
-.cardTournament p:nth-child(3) {
+.card_tournament p:nth-child(3) {
   width: 80px;
   text-align: center;
 }
 
-.cardTournament p:nth-child(4) {
+.card_tournament p:nth-child(4) {
   width: 60px;
   text-align: center;
   border-right: none;
@@ -176,19 +176,19 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   position: relative;
 }
 
-@keyframes example {
+@keyframes arrow-anim {
   0% {
     right: -10px;
   }
-  50% {
+  70% {
     right: -20px;
   }
   100% {
-    right: -7px
+    right: -10px
   }
 }
 
-.tournamentsBlock a .arrowCard {
+.tournaments_block a .arrow_card {
   position: absolute;
   top: 15px;
   right: -10px;
@@ -196,24 +196,24 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   transition: all 0.3s;
 }
 
-.cardTournament:hover .arrowCard {
+.card_tournament:hover .arrow_card {
   transition: all 0.3s;
   opacity: 1;
-  animation-name: example;
+  animation-name: arrow-anim;
   animation-duration: 0.7s;
   animation-iteration-count: 1;
 }
 
-.cardTournament:hover {
+.card_tournament:hover {
   background: var(--accent-color);
   cursor: pointer;
 }
 
-.cardTournament:hover p {
+.card_tournament:hover p {
   color: #000;
 }
 
-.bgWrap {
+.bg_wrap {
   position: absolute;
   background: url('../../assets/bg-login.png');
   background-repeat: no-repeat;
@@ -227,11 +227,11 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   opacity: 0.6;
 }
 
-.bgWrap img {
+.bg_wrap img {
   position: relative;
 }
 
-.bgWrap::before {
+.bg_wrap::before {
   content: '';
   position: absolute;
   top: 0;

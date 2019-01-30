@@ -3,9 +3,9 @@ import Input from '../../components/input'
 import NewTournament from '../../components/newTournament'
 import { NavLink } from 'react-router-dom'
 import arrow from '../../assets/arrow.svg'
-import moment from 'moment';
+import moment from 'moment'
 import AuthService from '../../services/authService'
-import http from '../../services/httpService';
+import http from '../../services/httpService'
 import style from './home.module.css'
 
 // const items = [
@@ -27,7 +27,7 @@ class App extends Component {
     this.state = {
       newTournament: false,
       tournaments: [],
-      rules: []
+      rules: [],
     }
   }
   createTournament = () =>
@@ -40,30 +40,33 @@ class App extends Component {
       newTournament: false,
     })
 
-  async componentDidMount(){
-    let tournamentsQuery = await http('/api/tournaments');
-    let rulesQuery = await http('/api/rules');
+  async componentDidMount() {
+    let tournamentsQuery = await http('/api/tournaments')
+    let rulesQuery = await http('/api/rules')
 
-    let tournaments = await tournamentsQuery.json();
-    let rules = await rulesQuery.json();
+    let tournaments = await tournamentsQuery.json()
+    let rules = await rulesQuery.json()
 
-    this.setState({
-      tournaments: tournaments.tournaments,
-      rules: rules.rules,
-    }, () => console.log(this.state))
+    this.setState(
+      {
+        tournaments: tournaments.tournaments,
+        rules: rules.rules,
+      },
+      () => console.log(this.state),
+    )
   }
 
   render() {
     return (
-      <div className={style.homePage}>
-        <div className={style.bgWrap} />
+      <div className={style.home_page}>
+        <div className={style.bg_wrap} />
         <div className={style.filters}>
           <h2>Tournaments</h2>
           <form>
             <Input label="End date" name="date" type="date" />
             <Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
           </form>
-          <div className={style.createTournament}>
+          <div className={style.create_tournament}>
             <p>Not satisfied?</p>
             <button onClick={this.createTournament} type="submit">
               Create a new tournament
@@ -71,8 +74,8 @@ class App extends Component {
           </div>
         </div>
         {this.state.newTournament && <NewTournament rules={this.state.rules} closeTournament={this.closeTournament} />}
-        <div className={style.tournamentsBlock}>
-          <div className={style.headerTournaments}>
+        <div className={style.tournaments_block}>
+          <div className={style.header_tournaments}>
             <p>Tournament Name</p>
             <p>End Date</p>
             <p>Users</p>
@@ -80,12 +83,12 @@ class App extends Component {
           </div>
           {this.state.tournaments.map(item => (
             <NavLink key={item._id} to="/tournament">
-              <div className={style.cardTournament}>
+              <div className={style.card_tournament}>
                 <p>{item.name}</p>
                 <p>{moment(item.date).format('MMM DD')}</p>
                 <p>{item.users.length}</p>
                 <p>$ {item.entry}</p>
-                <img className={style.arrowCard} src={arrow} alt="arrow icon" />
+                <img className={style.arrow_card} src={arrow} alt="arrow icon" />
               </div>
             </NavLink>
           ))}
