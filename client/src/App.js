@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import TopMenuComponent from './components/TopMenuComponent'
-import Home from './pages/home'
+import Tournaments from './pages/tournaments'
 import Tournament from './pages/tournament'
 
 const App = ({ history }) => (
@@ -9,9 +9,9 @@ const App = ({ history }) => (
 		<TopMenuComponent history={history} />
 		<Container>
 			<Switch>
-				<Route exact path="/" component={Home} />
-				<Route exact path="/tournament" component={Tournament} />
-				<Route component={Home} />
+				<Route exact path="/tournaments" component={Tournaments} />
+				<Route exact path="/tournaments/:id" component={Tournament} />
+				<Route component={Tournaments} />
 			</Switch>
 		</Container>
 	</div>

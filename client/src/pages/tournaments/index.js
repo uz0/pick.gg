@@ -82,7 +82,7 @@ class App extends Component {
             <p>Entry</p>
           </div>
           {this.state.tournaments.map(item => (
-            <NavLink key={item._id} to="/tournament">
+            <NavLink key={item._id} to={`/tournaments/${item._id}`}>
               <div className={style.card_tournament}>
                 <p>{item.name}</p>
                 <p>{moment(item.date).format('MMM DD')}</p>

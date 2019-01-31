@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 import 'typeface-roboto'
 import './index.css'
@@ -14,7 +14,7 @@ import Start from './pages/start'
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route exact path="/start" component={Start} />
+      <Route exact path="/" component={Start} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
       <Route component={App} />
