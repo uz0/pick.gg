@@ -1,4 +1,4 @@
-.bgWrap {
+.bg_wrap {
   position: absolute;
   background: url('../../assets/bg-login.png');
   background-repeat: no-repeat;
@@ -12,11 +12,11 @@
   opacity: 0.6;
 }
 
-.bgWrap img {
+.bg_wrap img {
   position: relative;
 }
 
-.bgWrap::before {
+.bg_wrap::before {
   content: '';
   position: absolute;
   top: 0;
@@ -26,7 +26,7 @@
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
 }
 
-.homePage {
+.home_page {
   text-align: center;
   display: flex;
   justify-content: space-between;
@@ -35,7 +35,7 @@
   margin: 0 auto;
 }
 
-.tournamentContent {
+.tournament_content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,14 +43,14 @@
   padding-bottom: 20px;
 }
 
-.tournamentHeader {
+.tournament_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
 
-.tournamentHeader h2 {
+.tournament_header h2 {
   font-family: var(--font-family-title);
   font-size: 40px;
   color: #9696B0;
@@ -58,11 +58,11 @@
   margin: 0;
 }
 
-.tournamentInfo {
+.tournament_info {
   display: flex;
 }
 
-.tournamentHeader p {
+.tournament_header p {
   font-family: var(--font-family-title);
   margin: 0;
   font-size: 40px;
@@ -71,7 +71,7 @@
   padding-left: 40px;
 }
 
-.tournamentContent h3 {
+.tournament_content h3 {
   font-family: var(--font-family-title);
   line-height: 40px;
   font-size: 32px;
@@ -80,13 +80,13 @@
   margin-bottom: 5px;
 }
 
-.tournamentTeam {
+.tournament_team {
   display: flex;
   justify-content: space-between;
   width: 1200px;
 }
 
-.tournamentTeam .item {
+.tournament_team .item {
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
   text-align: center;
@@ -97,20 +97,20 @@
   cursor: pointer;
 }
 
-.tournamentTeam .item:hover {
+.tournament_team .item:hover {
   background: url(../../assets/plus-player-black.svg) no-repeat center 72px, var(--accent-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
   color: #000;
 }
 
-.tournamentMatches {
+.tournament_matches {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.tournamentMatches p {
+.tournament_matches p {
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
@@ -122,7 +122,7 @@
   margin: 5px 0;
 }
 
-.tournamentMatches p:hover {
+.tournament_matches p:hover {
   background: var(--accent-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
@@ -130,17 +130,17 @@
   cursor: pointer;
 }
 
-.tournamentMatches span {
+.tournament_matches span {
   margin-right: 30px;
 }
 
-.headerLeader {
+.header_leader {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.headerLeader p {
+.header_leader p {
   font-family: var(--font-family-title);
   line-height: 40px;
   font-size: 32px;
@@ -149,20 +149,20 @@
   margin-bottom: 0px;
 }
 
-.teamBlock {
+.team_block {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
 }
 
-.tournamentBottom {
+.tournament_bottom {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
 
-.topFive {
+.top_five {
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
@@ -181,21 +181,21 @@
   border-bottom: none;
 }
 
-.tableLeader p {
+.table_leader p {
   font-size: 20px;
   color: var(--caption-color);
   text-align-last: left;
 }
 
-.tableLeader .number {
+.table_leader .number {
   width: 70px;
 }
 
-.tableLeader .nameLeader {
+.table_leader .name_leader {
   width: 210px;
 }
 
-.tableLeader span {
+.table_leader span {
   font-weight: var(--font-weight-bold);
   display: block;
   font-size: 16px;
@@ -207,11 +207,11 @@
   width: 100%;
 }
 
-.tableLeader .scale {
+.table_leader .scale {
   width: 58%;
 }
 
-.myNumber {
+.my_number {
   display: flex;
   align-items: center;
   background: var(--background-color);

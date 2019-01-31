@@ -7,54 +7,50 @@ import style from './newTournament.module.css'
 import http from '../../services/httpService'
 
 class newTournament extends Component {
-
-  constructor(){
-    super();
+  constructor() {
+    super()
     this.state = {
-      rules: {}
+      rules: {},
     }
   }
 
-  onRulesInputChange = (e) => {
-    
-    let formattedInputValue = parseInt(e.target.value);
-    let value = 0;
+  onRulesInputChange = e => {
+    let formattedInputValue = parseInt(e.target.value)
+    let value = 0
 
-    if(formattedInputValue <= 10 && formattedInputValue >= -10){
-      value = formattedInputValue;
+    if (formattedInputValue <= 10 && formattedInputValue >= -10) {
+      value = formattedInputValue
     } else if (formattedInputValue >= 10) {
-      value = 10;
+      value = 10
     } else if (formattedInputValue <= -10) {
-      value = -10;
+      value = -10
     }
 
     this.setState({
       rules: {
         ...this.state.rules,
-        [e.target.name]: value
-      }
-    });
-
+        [e.target.name]: value,
+      },
+    })
   }
-  
-  onChange = (e) => {
+
+  onChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
     })
   }
 
-  submitForm = async (e) => {
-    
-    e.preventDefault();
+  submitForm = async e => {
+    e.preventDefault()
 
-    let { name, entry, rules } = this.state;
+    let { name, entry, rules } = this.state
 
     let normalizedRules = Object.keys(rules).map(item => {
       return {
         rule: item,
-        score: rules[item]
+        score: rules[item],
       }
-    });
+    })
 
     await http('/api/tournaments', {
       method: 'POST',
@@ -68,46 +64,31 @@ class newTournament extends Component {
         rules: [...normalizedRules],
         tournamentId: 1,
       }),
-    });
-
+    })
   }
 
-  render(){
-    let { closeTournament, rules } = this.props;
-    
+  render() {
+    let { closeTournament, rules } = this.props
+
     return (
       <div className={style.wrap}>
         <div className="fade" />
-        <div className={style.newTournament}>
-          <div className={style.createBlock}>
-            <p>
-              Create a new tournament
-            </p>
+        <div className={style.new_tournament}>
+          <div className={style.create_block}>
+            <p>Create a new tournament</p>
           </div>
           <form onSubmit={this.submitForm}>
-            <Button
-              appearance={'_icon-transparent'}
-              icon={<CloseIcon />}
-              onClick={closeTournament}
-            />
+            <Button appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
             <div>
-              <div className={style.topBlock}>
+              <div className={style.top_block}>
                 <Input action={this.onChange} label="Name" name="name" type="text" />
                 <Select label="Tournament (from list)" option="Tournament Name" />
                 <Input action={this.onChange} label="Entry $" name="entry" type="text" />
               </div>
               <p>Rules</p>
-              <div className={style.rulesInputs}>
-                {rules && rules.map(item => (
-                  <input name={item._id} onChange={this.onRulesInputChange} value={this.state.rules[item._id] || ''} key={item._id} placeholder={item.name} type="number" min="-10" max="10" />
-                ))}
-              </div>
-              <div className={style.bottomBtn}>
-                <Button
-                  appearance={'_basic-accent'}
-                  type={'submit'}
-                  text={'Create'}
-                />
+              <div className={style.rules_inputs}>{rules && rules.map(item => <input name={item._id} onChange={this.onRulesInputChange} value={this.state.rules[item._id] || ''} key={item._id} placeholder={item.name} type="number" min="-10" max="10" />)}</div>
+              <div className={style.bottom_btn}>
+                <Button appearance={'_basic-accent'} type={'submit'} text={'Create'} />
               </div>
             </div>
           </form>
@@ -117,4 +98,4 @@ class newTournament extends Component {
   }
 }
 
-export default newTournament;
+export default newTournament
