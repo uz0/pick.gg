@@ -137,7 +137,7 @@ body {
   width: 50px;
 }
 
-@media(max-width: 1200px) {
+@media(max-width: 1440px) {
   .start_content h1 {
     font-size: 140px;
     line-height: normal;
@@ -145,23 +145,24 @@ body {
   }
 }
 
-@media(min-width: 991px) {
+@media(min-width: 1024px) {
   .login_page form {
     padding: 90px 90px 45px 220px;
   }
 }
 
-@media(min-width: 768px) {
+@media(max-width: 768px) {
   .start_content h1 {
     font-size: 120px;
     line-height: normal;
     width: 500px;
   }
   .login_page form {
-    padding: 130px 60px 90px 160px;
+    clip-path: polygon(10% 10%, 100% 0px, 100% 100%, 0% 100%);
+    padding-left: 40px;
   }
   .login_page input {
-    width: 450px
+    width: 250px
   }
   .login_btn {
     display: flex;
@@ -169,5 +170,21 @@ body {
   }
   .start_content button {
     padding: 30px 150px 20px 150px;
+  }
+}
+
+@media(max-width: 700px) {
+  .info_block {
+    display: none
+  }
+  .start_content {
+    align-items: center;
+  }
+  .start_content>h1 {
+    width: min-content;
+    font-size: 80px
+  }
+  .start_btns>a>button {
+    padding: 30px 120px 20px;
   }
 }
