@@ -10,7 +10,7 @@ const Input = ({ id, label, name, placeholder, type, autofocus, value, action, c
       <p className={style.label_component} htmlFor={id || newId}>
         {label}
       </p>
-      <input id={id || newId} name={name} placeholder={placeholder} className={className} type={type} autoFocus={autofocus} value={value} onChange={action} />
+      <input id={id || newId} name={name} placeholder={placeholder} className={className} type={type} autoFocus={autofocus} value={value} onChange={(e) => action(e)} />
     </label>
   )
 }
