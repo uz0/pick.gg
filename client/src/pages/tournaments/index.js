@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 import arrow from '../../assets/arrow.svg'
 import moment from 'moment'
 import AuthService from '../../services/authService'
+import http from '../../services/httpService'
 import TournamentService from '../../services/tournamentService'
 import style from './tournaments.module.css'
 
