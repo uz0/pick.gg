@@ -26,17 +26,13 @@ class TopMenuComponent extends Component {
 
   render() {
     return (
-      <div className={style.topMenu}>
-        <div className={style.menuWrap}>
+      <div className={style.top_menu}>
+        <div className={style.menu_wrap}>
           <NavLink to="/">
             <h2>Pick.gg</h2>
           </NavLink>
-          <div className={style.userInfo}>
-            <Button
-              appearance={'_basic-primary'}
-              text={'Logout'}
-              onClick={this.handleLogout}
-            />
+          <div className={style.user_info}>
+            <Button appearance={'_basic-primary'} text={'Logout'} onClick={this.handleLogout} />
           </div>
         </div>
       </div>

@@ -8,8 +8,8 @@ const plays = [{ id: 0 }, { id: 10 }, { id: 11 }, { id: 12 }, { id: 13 }, { id: 
 const chooseChampion = ({ closeChoose }) => {
   return (
     <div className={style.wrap}>
-      <div className={style.addChampion}>
-        <div className={style.headerAdd}>
+      <div className={style.add_champion}>
+        <div className={style.header_add}>
           <h2>Choose your champion</h2>
           <Button
             appearance={'_icon-transparent'}
@@ -20,7 +20,7 @@ const chooseChampion = ({ closeChoose }) => {
         <form>
           <div className={style.players}>
             {plays.map(item => (
-              <div key={item.id} className={style.playerItem}>
+              <div key={item.id} className={style.player_item}>
                 <img src={avatarPlayer} alt="avatar player" />
                 <p>item.name</p>
               </div>

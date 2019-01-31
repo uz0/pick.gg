@@ -9,29 +9,29 @@
   align-items: center;
 }
 
-.addChampion {
+.add_сhampion {
   background-color: var(--background-color);
   box-shadow: 0px 1px 1px #000;
   border-radius: 4px;
   padding: 20px;
 }
 
-.headerAdd {
+.header_add {
   display: flex;
   align-items: flex-start;
 }
 
-.headerAdd h2 {
+.header_add h2 {
   flex-grow: 1;
 }
 
-.addChampion form {
+.add_champion form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.addChampion h2 {
+.add_champion h2 {
   font-family: var(--font-family-title);
   font-size: 40px;
   color: #9696B0;
@@ -47,7 +47,7 @@
   width: 1040px;
 }
 
-.playerItem {
+.player_item {
   background-color: #000;
   border-radius: 4px;
   padding: 8px 8px 20px;
@@ -56,14 +56,14 @@
   cursor: pointer;
 }
 
-.playerItem p {
+.player_item p {
   font-size: 20px;
   text-align: center;
   margin-bottom: 0;
   margin-top: 10px;
 }
 
-.playerItem:hover {
+.player_item:hover {
   background-color: var(--accent-color);
   color: #000;
 }

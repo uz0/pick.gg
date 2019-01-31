@@ -1,9 +1,9 @@
-.inputComponent {
+.input_component {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.inputComponent p {
+.input_component p {
   margin: 0;
 }
