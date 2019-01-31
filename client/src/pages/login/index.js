@@ -26,7 +26,7 @@ class Login extends Component {
   handleLogin = async e => {
     e.preventDefault()
     let success = await this.auth.login(this.state.username, this.state.password)
-    if (success) this.props.history.replace('/')
+    if (success) this.props.history.replace('/tournaments')
   }
 
   componentWillMount() {
