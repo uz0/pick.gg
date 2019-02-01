@@ -3,14 +3,24 @@ import style from './tournament.module.css'
 import ChooseChamp from '../../components/chooseChampion'
 
 import AuthService from '../../services/authService'
+import TournamentService from '../../services/tournamentService'
+import http from '../../services/httpService'
+import moment from 'moment'
+import uuid from 'uuid'
+
 const addCards = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
 const matchesItems = [{ id: '1', time: '10:30', nameMatch: 'First Match' }, { id: '2', time: '12:40', nameMatch: 'Second Match' }, { id: '3', time: '15:00', nameMatch: 'Third Match' }, { id: '4', time: '18:20', nameMatch: 'Fourth Match' }, { id: '5', time: '20:00', nameMatch: 'Final Grand Match' }]
 const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
+
 class App extends Component {
   constructor() {
     super()
     this.AuthService = new AuthService()
+    this.TournamentService = new TournamentService()
     this.state = {
+      champions: [],
+      tournament: {},
+      choosedChampions: [],
       chooseChamp: false,
     }
   }
@@ -19,31 +29,82 @@ class App extends Component {
     this.setState({
       chooseChamp: true,
     })
+  
+  chooseChampion = (champion) =>
+    this.setState({
+      choosedChampions: [...this.state.choosedChampions, champion],
+    })
 
   closeChoose = () =>
     this.setState({
       chooseChamp: false,
     })
 
+  setChoosedChampions = (champions) => {
+    this.setState({
+      choosedChampions: [...champions],
+      chooseChamp: false,
+    })  
+  }
+    
   calcWidth = item => {
     const logs = leaders.map(item => item.points)
     const maxPoint = Math.max.apply(Math, logs)
     return (item / maxPoint) * 100
   }
 
+  async componentDidMount(){
+
+    let championsQuery = await http('http://localhost:3000/api/players');
+    let champions = await championsQuery.json();
+
+    let tournamentId = window.location.pathname.split('/')[2];
+    let tournament = await this.TournamentService.getTournamentById(tournamentId);
+
+    this.setState({
+      tournament: tournament.tournament,
+      champions: champions.players,
+    });
+
+  }
+
   render() {
+
+    let { tournament, champions, choosedChampions } = this.state;
+
+    let championCard = () => {
+      return (
+        <div key={uuid()} onClick={this.showChoose} className={style.item}>
+          <p>Add Player</p>
+        </div>   
+      )
+    }
+
+    let selectedChampionCard = () => {
+      return (
+        <div>{this.state.choosedChampions.champion.name}</div>
+      )
+    }
+
+    let championsCardsList = () => {
+    }
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
         <div className={style.tournament_content}>
           <div className={style.tournament_header}>
-            <h2>Tournament Name</h2>
+            <h2>{tournament.name}</h2>
             <div className={style.tournament_info}>
-              <p>Feb 27</p>
-              <p>$ 3.97</p>
+              <p>{moment(tournament.date).format('MMM DD')}</p>
+              <p>$ {tournament.entry}</p>
             </div>
           </div>
-          {this.state.chooseChamp && <ChooseChamp closeChoose={this.closeChoose} />}
+          {this.state.chooseChamp && <ChooseChamp
+            champions={champions}
+            closeChoose={this.closeChoose}
+            setChoosedChampions={this.setChoosedChampions}
+          />}
           <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
