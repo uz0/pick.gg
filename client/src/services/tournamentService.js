@@ -13,6 +13,12 @@ export default class TournamentService {
     return tournaments;
   }
 
+  getTournamentById = async(id) => {
+    let tournamentQuery = await http(`/api/tournaments/${id}`);
+    let tournament = await tournamentQuery.json();
+    return tournament;
+  }
+
   filterTournamentsByEntry = async(entryValue) => {
     let tournaments = await this.getAllTournaments();
     return tournaments.tournaments.filter(item => item.entry >= entryValue);
