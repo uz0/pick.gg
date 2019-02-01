@@ -16,7 +16,7 @@ class TopMenuComponent extends Component {
 
   handleLogout = () => {
     this.Auth.logout()
-    this.props.history.replace('/start')
+    this.props.history.replace('/')
   }
 
   componentDidMount() {

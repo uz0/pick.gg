@@ -7,3 +7,9 @@
 .input_component p {
   margin: 0;
 }
+
+.input_component input[type="date"]::-webkit-inner-spin-button,
+.input_component input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+}
