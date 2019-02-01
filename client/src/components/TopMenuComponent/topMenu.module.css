@@ -25,3 +25,9 @@
   margin: 0;
   font-family: var(--font-family-title);
 }
+
+@media(max-width: 480px) {
+  .top_menu {
+    margin-bottom: 10px;
+  }
+}
