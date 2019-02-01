@@ -62,15 +62,17 @@ class App extends Component {
         <div className={style.bg_wrap} />
         <div className={style.filters}>
           <h2>Tournaments</h2>
-          <form>
-            <Input label="End date" name="date" type="date" />
-            <Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
-          </form>
-          <div className={style.create_tournament}>
-            <p>Not satisfied?</p>
-            <button onClick={this.createTournament} type="submit">
-              Create a new tournament
-            </button>
+          <div className={style.block_filters}>
+            <form>
+              <Input label="End date" name="date" type="date" />
+              <Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
+            </form>
+            <div className={style.create_tournament}>
+              <p>Not satisfied?</p>
+              <button onClick={this.createTournament} type="submit">
+                Create a new tournament
+              </button>
+            </div>
           </div>
         </div>
         {this.state.newTournament && <NewTournament rules={this.state.rules} closeTournament={this.closeTournament} />}
