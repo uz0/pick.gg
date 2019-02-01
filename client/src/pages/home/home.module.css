@@ -240,3 +240,42 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   height: 100%;
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
 }
+
+@media(max-width: 768px) {}
+
+@media(max-width: 480px) {
+  .home_page {
+    flex-direction: column;
+    width: 100%;
+  }
+  .card_tournament p {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+  .filters {
+    align-items: center;
+  }
+  .filters h2 {
+    margin: 10px auto;
+  }
+  .filters form {
+    padding-bottom: 0;
+  }
+  .header_tournaments {
+    margin-top: 50px;
+  }
+  .header_tournaments p {
+    padding: 0 10px;
+  }
+  .header_tournaments p:first-child {
+    width: 220px;
+  }
+  .header_tournaments p:nth-child(2) {
+    width: 65px;
+  }
+  .header_tournaments p:nth-child(3) {
+    width: 45px;
+  }
+}
+
+@media(max-width: 320px) {}

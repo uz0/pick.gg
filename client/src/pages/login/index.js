@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import '../../components/style.module.css'
 import AuthService from '../../services/authService'
 import Input from '../../components/input'
 import Button from '../../components/button'

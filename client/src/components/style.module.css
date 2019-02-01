@@ -143,11 +143,22 @@ body {
     line-height: normal;
     width: 500px;
   }
-}
-
-@media(min-width: 1024px) {
+  .info_block {
+    left: -40px;
+    padding: 40px 390px 40px 40px;
+  }
   .login_page form {
     padding: 90px 90px 45px 220px;
+  }
+}
+
+@media(max-width: 1024px) {
+  .login_page form {
+    padding: 90px 90px 45px 220px;
+  }
+  .info_block {
+    left: -40px;
+    padding: 40px 390px 40px 40px;
   }
 }
 
@@ -159,10 +170,10 @@ body {
   }
   .login_page form {
     clip-path: polygon(10% 10%, 100% 0px, 100% 100%, 0% 100%);
-    padding-left: 40px;
+    padding-left: 60px;
   }
   .login_page input {
-    width: 250px
+    width: 200px
   }
   .login_btn {
     display: flex;
@@ -171,11 +182,19 @@ body {
   .start_content button {
     padding: 30px 150px 20px 150px;
   }
+  .info_block {
+    left: -90px;
+    padding: 40px 290px 40px 40px;
+  }
 }
 
 @media(max-width: 700px) {
   .info_block {
-    display: none
+    width: 230px;
+    left: 20px;
+    top: -70px;
+    padding: 40px;
+    ;
   }
   .start_content {
     align-items: center;
@@ -186,5 +205,11 @@ body {
   }
   .start_btns>a>button {
     padding: 30px 120px 20px;
+  }
+}
+
+@media(max-width: 320px) {
+  .form_block>form {
+    padding: 70px 50px 40px 50px;
   }
 }
