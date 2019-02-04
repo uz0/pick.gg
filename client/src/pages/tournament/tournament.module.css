@@ -220,3 +220,88 @@
   width: 700px;
   padding: 0 20px;
 }
+
+@media screen and (max-width: 480px) {
+  .home_page {
+    width: 100%;
+  }
+  .tournament_header p {
+    font-size: 16px;
+  }
+  .tournament_header h2 {
+    font-size: 18px;
+  }
+  .tournament_content {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .team_block .item {
+    padding: 40px 5px 0px;
+    background-size: 30px;
+    background-position-y: 14px;
+    flex-basis: 16%;
+    display: flex;
+    justify-content: center;
+  }
+  .tournament_team .item:hover {
+    background-size: 30px;
+    background-position-y: 14px;
+  }
+  .team_block .item p {
+    font-size: 12px;
+    width: 40px;
+  }
+  .tournament_content h3 {
+    font-size: 24px;
+    margin-top: 10px;
+  }
+  .tournament_team {
+    width: 100%;
+  }
+  .team_block {
+    padding: 0 10px;
+  }
+  .header_leader p {
+    font-size: 18px;
+    line-height: normal;
+  }
+  .tournament_matches p {
+    width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  .tournament_matches span {
+    margin-right: 15px;
+  }
+  .top_five {
+    width: 100%;
+  }
+  .tournament_bottom {
+    flex-direction: column;
+  }
+  .leader {
+    margin: 0 10px;
+  }
+  .leader p {
+    font-size: 16px;
+  }
+  .leader span {
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .my_number {
+    width: 100%
+  }
+  .my_number {
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  .my_number p {
+    font-size: 16px;
+  }
+  .my_number span {
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+}

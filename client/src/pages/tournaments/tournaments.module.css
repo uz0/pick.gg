@@ -96,7 +96,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 }
 
 .tournaments_block {
-  padding: 10px 20px;
+  padding: 10px 10px;
 }
 
 .tournaments_block a {
@@ -243,7 +243,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 
 @media(max-width: 768px) {}
 
-@media(max-width: 480px) {
+@media screen and (max-width: 480px) {
   .home_page {
     flex-direction: column;
     width: 100%;
@@ -268,11 +268,11 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     border-radius: 4px;
     padding: 8px 10px;
     margin-bottom: 10px;
-    width: 160px;
+    width: 110px;
   }
   .filters input[type='date'] {
-    background: url('../../assets/icon-calendar.svg') 145px 5px no-repeat, var(--primary-color);
-    height: 16px;
+    background: url(/static/media/icon-calendar.6dfa48bf.svg) 154px 3px no-repeat, var(--primary-color);
+    height: 14px;
     cursor: pointer;
   }
   .block_filters {
@@ -295,10 +295,13 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     width: 45px;
   }
   .card_tournament p:nth-child(2) {
-    width: 90px;
+    width: 114px;
   }
   .card_tournament p:nth-child(3) {
     width: 90px;
+  }
+  .card_tournament p:nth-child(4) {
+    width: 80px;
   }
   .create_tournament>button {
     font-size: 12px;
