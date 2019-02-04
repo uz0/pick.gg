@@ -221,7 +221,7 @@
   padding: 0 20px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   .home_page {
     width: 100%;
   }
@@ -240,7 +240,7 @@
     padding: 40px 5px 0px;
     background-size: 30px;
     background-position-y: 14px;
-    flex-basis: 16%;
+    flex-basis: 17%;
     display: flex;
     justify-content: center;
   }

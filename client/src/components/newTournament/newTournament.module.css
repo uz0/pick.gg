@@ -118,7 +118,7 @@
   align-items: center;
 }
 
-@media(max-width: 480px) {
+@media screen and (max-width: 480px) {
   .new_tournament {
     width: 100%;
     height: auto;
