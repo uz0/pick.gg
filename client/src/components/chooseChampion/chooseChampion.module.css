@@ -67,7 +67,7 @@
   color: #000;
 }
 
-@media(max-width: 480px) {
+@media screen and (max-width: 768px) {
   .wrap {
     overflow: scroll;
   }
@@ -75,11 +75,18 @@
     width: 100%;
   }
   .player_item {
+    flex-basis: 17%;
     margin-bottom: 10px;
-    flex-basis: 43%;
   }
   .player_item img {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .player_item {
+    margin-bottom: 10px;
+    flex-basis: 43%;
   }
   .header_add h2 {
     font-size: 24px;
