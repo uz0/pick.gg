@@ -13,7 +13,7 @@ class App extends Component {
   constructor() {
     super()
     this.AuthService = new AuthService()
-    this.TournamentService = new TournamentService(); 
+    this.TournamentService = new TournamentService()
     this.state = {
       newTournament: false,
       tournaments: [],
@@ -32,58 +32,58 @@ class App extends Component {
       newTournament: false,
     })
 
-  filterByDate = async(e) => {
-
-    if(e.target.value === ''){
-      let tournaments = await this.TournamentService.getAllTournaments();
+  filterByDate = async e => {
+    if (e.target.value === '') {
+      let tournaments = await this.TournamentService.getAllTournaments()
       this.setState({
         tournaments: tournaments.tournaments,
-        dateFilter: ''
+        dateFilter: '',
       })
       return
     }
 
-    this.setState({
-      dateFilter: e.target.value,
-    }, async () => {
-      let filteredTournaments = await this.TournamentService.filterTournamentsByDate(this.state.dateFilter);
-      this.setState({ tournaments: filteredTournaments })
-    })
-
+    this.setState(
+      {
+        dateFilter: e.target.value,
+      },
+      async () => {
+        let filteredTournaments = await this.TournamentService.filterTournamentsByDate(this.state.dateFilter)
+        this.setState({ tournaments: filteredTournaments })
+      },
+    )
   }
 
-  filterByEntry = async(e) => {
-
-    if(e.target.value <= 0){
-      let tournaments = await this.TournamentService.getAllTournaments();
+  filterByEntry = async e => {
+    if (e.target.value <= 0) {
+      let tournaments = await this.TournamentService.getAllTournaments()
       this.setState({
         tournaments: tournaments.tournaments,
-        entryFilter: ''
+        entryFilter: '',
       })
       return
     }
 
-    this.setState({
-      entryFilter: e.target.value,
-    }, async () => {
-      let filteredTournaments = await this.TournamentService.filterTournamentsByEntry(this.state.entryFilter);
-      this.setState({ tournaments: filteredTournaments })
-    })
-
-  } 
+    this.setState(
+      {
+        entryFilter: e.target.value,
+      },
+      async () => {
+        let filteredTournaments = await this.TournamentService.filterTournamentsByEntry(this.state.entryFilter)
+        this.setState({ tournaments: filteredTournaments })
+      },
+    )
+  }
 
   async componentDidMount() {
+    let tournaments = await this.TournamentService.getAllTournaments()
 
-    let tournaments = await this.TournamentService.getAllTournaments();
-  
-    let rulesQuery = await http('/api/rules');
-    let rules = await rulesQuery.json();
+    let rulesQuery = await http('/api/rules')
+    let rules = await rulesQuery.json()
 
     this.setState({
       tournaments: tournaments.tournaments,
       rules: rules.rules,
-    });
-
+    })
   }
 
   render() {
@@ -92,11 +92,10 @@ class App extends Component {
         <div className={style.bg_wrap} />
         <div className={style.filters}>
           <h2>Tournaments</h2>
-<<<<<<< HEAD:client/src/pages/home/index.js
           <div className={style.block_filters}>
             <form>
-              <Input label="End date" name="date" type="date" />
-              <Input label="Minimal entry" name="entry" placeholder="$ 0.1" type="text" />
+              <Input type="date" value={this.state.filterByDate} action={this.filterByDate} label="End date" name="date" />
+              <Input type="number" value={this.state.entryFilter} action={this.filterByEntry} label="Minimal entry" placeholder="$ 0.1" name="entry" min="0" />
             </form>
             <div className={style.create_tournament}>
               <p>Not satisfied?</p>
@@ -104,31 +103,6 @@ class App extends Component {
                 Create a new tournament
               </button>
             </div>
-=======
-          <form>
-            <Input
-              type="date"
-              value={this.state.filterByDate}
-              action={this.filterByDate}
-              label="End date"
-              name="date"
-            />
-            <Input
-              type="number"
-              value={this.state.entryFilter}
-              action={this.filterByEntry}
-              label="Minimal entry"
-              placeholder="$ 0.1"
-              name="entry"
-              min="0"
-            />
-          </form>
-          <div className={style.create_tournament}>
-            <p>Not satisfied?</p>
-            <button onClick={this.createTournament} type="submit">
-              Create a new tournament
-            </button>
->>>>>>> e77df021f7a42fe535d943395cc772c8cfcf914f:client/src/pages/tournaments/index.js
           </div>
         </div>
         {this.state.newTournament && <NewTournament rules={this.state.rules} closeTournament={this.closeTournament} />}

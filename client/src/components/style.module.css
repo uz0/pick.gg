@@ -167,7 +167,7 @@ body {
   }
 }
 
-@media(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .start_content h1 {
     font-size: 120px;
     line-height: normal;
@@ -197,7 +197,7 @@ body {
   }
 }
 
-@media(max-width: 700px) {
+@media screen and (max-width: 700px) {
   .info_block {
     width: 230px;
     left: 40px;
@@ -217,7 +217,7 @@ body {
   }
 }
 
-@media(max-width: 320px) {
+@media screen and (max-width: 320px) {
   .form_block>form {
     padding: 70px 40px 40px 50px;
   }
