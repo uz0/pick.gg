@@ -1,0 +1,31 @@
+.card {
+  --width: 200px;
+  --height: 240px;
+  width: var(--width);
+  height: var(--height);
+  padding: 16px;
+  font-size: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card > img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.card:not(:hover) {
+  background-color: #000;
+}
+
+.card:hover {
+  background-color: var(--accent-color);
+}
+
+.card:not(:hover) .name {
+  color: #9FA2BE;
+}
+
+.card:hover .name {
+  color: #000;
+}

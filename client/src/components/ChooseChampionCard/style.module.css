@@ -1,0 +1,35 @@
+.card {
+  --height: 240px;
+  --width: 200px;
+  --color: #9FA2BE;
+  width: var(--width);
+  height: var(--height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--color);
+  text-shadow: 0px 2px 0px #000000;
+  background-color: var(--background-color);
+  box-shadow: 0px 1px 1px #000000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card:hover {
+  --color: #000;
+  text-shadow: none;
+  background-color: var(--accent-color);
+}
+
+.card:hover svg g {
+  filter: none;
+}
+
+.card svg {
+  margin-bottom: 20px;
+}
+
+.card svg path {
+  fill: var(--color);
+}

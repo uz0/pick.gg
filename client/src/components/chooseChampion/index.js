@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import avatarPlayer from '../../assets/avatarPlayer.png'
 import Button from '../button/index'
+import ChampionCard from '../ChampionCard'
 import { ReactComponent as CloseIcon } from '../../assets/close.svg'
 import classnames from 'classnames/bind'
 import style from './chooseChampion.module.css'
@@ -30,8 +30,6 @@ class chooseChampion extends Component {
         choosedChampions.splice(choosedChampions.indexOf(playerName), 1)
         this.setState({ choosedChampions })
         return;
-      } else {
-        return;
       }
     };
 
@@ -60,14 +58,13 @@ class chooseChampion extends Component {
               onClick={closeChoose}
             />
           </div>
-          <form onSumit={this.addChosedChampions}>
+          <form onSubmit={this.addChosedChampions}>
             <div className={style.players}>
-              {champions.map(item => (
-                <div key={uuid()} onClick={e => this.selectChampion(item.name)} className={cx({ choosed: isChampionChoosed(item.name) }, style.player_item)}>
-                  <img src={avatarPlayer} alt="avatar player" />
-                  <p>{item.name}</p>
-                </div>
-              ))}
+              {champions.map(champion => <ChampionCard
+                key={uuid()}
+                name={champion.name}
+                onClick={() => this.selectChampion(champion.name)}
+              />)}
             </div>
             <Button
               appearance={'_basic-accent'}
