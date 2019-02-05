@@ -7,6 +7,24 @@ export default class TournamentService {
     
   }
 
+  participateInTournament = async(tournamentId, players) => {
+
+    let participateQuery = await http(`/api/tournaments/${tournamentId}/setup`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        players,
+      }),
+    })
+
+    let participate = await participateQuery.json();
+    return participate;
+
+  }
+
   getAllTournaments = async() => {
     let tournamentsQuery = await http('/api/tournaments');
     let tournaments = await tournamentsQuery.json();
