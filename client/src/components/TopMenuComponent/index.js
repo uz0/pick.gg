@@ -31,6 +31,9 @@ class TopMenuComponent extends Component {
           <NavLink to="/">
             <h2>Pick.gg</h2>
           </NavLink>
+          <NavLink to="/profile">
+            <Button appearance={'_basic-primary'} text={'User profile'} />
+          </NavLink>
           <div className={style.user_info}>
             <Button appearance={'_basic-primary'} text={'Logout'} onClick={this.handleLogout} />
           </div>

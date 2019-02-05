@@ -13,15 +13,18 @@
   justify-content: space-between;
 }
 
+.logo {
+  margin-right: auto;
+}
+
 .top_menu a {
   text-decoration: none;
 }
 
 .top_menu h2 {
+  font-family: var(--font-family-title);
+  font-size: 20px;
   font-weight: var(--font-weight-bold);
   line-height: 40px;
-  font-size: 20px;
   color: rgb(252, 252, 252);
-  margin: 0;
-  font-family: var(--font-family-title);
 }
