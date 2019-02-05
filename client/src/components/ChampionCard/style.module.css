@@ -1,11 +1,15 @@
 .card {
   --width: 200px;
   --height: 240px;
+  --color: #9FA2BE;
+  --background-color: #000;
   width: var(--width);
   height: var(--height);
   padding: 16px;
   font-size: 20px;
+  color: var(--color);
   border-radius: 4px;
+  background-color: var(--background-color);
   cursor: pointer;
 }
 
@@ -14,18 +18,8 @@
   border-radius: 4px;
 }
 
-.card:not(:hover) {
-  background-color: #000;
-}
-
+.card.choosed,
 .card:hover {
-  background-color: var(--accent-color);
-}
-
-.card:not(:hover) .name {
-  color: #9FA2BE;
-}
-
-.card:hover .name {
-  color: #000;
+  --background-color: var(--accent-color);
+  --color: #000;
 }
