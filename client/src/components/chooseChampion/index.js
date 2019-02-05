@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Button from '../button/index'
 import ChampionCard from '../ChampionCard'
 import { ReactComponent as CloseIcon } from '../../assets/close.svg'
-import classnames from 'classnames/bind'
+import classnames from 'classnames';
 import style from './chooseChampion.module.css'
 import uuid from 'uuid'
 
@@ -63,6 +63,7 @@ class chooseChampion extends Component {
               {champions.map(champion => <ChampionCard
                 key={uuid()}
                 name={champion.name}
+                className={cx({choosed: isChampionChoosed(champion.name)})}
                 onClick={() => this.selectChampion(champion.name)}
               />)}
             </div>
