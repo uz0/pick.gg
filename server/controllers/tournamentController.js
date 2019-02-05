@@ -114,7 +114,7 @@ const TournamentController = io => {
     if (_.find(tournamentUsers, user => `${user.user}` === userId)) {
       res.json({
         success: false,
-        message: 'You already participate in this championship',
+        message: "You're already taking part in this championship",
       });
 
       return;
