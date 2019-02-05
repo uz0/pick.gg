@@ -19,6 +19,7 @@ class App extends Component {
     super()
     this.AuthService = new AuthService()
     this.TournamentService = new TournamentService()
+    this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
       tournament: {},
@@ -43,6 +44,7 @@ class App extends Component {
     })
 
   setChoosedChampions = (champions) => {
+    this.TournamentService.participateInTournament(this.tournamentId, [...champions])
     this.setState({
       choosedChampions: [...champions],
       chooseChamp: false,
@@ -59,9 +61,7 @@ class App extends Component {
 
     let championsQuery = await http('http://localhost:3000/api/players');
     let champions = await championsQuery.json();
-
-    let tournamentId = window.location.pathname.split('/')[2];
-    let tournament = await this.TournamentService.getTournamentById(tournamentId);
+    let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
 
     this.setState({
       tournament: tournament.tournament,
@@ -78,7 +78,7 @@ class App extends Component {
       let cards = [];
       for(let i = 0; i < 5; i++){
         i < choosedChampions.length
-          ? cards.push(<ChampionCard key={uuid()} champion={choosedChampions[i]} />)
+          ? cards.push(<ChampionCard key={uuid()} name={choosedChampions[i]} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
       }
       return cards;

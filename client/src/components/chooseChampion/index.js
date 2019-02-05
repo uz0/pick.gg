@@ -17,10 +17,12 @@ class chooseChampion extends Component {
     }
   }
 
-  addChosedChampions = (e) => {
+  participateInTournament = (e) => {
     e.preventDefault();
     this.props.setChoosedChampions(this.state.choosedChampions);
   }
+
+  isChampionChoosed = (championName) => this.state.choosedChampions.includes(championName);
 
   selectChampion = (playerName) => {
     let choosedChampions = this.state.choosedChampions;
@@ -44,7 +46,6 @@ class chooseChampion extends Component {
   render(){
 
     let { closeChoose, champions } = this.props
-    let isChampionChoosed = (championName) => this.state.choosedChampions.includes(championName);
     let areChampionsSelected = this.state.choosedChampions.length < 5 ? true : false;
 
     return (
@@ -58,12 +59,12 @@ class chooseChampion extends Component {
               onClick={closeChoose}
             />
           </div>
-          <form onSubmit={this.addChosedChampions}>
+          <form onSubmit={this.participateInTournament}>
             <div className={style.players}>
               {champions.map(champion => <ChampionCard
                 key={uuid()}
                 name={champion.name}
-                className={cx({choosed: isChampionChoosed(champion.name)})}
+                className={cx({choosed: this.isChampionChoosed(champion.name)})}
                 onClick={() => this.selectChampion(champion.name)}
               />)}
             </div>
