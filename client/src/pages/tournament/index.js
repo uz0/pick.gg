@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import style from './tournament.module.css'
 import ChooseChamp from '../../components/chooseChampion'
 
+import ChampionCard from '../../components/ChampionCard'
+import ChooseChampionCard from '../../components/ChooseChampionCard'
+
 import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
 import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
 
-const addCards = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
+// const addCards = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
 const matchesItems = [{ id: '1', time: '10:30', nameMatch: 'First Match' }, { id: '2', time: '12:40', nameMatch: 'Second Match' }, { id: '3', time: '15:00', nameMatch: 'Third Match' }, { id: '4', time: '18:20', nameMatch: 'Fourth Match' }, { id: '5', time: '20:00', nameMatch: 'Final Grand Match' }]
 const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
 
@@ -72,21 +75,14 @@ class App extends Component {
 
     let { tournament, champions, choosedChampions } = this.state;
 
-    let championCard = () => {
-      return (
-        <div key={uuid()} onClick={this.showChoose} className={style.item}>
-          <p>Add Player</p>
-        </div>   
-      )
-    }
-
-    let selectedChampionCard = () => {
-      return (
-        <div>{this.state.choosedChampions.champion.name}</div>
-      )
-    }
-
-    let championsCardsList = () => {
+    let ChampionsCardsList = () => {
+      let cards = [];
+      for(let i = 0; i < 5; i++){
+        i < choosedChampions.length
+          ? cards.push(<ChampionCard key={uuid()} champion={choosedChampions[i]} />)
+          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
+      }
+      return cards;
     }
 
     return (
@@ -108,11 +104,7 @@ class App extends Component {
           <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
-              {addCards.map(item => (
-                <div key={item.id} onClick={this.showChoose} className={style.item}>
-                  <p>Add Player</p>
-                </div>
-              ))}
+              <ChampionsCardsList />
             </div>
           </div>
           <div className={style.tournament_bottom}>

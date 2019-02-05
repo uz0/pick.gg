@@ -86,24 +86,6 @@
   width: 1200px;
 }
 
-.tournament_team .item {
-  box-shadow: 0px 1px 1px #000000;
-  border-radius: 4px;
-  text-align: center;
-  padding: 130px 55px 60px;
-  color: #9FA2BE;
-  font-weight: var(--font-weight-regular);
-  background: url(../../assets/plus-player.svg) no-repeat center 72px, var(--background-color);
-  cursor: pointer;
-}
-
-.tournament_team .item:hover {
-  background: url(../../assets/plus-player-black.svg) no-repeat center 72px, var(--accent-color);
-  box-shadow: 0px 1px 1px #000000;
-  border-radius: 4px;
-  color: #000;
-}
-
 .tournament_matches {
   display: flex;
   flex-direction: column;

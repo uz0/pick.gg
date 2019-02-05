@@ -48,24 +48,3 @@
   width: 1040px;
   margin-top: 40px;
 }
-
-.player_item {
-  background-color: #000;
-  border-radius: 4px;
-  padding: 8px 8px 20px;
-  color: #9FA2BE;
-  cursor: pointer;
-}
-
-.player_item p {
-  font-size: 20px;
-  text-align: center;
-  margin-bottom: 0;
-  margin-top: 10px;
-}
-
-.player_item.choosed,
-.player_item:hover {
-  background-color: var(--accent-color);
-  color: #000;
-}
