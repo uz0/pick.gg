@@ -1,8 +1,11 @@
-import React from 'react'
-import style from './style.module.css'
+import React, { Component } from 'react'
+import classnames from 'classnames/bind'
 import AuthService from '../../services/authService'
 import { NavLink } from 'react-router-dom'
-import { ReactComponent as AddPlayerIcon } from '../../assets/add-player.svg'
+import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg'
+import style from './style.module.css'
+
+const cx = classnames.bind(style);
 
 class DropDown extends Component {
 
@@ -20,18 +23,23 @@ class DropDown extends Component {
     this.props.history.replace('/')
   }
 
+  toggleDropDown = () => this.setState({ isActive: !this.state.isActive })
+
   render() {
+
+    let Avatar = () => this.props.avatar ? <img src={this.props.avatar} alt="userpic"/> : <AvatarPlaceholder />;
+
     return (
-      <div>
-        <div className={style.user}>
-          <img src="" alt="userpic"/>
+      <div className={cx(style.dropdown, { active: this.state.isActive })} onClick={this.toggleDropDown}>
+        <div className={style.userbox}>
+          <Avatar />
           Random User
         </div>
         <div className={style.menu}>
           <NavLink to="/profile">My tournaments</NavLink>
           <NavLink to="/profile">Public profile</NavLink>
           <NavLink to="/profile">Profile settings</NavLink>
-          <a href="#" onClick={this.handleLogout}>Log out</a>
+          <a href="/" onClick={this.handleLogout}>Log out</a>
         </div>
       </div>
     )
