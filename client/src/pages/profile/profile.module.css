@@ -4,21 +4,21 @@
   margin: 0 auto;
 }
 
-.home_page::after {
-  content: '';
+.bg_wrap {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 600px;
-  background-image: url('../../assets/bg-login.png');
+  background: url('../../assets/bg-login.png');
   background-repeat: no-repeat;
   background-size: cover;
-  /* z-index: -1; */
+  height: inherit;
+  z-index: -1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  min-height: 600px;
   opacity: 0.6;
 }
 
-.home_page::before {
+.bg_wrap::before {
   content: '';
   position: absolute;
   top: 0;
