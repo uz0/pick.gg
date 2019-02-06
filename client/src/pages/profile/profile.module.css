@@ -21,10 +21,6 @@
   opacity: 0.6;
 }
 
-.bg_wrap img {
-  position: relative;
-}
-
 .bg_wrap::before {
   content: '';
   position: absolute;
