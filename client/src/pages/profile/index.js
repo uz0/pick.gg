@@ -14,6 +14,7 @@ class Profile extends Component {
   render() {
     return (
       <div className={style.home_page}>
+        <div className={style.bg_wrap} />
         <aside>
           
         </aside>
