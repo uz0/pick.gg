@@ -3,10 +3,6 @@ import moment from 'moment';
 
 export default class TournamentService {
 
-  constructor() {
-    
-  }
-
   participateInTournament = async(tournamentId, players) => {
 
     let participateQuery = await http(`/api/tournaments/${tournamentId}/setup`, {
