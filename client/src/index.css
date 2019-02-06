@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,700|Roboto:400,700');
 @import '../~normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,700|Roboto:400,700');
 
 :root {
 	--font-family-title: 'Bai Jamjuree';
@@ -32,4 +32,8 @@ button {
   padding: 0;
   border: 0;
   cursor: pointer;
+}
+
+h1 {
+  margin: 0em;
 }
