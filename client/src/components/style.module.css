@@ -52,7 +52,7 @@ body {
 
 .login_page form {
   background-color: var(--background-color);
-  padding: 80px 20px 55px 70px;
+  padding: 80px 70px 55px 160px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -81,6 +81,11 @@ body {
 .login_page a {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.login_btn {
+  display: flex;
+  align-items: center;
 }
 
 .bottom_login_btn>a {
@@ -127,8 +132,8 @@ body {
 
 .info_block {
   position: absolute;
-  left: -30px;
-  padding: 40px 500px 40px 50px;
+  left: -60px;
+  padding: 40px 410px 40px 50px;
   font-size: 20px;
   color: var(--accent-color);
   background-color: var(--primary-color);
@@ -137,37 +142,86 @@ body {
   width: 50px;
 }
 
-@media(max-width: 1200px) {
+@media(max-width: 1440px) {
   .start_content h1 {
     font-size: 140px;
     line-height: normal;
     width: 500px;
   }
-}
-
-@media(min-width: 991px) {
+  .info_block {
+    left: -40px;
+    padding: 40px 390px 40px 40px;
+  }
   .login_page form {
     padding: 90px 90px 45px 220px;
   }
 }
 
-@media(min-width: 768px) {
+@media(max-width: 1024px) {
+  .login_page form {
+    padding: 90px 90px 45px 220px;
+  }
+  .info_block {
+    left: -40px;
+    padding: 40px 390px 40px 40px;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .start_content h1 {
     font-size: 120px;
     line-height: normal;
     width: 500px;
   }
   .login_page form {
-    padding: 130px 60px 90px 160px;
+    clip-path: polygon(10% 10%, 100% 0px, 100% 100%, 0% 100%);
+    padding-left: 60px;
   }
   .login_page input {
-    width: 450px
+    width: 200px
   }
   .login_btn {
     display: flex;
-    align-items: center
+    align-items: center;
+    flex-direction: column
+  }
+  .login_btn>button {
+    margin-bottom: 10px;
   }
   .start_content button {
     padding: 30px 150px 20px 150px;
+  }
+  .info_block {
+    left: -90px;
+    padding: 40px 290px 40px 40px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .info_block {
+    width: 230px;
+    left: 40px;
+    top: -70px;
+    padding: 40px 30px 40px 40px;
+    ;
+  }
+  .start_content {
+    align-items: center;
+  }
+  .start_content>h1 {
+    width: min-content;
+    font-size: 80px
+  }
+  .start_btns>a>button {
+    padding: 30px 120px 20px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .form_block>form {
+    padding: 70px 40px 40px 50px;
+  }
+  .info_block {
+    padding: 40px 0px 40px 30px;
   }
 }

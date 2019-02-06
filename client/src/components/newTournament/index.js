@@ -72,13 +72,12 @@ class newTournament extends Component {
 
     return (
       <div className={style.wrap}>
-        <div className="fade" />
         <div className={style.new_tournament}>
           <div className={style.create_block}>
             <p>Create a new tournament</p>
           </div>
           <form onSubmit={this.submitForm}>
-            <Button appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
+            <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
             <div>
               <div className={style.top_block}>
                 <Input action={this.onChange} label="Name" name="name" type="text" />

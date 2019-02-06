@@ -27,4 +27,12 @@
   font-weight: var(--font-weight-bold);
   line-height: 40px;
   color: rgb(252, 252, 252);
+  margin: 0;
+  font-family: var(--font-family-title);
+}
+
+@media(max-width: 480px) {
+  .top_menu {
+    margin-bottom: 10px;
+  }
 }
