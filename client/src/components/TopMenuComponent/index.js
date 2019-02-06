@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import AuthService from '../../services/authService'
 import AuthWrapper from '../authWrapper'
 import Button from '../button/index'
+import DropDown from '../DropDown'
 import style from './topMenu.module.css'
 
 class TopMenuComponent extends Component {
@@ -31,11 +32,12 @@ class TopMenuComponent extends Component {
           <NavLink to="/">
             <h2>Pick.gg</h2>
           </NavLink>
-          <NavLink to="/profile">
+          {/* <NavLink to="/profile">
             <Button appearance={'_basic-primary'} text={'User profile'} />
-          </NavLink>
+          </NavLink> */}
           <div className={style.user_info}>
-            <Button appearance={'_basic-primary'} text={'Logout'} onClick={this.handleLogout} />
+            {/* <Button appearance={'_basic-primary'} text={'Logout'} onClick={this.handleLogout} /> */}
+            <DropDown />
           </div>
         </div>
       </div>
