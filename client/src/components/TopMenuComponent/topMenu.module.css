@@ -1,5 +1,5 @@
 .top_menu {
-  padding: 10px;
+  height: 60px;
   background: var(--background-color);
   display: flex;
   justify-content: center;
@@ -7,7 +7,7 @@
 }
 
 .menu_wrap {
-  width: 1200px;
+  width: 81.25%;
   display: flex;
   align-items: center;
   justify-content: space-between;
