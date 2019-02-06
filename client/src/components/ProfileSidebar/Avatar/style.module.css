@@ -1,0 +1,17 @@
+.avatar {
+  --avatar-size: 220px;
+  width: var(--avatar-size);
+  position: absolute;
+  top: calc(-1 * var(--avatar-size) / 2);
+  left: calc((var(--sidebar-size) - var(--avatar-size)) / 2);
+}
+
+.avatar svg,
+.avatar img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border: 5px solid #252532;
+  border-radius: calc(var(--avatar-size) / 2);
+  box-shadow: 0px 1px 1px #000000;
+  object-fit: cover;
+}
