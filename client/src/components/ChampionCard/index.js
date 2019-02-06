@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import placeholder from '../../assets/placeholder.png'
 import classnames from 'classnames/bind'
 import style from './style.module.css'
