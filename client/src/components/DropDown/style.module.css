@@ -1,0 +1,59 @@
+.dropdown {
+  position: relative;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown > div {
+  width: 100%;
+}
+
+.userbox {
+  height: 50px;
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-family-title);
+  color: #9696B0;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+.dropdown.active .userbox,
+.userbox:hover {
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.userbox svg,
+.userbox img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.menu {
+  display: none;
+  padding: 10px 20px;
+  margin-top: 4px;
+  position: absolute;
+  left: 0;
+  flex-direction: column;
+  background-color: #252532;
+  box-shadow: 0px 1px 1px #000000;
+  border-radius: 4px;
+}
+
+.dropdown.active .menu {
+  display: flex;
+}
+
+.menu a {
+  color: #9FA2BE;
+  text-shadow: 0px 2px 0px #000000;
+  line-height: 2;
+}
+
+.menu a:hover {
+  color: var(--accent-color);
+}
