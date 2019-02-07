@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import style from '../../components/style.module.css'
+import style from './style.module.css'
 import AuthService from '../../services/authService'
 
 class Start extends Component {
