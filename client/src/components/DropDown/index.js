@@ -23,15 +23,25 @@ class DropDown extends Component {
     this.props.history.replace('/')
   }
 
+  componentDidMount() {
+    window.addEventListener('click', event => {
+      if(this.state.isActive && event.target != this.userbox){
+        this.toggleDropDown()
+      }
+    });
+  }
+
   toggleDropDown = () => this.setState({ isActive: !this.state.isActive })
 
   render() {
+
+    console.log('rerender');
 
     let Avatar = () => this.props.avatar ? <img src={this.props.avatar} alt="userpic"/> : <AvatarPlaceholder />;
 
     return (
       <div className={cx(style.dropdown, { active: this.state.isActive })} onClick={this.toggleDropDown}>
-        <div className={style.userbox}>
+        <div ref={(userbox) => {this.userbox = userbox}} className={style.userbox}>
           <Avatar />
           Bennett Foddy
         </div>
