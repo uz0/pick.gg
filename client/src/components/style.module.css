@@ -2,20 +2,6 @@ body {
   background-color: #11162a;
 }
 
-.start_content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.start_content h1 {
-  font-size: 70px;
-  line-height: normal;
-  width: 310px;
-  margin: 0 0 100px;
-  font-family: var(--font-family-title);
-}
-
 .bg_wrap {
   position: absolute;
   background-image: url('../assets/bg-login.png');
@@ -94,28 +80,6 @@ body {
 
 .bottom_login_btn>span {
   margin-left: 10px;
-}
-
-.start_content button {
-  background-color: #FFA928;
-  color: #000;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 2px;
-  padding: 30px 100px 20px 90px;
-  clip-path: polygon(90.39% 22px, 100% 100%, 0% 100%, 0.09% 4.23%);
-  cursor: pointer;
-  margin: 0 0 20px 20px;
-}
-
-.start_content .start_btns {
-  display: flex;
-  flex-direction: column;
-  align-items: center
-}
-
-.start_btns a {
-  color: #fff;
 }
 
 .form_block {
