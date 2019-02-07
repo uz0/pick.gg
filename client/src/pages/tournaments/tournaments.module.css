@@ -25,7 +25,7 @@
 }
 
 .filters form {
-  padding-bottom: 80px;
+  padding-bottom: 40px;
 }
 
 .filters .inputComponent {
@@ -71,8 +71,9 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   font-size: 20px;
   text-align: center;
   color: var(--accent-color);
-  padding: 15px 90px 48px 20px;
-  width: 130px;
+  padding: 15px 60px 48px 20px;
+  width: 240px;
+  margin-left: 10px;
 }
 
 .create_tournament p {
@@ -97,6 +98,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 
 .tournaments_block {
   padding: 10px 10px;
+  width: 70%;
 }
 
 .tournaments_block a {
@@ -118,15 +120,18 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 }
 
 .header_tournaments p:first-child {
-  width: 360px;
+  flex-grow: 1
 }
 
 .header_tournaments p:nth-child(2) {
-  width: 75px;
+  min-width: 60px;
 }
 
 .header_tournaments p:nth-child(3) {
-  width: 75px;
+  min-width: 50px;
+}
+.header_tournaments p:nth-child(4) {
+  min-width: 115px;
 }
 
 .card_tournament {
@@ -154,21 +159,21 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 }
 
 .card_tournament p:first-child {
-  width: 360px;
+  flex-grow: 1
 }
 
 .card_tournament p:nth-child(2) {
-  width: 50px;
+  min-width: 60px;
 }
 
 .card_tournament p:nth-child(3) {
-  width: 80px;
+  min-width: 60px;
   text-align: center;
 }
 
 .card_tournament p:nth-child(4) {
-  width: 60px;
-  text-align: center;
+  min-width: 120px;
+  text-align: right;
   border-right: none;
 }
 
@@ -240,7 +245,14 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   height: 100%;
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
 }
-
+@media (max-width: 1440px) {
+  .home_page { 
+    width: 90%;
+  }
+  .tournaments_block{
+    width: 70%;
+  }
+}
 @media screen and (max-width: 768px) {
   .home_page {
     flex-direction: column;
@@ -266,12 +278,13 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     border-radius: 4px;
     padding: 8px 10px;
     margin-bottom: 10px;
-    width: 110px;
+    min-width: 190px;
   }
   .filters input[type='date'] {
     background: url(/static/media/icon-calendar.6dfa48bf.svg) 154px 3px no-repeat, var(--primary-color);
     height: 14px;
     cursor: pointer;
+    padding: 16px 10px;;
   }
   .block_filters {
     display: flex;
@@ -287,19 +300,19 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     width: 220px;
   }
   .header_tournaments p:nth-child(2) {
-    width: 75px;
+    min-width: 70px;
   }
   .header_tournaments p:nth-child(3) {
-    width: 45px;
+    min-width: 60px;
   }
   .card_tournament p:nth-child(2) {
-    width: 114px;
+    min-width: 60px;
   }
   .card_tournament p:nth-child(3) {
-    width: 90px;
+    min-width: 60px;
   }
   .card_tournament p:nth-child(4) {
-    width: 80px;
+    min-width: 60px;
   }
   .create_tournament>button {
     font-size: 12px;
@@ -315,6 +328,34 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     height: 10px;
     font-size: 14px;
   }
+  .tournaments_block{
+    width: 100%;
+  }
 }
-
-@media(max-width: 320px) {}
+@media screen and (max-width: 480px){
+  .filters input {
+    width: 150px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .filters input {
+    font-size: 12px;
+    border: 6px solid var(--background-color);
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    min-width: 80px;
+  }
+  .filters input[type='date'] {
+    background: url(/static/media/icon-calendar.6dfa48bf.svg) 154px 3px no-repeat, var(--primary-color);
+    height: 14px;
+    cursor: pointer;
+  }
+  .create_tournament{
+    padding: 15px 15px 30px 15px;
+    width: 100px;
+    margin-left: 14px;
+    height: 10px;
+    font-size: 10px;
+  }
+}
