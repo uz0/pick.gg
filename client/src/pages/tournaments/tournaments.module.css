@@ -54,9 +54,10 @@
 }
 
 .filters input[type='date'] {
-  background: url('../../assets/icon-calendar.svg') 240px 7px no-repeat, var(--primary-color);
+  background: url('../../assets/icon-calendar.svg') 203px 7px no-repeat, var(--primary-color);
   height: 22px;
   cursor: pointer;
+  padding: 20px 10px;
 }
 
 input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spin-button {
@@ -281,7 +282,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     min-width: 190px;
   }
   .filters input[type='date'] {
-    background: url(/static/media/icon-calendar.6dfa48bf.svg) 154px 3px no-repeat, var(--primary-color);
+    background: url(/static/media/icon-calendar.6dfa48bf.svg) 212px 3px no-repeat, var(--primary-color);
     height: 14px;
     cursor: pointer;
     padding: 16px 10px;;
@@ -336,6 +337,9 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   .filters input {
     width: 150px;
   }
+  .filters input[type='date'] {
+    background: url(/static/media/icon-calendar.6dfa48bf.svg) 152px 3px no-repeat, var(--primary-color);
+  }
 }
 @media screen and (max-width: 320px) {
   .filters input {
@@ -347,7 +351,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     min-width: 80px;
   }
   .filters input[type='date'] {
-    background: url(/static/media/icon-calendar.6dfa48bf.svg) 154px 3px no-repeat, var(--primary-color);
+    background: url(/static/media/icon-calendar.6dfa48bf.svg) 152px 3px no-repeat, var(--primary-color);
     height: 14px;
     cursor: pointer;
   }

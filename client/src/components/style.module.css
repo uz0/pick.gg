@@ -9,10 +9,10 @@ body {
 }
 
 .start_content h1 {
-  font-size: 70px;
+  font-size: 140px;
   line-height: normal;
-  width: 310px;
-  margin: 0 0 100px;
+  width: 540px;
+  margin: 0 auto 50px;
   font-family: var(--font-family-title);
 }
 
