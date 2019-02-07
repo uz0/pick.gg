@@ -23,3 +23,11 @@
   --background-color: var(--accent-color);
   --color: #000;
 }
+
+@media screen and (max-width: 1368px) {
+  .card {
+    --width: 180px;
+    --height: 210px;
+    padding: 10px;
+  }
+}
