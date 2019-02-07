@@ -99,8 +99,147 @@ main {
   font-weight: var(--font-weight-regular);
 }
 
+.tournaments_block {
+  margin-bottom: 40px;
+}
+
+.tournaments_block a {
+  text-decoration: none;
+}
+
+.header_tournaments {
+  display: flex;
+}
+
+.header_tournaments p {
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  font-size: 12px;
+  color: #9D9FBB;
+  text-align-last: left;
+  padding: 0 40px;
+  margin-bottom: 6px;
+}
+
+.header_tournaments p:first-child {
+  flex-grow: 1
+}
+
+.header_tournaments p:nth-child(2) {
+  min-width: 60px;
+}
+
+.header_tournaments p:nth-child(3) {
+  min-width: 50px;
+}
+.header_tournaments p:nth-child(4) {
+  min-width: 115px;
+}
+
+.card_tournament {
+  display: flex;
+  background: var(--background-color);
+  box-shadow: 0px 1px 1px #000;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.card_tournament p {
+  padding: 0 40px;
+  margin: 15px 0;
+  color: var(--caption-color);
+  border-right: 1px solid rgba(6, 9, 22, 0.4);
+  font-size: 16px;
+  text-align: left;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.card_tournament p:last-child {
+  border: none;
+}
+
+.card_tournament p:first-child {
+  flex-grow: 1
+}
+
+.card_tournament p:nth-child(2) {
+  min-width: 60px;
+}
+
+.card_tournament p:nth-child(3) {
+  min-width: 60px;
+  text-align: center;
+}
+
+.card_tournament p:nth-child(4) {
+  min-width: 120px;
+  text-align: right;
+  border-right: none;
+}
+
+.tournaments-block a {
+  position: relative;
+}
+
+.tournaments_block a .arrow_card {
+  position: absolute;
+  top: 15px;
+  right: -10px;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.card_tournament:hover .arrow_card {
+  transition: all 0.3s;
+  opacity: 1;
+  animation-name: arrow-anim;
+  animation-duration: 0.7s;
+  animation-iteration-count: 1;
+}
+
+.card_tournament:hover {
+  background: var(--accent-color);
+  cursor: pointer;
+}
+
+.card_tournament:hover p {
+  color: #000;
+}
+
 @media (max-width: 1440px) {
   main {
     width: 90%;
+  }  
+}
+@media screen and (max-width: 768px) {
+  .card_tournament p {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+  .header_tournaments {
+    margin-top: 20px;
+  }
+  .header_tournaments p {
+    padding: 0 10px;
+  }
+  .header_tournaments p:first-child {
+    width: 220px;
+  }
+  .header_tournaments p:nth-child(2) {
+    min-width: 70px;
+  }
+  .header_tournaments p:nth-child(3) {
+    min-width: 60px;
+  }
+  .card_tournament p:nth-child(2) {
+    min-width: 60px;
+  }
+  .card_tournament p:nth-child(3) {
+    min-width: 60px;
+  }
+  .card_tournament p:nth-child(4) {
+    min-width: 60px;
   }
 }
