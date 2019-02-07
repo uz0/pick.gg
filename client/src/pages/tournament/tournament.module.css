@@ -99,7 +99,7 @@
   font-size: 20px;
   color: var(--caption-color);
   padding: 8px 24px;
-  width: 370px;
+  width: 100%;
   text-align-last: left;
   margin: 5px 0;
 }
@@ -148,7 +148,7 @@
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
-  width: 740px;
+  width: 100%;
   margin-bottom: 10px;
 }
 
@@ -199,13 +199,34 @@
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
-  width: 700px;
+  width: 100%;
   padding: 0 20px;
 }
+.tournament_leader{
+  flex-basis: 55%;
+}
+.tournament_matches{
+  flex-basis: 40%;
+}
 
+@media screen and (max-width: 1440px){
+  .home_page{
+    width: 90%;
+  }
+  .tournament_content{
+    width: 100%;
+  }
+  .tournament_team{
+    width: 100%;
+  }
+  
+}
 @media screen and (max-width: 768px) {
   .home_page {
     width: 100%;
+  }
+  .tournament_header{
+    padding: 0 10px;
   }
   .tournament_header p {
     font-size: 16px;
@@ -240,6 +261,7 @@
   }
   .tournament_team {
     width: 100%;
+    flex-direction: column;
   }
   .team_block {
     padding: 0 10px;

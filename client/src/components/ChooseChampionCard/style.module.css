@@ -33,3 +33,18 @@
 .card svg path {
   fill: var(--color);
 }
+
+@media screen and (max-width: 480px){
+  .card{
+    --height: 100px;
+    --width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .card svg {
+    margin-bottom: 0px;
+  }
+}
