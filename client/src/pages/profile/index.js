@@ -24,9 +24,9 @@ class Profile extends Component {
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
         <main>
-          <h1>Profile settings – Username</h1>
+          <h1>Profile settings – Bennett Foddy</h1>
           <div className={style.content}>
-            <ProfileSidebar />
+            <ProfileSidebar withData={false} />
             <div className={style.form_container}>
               <form className={style.form}>
                 <div>
@@ -41,7 +41,7 @@ class Profile extends Component {
                   <label>About</label>
                   <textarea></textarea>
                 </div>
-                <Button appearance={'_basic-accent'}text={'Save changes'} />
+                <Button appearance={'_basic-accent'} text={'Save changes'} />
               </form>
               <div className={style.password_recovery}>
                 <p>You can also change your password if needed</p>
