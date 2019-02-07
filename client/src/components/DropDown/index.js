@@ -33,11 +33,11 @@ class DropDown extends Component {
       <div className={cx(style.dropdown, { active: this.state.isActive })} onClick={this.toggleDropDown}>
         <div className={style.userbox}>
           <Avatar />
-          Random User
+          Bennett Foddy
         </div>
         <div className={style.menu}>
-          <NavLink to="/profile">My tournaments</NavLink>
-          <NavLink to="/profile">Public profile</NavLink>
+          <NavLink to="/tournaments">My tournaments</NavLink>
+          <NavLink to="/user/1">Public profile</NavLink>
           <NavLink to="/profile">Profile settings</NavLink>
           <a href="/" onClick={this.handleLogout}>Log out</a>
         </div>
