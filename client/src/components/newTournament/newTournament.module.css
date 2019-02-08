@@ -132,16 +132,27 @@
     width: 270px;
   }
   .new_tournament label>select {
-    width: 290px;
+    width: 270px;
   }
   .rules_inputs {
-    width: 290px;
+    width: 270px;
   }
   .rules_inputs input {
-    width: 120px;
+    flex-basis: 49%;
   }
   .close_button {
     align-self: flex-end;
+  }
+  .create_block {
+    /* top: 40px; */
+    padding-right: 100px;
+    padding-bottom: 50px;
+    margin-top: -10%;
+    margin-left: 10px;
+  }
+  .create_block p{
+    font-size: 16px;
+    min-width: 180px
   }
 }
 
@@ -154,12 +165,22 @@
     width: 270px;
   }
   .new_tournament label>select {
-    width: 290px;
+    width: 270px;
   }
   .rules_inputs {
-    width: 290px;
+    width: 100%;
   }
   .rules_inputs input {
-    width: 120px;
+    flex-basis: 49%;
+  }
+  .create_block{
+    /* top: 4%; */
+    margin-top: -15%;
+    margin-left: 10px;
+    padding-right: 45%;
+  }
+  .create_block p{
+    min-width: 100px;
+    font-size: 14px;
   }
 }

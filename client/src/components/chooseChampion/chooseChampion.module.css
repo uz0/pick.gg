@@ -61,6 +61,13 @@
   .wrap {
     overflow: scroll;
   }
+  .players{
+    width: 100%;
+    margin-top: 10px;
+  }
+  .players > div:nth-child(4n){
+    margin-bottom: 0px;
+  }
 }
 
 @media screen and (max-width: 480px) {
