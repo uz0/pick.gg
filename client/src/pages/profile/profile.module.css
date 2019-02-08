@@ -118,3 +118,24 @@ main h1 {
     width: 90%;
   }
 }
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 480px) {
+  main h1{
+    font-size: 21px;
+  }
+  .content{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+  }
+  .form_container{
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .password_recovery{
+    font-size: 18px;
+  }
+}
