@@ -67,18 +67,8 @@
 .button[disabled] {
   pointer-events: none;
   cursor: auto;
-}
-
-.button[disabled]::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  background-color: rgba(0, 0, 0, 0.35);
-  pointer-events: none;
+  color: #000;
+  background-color: #9FA2BE;
 }
 
 .button svg {
