@@ -373,4 +373,12 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     height: 10px;
     font-size: 10px;
   }
+  .card_tournament p:first-child {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: hidden;
+  }
+  .header_tournaments p:nth-child(4){
+    min-width: 45px;
+  }
 }

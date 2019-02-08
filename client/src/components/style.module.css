@@ -200,6 +200,9 @@ body {
     padding: 70px 40px 40px 50px;
   }
   .info_block {
-    padding: 40px 0px 40px 30px;
+    font-size: 14px;
+    padding: 20px 20px 50px 25px;
+    top: -35px;
+    width: 190px;
   }
 }
