@@ -43,4 +43,23 @@
   margin: 10px 0 0 0;
   padding: 0 15px 20px 15px;
 }
+@media screen and (max-width: 768px){
+  .sidebar{
+    --sidebar-size: 200px;
+  }
+  .content{
+    padding-top: calc(var(--sidebar-size) / 3);
+  }
+}
+
+@media screen and (max-width: 480px){
+  .sidebar{
+    --sidebar-size: 100%;
+    align-self: center;
+  }
+  .content{
+    --sidebar-size: 100%;
+    padding-top: calc(var(--sidebar-size) / 5);
+  }
+}
 

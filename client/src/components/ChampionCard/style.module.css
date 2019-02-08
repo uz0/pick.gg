@@ -31,3 +31,10 @@
     padding: 10px;
   }
 }
+@media screen and (max-width: 768px){
+  .card{
+    flex-basis: 49%;
+    margin-bottom: 10px;
+  }
+
+}
