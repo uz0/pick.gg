@@ -25,7 +25,7 @@ const AuthenticationController = (app) => {
       } else {
         const payload = {
           _id: user._id,
-          isAdmin: user.isAdmin,
+          isAdmin: user.isAdmin, // WARNING! security vulnerability attention!
           username: user.username
         };
 

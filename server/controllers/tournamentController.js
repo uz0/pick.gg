@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import express from "express";
-import _ from 'lodash';
+import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
 
 let router = express.Router();
@@ -20,7 +20,7 @@ const TournamentController = io => {
   // });
 
   router.get('/', async (req, res) => {
-    const userId = req.decoded._id;
+    // const userId = req.decoded._id;
 
     const tournaments = await TournamentModel
       .find({}, '-users.players')
@@ -106,12 +106,12 @@ const TournamentController = io => {
   router.post('/:id/setup', async (req, res) => {
     const id = req.params.id;
     const players = req.body.players;
-    const userId = req.decoded._id;
+    // const userId = req.decoded._id;
 
     const tournament = await TournamentModel.findOne({ _id: id }, 'users');
     let tournamentUsers = tournament.users;
 
-    if (_.find(tournamentUsers, user => `${user.user}` === userId)) {
+    if (find(tournamentUsers, user => `${user.user}` === userId)) {
       res.json({
         success: false,
         message: "You're already taking part in this championship",
