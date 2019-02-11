@@ -25,7 +25,7 @@ class DropDown extends Component {
 
   componentDidMount() {
     window.addEventListener('click', event => {
-      if(this.state.isActive && event.target != this.userbox){
+      if(this.state.isActive && event.target !== this.userbox){
         this.toggleDropDown()
       }
     });

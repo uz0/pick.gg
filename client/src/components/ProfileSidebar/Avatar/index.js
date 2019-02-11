@@ -4,7 +4,7 @@ import { ReactComponent as AvatarPlaceholder } from '../../../assets/avatar-plac
 
 const Avatar = ({ source }) => {
 
-  let AvatarComponent = () => source ? <img src={source} /> : <AvatarPlaceholder />
+  let AvatarComponent = () => source ? <img src={source} alt="avatar"/> : <AvatarPlaceholder />
 
   return (
     <div className={style.avatar}>

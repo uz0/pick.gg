@@ -10,7 +10,7 @@ class ProfileSidebar extends Component {
       <aside className={style.sidebar}>
         <Avatar />
         <div className={style.content}>
-          { !withData && <a href="#">Change avatar</a> }
+          { !withData && <a href="/">Change avatar</a> }
           { nickname && <div>{nickname}</div> }
           { description && <p>{description}</p> }
         </div>
