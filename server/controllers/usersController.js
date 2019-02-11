@@ -9,12 +9,6 @@ const UsersController = () => {
     res.json({ users });
   });
 
-  router.get('/:id', async (req, res) => {
-    const id = req.params.id;
-    let user = await UserModel.findOne({ _id: id });
-    res.json({ user });
-  });
-
   router.get('/me', async (req, res) => {
     const userId = req.decoded._id;
     let user = await UserModel.findOne({ _id: userId });
@@ -29,17 +23,26 @@ const UsersController = () => {
       about: req.body.about,
       password: req.body.password,
     }
-
+    
     const updatingFields = filter(fields, (value) => !!value);
 
+    console.log(updatingFields);
+
     const updatedUser = await UserModel
-      .findOneAndUpdate({ _id: userId }, updatingFields);
+      .findOneAndUpdate({ _id: userId }, fields);
 
     res.json({
+      id: "5c61c99b9810a7173819faa5",
       success: true,
       user: updatedUser,
     });
   });
+
+  router.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    let user = await UserModel.findOne({ _id: id });
+    res.json({ user });
+  });  
 
   return router;
 }
