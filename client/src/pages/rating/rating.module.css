@@ -1,0 +1,89 @@
+.home_page {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bg_wrap {
+  position: absolute;
+  background: url('../../assets/bg-login.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: inherit;
+  z-index: -1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  min-height: 600px;
+  opacity: 0.6;
+}
+
+.bg_wrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
+}
+
+main {
+  width: 60%;
+  margin: 0 auto;
+}
+
+main h1 {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-bold);
+  font-size: 40px;
+  color: #9696B0;
+  text-shadow: 0px 1px 1px #000000;
+}
+.content{
+  margin: 0 auto;
+}
+.header_table {
+  display: flex;
+  color: #fff;
+}
+.number_header{
+  padding: 10px;
+}
+.name_header{
+  padding-left: 105px;
+  padding-top: 10px;
+}
+.item_table{
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: var(--background-color);
+}
+.avatar_table{
+  width: 70px;
+  height: 70px;
+  background: #ccc;
+  margin: 0px 20px;
+}
+.name_table{
+}
+
+@media screen and (max-width: 480px){
+  main{
+    width: 100%;
+  }
+  main h1{
+    font-size: 28px;
+    text-align: center;
+  }
+  .name_header{
+    padding-left: 75px;
+  }
+  .avatar_table{
+    width: 40px;
+    height: 40px;
+  }
+}

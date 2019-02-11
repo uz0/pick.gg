@@ -5,6 +5,7 @@ import Tournaments from './pages/tournaments'
 import Tournament from './pages/tournament'
 import Profile from './pages/profile'
 import User from './pages/user'
+import Rating from './pages/rating'
 
 const App = ({ history }) => (
 	<div>
@@ -15,6 +16,7 @@ const App = ({ history }) => (
 				<Route exact path="/tournaments/:id" component={Tournament} />
 				<Route exact path="/profile" component={Profile} />
 				<Route exact path="/user/:id" component={User} />
+        <Route exact path="/rating" component={Rating} />
 				<Redirect to="/tournaments"/>
 			</Switch>
 		</Container>
