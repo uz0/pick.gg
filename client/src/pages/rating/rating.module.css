@@ -38,6 +38,7 @@ main h1 {
   font-size: 40px;
   color: #9696B0;
   text-shadow: 0px 1px 1px #000000;
+  padding-bottom: 20px;
 }
 .content{
   margin: 0 auto;
@@ -51,8 +52,12 @@ main h1 {
   padding: 10px 20px;
 }
 .name_header{
-  padding-left: 95px;
+  padding-left: 85px;
   padding-top: 10px;
+  min-width: 210px;
+}
+.name_table{
+  min-width: 120px;
 }
 .item_table{
   display: flex;
@@ -73,7 +78,9 @@ main h1 {
   width: 60px;
   border-radius: 50%;
 }
-
+.percent_header{
+  padding-top: 10px;
+}
 @media screen and (max-width: 480px){
   main{
     width: 100%;
@@ -84,6 +91,7 @@ main h1 {
   }
   .name_header{
     padding-left: 65px;
+    min-width: 190px;
   }
   .avatar_table{
     width: 40px;
