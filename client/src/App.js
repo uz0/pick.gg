@@ -1,17 +1,21 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import TopMenuComponent from './components/TopMenuComponent'
-import Home from './pages/home'
+import Tournaments from './pages/tournaments'
 import Tournament from './pages/tournament'
+import Profile from './pages/profile'
+import User from './pages/user'
 
 const App = ({ history }) => (
 	<div>
 		<TopMenuComponent history={history} />
 		<Container>
 			<Switch>
-				<Route exact path="/" component={Home} />
-				<Route exact path="/tournament" component={Tournament} />
-				<Route component={Home} />
+				<Route exact path="/tournaments" component={Tournaments} />
+				<Route exact path="/tournaments/:id" component={Tournament} />
+				<Route exact path="/profile" component={Profile} />
+				<Route exact path="/user/:id" component={User} />
+				<Redirect to="/tournaments"/>
 			</Switch>
 		</Container>
 	</div>

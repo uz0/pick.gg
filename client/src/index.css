@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,700|Roboto:400,700');
 @import '../~normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,700|Roboto:400,700');
 
 :root {
 	--font-family-title: 'Bai Jamjuree';
@@ -8,15 +8,32 @@
 	--font-weight-regular: 400;
 	--font-weight-bold: 700;
 
-	--white-color: #FFFFFF;
-	--black-color: #000000;
-	--accent-color: #D79634;
-	--primary-color: #252532;
-	--primary-font-color: #787888;
+  --accent-color: #D79634;
+	--background-color: #252532;
+	--primary-color: #060916;
+	--caption-color: #787888;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  transition-property: none;
+  transition-duration: 0.3s;
 }
 
 body {
 	font-family: var(--font-family-base);
 	font-size: 20px;
 	line-height: 1.25;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+h1 {
+  margin: 0em;
 }

@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom'
 import './topMenu.module.css'
 import AuthService from '../../services/authService'
 import AuthWrapper from '../authWrapper'
+import AuthService from '../../services/authService'
+import AuthWrapper from '../authWrapper'
+import DropDown from '../DropDown'
 import style from './topMenu.module.css'
 
 class TopMenuComponent extends Component {
@@ -14,9 +17,9 @@ class TopMenuComponent extends Component {
     }
   }
 
-  handleLogout() {
+  handleLogout = () => {
     this.Auth.logout()
-    this.props.history.replace('/login')
+    this.props.history.replace('/')
   }
 
   componentDidMount() {
@@ -26,14 +29,12 @@ class TopMenuComponent extends Component {
 
   render() {
     return (
-      <div className={style.topMenu}>
-        <div className={style.menuWrap}>
+      <div className={style.top_menu}>
+        <div className={style.menu_wrap}>
           <NavLink to="/">
             <h2>Pick.gg</h2>
           </NavLink>
-          <div className={style.userInfo}>
-            <button onClick={this.handleLogout.bind(this)}>Logout</button>
-          </div>
+          <DropDown />
         </div>
       </div>
     )
