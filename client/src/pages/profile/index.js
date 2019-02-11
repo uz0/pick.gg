@@ -45,7 +45,7 @@ class Profile extends Component {
               </form>
               <div className={style.password_recovery}>
                 <p>You can also change your password if needed</p>
-                <a href="#">Change password</a>
+                <a href="/">Change password</a>
               </div>
             </div>
           </div>

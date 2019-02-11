@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthService from '../../services/authService'
 import AuthWrapper from '../authWrapper'
-import Button from '../button/index'
 import DropDown from '../DropDown'
 import style from './topMenu.module.css'
 
