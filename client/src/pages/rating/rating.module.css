@@ -44,29 +44,34 @@ main h1 {
 }
 .header_table {
   display: flex;
-  color: #fff;
+  font-size: 20px;
+  color: #9D9FBB;
 }
 .number_header{
-  padding: 10px;
+  padding: 10px 20px;
 }
 .name_header{
-  padding-left: 105px;
+  padding-left: 95px;
   padding-top: 10px;
 }
 .item_table{
   display: flex;
   align-items: center;
-  color: #fff;
+  color: var(--caption-color);
+  font-size: 20px;
   text-decoration: none;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 10px 20px;
   background: var(--background-color);
 }
 .avatar_table{
-  width: 70px;
-  height: 70px;
-  background: #ccc;
+  width: 60px;
+  height: 60px;
   margin: 0px 20px;
+}
+.avatar_table img{
+  width: 60px;
+  border-radius: 50%;
 }
 
 @media screen and (max-width: 480px){
@@ -78,10 +83,13 @@ main h1 {
     text-align: center;
   }
   .name_header{
-    padding-left: 75px;
+    padding-left: 65px;
   }
   .avatar_table{
     width: 40px;
     height: 40px;
+  }
+  .avatar_table img{
+    width: 40px;
   }
 }
