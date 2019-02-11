@@ -27,12 +27,12 @@ class Rating extends Component {
               <div className={style.number_header}>#</div>
               <div className={style.name_header}>Name</div>
             </div>
-            <NavLink className={style.item_table} to="/">
+            <NavLink className={style.item_table} to="/user/1">
               <div>1.</div>
               <div className={style.avatar_table} />
               <div className={style.name_table}>Painkiller</div>
             </NavLink>
-            <NavLink className={style.item_table} to="/">
+            <NavLink className={style.item_table} to="/user/1">
               <div>2.</div>
               <div className={style.avatar_table} />
               <div className={style.name_table}>HighLate</div>
