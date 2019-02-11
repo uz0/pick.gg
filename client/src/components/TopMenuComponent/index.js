@@ -28,9 +28,12 @@ class TopMenuComponent extends Component {
     return (
       <div className={style.top_menu}>
         <div className={style.menu_wrap}>
-          <NavLink to="/">
-            <h2>Pick.gg</h2>
-          </NavLink>
+          <div className={style.links}>
+            <NavLink to="/">
+              <h2>Pick.gg</h2>
+            </NavLink>
+            <NavLink to="/rating">Rating</NavLink>
+          </div>
           <DropDown />
         </div>
       </div>

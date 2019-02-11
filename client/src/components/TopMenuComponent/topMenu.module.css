@@ -30,7 +30,16 @@
   margin: 0;	
   font-family: var(--font-family-title);	
 }	
-
+.links{
+  display: flex;
+  align-items: center;
+}
+.links a:nth-child(2){
+  margin-left: 60px;
+  color: rgb(252, 252, 252);
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-bold);	
+}
  @media(max-width: 1440px) {	
   .menu_wrap {	
     width: 90%;	
@@ -41,4 +50,8 @@
   .top_menu {	
     margin-bottom: 10px;	
   }	
+  .links a:nth-child(2){
+    margin-left: 20px;
+    margin-right: 10px;
+  }
 } 
