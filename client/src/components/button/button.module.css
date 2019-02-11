@@ -1,0 +1,98 @@
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--height);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+/* type */
+.button[appearance^="_icon"] {
+  --height: 32px;
+  justify-content: center;
+  width: var(--height);
+}
+
+.button[appearance^="_basic"] {
+  --height: 40px;
+  justify-content: center;
+  min-width: 130px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 4px;
+}
+
+/*********/
+
+/* theme */
+
+.button[appearance$="accent"]:not(:hover) {
+  text-transform: uppercase;
+  --background-color: var(--accent-color);
+}
+
+/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+.button[appearance$="accent"]:hover {
+  text-transform: uppercase;
+  --background-color: #ed9a1b;
+}
+
+.button[appearance$="primary"]:not(:hover) {
+  --background-color: var(--primary-color);
+  --color: var(--accent-color);
+}
+
+/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+.button[appearance$="primary"]:hover {
+  --background-color: #FFA51B;
+  --color: #000;
+}
+
+.button[appearance$="transparent"]:not(:hover) {
+  --background-color: transparent;
+  --color: #9FA2BE;
+}
+
+/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+.button[appearance$="transparent"]:hover {
+  --background-color: transparent;
+  --color: var(--accent-color);
+}
+
+/*********/
+
+.button[disabled] {
+  pointer-events: none;
+  cursor: auto;
+  color: #000;
+  background-color: #9FA2BE;
+}
+
+.button svg {
+  flex-shrink: 0;
+  width: var(--icon-size, 16px);
+  height: var(--icon-size, 16px);
+}
+
+.button svg polygon,
+.button svg path {
+  fill: var(--color);
+  transition-property: fill;
+}
+
+.button svg + span {
+  margin-left: 12px;
+}
+
+.button span {
+  overflow: hidden;
+  min-width: 0;
+  color: var(--color);
+  font-size: inherit;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
