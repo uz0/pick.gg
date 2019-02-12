@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
+import UserService from '../../services/userService'
 import { NavLink } from 'react-router-dom'
 import moment from 'moment'
 import ProfileSidebar from '../../components/ProfileSidebar'
@@ -10,28 +11,37 @@ class User extends Component {
   constructor() {
     super()
     this.AuthService = new AuthService()
+    this.UserService = new UserService()
     this.TournamentService = new TournamentService()
     this.state = {
       tournaments: [],
+      userData: {},
     }
   }
 
-  handleChange = () => {}
-
   async componentDidMount(){
+
     let tournaments = await this.TournamentService.getAllTournaments()
+    let user = await this.UserService.getUserDataById(this.props.match.params.id)
+
     this.setState({
       tournaments: tournaments.tournaments,
-    })    
+      userData: user.user,
+    })
+
   }
 
   render() {
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
         <main>
           <div className={style.content}>
-            <ProfileSidebar withData={true} nickname={"Bennett Foddy"} description={"Hello, my name is Bennet Foddy and I like to play videogames. Also I want to gather a dream team and participate in CSGO tournaments!"} />
+            <ProfileSidebar
+              withData={true}
+              nickname={this.state.userData.username}
+              description={this.state.userData.about} />
             <div className={style.user_statistics}>
               <div>
                 <h2>Scores</h2>
