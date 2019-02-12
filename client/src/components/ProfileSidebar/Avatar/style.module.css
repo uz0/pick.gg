@@ -1,5 +1,5 @@
 .avatar {
-  --avatar-size: 220px;
+  --avatar-size: 120px;
   width: var(--avatar-size);
   position: absolute;
   top: calc(-1 * var(--avatar-size) / 2);
