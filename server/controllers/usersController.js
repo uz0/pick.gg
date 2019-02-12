@@ -1,6 +1,5 @@
 import express from "express";
 import UserModel from "../models/user";
-import filter from 'lodash/filter';
 let router = express.Router();
 
 const UsersController = () => {
@@ -18,16 +17,11 @@ const UsersController = () => {
   router.post('/me', async (req, res) => {
     const userId = req.decoded._id;
     const fields = {
-      username: req.body.username,
       email: req.body.email,
+      nickname: req.body.nickname,
       about: req.body.about,
-      password: req.body.password,
     }
     
-    const updatingFields = filter(fields, (value) => !!value);
-
-    console.log(updatingFields);
-
     const updatedUser = await UserModel
       .findOneAndUpdate({ _id: userId }, fields);
 
