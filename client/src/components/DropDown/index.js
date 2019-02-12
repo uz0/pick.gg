@@ -17,12 +17,6 @@ class DropDown extends Component {
     }
   }
 
-  handleLogout = e => {
-    e.preventDefault()
-    this.Auth.logout()
-    this.props.history.replace('/')
-  }
-
   componentDidMount() {
     window.addEventListener('click', event => {
       if(this.state.isActive && event.target !== this.userbox){
@@ -45,7 +39,7 @@ class DropDown extends Component {
           <NavLink to="/tournaments">My tournaments</NavLink>
           <NavLink to={`/user/${this.props.user._id}`}>Public profile</NavLink>
           <NavLink to="/profile">Profile settings</NavLink>
-          <a href="/" onClick={this.handleLogout}>Log out</a>
+          <a href="/" onClick={this.props.logout}>Log out</a>
         </div>
       </div>
     )
