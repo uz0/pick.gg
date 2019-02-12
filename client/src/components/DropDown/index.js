@@ -35,7 +35,7 @@ class DropDown extends Component {
 
   render() {
 
-    console.log('rerender');
+    
 
     let Avatar = () => this.props.avatar ? <img src={this.props.avatar} alt="userpic"/> : <AvatarPlaceholder />;
 

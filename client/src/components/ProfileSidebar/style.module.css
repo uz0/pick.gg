@@ -13,7 +13,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  padding-top: calc(var(--sidebar-size) / 2.25);
+  padding-top: calc(var(--sidebar-size) / 4);
 }
 
 .content > a {
