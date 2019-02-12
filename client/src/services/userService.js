@@ -8,6 +8,12 @@ export default class UserService {
     return users;
   }
 
+  getUserDataById = async(id) => {
+    let userQuery = await http(`/api/users/${id}`);
+    let user = await userQuery.json();
+    return user;
+  }
+
   getMyProfile = async() => {
     let userQuery = await http('/api/users/me');
     let user = await userQuery.json();

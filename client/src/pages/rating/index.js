@@ -21,11 +21,11 @@ class Rating extends Component {
   componentDidMount = async() => {
     let playersList = await this.UserService.getAllUsers();
 
-    //loop through list and add place prop
-    let playersListWithPlaces = playersList.users.map((item, index) => {
+    //reverse list and add place prop
+    let playersListWithPlaces = playersList.users.reverse().map((item, index) => {
       item.place = index + 1;
       return item;
-    })
+    });
 
     this.setState({ playersList: playersListWithPlaces })
   }
