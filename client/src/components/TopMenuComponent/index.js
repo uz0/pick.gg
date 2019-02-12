@@ -25,6 +25,7 @@ class TopMenuComponent extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className={style.top_menu}>
         <div className={style.menu_wrap}>
@@ -34,7 +35,7 @@ class TopMenuComponent extends Component {
             </NavLink>
             <NavLink to="/rating">Rating</NavLink>
           </div>
-          <DropDown />
+          <DropDown user={this.props.user}/>
         </div>
       </div>
     )
