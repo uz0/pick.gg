@@ -30,13 +30,16 @@ class Start extends Component {
   }
 
   render() {
+
+    let startButtonLink = localStorage.getItem('JWS_TOKEN') ? "/tournaments" : "/login";
+
     return (
       <div className={style.login_page}>
         <div className={style.bg_wrap} />
         <div className={style.start_content}>
           <h1>Fantasy league</h1>
           <div className={style.start_btns}>
-            <NavLink to="/login">
+            <NavLink to={startButtonLink}>
               <button>Start</button>
             </NavLink>
             <div>
