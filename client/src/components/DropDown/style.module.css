@@ -4,10 +4,6 @@
   cursor: pointer;
 }
 
-.dropdown > div {
-  width: 100%;
-}
-
 .userbox {
   height: 50px;
   padding-left: 12px;
@@ -37,8 +33,9 @@
   display: none;
   padding: 10px 20px;
   margin-top: 4px;
+  min-width: 200px;
   position: absolute;
-  left: 0;
+  right: 0;
   flex-direction: column;
   background-color: #252532;
   box-shadow: 0px 1px 1px #000000;
