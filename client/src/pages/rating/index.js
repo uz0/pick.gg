@@ -3,7 +3,7 @@ import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
 import { NavLink } from 'react-router-dom'
 import uuid from 'uuid'
-import style from './rating.module.css'
+import style from './style.module.css'
 
 class Rating extends Component {
   constructor() {
@@ -31,7 +31,7 @@ class Rating extends Component {
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
-        <main>
+        <main className={style.main_block}>
           <h1>Best Players rankings</h1>
           <div className={style.content}>
             <div className={style.header_table}>
