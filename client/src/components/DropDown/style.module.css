@@ -59,3 +59,19 @@
 .menu a:hover {
   color: var(--accent-color);
 }
+@media screen and (max-width: 480px){
+  .userbox{
+    font-size: 18px;
+  }
+  .menu a {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 320px){
+  .userbox{
+    font-size: 14px;
+  }
+  .menu a {
+    font-size: 14px;
+  }
+}
