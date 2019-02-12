@@ -18,7 +18,6 @@ const UsersController = () => {
     const userId = req.decoded._id;
     const fields = {
       email: req.body.email,
-      nickname: req.body.nickname,
       about: req.body.about,
     }
     
