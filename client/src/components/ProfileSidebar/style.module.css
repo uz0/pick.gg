@@ -49,6 +49,7 @@
   }
   .content{
     padding-top: calc(var(--sidebar-size) / 3);
+    width: 200px;
   }
 }
 
