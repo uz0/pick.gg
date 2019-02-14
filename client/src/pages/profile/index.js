@@ -14,42 +14,37 @@ class Profile extends Component {
     this.UserService = new UserService()
     this.TournamentService = new TournamentService(); 
     this.state = {
-      username: "",
-      email: "",
-      about: "",
-      formValues: {}
-
+      formData: {
+        username: "",
+        email: "",
+        about: "",
+      }
     }
-  }
-
- 
-  onChange = e => {
-    this.setState({
-      value: e.target.value
-    })
   }
 
   handleChange = (event) => {
     event.preventDefault();
-    let formValues = this.state.formValues;
+    let formData = this.state.formData;
     let name = event.target.name;
     let value = event.target.value;
-
-    formValues[name] = value;
-
-    this.setState({formValues})
+    formData[name] = value;
+    this.setState({formData})
   }
 
 
   async componentDidMount(){
-    let username = await this.UserService.getMyProfile()
-    this.setState({ username: username.user })
+    let userData = await this.UserService.getMyProfile()
+    this.setState({ formData: {
+      username: userData.user.username,
+      email: userData.user.email,
+      about: userData.user.about
+    } })
   }
   
   handleSubmit = async e => {
     e.preventDefault()
 
-    let { email, about } = this.state.formValues
+    let { email, about } = this.state.formData
 
     await http('/api/users/me', {
       method: 'POST',
@@ -70,23 +65,23 @@ class Profile extends Component {
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
         <main>
-          <h1>Profile settings – {this.state.username.username}</h1>
+          <h1>Profile settings – {this.state.formData.username}</h1>
           <div className={style.content}>
             <ProfileSidebar withData={false} />
             <div className={style.form_container}>
               <form className={style.form} onSubmit={this.handleSubmit}>
                 <div>
                   <label>Username</label>
-                  <input type="text" name="username" disabled value={this.state.username.username} />
-                  {console.log(this.state.username)}
+                  <input type="text" name="username" disabled value={this.state.formData.username} />
+                  {console.log(this.state.formData)}
                 </div>
                 <div>
                   <label>Email</label>
-                  <input type="text" name="email" value={this.state.value} placeholder={this.state.username.email} onChange={this.handleChange}  />
+                  <input type="text" name="email" value={this.state.formData.email} onChange={this.handleChange}  />
                 </div>
                 <div>
                   <label>About</label>
-                  <textarea name="about" placeholder={this.state.username.about} value={this.state.value} onChange={this.handleChange}></textarea>
+                  <textarea name="about" value={this.state.formData.about} onChange={this.handleChange}></textarea>
                 </div>
                 <Button appearance={'_basic-accent'} text={'Save changes'} />
               </form>
