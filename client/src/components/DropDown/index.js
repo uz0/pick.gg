@@ -46,7 +46,7 @@ class DropDown extends Component {
           Bennett Foddy
         </div>
         <div className={style.menu}>
-          <NavLink to="/tournaments">My tournaments</NavLink>
+          <NavLink to="/mytournaments">My tournaments</NavLink>
           <NavLink to="/user/1">Public profile</NavLink>
           <NavLink to="/profile">Profile settings</NavLink>
           <a href="/" onClick={this.handleLogout}>Log out</a>
