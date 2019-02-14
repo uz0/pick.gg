@@ -85,6 +85,7 @@ main h1 {
 .form > div textarea {
   resize: none;
   margin-bottom: 20px;
+  padding: 10px 0;
 }
 
 .password_recovery {
