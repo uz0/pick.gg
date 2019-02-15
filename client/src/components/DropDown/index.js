@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames/bind'
 import AuthService from '../../services/authService'
-import { NavLink } from 'react-router-dom'
 import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg'
 import style from './style.module.css'
 
@@ -24,22 +23,20 @@ class DropDown extends Component {
       }
     });
   }
-
+  
   toggleDropDown = () => this.setState({ isActive: !this.state.isActive })
-
+  
   render() {
     let Avatar = () => this.props.avatar ? <img src={this.props.avatar} alt="userpic"/> : <AvatarPlaceholder />;
     return (
       <div className={cx(style.dropdown, { active: this.state.isActive })} onClick={this.toggleDropDown}>
         <div ref={(userbox) => {this.userbox = userbox}} className={style.userbox}>
-          <Avatar />
-          {this.props.user.username}
+          {this.props.mode === "userbox" && <Avatar />}
+          {(this.props.mode === "userbox" && this.props.data) && this.props.data.user.username}
+          {(this.props.mode === "balance" && this.props.data) && `${this.props.data.user.balance} $`}
         </div>
         <div className={style.menu}>
-          <NavLink to="/tournaments">My tournaments</NavLink>
-          <NavLink to={`/user/${this.props.user._id}`}>Public profile</NavLink>
-          <NavLink to="/profile">Profile settings</NavLink>
-          <a href="/" onClick={this.props.logout}>Log out</a>
+          { this.props.children }
         </div>
       </div>
     )
