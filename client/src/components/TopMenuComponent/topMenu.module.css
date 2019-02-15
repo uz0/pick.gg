@@ -33,6 +33,7 @@
 .links{
   display: flex;
   align-items: center;
+  margin-right: auto;
 }
 .links a:nth-child(2){
   margin-left: 60px;

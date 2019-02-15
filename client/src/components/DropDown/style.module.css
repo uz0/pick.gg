@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+.dropdown:not(:last-of-type) {
+  margin-right: 8px;
+}
+
 .userbox {
   height: 50px;
   padding-left: 12px;
