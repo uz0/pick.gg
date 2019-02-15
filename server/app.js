@@ -14,6 +14,7 @@ import {
   PingController,
   AuthenticationController,
   TournamentController,
+  TransactionController,
   RuleController,
   PlayerController,
 } from "./controllers";
@@ -69,6 +70,7 @@ app.use("/api/users", UsersController());
 app.use("/api/rules", RuleController());
 app.use("/api/players", PlayerController());
 app.use("/api/tournaments", TournamentController(io));
+app.use("/api/transactions", TransactionController());
 
 // express will serve up index.html if it doesn't recognize the route
 app.get("/*", (req, res) => {
