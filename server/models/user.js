@@ -6,5 +6,6 @@ export default mongoose.model('User', new Schema({
   password: { type: String, required: true },
   about: { type: String },
   email: { type: String },
+  balance: { type: Number },
   isAdmin : { type: Boolean },
 }));
