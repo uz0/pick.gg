@@ -34,7 +34,7 @@ export default class TransactionService {
     return withdraw;
   }
 
-  getTransactionsHistory(){
+  getTransactionsHistory = async() => {
     let transactions = await http('api/transactions/history');
     let history = await transactions.json();
     return history;
