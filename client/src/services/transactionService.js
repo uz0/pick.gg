@@ -34,4 +34,10 @@ export default class TransactionService {
     return withdraw;
   }
 
+  getTransactionsHistory(){
+    let transactions = await http('api/transactions/history');
+    let history = await transactions.json();
+    return history;
+  }
+
 }
