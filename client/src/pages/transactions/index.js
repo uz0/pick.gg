@@ -27,6 +27,7 @@ class Transactions extends Component {
         </main>
       </div>
     )
+    
   }
 
 }
