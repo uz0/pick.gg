@@ -106,7 +106,7 @@ const TournamentController = io => {
   router.post('/:id/setup', async (req, res) => {
     const id = req.params.id;
     const players = req.body.players;
-    // const userId = req.decoded._id;
+    const userId = req.decoded._id;
 
     const tournament = await TournamentModel.findOne({ _id: id }, 'users');
     let tournamentUsers = tournament.users;

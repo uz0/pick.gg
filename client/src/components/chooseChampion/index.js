@@ -27,10 +27,12 @@ class chooseChampion extends Component {
   selectChampion = (playerName) => {
     let choosedChampions = this.state.choosedChampions;
 
-    if(choosedChampions.length >= 5) {
+    if(choosedChampions.length === 5) {
       if(choosedChampions.includes(playerName)){
         choosedChampions.splice(choosedChampions.indexOf(playerName), 1)
         this.setState({ choosedChampions })
+        return;
+      } else {
         return;
       }
     };
@@ -46,7 +48,7 @@ class chooseChampion extends Component {
   render(){
 
     let { closeChoose, champions } = this.props
-    let areChampionsSelected = this.state.choosedChampions.length < 5 ? true : false;
+    let areChampionsSelected = this.state.choosedChampions.length < 1 ? true : false;
 
     return (
       <div className={style.wrap}>

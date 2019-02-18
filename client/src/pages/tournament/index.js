@@ -23,6 +23,7 @@ class App extends Component {
     this.state = {
       champions: [],
       tournament: {},
+      earnings: 0,
       choosedChampions: [],
       chooseChamp: false,
     }
@@ -43,12 +44,14 @@ class App extends Component {
       chooseChamp: false,
     })
 
-  setChoosedChampions = (champions) => {
-    this.TournamentService.participateInTournament(this.tournamentId, [...champions])
+  setChoosedChampions = async(champions) => {
+    await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
+    let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
     this.setState({
+      tournament: tournament.tournament,
       choosedChampions: [...champions],
       chooseChamp: false,
-    })  
+    })
   }
     
   calcWidth = item => {
@@ -63,9 +66,12 @@ class App extends Component {
     let champions = await championsQuery.json();
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
 
+    let earnings = tournament.tournament.entry * tournament.tournament.users.length; 
+
     this.setState({
       tournament: tournament.tournament,
       champions: champions.players,
+      earnings,
     });
 
   }
@@ -89,10 +95,20 @@ class App extends Component {
         <div className={style.bg_wrap} />
         <div className={style.tournament_content}>
           <div className={style.tournament_header}>
-            <h2>{tournament.name}</h2>
-            <div className={style.tournament_info}>
-              <p>{moment(tournament.date).format('MMM DD')}</p>
-              <p>$ {tournament.entry}</p>
+            <div>
+              <h2>{tournament.name}</h2>
+              <div className={style.tournament_info}>
+                <p>{moment(tournament.date).format('MMM DD')}</p>
+                <p>$ {tournament.entry}</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                {`Status: pending`}
+              </div>
+              <div>
+                {`Winner will get: ${this.state.earnings} $`}
+              </div>
             </div>
           </div>
           {this.state.chooseChamp && <ChooseChamp
