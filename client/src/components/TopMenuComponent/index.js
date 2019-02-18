@@ -55,7 +55,7 @@ class TopMenuComponent extends Component {
             <NavLink to="/rating">Rating</NavLink>
           </div>
           <DropDown data={this.state.profile} mode="balance">
-            {/* <a href="/" onClick={e => this.handleLogout}>Transactions</a>     */}
+            <NavLink to="/transactions">Transactions</NavLink>    
             <a href="/" onClick={e => this.deposit(e)}>Deposit</a>
             <a href="/" onClick={e => this.withdraw(e)}>Withdraw</a>
           </DropDown>
