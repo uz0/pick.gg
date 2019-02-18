@@ -12,6 +12,14 @@ const TransactionController = () => {
     }) 
   });
 
+  router.get('/history', async (req, res) => {
+    const userId = req.decoded._id;
+    let history = await TransactionModel.find({ userId });
+    res.send({
+      history,
+    })
+  });
+
   router.post('/deposit', async (req, res) => {
     const userId = req.decoded._id;
     const fields = {
