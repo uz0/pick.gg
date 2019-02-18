@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthService from '../../services/authService'
 import UserService from '../../services/userService'
+import TransactionService from '../../services/transactionService'
 import AuthWrapper from '../authWrapper'
 import DropDown from '../DropDown'
 import style from './topMenu.module.css'
@@ -11,6 +12,7 @@ class TopMenuComponent extends Component {
     super()
     this.Auth = new AuthService()
     this.UserService = new UserService()
+    this.TransactionService = new TransactionService()
     this.state = {
       profile: null,
     }
@@ -21,9 +23,25 @@ class TopMenuComponent extends Component {
     this.props.history.replace('/')
   }
 
-  componentDidMount = async() => {
+  updateProfile = async() => {
     let profile = await this.UserService.getMyProfile()
     this.setState({ profile: profile })
+  }
+
+  deposit = async(e) => {
+    e.preventDefault();
+    await this.TransactionService.deposit()
+    this.updateProfile();
+  }
+  
+  withdraw = async(e) => {
+    e.preventDefault();
+    await this.TransactionService.withdraw()
+    this.updateProfile();
+  }
+  
+  componentDidMount = () => {
+    this.updateProfile();
   }
 
   render() {
@@ -37,9 +55,9 @@ class TopMenuComponent extends Component {
             <NavLink to="/rating">Rating</NavLink>
           </div>
           <DropDown data={this.state.profile} mode="balance">
-            <a href="/" onClick={this.handleLogout}>Transactions</a>    
-            <a href="/" onClick={this.handleLogout}>Deposit</a>    
-            <a href="/" onClick={this.handleLogout}>Withdraw</a>    
+            {/* <a href="/" onClick={e => this.handleLogout}>Transactions</a>     */}
+            <a href="/" onClick={e => this.deposit(e)}>Deposit</a>
+            <a href="/" onClick={e => this.withdraw(e)}>Withdraw</a>
           </DropDown>
           <DropDown data={this.state.profile} mode="userbox">
             <NavLink to="/tournaments">My tournaments</NavLink>
