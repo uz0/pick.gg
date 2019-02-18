@@ -73,7 +73,6 @@ class Profile extends Component {
                 <div>
                   <label>Username</label>
                   <input type="text" name="username" disabled value={this.state.formData.username} />
-                  {console.log(this.state.formData)}
                 </div>
                 <div>
                   <label>Email</label>
