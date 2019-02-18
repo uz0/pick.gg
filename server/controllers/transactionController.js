@@ -25,6 +25,7 @@ const TransactionController = () => {
     const fields = {
       amount: req.body.amount,
       operation: req.body.operation,
+      origin: req.body.origin,
     }
 
     await UserModel.findByIdAndUpdate({ _id: userId }, {$inc :{ balance: fields.amount }});
@@ -32,6 +33,7 @@ const TransactionController = () => {
       userId,
       amount: fields.amount,
       operation: fields.operation,
+      origin: fields.origin,
       date: Date.now(),
     });
 
@@ -39,6 +41,7 @@ const TransactionController = () => {
       userId,
       amount: fields.amount,
       operation: fields.operation,
+      origin: fields.origin,
       date: Date.now(),
     });
 
@@ -51,6 +54,7 @@ const TransactionController = () => {
     const fields = {
       amount: -req.body.amount,
       operation: req.body.operation,
+      origin: req.body.origin,
     }
 
     await UserModel.findByIdAndUpdate({ _id: userId }, {$inc :{ balance: fields.amount }});
@@ -58,6 +62,7 @@ const TransactionController = () => {
       userId,
       amount: fields.amount,
       operation: fields.operation,
+      origin: fields.origin,
       date: Date.now(),
     });
 
@@ -65,6 +70,7 @@ const TransactionController = () => {
       userId,
       amount: fields.amount,
       operation: fields.operation,
+      origin: fields.origin,
       date: Date.now(),
     });
 
