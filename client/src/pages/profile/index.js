@@ -80,7 +80,7 @@ class Profile extends Component {
                 </div>
                 <div>
                   <label>About</label>
-                  <textarea name="about" value={this.state.formData.about} onChange={this.handleChange}></textarea>
+                  <textarea name="about"  value={this.state.formData.about} onChange={this.handleChange} />
                 </div>
                 <Button appearance={'_basic-accent'} text={'Save changes'} />
               </form>
