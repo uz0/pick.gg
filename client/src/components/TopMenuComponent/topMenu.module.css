@@ -47,7 +47,7 @@
   }	
 }	
 
- @media(max-width: 480px) {	
+ @media screen and (max-width: 480px) {	
   .menu_wrap {	
     width: 95%;	
   }
