@@ -49,7 +49,7 @@ class TopMenuComponent extends Component {
       <div className={style.top_menu}>
         <div className={style.menu_wrap}>
           <div className={style.links}>
-            <NavLink to="/">
+            <NavLink to="/tournaments">
               <h2>Pick.gg</h2>
             </NavLink>
             <NavLink to="/rating">Rating</NavLink>

@@ -86,7 +86,7 @@ main h1 {
     width: 90%;
   }
   main h1{
-    font-size: 28px;
+    font-size: 26px;
     text-align: center;
   }
   .name_header{
@@ -99,5 +99,14 @@ main h1 {
   }
   .avatar_table img{
     width: 40px;
+  }
+  .name_table{
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+@media screen and (max-width: 480px){
+  .name_table{
+    width: 140px;
   }
 }

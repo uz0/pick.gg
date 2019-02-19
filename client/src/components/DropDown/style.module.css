@@ -70,9 +70,14 @@
 }
 @media screen and (max-width: 320px){
   .userbox{
-    font-size: 14px;
+    font-size: 12px;
   }
-  .menu a {
+  .userbox svg,
+  .userbox img {
+    width: 25px;
+    height: 25px;
+}
+  .links a {
     font-size: 14px;
   }
 }
