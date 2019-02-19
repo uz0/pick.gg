@@ -10,8 +10,7 @@ export default class TransactionService {
       },
       body: JSON.stringify({
         "amount": 10,
-        "operation": "deposit",
-        "origin": "user",
+        "origin": "user withdraw",
       })
     })
     let deposit = await depositQuery.json();
@@ -26,8 +25,7 @@ export default class TransactionService {
       },
       body: JSON.stringify({
         "amount": 10,
-        "operation": "withdraw",
-        "origin": "user",
+        "origin": "user deposit",
       })
     })
     let withdraw = await withdrawQuery.json();
