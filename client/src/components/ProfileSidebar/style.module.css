@@ -46,6 +46,7 @@
 @media screen and (max-width: 768px){
   .sidebar{
     --sidebar-size: 200px;
+    min-height: 140px;
   }
   .content{
     padding-top: calc(var(--sidebar-size) / 3);
@@ -54,6 +55,12 @@
 }
 
 @media screen and (max-width: 480px){
+  .content{
+    width: 100%;
+  }
+  .content p{
+    font-size: 16px;
+  }
   .sidebar{
     --sidebar-size: 100%;
     align-self: center;
