@@ -6,6 +6,7 @@ import ChampionCard from '../../components/ChampionCard'
 import ChooseChampionCard from '../../components/ChooseChampionCard'
 
 import AuthService from '../../services/authService'
+import UserService from '../../services/userService'
 import TournamentService from '../../services/tournamentService'
 import http from '../../services/httpService'
 import moment from 'moment'
@@ -18,6 +19,7 @@ class App extends Component {
   constructor() {
     super()
     this.AuthService = new AuthService()
+    this.UserService = new UserService()
     this.TournamentService = new TournamentService()
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
@@ -66,11 +68,14 @@ class App extends Component {
     let champions = await championsQuery.json();
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
 
+    let user = await this.UserService.getMyProfile();
+
     let earnings = tournament.tournament.entry * tournament.tournament.users.length; 
 
     this.setState({
       tournament: tournament.tournament,
       champions: champions.players,
+      user: user.user,
       earnings,
     });
 
@@ -78,7 +83,7 @@ class App extends Component {
 
   render() {
 
-    let { tournament, champions, choosedChampions } = this.state;
+    let { tournament, champions, choosedChampions, user } = this.state;
 
     let ChampionsCardsList = () => {
       let cards = [];
@@ -113,6 +118,8 @@ class App extends Component {
           </div>
           {this.state.chooseChamp && <ChooseChamp
             champions={champions}
+            userBalance={user.balance}
+            tournamentEntry={tournament.entry}
             closeChoose={this.closeChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}
