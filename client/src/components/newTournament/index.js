@@ -18,12 +18,12 @@ class newTournament extends Component {
     let formattedInputValue = parseInt(e.target.value)
     let value = 0
 
-    if (formattedInputValue <= 10 && formattedInputValue >= -10) {
+    if (formattedInputValue <= 10 && formattedInputValue >= 0) {
       value = formattedInputValue
     } else if (formattedInputValue >= 10) {
       value = 10
-    } else if (formattedInputValue <= -10) {
-      value = -10
+    } else if (formattedInputValue <= 0) {
+      value = 0
     }
 
     this.setState({

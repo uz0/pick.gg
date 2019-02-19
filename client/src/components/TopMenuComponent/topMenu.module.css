@@ -48,11 +48,26 @@
 }	
 
  @media(max-width: 480px) {	
+  .menu_wrap {	
+    width: 95%;	
+  }
+  .top_menu h2{
+    font-size: 14px;
+  }
   .top_menu {	
     margin-bottom: 10px;	
   }	
+  .links a{
+    font-size: 14px;
+  }
   .links a:nth-child(2){
     margin-left: 20px;
     margin-right: 10px;
   }
 } 
+@media(max-width: 480px){
+  .links a:nth-child(2){
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
