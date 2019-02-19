@@ -3,7 +3,7 @@ import http from './httpService';
 export default class TransactionService {
 
   deposit = async() => {
-    let depositQuery = await http('api/transactions/deposit', {
+    let depositQuery = await http('/api/transactions/deposit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export default class TransactionService {
   }
 
   withdraw = async() => {
-    let withdrawQuery = await http('api/transactions/withdraw', {
+    let withdrawQuery = await http('/api/transactions/withdraw', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export default class TransactionService {
   }
 
   getTransactionsHistory = async() => {
-    let transactions = await http('api/transactions/history');
+    let transactions = await http('/api/transactions/history');
     let history = await transactions.json();
     return history;
   }

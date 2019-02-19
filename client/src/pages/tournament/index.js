@@ -64,7 +64,7 @@ class App extends Component {
 
   async componentDidMount(){
 
-    let championsQuery = await http('http://localhost:3000/api/players');
+    let championsQuery = await http('/api/players');
     let champions = await championsQuery.json();
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
 
