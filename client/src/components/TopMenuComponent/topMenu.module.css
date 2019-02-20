@@ -22,13 +22,12 @@
 }	
 
  .top_menu h2 {	
-  font-family: var(--font-family-title);	
+  margin: 0;	
   font-size: 20px;	
+  font-family: var(--font-family-title);	
   font-weight: var(--font-weight-bold);	
   line-height: 40px;	
-  color: rgb(252, 252, 252);	
-  margin: 0;	
-  font-family: var(--font-family-title);	
+  color: rgb(252, 252, 252);
 }	
 .links{
   display: flex;
