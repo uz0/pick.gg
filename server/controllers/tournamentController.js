@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import express from "express";
 import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
+import UserModel from "../models/user";
+import TransactionModel from "../models/transaction";
 
 let router = express.Router();
 
@@ -51,6 +53,8 @@ const TournamentController = io => {
       rules,
     } = req.body;
 
+    const userId = req.decoded._id;
+
     let message = '';
 
     if (!tournamentId) {
@@ -78,7 +82,27 @@ const TournamentController = io => {
       return;
     }
 
+    const user = await UserModel.findOne({ _id: userId }, 'balance');
+
+    if (user.balance - entry < 0) {
+      res.json({
+        success: false,
+        message: 'You have not money on your balance to create tournament',
+      });
+
+      return;
+    }
+
     try {
+      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
+
+      await TransactionModel.create({
+        userId,
+        amount: entry,
+        origin: 'tournament deposit',
+        date: Date.now(),
+      });
+
       const newTournament = await TournamentModel.create({
         tournamentId,
         name,
