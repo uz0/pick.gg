@@ -32,6 +32,20 @@ const TournamentController = io => {
     res.json({ tournaments });
   });
 
+  router.get('/my', async (req, res) => {
+    const id = req.params.id;
+
+    const tournaments = await TournamentModel
+      .find({
+        'users.user._id': id,
+      }, '-users.players')
+
+      .populate({ path: 'users.user', select: '_id username' })
+      .populate('rules.rule')
+
+    res.json({ tournaments });
+  });
+
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
 
