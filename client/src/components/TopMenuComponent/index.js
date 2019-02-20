@@ -60,7 +60,7 @@ class TopMenuComponent extends Component {
             <a href="/" onClick={e => this.withdraw(e)}>Withdraw</a>
           </DropDown>
           <DropDown data={this.state.profile} mode="userbox">
-            <NavLink to="/tournaments">My tournaments</NavLink>
+            <NavLink to="/mytournaments">My tournaments</NavLink>
             <NavLink to={`/user/${this.props.user._id}`}>Public profile</NavLink>
             <NavLink to="/profile">Profile settings</NavLink>
             <a href="/" onClick={this.handleLogout}>Log out</a>
