@@ -4,6 +4,7 @@ import TransactionsService from '../../services/transactionService'
 import moment from 'moment'
 import style from './style.module.css'
 
+
 class Transactions extends Component {
 
   constructor() {
@@ -14,14 +15,27 @@ class Transactions extends Component {
     }
   }
 
+  OperationData = (item) => {
+    if( item === "user deposit"){
+      return <div className={style.plus}>{item}</div>
+    }
+    if( item === "user withdraw"){
+      return <div className={style.minus}>{item}</div>
+    }
+    if( item === "tournament deposit"){
+      return <div className={style.minus}>{item}</div>
+    }
+    else{
+      return <div className={style.plus}>{item}</div>
+    }
+   }
+
   async componentDidMount() {
     let historyData = await this.TransactionsService.getTransactionsHistory()
-
+    console.log(historyData)
     this.setState({
       transitionData: historyData.history
     })
-
-
   }
 
   render() {
@@ -39,11 +53,11 @@ class Transactions extends Component {
           <div className={style.block_history}>
             {this.state.transitionData.map(item => (
               <div className={style.item_history} key={item._id}>
-                <p>{item.amount}$</p>
-                <p>{moment(item.date).format('MMM DD')}</p>
-                <p>{item.operation}</p>
+                <div>{item.amount}$</div>
+                <div>{moment(item.date).format('MMM DD')}</div>
+                {this.OperationData(item.origin)}
               </div>
-            ))}
+          ))}
           </div>
         </main>
       </div>
