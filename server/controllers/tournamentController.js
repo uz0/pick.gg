@@ -36,9 +36,6 @@ const TournamentController = io => {
   router.get('/my', async (req, res) => {
     const id = req.params.id;
 
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
     const tournaments = await TournamentModel
       .find({
         'users.user._id': id,
@@ -52,14 +49,12 @@ const TournamentController = io => {
 
   router.get('/myended', async (req, res) => {
     const id = req.params.id;
-
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterday = moment().utc().endOf('day').subtract(1, 'days').toISOString();
 
     const tournaments = await TournamentModel
       .find({
         'users.user._id': id,
-        date: {$lt: yesterday.toISOString()},
+        date: {$lt: yesterday},
       }, '-users.players')
 
       .populate({ path: 'users.user', select: '_id username' })
