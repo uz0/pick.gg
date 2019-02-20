@@ -163,7 +163,17 @@ const TournamentController = io => {
     const players = req.body.players;
     const userId = req.decoded._id;
 
-    const tournament = await TournamentModel.findOne({ _id: id }, 'users');
+    const tournament = await TournamentModel.findOne({ _id: id }, 'users date');
+
+    if (moment(tournament.date).isAfter(moment())) {
+      res.json({
+        success: false,
+        message: 'The tournament is already underway or has been completed',
+      });
+
+      return;
+    }
+
     let tournamentUsers = tournament.users;
 
     if (find(tournamentUsers, user => `${user.user}` === userId)) {
