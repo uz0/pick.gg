@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import express from "express";
+import moment from "moment";
 import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
 import UserModel from "../models/user";
@@ -35,9 +36,30 @@ const TournamentController = io => {
   router.get('/my', async (req, res) => {
     const id = req.params.id;
 
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
     const tournaments = await TournamentModel
       .find({
         'users.user._id': id,
+      }, '-users.players')
+
+      .populate({ path: 'users.user', select: '_id username' })
+      .populate('rules.rule')
+
+    res.json({ tournaments });
+  });
+
+  router.get('/myended', async (req, res) => {
+    const id = req.params.id;
+
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const tournaments = await TournamentModel
+      .find({
+        'users.user._id': id,
+        date: {$lt: yesterday.toISOString()},
       }, '-users.players')
 
       .populate({ path: 'users.user', select: '_id username' })
