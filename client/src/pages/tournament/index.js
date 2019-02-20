@@ -6,6 +6,7 @@ import ChampionCard from '../../components/ChampionCard'
 import ChooseChampionCard from '../../components/ChooseChampionCard'
 
 import AuthService from '../../services/authService'
+import UserService from '../../services/userService'
 import TournamentService from '../../services/tournamentService'
 import http from '../../services/httpService'
 import moment from 'moment'
@@ -18,11 +19,13 @@ class App extends Component {
   constructor() {
     super()
     this.AuthService = new AuthService()
+    this.UserService = new UserService()
     this.TournamentService = new TournamentService()
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
       tournament: {},
+      earnings: 0,
       choosedChampions: [],
       chooseChamp: false,
     }
@@ -43,12 +46,14 @@ class App extends Component {
       chooseChamp: false,
     })
 
-  setChoosedChampions = (champions) => {
-    this.TournamentService.participateInTournament(this.tournamentId, [...champions])
+  setChoosedChampions = async(champions) => {
+    await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
+    let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
     this.setState({
+      tournament: tournament.tournament,
       choosedChampions: [...champions],
       chooseChamp: false,
-    })  
+    })
   }
     
   calcWidth = item => {
@@ -59,20 +64,26 @@ class App extends Component {
 
   async componentDidMount(){
 
-    let championsQuery = await http('http://localhost:3000/api/players');
+    let championsQuery = await http('/api/players');
     let champions = await championsQuery.json();
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+
+    let user = await this.UserService.getMyProfile();
+
+    let earnings = tournament.tournament.entry * tournament.tournament.users.length; 
 
     this.setState({
       tournament: tournament.tournament,
       champions: champions.players,
+      user: user.user,
+      earnings,
     });
 
   }
 
   render() {
 
-    let { tournament, champions, choosedChampions } = this.state;
+    let { tournament, champions, choosedChampions, user } = this.state;
 
     let ChampionsCardsList = () => {
       let cards = [];
@@ -89,14 +100,26 @@ class App extends Component {
         <div className={style.bg_wrap} />
         <div className={style.tournament_content}>
           <div className={style.tournament_header}>
-            <h2>{tournament.name}</h2>
-            <div className={style.tournament_info}>
-              <p>{moment(tournament.date).format('MMM DD')}</p>
-              <p>$ {tournament.entry}</p>
+            <div>
+              <h2>{tournament.name}</h2>
+              <div className={style.tournament_info}>
+                <p>{moment(tournament.date).format('MMM DD')}</p>
+                <p>$ {tournament.entry}</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                {`Status: pending`}
+              </div>
+              <div>
+                {`Winner will get: ${this.state.earnings} $`}
+              </div>
             </div>
           </div>
           {this.state.chooseChamp && <ChooseChamp
             champions={champions}
+            userBalance={user.balance}
+            tournamentEntry={tournament.entry}
             closeChoose={this.closeChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Button from '../button/index'
 import ChampionCard from '../ChampionCard'
 import { ReactComponent as CloseIcon } from '../../assets/close.svg'
-import classnames from 'classnames';
+import classnames from 'classnames'
 import style from './chooseChampion.module.css'
 import uuid from 'uuid'
 
@@ -27,10 +27,12 @@ class chooseChampion extends Component {
   selectChampion = (playerName) => {
     let choosedChampions = this.state.choosedChampions;
 
-    if(choosedChampions.length >= 5) {
+    if(choosedChampions.length === 5) {
       if(choosedChampions.includes(playerName)){
         choosedChampions.splice(choosedChampions.indexOf(playerName), 1)
         this.setState({ choosedChampions })
+        return;
+      } else {
         return;
       }
     };
@@ -45,8 +47,10 @@ class chooseChampion extends Component {
 
   render(){
 
-    let { closeChoose, champions } = this.props
-    let areChampionsSelected = this.state.choosedChampions.length < 5 ? true : false;
+    let { closeChoose, champions, userBalance, tournamentEntry } = this.props;
+    let areChampionsSelected = this.state.choosedChampions.length < 1 ? true : false;
+    let isUserHasMoneyToPlay = userBalance >= tournamentEntry ? true : false;
+    let isButtonDisabled = (isUserHasMoneyToPlay === false) ? true : areChampionsSelected ? true : false;
 
     return (
       <div className={style.wrap}>
@@ -72,8 +76,9 @@ class chooseChampion extends Component {
               appearance={'_basic-accent'}
               type={'submit'}
               text={'Add players'}
-              disabled={areChampionsSelected}
+              disabled={isButtonDisabled}
             />
+            {!isUserHasMoneyToPlay && <p>Sorry, you don't have enough money to take part in a tournament</p>}
           </form>
         </div>
       </div>

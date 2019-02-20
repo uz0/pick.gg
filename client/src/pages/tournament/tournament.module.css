@@ -45,16 +45,21 @@
 
 .tournament_header {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  font-family: var(--font-family-title);
+  text-shadow: 0px 1px 1px #000000;
+  color: #9696B0;
+}
+
+.tournament_header > div {
+  display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
 .tournament_header h2 {
-  font-family: var(--font-family-title);
   font-size: 40px;
-  color: #9696B0;
-  text-shadow: 0px 1px 1px #000000;
   margin: 0;
 }
 
@@ -63,11 +68,8 @@
 }
 
 .tournament_header p {
-  font-family: var(--font-family-title);
   margin: 0;
   font-size: 40px;
-  color: #9696B0;
-  text-shadow: 0px 1px 1px #000000;
   padding-left: 40px;
 }
 

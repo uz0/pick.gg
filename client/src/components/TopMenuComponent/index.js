@@ -29,19 +29,19 @@ class TopMenuComponent extends Component {
   }
 
   deposit = async(e) => {
-    e.preventDefault();
+    e.preventDefault()
     await this.TransactionService.deposit()
-    this.updateProfile();
+    this.updateProfile()
   }
   
   withdraw = async(e) => {
-    e.preventDefault();
+    e.preventDefault()
     await this.TransactionService.withdraw()
-    this.updateProfile();
+    this.updateProfile()
   }
   
   componentDidMount = () => {
-    this.updateProfile();
+    this.updateProfile()
   }
 
   render() {
