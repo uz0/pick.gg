@@ -27,6 +27,12 @@ export default class TournamentService {
     return tournaments;
   }
 
+  getMyTournaments = async() => {
+    let tournamentsQuery = await http('/api/tournaments/my');
+    let tournaments = await tournamentsQuery.json();
+    return tournaments;
+  }
+
   getTournamentById = async(id) => {
     let tournamentQuery = await http(`/api/tournaments/${id}`);
     let tournament = await tournamentQuery.json();

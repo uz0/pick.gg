@@ -17,8 +17,8 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    let tournaments = await this.TournamentService.getAllTournaments()
-
+    let tournaments = await this.TournamentService.getMyTournaments()
+    
     this.setState({
       tournaments: tournaments.tournaments,
     })
