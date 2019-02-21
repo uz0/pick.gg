@@ -33,52 +33,63 @@ const UsersController = () => {
   });
 
   router.get('/rating', async (req, res) => {
-    let transactions = await TransactionModel.aggregate([
-      {
-        $group: {
-          _id: '$userId',
-          amount: { $first: '$amount' },
-          origin: { $first: '$origin' },
-          date: { $first: '$date' },
 
-          total: {
-            $sum: {
-              $cond: [
-                {
-                  '$gt': ['$amount', 0],
-                },
-
-                "$amount",
-                0,
-              ]
-            }
-          },
-        },
+    // let usersWithWinnings = [];
+    const usersWithWinnings = await TransactionModel.aggregate([
+      { 
+        $match: { origin: 'tournament winning' },
       },
-
       {
-        $sort: { total: -1 }
+        $group: { _id: "$userId", winning: { $sum: '$amount' } },
       },
-
       {
-        $lookup: {from: 'users', localField: '_id', foreignField: '_id', as: 'user'}
+        $lookup: { from: 'users', localField: '_id', foreignField: '_id', as: 'user' }
       },
-
-      { '$unwind': '$user' },
-
       {
-        '$project': {
-          userId: 1,
-          origin: 1,
-          date: 1,
-          total: 1,
-          'user._id': 1,
-          'user.username': 1,
+        $unwind: '$user'
+      },
+      {
+        $project: {
+          _id: 1,
+          winning: 1,
+          'username': '$user.username',
+        }
+      },
+      {
+        $sort: {
+          winning: -1,
         }
       },
     ])
 
-    res.send({ transactions });
+    const users = await UserModel.aggregate([
+      {
+        $project: {
+          _id: 1,
+          username: 1,
+        }
+      },
+      {
+        $lookup: { from: 'transactions', localField: '_id', foreignField: 'userId', as: 'transactions' }
+      },
+      {
+        $addFields: {
+          winning: 0,
+        }
+      },
+      {
+        $match: { $expr: {$eq: [{$size: "$transactions"}, 0]} }
+      },
+      {
+        $project: {
+          transactions: 0          
+        }
+      }
+    ])
+
+    const rating = [...usersWithWinnings, ...users];
+
+    res.send({ rating });
   });
 
   router.get('/:id', async (req, res) => {
