@@ -32,6 +32,12 @@ export default class TransactionService {
     return withdraw;
   }
 
+  getTotalWinnings = async(id) => {
+    let winningsQuery = await http(`/api/transactions/winnings/${id}`);
+    let winnings = await winningsQuery.json();
+    return winnings;    
+  }
+
   getTransactionsHistory = async() => {
     let transactions = await http('/api/transactions/history');
     let history = await transactions.json();
