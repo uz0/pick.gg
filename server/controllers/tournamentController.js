@@ -34,15 +34,17 @@ const TournamentController = io => {
   });
 
   router.get('/my', async (req, res) => {
-    const id = req.params.id;
-
+    const id = req.decoded._id;
     const tournaments = await TournamentModel
-      .find({
-        'users.user._id': id,
-      }, '-users.players')
+      .find({'users.user': id}, '-users.players -rules')
 
-      .populate({ path: 'users.user', select: '_id username' })
-      .populate('rules.rule')
+    res.json({ tournaments });
+  });
+
+  router.get('/user/:id', async (req, res) => {
+    const id = req.params.id;
+    const tournaments = await TournamentModel
+    .find({'users.user': id}, '-rules -users.players')
 
     res.json({ tournaments });
   });
