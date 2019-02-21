@@ -33,18 +33,52 @@ const UsersController = () => {
   });
 
   router.get('/rating', async (req, res) => {
+    let transactions = await TransactionModel.aggregate([
+      {
+        $group: {
+          _id: '$userId',
+          amount: { $first: '$amount' },
+          origin: { $first: '$origin' },
+          date: { $first: '$date' },
 
-    let transactions = await TransactionModel
-      .find({ origin: 'tournament winning' })
-      .populate({ path: 'userId', select: 'username'})
-    // let rating = transactions.concat([...users]);
+          total: {
+            $sum: {
+              $cond: [
+                {
+                  '$gt': ['$amount', 0],
+                },
 
-    // res.send({
-    //   winnings,
-    // })
+                "$amount",
+                0,
+              ]
+            }
+          },
+        },
+      },
 
-    res.send({ transactions })
+      {
+        $sort: { total: -1 }
+      },
 
+      {
+        $lookup: {from: 'users', localField: '_id', foreignField: '_id', as: 'user'}
+      },
+
+      { '$unwind': '$user' },
+
+      {
+        '$project': {
+          userId: 1,
+          origin: 1,
+          date: 1,
+          total: 1,
+          'user._id': 1,
+          'user.username': 1,
+        }
+      },
+    ])
+
+    res.send({ transactions });
   });
 
   router.get('/:id', async (req, res) => {
