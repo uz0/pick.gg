@@ -78,6 +78,17 @@ const TransactionController = () => {
 
   });
 
+  router.get('/winnings/:id', async (req, res) => {
+    const userId = req.params.id;
+    const winnings = await TransactionModel
+      .find({ userId })
+      .find({ 'origin': 'tournament winning' })
+
+    res.send({
+      winnings,
+    })
+  });
+
   return router;
 }
 

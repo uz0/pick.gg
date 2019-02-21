@@ -94,7 +94,7 @@ class App extends Component {
           <h2>Tournaments</h2>
           <div className={style.block_filters}>
             <form>
-              <Input type="date" value={this.state.filterByDate} action={this.filterByDate} label="End date" name="date" />
+              <Input type="date" value={this.state.filterByDate} action={this.filterByDate} label="End date" name="date" min="2019-01-01" max="2020-12-31"/>
               <Input type="number" value={this.state.entryFilter} action={this.filterByEntry} label="Minimal entry" placeholder="$ 0.1" name="entry" min="0" />
             </form>
             <div className={style.create_tournament}>
