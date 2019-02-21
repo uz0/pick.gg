@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
+import TransactionService from '../../services/transactionService'
 import UserService from '../../services/userService'
 import { NavLink } from 'react-router-dom'
 import moment from 'moment'
@@ -12,6 +13,7 @@ class User extends Component {
     super()
     this.AuthService = new AuthService()
     this.UserService = new UserService()
+    this.TransactionService = new TransactionService()
     this.TournamentService = new TournamentService()
     this.state = {
       tournaments: [],
@@ -21,12 +23,18 @@ class User extends Component {
 
   async componentDidMount(){
 
-    let tournaments = await this.TournamentService.getAllTournaments()
-    let user = await this.UserService.getUserDataById(this.props.match.params.id)
+    let userId = this.props.match.params.id;
+
+    let tournaments = await this.TournamentService.getUserTournamentsById(userId)
+    let winnings = await this.TransactionService.getTotalWinnings(userId)
+    let user = await this.UserService.getUserDataById(userId)
+    
+    let totalWinnings = winnings.winnings.reduce((acc, current) => { return acc + current.amount }, 0);
 
     this.setState({
       tournaments: tournaments.tournaments,
       userData: user.user,
+      totalWinnings,
     })
 
   }
@@ -47,11 +55,11 @@ class User extends Component {
                 <h2>Scores</h2>
                 <div className={style.statistics_masonry}>
                   <div className={style.item}>
-                    <div className={style.value}>678</div>
+                    <div className={style.value}>{this.state.tournaments.length}</div>
                     <div className={style.key}>tournaments</div>      
                   </div>
                   <div className={style.item}>
-                    <div className={style.value}>$ 12.357</div>
+                    <div className={style.value}>$ {this.state.totalWinnings}</div>
                     <div className={style.key}>earned</div>      
                   </div>  
                   <div className={style.item}>
