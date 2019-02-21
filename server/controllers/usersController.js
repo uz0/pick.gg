@@ -1,5 +1,6 @@
 import express from "express";
 import UserModel from "../models/user";
+import TransactionModel from "../models/transaction";
 let router = express.Router();
 
 const UsersController = () => {
@@ -31,11 +32,26 @@ const UsersController = () => {
     });
   });
 
+  router.get('/rating', async (req, res) => {
+
+    let transactions = await TransactionModel
+      .find({ origin: 'tournament winning' })
+      .populate({ path: 'userId', select: 'username'})
+    // let rating = transactions.concat([...users]);
+
+    // res.send({
+    //   winnings,
+    // })
+
+    res.send({ transactions })
+
+  });
+
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
     let user = await UserModel.findOne({ _id: id });
     res.json({ user });
-  });  
+  });
 
   return router;
 }
