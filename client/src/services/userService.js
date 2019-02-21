@@ -14,6 +14,12 @@ export default class UserService {
     return user;
   }
 
+  getUsersRating = async() => {
+    let ratingQuery = await http(`/api/users/rating`);
+    let rating = await ratingQuery.json();
+    return rating;
+  }
+
   getMyProfile = async() => {
     let userQuery = await http('/api/users/me');
     let user = await userQuery.json();

@@ -19,15 +19,10 @@ class Rating extends Component {
   }
 
   componentDidMount = async() => {
-    let playersList = await this.UserService.getAllUsers();
+    let rating = await this.UserService.getUsersRating();
+        rating.rating.forEach((item, index) => item.place = index + 1);
 
-    //reverse list and add place prop
-    let playersListWithPlaces = playersList.users.reverse().map((item, index) => {
-      item.place = index + 1;
-      return item;
-    });
-
-    this.setState({ playersList: playersListWithPlaces })
+    this.setState({ playersList: rating.rating })
   }
   
   render() {
@@ -43,7 +38,7 @@ class Rating extends Component {
             <div className={style.header_table}>
               <div className={style.number_header}>#</div>
               <div className={style.name_header}>Name</div>
-              <div className={style.percent_header}>%</div>
+              <div className={style.percent_header}>$</div>
             </div>
             {this.state.playersList.map(item => (
               <NavLink key={uuid()} className={style.item_table} to={`/user/${item._id}`}>
@@ -52,6 +47,7 @@ class Rating extends Component {
                   <Avatar avatar=""/>
                 </div>
                 <div className={style.name_table}>{item.username}</div>
+                <div className={style.name_table}>{item.winning}</div>
               </NavLink>
             ))}
           </div>
