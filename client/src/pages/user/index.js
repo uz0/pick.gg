@@ -29,7 +29,7 @@ class User extends Component {
     let winnings = await this.TransactionService.getTotalWinnings(userId)
     let user = await this.UserService.getUserDataById(userId)
     
-    let totalWinnings = winnings.winnings.reduce((acc, current) => acc.amount + current.amount)
+    let totalWinnings = winnings.winnings.reduce((acc, current) => { return acc + current.amount }, 0);
 
     this.setState({
       tournaments: tournaments.tournaments,
