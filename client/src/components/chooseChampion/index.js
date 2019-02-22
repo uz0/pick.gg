@@ -72,13 +72,15 @@ class chooseChampion extends Component {
                 onClick={() => this.selectChampion(champion.name)}
               />)}
             </div>
-            <Button
-              appearance={'_basic-accent'}
-              type={'submit'}
-              text={'Add players'}
-              disabled={isButtonDisabled}
-            />
-            {!isUserHasMoneyToPlay && <p>Sorry, you don't have enough money to take part in a tournament</p>}
+            <div className={style.footer_add}>
+              <Button
+                appearance={'_basic-accent'}
+                type={'submit'}
+                text={'Add players'}
+                disabled={isButtonDisabled}
+              />
+              {!isUserHasMoneyToPlay && <p className={style.warning}>Sorry, you don't have enough money to take part in a tournament</p>}
+            </div>
           </form>
         </div>
       </div>
