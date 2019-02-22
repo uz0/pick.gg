@@ -14,7 +14,7 @@ const TransactionController = () => {
 
   router.get('/history', async (req, res) => {
     const userId = req.decoded._id;
-    let history = await TransactionModel.find({ userId });
+    let history = await TransactionModel.find({ userId }, null, { sort: { date: 1 }});
     res.send({
       history,
     })
