@@ -1,4 +1,4 @@
-.wrapper {
+.wrapper_n {
   z-index: 2;
   overflow: hidden;
   position: fixed;
@@ -9,22 +9,23 @@
   pointer-events: none !important;
 }
 
-.wrapper .notification {
-  --height: 50px;
+.wrapper_n .notification {
+  --height: 70px;
   position: absolute;
   overflow: hidden;
-  left: 50%;
-  right: 0;
-  top: 0;
-  width: 600px;
+  right: 10px;
+  top: 10px;
+  width: 400px;
   height: var(--height);
   line-height: var(--height);
   padding-left: 20px;
   padding-right: 20px;
-  background-color: var(--primary-color);
+  background: var(--accent-color);
+  border-left: 8px solid #ad731c;
+  box-shadow: 0px 1px 1px #000;
   border-radius: 2px;
   font-size: 15px;
-  color: #fff;
+  color: #000;
   white-space: nowrap;
   text-overflow: ellipsis;
   transform: translateX(-50%) translateY(var(--translate));
@@ -35,16 +36,23 @@
 
 .wrapper .notification:not(:global(._is-shown)) {
   --translate: var(--height);
-  --opacity: 0;
+  --opacity: 1;
 }
 
 .wrapper .notification:global(._is-shown) {
   --translate: 0;
   --opacity: 1;
 }
-
+.notification button{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.notification button svg{
+  width: 10px;
+}
 @media (max-width: 768px) {
-  .wrapper .notification {
+  .wrapper_n .notification {
     --height: 50px;
     width: calc(100% - 24px);
     max-width: 400px;

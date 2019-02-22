@@ -1,26 +1,32 @@
 import React, { Component } from 'react'
-import classnames from 'classnames';
 import style from './style.module.css'
+import Button from '../button'
+import { ReactComponent as CloseIcon } from '../../assets/close.svg'
+
 
 class Notification extends Component {
-
-  state = {
-    isShown: false,
-  };
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.notification.isShown && this.props.notification.isShown) {
-      setTimeout(() => this.setState({ isShown: true }), 300);
-      setTimeout(() => this.setState({ isShown: false }), 3300);
-      setTimeout(() => this.props.hide(), 3600);
+  constructor() {
+    super()
+    this.state = {
+      isShown: false,
     }
   }
 
- render(){
-   return (
-    this.props.notification.isShown && <div className={style.wrapper}>
-      <div className={classnames(style.notification, { '_is-shown': this.state.isShown })}>{ this.props.notification.text }</div>
-    </div>)
- }
+  closeNotification = () => {
+      this.setState({
+        isShown: false
+      })
+  }
+
+
+
+  render() {
+    return (
+      <div className={style.wrapper_n}>   
+        {this.state.isShown && <div className={style.notification}><Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />}  />Text notification</div>}
+      </div>
+    )
+
+  }
 }
 export default Notification
