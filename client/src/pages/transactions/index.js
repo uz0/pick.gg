@@ -32,7 +32,6 @@ class Transactions extends Component {
 
   async componentDidMount() {
     let historyData = await this.TransactionsService.getTransactionsHistory()
-    console.log(historyData)
     this.setState({
       transitionData: historyData.history
     })
