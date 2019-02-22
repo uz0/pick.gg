@@ -29,6 +29,7 @@ const TournamentController = io => {
       .find({}, '-users.players')
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
+      .sort({date: -1})
 
     res.json({ tournaments });
   });
