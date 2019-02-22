@@ -28,6 +28,10 @@ class User extends Component {
     let tournaments = await this.TournamentService.getUserTournamentsById(userId)
     let winnings = await this.TransactionService.getTotalWinnings(userId)
     let user = await this.UserService.getUserDataById(userId)
+    let userRating = await this.UserService.getUsersRating()
+    const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1
+    console.log()
+    console.log()
     
     let totalWinnings = winnings.winnings.reduce((acc, current) => { return acc + current.amount }, 0);
 
@@ -35,6 +39,8 @@ class User extends Component {
       tournaments: tournaments.tournaments,
       userData: user.user,
       totalWinnings,
+      totalUsers: userRating.rating.length,
+      userPlace: userPlace
     })
 
   }
@@ -63,7 +69,7 @@ class User extends Component {
                     <div className={style.key}>earned</div>      
                   </div>  
                   <div className={style.item}>
-                    <div className={style.value}>21 <span>of 1290</span></div>
+                    <div className={style.value}>{this.state.userPlace} <span>of {this.state.totalUsers}</span></div>
                     <div className={style.key}>place</div>
                   </div>   
                 </div>
