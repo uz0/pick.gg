@@ -10,47 +10,53 @@
 }
 
 .wrapper_n .notification {
-  --height: 70px;
+  --height: 60px;
   position: absolute;
   overflow: hidden;
-  right: 10px;
-  top: 10px;
-  width: 400px;
+  left: calc(50% - (600px / 2));
+  top: 0px;
+  width: 600px;
   height: var(--height);
   line-height: var(--height);
   padding-left: 20px;
   padding-right: 20px;
   background: var(--accent-color);
-  border-left: 8px solid #ad731c;
-  box-shadow: 0px 1px 1px #000;
-  border-radius: 2px;
-  font-size: 15px;
+  border-radius: 4px;
+  font-size: 14px;
   color: #000;
   white-space: nowrap;
   text-overflow: ellipsis;
-  transform: translateX(-50%) translateY(var(--translate));
+  transform: translateY(calc(var(--translate) * -1));
   opacity: var(--opacity);
   pointer-events: auto;
   transition-property: transform, opacity;
+  transition-duration: 0.3s;
 }
 
-.wrapper .notification:not(:global(._is-shown)) {
+.wrapper_n .notification:not(:global(._is-shown)) {
   --translate: var(--height);
-  --opacity: 1;
+  --opacity: 0;
 }
 
-.wrapper .notification:global(._is-shown) {
+.wrapper_n .notification:global(._is-shown) {
   --translate: 0;
   --opacity: 1;
 }
-.notification button{
+
+.notification button {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 8px;
+  top: 12px;
 }
-.notification button svg{
+
+.notification button svg {
   width: 10px;
 }
+
+.notification button svg path {
+  fill: #000;
+}
+
 @media (max-width: 768px) {
   .wrapper_n .notification {
     --height: 50px;

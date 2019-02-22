@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import TopMenuComponent from './components/TopMenuComponent'
+import NotificationContainer from './components/notification/NotificationContainer'
 import Transactions from './pages/transactions'
 import Tournaments from './pages/tournaments'
 import Tournament from './pages/tournament'
@@ -12,6 +13,7 @@ import Rating from './pages/rating'
 const App = ({ history }) => (
 	<div>
 		<TopMenuComponent history={history} />
+    <NotificationContainer />
 		<Container>
 			<Switch>
 				<Route exact path="/tournaments" component={Tournaments} />
