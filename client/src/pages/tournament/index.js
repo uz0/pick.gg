@@ -31,11 +31,20 @@ class App extends Component {
     }
   }
 
-  showChoose = () =>
-    this.setState({
-      chooseChamp: true,
-    })
-  
+  showChoose = () =>{
+    let tournamentDate = moment(this.state.tournament.date).format("MMM DD")
+    let today = moment(Date.now()).format("MMM DD")
+    if(moment(tournamentDate).isBefore(today)){
+      
+      alert("Tournament " + this.state.tournament.name + " end")
+    }
+    else{
+      this.setState({
+        chooseChamp: true,
+      })
+    }
+  }
+    
   chooseChampion = (champion) =>
     this.setState({
       choosedChampions: [...this.state.choosedChampions, champion],
@@ -45,7 +54,9 @@ class App extends Component {
     this.setState({
       chooseChamp: false,
     })
-
+  
+  
+  
   setChoosedChampions = async(champions) => {
     await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
@@ -62,6 +73,20 @@ class App extends Component {
     return (item / maxPoint) * 100
   }
 
+  statusGame = () => {
+    let dateNow = moment(Date.now()).format('MMM DD')
+    let tournamentDate = moment(this.state.tournament.date).format('MMM DD')
+    if(moment(tournamentDate).isBefore(dateNow)){
+      return "Archive"
+    }
+    else if(moment(dateNow).isSame(tournamentDate)){
+      return "Pendings"
+    }
+    else{
+      return "Comming soon"
+    }
+  }
+  
   async componentDidMount(){
 
     let championsQuery = await http('/api/players');
@@ -109,7 +134,7 @@ class App extends Component {
             </div>
             <div>
               <div>
-                {`Status: pending`}
+              Status: {this.statusGame()}
               </div>
               <div>
                 {`Winner will get: ${this.state.earnings} $`}
