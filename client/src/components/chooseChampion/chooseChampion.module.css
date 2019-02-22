@@ -33,6 +33,19 @@
   text-shadow: 0px 1px 1px #000;
 }
 
+.footer_add {
+  display: flex;
+  align-items: center;
+}
+
+.footer_add > button {
+  margin-right: 48px;
+}
+
+.footer_add .warning {
+  color: red;
+}
+
 .add_champion form {
   display: flex;
   flex-direction: column;
@@ -51,7 +64,7 @@
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 1368px) {
+@media (max-width: 1368px) {
   /* .players {
     
   } */
