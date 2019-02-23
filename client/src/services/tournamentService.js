@@ -12,7 +12,7 @@ export default class TournamentService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        players,
+        players: players,
       }),
     })
 
