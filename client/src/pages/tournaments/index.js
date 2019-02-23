@@ -74,12 +74,23 @@ class App extends Component {
     )
   }
 
+  updateTournaments = async() => {
+    let tournaments = await this.TournamentService.getAllTournaments()
+    let rulesQuery = await http('/api/rules')
+    let rules = await rulesQuery.json()
+    
+    this.setState({
+      tournaments: tournaments.tournaments,
+      rules: rules.rules,
+    })
+  }
+
   async componentDidMount() {
     let tournaments = await this.TournamentService.getAllTournaments()
 
     let rulesQuery = await http('/api/rules')
     let rules = await rulesQuery.json()
-
+    
     this.setState({
       tournaments: tournaments.tournaments,
       rules: rules.rules,
@@ -105,7 +116,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        {this.state.newTournament && <NewTournament rules={this.state.rules} closeTournament={this.closeTournament} />}
+        {this.state.newTournament && <NewTournament rules={this.state.rules} updateTournaments={this.updateTournaments} closeTournament={this.closeTournament} />}
         <div className={style.tournaments_block}>
           <div className={style.header_tournaments}>
             <p>Tournament Name</p>

@@ -26,7 +26,9 @@ class App extends Component {
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
-      tournament: {},
+      tournament: {
+        users: [],
+      },
       earnings: 0,
       choosedChampions: [],
       chooseChamp: false,
@@ -92,13 +94,18 @@ class App extends Component {
     let championsQuery = await http('/api/players');
     let champions = await championsQuery.json();
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
-
+    
     let user = await this.UserService.getMyProfile();
+    let userId = await this.AuthService.getProfile()._id;
+
+    let isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
+    let userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
     let earnings = tournament.tournament.entry * tournament.tournament.users.length; 
 
     this.setState({
       tournament: tournament.tournament,
+      choosedChampions: isUserRegistered ? userPlayers.players : [],
       champions: champions.players,
       user: user.user,
       earnings,
@@ -114,7 +121,7 @@ class App extends Component {
       let cards = [];
       for(let i = 0; i < 5; i++){
         i < choosedChampions.length
-          ? cards.push(<ChampionCard key={uuid()} name={choosedChampions[i]} />)
+          ? cards.push(<ChampionCard key={uuid()} name={choosedChampions[i].name} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
       }
       return cards;
@@ -167,7 +174,7 @@ class App extends Component {
             <div className={style.tournament_leader}>
               <div className={style.header_leader}>
                 <h3>Leaderboard</h3>
-                <p>2019 users</p>
+                <p>{tournament.users.length} users</p>
               </div>
               <div className={style.table_leader}>
                 <div className={style.top_five}>
@@ -180,13 +187,6 @@ class App extends Component {
                       </div>
                     </div>
                   ))}
-                </div>
-                <div className={style.my_number}>
-                  <p className={style.number}>211</p>
-                  <p className={style.name_leader}>Me</p>
-                  <div className={style.scale}>
-                    <span style={{ width: `${(19 / 376) * 100}%` }}>19</span>
-                  </div>
                 </div>
               </div>
             </div>
