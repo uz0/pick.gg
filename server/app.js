@@ -26,7 +26,7 @@ import { AuthVerifyMiddleware } from "./middlewares";
 import config from "./config";
 
 import rules from './rules';
-import players from './players';
+// import players from './players';
 
 const app = express();
 let server = http.Server(app);
@@ -55,11 +55,11 @@ RuleModel.find().then(data => {
   }
 });
 
-PlayerModel.find().then(data => {
-  if (data.length === 0) {
-    PlayerModel.insertMany(players);
-  }
-});
+// PlayerModel.find().then(data => {
+//   if (data.length === 0) {
+//     PlayerModel.insertMany(players);
+//   }
+// });
 
 app.use('/api/authentication', AuthenticationController(app));
 
