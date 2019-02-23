@@ -8,6 +8,7 @@ import ChooseChampionCard from '../../components/ChooseChampionCard'
 import AuthService from '../../services/authService'
 import UserService from '../../services/userService'
 import TournamentService from '../../services/tournamentService'
+import NotificationService from '../../services/notificationService'
 import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
@@ -21,6 +22,7 @@ class App extends Component {
     this.AuthService = new AuthService()
     this.UserService = new UserService()
     this.TournamentService = new TournamentService()
+    this.NotificationService = new NotificationService()
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
@@ -38,7 +40,7 @@ class App extends Component {
       
       alert("Tournament " + this.state.tournament.name + " end")
     }
-    else{
+    else {
       this.setState({
         chooseChamp: true,
       })
@@ -55,8 +57,6 @@ class App extends Component {
       chooseChamp: false,
     })
   
-  
-  
   setChoosedChampions = async(champions) => {
     await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
@@ -64,7 +64,7 @@ class App extends Component {
       tournament: tournament.tournament,
       choosedChampions: [...champions],
       chooseChamp: false,
-    })
+    }, () => this.NotificationService.show("You've been registered for the tournament"))
   }
     
   calcWidth = item => {
