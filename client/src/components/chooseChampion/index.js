@@ -22,14 +22,15 @@ class chooseChampion extends Component {
     this.props.setChoosedChampions(this.state.choosedChampions);
   }
 
-  isChampionChoosed = (championName) => this.state.choosedChampions.includes(championName);
+  isChampionChoosed = (championName) => this.state.choosedChampions.map(item => item.name).includes(championName) ? true : false;
 
-  selectChampion = (playerName) => {
+  selectChampion = (champion) => {
+
     let choosedChampions = this.state.choosedChampions;
 
     if(choosedChampions.length === 5) {
-      if(choosedChampions.includes(playerName)){
-        choosedChampions.splice(choosedChampions.indexOf(playerName), 1)
+      if(choosedChampions.includes(champion.name)){
+        choosedChampions.splice(choosedChampions.indexOf(champion.name), 1)
         this.setState({ choosedChampions })
         return;
       } else {
@@ -37,10 +38,10 @@ class chooseChampion extends Component {
       }
     };
 
-    if (!choosedChampions.includes(playerName)){
-      this.setState({ choosedChampions: [...choosedChampions, playerName] })
+    if (!choosedChampions.map(item => item.name).includes(champion.name)){
+      this.setState({ choosedChampions: [...choosedChampions, champion] })
     } else {
-      choosedChampions.splice(choosedChampions.indexOf(playerName), 1)
+      choosedChampions.splice(choosedChampions.indexOf(champion.name), 1)
       this.setState({ choosedChampions })
     }
   }
@@ -69,7 +70,7 @@ class chooseChampion extends Component {
                 key={uuid()}
                 name={champion.name}
                 className={cx({choosed: this.isChampionChoosed(champion.name)})}
-                onClick={() => this.selectChampion(champion.name)}
+                onClick={() => this.selectChampion(champion)}
               />)}
             </div>
             <div className={style.footer_add}>
