@@ -4,6 +4,7 @@ import moment from "moment";
 import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
 import UserModel from "../models/user";
+import PlayerModel from "../models/player";
 import TransactionModel from "../models/transaction";
 
 let router = express.Router();
@@ -23,13 +24,14 @@ const TournamentController = io => {
   // });
 
   router.get('/', async (req, res) => {
-    // const userId = req.decoded._id;
-
     const tournaments = await TournamentModel
-      .find({}, '-users.players')
+      .find({})
+      // .populate('users', 'id')
+      .populate({ path: 'users.players', select: '_id name' })
       .populate({ path: 'users.user', select: '_id username' })
-      .populate('rules.rule')
       .sort({date: -1})
+
+    // const tournaments = await TournamentModel.deleteOne({name: "CSGO"})
 
     res.json({ tournaments });
   });
@@ -70,7 +72,8 @@ const TournamentController = io => {
     const id = req.params.id;
 
     const tournament = await TournamentModel
-      .findOne({ _id: id }, '-users.players')
+      .findOne({ _id: id })
+      .populate({ path: 'users.players', select: 'name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
 
@@ -145,7 +148,9 @@ const TournamentController = io => {
         date: Date.now(),
       });
 
-      const tournament = await TournamentModel.findOne({ _id: newTournament.id }).populate('rules.rule');
+      const tournament = await TournamentModel.findOne({ _id: newTournament.id })
+        .populate('rules.rule')
+        .populate('matches')
       // list.push(tournament);
       // io.emit('tournaments', { tournaments: list });
 
@@ -195,7 +200,7 @@ const TournamentController = io => {
     });
 
     const newTournament = await TournamentModel
-      .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true, fields: '-users.players' })
+      .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true })
       .populate({ path: 'users.user', select: '_id username' })
 
     // const listTournamentIndex = _.findIndex(list, item => `${item._id}` === `${id}`);
