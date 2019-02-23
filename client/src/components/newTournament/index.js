@@ -5,10 +5,12 @@ import Button from '../button'
 import { ReactComponent as CloseIcon } from '../../assets/close.svg'
 import style from './newTournament.module.css'
 import http from '../../services/httpService'
+import NotificationService from '../../services/notificationService'
 
 class newTournament extends Component {
   constructor() {
     super()
+    this.NotificationService = new NotificationService()
     this.state = {
       rules: {},
     }
@@ -65,6 +67,11 @@ class newTournament extends Component {
         tournamentId: 1,
       }),
     })
+
+    this.props.closeTournament()
+    this.props.updateTournaments()
+    this.NotificationService.show(`You've created tournament ${name}`)
+
   }
 
   render() {
