@@ -14,7 +14,7 @@ import moment from 'moment'
 import uuid from 'uuid'
 
 const matchesItems = [{ id: '1', time: '10:30', nameMatch: 'First Match' }, { id: '2', time: '12:40', nameMatch: 'Second Match' }, { id: '3', time: '15:00', nameMatch: 'Third Match' }, { id: '4', time: '18:20', nameMatch: 'Fourth Match' }, { id: '5', time: '20:00', nameMatch: 'Final Grand Match' }]
-const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
+// const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
 
 class App extends Component {
   constructor() {
@@ -29,6 +29,7 @@ class App extends Component {
       tournament: {
         users: [],
       },
+      leaders: [],
       earnings: 0,
       choosedChampions: [],
       chooseChamp: false,
@@ -70,7 +71,7 @@ class App extends Component {
   }
     
   calcWidth = item => {
-    const logs = leaders.map(item => item.points)
+    const logs = this.state.leaders.map(item => item.points)
     const maxPoint = Math.max.apply(Math, logs)
     return (item / maxPoint) * 100
   }
@@ -94,6 +95,7 @@ class App extends Component {
     let championsQuery = await http('/api/players');
     let champions = await championsQuery.json();
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+    let leaders = tournament.tournament.users.map(item => item.user);
     
     let user = await this.UserService.getMyProfile();
     let userId = await this.AuthService.getProfile()._id;
@@ -101,13 +103,14 @@ class App extends Component {
     let isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
     let userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-    let earnings = tournament.tournament.entry * tournament.tournament.users.length; 
+    let earnings = tournament.tournament.entry * tournament.tournament.users.length;
 
     this.setState({
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       champions: champions.players,
       user: user.user,
+      leaders,
       earnings,
     });
 
@@ -178,13 +181,13 @@ class App extends Component {
               </div>
               <div className={style.table_leader}>
                 <div className={style.top_five}>
-                  {leaders.map(item => (
+                  {this.state.leaders.map((item, index) => (
                     <div key={item.number} className={style.leader}>
-                      <p className={style.number}>{item.number}</p>
-                      <p className={style.name_leader}>{item.name}</p>
-                      <div className={style.scale}>
-                        <span style={{ width: `${this.calcWidth(item.points)}%` }}>{item.points}</span>
-                      </div>
+                      <p className={style.number}>{index + 1}</p>
+                      <p className={style.name_leader}>{item.username}</p>
+                      {/* <div className={style.scale}> */}
+                        {/* <span style={{ width: `${this.calcWidth(item.points)}%` }}>{item.points}</span> */}
+                      {/* </div> */}
                     </div>
                   ))}
                 </div>
