@@ -9,6 +9,23 @@ import TransactionModel from "../models/transaction";
 
 let router = express.Router();
 
+let matchesMock = (tournamentId) => {
+  
+  let matches = [];
+  let dateGap = 0;
+
+  for(let i = 0; i <= 3; i++){
+    matches.push({
+      tournament: tournamentId,
+      date: Date.now() + dateGap,
+    })
+    dateGap += 3600;
+  }
+
+  return matches;
+
+}
+
 let list = [];
 
 const TournamentController = io => {
@@ -70,6 +87,8 @@ const TournamentController = io => {
 
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
+
+    console.log(matchesMock(id));
 
     const tournament = await TournamentModel
       .findOne({ _id: id })

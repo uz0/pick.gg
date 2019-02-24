@@ -19,13 +19,8 @@ import {
   PlayerController,
 } from "./controllers";
 
-import RuleModel from './models/rule';
-import PlayerModel from './models/player';
-
 import { AuthVerifyMiddleware } from "./middlewares";
 import config from "./config";
-
-import rules from './rules';
 
 const app = express();
 let server = http.Server(app);
@@ -47,13 +42,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
-
-RuleModel.find().then(data => {
-  if (data.length === 0) {
-    RuleModel.insertMany(rules);
-  }
-});
-
 
 app.use('/api/authentication', AuthenticationController(app));
 
