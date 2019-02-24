@@ -19,8 +19,6 @@ export default mongoose.model('Tournament', new Schema({
     score: { type: Number },
   }],
 
-  matches: [{
-    match: { type: Schema.Types.ObjectId, ref: 'Match' },
-  }],
+  matches: [{ type: Schema.Types.ObjectId, ref: 'Match' }],
 
 }));
