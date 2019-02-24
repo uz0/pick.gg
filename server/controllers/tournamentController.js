@@ -4,27 +4,12 @@ import moment from "moment";
 import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
 import UserModel from "../models/user";
-import PlayerModel from "../models/player";
+import RuleModel from "../models/rule";
 import TransactionModel from "../models/transaction";
+import MatchResult from "../models/match-result";
+import MatchModel from "../models/match";
 
 let router = express.Router();
-
-let matchesMock = (tournamentId) => {
-  
-  let matches = [];
-  let dateGap = 0;
-
-  for(let i = 0; i <= 3; i++){
-    matches.push({
-      tournament: tournamentId,
-      date: Date.now() + dateGap,
-    })
-    dateGap += 3600;
-  }
-
-  return matches;
-
-}
 
 let list = [];
 
@@ -88,14 +73,20 @@ const TournamentController = io => {
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
 
-    console.log(matchesMock(id));
-
     const tournament = await TournamentModel
       .findOne({ _id: id })
       .populate({ path: 'users.players', select: 'name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
-
+      .populate('matches')
+      .populate({
+        path: 'matches',
+        populate: {
+          path: 'results',
+          model: 'MatchResult',
+          select: 'playersResults'
+        }
+      })
     res.json({ tournament });
   });
 
