@@ -95,6 +95,7 @@
 }
 
 .tournament_matches p {
+  display: flex;
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
@@ -114,8 +115,8 @@
   cursor: pointer;
 }
 
-.tournament_matches span {
-  margin-right: 30px;
+.tournament_matches .match_title {
+  margin-right: auto;
 }
 
 .header_leader {

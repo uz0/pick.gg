@@ -13,6 +13,8 @@ import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
 
+import _ from 'lodash';
+
 // const matchesItems = [{ id: '1', time: '10:30', nameMatch: 'First Match' }, { id: '2', time: '12:40', nameMatch: 'Second Match' }, { id: '3', time: '15:00', nameMatch: 'Third Match' }, { id: '4', time: '18:20', nameMatch: 'Fourth Match' }, { id: '5', time: '20:00', nameMatch: 'Final Grand Match' }]
 // const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
 
@@ -30,6 +32,7 @@ class App extends Component {
         users: [],
       },
       leaders: [],
+      matches: [],
       earnings: 0,
       choosedChampions: [],
       chooseChamp: false,
@@ -105,11 +108,16 @@ class App extends Component {
 
     let earnings = tournament.tournament.entry * tournament.tournament.users.length;
 
+    let myPlayers = _.find(tournament.tournament.users, { 'user._id': userId })
+
+    console.log(myPlayers, 'мои игроки');
+
     this.setState({
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       champions: champions.players,
       user: user.user,
+      matches: tournament.tournament.matches,
       leaders,
       earnings,
     });
@@ -118,7 +126,9 @@ class App extends Component {
 
   render() {
 
-    let { tournament, champions, choosedChampions, user } = this.state;
+    let { tournament, champions, choosedChampions, user, matches } = this.state;
+
+    console.log(tournament);
 
     let ChampionsCardsList = () => {
       let cards = [];
@@ -167,12 +177,12 @@ class App extends Component {
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
-              {/* {matchesItems.map(item => (
-                <p key={item.id}>
-                  <span>{item.time}</span>
-                  {item.nameMatch}
+              {matches.map((item,index) => (
+                <p key={item._id}>
+                  <span className={style.match_title}>{`Match ${index + 1}`}</span>
+                  <span>{moment(item.date).format('DD-MM-YYYY')}</span>
                 </p>
-              ))} */}
+              ))}
             </div>
             <div className={style.tournament_leader}>
               <div className={style.header_leader}>
