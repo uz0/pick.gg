@@ -108,9 +108,12 @@ class App extends Component {
 
     let earnings = tournament.tournament.entry * tournament.tournament.users.length;
 
-    let myPlayers = _.find(tournament.tournament.users, { 'user._id': userId })
+    let myPlayers = tournament.tournament.users.filter(item => {
+      console.log(item._id, userId);
+      return item;
+    });
+    // console.log(myPlayers);
 
-    console.log(myPlayers, 'мои игроки');
 
     this.setState({
       tournament: tournament.tournament,
@@ -127,8 +130,6 @@ class App extends Component {
   render() {
 
     let { tournament, champions, choosedChampions, user, matches } = this.state;
-
-    console.log(tournament);
 
     let ChampionsCardsList = () => {
       let cards = [];
