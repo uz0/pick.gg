@@ -68,15 +68,19 @@ class newTournament extends Component {
       }),
     })
 
-    this.props.closeTournament()
-    this.props.updateTournaments()
-    this.NotificationService.show(`You've created tournament ${name}`)
-
+    if(entry < this.props.user.balance){
+      this.NotificationService.show(`You've created tournament ${name}`)
+      this.props.closeTournament()
+      this.props.updateTournaments()
+    } else{
+      this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`)
+      this.props.closeTournament()
+    }
+    
   }
 
   render() {
     let { closeTournament, rules } = this.props
-
     return (
       <div className={style.wrap}>
         <div className={style.new_tournament}>
