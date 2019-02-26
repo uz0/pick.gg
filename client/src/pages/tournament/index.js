@@ -252,7 +252,7 @@ class App extends Component {
                 <p key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
                   {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
-                  <span>{moment(item.date).format('D MMM hh:mm')}</span>
+                  <span>{moment(item.date).format('hh:mm')}</span>
                 </p>
               ))}
             </div>
