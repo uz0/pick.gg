@@ -1,0 +1,31 @@
+.wrapper_modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+}
+.modal{
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #000;
+  color: #fff;
+  padding: 10px 10px 30px;
+}
+.modal .close_button{
+  align-self: flex-end;
+}
+
+.btns_modal{
+  display: flex;
+  justify-content: space-around;
+}
+.btns_modal button{
+  margin: 0 5px;
+}
