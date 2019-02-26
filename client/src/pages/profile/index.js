@@ -47,7 +47,7 @@ class Profile extends Component {
   handleSubmit = async e => {
     e.preventDefault()
 
-    let { email, about } = this.state.formData
+    let { email, about } = this.state.formData;
 
     await http('/api/users/me', {
       method: 'POST',
@@ -59,7 +59,8 @@ class Profile extends Component {
         email,
         about
       }),
-    })
+    });
+  
     this.NotificationService.show("Your data has been updated.")
   }
   
@@ -72,22 +73,27 @@ class Profile extends Component {
           <h1>Profile settings – {this.state.formData.username}</h1>
           <div className={style.content}>
             <ProfileSidebar withData={false} />
+
             <div className={style.form_container}>
               <form className={style.form} onSubmit={this.handleSubmit}>
                 <div>
                   <label>Username</label>
                   <input type="text" name="username" disabled value={this.state.formData.username} />
                 </div>
+
                 <div>
                   <label>Email</label>
                   <input type="text" name="email" value={this.state.formData.email} onChange={this.handleChange}  />
                 </div>
+
                 <div>
                   <label>About</label>
-                  <textarea name="about"  value={this.state.formData.about} onChange={this.handleChange} />
+                  <textarea name="about" value={this.state.formData.about} onChange={this.handleChange} />
                 </div>
+
                 <Button appearance={'_basic-accent'} text={'Save changes'} />
               </form>
+
               <div className={style.password_recovery}>
                 <p>You can also change your password if needed</p>
                 <a href="/">Change password</a>

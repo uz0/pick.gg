@@ -27,14 +27,12 @@ class DropDown extends Component {
   toggleDropDown = () => this.setState({ isActive: !this.state.isActive })
   
   render() {
-    let Avatar = () => this.props.avatar ? <img src={this.props.avatar} alt="userpic"/> : <AvatarPlaceholder />;
     return (
       <div className={cx(style.dropdown, { active: this.state.isActive })} onClick={this.toggleDropDown}>
         <div ref={(userbox) => {this.userbox = userbox}} className={style.userbox}>
-          {this.props.mode === "userbox" && <Avatar />}
-          {(this.props.mode === "userbox" && this.props.data) && this.props.data.user.username}
-          {(this.props.mode === "balance" && this.props.data) && `${this.props.data.user.balance} $`}
+          { this.props.placeholder }
         </div>
+
         <div className={style.menu}>
           { this.props.children }
         </div>

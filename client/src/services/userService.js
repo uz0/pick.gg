@@ -1,6 +1,7 @@
 import http from './httpService'
+import BasicService from './basicService';
 
-export default class UserService {
+export default class UserService extends BasicService {
 
   getAllUsers = async() => {
     let usersQuery = await http('/api/users');
