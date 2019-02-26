@@ -119,6 +119,15 @@
   margin-right: auto;
 }
 
+.tournament_matches .user_score {
+  margin-right: 16px;
+  background-color: #9FA2BE;
+  color: #000;
+  border-radius: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
 .header_leader {
   display: flex;
   justify-content: space-between;

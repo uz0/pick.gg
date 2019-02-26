@@ -13,11 +13,6 @@ import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
 
-import _ from 'lodash';
-
-// const matchesItems = [{ id: '1', time: '10:30', nameMatch: 'First Match' }, { id: '2', time: '12:40', nameMatch: 'Second Match' }, { id: '3', time: '15:00', nameMatch: 'Third Match' }, { id: '4', time: '18:20', nameMatch: 'Fourth Match' }, { id: '5', time: '20:00', nameMatch: 'Final Grand Match' }]
-// const leaders = [{ number: '1', name: 'DiscoBoy', points: 376 }, { number: '2', name: 'JonhWick', points: 323 }, { number: '3', name: 'Terminator', points: 290 }, { number: '4', name: 'MIB', points: 254 }, { number: '5', name: 'Wolverine', points: 206 }]
-
 class App extends Component {
   constructor() {
     super()
@@ -89,7 +84,7 @@ class App extends Component {
       return "Pendings"
     }
     else{
-      return "Comming soon"
+      return "Is going on"
     }
   }
   
@@ -97,8 +92,8 @@ class App extends Component {
 
     let championsQuery = await http('/api/players');
     let champions = await championsQuery.json();
+
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
-    let leaders = tournament.tournament.users.map(item => item.user);
     
     let user = await this.UserService.getMyProfile();
     let userId = await this.AuthService.getProfile()._id;
@@ -108,12 +103,69 @@ class App extends Component {
 
     let earnings = tournament.tournament.entry * tournament.tournament.users.length;
 
-    let myPlayers = tournament.tournament.users.filter(item => {
-      console.log(item._id, userId);
-      return item;
-    });
-    // console.log(myPlayers);
+    let rules = {};
+    let matches = tournament.tournament.matches;
 
+    // setup field for users results in each match + total result
+    let usersResults = [];
+    
+    tournament.tournament.rules.forEach(item => {
+      if(item.rule){
+        rules[item.rule.name] = item.score;
+      }
+    })
+    
+    // count users results in each match
+    function countUserResultsById(userId) {
+      matches.forEach(item => {
+        let totalScore = 0;
+
+        let choosedPlayers = userPlayers.players.map(item => item.name);
+        let results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+  
+        let resultsScore = results.reduce((acc, item) => {
+          let sum = 0;
+          for(let rule in item){
+            if(rule !== 'name'){
+              sum += item[rule] * rules[rule]
+            }
+          }
+          return acc + sum;
+        }, 0)
+  
+        totalScore = resultsScore
+
+        usersResults.push({
+          userId,
+          item,
+          totalScore,
+        })
+
+      });
+    }
+
+    tournament.tournament.users.forEach(user => {
+      return countUserResultsById(user.user._id)
+    })
+
+    // map leaders to their results
+    let leaders = tournament.tournament.users
+      .map(item => item.user)
+      .map(item => {
+        item.totalScore = usersResults
+          .filter(element => element.userId === item._id)
+          .reduce((acc, item) => {
+            return acc + item.totalScore;
+          }, 0)
+        return item;
+      })
+      .sort((a,b) => a-b)
+    
+    // map current users results to the matches
+    let currentUserResults = usersResults.filter(item => item.userId === userId);
+    matches.forEach((match, index) => {
+      match.currentUserScore = currentUserResults[index].totalScore;
+    })
 
     this.setState({
       tournament: tournament.tournament,
@@ -181,6 +233,7 @@ class App extends Component {
               {matches.map((item,index) => (
                 <p key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
+                  <span className={style.user_score}>{item.currentUserScore}</span>
                   <span>{moment(item.date).format('DD-MM-YYYY')}</span>
                 </p>
               ))}
@@ -193,12 +246,12 @@ class App extends Component {
               <div className={style.table_leader}>
                 <div className={style.top_five}>
                   {this.state.leaders.map((item, index) => (
-                    <div key={item.number} className={style.leader}>
+                    <div key={uuid()} className={style.leader}>
                       <p className={style.number}>{index + 1}</p>
                       <p className={style.name_leader}>{item.username}</p>
-                      {/* <div className={style.scale}> */}
-                        {/* <span style={{ width: `${this.calcWidth(item.points)}%` }}>{item.points}</span> */}
-                      {/* </div> */}
+                      <div className={style.scale}>
+                        <span style={{ width: `${this.calcWidth(item.totalScore)}%` }}>{item.totalScore}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
