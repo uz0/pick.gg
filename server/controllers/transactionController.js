@@ -20,6 +20,14 @@ const TransactionController = () => {
     })
   });
 
+  router.get('/balance', async (req, res) => {
+    const userId = req.decoded._id;
+    const user = await UserModel.findById(userId, 'balance')
+    res.send({
+      balance: user.balance,
+    })
+  })
+
   router.post('/deposit', async (req, res) => {
     const userId = req.decoded._id;
     const fields = {
