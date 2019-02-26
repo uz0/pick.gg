@@ -87,7 +87,9 @@ const TournamentController = io => {
           select: 'playersResults'
         }
       })
+
     res.json({ tournament });
+
   });
 
   router.post('/', async (req, res) => {
