@@ -109,22 +109,20 @@ class App extends Component {
   
   async componentDidMount(){
 
-    let champions = await this.ChampionService.getAllChampions()
+    const champions = await this.ChampionService.getAllChampions()
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId)
-
-    let userId = await this.AuthService.getProfile()._id;
+    const userId = await this.AuthService.getProfile()._id;
+    
+    const isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
+    const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+    const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
     let leaders = tournament.tournament.users;
     let sortedLeaders;
     
-    let isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
-    let userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
-
-    let tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
-
-    let rules = {};
     let matches = tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
     let usersResults = [];
+    let rules = {};
     
     if(tournament.tournament.users.length > 0){
 
