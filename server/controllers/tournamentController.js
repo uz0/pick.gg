@@ -3,6 +3,7 @@ import express from "express";
 import moment from "moment";
 import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
+import FantasyTournament from "../models/fantasy-tournament";
 import UserModel from "../models/user";
 import RuleModel from "../models/rule";
 import TransactionModel from "../models/transaction";
@@ -34,9 +35,9 @@ const TournamentController = io => {
   })
 
   router.get('/', async (req, res) => {
-    const tournaments = await TournamentModel
+    const tournaments = await FantasyTournament
       .find({})
-      // .populate('users', 'id')
+      .populate('tournament', 'name date')
       .populate({ path: 'users.players', select: '_id name' })
       .populate({ path: 'users.user', select: '_id username' })
       .sort({date: -1})
@@ -48,8 +49,9 @@ const TournamentController = io => {
 
   router.get('/my', async (req, res) => {
     const id = req.decoded._id;
-    const tournaments = await TournamentModel
+    const tournaments = await FantasyTournament
       .find({'users.user': id}, '-users.players -rules')
+      .populate('tournament', 'name date')
 
     res.json({ tournaments });
   });
