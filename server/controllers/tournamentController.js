@@ -27,26 +27,6 @@ const TournamentController = io => {
 
   router.get('/modify', async (req, res) => {
 
-    // 5c71a33d4361e113fcced261
-
-    // await MatchModel.create({
-    //   tournament: "5c71a33d4361e113fcced261",
-    //   date: Date.now(),
-    //   completed: true,
-    // })
-
-    // const matches = await MatchModel.find({tournament: "5c74dcaed403d31a54cce449"}).populate('results')
-    // const results = await MatchResult.find({_id: "5c74d8690ce66b1df09d0ac6"});
-
-    await TournamentModel.deleteOne({_id: "5c74dc4bc8ceef17ec0b27f7"})
-    await TournamentModel.deleteOne({_id: "5c74d8680ce66b1df09d0ac3"})
-    await TournamentModel.deleteOne({_id: "5c74dea7a5296d1f78fd9af9"})
-    // await TournamentModel.deleteOne({_id: "5c746760b87d452204313cd0"})
-    
-
-    // await MatchModel.deleteMany({tournament: "5c74d8680ce66b1df09d0ac3"})
-    // const matches = await MatchModel.find();
-
     res.send({
       "matches":"success",
     })
@@ -189,8 +169,8 @@ const TournamentController = io => {
       });
 
       // mocking matches and results
-      let dateGap = 2400;
-      for(let i = 0; i < 4; i++){
+      let dateGap = 3600000;
+      for(let i = 0; i < 6; i++){
         await MatchModel.create({
           tournament: newTournament.id,
           date: Date.now() + (dateGap * i),
@@ -235,8 +215,6 @@ const TournamentController = io => {
 
       })
 
-      console.log(createdMatches, createdMatchesId);
-      
       const tournament = await TournamentModel.findOne({ _id: newTournament.id })
         .populate('rules.rule')
         .populate('matches')
