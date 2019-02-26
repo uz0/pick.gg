@@ -33,7 +33,12 @@
 .card svg path {
   fill: var(--color);
 }
-
+@media screen and (max-width: 1368px){
+  .card{
+    --width: 180px;
+    --height: 210px;
+  }
+}
 @media screen and (max-width: 480px){
   .card{
     --height: 100px;
