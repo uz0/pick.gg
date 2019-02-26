@@ -183,7 +183,8 @@ const TournamentController = io => {
     const players = req.body.players;
     const userId = req.decoded._id;
 
-    const tournament = await TournamentModel.findOne({ _id: id }, 'users date');
+    const tournament = await TournamentModel.findOne({ _id: id });
+    const user = await UserModel.findOne({ _id: userId })
 
     if (moment(tournament.date).isAfter(moment())) {
       res.json({
@@ -203,6 +204,15 @@ const TournamentController = io => {
       });
 
       return;
+    }
+
+    if(user.balance < tournament.entry){
+      res.json({
+        success: false,
+        message: "You have not enough money to take part in this tournament",
+      });
+    } else {
+      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
     }
 
     tournamentUsers.push({
