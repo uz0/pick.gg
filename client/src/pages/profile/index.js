@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
+import NotificationService from '../../services/notificationService'
 import UserService from '../../services/userService'
 import http from '../../services/httpService'
 import Button from '../../components/button'
@@ -12,6 +13,7 @@ class Profile extends Component {
     super()
     this.AuthService = new AuthService()
     this.UserService = new UserService()
+    this.NotificationService = new NotificationService()
     this.TournamentService = new TournamentService(); 
     this.state = {
       formData: {
@@ -39,6 +41,7 @@ class Profile extends Component {
       email: userData.user.email,
       about: userData.user.about
     } })
+    
   }
   
   handleSubmit = async e => {
@@ -57,6 +60,7 @@ class Profile extends Component {
         about
       }),
     })
+    this.NotificationService.show("Your data has been updated.")
   }
   
   render() {
