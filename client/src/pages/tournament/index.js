@@ -9,6 +9,7 @@ import AuthService from '../../services/authService'
 import UserService from '../../services/userService'
 import TournamentService from '../../services/tournamentService'
 import NotificationService from '../../services/notificationService'
+import ChampionService from '../../services/championService'
 import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
@@ -20,6 +21,7 @@ class App extends Component {
     this.UserService = new UserService()
     this.TournamentService = new TournamentService()
     this.NotificationService = new NotificationService()
+    this.ChampionService = new ChampionService()
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
@@ -28,7 +30,7 @@ class App extends Component {
       },
       leaders: [],
       matches: [],
-      earnings: 0,
+      tournamentPrizePool: 0,
       choosedChampions: [],
       chooseChamp: false,
 
@@ -66,8 +68,6 @@ class App extends Component {
       choosedChampions: [...this.state.choosedChampions, champion],
     })
 
-  
-
   setChoosedChampions = async(champions) => {
       await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
       let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
@@ -80,7 +80,7 @@ class App extends Component {
   }
     
   calcWidth = item => {
-    const logs = this.state.leaders.map(item => item.points)
+    const logs = this.state.leaders.map(item => item.totalScore)
     const maxPoint = Math.max.apply(Math, logs)
     return (item / maxPoint) * 100
   }
@@ -92,32 +92,30 @@ class App extends Component {
       return "Archive"
     }
     else if(moment(dateNow).isSame(tournamentDate)){
-      return "Pendings"
-    }
-    else{
       return "Is going on"
+    }
+    else {
+      return "Will be soon"
     }
   }
   
   async componentDidMount(){
 
-    let championsQuery = await http('/api/players');
-    let champions = await championsQuery.json();
+    let champions = await this.ChampionService.getAllChampions()
+    let tournament = await this.TournamentService.getTournamentById(this.tournamentId)
 
-    let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+    let userId = await this.AuthService.getProfile()._id;
+
     let leaders = tournament.tournament.users;
     let sortedLeaders;
     
-    let user = await this.UserService.getMyProfile();
-    let userId = await this.AuthService.getProfile()._id;
-
     let isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
     let userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-    let earnings = tournament.tournament.entry * tournament.tournament.users.length;
+    let tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
     let rules = {};
-    let matches = tournament.tournament.matches;
+    let matches = tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
     let usersResults = [];
     
     if(tournament.tournament.users.length > 0){
@@ -130,13 +128,16 @@ class App extends Component {
       
       // count users results in each match
       function countUserResultsById(userId) {
+
+        let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+
         matches.forEach(item => {
           if(userPlayers){
             let totalScore = 0;
 
-            let choosedPlayers = userPlayers.players.map(item => item.name);
+            let choosedPlayers = userChampions.players.map(item => item.name);
             let results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
-      
+
             let resultsScore = results.reduce((acc, item) => {
               let sum = 0;
               for(let rule in item){
@@ -175,8 +176,8 @@ class App extends Component {
           }, 0)
         return item;
       })
-      .sort((a,b) => a-b)
-    
+      .sort((a,b) => b.totalScore - a.totalScore)
+
     // map current users results to the matches
     let currentUserResults = usersResults.filter(item => item.userId === userId);
     if(currentUserResults.length > 0){
@@ -189,10 +190,9 @@ class App extends Component {
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       champions: champions.players,
-      user: user.user,
       matches: tournament.tournament.matches,
       leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
-      earnings,
+      tournamentPrizePool,
     });
 
   }
@@ -228,13 +228,12 @@ class App extends Component {
               Status: {this.statusGame()}
               </div>
               <div>
-                {`Winner will get: ${this.state.earnings} $`}
+                {`Winner will get: ${this.state.tournamentPrizePool} $`}
               </div>
             </div>
           </div>
           {this.state.chooseChamp && <ChooseChamp
             champions={champions}
-            userBalance={user.balance}
             tournamentEntry={tournament.entry}
             closeChoose={this.closeChoose}
             closeModalChoose={this.closeModalChoose}
@@ -253,7 +252,7 @@ class App extends Component {
                 <p key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
                   {this.state.leaders.length > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
-                  <span>{moment(item.date).format('DD-MM-YYYY')}</span>
+                  <span>{moment(item.date).format('D MMM hh:mm')}</span>
                 </p>
               ))}
             </div>

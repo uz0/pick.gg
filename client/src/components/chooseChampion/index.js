@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Button from '../button/index'
 import ChampionCard from '../ChampionCard'
+import TransactionService from '../../services/transactionService'
 import Modal from '../../components/modal'
 import { ReactComponent as CloseIcon } from '../../assets/close.svg'
 import classnames from 'classnames'
@@ -13,19 +14,17 @@ class chooseChampion extends Component {
 
   constructor(){
     super();
+    this.TransactionService = new TransactionService()
     this.state = {
+      userBalance: 0,
       choosedChampions: [],
       modalChoose: false
     }
   }
 
-  
-
   showModal = () => {
     this.setState({
       modalChoose: true,
-
-
     })
   }
 
@@ -58,9 +57,19 @@ class chooseChampion extends Component {
     }
   }
 
+  componentDidMount = async() => {
+    const userBalance = await this.TransactionService.getUserBalance()
+    
+    this.setState({
+      userBalance: userBalance.balance
+    })
+  }
+
   render(){
 
-    let { closeChoose, champions, userBalance, tournamentEntry } = this.props;
+    let userBalance = this.state.userBalance;
+    let { closeChoose, champions, tournamentEntry } = this.props;
+
     let areChampionsSelected = this.state.choosedChampions.length < 1 ? true : false;
     let isUserHasMoneyToPlay = userBalance >= tournamentEntry ? true : false;
     let isButtonDisabled = (isUserHasMoneyToPlay === false) ? true : areChampionsSelected ? true : false;
