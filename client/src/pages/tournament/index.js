@@ -9,6 +9,7 @@ import AuthService from '../../services/authService'
 import UserService from '../../services/userService'
 import TournamentService from '../../services/tournamentService'
 import NotificationService from '../../services/notificationService'
+import ChampionService from '../../services/championService'
 import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
@@ -20,6 +21,7 @@ class App extends Component {
     this.UserService = new UserService()
     this.TournamentService = new TournamentService()
     this.NotificationService = new NotificationService()
+    this.ChampionService = new ChampionService()
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
@@ -28,7 +30,7 @@ class App extends Component {
       },
       leaders: [],
       matches: [],
-      earnings: 0,
+      tournamentPrizePool: 0,
       choosedChampions: [],
       chooseChamp: false,
 
@@ -98,29 +100,27 @@ class App extends Component {
       return "Archive"
     }
     else if(moment(dateNow).isSame(tournamentDate)){
-      return "Pendings"
-    }
-    else{
       return "Is going on"
+    }
+    else {
+      return "Will be soon"
     }
   }
   
   async componentDidMount(){
 
-    let championsQuery = await http('/api/players');
-    let champions = await championsQuery.json();
+    let champions = await this.ChampionService.getAllChampions()
+    let tournament = await this.TournamentService.getTournamentById(this.tournamentId)
 
-    let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+    let userId = await this.AuthService.getProfile()._id;
+
     let leaders = tournament.tournament.users;
     let sortedLeaders;
     
-    let user = await this.UserService.getMyProfile();
-    let userId = await this.AuthService.getProfile()._id;
-
     let isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
     let userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-    let earnings = tournament.tournament.entry * tournament.tournament.users.length;
+    let tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
     let rules = {};
     let matches = tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
@@ -198,10 +198,9 @@ class App extends Component {
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       champions: champions.players,
-      user: user.user,
       matches: tournament.tournament.matches,
       leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
-      earnings,
+      tournamentPrizePool,
     });
 
   }
@@ -237,13 +236,12 @@ class App extends Component {
               Status: {this.statusGame()}
               </div>
               <div>
-                {`Winner will get: ${this.state.earnings} $`}
+                {`Winner will get: ${this.state.tournamentPrizePool} $`}
               </div>
             </div>
           </div>
           {this.state.chooseChamp && <ChooseChamp
             champions={champions}
-            userBalance={user.balance}
             tournamentEntry={tournament.entry}
             closeChoose={this.closeChoose}
             closeModalChoose={this.closeModalChoose}
