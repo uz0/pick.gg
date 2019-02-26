@@ -95,6 +95,8 @@ class App extends Component {
     let champions = await championsQuery.json();
 
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+    let leaders = tournament.tournament.users;
+    let sortedLeaders;
     
     let user = await this.UserService.getMyProfile();
     let userId = await this.AuthService.getProfile()._id;
@@ -106,51 +108,54 @@ class App extends Component {
 
     let rules = {};
     let matches = tournament.tournament.matches;
-
-    // setup field for users results in each match + total result
     let usersResults = [];
-    
-    tournament.tournament.rules.forEach(item => {
-      if(item.rule){
-        rules[item.rule.name] = item.score;
-      }
-    })
-    
-    // count users results in each match
-    function countUserResultsById(userId) {
-      matches.forEach(item => {
-        let totalScore = 0;
 
-        let choosedPlayers = userPlayers.players.map(item => item.name);
-        let results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+    if(tournament.tournament.users.length > 0){
+
+      tournament.tournament.rules.forEach(item => {
+        if(item.rule){
+          rules[item.rule.name] = item.score;
+        }
+      })
+      
+      // count users results in each match
+      function countUserResultsById(userId) {
+        matches.forEach(item => {
+          if(userPlayers){
+            let totalScore = 0;
+
+            let choosedPlayers = userPlayers.players.map(item => item.name);
+            let results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+      
+            let resultsScore = results.reduce((acc, item) => {
+              let sum = 0;
+              for(let rule in item){
+                if(rule !== 'name'){
+                  sum += item[rule] * rules[rule]
+                }
+              }
+              return acc + sum;
+            }, 0)
+      
+            totalScore = resultsScore
   
-        let resultsScore = results.reduce((acc, item) => {
-          let sum = 0;
-          for(let rule in item){
-            if(rule !== 'name'){
-              sum += item[rule] * rules[rule]
-            }
+            usersResults.push({
+              userId,
+              item,
+              totalScore,
+            })
+  
           }
-          return acc + sum;
-        }, 0)
-  
-        totalScore = resultsScore
+        });
+      }
 
-        usersResults.push({
-          userId,
-          item,
-          totalScore,
-        })
-
-      });
+      tournament.tournament.users.forEach(user => {
+        return countUserResultsById(user.user._id)
+      })
     }
 
-    tournament.tournament.users.forEach(user => {
-      return countUserResultsById(user.user._id)
-    })
-
     // map leaders to their results
-    let leaders = tournament.tournament.users
+    sortedLeaders = tournament.tournament.users
       .map(item => item.user)
       .map(item => {
         item.totalScore = usersResults
@@ -164,9 +169,11 @@ class App extends Component {
     
     // map current users results to the matches
     let currentUserResults = usersResults.filter(item => item.userId === userId);
-    matches.forEach((match, index) => {
-      match.currentUserScore = currentUserResults[index].totalScore;
-    })
+    if(currentUserResults.length > 0){
+      matches.forEach((match, index) => {
+        match.currentUserScore = currentUserResults[index].totalScore;
+      })
+    }
 
     this.setState({
       tournament: tournament.tournament,
@@ -174,7 +181,7 @@ class App extends Component {
       champions: champions.players,
       user: user.user,
       matches: tournament.tournament.matches,
-      leaders,
+      leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       earnings,
     });
 
@@ -234,7 +241,7 @@ class App extends Component {
               {matches.map((item,index) => (
                 <p key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
-                  <span className={style.user_score}>{item.currentUserScore}</span>
+                  {this.state.leaders.length > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
                   <span>{moment(item.date).format('DD-MM-YYYY')}</span>
                 </p>
               ))}

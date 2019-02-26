@@ -25,6 +25,34 @@ const TournamentController = io => {
   //   socket.emit('tournaments', { tournaments: list });
   // });
 
+  router.get('/modify', async (req, res) => {
+
+    // 5c71a33d4361e113fcced261
+
+    // await MatchModel.create({
+    //   tournament: "5c71a33d4361e113fcced261",
+    //   date: Date.now(),
+    //   completed: true,
+    // })
+
+    // const matches = await MatchModel.find({tournament: "5c74dcaed403d31a54cce449"}).populate('results')
+    // const results = await MatchResult.find({_id: "5c74d8690ce66b1df09d0ac6"});
+
+    await TournamentModel.deleteOne({_id: "5c74dc4bc8ceef17ec0b27f7"})
+    await TournamentModel.deleteOne({_id: "5c74d8680ce66b1df09d0ac3"})
+    await TournamentModel.deleteOne({_id: "5c74dea7a5296d1f78fd9af9"})
+    // await TournamentModel.deleteOne({_id: "5c746760b87d452204313cd0"})
+    
+
+    // await MatchModel.deleteMany({tournament: "5c74d8680ce66b1df09d0ac3"})
+    // const matches = await MatchModel.find();
+
+    res.send({
+      "matches":"success",
+    })
+
+  })
+
   router.get('/', async (req, res) => {
     const tournaments = await TournamentModel
       .find({})
@@ -160,11 +188,66 @@ const TournamentController = io => {
         date: Date.now(),
       });
 
+      // mocking matches and results
+      let dateGap = 2400;
+      for(let i = 0; i < 4; i++){
+        await MatchModel.create({
+          tournament: newTournament.id,
+          date: Date.now() + (dateGap * i),
+          completed: i < 6 ? true : false
+        })
+      }
+  
+      const createdMatches = await MatchModel.find({tournament: newTournament.id})
+      const createdMatchesId = createdMatches.map(match => match._id);
+
+      let rulesList = await TournamentModel.find({_id: newTournament.id}).populate('rules.rule');
+      let filteredRules = rulesList[0].rules.filter(item => item.rule !== null);
+      
+      let playersNames = ['s1mple', 'Zeus', 'electronic', 'Edward', 'flamie', 'hitMouse', 'seized', 'f0rest', 'Xyp9x', 'flusha'];
+      let random = () => Math.floor(Math.random() * 9) + 1;
+      let resultsRandomValues = [1, 9, 8, 11, 12, 15, 7, 6, 3, 4, 13];
+  
+      createdMatchesId.forEach(async(item, index) => {
+        
+        let playersResults = [];
+        
+        for(let i = 0; i < playersNames.length; i++){
+          let result = {}
+              result.name = playersNames[i]
+    
+          filteredRules.forEach(item => {
+            let name = item.rule.name;
+            result[name] = resultsRandomValues[random()]
+          })
+    
+          playersResults.push(result);
+        }
+  
+        const matchResult = await MatchResult.create({
+          matchId: item,
+          playersResults: playersResults,
+        })
+
+        await MatchModel.findByIdAndUpdate(item, {results: matchResult._id})
+
+        await TournamentModel.findByIdAndUpdate(newTournament.id, {$push: { matches: item}})
+
+      })
+
+      console.log(createdMatches, createdMatchesId);
+      
       const tournament = await TournamentModel.findOne({ _id: newTournament.id })
         .populate('rules.rule')
         .populate('matches')
-      // list.push(tournament);
-      // io.emit('tournaments', { tournaments: list });
+        // .populate({
+        //   path: 'matches',
+        //   populate: {
+        //     path: 'results',
+        //     model: 'MatchResult',
+        //     select: 'playersResults'
+        //   }
+        // })
 
       res.json({
         success: true,
