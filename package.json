@@ -32,6 +32,7 @@
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.2.0",
     "morgan": "^1.9.0",
+    "nodemon": "^1.18.10",
     "npm-run-all": "^4.1.2"
   }
 }

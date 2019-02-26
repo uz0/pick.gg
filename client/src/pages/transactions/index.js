@@ -9,32 +9,41 @@ class Transactions extends Component {
 
   constructor() {
     super()
-    this.TransactionsService = new TransactionsService()
+    this.TransactionsService = new TransactionsService({
+      onUpdate: () => this.updateData()
+    });
+
     this.state = {
       transitionData: []
     }
   }
 
   OperationData = (item) => {
-    if( item === "user deposit"){
+    if (item === "user deposit") {
       return <div className={style.plus}>{item}</div>
     }
-    if( item === "user withdraw"){
-      return <div className={style.minus}>{item}</div>
-    }
-    if( item === "tournament deposit"){
-      return <div className={style.minus}>{item}</div>
-    }
-    else{
-      return <div className={style.plus}>{item}</div>
-    }
-   }
 
-  async componentDidMount() {
-    let historyData = await this.TransactionsService.getTransactionsHistory()
+    if (item === "user withdraw") {
+      return <div className={style.minus}>{item}</div>
+    }
+
+    if (item === "tournament deposit") {
+      return <div className={style.minus}>{item}</div>
+    } else {
+      return <div className={style.plus}>{item}</div>
+    }
+  }
+
+  updateData = async () => {
+    let historyData = await this.TransactionsService.getTransactionsHistory();
+
     this.setState({
       transitionData: historyData.history
-    })
+    });
+  }
+
+  async componentDidMount() {
+    this.updateData()
   }
 
   render() {
