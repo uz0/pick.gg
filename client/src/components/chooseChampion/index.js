@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Button from '../button/index'
 import ChampionCard from '../ChampionCard'
+import Modal from '../../components/modal'
 import { ReactComponent as CloseIcon } from '../../assets/close.svg'
 import classnames from 'classnames'
 import style from './chooseChampion.module.css'
@@ -14,7 +15,18 @@ class chooseChampion extends Component {
     super();
     this.state = {
       choosedChampions: [],
+      modalChoose: false
     }
+  }
+
+  
+
+  showModal = () => {
+    this.setState({
+      modalChoose: true,
+
+
+    })
   }
 
   participateInTournament = (e) => {
@@ -64,7 +76,12 @@ class chooseChampion extends Component {
               onClick={closeChoose}
             />
           </div>
-          <form onSubmit={this.participateInTournament}>
+          <form onSubmit={this.showModal}>
+            {this.state.modalChoose && <Modal 
+              textModal={'You should pay entry '+ tournamentEntry +'$'} 
+              closeModal={this.closeModalChoose}
+              submitClick={this.participateInTournament}
+            />}
             <div className={style.players}>
               {champions.map(champion => <ChampionCard
                 key={uuid()}
@@ -76,9 +93,10 @@ class chooseChampion extends Component {
             <div className={style.footer_add}>
               <Button
                 appearance={'_basic-accent'}
-                type={'submit'}
+                onClick={this.showModal}
                 text={'Add players'}
                 disabled={isButtonDisabled}
+                type="button"
               />
               {!isUserHasMoneyToPlay && <p className={style.warning}>Sorry, you don't have enough money to take part in a tournament</p>}
             </div>
