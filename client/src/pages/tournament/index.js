@@ -68,8 +68,6 @@ class App extends Component {
       choosedChampions: [...this.state.choosedChampions, champion],
     })
 
-  
-
   setChoosedChampions = async(champions) => {
     if(champions.length === 0){
       this.NotificationService.show('You canceled')
@@ -88,7 +86,7 @@ class App extends Component {
   }
     
   calcWidth = item => {
-    const logs = this.state.leaders.map(item => item.points)
+    const logs = this.state.leaders.map(item => item.totalScore)
     const maxPoint = Math.max.apply(Math, logs)
     return (item / maxPoint) * 100
   }
@@ -125,7 +123,7 @@ class App extends Component {
     let earnings = tournament.tournament.entry * tournament.tournament.users.length;
 
     let rules = {};
-    let matches = tournament.tournament.matches;
+    let matches = tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
     let usersResults = [];
     
     if(tournament.tournament.users.length > 0){
@@ -138,13 +136,16 @@ class App extends Component {
       
       // count users results in each match
       function countUserResultsById(userId) {
+
+        let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+
         matches.forEach(item => {
           if(userPlayers){
             let totalScore = 0;
 
-            let choosedPlayers = userPlayers.players.map(item => item.name);
+            let choosedPlayers = userChampions.players.map(item => item.name);
             let results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
-      
+
             let resultsScore = results.reduce((acc, item) => {
               let sum = 0;
               for(let rule in item){
@@ -183,8 +184,8 @@ class App extends Component {
           }, 0)
         return item;
       })
-      .sort((a,b) => a-b)
-    
+      .sort((a,b) => b.totalScore - a.totalScore)
+
     // map current users results to the matches
     let currentUserResults = usersResults.filter(item => item.userId === userId);
     if(currentUserResults.length > 0){
