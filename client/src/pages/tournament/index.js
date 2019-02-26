@@ -53,13 +53,11 @@ class App extends Component {
   }
     
   closeChoose = () =>{
-    this.NotificationService.show('You canceled')
     this.setState({
       chooseChamp: false,
   })}
 
   closeModalChoose = () => {
-    this.NotificationService.show('You canceled')
     this.setState({
       modalChoose: false,
       chooseChamp: false
@@ -71,12 +69,6 @@ class App extends Component {
     })
 
   setChoosedChampions = async(champions) => {
-    if(champions.length === 0){
-      this.NotificationService.show('You canceled')
-      this.setState({
-        chooseChamp: false,
-      })
-    } else{
       await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
       let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
       this.setState({
@@ -84,7 +76,7 @@ class App extends Component {
       choosedChampions: [...champions],
       chooseChamp: false,
     }, () => this.NotificationService.show("You've been registered for the tournament"))
-    }
+    
   }
     
   calcWidth = item => {
