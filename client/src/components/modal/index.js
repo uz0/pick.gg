@@ -5,14 +5,14 @@ import Button from '../button'
 
 class Modal extends Component {
  render(){
-   let {textModal, closeModal} = this.props
+   let {textModal, closeModal, submitClick} = this.props
    return (
     <div className={style.wrapper_modal}>
       <div className={style.modal}>
         <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeModal} />
         <p>{textModal}</p>
         <div className={style.btns_modal}>
-          <Button appearance={'_basic-accent'} type={'submit'} text={'Yes'} />
+          <Button appearance={'_basic-accent'} type={'submit'} onClick={submitClick} text={'Yes'} />
           <Button appearance={'_basic-accent'} onClick={closeModal} text={'No'} />
         </div>
       </div>

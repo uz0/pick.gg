@@ -31,6 +31,7 @@ class App extends Component {
       earnings: 0,
       choosedChampions: [],
       chooseChamp: false,
+
     }
   }
 
@@ -49,24 +50,41 @@ class App extends Component {
     }
   }
     
+  closeChoose = () =>{
+    this.NotificationService.show('You canceled')
+    this.setState({
+      chooseChamp: false,
+  })}
+
+  closeModalChoose = () => {
+    this.NotificationService.show('You canceled')
+    this.setState({
+      modalChoose: false,
+      chooseChamp: false
+  })}
+
   chooseChampion = (champion) =>
     this.setState({
       choosedChampions: [...this.state.choosedChampions, champion],
     })
 
-  closeChoose = () =>
-    this.setState({
-      chooseChamp: false,
-    })
   
+
   setChoosedChampions = async(champions) => {
-    await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
-    let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
-    this.setState({
+    if(champions.length === 0){
+      this.NotificationService.show('You canceled')
+      this.setState({
+        chooseChamp: false,
+      })
+    } else{
+      await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
+      let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+      this.setState({
       tournament: tournament.tournament,
       choosedChampions: [...champions],
       chooseChamp: false,
     }, () => this.NotificationService.show("You've been registered for the tournament"))
+    }
   }
     
   calcWidth = item => {
@@ -109,7 +127,7 @@ class App extends Component {
     let rules = {};
     let matches = tournament.tournament.matches;
     let usersResults = [];
-
+    
     if(tournament.tournament.users.length > 0){
 
       tournament.tournament.rules.forEach(item => {
@@ -200,7 +218,7 @@ class App extends Component {
       }
       return cards;
     }
-
+    
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -227,6 +245,7 @@ class App extends Component {
             userBalance={user.balance}
             tournamentEntry={tournament.entry}
             closeChoose={this.closeChoose}
+            closeModalChoose={this.closeModalChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}
           <div className={style.team_block}>
