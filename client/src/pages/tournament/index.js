@@ -140,31 +140,30 @@ class App extends Component {
         let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
         matches.forEach(item => {
-          if(userPlayers){
-            let totalScore = 0;
 
-            let choosedPlayers = userChampions.players.map(item => item.name);
-            let results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+          let totalScore = 0;
 
-            let resultsScore = results.reduce((acc, item) => {
-              let sum = 0;
-              for(let rule in item){
-                if(rule !== 'name'){
-                  sum += item[rule] * rules[rule]
-                }
+          const choosedPlayers = userChampions.players.map(item => item.name);
+          const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+
+          const resultsScore = results.reduce((acc, item) => {
+            let sum = 0;
+            for(let rule in item){
+              if(rule !== 'name'){
+                sum += item[rule] * rules[rule]
               }
-              return acc + sum;
-            }, 0)
-      
-            totalScore = resultsScore
+            }
+            return acc + sum;
+          }, 0)
+    
+          totalScore = resultsScore
+
+          usersResults.push({
+            userId,
+            item,
+            totalScore,
+          })
   
-            usersResults.push({
-              userId,
-              item,
-              totalScore,
-            })
-  
-          }
         });
       }
 
@@ -195,6 +194,7 @@ class App extends Component {
     }
 
     this.setState({
+      userId,
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       champions: champions.players,
@@ -207,7 +207,9 @@ class App extends Component {
 
   render() {
 
-    let { tournament, champions, choosedChampions, user, matches } = this.state;
+    let { tournament, champions, choosedChampions, userId, matches } = this.state;
+
+    let isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
 
     let ChampionsCardsList = () => {
       let cards = [];
@@ -259,7 +261,7 @@ class App extends Component {
               {matches.map((item,index) => (
                 <p key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
-                  {this.state.leaders.length > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
+                  {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
                   <span>{moment(item.date).format('D MMM hh:mm')}</span>
                 </p>
               ))}
