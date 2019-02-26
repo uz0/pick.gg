@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 import arrow from '../../assets/arrow.svg'
 import moment from 'moment'
 import AuthService from '../../services/authService'
+import UserService from '../../services/userService'
 import http from '../../services/httpService'
 import TournamentService from '../../services/tournamentService'
 import style from './tournaments.module.css'
@@ -13,6 +14,7 @@ class App extends Component {
   constructor() {
     super()
     this.AuthService = new AuthService()
+    this.UserService = new UserService()
     this.TournamentService = new TournamentService()
     this.state = {
       newTournament: false,
@@ -87,17 +89,21 @@ class App extends Component {
 
   async componentDidMount() {
     let tournaments = await this.TournamentService.getAllTournaments()
-
+    let user = await this.UserService.getMyProfile();
     let rulesQuery = await http('/api/rules')
     let rules = await rulesQuery.json()
     
     this.setState({
       tournaments: tournaments.tournaments,
       rules: rules.rules,
+      user: user.user
     })
   }
 
   render() {
+
+    // let {  user } = this.state;
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -116,7 +122,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        {this.state.newTournament && <NewTournament rules={this.state.rules} updateTournaments={this.updateTournaments} closeTournament={this.closeTournament} />}
+        {this.state.newTournament && <NewTournament rules={this.state.rules} user={this.state.user} updateTournaments={this.updateTournaments} closeTournament={this.closeTournament} />}
         <div className={style.tournaments_block}>
           <div className={style.header_tournaments}>
             <p>Tournament Name</p>
