@@ -102,15 +102,7 @@ const TournamentController = io => {
       .populate({ path: 'users.players', select: 'name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
-      // .populate('matches')
-      // .populate({
-      //   path: 'matches',
-      //   populate: {
-      //     path: 'results',
-      //     model: 'MatchResult',
-      //     select: 'playersResults'
-      //   }
-      // })
+      .populate('tournament')
 
     res.json({ tournament });
 

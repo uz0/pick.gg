@@ -96,8 +96,6 @@ class App extends Component {
     let rulesQuery = await http('/api/rules')
     let rules = await rulesQuery.json()
 
-    console.log(realTournaments.tournaments);
-    
     this.setState({
       realTournaments: realTournaments.tournaments,
       fantasyTournaments: fantasyTournaments.tournaments,

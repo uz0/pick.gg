@@ -101,10 +101,11 @@ class App extends Component {
   
   async componentDidMount(){
 
-    const champions = await this.ChampionService.getAllChampions()
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId)
     const userId = await this.AuthService.getProfile()._id;
-    
+
+    const champions = tournament.tournament.tournament.champions;
+
     const isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
@@ -112,82 +113,83 @@ class App extends Component {
     let leaders = tournament.tournament.users;
     let sortedLeaders;
     
-    let matches = tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
-    let usersResults = [];
-    let rules = {};
+    // let matches = tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
+    // let usersResults = [];
+    // let rules = {};
     
-    if(tournament.tournament.users.length > 0){
+    // if(tournament.tournament.users.length > 0){
 
-      tournament.tournament.rules.forEach(item => {
-        if(item.rule){
-          rules[item.rule.name] = item.score;
-        }
-      })
+    //   tournament.tournament.rules.forEach(item => {
+    //     if(item.rule){
+    //       rules[item.rule.name] = item.score;
+    //     }
+    //   })
       
       // count users results in each match
-      function countUserResultsById(userId) {
+      // function countUserResultsById(userId) {
 
-        let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+      //   let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-        matches.forEach(item => {
+      //   matches.forEach(item => {
 
-          let totalScore = 0;
+      //     let totalScore = 0;
 
-          const choosedPlayers = userChampions.players.map(item => item.name);
-          const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+      //     const choosedPlayers = userChampions.players.map(item => item.name);
+      //     const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
-          const resultsScore = results.reduce((acc, item) => {
-            let sum = 0;
-            for(let rule in item){
-              if(rule !== 'name'){
-                sum += item[rule] * rules[rule]
-              }
-            }
-            return acc + sum;
-          }, 0)
+      //     const resultsScore = results.reduce((acc, item) => {
+      //       let sum = 0;
+      //       for(let rule in item){
+      //         if(rule !== 'name'){
+      //           sum += item[rule] * rules[rule]
+      //         }
+      //       }
+      //       return acc + sum;
+      //     }, 0)
     
-          totalScore = resultsScore
+      //     totalScore = resultsScore
 
-          usersResults.push({
-            userId,
-            item,
-            totalScore,
-          })
+      //     usersResults.push({
+      //       userId,
+      //       item,
+      //       totalScore,
+      //     })
   
-        });
-      }
+      //   });
+      // }
 
-      tournament.tournament.users.forEach(user => {
-        return countUserResultsById(user.user._id)
-      })
-    }
+      // tournament.tournament.users.forEach(user => {
+      //   return countUserResultsById(user.user._id)
+      // })
+
+    // }
 
     // map leaders to their results
-    sortedLeaders = tournament.tournament.users
-      .map(item => item.user)
-      .map(item => {
-        item.totalScore = usersResults
-          .filter(element => element.userId === item._id)
-          .reduce((acc, item) => {
-            return acc + item.totalScore;
-          }, 0)
-        return item;
-      })
-      .sort((a,b) => b.totalScore - a.totalScore)
+    // sortedLeaders = tournament.tournament.users
+    //   .map(item => item.user)
+    //   .map(item => {
+    //     item.totalScore = usersResults
+    //       .filter(element => element.userId === item._id)
+    //       .reduce((acc, item) => {
+    //         return acc + item.totalScore;
+    //       }, 0)
+    //     return item;
+    //   })
+    //   .sort((a,b) => b.totalScore - a.totalScore)
 
     // map current users results to the matches
-    let currentUserResults = usersResults.filter(item => item.userId === userId);
-    if(currentUserResults.length > 0){
-      matches.forEach((match, index) => {
-        match.currentUserScore = currentUserResults[index].totalScore;
-      })
-    }
+    // let currentUserResults = usersResults.filter(item => item.userId === userId);
+    // if(currentUserResults.length > 0){
+    //   matches.forEach((match, index) => {
+    //     match.currentUserScore = currentUserResults[index].totalScore;
+    //   })
+    // }
 
     this.setState({
       userId,
+      champions,
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
-      champions: champions.players,
       matches: tournament.tournament.matches,
       leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
@@ -248,13 +250,13 @@ class App extends Component {
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
-              {matches.map((item,index) => (
+              {/* {matches.map((item,index) => (
                 <p key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
                   {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
                   <span>{moment(item.date).format('hh:mm')}</span>
                 </p>
-              ))}
+              ))} */}
             </div>
             <div className={style.tournament_leader}>
               <div className={style.header_leader}>

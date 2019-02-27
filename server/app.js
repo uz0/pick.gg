@@ -17,6 +17,7 @@ import {
   TransactionController,
   RuleController,
   PlayerController,
+  SystemController,
 } from "./controllers";
 
 import { AuthVerifyMiddleware } from "./middlewares";
@@ -53,6 +54,7 @@ app.use("/api/rules", RuleController());
 app.use("/api/players", PlayerController());
 app.use("/api/tournaments", TournamentController(io));
 app.use("/api/transactions", TransactionController());
+app.use("/api/system", SystemController());
 
 // express will serve up index.html if it doesn't recognize the route
 app.get("/*", (req, res) => {
