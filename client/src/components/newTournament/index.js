@@ -45,7 +45,16 @@ class newTournament extends Component {
   submitForm = async e => {
     e.preventDefault()
 
-    let { name, entry, rules } = this.state
+    let { name, entry, rules, tournament } = this.state
+    let tournamentId = '';
+
+    if(tournament){
+      tournamentId = this.props.tournamentsData.filter(item => item.name === tournament)[0]._id;
+    } else {
+      this.NotificationService.show('Please, select tournament and try again');
+      this.props.closeTournament();
+      return false;
+    }
 
     let normalizedRules = Object.keys(rules).map(item => {
       return {
@@ -64,7 +73,7 @@ class newTournament extends Component {
         name,
         entry,
         rules: [...normalizedRules],
-        tournamentId: 1,
+        tournamentId,
       }),
     })
 
@@ -72,7 +81,7 @@ class newTournament extends Component {
       this.NotificationService.show(`You've created tournament ${name}`)
       this.props.closeTournament()
       this.props.updateTournaments()
-    } else{
+    } else {
       this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`)
       this.props.closeTournament()
     }
@@ -80,7 +89,9 @@ class newTournament extends Component {
   }
 
   render() {
-    let { closeTournament, rules } = this.props
+
+    let { closeTournament, rules, tournamentsData } = this.props
+
     return (
       <div className={style.wrap}>
         <div className={style.new_tournament}>
@@ -91,9 +102,9 @@ class newTournament extends Component {
             <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
             <div>
               <div className={style.top_block}>
-                <Input action={this.onChange} label="Name" name="name" type="text" />
-                <Select label="Tournament (from list)" option="Tournament Name" />
-                <Input action={this.onChange} label="Entry $" name="entry" type="text" />
+                <Input action={this.onChange} label="Name" name="name" type="text" required/>
+                <Select action={this.onChange} name="tournament" tournamentsData={this.props.tournamentsData} label="Tournament (from list)" required/>
+                <Input action={this.onChange} label="Entry $" name="entry" type="text" required/>
               </div>
               <p>Rules</p>
               <div className={style.rules_inputs}>{rules && rules.map(item => <input name={item._id} onChange={this.onRulesInputChange} value={this.state.rules[item._id] || ''} key={item._id} placeholder={item.name} type="number" min="-10" max="10" />)}</div>
