@@ -182,34 +182,6 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   position: relative;
 }
 
-@keyframes arrow-anim {
-  0% {
-    right: -10px;
-  }
-  70% {
-    right: -20px;
-  }
-  100% {
-    right: -10px
-  }
-}
-
-.tournaments_block a .arrow_card {
-  position: absolute;
-  top: 15px;
-  right: -10px;
-  opacity: 0;
-  transition: all 0.3s;
-}
-
-.card_tournament:hover .arrow_card {
-  transition: all 0.3s;
-  opacity: 1;
-  animation-name: arrow-anim;
-  animation-duration: 0.7s;
-  animation-iteration-count: 1;
-}
-
 .card_tournament:hover {
   background: var(--accent-color);
   cursor: pointer;
