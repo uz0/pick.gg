@@ -1,4 +1,3 @@
-import http from './httpService';
 import BasicService from './basicService';
 
 export default class TransactionService extends BasicService {
