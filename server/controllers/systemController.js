@@ -14,11 +14,20 @@ let router = express.Router();
 
 const SystemController = () => {
 
-  router.get('/sync', async (req, res) => {
+  router.get('/reset', async (req, res) => {
 
-    // await TournamentModel.deleteMany();
-    // await MatchResult.deleteMany();
-    // await MatchModel.deleteMany();
+    await FantasyTournament.deleteMany();
+    await TournamentModel.deleteMany();
+    await MatchResult.deleteMany();
+    await MatchModel.deleteMany();
+
+    res.send({
+      "success": "real tournaments were resetted"
+    })
+
+  })
+
+  router.get('/sync', async (req, res) => {
 
     let tournamentRef = '';
     let tournamentChampions = [];
