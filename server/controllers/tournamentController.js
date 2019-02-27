@@ -224,6 +224,8 @@ const TournamentController = io => {
       await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
     }
 
+    console.log(tournamentUsers, players)
+
     tournamentUsers.push({
       userId,
       user: userId,
