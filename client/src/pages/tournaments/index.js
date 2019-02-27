@@ -36,9 +36,9 @@ class App extends Component {
 
   filterByDate = async e => {
     if (e.target.value === '') {
-      let tournaments = await this.TournamentService.getAllTournaments()
+      let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
       this.setState({
-        tournaments: tournaments.tournaments,
+        fantasyTournaments: fantasyTournaments.tournaments,
         dateFilter: '',
       })
       return
@@ -57,9 +57,9 @@ class App extends Component {
 
   filterByEntry = async e => {
     if (e.target.value <= 0) {
-      let tournaments = await this.TournamentService.getAllTournaments()
+      let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
       this.setState({
-        tournaments: tournaments.tournaments,
+        fantasyTournaments: fantasyTournaments.tournaments,
         entryFilter: '',
       })
       return
@@ -77,12 +77,12 @@ class App extends Component {
   }
 
   updateTournaments = async() => {
-    let tournaments = await this.TournamentService.getAllTournaments()
+    let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
     let rulesQuery = await http('/api/rules')
     let rules = await rulesQuery.json()
     
     this.setState({
-      tournaments: tournaments.tournaments,
+      fantasyTournaments: fantasyTournaments.tournaments,
       rules: rules.rules,
     })
   }
