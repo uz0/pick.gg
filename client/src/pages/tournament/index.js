@@ -113,12 +113,12 @@ class App extends Component {
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
-    let leaders = tournament.tournament.users;
+    let leaders = tournament.tournament.users.map(item => item.user);
     let sortedLeaders;
-    
-    // let matches = tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
-    // let usersResults = [];
-    // let rules = {};
+
+    let matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
+    let usersResults = [];
+    let rules = {};
     
     // if(tournament.tournament.users.length > 0){
 
@@ -190,11 +190,12 @@ class App extends Component {
 
     this.setState({
       userId,
+      leaders,
+      matches,
       champions,
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
-      matches: tournament.tournament.matches,
-      leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
+      // leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
     });
 
@@ -253,13 +254,13 @@ class App extends Component {
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
-              {/* {matches.map((item,index) => (
+              {matches.map((item,index) => (
                 <p key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
-                  {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
+                  {/* {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>} */}
                   <span>{moment(item.date).format('hh:mm')}</span>
                 </p>
-              ))} */}
+              ))}
             </div>
             <div className={style.tournament_leader}>
               <div className={style.header_leader}>
@@ -268,7 +269,7 @@ class App extends Component {
               </div>
               <div className={style.table_leader}>
                 <div className={style.top_five}>
-                  {/* {this.state.leaders.map((item, index) => (
+                  {this.state.leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>
                       <p className={style.number}>{index + 1}</p>
                       <p className={style.name_leader}>{item.username}</p>
@@ -276,7 +277,7 @@ class App extends Component {
                         <span style={{ width: `${this.calcWidth(item.totalScore)}%` }}>{item.totalScore}</span>
                       </div>
                     </div>
-                  ))} */}
+                  ))}
                 </div>
               </div>
             </div>
