@@ -53,12 +53,10 @@ const SystemController = () => {
     })
 
     const createdTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
-    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(3);
-    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(3);
-
+    
     tournamentRef = createdTournament[0]._id;
     tournamentChampions = createdTournament[0].champions.map(item => item.name);
-
+    
     // matches array
     for(let i = 0; i <= 3; i++){
 
@@ -69,9 +67,11 @@ const SystemController = () => {
       })
 
     }
-
+    
     await MatchModel.insertMany(matches)
     
+    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(3);
+
     matchesRefs = insertedMatches.map(item => item._id);
     
     // match results array
@@ -85,6 +85,8 @@ const SystemController = () => {
     }
 
     await MatchResult.insertMany(matchResults)
+
+    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(3);
 
     matchResultsRefs = insertedResults.map(item => { 
       return item._id
