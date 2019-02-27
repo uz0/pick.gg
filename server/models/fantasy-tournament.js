@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 export default mongoose.model('FantasyTournament', new Schema({
-  tournament: { type: Schema.Types.ObjectId, ref: 'Tournament' },
+
+  tournament  : { type: Schema.Types.ObjectId, ref: 'Tournament' },
   name        : { type: String, required: true },
   entry       : { type: Number, required: true },
 
