@@ -21,6 +21,18 @@ export default class TournamentService {
 
   }
 
+  getRealTournaments = async() => {
+    let tournamentsQuery = await http('/api/tournaments/real');
+    let tournaments = await tournamentsQuery.json();
+    return tournaments;
+  }
+
+  getFantasyTournaments = async() => {
+    let tournamentsQuery = await http('/api/tournaments/fantasy');
+    let tournaments = await tournamentsQuery.json();
+    return tournaments;
+  }
+
   getAllTournaments = async() => {
     let tournamentsQuery = await http('/api/tournaments');
     let tournaments = await tournamentsQuery.json();
