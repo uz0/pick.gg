@@ -69,8 +69,11 @@ class App extends Component {
     })
 
   setChoosedChampions = async(champions) => {
+
       await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
+
       let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+
       this.setState({
       tournament: tournament.tournament,
       choosedChampions: [...champions],
@@ -265,7 +268,7 @@ class App extends Component {
               </div>
               <div className={style.table_leader}>
                 <div className={style.top_five}>
-                  {this.state.leaders.map((item, index) => (
+                  {/* {this.state.leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>
                       <p className={style.number}>{index + 1}</p>
                       <p className={style.name_leader}>{item.username}</p>
@@ -273,7 +276,7 @@ class App extends Component {
                         <span style={{ width: `${this.calcWidth(item.totalScore)}%` }}>{item.totalScore}</span>
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>
