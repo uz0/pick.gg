@@ -192,7 +192,7 @@ const TournamentController = io => {
     const players = req.body.players;
     const userId = req.decoded._id;
 
-    const tournament = await TournamentModel.findOne({ _id: id });
+    const tournament = await FantasyTournament.findOne({ _id: id });
     const user = await UserModel.findOne({ _id: userId })
 
     if (moment(tournament.date).isAfter(moment())) {
@@ -230,10 +230,9 @@ const TournamentController = io => {
       players,
     });
 
-    const newTournament = await TournamentModel
+    const newTournament = await FantasyTournament
       .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true })
       .populate({ path: 'users.user', select: '_id username' })
-
 
     res.json({
       success: true,
