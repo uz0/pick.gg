@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Input from '../../components/input'
 import NewTournament from '../../components/newTournament'
 import { NavLink } from 'react-router-dom'
-import arrow from '../../assets/arrow.svg'
 import moment from 'moment'
 import AuthService from '../../services/authService'
 import UserService from '../../services/userService'
@@ -137,7 +136,6 @@ class App extends Component {
                 <p>{moment(item.date).format('MMM DD')}</p>
                 <p>{item.users.length}</p>
                 <p>$ {item.entry}</p>
-                <img className={style.arrow_card} src={arrow} alt="arrow icon" />
               </div>
             </NavLink>
           ))}
