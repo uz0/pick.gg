@@ -33,15 +33,15 @@ class chooseChampion extends Component {
     this.props.setChoosedChampions(this.state.choosedChampions);
   }
 
-  isChampionChoosed = (championName) => this.state.choosedChampions.includes(championName) ? true : false;
+  isChampionChoosed = (championName) => this.state.choosedChampions.map(item => item.name).includes(championName) ? true : false;
 
   selectChampion = (champion) => {
 
     let choosedChampions = this.state.choosedChampions;
 
     if(choosedChampions.length === 5) {
-      if(choosedChampions.includes(champion)){
-        choosedChampions.splice(choosedChampions.indexOf(champion), 1)
+      if(choosedChampions.includes(champion.name)){
+        choosedChampions.splice(choosedChampions.indexOf(champion.name), 1)
         this.setState({ choosedChampions })
         return;
       } else {
@@ -49,10 +49,10 @@ class chooseChampion extends Component {
       }
     };
 
-    if (!choosedChampions.map(item => item).includes(champion)){
+    if (!choosedChampions.map(item => item.name).includes(champion.name)){
       this.setState({ choosedChampions: [...choosedChampions, champion] })
     } else {
-      choosedChampions.splice(choosedChampions.indexOf(champion), 1)
+      choosedChampions.splice(choosedChampions.indexOf(champion.name), 1)
       this.setState({ choosedChampions })
     }
   }
@@ -94,8 +94,8 @@ class chooseChampion extends Component {
             <div className={style.players}>
               {champions.map(champion => <ChampionCard
                 key={uuid()}
-                name={champion}
-                className={cx({choosed: this.isChampionChoosed(champion)})}
+                name={champion.name}
+                className={cx({choosed: this.isChampionChoosed(champion.name)})}
                 onClick={() => this.selectChampion(champion)}
               />)}
             </div>
@@ -114,7 +114,5 @@ class chooseChampion extends Component {
       </div>
     )
   }
-
 }
-
 export default chooseChampion
