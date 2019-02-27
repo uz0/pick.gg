@@ -19,6 +19,7 @@ class App extends Component {
     this.state = {
       newTournament: false,
       tournaments: [],
+      fantasyTournaments: [],
       rules: [],
       entryFilter: '',
       dateFilter: '',
@@ -88,21 +89,25 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    let tournaments = await this.TournamentService.getAllTournaments()
+    let realTournaments = await this.TournamentService.getRealTournaments()
+    let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
+
     let user = await this.UserService.getMyProfile();
+
     let rulesQuery = await http('/api/rules')
     let rules = await rulesQuery.json()
+
+    console.log(realTournaments.tournaments);
     
     this.setState({
-      tournaments: tournaments.tournaments,
+      realTournaments: realTournaments.tournaments,
+      fantasyTournaments: fantasyTournaments.tournaments,
       rules: rules.rules,
       user: user.user
     })
   }
 
   render() {
-
-    // let {  user } = this.state;
 
     return (
       <div className={style.home_page}>
@@ -122,7 +127,13 @@ class App extends Component {
             </div>
           </div>
         </div>
-        {this.state.newTournament && <NewTournament rules={this.state.rules} user={this.state.user} updateTournaments={this.updateTournaments} closeTournament={this.closeTournament} />}
+        {this.state.newTournament && <NewTournament
+          rules={this.state.rules}
+          user={this.state.user}
+          tournamentsData={this.state.realTournaments}
+          updateTournaments={this.updateTournaments}
+          closeTournament={this.closeTournament}
+        />}
         <div className={style.tournaments_block}>
           <div className={style.header_tournaments}>
             <p>Tournament Name</p>
@@ -130,7 +141,7 @@ class App extends Component {
             <p>Users</p>
             <p>Entry</p>
           </div>
-          {this.state.tournaments.map(item => (
+          {this.state.fantasyTournaments.map(item => (
             <NavLink key={item._id} to={`/tournaments/${item._id}`}>
               <div className={style.card_tournament}>
                 <p>{item.name}</p>
