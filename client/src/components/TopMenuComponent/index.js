@@ -78,8 +78,8 @@ class TopMenuComponent extends Component {
           <DropDown placeholder={<BalancePlaceholder />}>
             <NavLink to="/transactions">Transactions</NavLink>
 
-            <a href="#" onClick={e => this.deposit(e)}>Deposit</a>
-            <a href="#" onClick={e => this.withdraw(e)}>Withdraw</a>
+            <a href="/" onClick={e => this.deposit(e)}>Deposit</a>
+            <a href="/" onClick={e => this.withdraw(e)}>Withdraw</a>
           </DropDown>
 
           <DropDown placeholder={<UserPlaceholder />}>
