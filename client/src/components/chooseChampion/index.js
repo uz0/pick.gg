@@ -94,7 +94,7 @@ class chooseChampion extends Component {
             <div className={style.players}>
               {champions.map(champion => <ChampionCard
                 key={uuid()}
-                name={champion.name}
+                name={champion}
                 className={cx({choosed: this.isChampionChoosed(champion.name)})}
                 onClick={() => this.selectChampion(champion)}
               />)}

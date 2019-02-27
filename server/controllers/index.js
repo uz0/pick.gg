@@ -6,6 +6,7 @@ import TournamentController from "./tournamentController";
 import RuleController from "./ruleController";
 import PlayerController from "./playerController";
 import TransactionController from "./transactionController";
+import SystemController from "./systemController";
 
 export {
   HomeController,
@@ -16,4 +17,5 @@ export {
   RuleController,
   PlayerController,
   TransactionController,
+  SystemController,
 };
