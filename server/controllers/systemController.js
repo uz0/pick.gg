@@ -16,75 +16,95 @@ const SystemController = () => {
 
   router.get('/sync', async (req, res) => {
 
-
-    let champions = ["Xyp9x", "Edward", "Snax", "dennis", "flamie", "neo", "deVVe", "Zeus", "shox", "s1mple"];
-
-    let championsResults = champions.map(item => {
-      let result = MockService.generatePlayerResult(item);
-      return result;
-    })
-
     // await TournamentModel.deleteMany();
     // await MatchResult.deleteMany();
     // await MatchModel.deleteMany();
 
-    // const tournament = await TournamentModel.create({
-    //   name: MockService.getRandomTournamentName(),
-    //   date: Date.now(),
-    //   champions: MockService.getRandomTournamentChampions()
-    // })
+    let tournamentRef = '';
+    let tournamentChampions = [];
 
-    // 5c76942f3962ed192c4a74ce <- tournament ID
-    // 5c76893b6bf0d51228448549 <- match ID
-    // 5c76952316aa212238afe833 <- match result ID
+    const tournament = await TournamentModel.create({
+      name: MockService.getRandomTournamentName(),
+      date: Date.now(),
+      champions: MockService.getRandomTournamentChampions()
+    })
 
-    // const match = await MatchModel.findByIdAndUpdate("5c76946ef7d8d40e1871b616", {
-    //   results: "5c76952316aa212238afe833",
-    // })
+    const createdTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
 
-    // const matchShow = await MatchModel.findById("5c76946ef7d8d40e1871b616")
+    tournamentRef = createdTournament[0]._id;
+    tournamentChampions = createdTournament[0].champions.map(item => item.name);
 
-    // const match = await MatchModel.create({
-    //   tournament: "5c76942f3962ed192c4a74ce",
-    //   date: Date.now(),
-    //   completed: false,
-      // results: { type: Schema.Types.ObjectId, ref: 'MatchResult' },
-    // })
+    let championsResults = () => tournamentChampions.map(item => {
+      let result = MockService.generatePlayerResult(item);
+      return result;
+    })
 
-    // const match = await MatchResult.create({
-    //   matchId: "5c76946ef7d8d40e1871b616",
-    //   playersResults: championsResults,
-    // })
 
-    // const tournament = await TournamentModel.findByIdAndUpdate("5c76942f3962ed192c4a74ce", {$push: {matches: "5c76946ef7d8d40e1871b616"}})
-    // const tournament = await TournamentModel.findById("5c7688c615c0da10048c9e7f").populate('matches')
+    // matches array
+    let matches = [];
+    let matchesRefs = [];
 
-    // const match = await MatchModel.find({_id:"5c76893b6bf0d51228448549"})
+    for(let i = 0; i <= 3; i++){
 
-    // let tournaments = await TournamentModel.find({_id: "5c76942f3962ed192c4a74ce"})
-    //   .populate('matches.results')
-    //   .populate({
-    //     path: 'matches',
-    //     populate: {
-    //       path: 'results',
-    //       model: 'MatchResult',
-    //       select: 'playersResults'
-    //     }
-    //   });
+      matches.push({
+        tournament: tournamentRef,
+        date: Date.now(),
+        completed: false,
+      })
 
-    // await TournamentModel.deleteOne({_id:"5c7688c615c0da10048c9e7e"})
-    // await TournamentModel.deleteOne({_id:"5c7688c615c0da10048c9e7f"})
-    // const tournaments = await TournamentModel
-      // .findById("5c7688c615c0da10048c9e7f")
-      // .populate('matches')
-      // .exec((err, match) => match.save());
-    // console.log(tournaments)
+    }
+
+    await MatchModel.insertMany(matches)
+    
+    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(3);
+    
+    matchesRefs = insertedMatches.map(item => item._id);
+    
+    // match results array
+    let matchResults = [];
+    let matchResultsRefs = [];
+
+    for(let i = 0; i <= 3; i++){
+
+      matchResults.push({
+        matchId: matchesRefs[i],
+        playersResults: championsResults(),
+      })
+
+    }
+
+    await MatchResult.insertMany(matchResults)
+
+    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(3);
+
+    matchResultsRefs = insertedResults.map(item => { 
+      return item._id
+    });
+
+    await MatchModel.update({ _id: matchesRefs[0] }, { results: matchResultsRefs[0]})
+    await MatchModel.update({ _id: matchesRefs[1] }, { results: matchResultsRefs[1]})
+    await MatchModel.update({ _id: matchesRefs[2] }, { results: matchResultsRefs[2]})
+
+    await TournamentModel.findByIdAndUpdate(tournamentRef, { matches: matchesRefs })
+
+    await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
+
+    let newTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1)
+      .populate('champions')
+      .populate('matches')
+      .populate({
+        path: 'matches',
+        populate: {
+          path: 'results',
+          model: 'MatchResult',
+          select: 'playersResults'
+        }
+      });
+
 
     res.send({
-      tournaments,
-      // match,
-      // matchShow,
-      "success": "success"
+      "success": "success",
+      newTournament
     });
 
   })
