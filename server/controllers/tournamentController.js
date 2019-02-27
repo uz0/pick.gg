@@ -103,6 +103,12 @@ const TournamentController = io => {
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
       .populate('tournament')
+      .populate({
+        path: 'tournament',
+        populate: {
+          path: 'champions',
+        }
+      });
 
     res.json({ tournament });
 
@@ -224,12 +230,10 @@ const TournamentController = io => {
       await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
     }
 
-    console.log(tournamentUsers, players)
-
     tournamentUsers.push({
       userId,
       user: userId,
-      players,
+      players: players,
     });
 
     const newTournament = await FantasyTournament
