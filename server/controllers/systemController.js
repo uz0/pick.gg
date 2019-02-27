@@ -23,32 +23,39 @@ const SystemController = () => {
     let tournamentRef = '';
     let tournamentChampions = [];
 
-    const tournament = await TournamentModel.create({
-      name: MockService.getRandomTournamentName(),
-      date: Date.now(),
-      champions: MockService.getRandomTournamentChampions()
-    })
-
-    const createdTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
-
-    tournamentRef = createdTournament[0]._id;
-    tournamentChampions = createdTournament[0].champions.map(item => item.name);
-
     let championsResults = () => tournamentChampions.map(item => {
       let result = MockService.generatePlayerResult(item);
       return result;
     })
 
-
-    // matches array
     let matches = [];
     let matchesRefs = [];
 
+    let matchResults = [];
+    let matchResultsRefs = [];
+
+    const matchDateGap = 3600000; // <- this equals 1 hour
+    const tournamentDateGap = 86400000; // <- this equals 1 day
+
+    const tournament = await TournamentModel.create({
+      name: MockService.getRandomTournamentName(),
+      date: Date.now() + tournamentDateGap,
+      champions: MockService.getRandomTournamentChampions()
+    })
+
+    const createdTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
+    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(3);
+    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(3);
+
+    tournamentRef = createdTournament[0]._id;
+    tournamentChampions = createdTournament[0].champions.map(item => item.name);
+
+    // matches array
     for(let i = 0; i <= 3; i++){
 
       matches.push({
         tournament: tournamentRef,
-        date: Date.now(),
+        date: Date.now() + (matchDateGap * i),
         completed: false,
       })
 
@@ -56,14 +63,9 @@ const SystemController = () => {
 
     await MatchModel.insertMany(matches)
     
-    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(3);
-    
     matchesRefs = insertedMatches.map(item => item._id);
     
     // match results array
-    let matchResults = [];
-    let matchResultsRefs = [];
-
     for(let i = 0; i <= 3; i++){
 
       matchResults.push({
@@ -75,21 +77,17 @@ const SystemController = () => {
 
     await MatchResult.insertMany(matchResults)
 
-    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(3);
-
     matchResultsRefs = insertedResults.map(item => { 
       return item._id
     });
 
-    await MatchModel.update({ _id: matchesRefs[0] }, { results: matchResultsRefs[0]})
-    await MatchModel.update({ _id: matchesRefs[1] }, { results: matchResultsRefs[1]})
-    await MatchModel.update({ _id: matchesRefs[2] }, { results: matchResultsRefs[2]})
+    for(let i = 0; i <= 3; i++){
+      await MatchModel.update({ _id: matchesRefs[i] }, { results: matchResultsRefs[i]})
+    }
 
     await TournamentModel.findByIdAndUpdate(tournamentRef, { matches: matchesRefs })
 
-    await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
-
-    let newTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1)
+    const newTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1)
       .populate('champions')
       .populate('matches')
       .populate({
@@ -100,7 +98,6 @@ const SystemController = () => {
           select: 'playersResults'
         }
       });
-
 
     res.send({
       "success": "success",
