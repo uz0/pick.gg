@@ -26,10 +26,26 @@ const TournamentController = io => {
   //   socket.emit('tournaments', { tournaments: list });
   // });
 
-  router.get('/modify', async (req, res) => {
+  router.get('/real', async (req, res) => {
+
+    const tournaments = await TournamentModel.find({}, '_id name date')
 
     res.send({
-      "matches":"success",
+      tournaments,
+    })
+
+  })
+
+  router.get('/fantasy', async (req, res) => {
+
+    const tournaments = await FantasyTournament.find({})
+      .populate('tournament', 'name date')
+      .populate({ path: 'users.players', select: '_id name' })
+      .populate({ path: 'users.user', select: '_id username' })
+      .sort({date: -1})
+
+    res.send({
+      tournaments,
     })
 
   })
@@ -41,8 +57,6 @@ const TournamentController = io => {
       .populate({ path: 'users.players', select: '_id name' })
       .populate({ path: 'users.user', select: '_id username' })
       .sort({date: -1})
-
-    // const tournaments = await TournamentModel.deleteOne({name: "CSGO"})
 
     res.json({ tournaments });
   });
@@ -83,28 +97,26 @@ const TournamentController = io => {
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
 
-    const tournament = await TournamentModel
+    const tournament = await FantasyTournament
       .findOne({ _id: id })
       .populate({ path: 'users.players', select: 'name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
-      .populate('matches')
-      .populate({
-        path: 'matches',
-        populate: {
-          path: 'results',
-          model: 'MatchResult',
-          select: 'playersResults'
-        }
-      })
+      // .populate('matches')
+      // .populate({
+      //   path: 'matches',
+      //   populate: {
+      //     path: 'results',
+      //     model: 'MatchResult',
+      //     select: 'playersResults'
+      //   }
+      // })
 
     res.json({ tournament });
 
   });
 
   router.post('/', async (req, res) => {
-    // await TournamentModel.deleteMany({})
-    // return;
     const {
       tournamentId,
       name,
@@ -162,77 +174,19 @@ const TournamentController = io => {
         date: Date.now(),
       });
 
-      const newTournament = await TournamentModel.create({
-        tournamentId,
+      const newTournament = await FantasyTournament.create({
+        tournament: tournamentId,
         name,
         entry,
         rules,
         date: Date.now(),
       });
 
-      // mocking matches and results
-      let dateGap = 3600000;
-      for(let i = 0; i < 6; i++){
-        await MatchModel.create({
-          tournament: newTournament.id,
-          date: Date.now() + (dateGap * i),
-          completed: i < 6 ? true : false
-        })
-      }
-  
-      const createdMatches = await MatchModel.find({tournament: newTournament.id})
-      const createdMatchesId = createdMatches.map(match => match._id);
-
-      let rulesList = await TournamentModel.find({_id: newTournament.id}).populate('rules.rule');
-      let filteredRules = rulesList[0].rules.filter(item => item.rule !== null);
-      
-      let playersNames = ['s1mple', 'Zeus', 'electronic', 'Edward', 'flamie', 'hitMouse', 'seized', 'f0rest', 'Xyp9x', 'flusha'];
-      let random = () => Math.floor(Math.random() * 9) + 1;
-      let resultsRandomValues = [1, 9, 8, 11, 12, 15, 7, 6, 3, 4, 13];
-  
-      createdMatchesId.forEach(async(item, index) => {
-        
-        let playersResults = [];
-        
-        for(let i = 0; i < playersNames.length; i++){
-          let result = {}
-              result.name = playersNames[i]
-    
-          filteredRules.forEach(item => {
-            let name = item.rule.name;
-            result[name] = resultsRandomValues[random()]
-          })
-    
-          playersResults.push(result);
-        }
-  
-        const matchResult = await MatchResult.create({
-          matchId: item,
-          playersResults: playersResults,
-        })
-
-        await MatchModel.findByIdAndUpdate(item, {results: matchResult._id})
-
-        await TournamentModel.findByIdAndUpdate(newTournament.id, {$push: { matches: item}})
-
-      })
-
-      const tournament = await TournamentModel.findOne({ _id: newTournament.id })
-        .populate('rules.rule')
-        .populate('matches')
-        // .populate({
-        //   path: 'matches',
-        //   populate: {
-        //     path: 'results',
-        //     model: 'MatchResult',
-        //     select: 'playersResults'
-        //   }
-        // })
-
       res.json({
         success: true,
-        tournament,
+        newTournament,
       });
+
     } catch (error) {
       res.json({
         success: false,
@@ -288,9 +242,6 @@ const TournamentController = io => {
       .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true })
       .populate({ path: 'users.user', select: '_id username' })
 
-    // const listTournamentIndex = _.findIndex(list, item => `${item._id}` === `${id}`);
-    // list[listTournamentIndex] = newTournament;
-    // io.emit('tournaments', { tournaments: list });
 
     res.json({
       success: true,
