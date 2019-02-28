@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 
 const Select = ({ label, tournamentsData, name, placeholder, type, autofocus, value, action, className, option }) => {
   return (
@@ -7,7 +8,7 @@ const Select = ({ label, tournamentsData, name, placeholder, type, autofocus, va
 
       <select name={name} placeholder={placeholder} className={className} type={type} autoFocus={autofocus} value={value} onChange={action} required>
         <option hidden disabled selected value></option>
-        {tournamentsData && tournamentsData.map(item =><option key={item._id}>{item.name}</option>)}
+  {tournamentsData && tournamentsData.map(item =><option key={item._id}>{item.name} - {moment(item.date).format("DD MMM")}</option>)}
       </select>
     </label>
   )
