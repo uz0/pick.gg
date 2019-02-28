@@ -14,6 +14,10 @@ import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
 
+import classnames from 'classnames'
+
+const cx = classnames.bind(style)
+
 class App extends Component {
   constructor() {
     super()
@@ -119,6 +123,8 @@ class App extends Component {
     let matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
     let usersResults = [];
     let rules = {};
+
+    // console.log(tournament.tournament.tournament.matches.map(item => item.date), moment())
     
     // if(tournament.tournament.users.length > 0){
 
@@ -217,6 +223,28 @@ class App extends Component {
       return cards;
     }
     
+    const isMatchFinished = (match) => moment().isAfter(match.date);
+
+    const isMatchGoingOn = (match) => {
+      let isGoingOn = false;
+      console.log(moment(match.date))
+      this.state.matches.forEach((item, index) => {
+        if(moment(match.date).isBetween(moment(), (moment().add(15, 'minutes')))){
+          isGoingOn = true;
+        }
+      })
+      return isGoingOn;
+    }
+
+    
+      // console.log(match);
+      // moment().isBefore(moment())
+      // console.log(moment().isAfter(match))
+    // };
+
+    // console.log(isMatchFinished("2019-02-28T19:18:10.808Z"));
+    // const isActiveMatch = (match) => { if() } ;
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -255,11 +283,14 @@ class App extends Component {
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
               {matches.map((item,index) => (
-                <p className={ moment(item.date).isBetween(item.date, moment(item.date).add(1, 'h')) ? style.active_match : false} key={item._id}>
+                <div className={cx(
+                  {[style.finished_match]: isMatchFinished(item)},
+                  {[style.going_on_match]: isMatchGoingOn(item)},
+                )} key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
                   {/* {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>} */}
-                  <span>{moment(item.date).format('hh:mm')}</span>
-                </p>
+                  <span>{moment(item.date).format('HH:mm')}</span>
+                </div>
               ))}
             </div>
             <div className={style.tournament_leader}>

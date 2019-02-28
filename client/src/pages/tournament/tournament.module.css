@@ -94,7 +94,7 @@
   align-items: flex-start;
 }
 
-.tournament_matches p {
+.tournament_matches > div {
   display: flex;
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
@@ -105,13 +105,58 @@
   width: 100%;
   text-align-last: left;
   margin: 0px 0 10px;
+  position: relative;
 }
 
-.tournament_matches .active_match {
+.tournament_matches .finished_match {
+  background: #474758;
+  box-shadow: 0px 1px 1px #000000;
+  border-radius: 4px;
+  color: #bfbfc7;
+}
+
+.tournament_matches .finished_match:after {
+  content: '';
+  position: absolute;
+  right: -36px;
+  top: 4px;
+  width: 30px;
+  height: 30px;
+  background-image: url("../../assets/finish.svg")
+}
+
+.tournament_matches .going_on_match {
   background: var(--accent-color);
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
   color: #000;
+}
+
+.tournament_matches .going_on_match:after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: 10px;  
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #b71818;
+  animation-name: pulse;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes pulse{
+	0%{
+		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+	}
+	65%{
+		box-shadow: 0px 0px 5px 8px rgba(173,0,0,.3);
+	}
+	90%{
+		box-shadow: 0px 0px 5px 8px rgba(173,0,0,0);
+	}
 }
 
 .tournament_matches .match_title {
