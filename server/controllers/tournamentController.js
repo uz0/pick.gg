@@ -113,8 +113,11 @@ const TournamentController = io => {
         path: 'tournament',
         populate: {
           path: 'matches',
+          populate: {
+            path: 'results'
+          }
         }
-      });
+      })
 
     res.json({ tournament });
 

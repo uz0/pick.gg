@@ -108,7 +108,7 @@ class App extends Component {
   
   async componentDidMount(){
 
-    let tournament = await this.TournamentService.getTournamentById(this.tournamentId)
+    const tournament = await this.TournamentService.getTournamentById(this.tournamentId)
     const userId = await this.AuthService.getProfile()._id;
 
     const champions = tournament.tournament.tournament.champions;
@@ -117,82 +117,88 @@ class App extends Component {
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
-    let leaders = tournament.tournament.users.map(item => item.user);
+    const leaders = tournament.tournament.users.map(item => item.user);
     let sortedLeaders;
 
-    let matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
+    const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
     let usersResults = [];
     let rules = {};
 
-    // console.log(tournament.tournament.tournament.matches.map(item => item.date), moment())
+    console.log(tournament.tournament)
     
     // if(tournament.tournament.users.length > 0){
+    
+    // normalize fantasy tournament rules
+    tournament.tournament.rules.forEach(item => {
+      if(item.rule){
+        rules[item.rule.name] = item.score;
+      }
+    })
 
-    //   tournament.tournament.rules.forEach(item => {
-    //     if(item.rule){
-    //       rules[item.rule.name] = item.score;
-    //     }
-    //   })
+    console.log(userPlayers)
+
+    
       
       // count users results in each match
-      // function countUserResultsById(userId) {
+      function countUserResultsById(userId) {
 
-      //   let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+        let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-      //   matches.forEach(item => {
+        matches.forEach(item => {
 
-      //     let totalScore = 0;
+          let totalScore = 0;
 
-      //     const choosedPlayers = userChampions.players.map(item => item.name);
-      //     const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+          const choosedPlayers = userChampions.players.map(item => item.name);
+          console.log(item)
+          const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
-      //     const resultsScore = results.reduce((acc, item) => {
-      //       let sum = 0;
-      //       for(let rule in item){
-      //         if(rule !== 'name'){
-      //           sum += item[rule] * rules[rule]
-      //         }
-      //       }
-      //       return acc + sum;
-      //     }, 0)
+          const resultsScore = results.reduce((acc, item) => {
+            let sum = 0;
+            for(let rule in item){
+              if(rule !== 'name'){
+                sum += item[rule] * rules[rule]
+              }
+            }
+            return acc + sum;
+          }, 0)
     
-      //     totalScore = resultsScore
+          totalScore = resultsScore
 
-      //     usersResults.push({
-      //       userId,
-      //       item,
-      //       totalScore,
-      //     })
+          usersResults.push({
+            userId,
+            item,
+            totalScore,
+          })
   
-      //   });
-      // }
+        });
 
-      // tournament.tournament.users.forEach(user => {
-      //   return countUserResultsById(user.user._id)
-      // })
+      }
 
-    // }
+      tournament.tournament.users.forEach(user => {
+        return countUserResultsById(user.user._id)
+      })
+
 
     // map leaders to their results
-    // sortedLeaders = tournament.tournament.users
-    //   .map(item => item.user)
-    //   .map(item => {
-    //     item.totalScore = usersResults
-    //       .filter(element => element.userId === item._id)
-    //       .reduce((acc, item) => {
-    //         return acc + item.totalScore;
-    //       }, 0)
-    //     return item;
-    //   })
-    //   .sort((a,b) => b.totalScore - a.totalScore)
+    sortedLeaders = tournament.tournament.users
+      .map(item => item.user)
+      .map(item => {
+        item.totalScore = usersResults
+          .filter(element => element.userId === item._id)
+          .reduce((acc, item) => {
+            return acc + item.totalScore;
+          }, 0)
+        return item;
+      })
+      .sort((a,b) => b.totalScore - a.totalScore)
 
     // map current users results to the matches
-    // let currentUserResults = usersResults.filter(item => item.userId === userId);
-    // if(currentUserResults.length > 0){
-    //   matches.forEach((match, index) => {
-    //     match.currentUserScore = currentUserResults[index].totalScore;
-    //   })
-    // }
+    let currentUserResults = usersResults.filter(item => item.userId === userId);
+    if(currentUserResults.length > 0){
+      matches.forEach((match, index) => {
+        match.currentUserScore = currentUserResults[index].totalScore;
+      })
+    }
 
     this.setState({
       userId,
@@ -269,7 +275,7 @@ class App extends Component {
                   {[style.going_on_match]: isMatchGoingOn(item)},
                 )} key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
-                  {/* {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>} */}
+                  {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
                   <span>{moment(item.date).format('HH:mm')}</span>
                 </div>
               ))}
