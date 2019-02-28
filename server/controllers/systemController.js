@@ -9,6 +9,7 @@ import MatchModel from "../models/match";
 
 import MockService from "../mockService";
 
+import moment from 'moment';
 
 let router = express.Router();
 
@@ -29,6 +30,22 @@ const SystemController = () => {
 
   router.get('/sync', async (req, res) => {
 
+
+    res.send({
+      date
+    })
+  })
+
+
+  router.get('/tournaments', async (req, res) => {
+    const tournaments = await TournamentModel.find({})
+    res.send({
+      tournaments
+    })
+  })
+
+  router.get('/createmock', async (req, res) => {
+
     let tournamentRef = '';
     let tournamentChampions = [];
 
@@ -43,13 +60,14 @@ const SystemController = () => {
     let matchResults = [];
     let matchResultsRefs = [];
 
-    const matchDateGap = 3600000; // <- this equals 1 hour
+    const matchDateGap = 900000; // <- this equals 1 hour
     const tournamentDateGap = 86400000; // <- this equals 1 day
 
     const tournament = await TournamentModel.create({
       name: MockService.getRandomTournamentName(),
-      date: Date.now() + tournamentDateGap,
-      champions: MockService.getRandomTournamentChampions()
+      // date: Date.now() + 86400000,
+      date: moment.now(),
+      champions: MockService.getRandomTournamentChampions(),
     })
 
     const createdTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
@@ -58,11 +76,11 @@ const SystemController = () => {
     tournamentChampions = createdTournament[0].champions.map(item => item.name);
     
     // matches array
-    for(let i = 0; i <= 3; i++){
+    for(let i = 0; i <= 5; i++){
 
       matches.push({
         tournament: tournamentRef,
-        date: Date.now() + (matchDateGap * i),
+        date: moment.now() + (matchDateGap * i) - 900000,
         completed: false,
       })
 
@@ -70,12 +88,12 @@ const SystemController = () => {
     
     await MatchModel.insertMany(matches)
     
-    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(3);
+    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(5);
 
     matchesRefs = insertedMatches.map(item => item._id);
     
     // match results array
-    for(let i = 0; i <= 3; i++){
+    for(let i = 0; i <= 5; i++){
 
       matchResults.push({
         matchId: matchesRefs[i],
@@ -86,13 +104,13 @@ const SystemController = () => {
 
     await MatchResult.insertMany(matchResults)
 
-    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(3);
+    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(5);
 
     matchResultsRefs = insertedResults.map(item => { 
       return item._id
     });
 
-    for(let i = 0; i <= 3; i++){
+    for(let i = 0; i <= 5; i++){
       await MatchModel.update({ _id: matchesRefs[i] }, { results: matchResultsRefs[i]})
     }
 

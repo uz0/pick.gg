@@ -77,9 +77,9 @@ class App extends Component {
   }
 
   updateTournaments = async() => {
-    let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
-    let rulesQuery = await http('/api/rules')
-    let rules = await rulesQuery.json()
+    const fantasyTournaments = await this.TournamentService.getFantasyTournaments()
+    const rulesQuery = await http('/api/rules')
+    const rules = await rulesQuery.json()
     
     this.setState({
       fantasyTournaments: fantasyTournaments.tournaments,
@@ -88,16 +88,19 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    let realTournaments = await this.TournamentService.getRealTournaments()
-    let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
+    const realTournaments = await this.TournamentService.getRealTournaments()
+    const fantasyTournaments = await this.TournamentService.getFantasyTournaments()
 
-    let user = await this.UserService.getMyProfile();
+    // const actualTournaments = realTournaments.tournaments.filter(item => moment(item.date).isAfter(moment()))
+    const actualTournaments = realTournaments.tournaments
 
-    let rulesQuery = await http('/api/rules')
-    let rules = await rulesQuery.json()
+    const user = await this.UserService.getMyProfile();
+
+    const rulesQuery = await http('/api/rules')
+    const rules = await rulesQuery.json()
 
     this.setState({
-      realTournaments: realTournaments.tournaments,
+      realTournaments: actualTournaments,
       fantasyTournaments: fantasyTournaments.tournaments,
       rules: rules.rules,
       user: user.user
