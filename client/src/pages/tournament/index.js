@@ -224,26 +224,7 @@ class App extends Component {
     }
     
     const isMatchFinished = (match) => moment().isAfter(match.date);
-
-    const isMatchGoingOn = (match) => {
-      let isGoingOn = false;
-      console.log(moment(match.date))
-      this.state.matches.forEach((item, index) => {
-        if(moment(match.date).isBetween(moment(), (moment().add(15, 'minutes')))){
-          isGoingOn = true;
-        }
-      })
-      return isGoingOn;
-    }
-
-    
-      // console.log(match);
-      // moment().isBefore(moment())
-      // console.log(moment().isAfter(match))
-    // };
-
-    // console.log(isMatchFinished("2019-02-28T19:18:10.808Z"));
-    // const isActiveMatch = (match) => { if() } ;
+    const isMatchGoingOn = (match) => moment(match.date).isBetween(moment(), (moment().add(15, 'minutes'))) ? true : false;
 
     return (
       <div className={style.home_page}>
