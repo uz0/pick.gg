@@ -255,7 +255,7 @@ class App extends Component {
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
               {matches.map((item,index) => (
-                <p key={item._id}>
+                <p className={ moment(item.date).isBetween(item.date, moment(item.date).add(1, 'h')) ? style.active_match : false} key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
                   {/* {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>} */}
                   <span>{moment(item.date).format('hh:mm')}</span>
