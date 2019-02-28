@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+
 import Input from '../../components/input'
 import NewTournament from '../../components/newTournament'
+import Preloader from '../../components/preloader'
 import { NavLink } from 'react-router-dom'
 import moment from 'moment'
 import AuthService from '../../services/authService'
@@ -22,8 +24,14 @@ class App extends Component {
       rules: [],
       entryFilter: '',
       dateFilter: '',
+      loader: true
     }
   }
+
+  preloader = () => 
+    this.setState({
+      loader: false
+    })
   createTournament = () =>
     this.setState({
       newTournament: true,
@@ -105,28 +113,35 @@ class App extends Component {
       rules: rules.rules,
       user: user.user
     })
+    this.preloader()
+    
   }
 
   render() {
-
+    
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
+        {this.state.loader && <Preloader />}
         <div className={style.filters}>
           <h2>Tournaments</h2>
+
           <div className={style.block_filters}>
             <form>
               <Input type="date" value={this.state.filterByDate} action={this.filterByDate} label="End date" name="date" min="2019-01-01" max="2020-12-31"/>
               <Input type="number" value={this.state.entryFilter} action={this.filterByEntry} label="Minimal entry" placeholder="$ 0.1" name="entry" min="0" />
             </form>
+
             <div className={style.create_tournament}>
               <p>Not satisfied?</p>
+
               <button onClick={this.createTournament} type="submit">
                 Create a new tournament
               </button>
             </div>
           </div>
         </div>
+
         {this.state.newTournament && <NewTournament
           rules={this.state.rules}
           user={this.state.user}
@@ -134,6 +149,7 @@ class App extends Component {
           updateTournaments={this.updateTournaments}
           closeTournament={this.closeTournament}
         />}
+
         <div className={style.tournaments_block}>
           <div className={style.header_tournaments}>
             <p>Tournament Name</p>
@@ -141,8 +157,10 @@ class App extends Component {
             <p>Users</p>
             <p>Entry</p>
           </div>
+
           {this.state.fantasyTournaments.map(item => (
             <NavLink key={item._id} to={`/tournaments/${item._id}`}>
+
               <div className={style.card_tournament}>
                 <p>{item.name}</p>
                 <p>{moment(item.date).format('MMM DD')}</p>

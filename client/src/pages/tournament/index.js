@@ -218,7 +218,9 @@ class App extends Component {
     let { tournament, champions, choosedChampions, userId, matches } = this.state;
 
     let isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
-
+    let finishedMatch = {
+      textDecoration: "line-through"
+    }
     let ChampionsCardsList = () => {
       let cards = [];
       for(let i = 0; i < 5; i++){
