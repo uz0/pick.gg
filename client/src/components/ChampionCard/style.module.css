@@ -10,7 +10,6 @@
   color: var(--color);
   border-radius: 4px;
   background-color: var(--background-color);
-  cursor: pointer;
 }
 
 .card > img {
@@ -22,6 +21,7 @@
 .card:hover {
   --background-color: var(--accent-color);
   --color: #000;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1368px) {

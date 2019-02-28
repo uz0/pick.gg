@@ -211,7 +211,7 @@ class App extends Component {
       let cards = [];
       for(let i = 0; i < 5; i++){
         i < choosedChampions.length
-          ? cards.push(<ChampionCard key={uuid()} name={choosedChampions[i].name} />)
+          ? cards.push(<ChampionCard className={style.no_active} key={uuid()} name={choosedChampions[i].name} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
       }
       return cards;
