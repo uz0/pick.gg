@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import style from './tournament.module.css'
-import ChooseChamp from '../../components/chooseChampion'
 
+import ChooseChamp from '../../components/chooseChampion'
 import ChampionCard from '../../components/ChampionCard'
 import ChooseChampionCard from '../../components/ChooseChampionCard'
+import Preloader from '../../components/preloader'
 
 import AuthService from '../../services/authService'
 import UserService from '../../services/userService'
@@ -37,9 +38,15 @@ class App extends Component {
       tournamentPrizePool: 0,
       choosedChampions: [],
       chooseChamp: false,
+      loader: true
 
     }
   }
+
+  preloader = () => 
+    this.setState({
+      loader: false
+    })
 
   showChoose = () =>{
     let tournamentDate = moment(this.state.tournament.date).format("MMM DD")
@@ -210,6 +217,7 @@ class App extends Component {
       // leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
     });
+    this.preloader()
 
   }
 
@@ -218,14 +226,12 @@ class App extends Component {
     let { tournament, champions, choosedChampions, userId, matches } = this.state;
 
     let isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
-    let finishedMatch = {
-      textDecoration: "line-through"
-    }
+    
     let ChampionsCardsList = () => {
       let cards = [];
       for(let i = 0; i < 5; i++){
         i < choosedChampions.length
-          ? cards.push(<ChampionCard className={style.no_active} key={uuid()} name={choosedChampions[i].name} />)
+          ? cards.push(<ChampionCard key={uuid()} name={choosedChampions[i].name} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
       }
       return cards;
@@ -237,6 +243,9 @@ class App extends Component {
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
+
+        {this.state.loader && <Preloader />}
+
         <div className={style.tournament_content}>
           <div className={style.tournament_header}>
             <div>
