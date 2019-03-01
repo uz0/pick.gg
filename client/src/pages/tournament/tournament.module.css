@@ -63,6 +63,28 @@
   margin: 0;
 }
 
+.tournament_winner {
+  --height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--height);
+  width: 100%;
+  margin-top: calc(var(--height) / 4);
+  font-size: 24px;
+  color: #9696B0;
+  text-shadow: 0px 1px 1px #000000;
+  border-radius: 4px;
+  background-color: var(--background-color);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.50);
+}
+
+.tournament_winner svg {
+  width: 50px;
+  height: 50px;
+  margin-right: 24px;
+}
+
 .tournament_info {
   display: flex;
 }
@@ -142,21 +164,21 @@
   border-radius: 50%;
   background-color: #b71818;
   animation-name: pulse;
-	animation-duration: 1.5s;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 @keyframes pulse{
-	0%{
-		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
-	}
-	65%{
-		box-shadow: 0px 0px 5px 8px rgba(173,0,0,.3);
-	}
-	90%{
-		box-shadow: 0px 0px 5px 8px rgba(173,0,0,0);
-	}
+  0%{
+    box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+  }
+  65%{
+    box-shadow: 0px 0px 5px 8px rgba(173,0,0,.3);
+  }
+  90%{
+    box-shadow: 0px 0px 5px 8px rgba(173,0,0,0);
+  }
 }
 
 .tournament_matches .match_title {
