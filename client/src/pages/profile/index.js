@@ -1,31 +1,30 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import AuthService from '../../services/authService'
-import TournamentService from '../../services/tournamentService'
-import NotificationService from '../../services/notificationService'
-import UserService from '../../services/userService'
-import http from '../../services/httpService'
+import AuthService from '../../services/authService';
+import TournamentService from '../../services/tournamentService';
+import NotificationService from '../../services/notificationService';
+import UserService from '../../services/userService';
+import http from '../../services/httpService';
 
-import Button from '../../components/button'
-import ProfileSidebar from '../../components/ProfileSidebar'
-import style from './profile.module.css'
+import Button from '../../components/button';
+import style from './profile.module.css';
 
 class Profile extends Component {
   constructor() {
-    super()
+    super();
 
-    this.AuthService = new AuthService()
-    this.UserService = new UserService()
-    this.NotificationService = new NotificationService()
-    this.TournamentService = new TournamentService(); 
+    this.AuthService = new AuthService();
+    this.UserService = new UserService();
+    this.NotificationService = new NotificationService();
+    this.TournamentService = new TournamentService();
 
     this.state = {
       formData: {
         username: "",
         email: "",
         about: "",
-      }
-    }
+      },
+    };
   }
 
   handleChange = (event) => {
@@ -34,22 +33,22 @@ class Profile extends Component {
     let name = event.target.name;
     let value = event.target.value;
     formData[name] = value;
-    this.setState({formData})
+    this.setState({formData});
   }
 
 
   async componentDidMount(){
-    let userData = await this.UserService.getMyProfile()
+    let userData = await this.UserService.getMyProfile();
     this.setState({ formData: {
       username: userData.user.username,
       email: userData.user.email,
-      about: userData.user.about
-    } })
+      about: userData.user.about,
+    } });
     
   }
   
   handleSubmit = async e => {
-    e.preventDefault()
+    e.preventDefault();
 
     let { email, about } = this.state.formData;
 
@@ -61,11 +60,11 @@ class Profile extends Component {
       },
       body: JSON.stringify({
         email,
-        about
+        about,
       }),
     });
   
-    this.NotificationService.show("Your data has been updated.")
+    this.NotificationService.show("Your data has been updated.");
   }
   
   render() {
@@ -107,8 +106,8 @@ class Profile extends Component {
           </div>
         </main>
       </div>
-    )
+    );
   }
 }
 
-export default Profile
+export default Profile;

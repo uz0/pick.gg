@@ -1,7 +1,7 @@
-import React from 'react'
-import placeholder from '../../assets/placeholder.png'
-import classnames from 'classnames/bind'
-import style from './style.module.css'
+import React from 'react';
+import placeholder from '../../assets/placeholder.png';
+import classnames from 'classnames/bind';
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -14,7 +14,7 @@ const ChampionCard = ({ avatar, name, className, onClick }) => {
         {name}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChampionCard
+export default ChampionCard;

@@ -1,6 +1,6 @@
-import React from 'react'
-import classnames from 'classnames/bind'
-import style from './button.module.css'
+import React from 'react';
+import classnames from 'classnames/bind';
+import style from './button.module.css';
 
 const cx = classnames.bind(style);
 
@@ -12,10 +12,10 @@ const Button = ({ text, type, onClick, icon, className, disabled, appearance }) 
       type={type}
       disabled={disabled}
       onClick={onClick}>
-        {icon && icon}
-        {text && <span>{text}</span>}
+      {icon && icon}
+      {text && <span>{text}</span>}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

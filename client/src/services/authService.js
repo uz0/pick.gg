@@ -1,4 +1,4 @@
-import decode from 'jwt-decode'
+import decode from 'jwt-decode';
 
 export default class AuthService {
   constructor() {
@@ -39,14 +39,14 @@ export default class AuthService {
 
   isLoggedIn() {
     // Checks if there is a saved token and it's still valid
-    const token = this.getToken() // GEtting token from localstorage
+    const token = this.getToken(); // GEtting token from localstorage
     return !!token && !this.isTokenExpired(token); // handwaiving here
   }
 
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
-      return decoded.exp < Date.now() / 1000 // Checking if token is expired
+      return decoded.exp < Date.now() / 1000; // Checking if token is expired
     } catch (err) {
       return false;
     }
@@ -54,11 +54,11 @@ export default class AuthService {
 
   setToken(idToken) {
     // Saves user token to localStorage
-    localStorage.setItem(this.tokenName, idToken)
+    localStorage.setItem(this.tokenName, idToken);
   }
 
   getToken() {
     // Retrieves the user token from localStorage
-    return localStorage.getItem(this.tokenName)
+    return localStorage.getItem(this.tokenName);
   }
 }

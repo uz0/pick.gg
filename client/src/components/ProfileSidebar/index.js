@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import Avatar from './Avatar'
-import style from './style.module.css'
+import React, { Component } from 'react';
+import Avatar from './Avatar';
+import style from './style.module.css';
 
 class ProfileSidebar extends Component {
 
@@ -15,9 +15,9 @@ class ProfileSidebar extends Component {
           { description && <p>{description}</p> }
         </div>
       </aside>
-    )
+    );
   }
   
 }
 
-export default ProfileSidebar
+export default ProfileSidebar;

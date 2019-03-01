@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
-import classnames from 'classnames/bind'
-import AuthService from '../../services/authService'
-import style from './style.module.css'
+import React, { Component } from 'react';
+import classnames from 'classnames/bind';
+import AuthService from '../../services/authService';
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
 class DropDown extends Component {
 
   constructor(){
-    super()
-    this.Auth = new AuthService()
+    super();
+    this.Auth = new AuthService();
     this.state = {
       isActive: false,
-    }
+    };
   }
 
   componentDidMount() {
     window.addEventListener('click', event => {
-      if(this.state.isActive && event.target !== this.userbox){
-        this.toggleDropDown()
+      if (this.state.isActive && event.target !== this.userbox){
+        this.toggleDropDown();
       }
     });
   }
@@ -28,7 +28,7 @@ class DropDown extends Component {
   render() {
     return (
       <div className={cx(style.dropdown, { active: this.state.isActive })} onClick={this.toggleDropDown}>
-        <div ref={(userbox) => {this.userbox = userbox}} className={style.userbox}>
+        <div ref={(userbox) => {this.userbox = userbox;}} className={style.userbox}>
           { this.props.placeholder }
         </div>
 
@@ -36,7 +36,7 @@ class DropDown extends Component {
           { this.props.children }
         </div>
       </div>
-    )
+    );
   }
 
 }

@@ -8,5 +8,5 @@ export default (url, options = {}) => fetch(`${baseUrl}${url}`, {
   headers: {
     ...options.headers,
     'x-access-token': authService.getToken(),
-  }
+  },
 });

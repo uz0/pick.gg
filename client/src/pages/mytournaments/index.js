@@ -1,34 +1,34 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
-import moment from 'moment'
-import AuthService from '../../services/authService'
-import TournamentService from '../../services/tournamentService'
-import style from './mytournaments.module.css'
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import moment from 'moment';
+import AuthService from '../../services/authService';
+import TournamentService from '../../services/tournamentService';
+import style from './mytournaments.module.css';
 
 class App extends Component {
   constructor() {
-    super()
-    this.AuthService = new AuthService()
-    this.TournamentService = new TournamentService()
+    super();
+    this.AuthService = new AuthService();
+    this.TournamentService = new TournamentService();
     this.state = {
       tournaments: [],
-      zeroTournaments: true
-    }
+      zeroTournaments: true,
+    };
   }
 
   async componentDidMount() {
-    let tournaments = await this.TournamentService.getMyTournaments()
+    let tournaments = await this.TournamentService.getMyTournaments();
 
     this.setState({
       tournaments: tournaments.tournaments,
-    })
+    });
     this.zeroTournaments = () => {
       if (tournaments.tournaments.length !== 0) {
         this.setState({
-          zeroTournaments: false
-        })
+          zeroTournaments: false,
+        });
       }
-    }
+    };
   }
 
   render() {
@@ -60,8 +60,8 @@ class App extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;

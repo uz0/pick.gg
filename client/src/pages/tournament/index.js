@@ -1,36 +1,35 @@
-import React, { Component } from 'react'
-import style from './tournament.module.css'
+import React, { Component } from 'react';
+import style from './tournament.module.css';
 
-import ChooseChamp from '../../components/chooseChampion'
-import ChampionCard from '../../components/ChampionCard'
-import ChooseChampionCard from '../../components/ChooseChampionCard'
-import Preloader from '../../components/preloader'
+import ChooseChamp from '../../components/chooseChampion';
+import ChampionCard from '../../components/ChampionCard';
+import ChooseChampionCard from '../../components/ChooseChampionCard';
+import Preloader from '../../components/preloader';
 
-import AuthService from '../../services/authService'
-import UserService from '../../services/userService'
-import TournamentService from '../../services/tournamentService'
-import NotificationService from '../../services/notificationService'
-import ChampionService from '../../services/championService'
-import TransactionService from '../../services/transactionService'
-import http from '../../services/httpService'
-import moment from 'moment'
-import uuid from 'uuid'
+import AuthService from '../../services/authService';
+import UserService from '../../services/userService';
+import TournamentService from '../../services/tournamentService';
+import NotificationService from '../../services/notificationService';
+import ChampionService from '../../services/championService';
+import TransactionService from '../../services/transactionService';
+import moment from 'moment';
+import uuid from 'uuid';
 
-import classnames from 'classnames'
+import classnames from 'classnames';
 
-const cx = classnames.bind(style)
+const cx = classnames.bind(style);
 
 class App extends Component {
   constructor() {
-    super()
-    this.AuthService = new AuthService()
-    this.UserService = new UserService()
-    this.TournamentService = new TournamentService()
+    super();
+    this.AuthService = new AuthService();
+    this.UserService = new UserService();
+    this.TournamentService = new TournamentService();
     this.TransactionService = new TransactionService({
-      onUpdate: () => this.updateProfile()
-    })
-    this.NotificationService = new NotificationService()
-    this.ChampionService = new ChampionService()
+      onUpdate: () => this.updateProfile(),
+    });
+    this.NotificationService = new NotificationService();
+    this.ChampionService = new ChampionService();
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
@@ -42,42 +41,42 @@ class App extends Component {
       tournamentPrizePool: 0,
       choosedChampions: [],
       chooseChamp: false,
-      loader: true
+      loader: true,
 
-    }
+    };
   }
 
-  preloader = () => 
+  preloader = () =>
     this.setState({
-      loader: false
+      loader: false,
     })
 
   updateProfile = async() => {
-    let profile = await this.UserService.getMyProfile()
-    this.setState({ profile: profile })
+    let profile = await this.UserService.getMyProfile();
+    this.setState({ profile });
   }
 
   showChoose = () =>{
-    if(this.state.choosedChampions.length === 0){
+    if (this.state.choosedChampions.length === 0){
       this.setState({
         chooseChamp: true,
-      })
+      });
     }
     else {
-      this.NotificationService.show("Players already selected")
+      this.NotificationService.show("Players already selected");
     }
   }
     
   closeChoose = () =>{
     this.setState({
       chooseChamp: false,
-  })}
+    });}
 
   closeModalChoose = () => {
     this.setState({
       modalChoose: false,
-      chooseChamp: false
-  })}
+      chooseChamp: false,
+    });}
 
   chooseChampion = (champion) =>
     this.setState({
@@ -86,41 +85,41 @@ class App extends Component {
 
   setChoosedChampions = async(champions) => {
 
-      await this.TournamentService.participateInTournament(this.tournamentId, [...champions])
+    await this.TournamentService.participateInTournament(this.tournamentId, [...champions]);
 
-      let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+    let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
 
-      this.setState({
+    this.setState({
       tournament: tournament.tournament,
       choosedChampions: [...champions],
       chooseChamp: false,
-    }, () => this.NotificationService.show("You've been registered for the tournament"))
+    }, () => this.NotificationService.show("You've been registered for the tournament"));
     
   }
     
   calcWidth = item => {
-    const logs = this.state.leaders.map(item => item.totalScore)
-    const maxPoint = Math.max.apply(Math, logs)
-    return (item / maxPoint) * 100
+    const logs = this.state.leaders.map(item => item.totalScore);
+    const maxPoint = Math.max.apply(Math, ...logs);
+    return (item / maxPoint) * 100;
   }
 
   statusGame = () => {
-    let dateNow = moment(Date.now()).format('MMM DD')
-    let tournamentDate = moment(tournamentDate).format('MMM DD')
-    if(moment(tournamentDate).isBefore(dateNow)){
-      return "Archive"
+    let dateNow = moment(Date.now()).format('MMM DD');
+    let tournamentDate = moment(tournamentDate).format('MMM DD');
+    if (moment(tournamentDate).isBefore(dateNow)){
+      return "Archive";
     }
-    else if(moment(dateNow).isSame(moment(this.state.tournamentDate), 'day')){
-      return "Is going on"
-    }
-    else {
-      return "Will be soon"
+    else if (moment(dateNow).isSame(moment(this.state.tournamentDate), 'day')){
+      return "Is going on";
+    // eslint-disable-next-line no-else-return
+    } else {
+      return "Will be soon";
     }
   }
   
   async componentDidMount(){
 
-    const tournament = await this.TournamentService.getTournamentById(this.tournamentId)
+    const tournament = await this.TournamentService.getTournamentById(this.tournamentId);
     const userId = await this.AuthService.getProfile()._id;
 
     const champions = tournament.tournament.tournament.champions;
@@ -133,6 +132,7 @@ class App extends Component {
     const tournamentDate = tournament.tournament.tournament.date;
 
     const leaders = tournament.tournament.users.map(item => item.user);
+    // eslint-disable-next-line no-unused-vars
     let sortedLeaders;
 
     const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
@@ -143,48 +143,48 @@ class App extends Component {
     
     // normalize fantasy tournament rules
     tournament.tournament.rules.forEach(item => {
-      if(item.rule){
+      if (item.rule){
         rules[item.rule.name] = item.score;
       }
-    })
+    });
       
-      // count users results in each match
-      function countUserResultsById(userId) {
+    // count users results in each match
+    function countUserResultsById(userId) {
 
-        let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+      let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-        matches.forEach(item => {
+      matches.forEach(item => {
 
-          let totalScore = 0;
+        let totalScore = 0;
 
-          const choosedPlayers = userChampions.players.map(item => item.name);
-          const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+        const choosedPlayers = userChampions.players.map(item => item.name);
+        const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
-          const resultsScore = results.reduce((acc, item) => {
-            let sum = 0;
-            for(let rule in item){
-              if(rule !== 'name'){
-                sum += item[rule] * rules[rule]
-              }
+        const resultsScore = results.reduce((acc, item) => {
+          let sum = 0;
+          for (let rule in item){
+            if (rule !== 'name'){
+              sum += item[rule] * rules[rule];
             }
-            return acc + sum;
-          }, 0)
+          }
+          return acc + sum;
+        }, 0);
     
-          totalScore = resultsScore
+        totalScore = resultsScore;
 
-          usersResults.push({
-            userId,
-            item,
-            totalScore,
-          })
-  
+        usersResults.push({
+          userId,
+          item,
+          totalScore,
         });
+  
+      });
 
-      }
+    }
 
-      tournament.tournament.users.forEach(user => {
-        return countUserResultsById(user.user._id)
-      })
+    tournament.tournament.users.forEach(user => {
+      return countUserResultsById(user.user._id);
+    });
 
 
     // map leaders to their results
@@ -195,17 +195,17 @@ class App extends Component {
           .filter(element => element.userId === item._id)
           .reduce((acc, item) => {
             return acc + item.totalScore;
-          }, 0)
+          }, 0);
         return item;
       })
-      .sort((a,b) => b.totalScore - a.totalScore)
+      .sort((a,b) => b.totalScore - a.totalScore);
 
     // map current users results to the matches
     let currentUserResults = usersResults.filter(item => item.userId === userId);
-    if(currentUserResults.length > 0){
+    if (currentUserResults.length > 0){
       matches.forEach((match, index) => {
         match.currentUserScore = currentUserResults[index].totalScore;
-      })
+      });
     }
 
     this.setState({
@@ -220,7 +220,7 @@ class App extends Component {
       isTournamentGoingToday,
       tournamentDate,
     });
-    this.preloader()
+    this.preloader();
   }
 
   render() {
@@ -228,17 +228,18 @@ class App extends Component {
     let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday, tournamentDate } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
+    // eslint-disable-next-line no-unused-vars
     const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
 
     let ChampionsCardsList = () => {
       let cards = [];
-      for(let i = 0; i < 5; i++){
+      for (let i = 0; i < 5; i++){
         i < choosedChampions.length
           ? cards.push(<ChampionCard className={style.no_active} key={uuid()} name={choosedChampions[i].name} />)
-          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
+          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
       }
       return cards;
-    }
+    };
     
     const isMatchFinished = (match) => moment().isAfter(match.date);
     const isMatchGoingOn = (match) => moment(match.date).isBetween(moment(), (moment().add(15, 'minutes'))) ? true : false;
@@ -317,8 +318,8 @@ class App extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;

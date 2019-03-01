@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import Button from '../button/index'
-import ChampionCard from '../ChampionCard'
-import TransactionService from '../../services/transactionService'
-import Modal from '../../components/modal'
-import { ReactComponent as CloseIcon } from '../../assets/close.svg'
-import classnames from 'classnames'
-import style from './chooseChampion.module.css'
-import uuid from 'uuid'
+import React, { Component } from 'react';
+import Button from '../button/index';
+import ChampionCard from '../ChampionCard';
+import TransactionService from '../../services/transactionService';
+import Modal from '../../components/modal';
+import { ReactComponent as CloseIcon } from '../../assets/close.svg';
+import classnames from 'classnames';
+import style from './chooseChampion.module.css';
+import uuid from 'uuid';
 
 const cx = classnames.bind(style);
 
@@ -14,18 +14,18 @@ class chooseChampion extends Component {
 
   constructor(){
     super();
-    this.TransactionService = new TransactionService()
+    this.TransactionService = new TransactionService();
     this.state = {
       userBalance: 0,
       choosedChampions: [],
-      modalChoose: false
-    }
+      modalChoose: false,
+    };
   }
 
   showModal = () => {
     this.setState({
       modalChoose: true,
-    })
+    });
   }
 
   participateInTournament = (e) => {
@@ -39,30 +39,25 @@ class chooseChampion extends Component {
 
     let choosedChampions = this.state.choosedChampions;
 
-    if(choosedChampions.length === 5) {
-      if(choosedChampions.includes(champion.name)){
-        choosedChampions.splice(choosedChampions.indexOf(champion.name), 1)
-        this.setState({ choosedChampions })
-        return;
-      } else {
-        return;
-      }
-    };
+    if (choosedChampions.length === 5 && choosedChampions.includes(champion.name)) {
+      choosedChampions.splice(choosedChampions.indexOf(champion.name), 1);
+      this.setState({ choosedChampions });
+    }
 
     if (!choosedChampions.map(item => item.name).includes(champion.name)){
-      this.setState({ choosedChampions: [...choosedChampions, champion] })
+      this.setState({ choosedChampions: [...choosedChampions, champion] });
     } else {
-      choosedChampions.splice(choosedChampions.indexOf(champion.name), 1)
-      this.setState({ choosedChampions })
+      choosedChampions.splice(choosedChampions.indexOf(champion.name), 1);
+      this.setState({ choosedChampions });
     }
   }
 
   componentDidMount = async() => {
-    const userBalance = await this.TransactionService.getUserBalance()
+    const userBalance = await this.TransactionService.getUserBalance();
     
     this.setState({
-      userBalance: userBalance.balance
-    })
+      userBalance: userBalance.balance,
+    });
   }
 
   render(){
@@ -86,8 +81,8 @@ class chooseChampion extends Component {
             />
           </div>
           <form onSubmit={this.showModal}>
-            {this.state.modalChoose && <Modal 
-              textModal={'You should pay entry '+ tournamentEntry +'$'} 
+            {this.state.modalChoose && <Modal
+              textModal={'You should pay entry '+ tournamentEntry +'$'}
               closeModal={this.closeModalChoose}
               submitClick={this.participateInTournament}
             />}
@@ -112,7 +107,7 @@ class chooseChampion extends Component {
           </form>
         </div>
       </div>
-    )
+    );
   }
 }
-export default chooseChampion
+export default chooseChampion;

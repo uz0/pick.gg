@@ -1,4 +1,4 @@
-import http from './httpService'
+import http from './httpService';
 import BasicService from './basicService';
 
 export default class UserService extends BasicService {

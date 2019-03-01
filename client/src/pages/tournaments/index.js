@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import Input from '../../components/input'
-import NewTournament from '../../components/newTournament'
-import Preloader from '../../components/preloader'
-import { NavLink } from 'react-router-dom'
-import moment from 'moment'
-import AuthService from '../../services/authService'
-import UserService from '../../services/userService'
-import http from '../../services/httpService'
-import TournamentService from '../../services/tournamentService'
-import style from './tournaments.module.css'
+import Input from '../../components/input';
+import NewTournament from '../../components/newTournament';
+import Preloader from '../../components/preloader';
+import { NavLink } from 'react-router-dom';
+import moment from 'moment';
+import AuthService from '../../services/authService';
+import UserService from '../../services/userService';
+import http from '../../services/httpService';
+import TournamentService from '../../services/tournamentService';
+import style from './tournaments.module.css';
 
 class App extends Component {
   constructor() {
-    super()
-    this.AuthService = new AuthService()
-    this.UserService = new UserService()
-    this.TournamentService = new TournamentService()
+    super();
+    this.AuthService = new AuthService();
+    this.UserService = new UserService();
+    this.TournamentService = new TournamentService();
     this.state = {
       newTournament: false,
       tournaments: [],
@@ -24,13 +24,13 @@ class App extends Component {
       rules: [],
       entryFilter: '',
       dateFilter: '',
-      loader: true
-    }
+      loader: true,
+    };
   }
 
-  preloader = () => 
+  preloader = () =>
     this.setState({
-      loader: false
+      loader: false,
     })
   createTournament = () =>
     this.setState({
@@ -44,12 +44,12 @@ class App extends Component {
 
   filterByDate = async e => {
     if (e.target.value === '') {
-      let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
+      let fantasyTournaments = await this.TournamentService.getFantasyTournaments();
       this.setState({
         fantasyTournaments: fantasyTournaments.tournaments,
         dateFilter: '',
-      })
-      return
+      });
+      return;
     }
 
     this.setState(
@@ -57,20 +57,20 @@ class App extends Component {
         dateFilter: e.target.value,
       },
       async () => {
-        let filteredTournaments = await this.TournamentService.filterTournamentsByDate(this.state.dateFilter)
-        this.setState({ tournaments: filteredTournaments })
+        let filteredTournaments = await this.TournamentService.filterTournamentsByDate(this.state.dateFilter);
+        this.setState({ tournaments: filteredTournaments });
       },
-    )
+    );
   }
 
   filterByEntry = async e => {
     if (e.target.value <= 0) {
-      let fantasyTournaments = await this.TournamentService.getFantasyTournaments()
+      let fantasyTournaments = await this.TournamentService.getFantasyTournaments();
       this.setState({
         fantasyTournaments: fantasyTournaments.tournaments,
         entryFilter: '',
-      })
-      return
+      });
+      return;
     }
 
     this.setState(
@@ -78,42 +78,42 @@ class App extends Component {
         entryFilter: e.target.value,
       },
       async () => {
-        let filteredTournaments = await this.TournamentService.filterTournamentsByEntry(this.state.entryFilter)
-        this.setState({ tournaments: filteredTournaments })
+        let filteredTournaments = await this.TournamentService.filterTournamentsByEntry(this.state.entryFilter);
+        this.setState({ tournaments: filteredTournaments });
       },
-    )
+    );
   }
 
   updateTournaments = async() => {
-    const fantasyTournaments = await this.TournamentService.getFantasyTournaments()
-    const rulesQuery = await http('/api/rules')
-    const rules = await rulesQuery.json()
+    const fantasyTournaments = await this.TournamentService.getFantasyTournaments();
+    const rulesQuery = await http('/api/rules');
+    const rules = await rulesQuery.json();
     
     this.setState({
       fantasyTournaments: fantasyTournaments.tournaments,
       rules: rules.rules,
-    })
+    });
   }
 
   async componentDidMount() {
-    const realTournaments = await this.TournamentService.getRealTournaments()
-    const fantasyTournaments = await this.TournamentService.getFantasyTournaments()
+    const realTournaments = await this.TournamentService.getRealTournaments();
+    const fantasyTournaments = await this.TournamentService.getFantasyTournaments();
 
     // const actualTournaments = realTournaments.tournaments.filter(item => moment(item.date).isAfter(moment()))
-    const actualTournaments = realTournaments.tournaments
+    const actualTournaments = realTournaments.tournaments;
 
     const user = await this.UserService.getMyProfile();
 
-    const rulesQuery = await http('/api/rules')
-    const rules = await rulesQuery.json()
+    const rulesQuery = await http('/api/rules');
+    const rules = await rulesQuery.json();
 
     this.setState({
       realTournaments: actualTournaments,
       fantasyTournaments: fantasyTournaments.tournaments,
       rules: rules.rules,
-      user: user.user
-    })
-    this.preloader()
+      user: user.user,
+    });
+    this.preloader();
     
   }
 
@@ -171,8 +171,8 @@ class App extends Component {
           ))}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
