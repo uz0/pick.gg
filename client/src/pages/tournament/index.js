@@ -101,11 +101,11 @@ class App extends Component {
 
   statusGame = () => {
     let dateNow = moment(Date.now()).format('MMM DD')
-    let tournamentDate = moment(this.state.tournament.date).format('MMM DD')
+    let tournamentDate = moment(tournamentDate).format('MMM DD')
     if(moment(tournamentDate).isBefore(dateNow)){
       return "Archive"
     }
-    else if(moment(dateNow).isSame(tournamentDate)){
+    else if(moment(dateNow).isSame(moment(this.state.tournamentDate), 'day')){
       return "Is going on"
     }
     else {
@@ -125,8 +125,7 @@ class App extends Component {
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
     const isTournamentGoingToday = moment(tournament.tournament.tournament.date).isSame(moment(), 'day') ? true : false;
-
-    console.log(isTournamentGoingToday)
+    const tournamentDate = tournament.tournament.tournament.date;
 
     const leaders = tournament.tournament.users.map(item => item.user);
     let sortedLeaders;
@@ -154,7 +153,6 @@ class App extends Component {
           let totalScore = 0;
 
           const choosedPlayers = userChampions.players.map(item => item.name);
-          console.log(item)
           const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
           const resultsScore = results.reduce((acc, item) => {
@@ -215,6 +213,7 @@ class App extends Component {
       // leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
       isTournamentGoingToday,
+      tournamentDate,
     });
     this.preloader()
 
@@ -222,10 +221,9 @@ class App extends Component {
 
   render() {
 
-    let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday } = this.state;
+    let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday, tournamentDate } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
-
     const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
 
     let ChampionsCardsList = () => {
@@ -252,7 +250,7 @@ class App extends Component {
             <div>
               <h2>{tournament.name}</h2>
               <div className={style.tournament_info}>
-                <p>{moment(tournament.date).format('MMM DD')}</p>
+                <p>{moment(tournamentDate).format('MMM DD')}</p>
                 <p>$ {tournament.entry}</p>
               </div>
             </div>

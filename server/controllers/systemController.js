@@ -23,13 +23,14 @@ const SystemController = () => {
     await MatchModel.deleteMany();
 
     res.send({
-      "success": "real tournaments were resetted"
+      "success": "all data was resetted"
     })
 
   })
 
   router.get('/sync', async (req, res) => {
 
+    // Some good code to sync all matches and tournaments
 
     res.send({
       date
@@ -65,8 +66,8 @@ const SystemController = () => {
 
     const tournament = await TournamentModel.create({
       name: MockService.getRandomTournamentName(),
-      // date: Date.now() + 86400000,
-      date: moment.now(),
+      date: Date.now() + 86400000,
+      // date: moment.now(),
       champions: MockService.getRandomTournamentChampions(),
     })
 
@@ -80,7 +81,7 @@ const SystemController = () => {
 
       matches.push({
         tournament: tournamentRef,
-        date: moment.now() + (matchDateGap * i) - 900000,
+        date: Date.now() + 86400000 + (matchDateGap * i) - 900000,
         completed: false,
       })
 
@@ -135,7 +136,6 @@ const SystemController = () => {
 
   })
   
-
   router.get('/finalize', async (req, res) => {});
 
   return router;
