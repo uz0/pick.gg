@@ -19,4 +19,7 @@ export default mongoose.model('FantasyTournament', new Schema({
     score: { type: Number },
   }],
 
+  winner: { type: Schema.Types.ObjectId, ref: 'User' },
+  creator: { type: Schema.Types.ObjectId, ref: 'User' },
+  
 }));
