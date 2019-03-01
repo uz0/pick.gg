@@ -63,7 +63,7 @@ class Rating extends Component {
                   <Avatar avatar=""/>
                 </div>
                 <div className={style.name_table}>{item.username}</div>
-                <div className={style.name_table}>{item.winning}</div>
+                <div className={style.name_table}>${item.winning}</div>
               </NavLink>
             ))}
           </div>

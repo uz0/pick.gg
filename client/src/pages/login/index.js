@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import AuthService from '../../services/authService'
+import NotificationService from '../../services/notificationService'
 
 import Input from '../../components/input'
 import Button from '../../components/button'
@@ -12,6 +13,7 @@ class Login extends Component {
     super()
 
     this.auth = new AuthService()
+    this.NotificationService = new NotificationService()
 
     this.handleChange = this.handleChange.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
@@ -30,7 +32,10 @@ class Login extends Component {
     e.preventDefault()
     let success = await this.auth.login(this.state.username, this.state.password)
     if (success) this.props.history.replace('/tournaments')
-    
+    console.log(success === false)
+    if(success === false){
+      this.NotificationService.show(success.message)
+    } 
   }
 
   componentWillMount() {
