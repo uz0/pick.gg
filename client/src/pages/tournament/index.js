@@ -99,24 +99,21 @@ class App extends Component {
     
   calcWidth = item => {
     const logs = this.state.leaders.map(item => item.totalScore);
-    const maxPoint = Math.max.apply(Math, ...logs);
+    const maxPoint = Math.max.apply(Math, logs);
     return (item / maxPoint) * 100;
   }
 
-  statusGame = () => {
-    let dateNow = moment(Date.now()).format('MMM DD');
-    let tournamentDate = moment(tournamentDate).format('MMM DD');
-    if (moment(tournamentDate).isBefore(dateNow)){
-      return "Archive";
-    }
-    else if (moment(dateNow).isSame(moment(this.state.tournamentDate), 'day')){
+  statusGame = (tournamentDate) => {
+    if (moment().isSame(moment(tournamentDate)), 'day'){
       return "Is going on";
-    // eslint-disable-next-line no-else-return
+    }
+    else if (moment(tournamentDate).isBefore(moment())){
+      return "Archive";
     } else {
       return "Will be soon";
     }
   }
-  
+
   async componentDidMount(){
 
     const tournament = await this.TournamentService.getTournamentById(this.tournamentId);
@@ -135,7 +132,9 @@ class App extends Component {
     // eslint-disable-next-line no-unused-vars
     let sortedLeaders;
 
-    const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
+    const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
+    const finishedMatches = matches.filter(item => item.completed === true);
+
     let usersResults = [];
     let rules = {};
 
@@ -151,9 +150,13 @@ class App extends Component {
     // count users results in each match
     function countUserResultsById(userId) {
 
-      let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+      const userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
       matches.forEach(item => {
+
+        if(!item.completed){
+          return false;
+        }
 
         let totalScore = 0;
 
@@ -201,21 +204,24 @@ class App extends Component {
       .sort((a,b) => b.totalScore - a.totalScore);
 
     // map current users results to the matches
-    let currentUserResults = usersResults.filter(item => item.userId === userId);
+    const currentUserResults = usersResults.filter(item => item.userId === userId);
     if (currentUserResults.length > 0){
       matches.forEach((match, index) => {
-        match.currentUserScore = currentUserResults[index].totalScore;
+        if(match.completed){
+          match.currentUserScore = currentUserResults[index].totalScore;
+        }
       });
     }
 
+    console.log(leaders)
+
     this.setState({
       userId,
-      leaders,
       matches,
       champions,
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
-      // leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
+      leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
       isTournamentGoingToday,
       tournamentDate,
@@ -241,8 +247,8 @@ class App extends Component {
       return cards;
     };
     
-    const isMatchFinished = (match) => moment().isAfter(match.date);
-    const isMatchGoingOn = (match) => moment(match.date).isBetween(moment(), (moment().add(15, 'minutes'))) ? true : false;
+    const isMatchFinished = (match) => moment().isAfter(match.endDate);
+    const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
 
     return (
       <div className={style.home_page}>
@@ -261,7 +267,7 @@ class App extends Component {
             </div>
             <div>
               <div>
-              Status: {this.statusGame()}
+                Status: {this.statusGame(tournamentDate)}
               </div>
               <div>
                 {`Winner will get: ${this.state.tournamentPrizePool} $`}
@@ -291,8 +297,8 @@ class App extends Component {
                   {[style.going_on_match]: isMatchGoingOn(item)},
                 )} key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
-                  {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
-                  <span>{moment(item.date).format('HH:mm')}</span>
+                  {isUserRegistered > 0 && item.completed && <span className={style.user_score}>{item.currentUserScore}</span>}
+                  <span>{moment(item.startDate).format('HH:mm')} – {moment(item.endDate).format('HH:mm')}</span>
                 </div>
               ))}
             </div>

@@ -31,15 +31,21 @@ const SystemController = () => {
   router.get('/sync', async (req, res) => {
 
     // Some good code to sync all matches and tournaments
+    // const matches = await MatchModel.find()
+    const matches = await MatchModel.update({ endDate: { $lte: Date.now() } }, { completed: true }, { multi: true })
 
     res.send({
-      date
+      matches
     })
+
   })
 
 
   router.get('/tournaments', async (req, res) => {
     const tournaments = await TournamentModel.find({})
+    .populate('champions')
+    .populate('matches')
+
     res.send({
       tournaments
     })
@@ -61,7 +67,7 @@ const SystemController = () => {
     let matchResults = [];
     let matchResultsRefs = [];
 
-    const matchDateGap = 900000; // <- this equals 1 hour
+    const matchDateGap = 300000; // <- this equals 1 hour
     const tournamentDateGap = 86400000; // <- this equals 1 day
 
     const tournament = await TournamentModel.create({
@@ -81,7 +87,8 @@ const SystemController = () => {
 
       matches.push({
         tournament: tournamentRef,
-        date: Date.now() + (matchDateGap * i) - 900000,
+        startDate: (Date.now() - matchDateGap) + matchDateGap * i,
+        endDate: Date.now() + matchDateGap * i,
         // date: Date.now() + 86400000 + (matchDateGap * i) - 900000,
         completed: false,
       })
