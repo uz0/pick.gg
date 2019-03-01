@@ -270,12 +270,13 @@ class App extends Component {
             closeModalChoose={this.closeModalChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}
-          {isTeamShown && <div className={style.team_block}>
+          {/* {isTeamShown && <div className={style.team_block}> */}
+          <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
               <ChampionsCardsList />
             </div>
-          </div> }
+          </div>
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
