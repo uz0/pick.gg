@@ -210,7 +210,10 @@ main {
 .card_tournament:hover p {
   color: #000;
 }
-
+.zero_info{
+  color: #9494ae;
+  font-size: 20px;
+}
 @media (max-width: 1440px) {
   main {
     width: 90%;
