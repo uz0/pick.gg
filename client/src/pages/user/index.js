@@ -19,9 +19,7 @@ class User extends Component {
 
     this.AuthService = new AuthService()
     this.UserService = new UserService()
-    this.TransactionService = new TransactionService({
-      onUpdate: () => this.updateProfile()
-    })
+    this.TransactionService = new TransactionService()
     this.TournamentService = new TournamentService()
     this.state = {
       tournaments: [],
@@ -53,7 +51,7 @@ class User extends Component {
       userData: user.user,
       totalWinnings,
       totalUsers: userRating.rating.length,
-      userPlace: userPlace
+      userPlace: userPlace,
     })
     this.preloader()
 
@@ -81,13 +79,14 @@ class User extends Component {
                 <div className={style.statistics_masonry}>
                   <div className={style.item}>
                     <div className={style.value}>{this.state.tournaments.length}</div>
-                    
                     <div className={style.key}>tournaments</div>      
                   </div>
+
                   <div className={style.item}>
                     <div className={style.value}>$ {this.state.totalWinnings}</div>
                     <div className={style.key}>earned</div>      
                   </div>  
+                  
                   <div className={style.item}>
                     <div className={style.value}>{this.state.userPlace} <span>of {this.state.totalUsers}</span></div>
                     <div className={style.key}>place</div>

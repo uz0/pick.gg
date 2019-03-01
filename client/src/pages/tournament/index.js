@@ -11,6 +11,7 @@ import UserService from '../../services/userService'
 import TournamentService from '../../services/tournamentService'
 import NotificationService from '../../services/notificationService'
 import ChampionService from '../../services/championService'
+import TransactionService from '../../services/transactionService'
 import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
@@ -25,6 +26,9 @@ class App extends Component {
     this.AuthService = new AuthService()
     this.UserService = new UserService()
     this.TournamentService = new TournamentService()
+    this.TransactionService = new TransactionService({
+      onUpdate: () => this.updateProfile()
+    })
     this.NotificationService = new NotificationService()
     this.ChampionService = new ChampionService()
     this.tournamentId = window.location.pathname.split('/')[2];
@@ -47,6 +51,11 @@ class App extends Component {
     this.setState({
       loader: false
     })
+
+  updateProfile = async() => {
+    let profile = await this.UserService.getMyProfile()
+    this.setState({ profile: profile })
+  }
 
   showChoose = () =>{
     let tournamentDate = moment(this.state.tournament.date).format("MMM DD")
@@ -218,7 +227,6 @@ class App extends Component {
       tournamentPrizePool,
     });
     this.preloader()
-
   }
 
   render() {
@@ -231,7 +239,7 @@ class App extends Component {
       let cards = [];
       for(let i = 0; i < 5; i++){
         i < choosedChampions.length
-          ? cards.push(<ChampionCard key={uuid()} name={choosedChampions[i].name} />)
+          ? cards.push(<ChampionCard className={style.no_active} key={uuid()} name={choosedChampions[i].name} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
       }
       return cards;
