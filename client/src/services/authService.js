@@ -22,13 +22,9 @@ export default class AuthService {
 
     const result = await response.json();
 
-    if (!result.success) {
-      console.log(result)
-      return false;
-    }
-
     this.setToken(result.token); // Setting the token in localStorage
-    return true;
+    
+    return result;
   }
 
   logout() {
