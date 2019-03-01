@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import style from './preloader.module.css'
-import classnames from 'classnames';
-
-const cx = classnames.bind(style)
 
 class Preloader extends Component {
   render() {

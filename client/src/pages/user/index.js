@@ -1,24 +1,39 @@
 import React, { Component } from 'react'
+
 import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
 import TransactionService from '../../services/transactionService'
 import UserService from '../../services/userService'
+
 import { NavLink } from 'react-router-dom'
 import moment from 'moment'
+
 import ProfileSidebar from '../../components/ProfileSidebar'
+import Preloader from '../../components/preloader'
+
 import style from './style.module.css'
 
 class User extends Component {
   constructor() {
     super()
+
     this.AuthService = new AuthService()
     this.UserService = new UserService()
-    this.TransactionService = new TransactionService()
+    this.TransactionService = new TransactionService({
+      onUpdate: () => this.updateProfile()
+    })
     this.TournamentService = new TournamentService()
     this.state = {
       tournaments: [],
       userData: {},
+      loader: true
     }
+  }
+
+  preloader = () => {
+    this.setState({
+      loader: false
+    })
   }
 
   async componentDidMount(){
@@ -40,6 +55,7 @@ class User extends Component {
       totalUsers: userRating.rating.length,
       userPlace: userPlace
     })
+    this.preloader()
 
   }
 
@@ -48,18 +64,24 @@ class User extends Component {
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
+
+        {this.state.loader && <Preloader />} 
+
         <main>
           <div className={style.content}>
             <ProfileSidebar
               withData={true}
               nickname={this.state.userData.username}
               description={this.state.userData.about} />
+
             <div className={style.user_statistics}>
               <div>
                 <h2>Scores</h2>
+
                 <div className={style.statistics_masonry}>
                   <div className={style.item}>
                     <div className={style.value}>{this.state.tournaments.length}</div>
+                    
                     <div className={style.key}>tournaments</div>      
                   </div>
                   <div className={style.item}>
