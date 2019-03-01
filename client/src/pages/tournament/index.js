@@ -110,11 +110,11 @@ class App extends Component {
 
   statusGame = () => {
     let dateNow = moment(Date.now()).format('MMM DD')
-    let tournamentDate = moment(this.state.tournament.date).format('MMM DD')
+    let tournamentDate = moment(tournamentDate).format('MMM DD')
     if(moment(tournamentDate).isBefore(dateNow)){
       return "Archive"
     }
-    else if(moment(dateNow).isSame(tournamentDate)){
+    else if(moment(dateNow).isSame(moment(this.state.tournamentDate), 'day')){
       return "Is going on"
     }
     else {
@@ -133,6 +133,9 @@ class App extends Component {
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
+    const isTournamentGoingToday = moment(tournament.tournament.tournament.date).isSame(moment(), 'day') ? true : false;
+    const tournamentDate = tournament.tournament.tournament.date;
+
     const leaders = tournament.tournament.users.map(item => item.user);
     let sortedLeaders;
 
@@ -140,8 +143,6 @@ class App extends Component {
     let usersResults = [];
     let rules = {};
 
-    console.log(tournament.tournament)
-    
     // if(tournament.tournament.users.length > 0){
     
     // normalize fantasy tournament rules
@@ -150,10 +151,6 @@ class App extends Component {
         rules[item.rule.name] = item.score;
       }
     })
-
-    console.log(userPlayers)
-
-    
       
       // count users results in each match
       function countUserResultsById(userId) {
@@ -165,7 +162,6 @@ class App extends Component {
           let totalScore = 0;
 
           const choosedPlayers = userChampions.players.map(item => item.name);
-          console.log(item)
           const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
           const resultsScore = results.reduce((acc, item) => {
@@ -225,16 +221,19 @@ class App extends Component {
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       // leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
+      isTournamentGoingToday,
+      tournamentDate,
     });
     this.preloader()
   }
 
   render() {
 
-    let { tournament, champions, choosedChampions, userId, matches } = this.state;
+    let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday, tournamentDate } = this.state;
 
-    let isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
-    
+    const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
+    const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
+
     let ChampionsCardsList = () => {
       let cards = [];
       for(let i = 0; i < 5; i++){
@@ -259,7 +258,7 @@ class App extends Component {
             <div>
               <h2>{tournament.name}</h2>
               <div className={style.tournament_info}>
-                <p>{moment(tournament.date).format('MMM DD')}</p>
+                <p>{moment(tournamentDate).format('MMM DD')}</p>
                 <p>$ {tournament.entry}</p>
               </div>
             </div>
@@ -279,6 +278,7 @@ class App extends Component {
             closeModalChoose={this.closeModalChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}
+          {/* {isTeamShown && <div className={style.team_block}> */}
           <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>

@@ -186,7 +186,6 @@ const TournamentController = io => {
         name,
         entry,
         rules,
-        date: Date.now(),
       });
 
       res.json({

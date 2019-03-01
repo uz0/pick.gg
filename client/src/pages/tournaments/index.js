@@ -118,7 +118,7 @@ class App extends Component {
   }
 
   render() {
-    
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -163,7 +163,7 @@ class App extends Component {
 
               <div className={style.card_tournament}>
                 <p>{item.name}</p>
-                <p>{moment(item.date).format('MMM DD')}</p>
+                <p>{moment(item.tournament.date).format('MMM DD')}</p>
                 <p>{item.users.length}</p>
                 <p>$ {item.entry}</p>
               </div>
