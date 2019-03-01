@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+
 import AuthService from '../../services/authService'
+import NotificationService from '../../services/notificationService'
+
 import Input from '../../components/input'
 import Button from '../../components/button'
 import style from '../../components/style.module.css'
@@ -8,6 +11,9 @@ import style from '../../components/style.module.css'
 class Register extends Component {
   constructor() {
     super()
+
+    this.NotificationService = new NotificationService()
+
     this.auth = new AuthService()
     this.state = {
       username: '',
@@ -30,9 +36,7 @@ class Register extends Component {
 
     if (password !== confirmPassword) {
       // TODO RENDER ERROR!
-      console.error('passwords must be equal')
-
-      return
+      this.NotificationService.show("Passwords must be equal")
     }
 
     await fetch('/api/authentication/register', {

@@ -107,7 +107,6 @@ class User extends Component {
               <div>
                 <h2>Recent tournaments</h2>
                 {this.state.zeroTournaments && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
-                {console.log(this.state.zeroTournaments)}
                 <div className={style.tournaments_block}>
                   {!this.state.zeroTournaments && <div className={style.header_tournaments}>
                     <p>Tournament Name</p>

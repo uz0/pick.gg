@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+
 import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
 import NotificationService from '../../services/notificationService'
 import UserService from '../../services/userService'
 import http from '../../services/httpService'
+
 import Button from '../../components/button'
 import ProfileSidebar from '../../components/ProfileSidebar'
 import style from './profile.module.css'
@@ -11,10 +13,12 @@ import style from './profile.module.css'
 class Profile extends Component {
   constructor() {
     super()
+
     this.AuthService = new AuthService()
     this.UserService = new UserService()
     this.NotificationService = new NotificationService()
     this.TournamentService = new TournamentService(); 
+
     this.state = {
       formData: {
         username: "",
@@ -71,8 +75,9 @@ class Profile extends Component {
         <div className={style.bg_wrap} />
         <main>
           <h1>Profile settings – {this.state.formData.username}</h1>
+
           <div className={style.content}>
-            <ProfileSidebar withData={false} />
+            {/* <ProfileSidebar withData={false} /> */}
 
             <div className={style.form_container}>
               <form className={style.form} onSubmit={this.handleSubmit}>
@@ -94,10 +99,10 @@ class Profile extends Component {
                 <Button appearance={'_basic-accent'} text={'Save changes'} />
               </form>
 
-              <div className={style.password_recovery}>
+              {/* <div className={style.password_recovery}>
                 <p>You can also change your password if needed</p>
                 <a href="/">Change password</a>
-              </div>
+              </div> */}
             </div>
           </div>
         </main>

@@ -23,7 +23,7 @@ export default class AuthService {
     const result = await response.json();
 
     if (!result.success) {
-      alert(result.message);
+      console.log(result)
       return false;
     }
 

@@ -28,7 +28,7 @@
 }
 
 main {
-  width: 81.25%;
+  width: 60%;
   margin: 0 auto;
 }
 
@@ -41,13 +41,13 @@ main h1 {
 }
 
 .content {
-  margin-top: 50px;
+  margin-top: 0px;
   display: flex;
 }
 
 .form_container {
   flex-grow: 1;
-  margin-left: 30px;
+  margin-left: 0px;
 }
 
 .form {
@@ -118,7 +118,7 @@ main h1 {
 
 @media (max-width: 1440px) {
   main {
-    width: 90%;
+    width: 60%;
   }
 }
 
