@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import AuthService from '../../services/authService';
 import NotificationService from '../../services/notificationService';
+import NotificationContainer from '../../components/notification/NotificationContainer';
 
 import Input from '../../components/input';
 import Button from '../../components/button';
@@ -35,8 +36,11 @@ class Register extends Component {
     let { username, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
-      // TODO RENDER ERROR!
       this.NotificationService.show("Passwords must be equal");
+    }
+    console.log()
+    if( username === "" || password === "" || confirmPassword === "" ){
+      this.NotificationService.show("Error empty field")
     }
 
     await fetch('/api/authentication/register', {
@@ -60,7 +64,7 @@ class Register extends Component {
         }
 
         if (success) {
-          this.props.history.replace('/login');
+          this.props.history.replace('/tournaments');
         }
       });
   }
@@ -69,14 +73,22 @@ class Register extends Component {
     return (
       <div className={style.login_page}>
         <div className={style.bg_wrap} />
+
+        <NotificationContainer />
+
         <div className={style.form_block}>
-          <div className={style.info_block}>Please register in the system</div>
+          <div className={style.info_block}>Register</div>
+
           <form onSubmit={this.submitForm}>
             <Input label="Login" name="username" type="text" action={this.onChange('username')} autofocus={true} />
+            
             <Input label="Password" name="password" type="password" action={this.onChange('password')} />
+            
             <Input label="Confirm password" name="confirmPassword" type="password" action={this.onChange('confirmPassword')} />
+            
             <div className={style.login_btn}>
               <Button appearance={'_basic-accent'} type={'submit'} text={'Register'} />
+              
               <div className={style.bottom_login_btn}>
                 <span>or </span>
                 <NavLink to="/login">login</NavLink>

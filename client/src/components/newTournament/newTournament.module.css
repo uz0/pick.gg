@@ -65,6 +65,7 @@
 .top_block input {
   width: 440px;
   margin-bottom: 10px;
+  height: 40px;
 }
 
 .rules_inputs {
@@ -80,6 +81,7 @@
   color: var(--accent-color);
   --gap: 10;
   margin-top: calc(var(--gap) * 1px);
+  height: 40px;
 }
 
 .new_tournament select {
@@ -91,6 +93,7 @@
   padding: 8px 10px;
   margin-bottom: 10px;
   width: 440px;
+  height: 40px;
 }
 
 .new_tournament p {
