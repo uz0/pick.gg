@@ -1,70 +1,68 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import AuthService from '../../services/authService'
-import TournamentService from '../../services/tournamentService'
-import TransactionService from '../../services/transactionService'
-import UserService from '../../services/userService'
+import AuthService from '../../services/authService';
+import TournamentService from '../../services/tournamentService';
+import TransactionService from '../../services/transactionService';
+import UserService from '../../services/userService';
 
-import { NavLink } from 'react-router-dom'
-import moment from 'moment'
+import { NavLink } from 'react-router-dom';
+import moment from 'moment';
 
-import ProfileSidebar from '../../components/ProfileSidebar'
-import Preloader from '../../components/preloader'
+import ProfileSidebar from '../../components/ProfileSidebar';
+import Preloader from '../../components/preloader';
 
-import style from './style.module.css'
+import style from './style.module.css';
 
 class User extends Component {
   constructor() {
-    super()
+    super();
 
-    this.AuthService = new AuthService()
-    this.UserService = new UserService()
-    this.TransactionService = new TransactionService()
-    this.TournamentService = new TournamentService()
+    this.AuthService = new AuthService();
+    this.UserService = new UserService();
+    this.TransactionService = new TransactionService();
+    this.TournamentService = new TournamentService();
     this.state = {
       tournaments: [],
       userData: {},
       loader: true,
-      zeroTournaments: true
-    }
+      zeroTournaments: true,
+    };
   }
 
   preloader = () => {
     this.setState({
-      loader: false
-    })
+      loader: false,
+    });
   }
-
-  
 
   async componentDidMount() {
 
     let userId = this.props.match.params.id;
 
-    let tournaments = await this.TournamentService.getUserTournamentsById(userId)
-    let winnings = await this.TransactionService.getTotalWinnings(userId)
-    let user = await this.UserService.getUserDataById(userId)
-    let userRating = await this.UserService.getUsersRating()
-    const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1
+    let tournaments = await this.TournamentService.getUserTournamentsById(userId);
+    let winnings = await this.TransactionService.getTotalWinnings(userId);
+    let user = await this.UserService.getUserDataById(userId);
+    let userRating = await this.UserService.getUsersRating();
+    const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1;
 
-    let totalWinnings = winnings.winnings.reduce((acc, current) => { return acc + current.amount }, 0);
+    let totalWinnings = winnings.winnings.reduce((acc, current) => { return acc + current.amount; }, 0);
 
     this.setState({
       tournaments: tournaments.tournaments,
       userData: user.user,
       totalWinnings,
       totalUsers: userRating.rating.length,
-      userPlace: userPlace,
-    })
-    this.preloader()
-    console.log(tournaments.tournaments.length === 0)
+      userPlace,
+    });
+    this.preloader();
+    console.log(tournaments.tournaments.length === 0);
     this.zeroTournaments = () => {
-      if(tournaments.tournaments.length === 0){
+      if (tournaments.tournaments.length === 0){
         this.setState({
-          zeroTournaments: true
-        })
+          zeroTournaments: true,
+        });
       }
-    }
+    };
 
   }
 
@@ -130,8 +128,8 @@ class User extends Component {
           </div>
         </main>
       </div>
-    )
+    );
   }
 }
 
-export default User
+export default User;

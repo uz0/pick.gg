@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import style from './style.module.css'
-import Button from '../button'
+import React, { Component } from 'react';
+import style from './style.module.css';
+import Button from '../button';
 import classnames from 'classnames';
-import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg'
+import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
 
 class Notification extends Component {
 
@@ -21,7 +21,7 @@ class Notification extends Component {
 
   render() {
     return (
-      <div className={style.wrapper_n}>   
+      <div className={style.wrapper_n}>
         <div className={classnames(style.notification, {'_is-shown': this.state.isShown})}>
           <Button
             className={style.close_button}
@@ -32,7 +32,7 @@ class Notification extends Component {
           {this.props.text}
         </div>
       </div>
-    )
+    );
   }
 }
-export default Notification
+export default Notification;

@@ -1,39 +1,39 @@
-import React, { Component } from 'react'
-import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg'
+import React, { Component } from 'react';
+import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
 
-import Preloader from '../../components/preloader'
+import Preloader from '../../components/preloader';
 
-import AuthService from '../../services/authService'
-import TournamentService from '../../services/tournamentService'
-import UserService from '../../services/userService'
+import AuthService from '../../services/authService';
+import TournamentService from '../../services/tournamentService';
+import UserService from '../../services/userService';
 
-import { NavLink } from 'react-router-dom'
-import uuid from 'uuid'
-import style from './style.module.css'
+import { NavLink } from 'react-router-dom';
+import uuid from 'uuid';
+import style from './style.module.css';
 
 class Rating extends Component {
   constructor() {
-    super()
-    this.AuthService = new AuthService()
-    this.UserService = new UserService()
-    this.TournamentService = new TournamentService()
+    super();
+    this.AuthService = new AuthService();
+    this.UserService = new UserService();
+    this.TournamentService = new TournamentService();
     this.state = {
       playersList: [],
-      loader: true
-    }
+      loader: true,
+    };
   }
 
-  preloader = () => 
+  preloader = () =>
     this.setState({
-      loader: false
+      loader: false,
     })
 
   componentDidMount = async() => {
     let rating = await this.UserService.getUsersRating();
-        rating.rating.forEach((item, index) => item.place = index + 1);
+    rating.rating.forEach((item, index) => item.place = index + 1);
 
-    this.setState({ playersList: rating.rating })
-    this.preloader()
+    this.setState({ playersList: rating.rating });
+    this.preloader();
   }
   
   render() {
@@ -69,8 +69,8 @@ class Rating extends Component {
           </div>
         </main>
       </div>
-    )
+    );
   }
 }
 
-export default Rating
+export default Rating;

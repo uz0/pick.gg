@@ -1,14 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import 'typeface-roboto'
-import './index.css'
+import 'typeface-roboto';
+import './index.css';
 
-import App from './App'
-import Login from './pages/login'
-import Register from './pages/register'
-import Start from './pages/start'
+import App from './App';
+import Login from './pages/login';
+import Register from './pages/register';
+import Start from './pages/start';
 // import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
@@ -21,6 +21,6 @@ ReactDOM.render(
     </Switch>
   </BrowserRouter>,
   document.getElementById('root'),
-)
+);
 
 // registerServiceWorker();

@@ -8,7 +8,7 @@ class NotificationService {
     let target = document.getElementById("notifications-wrapper");
     ReactDOM.render(<Notification text={text}/>, target);
 
-    setTimeout(() => this.hide(), 3000)
+    setTimeout(() => this.hide(), 3000);
   }
   
   hide = () => {

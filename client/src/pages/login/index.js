@@ -1,46 +1,46 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
-import AuthService from '../../services/authService'
-import NotificationService from '../../services/notificationService'
-import NotificationContainer from '../../components/notification/NotificationContainer'
+import AuthService from '../../services/authService';
+import NotificationService from '../../services/notificationService';
+import NotificationContainer from '../../components/notification/NotificationContainer';
 
-import Input from '../../components/input'
-import Button from '../../components/button'
-import style from '../../components/style.module.css'
+import Input from '../../components/input';
+import Button from '../../components/button';
+import style from '../../components/style.module.css';
 
 class Login extends Component {
   constructor() {
-    super()
+    super();
 
-    this.auth = new AuthService()
-    this.NotificationService = new NotificationService()
+    this.auth = new AuthService();
+    this.NotificationService = new NotificationService();
 
-    this.handleChange = this.handleChange.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.state = {
       username: '',
       password: '',
-    }
+    };
   }
 
   handleChange(e) {
-    e.preventDefault()
-    this.setState({ [e.target.name]: e.target.value })
+    e.preventDefault();
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   handleLogin = async e => {
-    e.preventDefault()
-    const authRequest = await this.auth.login(this.state.username, this.state.password)
+    e.preventDefault();
+    const authRequest = await this.auth.login(this.state.username, this.state.password);
     if (authRequest.success){
-      this.props.history.replace('/tournaments')
+      this.props.history.replace('/tournaments');
     } else {
-      this.NotificationService.show(authRequest.message)
-    } 
+      this.NotificationService.show(authRequest.message);
+    }
   }
 
   componentWillMount() {
-    if (this.auth.isLoggedIn()) this.props.history.replace('/')
+    if (this.auth.isLoggedIn()) this.props.history.replace('/');
     
   }
 
@@ -66,8 +66,8 @@ class Login extends Component {
           </form>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Login
+export default Login;

@@ -1,49 +1,51 @@
-import React, { Component } from 'react'
-import TransactionsService from '../../services/transactionService'
+import React, { Component } from 'react';
+import TransactionsService from '../../services/transactionService';
 // import http from '../../services/httpService'
-import moment from 'moment'
-import style from './style.module.css'
+import moment from 'moment';
+import style from './style.module.css';
 
 
 class Transactions extends Component {
 
   constructor() {
-    super()
+    super();
     this.TransactionsService = new TransactionsService({
-      onUpdate: () => this.updateData()
+      onUpdate: () => this.updateData(),
     });
 
     this.state = {
-      transitionData: []
-    }
+      transitionData: [],
+    };
   }
 
   OperationData = (item) => {
     if (item === "user deposit") {
-      return <div className={style.plus}>{item}</div>
+      return <div className={style.plus}>{item}</div>;
     }
 
     if (item === "user withdraw") {
-      return <div className={style.minus}>{item}</div>
+      return <div className={style.minus}>{item}</div>;
     }
 
     if (item === "tournament deposit") {
-      return <div className={style.minus}>{item}</div>
+      return <div className={style.minus}>{item}</div>;
+    // eslint-disable-next-line no-else-return
     } else {
-      return <div className={style.plus}>{item}</div>
+      return <div className={style.plus}>{item}</div>;
     }
+    
   }
 
   updateData = async () => {
     let historyData = await this.TransactionsService.getTransactionsHistory();
 
     this.setState({
-      transitionData: historyData.history
+      transitionData: historyData.history,
     });
   }
 
   async componentDidMount() {
-    this.updateData()
+    this.updateData();
   }
 
   render() {
@@ -65,14 +67,14 @@ class Transactions extends Component {
                 <div>{moment(item.date).format('MMM DD')}</div>
                 {this.OperationData(item.origin)}
               </div>
-          ))}
+            ))}
           </div>
         </main>
       </div>
-    )
+    );
 
   }
 
 }
 
-export default Transactions
+export default Transactions;

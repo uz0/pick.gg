@@ -1,31 +1,31 @@
-import React, { Component } from 'react'
-import Input from '../input'
-import Select from '../select'
-import Button from '../button'
-import { ReactComponent as CloseIcon } from '../../assets/close.svg'
-import style from './newTournament.module.css'
-import http from '../../services/httpService'
-import NotificationService from '../../services/notificationService'
+import React, { Component } from 'react';
+import Input from '../input';
+import Select from '../select';
+import Button from '../button';
+import { ReactComponent as CloseIcon } from '../../assets/close.svg';
+import style from './newTournament.module.css';
+import http from '../../services/httpService';
+import NotificationService from '../../services/notificationService';
 
 class newTournament extends Component {
   constructor() {
-    super()
-    this.NotificationService = new NotificationService()
+    super();
+    this.NotificationService = new NotificationService();
     this.state = {
       rules: {},
-    }
+    };
   }
 
   onRulesInputChange = e => {
-    let formattedInputValue = parseInt(e.target.value)
-    let value = 0
+    let formattedInputValue = parseInt(e.target.value, 10);
+    let value = 0;
 
     if (formattedInputValue <= 10 && formattedInputValue >= 0) {
-      value = formattedInputValue
+      value = formattedInputValue;
     } else if (formattedInputValue >= 10) {
-      value = 10
+      value = 10;
     } else if (formattedInputValue <= 0) {
-      value = 0
+      value = 0;
     }
 
     this.setState({
@@ -33,22 +33,22 @@ class newTournament extends Component {
         ...this.state.rules,
         [e.target.name]: value,
       },
-    })
+    });
   }
 
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
-    })
+    });
   }
 
   submitForm = async e => {
-    e.preventDefault()
+    e.preventDefault();
 
-    let { name, entry, rules, tournament } = this.state
+    let { name, entry, rules, tournament } = this.state;
     let tournamentId = '';
 
-    if(tournament){
+    if (tournament){
       tournamentId = this.props.tournamentsData.filter(item => item.name === tournament)[0]._id;
     } else {
       this.NotificationService.show('Please, select tournament and try again');
@@ -60,8 +60,8 @@ class newTournament extends Component {
       return {
         rule: item,
         score: rules[item],
-      }
-    })
+      };
+    });
 
     await http('/api/tournaments', {
       method: 'POST',
@@ -75,22 +75,22 @@ class newTournament extends Component {
         rules: [...normalizedRules],
         tournamentId,
       }),
-    })
+    });
 
-    if(entry < this.props.user.balance){
-      this.NotificationService.show(`You've created tournament ${name}`)
-      this.props.closeTournament()
-      this.props.updateTournaments()
+    if (entry < this.props.user.balance){
+      this.NotificationService.show(`You've created tournament ${name}`);
+      this.props.closeTournament();
+      this.props.updateTournaments();
     } else {
-      this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`)
-      this.props.closeTournament()
+      this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`);
+      this.props.closeTournament();
     }
     
   }
 
   render() {
 
-    let { closeTournament, rules, tournamentsData } = this.props
+    let { closeTournament, rules, tournamentsData } = this.props;
 
     return (
       <div className={style.wrap}>
@@ -103,7 +103,7 @@ class newTournament extends Component {
             <div>
               <div className={style.top_block}>
                 <Input action={this.onChange} label="Name" name="name" type="text" required/>
-                <Select action={this.onChange} name="tournament" tournamentsData={this.props.tournamentsData} label="Tournament (from list)" required/>
+                <Select action={this.onChange} name="tournament" tournamentsData={tournamentsData} label="Tournament (from list)" required/>
                 <Input action={this.onChange} label="Entry $" name="entry" type="text" required/>
               </div>
               <p>Rules</p>
@@ -115,8 +115,8 @@ class newTournament extends Component {
           </form>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default newTournament
+export default newTournament;

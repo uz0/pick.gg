@@ -1,68 +1,68 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
-import AuthService from '../../services/authService'
-import UserService from '../../services/userService'
-import TransactionService from '../../services/transactionService'
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import AuthService from '../../services/authService';
+import UserService from '../../services/userService';
+import TransactionService from '../../services/transactionService';
 
-import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg'
-import AuthWrapper from '../authWrapper'
-import DropDown from '../DropDown'
-import style from './topMenu.module.css'
+import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
+import AuthWrapper from '../authWrapper';
+import DropDown from '../DropDown';
+import style from './topMenu.module.css';
 
 class TopMenuComponent extends Component {
   constructor() {
     super();
 
-    this.Auth = new AuthService()
+    this.Auth = new AuthService();
     this.UserService = new UserService({
-      onUpdate: () => this.updateProfile()
+      onUpdate: () => this.updateProfile(),
     });
 
     this.TransactionService = new TransactionService({
-      onUpdate: () => this.updateProfile()
+      onUpdate: () => this.updateProfile(),
     });
 
     this.state = {
       profile: {
-        user: {}
+        user: {},
       },
-    }
+    };
   }
 
   handleLogout = () => {
-    this.Auth.logout()
-    this.props.history.replace('/')
+    this.Auth.logout();
+    this.props.history.replace('/');
   }
 
   updateProfile = async() => {
-    let profile = await this.UserService.getMyProfile()
-    this.setState({ profile: profile })
+    let profile = await this.UserService.getMyProfile();
+    this.setState({ profile });
   }
 
   deposit = async(e) => {
-    e.preventDefault()
-    await this.TransactionService.deposit()
+    e.preventDefault();
+    await this.TransactionService.deposit();
   }
   
   withdraw = async(e) => {
-    e.preventDefault()
-    await this.TransactionService.withdraw()
+    e.preventDefault();
+    await this.TransactionService.withdraw();
   }
   
   componentDidMount = () => {
-    this.updateProfile()
+    this.updateProfile();
   }
 
   render() {
-    const Avatar = () => this.props.avatar ? 
-      <img src={this.props.avatar} alt="userpic"/> : 
+    const Avatar = () => this.props.avatar ?
+      <img src={this.props.avatar} alt="userpic"/> :
       <AvatarPlaceholder />;
 
     const BalancePlaceholder = () => `$${this.state.profile.user.balance}`;
     const UserPlaceholder = () => <>
       <Avatar />
       {this.state.profile.user.username}
-    </>
+    </>;
 
     return (
       <div className={style.top_menu}>
@@ -90,8 +90,8 @@ class TopMenuComponent extends Component {
           </DropDown>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default AuthWrapper(TopMenuComponent)
+export default AuthWrapper(TopMenuComponent);
