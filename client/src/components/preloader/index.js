@@ -9,7 +9,6 @@ class Preloader extends Component {
     return (
       <div class={style.wrapper}>
         <div class={style.loader_circle}></div>
-        <div class={style.loader_bottom}>LOADING</div>
       </div>
     )
   }
