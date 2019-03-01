@@ -14,7 +14,6 @@ const App = ({ history }) => (
     <div>
         <TopMenuComponent history={history} />
         <NotificationContainer />
-        
         <div className="container">
             <Switch>
                 <Route exact path="/tournaments" component={Tournaments} />

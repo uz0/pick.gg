@@ -22,7 +22,6 @@ class App extends Component {
     this.setState({
       tournaments: tournaments.tournaments,
     })
-    console.log(tournaments.tournaments.length !== 0)
     this.zeroTournaments = () => {
       if (tournaments.tournaments.length !== 0) {
         this.setState({

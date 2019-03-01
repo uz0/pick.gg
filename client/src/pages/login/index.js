@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 import AuthService from '../../services/authService'
 import NotificationService from '../../services/notificationService'
+import NotificationContainer from '../../components/notification/NotificationContainer'
 
 import Input from '../../components/input'
 import Button from '../../components/button'
@@ -30,11 +31,11 @@ class Login extends Component {
 
   handleLogin = async e => {
     e.preventDefault()
-    let success = await this.auth.login(this.state.username, this.state.password)
-    if (success) this.props.history.replace('/tournaments')
-    console.log(success === false)
-    if(success === false){
-      this.NotificationService.show(success.message)
+    const authRequest = await this.auth.login(this.state.username, this.state.password)
+    if (authRequest.success){
+      this.props.history.replace('/tournaments')
+    } else {
+      this.NotificationService.show(authRequest.message)
     } 
   }
 
@@ -46,6 +47,7 @@ class Login extends Component {
   render() {
     return (
       <div className={style.login_page}>
+        <NotificationContainer />
         <div className={style.bg_wrap} />
 
         <div className={style.form_block}>
