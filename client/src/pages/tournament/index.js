@@ -58,11 +58,7 @@ class App extends Component {
   }
 
   showChoose = () =>{
-    let tournamentDate = moment(this.state.tournament.date).format("MMM DD")
-    let today = moment(Date.now()).format("MMM DD")
-    if(moment(tournamentDate).isBefore(today)){
-      this.NotificationService.show("Tournament " + this.state.tournament.name + " end")
-    } else if(this.state.choosedChampions.length === 0){
+    if(this.state.choosedChampions.length === 0){
       this.setState({
         chooseChamp: true,
       })
