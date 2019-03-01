@@ -47,12 +47,24 @@ class newTournament extends Component {
 
     let { name, entry, rules, tournament } = this.state;
     let tournamentId = '';
-
+    if(name === undefined){
+      this.NotificationService.show(`Name is empty`);
+    }
+    if(entry === undefined){
+      this.NotificationService.show(`Entry is empty`);
+    }
+    if(this.props.user.balance < entry) {
+      this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`);
+    }
+    if(entry < this.props.user.balance){
+      this.NotificationService.show(`You've created tournament ${name}`);
+      this.props.closeTournament();
+      this.props.updateTournaments();
+    }
     if (tournament){
       tournamentId = this.props.tournamentsData.filter(item => item.name === tournament)[0]._id;
     } else {
       this.NotificationService.show('Please, select tournament and try again');
-      this.props.closeTournament();
       return false;
     }
 
@@ -75,17 +87,7 @@ class newTournament extends Component {
         rules: [...normalizedRules],
         tournamentId,
       }),
-    });
-
-    if (entry < this.props.user.balance){
-      this.NotificationService.show(`You've created tournament ${name}`);
-      this.props.closeTournament();
-      this.props.updateTournaments();
-    } else {
-      this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`);
-      this.props.closeTournament();
-    }
-    
+    });     
   }
 
   render() {
@@ -95,19 +97,25 @@ class newTournament extends Component {
     return (
       <div className={style.wrap}>
         <div className={style.new_tournament}>
+
           <div className={style.create_block}>
             <p>Create a new tournament</p>
           </div>
+
           <form onSubmit={this.submitForm}>
             <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
+            
             <div>
               <div className={style.top_block}>
-                <Input action={this.onChange} label="Name" name="name" type="text" required/>
-                <Select action={this.onChange} name="tournament" tournamentsData={tournamentsData} label="Tournament (from list)" required/>
-                <Input action={this.onChange} label="Entry $" name="entry" type="text" required/>
+                <Input action={this.onChange} label="Name" name="name" type="text" />
+                <Select action={this.onChange} name="tournament" tournamentsData={tournamentsData} label="Tournament (from list)" />
+                <Input action={this.onChange} label="Entry $" name="entry" type="text" />
               </div>
+              
               <p>Rules</p>
+              
               <div className={style.rules_inputs}>{rules && rules.map(item => <input name={item._id} onChange={this.onRulesInputChange} value={this.state.rules[item._id] || ''} key={item._id} placeholder={item.name} type="number" min="-10" max="10" />)}</div>
+              
               <div className={style.bottom_btn}>
                 <Button appearance={'_basic-accent'} type={'submit'} text={'Create'} />
               </div>
