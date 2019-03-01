@@ -1,18 +1,24 @@
 import React, { Component } from 'react'
 import style from './tournament.module.css'
-import ChooseChamp from '../../components/chooseChampion'
 
+import ChooseChamp from '../../components/chooseChampion'
 import ChampionCard from '../../components/ChampionCard'
 import ChooseChampionCard from '../../components/ChooseChampionCard'
+import Preloader from '../../components/preloader'
 
 import AuthService from '../../services/authService'
 import UserService from '../../services/userService'
 import TournamentService from '../../services/tournamentService'
 import NotificationService from '../../services/notificationService'
 import ChampionService from '../../services/championService'
+import TransactionService from '../../services/transactionService'
 import http from '../../services/httpService'
 import moment from 'moment'
 import uuid from 'uuid'
+
+import classnames from 'classnames'
+
+const cx = classnames.bind(style)
 
 class App extends Component {
   constructor() {
@@ -20,6 +26,9 @@ class App extends Component {
     this.AuthService = new AuthService()
     this.UserService = new UserService()
     this.TournamentService = new TournamentService()
+    this.TransactionService = new TransactionService({
+      onUpdate: () => this.updateProfile()
+    })
     this.NotificationService = new NotificationService()
     this.ChampionService = new ChampionService()
     this.tournamentId = window.location.pathname.split('/')[2];
@@ -33,16 +42,23 @@ class App extends Component {
       tournamentPrizePool: 0,
       choosedChampions: [],
       chooseChamp: false,
+      loader: true
 
     }
   }
 
+  preloader = () => 
+    this.setState({
+      loader: false
+    })
+
+  updateProfile = async() => {
+    let profile = await this.UserService.getMyProfile()
+    this.setState({ profile: profile })
+  }
+
   showChoose = () =>{
-    let tournamentDate = moment(this.state.tournament.date).format("MMM DD")
-    let today = moment(Date.now()).format("MMM DD")
-    if(moment(tournamentDate).isBefore(today)){
-      this.NotificationService.show("Tournament " + this.state.tournament.name + " end")
-    } else if(this.state.choosedChampions.length === 0){
+    if(this.state.choosedChampions.length === 0){
       this.setState({
         chooseChamp: true,
       })
@@ -90,11 +106,11 @@ class App extends Component {
 
   statusGame = () => {
     let dateNow = moment(Date.now()).format('MMM DD')
-    let tournamentDate = moment(this.state.tournament.date).format('MMM DD')
+    let tournamentDate = moment(tournamentDate).format('MMM DD')
     if(moment(tournamentDate).isBefore(dateNow)){
       return "Archive"
     }
-    else if(moment(dateNow).isSame(tournamentDate)){
+    else if(moment(dateNow).isSame(moment(this.state.tournamentDate), 'day')){
       return "Is going on"
     }
     else {
@@ -104,7 +120,7 @@ class App extends Component {
   
   async componentDidMount(){
 
-    let tournament = await this.TournamentService.getTournamentById(this.tournamentId)
+    const tournament = await this.TournamentService.getTournamentById(this.tournamentId)
     const userId = await this.AuthService.getProfile()._id;
 
     const champions = tournament.tournament.tournament.champions;
@@ -113,80 +129,84 @@ class App extends Component {
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
-    let leaders = tournament.tournament.users.map(item => item.user);
+    const isTournamentGoingToday = moment(tournament.tournament.tournament.date).isSame(moment(), 'day') ? true : false;
+    const tournamentDate = tournament.tournament.tournament.date;
+
+    const leaders = tournament.tournament.users.map(item => item.user);
     let sortedLeaders;
 
-    let matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
+    const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.date) - new Date(b.date));
     let usersResults = [];
     let rules = {};
-    
-    // if(tournament.tournament.users.length > 0){
 
-    //   tournament.tournament.rules.forEach(item => {
-    //     if(item.rule){
-    //       rules[item.rule.name] = item.score;
-    //     }
-    //   })
+    // if(tournament.tournament.users.length > 0){
+    
+    // normalize fantasy tournament rules
+    tournament.tournament.rules.forEach(item => {
+      if(item.rule){
+        rules[item.rule.name] = item.score;
+      }
+    })
       
       // count users results in each match
-      // function countUserResultsById(userId) {
+      function countUserResultsById(userId) {
 
-      //   let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+        let userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-      //   matches.forEach(item => {
+        matches.forEach(item => {
 
-      //     let totalScore = 0;
+          let totalScore = 0;
 
-      //     const choosedPlayers = userChampions.players.map(item => item.name);
-      //     const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+          const choosedPlayers = userChampions.players.map(item => item.name);
+          const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
-      //     const resultsScore = results.reduce((acc, item) => {
-      //       let sum = 0;
-      //       for(let rule in item){
-      //         if(rule !== 'name'){
-      //           sum += item[rule] * rules[rule]
-      //         }
-      //       }
-      //       return acc + sum;
-      //     }, 0)
+          const resultsScore = results.reduce((acc, item) => {
+            let sum = 0;
+            for(let rule in item){
+              if(rule !== 'name'){
+                sum += item[rule] * rules[rule]
+              }
+            }
+            return acc + sum;
+          }, 0)
     
-      //     totalScore = resultsScore
+          totalScore = resultsScore
 
-      //     usersResults.push({
-      //       userId,
-      //       item,
-      //       totalScore,
-      //     })
+          usersResults.push({
+            userId,
+            item,
+            totalScore,
+          })
   
-      //   });
-      // }
+        });
 
-      // tournament.tournament.users.forEach(user => {
-      //   return countUserResultsById(user.user._id)
-      // })
+      }
 
-    // }
+      tournament.tournament.users.forEach(user => {
+        return countUserResultsById(user.user._id)
+      })
+
 
     // map leaders to their results
-    // sortedLeaders = tournament.tournament.users
-    //   .map(item => item.user)
-    //   .map(item => {
-    //     item.totalScore = usersResults
-    //       .filter(element => element.userId === item._id)
-    //       .reduce((acc, item) => {
-    //         return acc + item.totalScore;
-    //       }, 0)
-    //     return item;
-    //   })
-    //   .sort((a,b) => b.totalScore - a.totalScore)
+    sortedLeaders = tournament.tournament.users
+      .map(item => item.user)
+      .map(item => {
+        item.totalScore = usersResults
+          .filter(element => element.userId === item._id)
+          .reduce((acc, item) => {
+            return acc + item.totalScore;
+          }, 0)
+        return item;
+      })
+      .sort((a,b) => b.totalScore - a.totalScore)
 
     // map current users results to the matches
-    // let currentUserResults = usersResults.filter(item => item.userId === userId);
-    // if(currentUserResults.length > 0){
-    //   matches.forEach((match, index) => {
-    //     match.currentUserScore = currentUserResults[index].totalScore;
-    //   })
-    // }
+    let currentUserResults = usersResults.filter(item => item.userId === userId);
+    if(currentUserResults.length > 0){
+      matches.forEach((match, index) => {
+        match.currentUserScore = currentUserResults[index].totalScore;
+      })
+    }
 
     this.setState({
       userId,
@@ -197,15 +217,18 @@ class App extends Component {
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       // leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
+      isTournamentGoingToday,
+      tournamentDate,
     });
-
+    this.preloader()
   }
 
   render() {
 
-    let { tournament, champions, choosedChampions, userId, matches } = this.state;
+    let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday, tournamentDate } = this.state;
 
-    let isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
+    const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
+    const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
 
     let ChampionsCardsList = () => {
       let cards = [];
@@ -217,15 +240,21 @@ class App extends Component {
       return cards;
     }
     
+    const isMatchFinished = (match) => moment().isAfter(match.date);
+    const isMatchGoingOn = (match) => moment(match.date).isBetween(moment(), (moment().add(15, 'minutes'))) ? true : false;
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
+
+        {this.state.loader && <Preloader />}
+
         <div className={style.tournament_content}>
           <div className={style.tournament_header}>
             <div>
               <h2>{tournament.name}</h2>
               <div className={style.tournament_info}>
-                <p>{moment(tournament.date).format('MMM DD')}</p>
+                <p>{moment(tournamentDate).format('MMM DD')}</p>
                 <p>$ {tournament.entry}</p>
               </div>
             </div>
@@ -245,6 +274,7 @@ class App extends Component {
             closeModalChoose={this.closeModalChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}
+          {/* {isTeamShown && <div className={style.team_block}> */}
           <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
@@ -255,11 +285,14 @@ class App extends Component {
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
               {matches.map((item,index) => (
-                <p className={ moment(item.date).isBetween(item.date, moment(item.date).add(1, 'h')) ? style.active_match : false} key={item._id}>
+                <div className={cx(
+                  {[style.finished_match]: isMatchFinished(item)},
+                  {[style.going_on_match]: isMatchGoingOn(item)},
+                )} key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
-                  {/* {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>} */}
-                  <span>{moment(item.date).format('hh:mm')}</span>
-                </p>
+                  {isUserRegistered > 0 && <span className={style.user_score}>{item.currentUserScore}</span>}
+                  <span>{moment(item.date).format('HH:mm')}</span>
+                </div>
               ))}
             </div>
             <div className={style.tournament_leader}>

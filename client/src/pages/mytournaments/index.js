@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import arrow from '../../assets/arrow.svg'
 import moment from 'moment'
 import AuthService from '../../services/authService'
 import TournamentService from '../../services/tournamentService'
@@ -13,15 +12,23 @@ class App extends Component {
     this.TournamentService = new TournamentService()
     this.state = {
       tournaments: [],
+      zeroTournaments: true
     }
   }
 
   async componentDidMount() {
     let tournaments = await this.TournamentService.getMyTournaments()
-    
+
     this.setState({
       tournaments: tournaments.tournaments,
     })
+    this.zeroTournaments = () => {
+      if (tournaments.tournaments.length !== 0) {
+        this.setState({
+          zeroTournaments: false
+        })
+      }
+    }
   }
 
   render() {
@@ -31,12 +38,15 @@ class App extends Component {
         <div className={style.main_block}>
           <h2>My Tournaments</h2>
           <div className={style.tournaments_block}>
-            <div className={style.header_tournaments}>
+            {!this.state.zeroTournaments && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
+            {console.log(this.state.tournaments)}
+            {!this.state.zeroTournaments && <div className={style.header_tournaments}>
               <p>Tournament Name</p>
               <p>End Date</p>
               <p>Users</p>
               <p>Entry</p>
-            </div>
+            </div>}
+
             {this.state.tournaments.map(item => (
               <NavLink key={item._id} to={`/tournaments/${item._id}`}>
                 <div className={style.card_tournament}>
@@ -44,7 +54,6 @@ class App extends Component {
                   <p>{moment(item.date).format('MMM DD')}</p>
                   <p>{item.users.length}</p>
                   <p>$ {item.entry}</p>
-                  <img className={style.arrow_card} src={arrow} alt="arrow icon" />
                 </div>
               </NavLink>
             ))}

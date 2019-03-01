@@ -113,8 +113,11 @@ const TournamentController = io => {
         path: 'tournament',
         populate: {
           path: 'matches',
+          populate: {
+            path: 'results'
+          }
         }
-      });
+      })
 
     res.json({ tournament });
 
@@ -183,7 +186,6 @@ const TournamentController = io => {
         name,
         entry,
         rules,
-        date: Date.now(),
       });
 
       res.json({

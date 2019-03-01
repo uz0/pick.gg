@@ -82,7 +82,7 @@ const UsersController = () => {
       },
       {
         $project: {
-          transactions: 0          
+          transactions: 0
         }
       }
     ])
