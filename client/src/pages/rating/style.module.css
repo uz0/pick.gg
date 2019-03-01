@@ -54,10 +54,10 @@ main h1 {
 .name_header{
   padding-left: 85px;
   padding-top: 10px;
-  min-width: 210px;
+  min-width: 335px;
 }
 .name_table{
-  min-width: 120px;
+  min-width: 250px;
 }
 .item_table{
   display: flex;
@@ -90,8 +90,8 @@ main h1 {
     text-align: center;
   }
   .name_header{
-    padding-left: 65px;
-    min-width: 190px;
+    padding-left: 25px;
+    min-width: 165px;
   }
   .avatar_table{
     width: 40px;
@@ -103,6 +103,7 @@ main h1 {
   .name_table{
     text-overflow: ellipsis;
     overflow: hidden;
+    min-width: 140px;
   }
 }
 @media screen and (max-width: 480px){
