@@ -66,8 +66,8 @@ const SystemController = () => {
 
     const tournament = await TournamentModel.create({
       name: MockService.getRandomTournamentName(),
-      date: Date.now() + 86400000,
-      // date: moment.now(),
+      // date: Date.now() + 86400000,
+      date: moment.now(),
       champions: MockService.getRandomTournamentChampions(),
     })
 
@@ -81,7 +81,8 @@ const SystemController = () => {
 
       matches.push({
         tournament: tournamentRef,
-        date: Date.now() + 86400000 + (matchDateGap * i) - 900000,
+        date: Date.now() + (matchDateGap * i) - 900000,
+        // date: Date.now() + 86400000 + (matchDateGap * i) - 900000,
         completed: false,
       })
 

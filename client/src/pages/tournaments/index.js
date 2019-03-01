@@ -99,7 +99,8 @@ class App extends Component {
     const realTournaments = await this.TournamentService.getRealTournaments()
     const fantasyTournaments = await this.TournamentService.getFantasyTournaments()
 
-    const actualTournaments = realTournaments.tournaments.filter(item => moment(item.date).isAfter(moment()))
+    // const actualTournaments = realTournaments.tournaments.filter(item => moment(item.date).isAfter(moment()))
+    const actualTournaments = realTournaments.tournaments
 
     const user = await this.UserService.getMyProfile();
 
