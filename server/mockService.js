@@ -34,7 +34,8 @@ export default class MockService {
   static getRandomTournamentName(){
     let tournaments = [
       "StarLadder", "ESL ONE", "EsportsChampionship", "Intel Extreme Masters", "WESG",
-      "FACEIT Major", "DreamHack", "ESL 2019", "EPICENTER", "ELEAGUE",
+      "FACEIT Major", "DreamHack", "ESL 2019", "EPICENTER", "ELEAGUE", "WCG",
+      "Frankfurt Major", "Boston Major", "CSGO KOREA"
     ]
     const shuffleFunc = (a,b) => Math.random() - 0.5;
     return tournaments.sort(shuffleFunc)[0];
