@@ -14,6 +14,7 @@ import ChampionService from '../../services/championService';
 import TransactionService from '../../services/transactionService';
 import moment from 'moment';
 import uuid from 'uuid';
+import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
 import classnames from 'classnames';
 
@@ -213,8 +214,6 @@ class App extends Component {
       });
     }
 
-    console.log(leaders)
-
     this.setState({
       userId,
       matches,
@@ -231,9 +230,10 @@ class App extends Component {
 
   render() {
 
-    let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday, tournamentDate } = this.state;
+    let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday, tournamentDate, leaders } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
+    const tournamentWinner = leaders[0] ? leaders[0].username : '';
     // eslint-disable-next-line no-unused-vars
     const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
 
@@ -274,6 +274,12 @@ class App extends Component {
               </div>
             </div>
           </div>
+
+          <div className={style.tournament_winner}>
+            <TrophyIcon />
+            {`Tournament is over! Winner is ${tournamentWinner}. He got $${this.state.tournamentPrizePool} prize!`}
+          </div>
+
           {this.state.chooseChamp && <ChooseChamp
             champions={champions}
             tournamentEntry={tournament.entry}
