@@ -16,6 +16,7 @@ import moment from 'moment';
 import uuid from 'uuid';
 import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
+
 import classnames from 'classnames';
 
 const cx = classnames.bind(style);
@@ -255,7 +256,7 @@ class App extends Component {
       let cards = [];
       for (let i = 0; i < 5; i++){
         i < choosedChampions.length
-          ? cards.push(<ChampionCard className={style.no_active} key={uuid()} name={choosedChampions[i].name} />)
+          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
       }
       return cards;
@@ -263,10 +264,6 @@ class App extends Component {
     
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
-
-    if(tournament.users.length !== 0){
-      this.countUserResultsById(tournament)
-    }
 
     return (
       <div className={style.home_page}>
@@ -285,7 +282,7 @@ class App extends Component {
               </div>
             </div>
             <div>
-              <div>
+              <div className={style.statusGames}>
                 Status: {this.statusGame(tournamentDate)}
               </div>
               <div>
