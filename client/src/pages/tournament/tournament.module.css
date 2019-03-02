@@ -358,7 +358,7 @@
     box-sizing: border-box;
   }
   .tournament_matches span {
-    margin-right: 15px;
+    margin-right: 32px;
   }
   .top_five {
     width: 100%;
@@ -388,6 +388,42 @@
   }
   .my_number span {
     box-sizing: border-box;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .tournament_matches > div {
+    padding: 10px 5px;
+    height: 120px;
+    font-size: 18px;
+  }
+  .team_block .item_mobile{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    height: auto;
+    
+  }
+  .team_block .item_mobile img{
+    width: 80px;
+    margin-right: 20px;
+  }
+  .tournament_matches .finished_match:after{
+    right: 10px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+  }
+  .tournament_winner{
+    padding: 10px 20px;
+    font-size: 18px;
+  }
+  .tournament_winner svg{
+    width: 200px;
+  }
+  .statusGames{
     font-size: 14px;
   }
 }
