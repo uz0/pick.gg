@@ -45,6 +45,7 @@ class App extends Component {
       chooseChamp: false,
       loader: true,
       winner: null,
+      allMatchesArefinished: false
     };
   }
 
@@ -136,7 +137,9 @@ class App extends Component {
     let sortedLeaders;
 
     const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
-    // const finishedMatches = matches.filter(item => item.completed === true);
+    const allMatchesArefinished = matches.every(item => item.completed === true);
+
+    console.log(allMatchesArefinished)
 
     let usersResults = [];
     let rules = {};
@@ -227,6 +230,7 @@ class App extends Component {
       isTournamentGoingToday,
       tournamentDate,
       winner: tournament.tournament.winner,
+      allMatchesArefinished,
     });
     this.preloader();
   }
@@ -244,6 +248,7 @@ class App extends Component {
       choosedChampions,
       tournamentPrizePool,
       isTournamentGoingToday,
+      allMatchesArefinished
     } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
@@ -291,7 +296,7 @@ class App extends Component {
             </div>
           </div>
 
-          {winner && <div className={style.tournament_winner}>
+          {allMatchesArefinished && <div className={style.tournament_winner}>
             <TrophyIcon />
             {`Tournament is over! Winner is ${tournamentWinner}. He got $${tournamentPrizePool} prize!`}
           </div>}
@@ -303,13 +308,14 @@ class App extends Component {
             closeModalChoose={this.closeModalChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}
-          {/* {isTeamShown && <div className={style.team_block}> */}
-          <div className={style.team_block}>
+
+          {!allMatchesArefinished &&<div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
               <ChampionsCardsList />
             </div>
-          </div>
+          </div>}
+
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
