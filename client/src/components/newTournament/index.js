@@ -47,16 +47,16 @@ class newTournament extends Component {
 
     let { name, entry, rules, tournament } = this.state;
     let tournamentId = '';
-    if(name === undefined){
+    if (name === undefined){
       this.NotificationService.show(`Name is empty`);
     }
-    if(entry === undefined){
+    if (entry === undefined){
       this.NotificationService.show(`Entry is empty`);
     }
-    if(this.props.user.balance < entry) {
+    if (this.props.user.balance < entry) {
       this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`);
     }
-    if(entry < this.props.user.balance){
+    if (entry < this.props.user.balance){
       this.NotificationService.show(`You've created tournament ${name}`);
       this.props.closeTournament();
       this.props.updateTournaments();
@@ -87,7 +87,7 @@ class newTournament extends Component {
         rules: [...normalizedRules],
         tournamentId,
       }),
-    });     
+    });
   }
 
   render() {
@@ -103,11 +103,7 @@ class newTournament extends Component {
           </div>
 
           <form onSubmit={this.submitForm}>
-            <Button 
-              className={style.close_button} 
-              appearance={'_icon-transparent'} 
-              icon={<CloseIcon />} 
-              onClick={closeTournament} />
+            <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
             
             <div>
               <div className={style.top_block}>

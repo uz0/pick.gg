@@ -111,7 +111,7 @@ class App extends Component {
     if (moment(tournamentDate).isBefore(moment())){
       return "Archive";
     }
-    if(moment(tournamentDate).isAfter(moment())) {
+    if (moment(tournamentDate).isAfter(moment())) {
       return "Will be soon";
     }
   }
@@ -156,7 +156,7 @@ class App extends Component {
 
       matches.forEach(item => {
 
-        if(!item.completed){
+        if (!item.completed){
           return false;
         }
 
@@ -209,7 +209,7 @@ class App extends Component {
     const currentUserResults = usersResults.filter(item => item.userId === userId);
     if (currentUserResults.length > 0){
       matches.forEach((match, index) => {
-        if(match.completed){
+        if (match.completed){
           match.currentUserScore = currentUserResults[index].totalScore;
         }
       });
