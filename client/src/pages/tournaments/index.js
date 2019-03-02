@@ -58,7 +58,7 @@ class App extends Component {
       },
       async () => {
         let filteredTournaments = await this.TournamentService.filterTournamentsByDate(this.state.dateFilter);
-        this.setState({ tournaments: filteredTournaments });
+        this.setState({ fantasyTournaments: filteredTournaments });
       },
     );
   }
@@ -79,7 +79,7 @@ class App extends Component {
       },
       async () => {
         let filteredTournaments = await this.TournamentService.filterTournamentsByEntry(this.state.entryFilter);
-        this.setState({ tournaments: filteredTournaments });
+        this.setState({ fantasyTournaments: filteredTournaments });
       },
     );
   }

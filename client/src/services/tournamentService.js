@@ -58,7 +58,8 @@ export default class TournamentService {
   }
 
   filterTournamentsByEntry = async(entryValue) => {
-    let tournaments = await this.getAllTournaments();
+    let tournamentsQuery = await http('/api/tournaments/fantasy');
+    let tournaments = await tournamentsQuery.json();
     return tournaments.tournaments.filter(item => item.entry >= entryValue);
   }
 
