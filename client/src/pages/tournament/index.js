@@ -105,7 +105,7 @@ class App extends Component {
   }
 
   statusGame = (tournamentDate) => {
-    if (moment().isSame(moment(tournamentDate))){
+    if (moment().isSame(moment(tournamentDate), 'h')){
       return "Is going on";
     }
     if (moment(tournamentDate).isBefore(moment())){
@@ -241,11 +241,13 @@ class App extends Component {
       tournament,
       tournamentDate,
       choosedChampions,
+      tournamentPrizePool,
       isTournamentGoingToday,
     } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
     const tournamentWinner = leaders[0] ? leaders[0].username : '';
+    const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
     // eslint-disable-next-line no-unused-vars
     const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
 
@@ -261,6 +263,10 @@ class App extends Component {
     
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
+
+    if(tournament.users.length !== 0){
+      this.countUserResultsById(tournament)
+    }
 
     return (
       <div className={style.home_page}>
@@ -283,14 +289,14 @@ class App extends Component {
                 Status: {this.statusGame(tournamentDate)}
               </div>
               <div>
-                {`Winner will get: ${this.state.tournamentPrizePool} $`}
+                {`Winner will get: ${tournamentWinnings} $`}
               </div>
             </div>
           </div>
 
           {winner && <div className={style.tournament_winner}>
             <TrophyIcon />
-            {`Tournament is over! Winner is ${tournamentWinner}. He got $${this.state.tournamentPrizePool} prize!`}
+            {`Tournament is over! Winner is ${tournamentWinner}. He got $${tournamentPrizePool} prize!`}
           </div>}
 
           {this.state.chooseChamp && <ChooseChamp
