@@ -82,7 +82,7 @@ class chooseChampion extends Component {
           </div>
           <form onSubmit={this.showModal}>
             {this.state.modalChoose && <Modal
-              textModal={'You should pay entry '+ tournamentEntry +'$'}
+              textModal={'You should pay entry '+ tournamentEntry +'$ ?'}
               closeModal={this.closeModalChoose}
               submitClick={this.participateInTournament}
             />}
