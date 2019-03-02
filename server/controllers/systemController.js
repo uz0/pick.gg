@@ -42,24 +42,22 @@ const SystemController = () => {
 
   router.get('/finalize', async (req, res) => {
 
-    const countUserResultById = () => {
+    // here we will store refs of the tournaments without winner and finished matches
+    let finishedTournaments = [];
 
-    }
-
-    // const fantasy tornaments
-    // const tournaments = await FantasyTournament.aggregate([
-    //   {
-    //     $match: {
-    //       winner: null
-    //     }
-    //   },
-    // ])
-
-    let uncompletedTournamentsRef = [];
-
+    // Query all tournaments without winner
     const tournaments = await FantasyTournament
       .find({ winner: null })
       .populate('tournament')
+      .populate('rules.rule')
+      .populate({ path: 'users.players', select: 'name' })
+      .populate({ path: 'users.user', select: '_id username' })
+      .populate({
+        path: 'tournament',
+        populate: {
+          path: 'champions',
+        }
+      })
       .populate({
         path: 'tournament',
         populate: {
@@ -68,32 +66,48 @@ const SystemController = () => {
             path: 'results'
           },
         }
-      }, (err, doc) => {
-        console.log(doc)
-        return doc
       })
 
 
-    // const tournament = await FantasyTournament.find({_id:"5c7a3a102edeb71dcc5f3b63"})
+    // Filter tournaments, leaving only finished ones
+    tournaments.forEach(tournament => {
 
-      // .find({ winner: null })
-      // .populate('tournament')
-      // .populate({
-      //   path: 'tournament',
-      //   populate: {
-      //     path: 'matches',
-      //     populate: {
-      //       path: 'results'
-      //     }
-      //   }
-      // })
+      // presume that all matches of the tournament are finished
+      let allMatchesCompleted = true;
+
+      tournament.tournament.matches.forEach(match => {
+        if(!match.completed){
+          allMatchesCompleted = false;
+        }
+      })
+
+      if (allMatchesCompleted){
+        // finishedTournaments.push(tournament)
+        finishedTournaments.push({
+          _id: tournament._id,
+          users: tournament.users,
+          matches: tournament.tournament.matches,
+          rules: tournament.rules,
+        })
+      }
+
+    })
+
+    const findTournamentWinner = (tournament) => {
+
+      const users = tournament.users;
+      const usersResults = [];
+
+    }
 
 
-
-
+    finishedTournaments.forEach(tournament => {
+      findTournamentWinner(tournament);
+    })
 
     res.send({
-      tournaments,
+      // tournaments,
+      finishedTournaments,
       // tournament, 
     })
 
