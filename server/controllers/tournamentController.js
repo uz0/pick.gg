@@ -186,6 +186,8 @@ const TournamentController = io => {
         name,
         entry,
         rules,
+        creator: userId,
+        winner: null,
       });
 
       res.json({
