@@ -81,7 +81,9 @@ main h1 {
   text-indent: 12px;
   color: var(--accent-color);
 }
-
+.form input[name="username"]{
+  background: rgba(29, 20, 4, 0.5);
+}
 .form > div textarea {
   resize: none;
   margin-bottom: 20px;
@@ -117,7 +119,7 @@ main h1 {
 }
 
 @media (max-width: 1440px) {
-  main {
+  .home_page main {
     width: 60%;
   }
 }
@@ -131,7 +133,7 @@ main h1 {
   }
 
   .content{
-    margin-top: 70px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
   }
