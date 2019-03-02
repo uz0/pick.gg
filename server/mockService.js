@@ -42,8 +42,8 @@ export default class MockService {
   }
 
   static generateRandomRuleValue() {
-    const values = [1, 9, 8, 11, 12, 15, 7, 6, 3, 13];
-    const random = () => Math.floor(Math.random() * 9) + 1;
+    const values = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+    const random = () => Math.floor(Math.random() * values.length);
     return values[random()];
   }
 
