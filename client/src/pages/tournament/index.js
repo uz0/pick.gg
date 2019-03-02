@@ -43,7 +43,7 @@ class App extends Component {
       choosedChampions: [],
       chooseChamp: false,
       loader: true,
-
+      winner: null,
     };
   }
 
@@ -224,13 +224,24 @@ class App extends Component {
       tournamentPrizePool,
       isTournamentGoingToday,
       tournamentDate,
+      winner: tournament.tournament.winner,
     });
     this.preloader();
   }
 
   render() {
 
-    let { tournament, champions, choosedChampions, userId, matches, isTournamentGoingToday, tournamentDate, leaders } = this.state;
+    let {
+      userId,
+      winner,
+      leaders,
+      matches,
+      champions,
+      tournament,
+      tournamentDate,
+      choosedChampions,
+      isTournamentGoingToday,
+    } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
     const tournamentWinner = leaders[0] ? leaders[0].username : '';
@@ -257,6 +268,7 @@ class App extends Component {
         {this.state.loader && <Preloader />}
 
         <div className={style.tournament_content}>
+        
           <div className={style.tournament_header}>
             <div>
               <h2>{tournament.name}</h2>
@@ -275,10 +287,10 @@ class App extends Component {
             </div>
           </div>
 
-          <div className={style.tournament_winner}>
+          {winner && <div className={style.tournament_winner}>
             <TrophyIcon />
             {`Tournament is over! Winner is ${tournamentWinner}. He got $${this.state.tournamentPrizePool} prize!`}
-          </div>
+          </div>}
 
           {this.state.chooseChamp && <ChooseChamp
             champions={champions}

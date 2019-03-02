@@ -40,6 +40,64 @@ const SystemController = () => {
 
   })
 
+  router.get('/finalize', async (req, res) => {
+
+    const countUserResultById = () => {
+
+    }
+
+    // const fantasy tornaments
+    // const tournaments = await FantasyTournament.aggregate([
+    //   {
+    //     $match: {
+    //       winner: null
+    //     }
+    //   },
+    // ])
+
+    let uncompletedTournamentsRef = [];
+
+    const tournaments = await FantasyTournament
+      .find({ winner: null })
+      .populate('tournament')
+      .populate({
+        path: 'tournament',
+        populate: {
+          path: 'matches',
+          populate: {
+            path: 'results'
+          },
+        }
+      }, (err, doc) => {
+        console.log(doc)
+        return doc
+      })
+
+
+    // const tournament = await FantasyTournament.find({_id:"5c7a3a102edeb71dcc5f3b63"})
+
+      // .find({ winner: null })
+      // .populate('tournament')
+      // .populate({
+      //   path: 'tournament',
+      //   populate: {
+      //     path: 'matches',
+      //     populate: {
+      //       path: 'results'
+      //     }
+      //   }
+      // })
+
+
+
+
+
+    res.send({
+      tournaments,
+      // tournament, 
+    })
+
+  });
 
   router.get('/tournaments', async (req, res) => {
     const tournaments = await TournamentModel.find({})
@@ -67,7 +125,7 @@ const SystemController = () => {
     let matchResults = [];
     let matchResultsRefs = [];
 
-    const matchDateGap = 300000; // <- this equals 1 hour
+    const matchDateGap = 150000; // <- this equals 7.5 minutes
     const tournamentDateGap = 86400000; // <- this equals 1 day
 
     const tournament = await TournamentModel.create({
@@ -144,8 +202,6 @@ const SystemController = () => {
 
   })
   
-  router.get('/finalize', async (req, res) => {});
-
   return router;
 }
 
