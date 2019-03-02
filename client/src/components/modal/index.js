@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import style from './modal.module.css';
-import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import Button from '../button';
 
 class Modal extends Component {
@@ -9,7 +8,6 @@ class Modal extends Component {
     return (
       <div className={style.wrapper_modal}>
         <div className={style.modal}>
-          <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeModal} />
           <p>{textModal}</p>
           <div className={style.btns_modal}>
             <Button appearance={'_basic-accent'} type={'submit'} onClick={submitClick} text={'Yes'} />

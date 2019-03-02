@@ -8,24 +8,29 @@
   right: 0;
   bottom: 0;
   z-index: 5;
+  background: rgba(153, 153, 153, 0.7);
 }
 .modal{
-  width: 500px;
+  width: 400px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-content: center;
+  align-items: flex-start;
   background: #000;
   color: #fff;
-  padding: 10px 10px 30px;
+  border-radius: 4px;
+  padding: 20px;
 }
-.modal .close_button{
-  align-self: flex-end;
+.modal p{
+  margin-top: 0;
 }
 
 .btns_modal{
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
 .btns_modal button{
-  margin: 0 5px;
+  margin-right: 10px;
+  font-size: 16px;
 }
