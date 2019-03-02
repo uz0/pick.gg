@@ -256,6 +256,7 @@ class App extends Component {
     const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
     // eslint-disable-next-line no-unused-vars
     const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
+    const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
 
     let ChampionsCardsList = () => {
       let cards = [];
@@ -283,7 +284,7 @@ class App extends Component {
               <h2>{tournament.name}</h2>
               <div className={style.tournament_info}>
                 <p>{moment(tournamentDate).format('MMM DD')}</p>
-                <p>$ {tournament.entry}</p>
+                <p>{isFreeTournament(tournament.entry)}</p>
               </div>
             </div>
             <div>
@@ -291,7 +292,7 @@ class App extends Component {
                 Status: {this.statusGame(tournamentDate)}
               </div>
               <div>
-                {`Winner will get: ${tournamentWinnings} $`}
+                {`Winner will get: ${tournamentWinnings > 0 ? `$${tournamentWinnings}` : 'respect'}`}
               </div>
             </div>
           </div>

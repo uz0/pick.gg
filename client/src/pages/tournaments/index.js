@@ -119,6 +119,8 @@ class App extends Component {
 
   render() {
 
+    const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -165,7 +167,7 @@ class App extends Component {
                 <p>{item.name}</p>
                 <p>{moment(item.tournament.date).format('MMM DD')}</p>
                 <p>{item.users.length}</p>
-                <p>$ {item.entry}</p>
+                <p>{isFreeTournament(item.entry)}</p>
               </div>
             </NavLink>
           ))}
