@@ -132,7 +132,7 @@ class newTournament extends Component {
               
               <p>Rules</p>
               
-              <div className={style.rules_inputs}>{rules && rules.map(item => <input name={item._id} onChange={this.onRulesInputChange} value={this.state.rules[item._id] || ''} key={item._id} placeholder={item.name} type="number" min="-10" max="10" />)}</div>
+              <div className={style.rules_inputs}>{rules && rules.map(item => <input name={item._id} onChange={this.onRulesInputChange} value={this.state.rules[item._id] || ''} key={item._id} placeholder={item.name} label={item.name} type="number" min="-10" max="10" />)}</div>
               
               <div className={style.bottom_btn}>
                 <Button appearance={'_basic-accent'} type={'submit'} text={'Create'} />

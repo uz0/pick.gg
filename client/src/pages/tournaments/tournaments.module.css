@@ -129,10 +129,10 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 }
 
 .header_tournaments p:nth-child(3) {
-  min-width: 50px;
+  min-width: 100px;
 }
 .header_tournaments p:nth-child(4) {
-  min-width: 120px;
+  min-width: 110px;
 }
 
 .card_tournament {
@@ -216,7 +216,11 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   right: 0;
   left: 0;
   height: 100%;
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, #11162a 100%);
+}
+.free{
+  color: #d79634;
+  font-weight: bold;
 }
 @media (max-width: 1440px) {
   .home_page { 
