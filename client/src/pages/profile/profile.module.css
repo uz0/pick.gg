@@ -131,7 +131,7 @@ main h1 {
   }
 
   .content{
-    margin-top: 70px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
   }

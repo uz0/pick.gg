@@ -6,6 +6,7 @@ import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import style from './newTournament.module.css';
 import http from '../../services/httpService';
 import NotificationService from '../../services/notificationService';
+import Modal from '../../components/modal';
 
 class newTournament extends Component {
   constructor() {
@@ -13,8 +14,17 @@ class newTournament extends Component {
     this.NotificationService = new NotificationService();
     this.state = {
       rules: {},
+      modalChoose: false,
     };
   }
+
+  showModal = () => {
+    this.setState({
+      modalChoose: true,
+    });
+  }
+
+  closeModalChoose = () => this.setState({modalChoose: false})
 
   onRulesInputChange = e => {
     let formattedInputValue = parseInt(e.target.value, 10);
@@ -53,6 +63,7 @@ class newTournament extends Component {
     if (entry === undefined){
       this.NotificationService.show(`Entry is empty`);
     }
+    
     if (this.props.user.balance < entry) {
       this.NotificationService.show(`Insufficient funds ${entry - this.props.user.balance}$`);
     }
@@ -67,14 +78,15 @@ class newTournament extends Component {
       this.NotificationService.show('Please, select tournament and try again');
       return false;
     }
-
+    
     let normalizedRules = Object.keys(rules).map(item => {
       return {
         rule: item,
         score: rules[item],
       };
     });
-
+    
+    this.showModal()
     await http('/api/tournaments', {
       method: 'POST',
       headers: {
@@ -102,9 +114,15 @@ class newTournament extends Component {
             <p>Create a new tournament</p>
           </div>
 
+          {this.state.modalChoose && <Modal
+              textModal={'Do you really want to create a tournament?'}
+              closeModal={this.closeModalChoose}
+              submitClick={this.submitForm}
+            />}
+
           <form onSubmit={this.submitForm}>
             <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
-            
+
             <div>
               <div className={style.top_block}>
                 <Input action={this.onChange} label="Name" name="name" type="text" />
