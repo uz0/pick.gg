@@ -105,12 +105,13 @@ class App extends Component {
   }
 
   statusGame = (tournamentDate) => {
-    if (moment().isSame(moment(tournamentDate)), 'day'){
+    if (moment().isSame(moment(tournamentDate))){
       return "Is going on";
     }
-    else if (moment(tournamentDate).isBefore(moment())){
+    if (moment(tournamentDate).isBefore(moment())){
       return "Archive";
-    } else {
+    }
+    if(moment(tournamentDate).isAfter(moment())) {
       return "Will be soon";
     }
   }
@@ -134,7 +135,7 @@ class App extends Component {
     let sortedLeaders;
 
     const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
-    const finishedMatches = matches.filter(item => item.completed === true);
+    // const finishedMatches = matches.filter(item => item.completed === true);
 
     let usersResults = [];
     let rules = {};

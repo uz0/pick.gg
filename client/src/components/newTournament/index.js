@@ -103,7 +103,11 @@ class newTournament extends Component {
           </div>
 
           <form onSubmit={this.submitForm}>
-            <Button className={style.close_button} appearance={'_icon-transparent'} icon={<CloseIcon />} onClick={closeTournament} />
+            <Button 
+              className={style.close_button} 
+              appearance={'_icon-transparent'} 
+              icon={<CloseIcon />} 
+              onClick={closeTournament} />
             
             <div>
               <div className={style.top_block}>
