@@ -135,16 +135,7 @@
   box-shadow: 0px 1px 1px #000000;
   border-radius: 4px;
   color: #bfbfc7;
-}
-
-.tournament_matches .finished_match:after {
-  content: '';
-  position: absolute;
-  right: -36px;
-  top: 4px;
-  width: 30px;
-  height: 30px;
-  background-image: url("../../assets/finish.svg")
+  opacity: 0.3;
 }
 
 .tournament_matches .going_on_match {
@@ -409,12 +400,6 @@
   .team_block .item_mobile img{
     width: 80px;
     margin-right: 20px;
-  }
-  .tournament_matches .finished_match:after{
-    right: 10px;
-    top: 10px;
-    width: 20px;
-    height: 20px;
   }
   .tournament_winner{
     padding: 10px 20px;
