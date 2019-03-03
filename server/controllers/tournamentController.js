@@ -37,7 +37,6 @@ const TournamentController = io => {
   })
 
   router.get('/fantasy', async (req, res) => {
-
     const tournaments = await FantasyTournament.find({})
       .populate('tournament', 'name date')
       .populate({ path: 'users.players', select: '_id name' })
