@@ -176,17 +176,18 @@ class newTournament extends Component {
               
               <div className={style.rules_inputs}>
                 {this.state.rules.map(item =>
-                  <input 
+                  <div className={style.input_rules}>
+                    <input 
                     name={item._id} 
                     onChange={this.onRulesInputChange} 
                     value={this.state.rulesValues[item._id] || ''} 
                     key={item._id} 
-                    placeholder={item.name} 
-                    label={item.name} 
                     type="number" 
                     min="-10" 
                     max="10"
                   />
+                  <label>{item.name}</label>
+                  </div>
                 )}
               </div>
               
