@@ -82,6 +82,9 @@
   --gap: 10;
   margin-top: calc(var(--gap) * 1px);
   height: 40px;
+  padding-top: 10px;
+  padding: 10px 0 2px 8px;
+  font-size: 14px;
 }
 
 .new_tournament select {
@@ -120,6 +123,26 @@
   justify-content: center;
   align-items: center;
 }
+.input_rules{
+  position: relative;
+}
+
+.input_rules label{
+  position: absolute;
+  color: #fff;
+  left: 10px;
+  top: 19px;
+  transition: all 0.3s;
+  font-size: 16px;
+  padding: 1px;
+  border-radius: 5px;
+  color: var(--accent-color);
+}
+.input_rules input:focus + label { 
+  left: 7px;
+  top: 12px;
+  font-size: 10px;
+ }
 
 @media screen and (max-width: 480px) {
   .new_tournament {
