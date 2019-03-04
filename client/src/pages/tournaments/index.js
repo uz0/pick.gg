@@ -109,7 +109,7 @@ class App extends Component {
 
           <div className={style.block_filters}>
             <form>
-              <Input type="date" value={this.state.filterByDate} action={this.filterByDate} label="Date from" name="date" min="2019-01-01" max="2020-12-31"/>
+              <Input type="date" value={this.state.filterByDate} action={this.filterByDate} label="Date from" name="date" min="2019-01-01" max="2020-12-31" />
               <Input type="number" value={this.state.entryFilter} action={this.filterByEntry} label="Minimal entry" placeholder="$ 0.1" name="entry" min="0" />
             </form>
 
@@ -123,7 +123,7 @@ class App extends Component {
           </div>
         </div>
 
-        {this.state.newTournamentIsOpen && 
+        {this.state.newTournamentIsOpen &&
           <NewTournament
             onClose={this.closeNewTournament}
             history={this.props.history}
@@ -139,14 +139,11 @@ class App extends Component {
           </div>
 
           {this.state.fantasyTournaments.map(item => (
-            <NavLink key={item._id} to={`/tournaments/${item._id}`}>
-
-              <div className={style.card_tournament}>
-                <p>{item.name}</p>
-                <p>{moment(item.tournament.date).format('MMM DD')}</p>
-                <p>{item.users.length}</p>
-                <p>{isFreeTournament(item.entry)}</p>
-              </div>
+            <NavLink className={style.card_tournament} key={item._id} to={`/tournaments/${item._id}`}>
+              <p>{item.name}</p>
+              <p>{moment(item.tournament.date).format('MMM DD')}</p>
+              <p>{item.users.length}</p>
+              <p>{isFreeTournament(item.entry)}</p>
             </NavLink>
           ))}
         </div>
