@@ -239,7 +239,6 @@ class App extends Component {
 
     let {
       userId,
-      winner,
       leaders,
       matches,
       champions,
@@ -287,6 +286,7 @@ class App extends Component {
                 <p>{isFreeTournament(tournament.entry)}</p>
               </div>
             </div>
+
             <div>
               <div className={style.statusGames}>
                 Status: {this.statusGame(tournamentDate)}
@@ -326,11 +326,16 @@ class App extends Component {
                   {[style.going_on_match]: isMatchGoingOn(item)},
                 )} key={item._id}>
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
-                  {isUserRegistered > 0 && item.completed && <span className={style.user_score}>{item.currentUserScore}</span>}
+
+                  {isUserRegistered > 0 && item.completed &&
+                    <span className={style.user_score}>+{item.currentUserScore}</span>
+                  }
+
                   <span>{moment(item.startDate).format('HH:mm')} – {moment(item.endDate).format('HH:mm')}</span>
                 </div>
               ))}
             </div>
+
             <div className={style.tournament_leader}>
               <div className={style.header_leader}>
                 <h3>Leaderboard</h3>
