@@ -183,6 +183,7 @@ class newTournament extends Component {
                     value={this.state.rulesValues[item._id] || ''} 
                     key={item._id} 
                     type="number" 
+                    required
                     min="-10" 
                     max="10"
                   />
