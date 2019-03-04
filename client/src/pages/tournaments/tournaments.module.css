@@ -121,7 +121,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 }
 
 .header_tournaments p:first-child {
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 .header_tournaments p:nth-child(2) {
@@ -160,7 +160,11 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 }
 
 .card_tournament p:first-child {
-  flex-grow: 1
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 360px; 
 }
 
 .card_tournament p:nth-child(2) {
