@@ -136,12 +136,20 @@
   font-size: 16px;
   padding: 1px;
   border-radius: 5px;
-  color: var(--accent-color);
+  color: rgb(97, 97, 97);
 }
+
+.input_rules input:valid + label,
 .input_rules input:focus + label { 
+  transform: translate3d(-3px, -7px, 0);
+  font-size: 10px;
+  color: var(--accent-color);
+ }
+ .focused{
   left: 7px;
   top: 12px;
   font-size: 10px;
+  color: var(--accent-color);
  }
 
 @media screen and (max-width: 480px) {
