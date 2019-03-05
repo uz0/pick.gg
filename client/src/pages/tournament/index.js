@@ -3,8 +3,8 @@ import style from './tournament.module.css';
 import { NavLink } from 'react-router-dom';
 
 import ChooseChamp from '../../components/chooseChampion';
-import ChampionCard from '../../components/ChampionCard';
-import ChooseChampionCard from '../../components/ChooseChampionCard';
+import ChampionCard from '../../components/championCard';
+import ChooseChampionCard from '../../components/chooseChampionCard';
 import Preloader from '../../components/preloader';
 
 import AuthService from '../../services/authService';
@@ -342,7 +342,7 @@ class App extends Component {
                 <p>{tournament.users.length} users</p>
               </div>
               <div className={style.table_leader}>
-                {isUserRegistered == 0 && <p className={style.status_leaders}>Waiting for new players</p>}
+                {isUserRegistered === false && <p className={style.status_leaders}>Waiting for new players</p>}
                 
                 <div className={style.top_five}>
                   {this.state.leaders.map((item, index) => (

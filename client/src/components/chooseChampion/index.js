@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from '../button/index';
-import ChampionCard from '../ChampionCard';
+import ChampionCard from '../championCard';
 import TransactionService from '../../services/transactionService';
 import Modal from '../../components/modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';

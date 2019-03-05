@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Avatar from './Avatar';
+import Avatar from './avatar';
 import style from './style.module.css';
 
 class ProfileSidebar extends Component {

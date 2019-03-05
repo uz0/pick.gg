@@ -8,7 +8,7 @@ import UserService from '../../services/userService';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import ProfileSidebar from '../../components/ProfileSidebar';
+import ProfileSidebar from '../../components/profileSidebar';
 import Preloader from '../../components/preloader';
 
 import style from './style.module.css';
