@@ -25,7 +25,7 @@
   right: 0;
   left: 0;
   height: 100%;
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, #11162a 100%);
 }
 .main_block{
   width: 35%;

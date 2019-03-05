@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import style from './tournament.module.css';
+import { NavLink } from 'react-router-dom';
 
 import ChooseChamp from '../../components/chooseChampion';
 import ChampionCard from '../../components/ChampionCard';
@@ -139,7 +140,6 @@ class App extends Component {
     const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
     const allMatchesArefinished = matches.every(item => item.completed === true);
 
-    console.log(allMatchesArefinished)
 
     let usersResults = [];
     let rules = {};
@@ -321,7 +321,7 @@ class App extends Component {
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
               {matches.map((item,index) => (
-                <div className={cx(
+                <NavLink to="/" className={cx(
                   {[style.finished_match]: isMatchFinished(item)},
                   {[style.going_on_match]: isMatchGoingOn(item)},
                 )} key={item._id}>
@@ -332,7 +332,7 @@ class App extends Component {
                   }
 
                   <span>{moment(item.startDate).format('HH:mm')} – {moment(item.endDate).format('HH:mm')}</span>
-                </div>
+                </NavLink>
               ))}
             </div>
 
@@ -342,6 +342,8 @@ class App extends Component {
                 <p>{tournament.users.length} users</p>
               </div>
               <div className={style.table_leader}>
+                {isUserRegistered == 0 && <p className={style.status_leaders}>Waiting for new players</p>}
+                
                 <div className={style.top_five}>
                   {this.state.leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>
