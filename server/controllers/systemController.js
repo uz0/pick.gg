@@ -88,7 +88,7 @@ const SystemController = () => {
       const response = await Promise.all(promises);
 
       response.forEach(item => {
-        list = [...list, ...item];
+        list = list.concat(item);
       });
 
       return list;
