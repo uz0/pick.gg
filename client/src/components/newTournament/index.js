@@ -141,19 +141,18 @@ class newTournament extends Component {
             <p>Create a new tournament</p>
           </div>
 
-          {this.state.modalChoose && 
-            <Modal
-              textModal={'Do you really want to create a tournament?'}
-              closeModal={this.closeModalChoose}
-              submitClick={this.submitForm}
-            />
+          {this.state.modalChoose && <Modal
+            textModal={'Do you really want to create a tournament?'}
+            closeModal={this.closeModalChoose}
+            submitClick={this.submitForm}
+          />
           }
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
-            <Button 
-              className={style.close_button} 
-              appearance={'_icon-transparent'} 
-              icon={<CloseIcon />} 
+            <Button
+              className={style.close_button}
+              appearance={'_icon-transparent'}
+              icon={<CloseIcon />}
               onClick={onClose}
             />
 
@@ -161,15 +160,20 @@ class newTournament extends Component {
               <div className={style.top_block}>
                 <Input action={this.onChange} label="Name" name="name" type="text" />
 
-                <Select 
-                  action={this.onChange} 
-                  name="tournament" 
+                <Select
+                  action={this.onChange}
+                  name="tournament"
                   values={this.state.tournaments}
                   option={item => `${moment(item.date).format("DD MMM")} - ${item.name}`}
                   label="Tournament (from list)"
                 />
 
-                <Input action={this.onChange} label="Entry $" name="entry" type="text" />
+                <Input
+                  action={this.onChange}
+                  label="Entry $"
+                  name="entry"
+                  type="text"
+                />
               </div>
               
               <p>Rules</p>
@@ -177,19 +181,18 @@ class newTournament extends Component {
               <div className={style.rules_inputs}>
                 {this.state.rules.map(item =>
                   <div className={style.input_rules}>
-                    <input 
-                    name={item._id} 
-                    onChange={this.onRulesInputChange} 
-                    value={this.state.rulesValues[item._id] || ''} 
-                    key={item._id} 
-                    type="number" 
-                    required
-                    min="-10" 
-                    max="10"
-                  />
-                  <label>{item.name}</label>
-                  </div>
-                )}
+                    <input
+                      name={item._id}
+                      onChange={this.onRulesInputChange}
+                      value={this.state.rulesValues[item._id] || ''}
+                      key={item._id}
+                      type="number"
+                      required
+                      min="-10"
+                      max="10"
+                    />
+                    <label>{item.name}</label>
+                  </div>)}
               </div>
               
               <div className={style.bottom_btn}>
