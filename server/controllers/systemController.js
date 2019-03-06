@@ -1,3 +1,4 @@
+import find from 'lodash/find';
 import express from "express";
 import TournamentModel from "../models/tournament";
 import FantasyTournament from "../models/fantasy-tournament";
@@ -6,6 +7,8 @@ import RuleModel from "../models/rule";
 import TransactionModel from "../models/transaction";
 import MatchResult from "../models/match-result";
 import MatchModel from "../models/match";
+import fetch from 'node-fetch';
+import { URLSearchParams } from 'url';
 
 import MockService from "../mockService";
 
@@ -29,15 +32,114 @@ const SystemController = () => {
   })
 
   router.get('/sync', async (req, res) => {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    params.append('client_id', 'hyperloot');
+    params.append('client_secret', 'ef8bfd1fb62ecca4354ab6f4f1852cd986831b79b97e5e3478');
 
-    // Some good code to sync all matches and tournaments
-    // const matches = await MatchModel.find()
-    const matches = await MatchModel.update({ endDate: { $lte: Date.now() } }, { completed: true }, { multi: true })
+    let auth = await fetch('https://api.abiosgaming.com/v2/oauth/access_token', {
+      method: 'POST',
+      body: params,
+    });
+
+    auth = await auth.json();
+    const token = auth.access_token;
+
+    const getAbios = (endPoint, params) => {
+      const url = `https://api.abiosgaming.com/v2/${endPoint}?access_token=${token}`;
+
+      if (params) {
+        const string = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
+        return fetch(`${url}&${string}`);
+      }
+
+      return fetch(url);
+    };
+
+    const loadPaginatedData = async (endPoint, params) => {
+      let firstPage = await getAbios(endPoint, params);
+      firstPage = await firstPage.json();
+
+      let list = firstPage.data;
+
+      if (firstPage.last_page === 1) {
+        return list;
+      }
+
+      let promises = [];
+      let timeout = 0;
+
+      for (let i = 2; i < firstPage.last_page + 1; i++) {
+        const advancedParams = Object.assign(params, { page: i });
+
+        const promise = new Promise(resolve => {
+          setTimeout(() => getAbios(endPoint, advancedParams).then(data => {
+            data.json().then(response => resolve(response.data));
+          }), timeout);
+        });
+
+        promises.push(promise);
+        timeout += 500;
+      }
+
+      const response = await Promise.all(promises);
+
+      response.forEach(item => {
+        list = [...list, ...item];
+      });
+
+      return list;
+    };
+
+    let game = await getAbios('games', { q: 'CS:GO' });
+    game = await game.json();
+    game = game.data[0];
+
+    const tournaments = await loadPaginatedData('tournaments', {'games[]': game.id, 'with[]': 'series'});
+    const series = await loadPaginatedData('series', {'games[]': game.id, 'with[]': 'matches'});
+    const players = await loadPaginatedData('players', {'games[]': game.id});
+
+    let formattedTournaments = [];
+    let formattedPlayers = [];
+
+    players.forEach(player => {
+      formattedPlayers.push({
+        // в модели нет id, надо бы добавить наверное
+        id: player.id,
+        name: player.nick_name,
+        photo: player.images.default,
+      });
+    });
+
+    tournaments.forEach(tournament => {
+      let object = {
+        // тоже нет в модели id
+        id: tournament.id,
+        name: tournament.title,
+        date: tournament.start,
+        champions: [],
+        matches: [],
+      };
+
+      if (tournament.series && tournament.series.length > 0) {
+        tournament.series.forEach(oneSeries => {
+          if (oneSeries.rosters && oneSeries.rosters.length > 0) {
+            oneSeries.rosters.forEach(roster => {
+              roster.players.forEach(player => {
+                object.champions.push(player.id);
+              });
+            });
+          }
+        });
+      }
+
+      formattedTournaments.push(object);
+    });
 
     res.send({
-      matches
-    })
-
+      formattedTournaments,
+      formattedPlayers,
+    });
   })
 
   router.get('/finalize', async (req, res) => {
