@@ -257,12 +257,17 @@ class App extends Component {
 
     let ChampionsCardsList = () => {
       let cards = [];
-      for (let i = 0; i < 5; i++){
-        i < choosedChampions.length
-          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
-          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
-      }
-      return cards;
+      // for (let i = 0; i < 5; i++){
+      //   i < choosedChampions.length
+      //     ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
+      //     : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
+      // }
+      return [1,2,3,4,5].map(item => {
+        item < choosedChampions.length
+          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[item].name} />)
+          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
+      })
+      // return cards;
     };
     
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
@@ -343,8 +348,8 @@ class App extends Component {
               </div>
               
               <div className={style.table_leader}>
-                {isUserRegistered === false && <p className={style.status_leaders}>Waiting for new players</p>}
-                
+                {tournament.users.length === 0 && <p className={style.status_leaders}>Waiting for new players</p>}
+
                 <div className={style.top_five}>
                   {this.state.leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>
