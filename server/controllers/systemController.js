@@ -57,8 +57,10 @@ const SystemController = () => {
     };
 
     const loadPaginatedData = async (endPoint, params) => {
+      console.log(`${endPoint} is loading`);
       let firstPage = await getAbios(endPoint, params);
       firstPage = await firstPage.json();
+      console.log(`1 of ${firstPage.last_page} page loaded`);
 
       let list = firstPage.data;
 
@@ -75,6 +77,7 @@ const SystemController = () => {
         const promise = new Promise(resolve => {
           setTimeout(() => getAbios(endPoint, advancedParams).then(data => {
             data.json().then(response => resolve(response.data));
+            console.log(`${i} of ${firstPage.last_page} page loaded`);
           }), timeout);
         });
 
@@ -96,7 +99,7 @@ const SystemController = () => {
     game = game.data[0];
 
     const tournaments = await loadPaginatedData('tournaments', {'games[]': game.id, 'with[]': 'series'});
-    const series = await loadPaginatedData('series', {'games[]': game.id, 'with[]': 'matches'});
+    // const series = await loadPaginatedData('series', {'games[]': game.id, 'with[]': 'matches'});
     const players = await loadPaginatedData('players', {'games[]': game.id});
 
     let formattedTournaments = [];
