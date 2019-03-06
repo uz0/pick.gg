@@ -8,7 +8,17 @@ const Input = ({ label, name, placeholder, type, autofocus, value, action, class
       <p className={style.label_component}>
         {label}
       </p>
-      <input {...props} name={name} placeholder={placeholder} className={className} type={type} autoFocus={autofocus} value={value} onChange={(e) => action(e)}/>
+      
+      <input
+        {...props}
+        name={name}
+        placeholder={placeholder}
+        className={className}
+        type={type}
+        autoFocus={autofocus}
+        value={value}
+        onChange={(e) => action(e)}
+      />
     </label>
   );
 };

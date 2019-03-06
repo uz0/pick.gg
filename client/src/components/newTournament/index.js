@@ -158,7 +158,12 @@ class newTournament extends Component {
 
             <div>
               <div className={style.top_block}>
-                <Input action={this.onChange} label="Name" name="name" type="text" />
+                <Input
+                  action={this.onChange}
+                  label="Name"
+                  name="name"
+                  type="text"
+                />
 
                 <Select
                   action={this.onChange}
@@ -196,7 +201,11 @@ class newTournament extends Component {
               </div>
               
               <div className={style.bottom_btn}>
-                <Button appearance={'_basic-accent'} type={'submit'} text={'Create'} />
+                <Button
+                  appearance={'_basic-accent'}
+                  type={'submit'}
+                  text={'Create'}
+                />
               </div>
             </div>
           </form>

@@ -14,13 +14,13 @@ class Start extends Component {
     };
   }
 
-  handleChange = e => {
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
+  handleChange = event => {
+    event.preventDefault();
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleLogin = async e => {
-    e.preventDefault();
+  handleLogin = async event => {
+    event.preventDefault();
     let success = await this.auth.login(this.state.username, this.state.password);
     if (success) this.props.history.replace('/');
   }

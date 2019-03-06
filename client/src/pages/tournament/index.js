@@ -246,7 +246,6 @@ class App extends Component {
       tournamentDate,
       choosedChampions,
       tournamentPrizePool,
-      isTournamentGoingToday,
       allMatchesArefinished,
     } = this.state;
 
@@ -254,7 +253,6 @@ class App extends Component {
     const tournamentWinner = leaders[0] ? leaders[0].username : '';
     const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
     // eslint-disable-next-line no-unused-vars
-    const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
     const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
 
     let ChampionsCardsList = () => {
@@ -264,7 +262,6 @@ class App extends Component {
           ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
       }
-      
       return cards;
     };
     
