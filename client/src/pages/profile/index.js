@@ -61,7 +61,7 @@ class Profile extends Component {
       body: JSON.stringify({
         email,
         about,
-      }), 
+      }),
     });
   
     this.NotificationService.show("Your data has been updated.");

@@ -53,7 +53,7 @@ class Login extends Component {
           <div className={style.info_block}>Login</div>
 
           <form onSubmit={this.handleLogin}>
-            <Input 
+            <Input
               id="username"
               label="Email"
               name="username"
@@ -64,14 +64,14 @@ class Login extends Component {
               action={this.handleChange}
             />
             
-            <Input 
+            <Input
               id="password"
-              label="Password" 
-              name="password" 
-              placeholder="password" 
-              type="password" 
-              value={this.state.password} 
-              action={this.handleChange} 
+              label="Password"
+              name="password"
+              placeholder="password"
+              type="password"
+              value={this.state.password}
+              action={this.handleChange}
             />
             
             <div className={style.login_btn}>

@@ -46,7 +46,7 @@ class App extends Component {
       chooseChamp: false,
       loader: true,
       winner: null,
-      allMatchesArefinished: false
+      allMatchesArefinished: false,
     };
   }
 
@@ -247,7 +247,7 @@ class App extends Component {
       choosedChampions,
       tournamentPrizePool,
       isTournamentGoingToday,
-      allMatchesArefinished
+      allMatchesArefinished,
     } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
@@ -270,7 +270,7 @@ class App extends Component {
     
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
-    const tournamentDateFormat = moment(tournamentDate).format('MMM DD')
+    const tournamentDateFormat = moment(tournamentDate).format('MMM DD');
 
     return (
       <div className={style.home_page}>

@@ -40,20 +40,20 @@ class chooseChampion extends Component {
     let choosedChampions = this.state.choosedChampions;
     let choosedChampionsNames = choosedChampions.map(item => item.name);
 
-    if(choosedChampions.length === 5) {
-      if(choosedChampionsNames.includes(champion.name)){
-        choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1)
-        this.setState({ choosedChampions })
+    if (choosedChampions.length === 5) {
+      if (choosedChampionsNames.includes(champion.name)){
+        choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
+        this.setState({ choosedChampions });
         return;
-      } 
+      }
       return;
-    };
+    }
 
-    if(!choosedChampionsNames.includes(champion.name)){
-      this.setState({ choosedChampions: [...choosedChampions, champion] })
+    if (!choosedChampionsNames.includes(champion.name)){
+      this.setState({ choosedChampions: [...choosedChampions, champion] });
     } else {
-      choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1)
-      this.setState({ choosedChampions })
+      choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
+      this.setState({ choosedChampions });
     }
   }
 
