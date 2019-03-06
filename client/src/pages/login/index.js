@@ -16,15 +16,13 @@ class Login extends Component {
     this.auth = new AuthService();
     this.NotificationService = new NotificationService();
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
     this.state = {
       username: '',
       password: '',
     };
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -55,9 +53,26 @@ class Login extends Component {
           <div className={style.info_block}>Login</div>
 
           <form onSubmit={this.handleLogin}>
-            <Input id="username" label="Email" name="username" placeholder="login" type="text" autofocus={true} value={this.state.username} action={this.handleChange} />
+            <Input 
+              id="username"
+              label="Email"
+              name="username"
+              placeholder="login"
+              type="text"
+              autofocus
+              value={this.state.username}
+              action={this.handleChange}
+            />
             
-            <Input id="password" label="Password" name="password" placeholder="password" type="password" value={this.state.password} action={this.handleChange} />
+            <Input 
+              id="password"
+              label="Password" 
+              name="password" 
+              placeholder="password" 
+              type="password" 
+              value={this.state.password} 
+              action={this.handleChange} 
+            />
             
             <div className={style.login_btn}>
               <Button appearance={'_basic-accent'} type={'submit'} text={'Login'} />

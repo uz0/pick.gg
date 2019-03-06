@@ -102,7 +102,9 @@ class App extends Component {
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
+
         {this.state.loader && <Preloader />}
+        
         <div className={style.filters}>
           <h2>Tournaments</h2>
 

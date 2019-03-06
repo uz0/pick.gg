@@ -264,11 +264,13 @@ class App extends Component {
           ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
       }
+      
       return cards;
     };
     
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
+    const tournamentDateFormat = moment(tournamentDate).format('MMM DD')
 
     return (
       <div className={style.home_page}>
@@ -282,7 +284,7 @@ class App extends Component {
             <div>
               <h2>{tournament.name}</h2>
               <div className={style.tournament_info}>
-                <p>{moment(tournamentDate).format('MMM DD')}</p>
+                <p>{tournamentDateFormat}</p>
                 <p>{isFreeTournament(tournament.entry)}</p>
               </div>
             </div>
