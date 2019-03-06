@@ -75,7 +75,11 @@ class Login extends Component {
             />
             
             <div className={style.login_btn}>
-              <Button appearance={'_basic-accent'} type={'submit'} text={'Login'} />
+              <Button
+                appearance={'_basic-accent'}
+                type={'submit'}
+                text={'Login'}
+              />
               
               <div className={style.bottom_login_btn}>
                 <span>or </span>
