@@ -118,6 +118,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   text-align-last: left;
   padding: 0 40px;
   margin-bottom: 6px;
+  white-space: nowrap;
 }
 
 .header_tournaments p:first-child {

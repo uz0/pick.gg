@@ -10,6 +10,7 @@ const сhampionCard = ({ avatar, name, className, onClick }) => {
   return (
     <div className={cx(style.card, className)} onClick={onClick}>
       <img src={playerAvatar} alt={name}/>
+      
       <div className={style.name}>
         {name}
       </div>

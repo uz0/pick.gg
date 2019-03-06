@@ -320,6 +320,7 @@ class App extends Component {
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
+              
               {matches.map((item,index) => (
                 <NavLink to="/" className={cx(
                   {[style.finished_match]: isMatchFinished(item)},
@@ -341,6 +342,7 @@ class App extends Component {
                 <h3>Leaderboard</h3>
                 <p>{tournament.users.length} users</p>
               </div>
+              
               <div className={style.table_leader}>
                 {isUserRegistered === false && <p className={style.status_leaders}>Waiting for new players</p>}
                 
