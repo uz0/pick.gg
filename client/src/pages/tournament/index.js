@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import style from './tournament.module.css';
+import React, { Component, Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 
-import ChooseChamp from '../../components/chooseChampion';
-import ChampionCard from '../../components/ChampionCard';
-import ChooseChampionCard from '../../components/ChooseChampionCard';
+import ChampionCard from '../../components/champion-card';
+import ChooseChamp from '../../components/choose-champion';
+import ChooseChampionCard from '../../components/choose-champion-card';
 import Preloader from '../../components/preloader';
 
 import AuthService from '../../services/authService';
@@ -17,7 +17,7 @@ import map from 'lodash/map';
 import uuid from 'uuid';
 import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
-
+import style from './style.module.css';
 import classnames from 'classnames';
 
 const cx = classnames.bind(style);
@@ -46,7 +46,7 @@ class App extends Component {
       chooseChamp: false,
       loader: true,
       winner: null,
-      allMatchesArefinished: false
+      allMatchesArefinished: false,
     };
   }
 
@@ -55,13 +55,13 @@ class App extends Component {
       loader: false,
     })
 
-  updateProfile = async() => {
+  updateProfile = async () => {
     let profile = await this.UserService.getMyProfile();
     this.setState({ profile });
   }
 
-  showChoose = () =>{
-    if (this.state.choosedChampions.length === 0){
+  showChoose = () => {
+    if (this.state.choosedChampions.length === 0) {
       this.setState({
         chooseChamp: true,
       });
@@ -70,24 +70,26 @@ class App extends Component {
       this.NotificationService.show("Players already selected");
     }
   }
-    
-  closeChoose = () =>{
+
+  closeChoose = () => {
     this.setState({
       chooseChamp: false,
-    });}
+    });
+  }
 
   closeModalChoose = () => {
     this.setState({
       modalChoose: false,
       chooseChamp: false,
-    });}
+    });
+  }
 
   chooseChampion = (champion) =>
     this.setState({
       choosedChampions: [...this.state.choosedChampions, champion],
     })
 
-  setChoosedChampions = async(champions) => {
+  setChoosedChampions = async (champions) => {
     const ids = map(champions, champion => champion.id);
     await this.TournamentService.participateInTournament(this.tournamentId, [...ids]);
 
@@ -98,9 +100,8 @@ class App extends Component {
       choosedChampions: [...champions],
       chooseChamp: false,
     }, () => this.NotificationService.show("You've been registered for the tournament"));
-    
   }
-    
+
   calcWidth = item => {
     const logs = this.state.leaders.map(item => item.totalScore);
     const maxPoint = Math.max.apply(Math, logs);
@@ -108,10 +109,10 @@ class App extends Component {
   }
 
   statusGame = (tournamentDate) => {
-    if (moment().isSame(moment(tournamentDate), 'h')){
+    if (moment().isSame(moment(tournamentDate), 'h')) {
       return "Is going on";
     }
-    if (moment(tournamentDate).isBefore(moment())){
+    if (moment(tournamentDate).isBefore(moment())) {
       return "Archive";
     }
     if (moment(tournamentDate).isAfter(moment())) {
@@ -119,124 +120,123 @@ class App extends Component {
     }
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
 
     const tournament = await this.TournamentService.getTournamentById(this.tournamentId);
     const userId = await this.AuthService.getProfile()._id;
 
-    const champions = tournament.tournament.tournament.champions;
+    // const champions = tournament.tournament.tournament.champions;
 
     const isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
-    const isTournamentGoingToday = moment(tournament.tournament.tournament.date).isSame(moment(), 'day') ? true : false;
-    const tournamentDate = tournament.tournament.tournament.date;
+    // const isTournamentGoingToday = moment(tournament.tournament.tournament.date).isSame(moment(), 'day') ? true : false;
+    // const tournamentDate = tournament.tournament.tournament.date;
 
     const leaders = tournament.tournament.users.map(item => item.user);
     // eslint-disable-next-line no-unused-vars
     let sortedLeaders;
 
-    let matches = tournament.tournament.tournament.matches || [];
-    matches = matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
-    let allMatchesArefinished = false;
+    // let matches = tournament.tournament.tournament.matches || [];
+    // matches = matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
+    // let allMatchesArefinished = false;
 
-    if (matches.length > 0) {
-      allMatchesArefinished = matches.every(item => item.completed === true);
-    }
+    // if (matches.length > 0) {
+    //   allMatchesArefinished = matches.every(item => item.completed === true);
+    // }
 
-    console.log(allMatchesArefinished)
 
     let usersResults = [];
     let rules = {};
 
     // if(tournament.tournament.users.length > 0){
-    
+
     // normalize fantasy tournament rules
     tournament.tournament.rules.forEach(item => {
-      if (item.rule){
+      if (item.rule) {
         rules[item.rule.name] = item.score;
       }
     });
-      
+
     // count users results in each match
-    function countUserResultsById(userId) {
+    // function countUserResultsById(userId) {
 
-      const userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+    //   const userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-      matches.forEach(item => {
+      // matches.forEach(item => {
 
-        if (!item.completed){
-          return false;
-        }
+        // if (!item.completed) {
+        //   return false;
+        // }
 
-        let totalScore = 0;
+    //     let totalScore = 0;
 
-        const choosedPlayers = userChampions.players.map(item => item.name);
-        const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+    //     const choosedPlayers = userChampions.players.map(item => item.name);
+    //     const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
-        const resultsScore = results.reduce((acc, item) => {
-          let sum = 0;
-          for (let rule in item){
-            if (rule !== 'name'){
-              sum += item[rule] * rules[rule];
-            }
-          }
-          return acc + sum;
-        }, 0);
-    
-        totalScore = resultsScore;
+    //     const resultsScore = results.reduce((acc, item) => {
+    //       let sum = 0;
+    //       for (let rule in item) {
+    //         if (rule !== 'name') {
+    //           sum += item[rule] * rules[rule];
+    //         }
+    //       }
+    //       return acc + sum;
+    //     }, 0);
 
-        usersResults.push({
-          userId,
-          item,
-          totalScore,
-        });
-  
-      });
+    //     totalScore = resultsScore;
 
-    }
+    //     usersResults.push({
+    //       userId,
+    //       item,
+    //       totalScore,
+    //     });
 
-    tournament.tournament.users.forEach(user => {
-      return countUserResultsById(user.user._id);
-    });
+    //   });
+
+    // }
+
+    // tournament.tournament.users.forEach(user => {
+    //   return countUserResultsById(user.user._id);
+    // });
 
 
     // map leaders to their results
-    sortedLeaders = tournament.tournament.users
-      .map(item => item.user)
-      .map(item => {
-        item.totalScore = usersResults
-          .filter(element => element.userId === item._id)
-          .reduce((acc, item) => {
-            return acc + item.totalScore;
-          }, 0);
-        return item;
-      })
-      .sort((a,b) => b.totalScore - a.totalScore);
+    // sortedLeaders = tournament.tournament.users
+    //   .map(item => item.user)
+    //   .map(item => {
+    //     item.totalScore = usersResults
+    //       .filter(element => element.userId === item._id)
+    //       .reduce((acc, item) => {
+    //         return acc + item.totalScore;
+    //       }, 0);
+    //     return item;
+    //   })
+    //   .sort((a, b) => b.totalScore - a.totalScore);
 
     // map current users results to the matches
-    const currentUserResults = usersResults.filter(item => item.userId === userId);
-    if (currentUserResults.length > 0){
-      matches.forEach((match, index) => {
-        if (match.completed){
-          match.currentUserScore = currentUserResults[index].totalScore;
-        }
-      });
-    }
+    // const currentUserResults = usersResults.filter(item => item.userId === userId);
+    // if (currentUserResults.length > 0) {
+    //   matches.forEach((match, index) => {
+    //     if (match.completed) {
+    //       match.currentUserScore = currentUserResults[index].totalScore;
+    //     }
+    //   });
+    // }
 
     this.setState({
       userId,
-      matches,
-      champions,
+      // matches,
+      // champions,
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
-      isTournamentGoingToday,
-      tournamentDate,
+      // isTournamentGoingToday,
+      // tournamentDate,
       winner: tournament.tournament.winner,
-      allMatchesArefinished,
+      // allMatchesArefinished,
     });
     this.preloader();
   }
@@ -252,30 +252,17 @@ class App extends Component {
       tournamentDate,
       choosedChampions,
       tournamentPrizePool,
-      isTournamentGoingToday,
-      allMatchesArefinished
+      allMatchesArefinished,
     } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
-    const tournamentWinner = leaders[0] ? leaders[0].username : '';
-    const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
+    // const tournamentWinner = leaders[0] ? leaders[0].username : '';
+    // const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
     // eslint-disable-next-line no-unused-vars
-    const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
     const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
-
-    let ChampionsCardsList = () => {
-      let cards = [];
-      for (let i = 0; i < 5; i++){
-        i < choosedChampions.length
-          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} avatar={choosedChampions[i].photo} />)
-          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
-      }
-      return cards;
-    };
-    
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
-
+    const tournamentDateFormat = moment(tournamentDate).format('MMM DD');
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -283,12 +270,12 @@ class App extends Component {
         {this.state.loader && <Preloader />}
 
         <div className={style.tournament_content}>
-        
+
           <div className={style.tournament_header}>
             <div>
               <h2>{tournament.name}</h2>
               <div className={style.tournament_info}>
-                <p>{moment(tournamentDate).format('MMM DD')}</p>
+                <p>{tournamentDateFormat}</p>
                 <p>{isFreeTournament(tournament.entry)}</p>
               </div>
             </div>
@@ -297,15 +284,15 @@ class App extends Component {
               <div className={style.statusGames}>
                 Status: {this.statusGame(tournamentDate)}
               </div>
-              <div>
-                {`Winner will get: ${tournamentWinnings > 0 ? `$${tournamentWinnings}` : 'respect'}`}
+              <div className={style.statusGames}>
+                {`Winner will get: `}
               </div>
             </div>
           </div>
 
           {allMatchesArefinished && <div className={style.tournament_winner}>
             <TrophyIcon />
-            {`Tournament is over! Winner is ${tournamentWinner}. He got $${tournamentPrizePool} prize!`}
+            {`Tournament is over! Winner is ${''}. He got $${tournamentPrizePool} prize!`}
           </div>}
 
           {this.state.chooseChamp && <ChooseChamp
@@ -319,18 +306,27 @@ class App extends Component {
           {!allMatchesArefinished && champions && champions.length > 0 && <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
-              <ChampionsCardsList />
+              {[1,2,3,4,5].map(index => <Fragment>
+                {index < choosedChampions.length && <ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[index].name} avatar={choosedChampions[index].photo} />}
+                {index >= choosedChampions.length && <ChooseChampionCard key={uuid()} onClick={this.showChoose} />}
+              </Fragment>)}
             </div>
           </div>}
 
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
-              {matches.map((item,index) => (
-                <div className={cx(
-                  {[style.finished_match]: isMatchFinished(item)},
-                  {[style.going_on_match]: isMatchGoingOn(item)},
-                )} key={item._id}>
+
+              {matches.length === 0 ? "Matches will appear soon" : matches.map((item, index) => (
+                <NavLink
+                  to="/"
+                  target="_blank"
+                  className={cx(
+                    { [style.finished_match]: isMatchFinished(item) },
+                    { [style.going_on_match]: isMatchGoingOn(item) },
+                  )}
+                  key={item._id}
+                >
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
 
                   {isUserRegistered > 0 && item.completed &&
@@ -338,7 +334,7 @@ class App extends Component {
                   }
 
                   <span>{moment(item.startDate).format('HH:mm')} – {moment(item.endDate).format('HH:mm')}</span>
-                </div>
+                </NavLink>
               ))}
             </div>
 
@@ -347,9 +343,12 @@ class App extends Component {
                 <h3>Leaderboard</h3>
                 <p>{tournament.users.length} users</p>
               </div>
+
               <div className={style.table_leader}>
+                {tournament.users.length === 0 && <p className={style.status_leaders}>Waiting for new players</p>}
+
                 <div className={style.top_five}>
-                  {this.state.leaders.map((item, index) => (
+                  {/* {this.state.leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>
                       <p className={style.number}>{index + 1}</p>
                       <p className={style.name_leader}>{item.username}</p>
@@ -357,7 +356,7 @@ class App extends Component {
                         <span style={{ width: `${this.calcWidth(item.totalScore)}%` }}>{item.totalScore}</span>
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>

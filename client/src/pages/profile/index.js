@@ -7,7 +7,7 @@ import UserService from '../../services/userService';
 import http from '../../services/httpService';
 
 import Button from '../../components/button';
-import style from './profile.module.css';
+import style from './style.module.css';
 
 class Profile extends Component {
   constructor() {
@@ -82,17 +82,31 @@ class Profile extends Component {
               <form className={style.form} onSubmit={this.handleSubmit}>
                 <div>
                   <label>Username</label>
-                  <input type="text" name="username" disabled value={this.state.formData.username} />
+                  <input
+                    type="text"
+                    name="username"
+                    disabled
+                    value={this.state.formData.username}
+                  />
                 </div>
 
                 <div>
                   <label>Email</label>
-                  <input type="text" name="email" value={this.state.formData.email} onChange={this.handleChange}  />
+                  <input
+                    type="text"
+                    name="email"
+                    value={this.state.formData.email}
+                    onChange={this.handleChange}
+                  />
                 </div>
 
                 <div>
                   <label>About</label>
-                  <textarea name="about" value={this.state.formData.about} onChange={this.handleChange} />
+                  <textarea
+                    name="about"
+                    value={this.state.formData.about}
+                    onChange={this.handleChange}
+                  />
                 </div>
 
                 <Button appearance={'_basic-accent'} text={'Save changes'} />
