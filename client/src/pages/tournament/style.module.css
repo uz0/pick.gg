@@ -23,7 +23,7 @@
   right: 0;
   left: 0;
   height: 100%;
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, #11162a 100%);
 }
 
 .home_page {
@@ -61,6 +61,11 @@
 .tournament_header h2 {
   font-size: 40px;
   margin: 0;
+  overflow: hidden;
+  width: 560px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
 }
 
 .tournament_winner {
@@ -87,6 +92,9 @@
 
 .tournament_info {
   display: flex;
+}
+.tournament_info p{
+  white-space: nowrap;
 }
 
 .tournament_header p {
@@ -116,7 +124,7 @@
   align-items: flex-start;
 }
 
-.tournament_matches > div {
+.tournament_matches > a {
   display: flex;
   background: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
@@ -128,6 +136,7 @@
   text-align-last: left;
   margin: 0px 0 10px;
   position: relative;
+  text-decoration: none;
 }
 
 .tournament_matches .finished_match {
@@ -136,6 +145,9 @@
   border-radius: 4px;
   color: #bfbfc7;
   opacity: 0.3;
+}
+.finished_match span:nth-child(2){
+  margin-right: 8px;
 }
 
 .tournament_matches .going_on_match {
@@ -282,7 +294,11 @@
   color: #9FA2BE;
   cursor: default !important;
 }
-
+.table_leader .status_leaders{
+  --background-color: transparent;
+  font-size: 27px;
+  margin: 0;
+}
 @media screen and (max-width: 1440px){
   .home_page{
     width: 90%;
@@ -347,6 +363,7 @@
     width: 100%;
     font-size: 14px;
     box-sizing: border-box;
+    
   }
   .tournament_matches span {
     margin-right: 32px;
@@ -384,10 +401,17 @@
 }
 
 @media screen and (max-width: 480px){
-  .tournament_matches > div {
-    padding: 10px 5px;
-    height: 120px;
+  .tournament_matches > a {
+    padding: 12px 5px;
+    display: flex;
+    align-items: center;
     font-size: 18px;
+  }
+  .tournament_matches{
+    padding-bottom: 40px;
+  }
+  .table_leader .status_leaders{
+    font-size: 20px
   }
   .team_block .item_mobile{
     display: flex;

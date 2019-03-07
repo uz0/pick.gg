@@ -5,11 +5,12 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const ChampionCard = ({ avatar, name, className, onClick }) => {
+const сhampionCard = ({ avatar, name, className, onClick }) => {
   let playerAvatar = avatar || placeholder;
   return (
     <div className={cx(style.card, className)} onClick={onClick}>
       <img src={playerAvatar} alt={name}/>
+      
       <div className={style.name}>
         {name}
       </div>
@@ -17,4 +18,4 @@ const ChampionCard = ({ avatar, name, className, onClick }) => {
   );
 };
 
-export default ChampionCard;
+export default сhampionCard;

@@ -14,13 +14,13 @@ class Start extends Component {
     };
   }
 
-  handleChange = e => {
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
+  handleChange = event => {
+    event.preventDefault();
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleLogin = async e => {
-    e.preventDefault();
+  handleLogin = async event => {
+    event.preventDefault();
     let success = await this.auth.login(this.state.username, this.state.password);
     if (success) this.props.history.replace('/');
   }
@@ -30,18 +30,19 @@ class Start extends Component {
   }
 
   render() {
-
     let startButtonLink = localStorage.getItem('JWS_TOKEN') ? "/tournaments" : "/login";
-
     return (
       <div className={style.login_page}>
         <div className={style.bg_wrap} />
+        
         <div className={style.start_content}>
           <h1>Fantasy league</h1>
+          
           <div className={style.start_btns}>
             <NavLink to={startButtonLink}>
               <button>Start</button>
             </NavLink>
+            
             <div>
               <span>or </span>
               <NavLink to="/register">register</NavLink>

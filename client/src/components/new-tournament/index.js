@@ -4,15 +4,15 @@ import moment from 'moment';
 import Input from '../input';
 import Select from '../select';
 import Button from '../button';
+import Modal from '../../components/modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
-import style from './newTournament.module.css';
 
 import http from '../../services/httpService';
 import NotificationService from '../../services/notificationService';
 import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
-import Modal from '../../components/modal';
+import style from './style.module.css';
 
 class newTournament extends Component {
   constructor() {
@@ -141,25 +141,29 @@ class newTournament extends Component {
             <p>Create a new tournament</p>
           </div>
 
-          {this.state.modalChoose && 
-            <Modal
-              textModal={'Do you really want to create a tournament?'}
-              closeModal={this.closeModalChoose}
-              submitClick={this.submitForm}
-            />
+          {this.state.modalChoose && <Modal
+            textModal={'Do you really want to create a tournament?'}
+            closeModal={this.closeModalChoose}
+            submitClick={this.submitForm}
+          />
           }
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
-            <Button 
-              className={style.close_button} 
-              appearance={'_icon-transparent'} 
-              icon={<CloseIcon />} 
+            <Button
+              className={style.close_button}
+              appearance={'_icon-transparent'}
+              icon={<CloseIcon />}
               onClick={onClose}
             />
 
             <div>
               <div className={style.top_block}>
-                <Input action={this.onChange} label="Name" name="name" type="text" />
+                <Input
+                  action={this.onChange}
+                  label="Name"
+                  name="name"
+                  type="text"
+                />
 
                 <Select
                   action={this.onChange}
@@ -169,7 +173,12 @@ class newTournament extends Component {
                   label="Tournament (from list)"
                 />
 
-                <Input action={this.onChange} label="Entry $" name="entry" type="text" />
+                <Input
+                  action={this.onChange}
+                  label="Entry $"
+                  name="entry"
+                  type="text"
+                />
               </div>
               
               <p>Rules</p>
@@ -177,23 +186,26 @@ class newTournament extends Component {
               <div className={style.rules_inputs}>
                 {this.state.rules.map(item =>
                   <div className={style.input_rules}>
-                    <input 
-                    name={item._id} 
-                    onChange={this.onRulesInputChange} 
-                    value={this.state.rulesValues[item._id] || ''} 
-                    key={item._id} 
-                    type="number" 
-                    required
-                    min="-10" 
-                    max="10"
-                  />
-                  <label>{item.name}</label>
-                  </div>
-                )}
+                    <input
+                      name={item._id}
+                      onChange={this.onRulesInputChange}
+                      value={this.state.rulesValues[item._id] || ''}
+                      key={item._id}
+                      type="number"
+                      required
+                      min="-10"
+                      max="10"
+                    />
+                    <label>{item.name}</label>
+                  </div>)}
               </div>
               
               <div className={style.bottom_btn}>
-                <Button appearance={'_basic-accent'} type={'submit'} text={'Create'} />
+                <Button
+                  appearance={'_basic-accent'}
+                  type={'submit'}
+                  text={'Create'}
+                />
               </div>
             </div>
           </form>

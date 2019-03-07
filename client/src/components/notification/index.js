@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import style from './style.module.css';
 import Button from '../button';
-import classnames from 'classnames';
 import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
+
+import style from './style.module.css';
+import classnames from 'classnames';
 
 class Notification extends Component {
 
