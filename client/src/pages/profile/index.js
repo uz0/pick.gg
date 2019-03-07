@@ -7,7 +7,7 @@ import UserService from '../../services/userService';
 import http from '../../services/httpService';
 
 import Button from '../../components/button';
-import style from './profile.module.css';
+import style from './style.module.css';
 
 class Profile extends Component {
   constructor() {

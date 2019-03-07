@@ -4,15 +4,15 @@ import moment from 'moment';
 import Input from '../input';
 import Select from '../select';
 import Button from '../button';
+import Modal from '../../components/modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
-import style from './newTournament.module.css';
 
 import http from '../../services/httpService';
 import NotificationService from '../../services/notificationService';
 import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
-import Modal from '../../components/modal';
+import style from './style.module.css';
 
 class newTournament extends Component {
   constructor() {

@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import style from './tournament.module.css';
 import { NavLink } from 'react-router-dom';
 
-import ChooseChamp from '../../components/chooseChampion';
-import ChampionCard from '../../components/championCard';
-import ChooseChampionCard from '../../components/chooseChampionCard';
+import ChampionCard from '../../components/champion-card';
+import ChooseChamp from '../../components/choose-champion';
+import ChooseChampionCard from '../../components/choose-champion-card';
 import Preloader from '../../components/preloader';
 
 import AuthService from '../../services/authService';
@@ -17,7 +16,7 @@ import moment from 'moment';
 import uuid from 'uuid';
 import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
-
+import style from './style.module.css';
 import classnames from 'classnames';
 
 const cx = classnames.bind(style);
@@ -126,21 +125,21 @@ class App extends Component {
     const tournament = await this.TournamentService.getTournamentById(this.tournamentId);
     const userId = await this.AuthService.getProfile()._id;
 
-    const champions = tournament.tournament.tournament.champions;
+    // const champions = tournament.tournament.tournament.champions;
 
     const isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
     const tournamentPrizePool = tournament.tournament.entry * tournament.tournament.users.length;
 
-    const isTournamentGoingToday = moment(tournament.tournament.tournament.date).isSame(moment(), 'day') ? true : false;
-    const tournamentDate = tournament.tournament.tournament.date;
+    // const isTournamentGoingToday = moment(tournament.tournament.tournament.date).isSame(moment(), 'day') ? true : false;
+    // const tournamentDate = tournament.tournament.tournament.date;
 
     const leaders = tournament.tournament.users.map(item => item.user);
     // eslint-disable-next-line no-unused-vars
     let sortedLeaders;
 
-    const matches = tournament.tournament.tournament.matches.sort((a, b) => new Date(a.startDate) - new Date(b.endDate));
-    const allMatchesArefinished = matches.every(item => item.completed === true);
+    // const matches = tournament.tournament.tournament.matches.sort((a, b) => new Date(a.startDate) - new Date(b.endDate));
+    // const allMatchesArefinished = matches.every(item => item.completed === true);
 
 
     let usersResults = [];
@@ -156,83 +155,83 @@ class App extends Component {
     });
 
     // count users results in each match
-    function countUserResultsById(userId) {
+    // function countUserResultsById(userId) {
 
-      const userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
+    //   const userChampions = tournament.tournament.users.filter(item => item.user._id === userId)[0];
 
-      matches.forEach(item => {
+      // matches.forEach(item => {
 
-        if (!item.completed) {
-          return false;
-        }
+        // if (!item.completed) {
+        //   return false;
+        // }
 
-        let totalScore = 0;
+    //     let totalScore = 0;
 
-        const choosedPlayers = userChampions.players.map(item => item.name);
-        const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
+    //     const choosedPlayers = userChampions.players.map(item => item.name);
+    //     const results = item.results.playersResults.filter(item => choosedPlayers.includes(item.name));
 
-        const resultsScore = results.reduce((acc, item) => {
-          let sum = 0;
-          for (let rule in item) {
-            if (rule !== 'name') {
-              sum += item[rule] * rules[rule];
-            }
-          }
-          return acc + sum;
-        }, 0);
+    //     const resultsScore = results.reduce((acc, item) => {
+    //       let sum = 0;
+    //       for (let rule in item) {
+    //         if (rule !== 'name') {
+    //           sum += item[rule] * rules[rule];
+    //         }
+    //       }
+    //       return acc + sum;
+    //     }, 0);
 
-        totalScore = resultsScore;
+    //     totalScore = resultsScore;
 
-        usersResults.push({
-          userId,
-          item,
-          totalScore,
-        });
+    //     usersResults.push({
+    //       userId,
+    //       item,
+    //       totalScore,
+    //     });
 
-      });
+    //   });
 
-    }
+    // }
 
-    tournament.tournament.users.forEach(user => {
-      return countUserResultsById(user.user._id);
-    });
+    // tournament.tournament.users.forEach(user => {
+    //   return countUserResultsById(user.user._id);
+    // });
 
 
     // map leaders to their results
-    sortedLeaders = tournament.tournament.users
-      .map(item => item.user)
-      .map(item => {
-        item.totalScore = usersResults
-          .filter(element => element.userId === item._id)
-          .reduce((acc, item) => {
-            return acc + item.totalScore;
-          }, 0);
-        return item;
-      })
-      .sort((a, b) => b.totalScore - a.totalScore);
+    // sortedLeaders = tournament.tournament.users
+    //   .map(item => item.user)
+    //   .map(item => {
+    //     item.totalScore = usersResults
+    //       .filter(element => element.userId === item._id)
+    //       .reduce((acc, item) => {
+    //         return acc + item.totalScore;
+    //       }, 0);
+    //     return item;
+    //   })
+    //   .sort((a, b) => b.totalScore - a.totalScore);
 
     // map current users results to the matches
-    const currentUserResults = usersResults.filter(item => item.userId === userId);
-    if (currentUserResults.length > 0) {
-      matches.forEach((match, index) => {
-        if (match.completed) {
-          match.currentUserScore = currentUserResults[index].totalScore;
-        }
-      });
-    }
+    // const currentUserResults = usersResults.filter(item => item.userId === userId);
+    // if (currentUserResults.length > 0) {
+    //   matches.forEach((match, index) => {
+    //     if (match.completed) {
+    //       match.currentUserScore = currentUserResults[index].totalScore;
+    //     }
+    //   });
+    // }
 
     this.setState({
       userId,
-      matches,
-      champions,
+      // matches,
+      // champions,
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
       tournamentPrizePool,
-      isTournamentGoingToday,
-      tournamentDate,
+      // isTournamentGoingToday,
+      // tournamentDate,
       winner: tournament.tournament.winner,
-      allMatchesArefinished,
+      // allMatchesArefinished,
     });
     this.preloader();
   }
@@ -252,8 +251,8 @@ class App extends Component {
     } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
-    const tournamentWinner = leaders[0] ? leaders[0].username : '';
-    const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
+    // const tournamentWinner = leaders[0] ? leaders[0].username : '';
+    // const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
     // eslint-disable-next-line no-unused-vars
     const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
@@ -281,14 +280,14 @@ class App extends Component {
                 Status: {this.statusGame(tournamentDate)}
               </div>
               <div className={style.statusGames}>
-                {`Winner will get: ${tournamentWinnings > 0 ? `$${tournamentWinnings}` : 'respect'}`}
+                {`Winner will get: `}
               </div>
             </div>
           </div>
 
           {allMatchesArefinished && <div className={style.tournament_winner}>
             <TrophyIcon />
-            {`Tournament is over! Winner is ${tournamentWinner}. He got $${tournamentPrizePool} prize!`}
+            {`Tournament is over! Winner is ${''}. He got $${tournamentPrizePool} prize!`}
           </div>}
 
           {this.state.chooseChamp && <ChooseChamp
@@ -344,7 +343,7 @@ class App extends Component {
                 {tournament.users.length === 0 && <p className={style.status_leaders}>Waiting for new players</p>}
 
                 <div className={style.top_five}>
-                  {this.state.leaders.map((item, index) => (
+                  {/* {this.state.leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>
                       <p className={style.number}>{index + 1}</p>
                       <p className={style.name_leader}>{item.username}</p>
@@ -352,7 +351,7 @@ class App extends Component {
                         <span style={{ width: `${this.calcWidth(item.totalScore)}%` }}>{item.totalScore}</span>
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>

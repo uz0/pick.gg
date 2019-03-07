@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
-import style from './tournaments.module.css';
 
 import AuthService from '../../services/authService';
 import UserService from '../../services/userService';
 import TournamentService from '../../services/tournamentService';
 
 import Input from '../../components/input';
-import NewTournament from '../../components/newTournament';
+import NewTournament from '../../components/new-tournament';
 import Preloader from '../../components/preloader';
+
+import style from './style.module.css';
 
 class App extends Component {
   constructor() {
@@ -142,7 +143,7 @@ class App extends Component {
           {this.state.fantasyTournaments.map(item => (
             <NavLink className={style.card_tournament} key={item._id} to={`/tournaments/${item._id}`}>
               <p>{item.name}</p>
-              <p>{moment(item.tournament.date).format('MMM DD')}</p>
+              {/* <p>{moment(item.tournament.date).format('MMM DD')}</p> */}
               <p>{item.users.length}</p>
               <p>{isFreeTournament(item.entry)}</p>
             </NavLink>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import style from './input.module.css';
+import style from './style.module.css';
 
 const Input = ({ label, name, placeholder, type, autofocus, value, action, className, ...props }) => {
   return (

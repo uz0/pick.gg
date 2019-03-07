@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import AuthService from '../../services/authService';
 import NotificationService from '../../services/notificationService';
-import NotificationContainer from '../../components/notification/NotificationContainer';
+import NotificationContainer from '../../components/notification/notification-container';
 
 import Input from '../../components/input';
 import Button from '../../components/button';

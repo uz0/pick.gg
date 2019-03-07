@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import TopMenuComponent from './components/topMenuComponent';
-import NotificationContainer from './components/notification/NotificationContainer';
+import TopMenuComponent from './components/top-menu-component';
+import NotificationContainer from './components/notification/notification-container';
 import Transactions from './pages/transactions';
 import Tournaments from './pages/tournaments';
 import Tournament from './pages/tournament';
