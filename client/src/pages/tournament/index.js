@@ -13,6 +13,7 @@ import NotificationService from '../../services/notificationService';
 import ChampionService from '../../services/championService';
 import TransactionService from '../../services/transactionService';
 import moment from 'moment';
+import map from 'lodash/map';
 import uuid from 'uuid';
 import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
@@ -87,8 +88,8 @@ class App extends Component {
     })
 
   setChoosedChampions = async(champions) => {
-
-    await this.TournamentService.participateInTournament(this.tournamentId, [...champions]);
+    const ids = map(champions, champion => champion.id);
+    await this.TournamentService.participateInTournament(this.tournamentId, [...ids]);
 
     let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
 
@@ -136,8 +137,13 @@ class App extends Component {
     // eslint-disable-next-line no-unused-vars
     let sortedLeaders;
 
-    const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
-    const allMatchesArefinished = matches.every(item => item.completed === true);
+    let matches = tournament.tournament.tournament.matches || [];
+    matches = matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
+    let allMatchesArefinished = false;
+
+    if (matches.length > 0) {
+      allMatchesArefinished = matches.every(item => item.completed === true);
+    }
 
     console.log(allMatchesArefinished)
 
@@ -261,7 +267,7 @@ class App extends Component {
       let cards = [];
       for (let i = 0; i < 5; i++){
         i < choosedChampions.length
-          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
+          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} avatar={choosedChampions[i].photo} />)
           : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
       }
       return cards;
@@ -310,7 +316,7 @@ class App extends Component {
             setChoosedChampions={this.setChoosedChampions}
           />}
 
-          {!allMatchesArefinished &&<div className={style.team_block}>
+          {!allMatchesArefinished && champions && champions.length > 0 && <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
               <ChampionsCardsList />
