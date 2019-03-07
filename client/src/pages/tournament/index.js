@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import style from './tournament.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -256,21 +256,9 @@ class App extends Component {
     const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
     // eslint-disable-next-line no-unused-vars
     const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
-
-    let ChampionsCardsList = () => {
-      let cards = [];
-      for (let i = 0; i < 5; i++){
-        i < choosedChampions.length
-          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
-          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
-      }
-      return cards;
-    };
-
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
     const tournamentDateFormat = moment(tournamentDate).format('MMM DD');
-
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -314,7 +302,10 @@ class App extends Component {
           {!allMatchesArefinished && <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
-              <ChampionsCardsList />
+              {[1,2,3,4,5].map(index => <Fragment>
+                {index < choosedChampions.length && <ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[index].name} />}
+                {index >= choosedChampions.length && <ChooseChampionCard key={uuid()} onClick={this.showChoose} />}
+              </Fragment>)}
             </div>
           </div>}
 
