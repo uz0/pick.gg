@@ -6,8 +6,8 @@ import TransactionService from '../../services/transactionService';
 
 import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
 import AuthWrapper from '../authWrapper';
-import DropDown from '../dropDown';
-import style from './topMenu.module.css';
+import DropDown from '../dropdown';
+import style from './style.module.css';
 
 class TopMenuComponent extends Component {
   constructor() {

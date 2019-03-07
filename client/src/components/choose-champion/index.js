@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Button from '../button/index';
-import ChampionCard from '../championCard';
+import ChampionCard from '../champion-card';
 import TransactionService from '../../services/transactionService';
 import Modal from '../../components/modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import classnames from 'classnames';
-import style from './chooseChampion.module.css';
+import style from './style.module.css';
 import uuid from 'uuid';
 
 const cx = classnames.bind(style);

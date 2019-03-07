@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
-import style from './mytournaments.module.css';
 
 import AuthService from '../../services/authService';
 import TournamentService from '../../services/tournamentService';
 
+import style from './style.module.css';
 
 class App extends Component {
   constructor() {

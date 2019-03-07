@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import style from './preloader.module.css';
+import style from './style.module.css';
 
 class Preloader extends Component {
   render() {
