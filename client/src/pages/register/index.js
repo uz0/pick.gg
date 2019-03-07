@@ -41,7 +41,6 @@ class Register extends Component {
     if ( username === "" || password === "" || confirmPassword === "" ){
       this.NotificationService.show("Error empty field");
     }
-    const authRequest = await this.auth.login(this.state.username, this.state.password);
     await fetch('/api/authentication/register', {
       method: 'POST',
       headers: {
@@ -61,12 +60,9 @@ class Register extends Component {
           // TODO RENDER ERROR!
           console.error(message);
         }
-        if (authRequest.success){
+        if (success){
           this.props.history.replace('/tournaments');
         }
-        // if (success) {
-        //   this.props.history.replace('/tournaments');
-        // }
       });
   }
 

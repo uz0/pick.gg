@@ -55,13 +55,13 @@ class App extends Component {
       loader: false,
     })
 
-  updateProfile = async() => {
+  updateProfile = async () => {
     let profile = await this.UserService.getMyProfile();
     this.setState({ profile });
   }
 
-  showChoose = () =>{
-    if (this.state.choosedChampions.length === 0){
+  showChoose = () => {
+    if (this.state.choosedChampions.length === 0) {
       this.setState({
         chooseChamp: true,
       });
@@ -70,24 +70,26 @@ class App extends Component {
       this.NotificationService.show("Players already selected");
     }
   }
-    
-  closeChoose = () =>{
+
+  closeChoose = () => {
     this.setState({
       chooseChamp: false,
-    });}
+    });
+  }
 
   closeModalChoose = () => {
     this.setState({
       modalChoose: false,
       chooseChamp: false,
-    });}
+    });
+  }
 
   chooseChampion = (champion) =>
     this.setState({
       choosedChampions: [...this.state.choosedChampions, champion],
     })
 
-  setChoosedChampions = async(champions) => {
+  setChoosedChampions = async (champions) => {
 
     await this.TournamentService.participateInTournament(this.tournamentId, [...champions]);
 
@@ -98,9 +100,9 @@ class App extends Component {
       choosedChampions: [...champions],
       chooseChamp: false,
     }, () => this.NotificationService.show("You've been registered for the tournament"));
-    
+
   }
-    
+
   calcWidth = item => {
     const logs = this.state.leaders.map(item => item.totalScore);
     const maxPoint = Math.max.apply(Math, logs);
@@ -108,10 +110,10 @@ class App extends Component {
   }
 
   statusGame = (tournamentDate) => {
-    if (moment().isSame(moment(tournamentDate), 'h')){
+    if (moment().isSame(moment(tournamentDate), 'h')) {
       return "Is going on";
     }
-    if (moment(tournamentDate).isBefore(moment())){
+    if (moment(tournamentDate).isBefore(moment())) {
       return "Archive";
     }
     if (moment(tournamentDate).isAfter(moment())) {
@@ -119,7 +121,7 @@ class App extends Component {
     }
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
 
     const tournament = await this.TournamentService.getTournamentById(this.tournamentId);
     const userId = await this.AuthService.getProfile()._id;
@@ -137,7 +139,7 @@ class App extends Component {
     // eslint-disable-next-line no-unused-vars
     let sortedLeaders;
 
-    const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
+    const matches = tournament.tournament.tournament.matches.sort((a, b) => new Date(a.startDate) - new Date(b.endDate));
     const allMatchesArefinished = matches.every(item => item.completed === true);
 
 
@@ -145,14 +147,14 @@ class App extends Component {
     let rules = {};
 
     // if(tournament.tournament.users.length > 0){
-    
+
     // normalize fantasy tournament rules
     tournament.tournament.rules.forEach(item => {
-      if (item.rule){
+      if (item.rule) {
         rules[item.rule.name] = item.score;
       }
     });
-      
+
     // count users results in each match
     function countUserResultsById(userId) {
 
@@ -160,7 +162,7 @@ class App extends Component {
 
       matches.forEach(item => {
 
-        if (!item.completed){
+        if (!item.completed) {
           return false;
         }
 
@@ -171,14 +173,14 @@ class App extends Component {
 
         const resultsScore = results.reduce((acc, item) => {
           let sum = 0;
-          for (let rule in item){
-            if (rule !== 'name'){
+          for (let rule in item) {
+            if (rule !== 'name') {
               sum += item[rule] * rules[rule];
             }
           }
           return acc + sum;
         }, 0);
-    
+
         totalScore = resultsScore;
 
         usersResults.push({
@@ -186,7 +188,7 @@ class App extends Component {
           item,
           totalScore,
         });
-  
+
       });
 
     }
@@ -207,13 +209,13 @@ class App extends Component {
           }, 0);
         return item;
       })
-      .sort((a,b) => b.totalScore - a.totalScore);
+      .sort((a, b) => b.totalScore - a.totalScore);
 
     // map current users results to the matches
     const currentUserResults = usersResults.filter(item => item.userId === userId);
-    if (currentUserResults.length > 0){
+    if (currentUserResults.length > 0) {
       matches.forEach((match, index) => {
-        if (match.completed){
+        if (match.completed) {
           match.currentUserScore = currentUserResults[index].totalScore;
         }
       });
@@ -257,19 +259,14 @@ class App extends Component {
 
     let ChampionsCardsList = () => {
       let cards = [];
-      // for (let i = 0; i < 5; i++){
-      //   i < choosedChampions.length
-      //     ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
-      //     : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
-      // }
-      return [1,2,3,4,5].map(item => {
-        item < choosedChampions.length
-          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[item].name} />)
-          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
-      })
-      // return cards;
+      for (let i = 0; i < 5; i++){
+        i < choosedChampions.length
+          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
+          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
+      }
+      return cards;
     };
-    
+
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
     const tournamentDateFormat = moment(tournamentDate).format('MMM DD');
@@ -281,7 +278,7 @@ class App extends Component {
         {this.state.loader && <Preloader />}
 
         <div className={style.tournament_content}>
-        
+
           <div className={style.tournament_header}>
             <div>
               <h2>{tournament.name}</h2>
@@ -295,7 +292,7 @@ class App extends Component {
               <div className={style.statusGames}>
                 Status: {this.statusGame(tournamentDate)}
               </div>
-              <div>
+              <div className={style.statusGames}>
                 {`Winner will get: ${tournamentWinnings > 0 ? `$${tournamentWinnings}` : 'respect'}`}
               </div>
             </div>
@@ -314,7 +311,7 @@ class App extends Component {
             setChoosedChampions={this.setChoosedChampions}
           />}
 
-          {!allMatchesArefinished &&<div className={style.team_block}>
+          {!allMatchesArefinished && <div className={style.team_block}>
             <h3>Team</h3>
             <div className={style.tournament_team}>
               <ChampionsCardsList />
@@ -324,12 +321,17 @@ class App extends Component {
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
-              
-              {matches.map((item,index) => (
-                <NavLink to="/" className={cx(
-                  {[style.finished_match]: isMatchFinished(item)},
-                  {[style.going_on_match]: isMatchGoingOn(item)},
-                )} key={item._id}>
+
+              {matches.length === 0 ? "Matches will appear soon" : matches.map((item, index) => (
+                <NavLink
+                  to="/"
+                  target="_blank"
+                  className={cx(
+                    { [style.finished_match]: isMatchFinished(item) },
+                    { [style.going_on_match]: isMatchGoingOn(item) },
+                  )}
+                  key={item._id}
+                >
                   <span className={style.match_title}>{`Match ${index + 1}`}</span>
 
                   {isUserRegistered > 0 && item.completed &&
@@ -346,7 +348,7 @@ class App extends Component {
                 <h3>Leaderboard</h3>
                 <p>{tournament.users.length} users</p>
               </div>
-              
+
               <div className={style.table_leader}>
                 {tournament.users.length === 0 && <p className={style.status_leaders}>Waiting for new players</p>}
 
