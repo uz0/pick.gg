@@ -97,7 +97,6 @@ class App extends Component {
   }
 
   render() {
-
     const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
 
     return (

@@ -28,7 +28,9 @@ const TournamentController = io => {
 
   router.get('/real', async (req, res) => {
 
-    const tournaments = await TournamentModel.find({}, '_id name date')
+    const tournaments = await TournamentModel.find({})
+      .populate('champions')
+      .populate('matches')
 
     res.send({
       tournaments,
@@ -39,7 +41,7 @@ const TournamentController = io => {
   router.get('/fantasy', async (req, res) => {
     const tournaments = await FantasyTournament.find({})
       .populate('tournament', 'name date')
-      .populate({ path: 'users.players', select: '_id name' })
+      .populate({ path: 'users.players', select: 'id name' })
       .populate({ path: 'users.user', select: '_id username' })
       .sort({date: -1})
 
@@ -53,7 +55,7 @@ const TournamentController = io => {
     const tournaments = await FantasyTournament
       .find({})
       .populate('tournament', 'name date')
-      .populate({ path: 'users.players', select: '_id name' })
+      .populate({ path: 'users.players', select: 'id name' })
       .populate({ path: 'users.user', select: '_id username' })
       .sort({date: -1})
 
@@ -98,7 +100,7 @@ const TournamentController = io => {
 
     const tournament = await FantasyTournament
       .findOne({ _id: id })
-      .populate({ path: 'users.players', select: 'name photo' })
+      .populate({ path: 'users.players', select: 'id name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
       .populate('tournament')
@@ -181,7 +183,7 @@ const TournamentController = io => {
       });
 
       const newTournament = await FantasyTournament.create({
-        tournament: tournamentId,
+        tournament_id: tournamentId,
         name,
         entry,
         rules,
@@ -242,12 +244,13 @@ const TournamentController = io => {
     tournamentUsers.push({
       userId,
       user: userId,
-      players: players,
+      players_ids: players,
     });
 
     const newTournament = await FantasyTournament
       .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true })
       .populate({ path: 'users.user', select: '_id username' })
+      .populate({ path: 'users.players' })
 
     res.json({
       success: true,

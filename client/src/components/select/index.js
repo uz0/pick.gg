@@ -19,7 +19,7 @@ const Select = ({ label, values, name, placeholder, type, autofocus, value, acti
 
         {values && values.map(item =>
           <option 
-            key={item._id} 
+            key={item.id}
             value={item.name}
           >
             {option(item) || item.title}

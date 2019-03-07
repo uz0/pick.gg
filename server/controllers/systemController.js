@@ -7,6 +7,7 @@ import RuleModel from "../models/rule";
 import TransactionModel from "../models/transaction";
 import MatchResult from "../models/match-result";
 import MatchModel from "../models/match";
+import PlayerModel from "../models/player";
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 
@@ -68,28 +69,23 @@ const SystemController = () => {
         return list;
       }
 
-      let promises = [];
-      let timeout = 0;
+      const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
 
       for (let i = 2; i < firstPage.last_page + 1; i++) {
         const advancedParams = Object.assign(params, { page: i });
+        let response = await getAbios(endPoint, advancedParams);
+        response = await response.json();
 
-        const promise = new Promise(resolve => {
-          setTimeout(() => getAbios(endPoint, advancedParams).then(data => {
-            data.json().then(response => resolve(response.data));
-            console.log(`${i} of ${firstPage.last_page} page loaded`);
-          }), timeout);
-        });
+        if (!response.error) {
+          console.log(`${i} of ${firstPage.last_page} page loaded`);
+          list = list.concat(response.data);
+        } else {
+          console.log(`${i} of ${firstPage.last_page} page request error`);
+          console.log(response);
+        }
 
-        promises.push(promise);
-        timeout += 500;
+        await wait(350);
       }
-
-      const response = await Promise.all(promises);
-
-      response.forEach(item => {
-        list = list.concat(item);
-      });
 
       return list;
     };
@@ -98,50 +94,90 @@ const SystemController = () => {
     game = await game.json();
     game = game.data[0];
 
-    const tournaments = await loadPaginatedData('tournaments', {'games[]': game.id, 'with[]': 'series'});
-    // const series = await loadPaginatedData('series', {'games[]': game.id, 'with[]': 'matches'});
-    const players = await loadPaginatedData('players', {'games[]': game.id});
-
-    let formattedTournaments = [];
     let formattedPlayers = [];
+    let formattedTournaments = [];
+    let formattedMatches = [];
 
-    players.forEach(player => {
-      formattedPlayers.push({
-        // в модели нет id, надо бы добавить наверное
-        id: player.id,
-        name: player.nick_name,
-        photo: player.images.default,
+    const countPlayers = await PlayerModel.count();
+
+    if (countPlayers === 0) {
+      const players = await loadPaginatedData('players', {'games[]': game.id});
+
+      players.forEach(player => {
+        formattedPlayers.push({
+          id: player.id,
+          name: player.nick_name,
+          photo: player.images.default,
+        });
       });
-    });
 
-    tournaments.forEach(tournament => {
+      await PlayerModel.deleteMany();
+      console.log('Players model cleared');
+      await PlayerModel.create(formattedPlayers);
+      console.log('Players loaded');
+    } else {
+      console.log('Players loading skipped');
+    }
+
+    const series = await loadPaginatedData('series', {'games[]': game.id, 'with[]': 'matches'});
+    const tournaments = await loadPaginatedData('tournaments', {'games[]': game.id, 'with[]': 'series'});
+
+    for (let i = 0; i < tournaments.length; i++) {
+      const tournament = tournaments[i];
+
       let object = {
-        // тоже нет в модели id
         id: tournament.id,
         name: tournament.title,
         date: tournament.start,
-        champions: [],
-        matches: [],
+        champions_ids: [],
+        matches_ids: [],
       };
 
       if (tournament.series && tournament.series.length > 0) {
-        tournament.series.forEach(oneSeries => {
+        for (let j = 0; j < tournament.series.length; j++) {
+          let oneSeries = find(series, { id: tournament.series[j].id }) || tournament.series[j];
+
+          if (oneSeries.matches && oneSeries.matches.length > 0) {
+            oneSeries.matches.forEach(match => {
+              formattedMatches.push({
+                id: match.id,
+                tournament_id: tournament.id,
+                // в абиос нет даты у матча, вставил даты турнира
+                startDate: tournament.start,
+                endDate: tournament.end,
+                results: null,
+                completed: false,
+              });
+
+              object.matches_ids.push(match.id);
+            });
+          }
+
           if (oneSeries.rosters && oneSeries.rosters.length > 0) {
             oneSeries.rosters.forEach(roster => {
               roster.players.forEach(player => {
-                object.champions.push(player.id);
+                object.champions_ids.push(player.id);
               });
             });
           }
-        });
+        }
       }
 
       formattedTournaments.push(object);
-    });
+    }
+
+    await MatchModel.deleteMany();
+    console.log('Matches creared');
+    await MatchModel.create(formattedMatches);
+    console.log('Matches loaded');
+
+    await TournamentModel.deleteMany();
+    console.log('Tournaments creared');
+    await TournamentModel.create(formattedTournaments);
+    console.log('Tournaments loaded');
 
     res.send({
-      formattedTournaments,
-      formattedPlayers,
+      success: 'Sync successfully completed',
     });
   })
 

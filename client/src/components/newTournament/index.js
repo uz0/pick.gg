@@ -101,7 +101,7 @@ class newTournament extends Component {
     }
 
     if (tournament){
-      tournamentId = this.state.tournaments.find(item => item.name === tournament)._id;
+      tournamentId = this.state.tournaments.find(item => item.name === tournament).id;
     } else {
       this.NotificationService.show('Please, select tournament and try again');
       return false;
@@ -161,9 +161,9 @@ class newTournament extends Component {
               <div className={style.top_block}>
                 <Input action={this.onChange} label="Name" name="name" type="text" />
 
-                <Select 
-                  action={this.onChange} 
-                  name="tournament" 
+                <Select
+                  action={this.onChange}
+                  name="tournament"
                   values={this.state.tournaments}
                   option={item => `${moment(item.date).format("DD MMM")} - ${item.name}`}
                   label="Tournament (from list)"
