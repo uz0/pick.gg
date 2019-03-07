@@ -97,6 +97,7 @@
   margin-bottom: 10px;
   width: 440px;
   height: 40px;
+  cursor: pointer;
 }
 
 .new_tournament p {

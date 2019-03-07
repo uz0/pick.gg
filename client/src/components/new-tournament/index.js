@@ -30,8 +30,10 @@ class newTournament extends Component {
     const { rules } = await http('/api/rules').then(res => res.json());
     const { user } = await this.UserService.getMyProfile();
 
+    const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
     this.setState({
-      tournaments,
+      tournamentsSortedByDate,
       rules,
       user,
     });
@@ -40,7 +42,7 @@ class newTournament extends Component {
   state = {
     rulesValues: {},
     rules: [],
-    tournaments: [],
+    tournamentsSortedByDate: [],
     modalChoose: false,
   }
 
@@ -101,7 +103,7 @@ class newTournament extends Component {
     }
 
     if (tournament){
-      tournamentId = this.state.tournaments.find(item => item.name === tournament).id;
+      tournamentId = this.state.tournamentsSortedByDate.find(item => item.name === tournament).id;
     } else {
       this.NotificationService.show('Please, select tournament and try again');
       return false;
@@ -168,7 +170,7 @@ class newTournament extends Component {
                 <Select
                   action={this.onChange}
                   name="tournament"
-                  values={this.state.tournaments}
+                  values={this.state.tournamentsSortedByDate}
                   option={item => `${moment(item.date).format("DD MMM")} - ${item.name}`}
                   label="Tournament (from list)"
                 />
@@ -185,7 +187,7 @@ class newTournament extends Component {
               
               <div className={style.rules_inputs}>
                 {this.state.rules.map(item =>
-                  <div className={style.input_rules}>
+                  <div className={style.input_rules} key={item._id}>
                     <input
                       name={item._id}
                       onChange={this.onRulesInputChange}
