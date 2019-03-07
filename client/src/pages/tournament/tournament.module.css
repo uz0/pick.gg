@@ -93,6 +93,9 @@
 .tournament_info {
   display: flex;
 }
+.tournament_info p{
+  white-space: nowrap;
+}
 
 .tournament_header p {
   margin: 0;
@@ -142,6 +145,9 @@
   border-radius: 4px;
   color: #bfbfc7;
   opacity: 0.3;
+}
+.finished_match span:nth-child(2){
+  margin-right: 8px;
 }
 
 .tournament_matches .going_on_match {
@@ -357,6 +363,7 @@
     width: 100%;
     font-size: 14px;
     box-sizing: border-box;
+    
   }
   .tournament_matches span {
     margin-right: 32px;
@@ -394,10 +401,17 @@
 }
 
 @media screen and (max-width: 480px){
-  .tournament_matches > div {
-    padding: 10px 5px;
-    height: 120px;
+  .tournament_matches > a {
+    padding: 12px 5px;
+    display: flex;
+    align-items: center;
     font-size: 18px;
+  }
+  .tournament_matches{
+    padding-bottom: 40px;
+  }
+  .table_leader .status_leaders{
+    font-size: 20px
   }
   .team_block .item_mobile{
     display: flex;
