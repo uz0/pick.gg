@@ -69,7 +69,7 @@ class chooseChampion extends Component {
     let userBalance = this.state.userBalance;
     let { closeChoose, champions, tournamentEntry } = this.props;
 
-    let areChampionsSelected = this.state.choosedChampions.length < 1;
+    let areChampionsSelected = this.state.choosedChampions.length < 5;
     let isUserHasMoneyToPlay = userBalance >= tournamentEntry;
     let isButtonDisabled = (isUserHasMoneyToPlay === false) ? true : areChampionsSelected;
     return (
@@ -87,12 +87,6 @@ class chooseChampion extends Component {
           <form onSubmit={this.showModal}>
             {this.state.modalChoose && <Modal
               textModal={'You should pay entry '+ tournamentEntry +'$ ?'}
-              closeModal={this.closeModalChoose}
-              submitClick={this.participateInTournament}
-            />}
-
-            {this.state.modalChoose && <Modal
-              textModal={'Warning, you choose less than 5 players, are you sure?'}
               closeModal={this.closeModalChoose}
               submitClick={this.participateInTournament}
             />}
