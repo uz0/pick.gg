@@ -125,7 +125,7 @@ class App extends Component {
     const tournament = await this.TournamentService.getTournamentById(this.tournamentId);
     const userId = await this.AuthService.getProfile()._id;
 
-    // const champions = tournament.tournament.tournament.champions;
+    const champions = tournament.tournament.tournament.champions;
 
     const isUserRegistered = tournament.tournament.users.map(item => item.user._id).includes(userId);
     const userPlayers = tournament.tournament.users.filter(item => item.user._id === userId)[0];
@@ -138,7 +138,7 @@ class App extends Component {
     // eslint-disable-next-line no-unused-vars
     let sortedLeaders;
 
-    // let matches = tournament.tournament.tournament.matches || [];
+    let matches = tournament.tournament.tournament.matches || [];
     // matches = matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
     // let allMatchesArefinished = false;
 
@@ -227,8 +227,8 @@ class App extends Component {
 
     this.setState({
       userId,
-      // matches,
-      // champions,
+      matches,
+      champions,
       tournament: tournament.tournament,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       leaders: tournament.tournament.users.length > 0 ? sortedLeaders : leaders,
