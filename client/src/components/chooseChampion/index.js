@@ -39,7 +39,7 @@ class chooseChampion extends Component {
 
     let choosedChampions = this.state.choosedChampions;
     let choosedChampionsNames = choosedChampions.map(item => item.name);
-
+    
     if (choosedChampions.length === 5) {
       if (choosedChampionsNames.includes(champion.name)){
         choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
@@ -87,6 +87,12 @@ class chooseChampion extends Component {
           <form onSubmit={this.showModal}>
             {this.state.modalChoose && <Modal
               textModal={'You should pay entry '+ tournamentEntry +'$ ?'}
+              closeModal={this.closeModalChoose}
+              submitClick={this.participateInTournament}
+            />}
+
+            {this.state.modalChoose && <Modal
+              textModal={'Warning, you choose less than 5 players, are you sure?'}
               closeModal={this.closeModalChoose}
               submitClick={this.participateInTournament}
             />}
