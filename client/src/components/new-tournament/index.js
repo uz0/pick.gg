@@ -5,6 +5,7 @@ import Input from '../input';
 import Select from '../select';
 import Button from '../button';
 import Modal from '../../components/modal';
+import Preloader from '../../components/preloader';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 
 import http from '../../services/httpService';
@@ -31,7 +32,7 @@ class newTournament extends Component {
     const { user } = await this.UserService.getMyProfile();
 
     const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
+
     this.setState({
       tournamentsSortedByDate,
       rules,
@@ -134,9 +135,11 @@ class newTournament extends Component {
 
   render() {
     let { onClose } = this.props;
+    const areTournamentsLoaded = this.state.tournamentsSortedByDate.length > 0 ? true : false;
 
     return (
       <div className={style.wrap}>
+
         <div className={style.new_tournament}>
 
           <div className={style.create_block}>
@@ -151,6 +154,9 @@ class newTournament extends Component {
           }
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
+
+            {!areTournamentsLoaded && <Preloader />}
+
             <Button
               className={style.close_button}
               appearance={'_icon-transparent'}

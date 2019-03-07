@@ -18,20 +18,16 @@
 }
 
 .new_tournament form {
-  z-index: 1;
-  background: var(--background-color);
-  border-radius: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
   padding: 40px 40px 40px 180px;
-  clip-path: polygon(27% 7%, 100% 0, 100% 100%, 0% 100%);
-  display: flex;
+  min-height: 540px;
   align-items: flex-end;
-}
-
-.new_tournament .wrap_form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 500px;
+  clip-path: polygon(27% 7%, 100% 0, 100% 100%, 0% 100%);
+  background-color: var(--background-color);
+  border-radius: 2px;
+  transition: all 0.5s ease;
 }
 
 .new_tournament .top_block {
