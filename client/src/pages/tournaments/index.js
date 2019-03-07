@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import moment from 'moment';
+import style from './tournaments.module.css';
+
+import AuthService from '../../services/authService';
+import UserService from '../../services/userService';
+import TournamentService from '../../services/tournamentService';
 
 import Input from '../../components/input';
 import NewTournament from '../../components/newTournament';
 import Preloader from '../../components/preloader';
-import { NavLink } from 'react-router-dom';
-import moment from 'moment';
-import AuthService from '../../services/authService';
-import UserService from '../../services/userService';
-import TournamentService from '../../services/tournamentService';
-import style from './tournaments.module.css';
 
 class App extends Component {
   constructor() {
@@ -97,13 +98,13 @@ class App extends Component {
   }
 
   render() {
-
     const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
-
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
+
         {this.state.loader && <Preloader />}
+        
         <div className={style.filters}>
           <h2>Tournaments</h2>
 

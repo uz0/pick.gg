@@ -118,6 +118,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   text-align-last: left;
   padding: 0 40px;
   margin-bottom: 6px;
+  white-space: nowrap;
 }
 
 .header_tournaments p:first-child {
@@ -125,11 +126,11 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 }
 
 .header_tournaments p:nth-child(2) {
-  min-width: 60px;
+  width: 120px;
 }
 
 .header_tournaments p:nth-child(3) {
-  min-width: 100px;
+  min-width: 120px;
 }
 .header_tournaments p:nth-child(4) {
   min-width: 110px;
@@ -153,6 +154,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   text-align: left;
   font-weight: normal;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .card_tournament p:last-child {
@@ -283,6 +285,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
   }
   .header_tournaments p:nth-child(2) {
     min-width: 60px;
+    width: auto;
   }
   .header_tournaments p:nth-child(3) {
     min-width: 60px;
@@ -357,6 +360,9 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
     overflow: hidden;
     white-space: nowrap;
     text-overflow: hidden;
+  }
+  .header_tournaments p:nth-child(3){
+    min-width: 70px;
   }
   .header_tournaments p:nth-child(4){
     min-width: 45px;

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
+import style from './mytournaments.module.css';
+
 import AuthService from '../../services/authService';
 import TournamentService from '../../services/tournamentService';
-import style from './mytournaments.module.css';
+
 
 class App extends Component {
   constructor() {
@@ -35,11 +37,12 @@ class App extends Component {
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
+        
         <div className={style.main_block}>
           <h2>My Tournaments</h2>
           <div className={style.tournaments_block}>
             {!this.state.zeroTournaments && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
-            {console.log(this.state.tournaments)}
+            
             {!this.state.zeroTournaments && <div className={style.header_tournaments}>
               <p>Tournament Name</p>
               <p>End Date</p>

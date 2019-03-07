@@ -41,7 +41,7 @@ class Register extends Component {
     if ( username === "" || password === "" || confirmPassword === "" ){
       this.NotificationService.show("Error empty field");
     }
-
+    const authRequest = await this.auth.login(this.state.username, this.state.password);
     await fetch('/api/authentication/register', {
       method: 'POST',
       headers: {
@@ -61,10 +61,12 @@ class Register extends Component {
           // TODO RENDER ERROR!
           console.error(message);
         }
-
-        if (success) {
+        if (authRequest.success){
           this.props.history.replace('/tournaments');
         }
+        // if (success) {
+        //   this.props.history.replace('/tournaments');
+        // }
       });
   }
 
@@ -79,14 +81,34 @@ class Register extends Component {
           <div className={style.info_block}>Register</div>
 
           <form onSubmit={this.submitForm}>
-            <Input label="Login" name="username" type="text" action={this.onChange('username')} autofocus={true} />
+            <Input
+              label="Login"
+              name="username"
+              type="text"
+              action={this.onChange('username')}
+              autofocus
+            />
             
-            <Input label="Password" name="password" type="password" action={this.onChange('password')} />
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              action={this.onChange('password')}
+            />
             
-            <Input label="Confirm password" name="confirmPassword" type="password" action={this.onChange('confirmPassword')} />
+            <Input
+              label="Confirm password"
+              name="confirmPassword"
+              type="password"
+              action={this.onChange('confirmPassword')}
+            />
             
             <div className={style.login_btn}>
-              <Button appearance={'_basic-accent'} type={'submit'} text={'Register'} />
+              <Button
+                appearance={'_basic-accent'}
+                type={'submit'}
+                text={'Register'}
+              />
               
               <div className={style.bottom_login_btn}>
                 <span>or </span>
