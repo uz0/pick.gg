@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import style from './tournament.module.css';
+import { NavLink } from 'react-router-dom';
 
 import ChooseChamp from '../../components/chooseChampion';
-import ChampionCard from '../../components/ChampionCard';
-import ChooseChampionCard from '../../components/ChooseChampionCard';
+import ChampionCard from '../../components/championCard';
+import ChooseChampionCard from '../../components/chooseChampionCard';
 import Preloader from '../../components/preloader';
 
 import AuthService from '../../services/authService';
@@ -45,7 +46,7 @@ class App extends Component {
       chooseChamp: false,
       loader: true,
       winner: null,
-      allMatchesArefinished: false
+      allMatchesArefinished: false,
     };
   }
 
@@ -139,7 +140,6 @@ class App extends Component {
     const matches = tournament.tournament.tournament.matches.sort((a,b) => new Date(a.startDate) - new Date(b.endDate));
     const allMatchesArefinished = matches.every(item => item.completed === true);
 
-    console.log(allMatchesArefinished)
 
     let usersResults = [];
     let rules = {};
@@ -246,29 +246,33 @@ class App extends Component {
       tournamentDate,
       choosedChampions,
       tournamentPrizePool,
-      isTournamentGoingToday,
-      allMatchesArefinished
+      allMatchesArefinished,
     } = this.state;
 
     const isUserRegistered = this.state.tournament.users.map(item => item.user._id).includes(userId);
     const tournamentWinner = leaders[0] ? leaders[0].username : '';
     const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : tournament.entry;
     // eslint-disable-next-line no-unused-vars
-    const isTeamShown = isUserRegistered ? true : isTournamentGoingToday ? false : true;
     const isFreeTournament = entry => entry === 0 ? 'Free' : `$${entry}`;
 
     let ChampionsCardsList = () => {
       let cards = [];
-      for (let i = 0; i < 5; i++){
-        i < choosedChampions.length
-          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
-          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
-      }
-      return cards;
+      // for (let i = 0; i < 5; i++){
+      //   i < choosedChampions.length
+      //     ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[i].name} />)
+      //     : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />);
+      // }
+      return [1,2,3,4,5].map(item => {
+        item < choosedChampions.length
+          ? cards.push(<ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[item].name} />)
+          : cards.push(<ChooseChampionCard key={uuid()} onClick={this.showChoose} />)
+      })
+      // return cards;
     };
     
     const isMatchFinished = (match) => moment().isAfter(match.endDate);
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
+    const tournamentDateFormat = moment(tournamentDate).format('MMM DD');
 
     return (
       <div className={style.home_page}>
@@ -282,7 +286,7 @@ class App extends Component {
             <div>
               <h2>{tournament.name}</h2>
               <div className={style.tournament_info}>
-                <p>{moment(tournamentDate).format('MMM DD')}</p>
+                <p>{tournamentDateFormat}</p>
                 <p>{isFreeTournament(tournament.entry)}</p>
               </div>
             </div>
@@ -320,8 +324,9 @@ class App extends Component {
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
+              
               {matches.map((item,index) => (
-                <div className={cx(
+                <NavLink to="/" className={cx(
                   {[style.finished_match]: isMatchFinished(item)},
                   {[style.going_on_match]: isMatchGoingOn(item)},
                 )} key={item._id}>
@@ -332,7 +337,7 @@ class App extends Component {
                   }
 
                   <span>{moment(item.startDate).format('HH:mm')} – {moment(item.endDate).format('HH:mm')}</span>
-                </div>
+                </NavLink>
               ))}
             </div>
 
@@ -341,7 +346,10 @@ class App extends Component {
                 <h3>Leaderboard</h3>
                 <p>{tournament.users.length} users</p>
               </div>
+              
               <div className={style.table_leader}>
+                {tournament.users.length === 0 && <p className={style.status_leaders}>Waiting for new players</p>}
+
                 <div className={style.top_five}>
                   {this.state.leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>

@@ -37,9 +37,7 @@ class Rating extends Component {
   }
   
   render() {
-
     let Avatar = () => this.props.avatar ? <img src={this.props.avatar} alt="userpic"/> : <AvatarPlaceholder />;
-
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -59,9 +57,11 @@ class Rating extends Component {
             {this.state.playersList.map(item => (
               <NavLink key={uuid()} className={style.item_table} to={`/user/${item._id}`}>
                 <div>{item.place}.</div>
+                
                 <div className={style.avatar_table}>
                   <Avatar avatar=""/>
                 </div>
+                
                 <div className={style.name_table}>{item.username}</div>
                 <div className={style.name_table}>${item.winning}</div>
               </NavLink>

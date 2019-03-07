@@ -9,6 +9,7 @@ class Modal extends Component {
       <div className={style.wrapper_modal}>
         <div className={style.modal}>
           <p>{textModal}</p>
+          
           <div className={style.btns_modal}>
             <Button appearance={'_basic-accent'} type={'submit'} onClick={submitClick} text={'Yes'} />
             <Button appearance={'_basic-accent'} onClick={closeModal} text={'No'} />

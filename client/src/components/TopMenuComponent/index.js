@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthService from '../../services/authService';
 import UserService from '../../services/userService';
@@ -6,7 +6,7 @@ import TransactionService from '../../services/transactionService';
 
 import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
 import AuthWrapper from '../authWrapper';
-import DropDown from '../DropDown';
+import DropDown from '../dropDown';
 import style from './topMenu.module.css';
 
 class TopMenuComponent extends Component {
@@ -39,13 +39,13 @@ class TopMenuComponent extends Component {
     this.setState({ profile });
   }
 
-  deposit = async(e) => {
-    e.preventDefault();
+  deposit = async(event) => {
+    event.preventDefault();
     await this.TransactionService.deposit();
   }
   
-  withdraw = async(e) => {
-    e.preventDefault();
+  withdraw = async(event) => {
+    event.preventDefault();
     await this.TransactionService.withdraw();
   }
   
@@ -59,10 +59,10 @@ class TopMenuComponent extends Component {
       <AvatarPlaceholder />;
 
     const BalancePlaceholder = () => `$${this.state.profile.user.balance}`;
-    const UserPlaceholder = () => <>
+    const UserPlaceholder = () => <Fragment>
       <Avatar />
       {this.state.profile.user.username}
-    </>;
+    </Fragment>;
 
     return (
       <div className={style.top_menu}>
@@ -78,8 +78,8 @@ class TopMenuComponent extends Component {
           <DropDown placeholder={<BalancePlaceholder />}>
             <NavLink to="/transactions">Transactions</NavLink>
 
-            <a href="/" onClick={e => this.deposit(e)}>Deposit</a>
-            <a href="/" onClick={e => this.withdraw(e)}>Withdraw</a>
+            <a href="/" onClick={event => this.deposit(event)}>Deposit</a>
+            <a href="/" onClick={event => this.withdraw(event)}>Withdraw</a>
           </DropDown>
 
           <DropDown placeholder={<UserPlaceholder />}>

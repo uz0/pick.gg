@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from '../button/index';
-import ChampionCard from '../ChampionCard';
+import ChampionCard from '../championCard';
 import TransactionService from '../../services/transactionService';
 import Modal from '../../components/modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
@@ -28,33 +28,32 @@ class chooseChampion extends Component {
     });
   }
 
-  participateInTournament = (e) => {
-    e.preventDefault();
+  participateInTournament = (event) => {
+    event.preventDefault();
     this.props.setChoosedChampions(this.state.choosedChampions);
   }
 
-  isChampionChoosed = (championName) => this.state.choosedChampions.map(item => item.name).includes(championName) ? true : false;
+  isChampionChoosed = (championName) => this.state.choosedChampions.map(item => item.name).includes(championName);
 
   selectChampion = (champion) => {
 
     let choosedChampions = this.state.choosedChampions;
     let choosedChampionsNames = choosedChampions.map(item => item.name);
 
-    if(choosedChampions.length === 5) {
-      if(choosedChampionsNames.includes(champion.name)){
-        choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1)
-        this.setState({ choosedChampions })
-        return;
-      } else {
+    if (choosedChampions.length === 5) {
+      if (choosedChampionsNames.includes(champion.name)){
+        choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
+        this.setState({ choosedChampions });
         return;
       }
-    };
+      return;
+    }
 
-    if(!choosedChampionsNames.includes(champion.name)){
-      this.setState({ choosedChampions: [...choosedChampions, champion] })
+    if (!choosedChampionsNames.includes(champion.name)){
+      this.setState({ choosedChampions: [...choosedChampions, champion] });
     } else {
-      choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1)
-      this.setState({ choosedChampions })
+      choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
+      this.setState({ choosedChampions });
     }
   }
 
@@ -67,14 +66,12 @@ class chooseChampion extends Component {
   }
 
   render(){
-
     let userBalance = this.state.userBalance;
     let { closeChoose, champions, tournamentEntry } = this.props;
 
-    let areChampionsSelected = this.state.choosedChampions.length < 1 ? true : false;
-    let isUserHasMoneyToPlay = userBalance >= tournamentEntry ? true : false;
-    let isButtonDisabled = (isUserHasMoneyToPlay === false) ? true : areChampionsSelected ? true : false;
-
+    let areChampionsSelected = this.state.choosedChampions.length < 1;
+    let isUserHasMoneyToPlay = userBalance >= tournamentEntry;
+    let isButtonDisabled = (isUserHasMoneyToPlay === false) ? true : areChampionsSelected;
     return (
       <div className={style.wrap}>
         <div className={style.add_сhampion}>
@@ -86,12 +83,14 @@ class chooseChampion extends Component {
               onClick={closeChoose}
             />
           </div>
+
           <form onSubmit={this.showModal}>
             {this.state.modalChoose && <Modal
               textModal={'You should pay entry '+ tournamentEntry +'$ ?'}
               closeModal={this.closeModalChoose}
               submitClick={this.participateInTournament}
             />}
+            
             <div className={style.players}>
               {champions.map(champion => <ChampionCard
                 key={uuid()}
@@ -100,6 +99,7 @@ class chooseChampion extends Component {
                 onClick={() => this.selectChampion(champion)}
               />)}
             </div>
+            
             <div className={style.footer_add}>
               <Button
                 appearance={'_basic-accent'}

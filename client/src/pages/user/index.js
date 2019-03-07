@@ -8,7 +8,7 @@ import UserService from '../../services/userService';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import ProfileSidebar from '../../components/ProfileSidebar';
+import ProfileSidebar from '../../components/profileSidebar';
 import Preloader from '../../components/preloader';
 
 import style from './style.module.css';
@@ -104,6 +104,7 @@ class User extends Component {
               </div>
               <div>
                 <h2>Recent tournaments</h2>
+                
                 {this.state.zeroTournaments && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
                 <div className={style.tournaments_block}>
                   {!this.state.zeroTournaments && <div className={style.header_tournaments}>
@@ -111,6 +112,7 @@ class User extends Component {
                     <p>End Date</p>
                     <p>Users</p>
                     <p>Entry</p>
+                  
                   </div>}
                   {this.state.tournaments.map(item => (
                     <NavLink key={item._id} to={`/tournaments/${item._id}`}>
