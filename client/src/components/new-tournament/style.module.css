@@ -134,6 +134,7 @@
   padding: 1px;
   border-radius: 5px;
   color: rgb(97, 97, 97);
+  pointer-events: none;
 }
 .input_rules input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

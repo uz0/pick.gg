@@ -317,7 +317,7 @@ class App extends Component {
             <div className={style.tournament_matches}>
               <h3>Matches</h3>
 
-              {matches.length === 0 ? "Matches will appear soon" : matches.map((item, index) => (
+              {matches.length === 0 ? <p className={style.status_matches}>{"Matches will appear soon"}</p> : matches.map((item, index) => (
                 <NavLink
                   to="/"
                   target="_blank"
