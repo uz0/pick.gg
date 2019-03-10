@@ -32,9 +32,10 @@ class newTournament extends Component {
     const { user } = await this.UserService.getMyProfile();
 
     const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
 
     this.setState({
-      tournamentsSortedByDate,
+      filteredTournaments,
       rules,
       user,
     });
@@ -43,7 +44,7 @@ class newTournament extends Component {
   state = {
     rulesValues: {},
     rules: [],
-    tournamentsSortedByDate: [],
+    filteredTournaments: [],
     modalChoose: false,
   }
 
@@ -104,7 +105,7 @@ class newTournament extends Component {
     }
 
     if (tournament){
-      tournamentId = this.state.tournamentsSortedByDate.find(item => item.name === tournament).id;
+      tournamentId = this.state.filteredTournaments.find(item => item.name === tournament).id;
     } else {
       this.NotificationService.show('Please, select tournament and try again');
       return false;
@@ -135,7 +136,7 @@ class newTournament extends Component {
 
   render() {
     let { onClose } = this.props;
-    const areTournamentsLoaded = this.state.tournamentsSortedByDate.length > 0 ? true : false;
+    const areTournamentsLoaded = this.state.filteredTournaments.length > 0 ? true : false;
 
     return (
       <div className={style.wrap}>
@@ -176,8 +177,8 @@ class newTournament extends Component {
                 <Select
                   action={this.onChange}
                   name="tournament"
-                  values={this.state.tournamentsSortedByDate}
-                  option={item => `${moment(item.date).format("DD MMM")} - ${item.name}`}
+                  values={this.state.filteredTournaments}
+                  option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
                   label="Tournament (from list)"
                 />
 
