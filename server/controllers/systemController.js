@@ -51,8 +51,9 @@ const SystemController = () => {
       const url = `https://api.abiosgaming.com/v2/${endPoint}?access_token=${token}`;
 
       if (params) {
-        const string = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-        return fetch(`${url}&${string}`);
+        const advancedParams = new URLSearchParams();
+        Object.entries(params).map(([key, val]) => advancedParams.append(key, val));
+        return fetch(`${url}&${advancedParams.toString()}`);
       }
 
       return fetch(url);
@@ -168,12 +169,12 @@ const SystemController = () => {
     }
 
     await MatchModel.deleteMany();
-    console.log('Matches creared');
+    console.log('Matches cleared');
     await MatchModel.create(formattedMatches);
     console.log('Matches loaded');
 
     await TournamentModel.deleteMany();
-    console.log('Tournaments creared');
+    console.log('Tournaments cleared');
     await TournamentModel.create(formattedTournaments);
     console.log('Tournaments loaded');
 
