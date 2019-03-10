@@ -341,7 +341,7 @@ class App extends Component {
             <div className={style.tournament_leader}>
               <div className={style.header_leader}>
                 <h3>Leaderboard</h3>
-                <p>{tournament.users.length} users</p>
+                { tournament.users.length > 0 ? <p>{tournament.users.length} users</p> : '' }
               </div>
 
               <div className={style.table_leader}>
