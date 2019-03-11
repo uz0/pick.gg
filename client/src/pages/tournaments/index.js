@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import moment from 'moment';
+// import moment from 'moment';
 
 import AuthService from '../../services/authService';
 import UserService from '../../services/userService';

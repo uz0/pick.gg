@@ -9,6 +9,7 @@ import Profile from './pages/profile';
 import User from './pages/user';
 import MyTournaments from './pages/mytournaments';
 import Rating from './pages/rating';
+import './i18n';
 
 const App = ({ history }) => (
   <div>

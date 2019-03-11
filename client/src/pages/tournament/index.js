@@ -142,7 +142,7 @@ class App extends Component {
     // const allMatchesArefinished = matches.every(item => item.completed === true);
 
 
-    let usersResults = [];
+    // let usersResults = [];
     let rules = {};
 
     // if(tournament.tournament.users.length > 0){
@@ -240,7 +240,7 @@ class App extends Component {
 
     let {
       userId,
-      leaders,
+      // leaders,
       matches,
       champions,
       tournament,
