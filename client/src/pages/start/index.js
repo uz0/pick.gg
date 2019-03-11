@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import style from './style.module.css';
 import AuthService from '../../services/authService';
+import i18n from "i18next";
 
 class Start extends Component {
   constructor() {
@@ -13,7 +14,7 @@ class Start extends Component {
       password: '',
     };
   }
-
+  
   handleChange = event => {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
@@ -40,12 +41,12 @@ class Start extends Component {
           
           <div className={style.start_btns}>
             <NavLink to={startButtonLink}>
-              <button>Start</button>
+              <button>{i18n.t('start')}</button>
             </NavLink>
             
             <div>
-              <span>or </span>
-              <NavLink to="/register">register</NavLink>
+              <span>{i18n.t('or')} </span>
+              <NavLink to="/register">{i18n.t('register')}</NavLink>
             </div>
           </div>
         </div>
