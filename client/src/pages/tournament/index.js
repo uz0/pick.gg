@@ -19,6 +19,7 @@ import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
 import style from './style.module.css';
 import classnames from 'classnames';
+import i18n from '../../i18n';
 
 const cx = classnames.bind(style);
 
@@ -285,7 +286,7 @@ class App extends Component {
                 Status: {this.statusGame(tournamentDate)}
               </div>
               <div className={style.statusGames}>
-                {`Winner will get: `}
+                {i18n.t('winner_get')}
               </div>
             </div>
           </div>
@@ -304,7 +305,7 @@ class App extends Component {
           />}
 
           {!allMatchesArefinished && champions && champions.length > 0 && <div className={style.team_block}>
-            <h3>Team</h3>
+            <h3>{i18n.t('team')}</h3>
             <div className={style.tournament_team}>
               {[1,2,3,4,5].map(index => <Fragment>
                 {index < choosedChampions.length && <ChampionCard className={cx(style.no_active, style.item_mobile)} key={uuid()} name={choosedChampions[index].name} avatar={choosedChampions[index].photo} />}
@@ -315,9 +316,9 @@ class App extends Component {
 
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
-              <h3>Matches</h3>
+              <h3>{i18n.t('matches')}</h3>
 
-              {matches.length === 0 ? <p className={style.status_matches}>{"Matches will appear soon"}</p> : matches.map((item, index) => (
+              {matches.length === 0 ? <p className={style.status_matches}>{i18n.t('matches_soon')}</p> : matches.map((item, index) => (
                 <NavLink
                   to="/"
                   target="_blank"
@@ -340,12 +341,12 @@ class App extends Component {
 
             <div className={style.tournament_leader}>
               <div className={style.header_leader}>
-                <h3>Leaderboard</h3>
+                <h3>{i18n.t('leaderboard')}</h3>
                 { tournament.users.length > 0 ? <p>{tournament.users.length} users</p> : '' }
               </div>
 
               <div className={style.table_leader}>
-                {tournament.users.length === 0 && <p className={style.status_leaders}>Waiting for new players</p>}
+                {tournament.users.length === 0 && <p className={style.status_leaders}>{i18n.t('waiting_players')}</p>}
 
                 <div className={style.top_five}>
                   {/* {this.state.leaders.map((item, index) => (

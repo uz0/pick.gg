@@ -10,6 +10,7 @@ import UserService from '../../services/userService';
 import { NavLink } from 'react-router-dom';
 import uuid from 'uuid';
 import style from './style.module.css';
+import i18n from '../../i18n';
 
 class Rating extends Component {
   constructor() {
@@ -45,12 +46,12 @@ class Rating extends Component {
         {this.state.loader && <Preloader />}
 
         <main className={style.main_block}>
-          <h1>Best Players rankings</h1>
+          <h1>{i18n.t('best_players')}</h1>
           
           <div className={style.content}>
             <div className={style.header_table}>
               <div className={style.number_header}>#</div>
-              <div className={style.name_header}>Name</div>
+              <div className={style.name_header}>{i18n.t('name')}</div>
               <div className={style.percent_header}>$</div>
             </div>
 

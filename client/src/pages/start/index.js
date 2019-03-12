@@ -54,7 +54,7 @@ class Start extends Component {
               </NavLink>
               <div>
                 <span>{i18n.t('or')} </span>
-                <NavLink to="/register">{i18n.t('register')}</NavLink>
+                <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import classnames from 'classnames';
 import style from './style.module.css';
 import uuid from 'uuid';
+import i18n from '../../i18n';
 
 const cx = classnames.bind(style);
 
@@ -76,7 +77,7 @@ class chooseChampion extends Component {
       <div className={style.wrap}>
         <div className={style.add_сhampion}>
           <div className={style.header_add}>
-            <h2>Choose your champion</h2>
+            <h2>{i18n.t('choose_champion')}</h2>
             <Button
               appearance={'_icon-transparent'}
               icon={<CloseIcon />}
@@ -105,7 +106,7 @@ class chooseChampion extends Component {
               <Button
                 appearance={'_basic-accent'}
                 onClick={this.showModal}
-                text={'Add players'}
+                text={i18n.t('add_players')}
                 disabled={isButtonDisabled}
                 type="button"
               />
