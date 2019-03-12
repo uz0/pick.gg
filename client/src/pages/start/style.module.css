@@ -1,4 +1,4 @@
-.login_page {
+.login_page .login_section {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,12 +68,108 @@
   color: #fff;
 }
 
-@media(max-width: 1024px) {
+.guide {
+  max-width: 81.75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.guide .step {
+  display: flex;
+  justify-content: space-between;
+  color: var(--caption-color);
+  text-shadow: 0px 2px 0px #000000;
+  padding-bottom: 70px;
+  box-shadow: 0px 1px 0px 0px rgba(37, 37, 50, 1);
+}
+
+.guide .step:not(:first-of-type) {
+  padding-top: 70px;
+}
+
+.guide .step > div {
+  flex-basis: 47.5%;
+}
+
+.guide .step.align_right > div:nth-of-type(2) {
+  order: -1;
+}
+
+.guide .step > div img {
+  width: 100%;
+  height: auto;
+}
+
+.guide .step h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 36px;
+  text-transform: uppercase;
+}
+
+.guide .step p:first-of-type {
+  margin-top: 0;
+}
+
+.guide .step p {
+  font-size: 24px;
+}
+
+
+@media (max-width: 1024px) {
+
   .login_page form {
     padding: 90px 90px 45px 220px;
   }
+
   .info_block {
     left: -40px;
     padding: 40px 390px 40px 40px;
   }
+
+}
+
+@media (max-width: 768px) {
+
+  .guide .step:not(:first-of-type),
+  .guide .step {
+    padding-bottom: 30px;
+  }
+
+  .guide .step h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .guide .step p {
+    font-size: 18px;
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .start_content h1 {
+    margin-top: 48px;
+    margin-bottom: 48px;
+    width: 280px;
+    font-size: 48px;
+  }
+
+  .guide .step {
+    flex-wrap: wrap;
+  }
+
+  .guide .step > div {
+    flex-basis: 100%;
+  }
+
+  .guide .step.align_right > div:nth-of-type(2) {
+    order: 0;
+  }
+
+  .guide .step:not(:first-of-type) {
+    padding-top: 30px;
+  }
+
 }
