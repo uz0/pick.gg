@@ -212,6 +212,7 @@ class App extends Component {
     const realTournament = tournament.tournament;
     
     const isUserRegistered = fantasyTournament.users.map(item => item.user._id).includes(userId);
+    const isUserTournamentCreator = fantasyTournament.creator._id === userId;
     const userPlayers = fantasyTournament.users.filter(item => item.user._id === userId)[0];
 
     const champions = realTournament.champions;
@@ -245,6 +246,7 @@ class App extends Component {
       winner: fantasyTournament.winner,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       leaders: tournament.users.length > 0 ? leaders : [],
+      chooseChamp: isUserTournamentCreator && !isUserRegistered ? true : false,
     }, () => this.preloader());
   }
 
