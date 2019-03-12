@@ -65,7 +65,7 @@ class Profile extends Component {
       }),
     });
   
-    this.NotificationService.show("Your data has been updated.");
+    this.NotificationService.show(i18n.t('update_data'));
   }
   
   render() {

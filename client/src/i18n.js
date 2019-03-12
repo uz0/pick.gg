@@ -3,7 +3,7 @@ import { en, ru } from './i18';
 
 i18n.init({
   debug    : true,
-  lng      : 'en',
+  lng      : 'ru',
   resources: { en, ru },
 });
 

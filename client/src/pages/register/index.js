@@ -37,10 +37,10 @@ class Register extends Component {
     let { username, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
-      this.NotificationService.show("Passwords must be equal");
+      this.NotificationService.show(i18n.t('equal_password'));
     }
     if ( username === "" || password === "" || confirmPassword === "" ){
-      this.NotificationService.show("Error empty field");
+      this.NotificationService.show(i18n.t('empty_field'));
     }
     await fetch('/api/authentication/register', {
       method: 'POST',
