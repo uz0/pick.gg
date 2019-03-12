@@ -14,7 +14,7 @@ import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
 import style from './style.module.css';
-import i18n from 'i18next'
+import i18n from 'i18n'
 
 class newTournament extends Component {
   constructor() {

@@ -10,7 +10,7 @@ import UserService from '../../services/userService';
 import { NavLink } from 'react-router-dom';
 import uuid from 'uuid';
 import style from './style.module.css';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 class Rating extends Component {
   constructor() {

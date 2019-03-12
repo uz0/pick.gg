@@ -7,7 +7,7 @@ import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import classnames from 'classnames';
 import style from './style.module.css';
 import uuid from 'uuid';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 const cx = classnames.bind(style);
 
