@@ -6,7 +6,7 @@ import AuthService from '../../services/authService';
 import TournamentService from '../../services/tournamentService';
 
 import style from './style.module.css';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 class App extends Component {
   constructor() {
