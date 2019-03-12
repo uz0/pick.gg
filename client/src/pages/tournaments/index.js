@@ -11,6 +11,7 @@ import NewTournament from '../../components/new-tournament';
 import Preloader from '../../components/preloader';
 
 import style from './style.module.css';
+import i18n from '../../i18n';
 
 class App extends Component {
   constructor() {
@@ -107,7 +108,7 @@ class App extends Component {
         {this.state.loader && <Preloader />}
         
         <div className={style.filters}>
-          <h2>Tournaments</h2>
+          <h2>{i18n.t('tournaments')}</h2>
 
           <div className={style.block_filters}>
             <form>
@@ -135,7 +136,7 @@ class App extends Component {
               <p>Not satisfied?</p>
 
               <button onClick={this.openNewTournament} type="submit">
-                Create a new tournament
+                {i18n.t('create_new_tournament')}
               </button>
             </div>
           </div>

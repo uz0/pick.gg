@@ -8,6 +8,7 @@ import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeho
 import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
 import style from './style.module.css';
+import i18n from '../../i18n';
 
 class TopMenuComponent extends Component {
   constructor() {
@@ -72,21 +73,21 @@ class TopMenuComponent extends Component {
               <h2>Pick.gg</h2>
             </NavLink>
 
-            <NavLink to="/rating">Rating</NavLink>
+            <NavLink to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
           <DropDown placeholder={<BalancePlaceholder />}>
-            <NavLink to="/transactions">Transactions</NavLink>
+            <NavLink to="/transactions">{i18n.t('transactions')}</NavLink>
 
-            <a href="/" onClick={event => this.deposit(event)}>Deposit</a>
-            <a href="/" onClick={event => this.withdraw(event)}>Withdraw</a>
+            <a href="/" onClick={event => this.deposit(event)}>{i18n.t('deposit')}</a>
+            <a href="/" onClick={event => this.withdraw(event)}>{i18n.t('withdraw')}</a>
           </DropDown>
 
           <DropDown placeholder={<UserPlaceholder />}>
-            <NavLink to="/mytournaments">My tournaments</NavLink>
-            <NavLink to={`/user/${this.props.user._id}`}>Public profile</NavLink>
-            <NavLink to="/profile">Profile settings</NavLink>
-            <a href="/" onClick={this.handleLogout}>Log out</a>
+            <NavLink to="/mytournaments">{i18n.t('my_tournaments')}</NavLink>
+            <NavLink to={`/user/${this.props.user._id}`}>{i18n.t('public_profile')}</NavLink>
+            <NavLink to="/profile">{i18n.t('setting_profile')}</NavLink>
+            <a href="/" onClick={this.handleLogout}>{i18n.t('log_out')}</a>
           </DropDown>
         </div>
       </div>

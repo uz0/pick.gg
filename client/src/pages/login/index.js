@@ -56,7 +56,7 @@ class Login extends Component {
           <form onSubmit={this.handleLogin}>
             <Input
               id="username"
-              label={i18n.t('email')}
+              label={i18n.t('username')}
               name="username"
               placeholder={i18n.t('login')}
               type="text"
@@ -84,7 +84,7 @@ class Login extends Component {
               
               <div className={style.bottom_login_btn}>
                 <span>{i18n.t('or')} </span>
-                <NavLink to="/register">{i18n.t('register')}</NavLink>
+                <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
               </div>
             </div>
           </form>
