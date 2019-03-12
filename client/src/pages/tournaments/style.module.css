@@ -22,13 +22,15 @@
   font-size: 40px;
   color: #9696B0;
   font-family: var(--font-family-title);
+  margin-bottom: 10px;
 }
 
 .filters form {
   padding-bottom: 40px;
 }
 
-.filters .inputComponent {
+.filters .inputComponent,
+.filters .input_component {
   display: flex;
   flex-direction: column;
   align-items: flex-start
@@ -42,14 +44,15 @@
   padding: 2px 10px;
 }
 
-.filters input {
+.filters input,
+.filters select {
   background-color: var(--primary-color);
   color: var(--accent-color);
   font-size: 20px;
   border: 10px solid var(--background-color);
   border-radius: 4px;
   padding: 8px 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   width: 250px;
 }
 

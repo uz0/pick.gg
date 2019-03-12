@@ -185,6 +185,15 @@ const SystemController = () => {
     });
   })
 
+  router.get('/delete/:id', async (req, res) => {
+    const id = req.param.id;
+    await FantasyTournament.deleteOne({_id: id})
+    res.send({
+      id,
+      success: "success"
+    })
+  })
+
   router.get('/finalize', async (req, res) => {
     const tournaments = await FantasyTournament
       .find({ winner: null })
