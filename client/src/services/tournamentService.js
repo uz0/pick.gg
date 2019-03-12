@@ -69,10 +69,8 @@ export default class TournamentService {
   }
 
   filterTournamentsBySelect = async(filterSelect) => {
-    const tournaments = await this.getAllTournaments();
-    const tournament = await tournaments.tournaments;
-    console.log(tournament)
-    return tournament.filter(item => item.name === filterSelect)
+    const { tournaments } = await this.getFantasyTournaments();
+    return tournaments.filter(item => item.tournament.name === filterSelect)
   }
 
 }

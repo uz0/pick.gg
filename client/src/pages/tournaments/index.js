@@ -91,7 +91,7 @@ class App extends Component {
   }
 
   filterBySelect = async event =>{
-  
+
     this.setState(
       {
         selectFilter: event.target.value,
