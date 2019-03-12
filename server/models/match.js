@@ -1,10 +1,22 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-export default mongoose.model('Match', new Schema({
-  tournament: { type: Schema.Types.ObjectId, ref: 'Tournament' },
+let schema = new Schema({
+  id: { type: Number, required: true },
+  tournament_id: { type: Number, required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   results: { type: Schema.Types.ObjectId, ref: 'MatchResult' },
   completed: Boolean,
-}));
+}, {
+  toObject: {virtuals:true},
+});
+
+schema.virtual('tournament', {
+  ref: 'Tournament',
+  localField: 'tournament_id',
+  foreignField: 'id',
+  justOne: true,
+});
+
+export default mongoose.model('Match', schema);

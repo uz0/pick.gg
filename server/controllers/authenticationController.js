@@ -7,7 +7,7 @@ let router = express.Router();
 
 const AuthenticationController = (app) => {
   router.post("/authenticate", async (req, res) => {
-    let username = req.body.username;
+    let username = req.body.username.toLowerCase(); // Workaround: temporary fix of Case insensetive username
     let password = req.body.password;
     let user = await UserModel.findOne({ username });
 
