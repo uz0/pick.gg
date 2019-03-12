@@ -1,9 +1,9 @@
 import React from 'react';
-
+import style from './style.module.css'
 const Select = ({ label, values, name, placeholder, type, autofocus, value, action, className, option }) => {
   return (
-    <label className="inputComponent">
-      <p className="labelComponent">{label}</p>
+    <label className={style.input_component}>
+      <p className={style.labelComponent}>{label}</p>
 
       <select
         name={name}
