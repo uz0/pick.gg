@@ -11,7 +11,7 @@ import NewTournament from '../../components/new-tournament';
 import Preloader from '../../components/preloader';
 
 import style from './style.module.css';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 class App extends Component {
   constructor() {

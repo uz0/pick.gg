@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TransactionsService from '../../services/transactionService';
 import moment from 'moment';
 import style from './style.module.css';
-
+import i18n from 'i18n'
 
 class Transactions extends Component {
 
@@ -54,12 +54,12 @@ class Transactions extends Component {
         <div className={style.bg_wrap} />
         
         <main className={style.main_block}>
-          <h1>Transactions History</h1>
+          <h1>{i18n.t('transactions_history')}</h1>
           
           <div className={style.block_header}>
-            <div className={style.amount}>Amount</div>
-            <div className={style.date}>Date</div>
-            <div className={style.operation}>Operation</div>
+            <div className={style.amount}>{i18n.t('amount')}</div>
+            <div className={style.date}>{i18n.t('date')}</div>
+            <div className={style.operation}>{i18n.t('operation')}</div>
           </div>
           
           <div className={style.block_history}>

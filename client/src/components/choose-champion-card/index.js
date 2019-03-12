@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './style.module.css';
 import { ReactComponent as AddPlayerIcon } from '../../assets/add-player.svg';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 const ChooseChampionCard = ({ onClick }) => {
   return (
