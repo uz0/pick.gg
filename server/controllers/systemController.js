@@ -10,6 +10,7 @@ import MatchModel from "../models/match";
 import PlayerModel from "../models/player";
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
+import config from "../config";
 
 import MockService from "../mockService";
 
@@ -35,8 +36,8 @@ const SystemController = () => {
   router.get('/sync', async (req, res) => {
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
-    params.append('client_id', 'hyperloot');
-    params.append('client_secret', 'ef8bfd1fb62ecca4354ab6f4f1852cd986831b79b97e5e3478');
+    params.append('client_id', config.client_id);
+    params.append('client_secret', config.client_secret);
 
     let auth = await fetch('https://api.abiosgaming.com/v2/oauth/access_token', {
       method: 'POST',
@@ -50,8 +51,9 @@ const SystemController = () => {
       const url = `https://api.abiosgaming.com/v2/${endPoint}?access_token=${token}`;
 
       if (params) {
-        const string = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-        return fetch(`${url}&${string}`);
+        const advancedParams = new URLSearchParams();
+        Object.entries(params).map(([key, val]) => advancedParams.append(key, val));
+        return fetch(`${url}&${advancedParams.toString()}`);
       }
 
       return fetch(url);
@@ -167,12 +169,12 @@ const SystemController = () => {
     }
 
     await MatchModel.deleteMany();
-    console.log('Matches creared');
+    console.log('Matches cleared');
     await MatchModel.create(formattedMatches);
     console.log('Matches loaded');
 
     await TournamentModel.deleteMany();
-    console.log('Tournaments creared');
+    console.log('Tournaments cleared');
     await TournamentModel.create(formattedTournaments);
     console.log('Tournaments loaded');
 
