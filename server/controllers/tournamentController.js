@@ -27,15 +27,16 @@ const TournamentController = io => {
   // });
 
   router.get('/real', async (req, res) => {
-
-    const tournaments = await TournamentModel.find({})
+    const tournaments = await TournamentModel
+      .find({
+        date: {$gt: moment().toISOString()},
+      })
       .populate('champions')
       .populate('matches')
 
     res.send({
       tournaments,
-    })
-
+    });
   })
 
   router.get('/fantasy', async (req, res) => {

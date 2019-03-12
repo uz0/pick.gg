@@ -5,7 +5,6 @@ let schema = new Schema({
   id: { type: Number, required: true },
   tournament_id: { type: Number, required: true },
   startDate: { type: Date, required: true },
-  endDate: { type: Date },
   results: { type: Schema.Types.ObjectId, ref: 'MatchResult' },
   completed: Boolean,
 }, {

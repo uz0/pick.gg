@@ -1,3 +1,4 @@
+import map from 'lodash/map';
 import find from 'lodash/find';
 import express from "express";
 import TournamentModel from "../models/tournament";
@@ -26,6 +27,7 @@ const SystemController = () => {
     await TournamentModel.deleteMany();
     await MatchResult.deleteMany();
     await MatchModel.deleteMany();
+    await PlayerModel.deleteMany();
 
     res.send({
       "success": "all data was resetted"
@@ -267,96 +269,46 @@ const SystemController = () => {
   })
 
   router.get('/createmock', async (req, res) => {
-
-    let tournamentRef = '';
-    let tournamentChampions = [];
-
-    let championsResults = () => tournamentChampions.map(item => {
-      let result = MockService.generatePlayerResult(item);
-      return result;
-    })
-
+    const players = MockService.getChampions();
+    let tournaments = MockService.getTournaments();
     let matches = [];
-    let matchesRefs = [];
+    let matchIndex = 1;
+    const rules = await RuleModel.find();
 
-    let matchResults = [];
-    let matchResultsRefs = [];
+    for (let i = 0; i < tournaments.length; i++) {
+      const tournamentChampions = MockService.getRandomTournamentChampions();
+      const tournamentMatches = MockService.generateTournamentMatches(tournaments[i].id);
+      tournaments[i].champions_ids = map(tournamentChampions, champion => champion.id);
 
-    const matchDateGap = 150000; // <- this equals 7.5 minutes
-    const tournamentDateGap = 86400000; // <- this equals 1 day
+      for (let j = 0; j < tournamentMatches.length; j++) {
+        tournamentMatches[j].id = matchIndex;
 
-    const tournament = await TournamentModel.create({
-      name: MockService.getRandomTournamentName(),
-      // date: Date.now() + 86400000,
-      date: moment.now(),
-      champions: MockService.getRandomTournamentChampions(),
-    })
+        const results = MockService.generatePlayersResults({
+          match_id: matchIndex,
+          tournament: tournaments[i],
+          rules,
+        });
 
-    const createdTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1).populate('champions');
-    
-    tournamentRef = createdTournament[0]._id;
-    tournamentChampions = createdTournament[0].champions.map(item => item.name);
-    
-    // matches array
-    for(let i = 0; i <= 5; i++){
+        const createdResult = await MatchResult.create({
+          matchId: matchIndex,
+          playersResults: tournamentMatches[j].completed ? results : [],
+        });
 
-      matches.push({
-        tournament: tournamentRef,
-        startDate: (Date.now() - matchDateGap) + matchDateGap * i,
-        endDate: Date.now() + matchDateGap * i,
-        // date: Date.now() + 86400000 + (matchDateGap * i) - 900000,
-        completed: false,
-      })
+        tournamentMatches[j].results = createdResult._id;
+        matchIndex++;
+      }
 
-    }
-    
-    await MatchModel.insertMany(matches)
-    
-    const insertedMatches = await MatchModel.find({}).sort({_id:-1}).limit(5);
-
-    matchesRefs = insertedMatches.map(item => item._id);
-    
-    // match results array
-    for(let i = 0; i <= 5; i++){
-
-      matchResults.push({
-        matchId: matchesRefs[i],
-        playersResults: championsResults(),
-      })
-
+      tournaments[i].matches_ids = map(tournamentMatches, match => match.id);
+      matches = matches.concat(tournamentMatches);
     }
 
-    await MatchResult.insertMany(matchResults)
-
-    const insertedResults = await MatchResult.find({}).sort({_id:-1}).limit(5);
-
-    matchResultsRefs = insertedResults.map(item => { 
-      return item._id
-    });
-
-    for(let i = 0; i <= 5; i++){
-      await MatchModel.update({ _id: matchesRefs[i] }, { results: matchResultsRefs[i]})
-    }
-
-    await TournamentModel.findByIdAndUpdate(tournamentRef, { matches: matchesRefs })
-
-    const newTournament = await TournamentModel.find({}).sort({_id:-1}).limit(1)
-      .populate('champions')
-      .populate('matches')
-      .populate({
-        path: 'matches',
-        populate: {
-          path: 'results',
-          model: 'MatchResult',
-          select: 'playersResults'
-        }
-      });
+    await PlayerModel.create(players);
+    await MatchModel.create(matches);
+    await TournamentModel.create(tournaments);
 
     res.send({
-      "success": "success",
-      newTournament
+      success: 'Success',
     });
-
   })
   
   return router;
