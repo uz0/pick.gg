@@ -115,7 +115,7 @@ class App extends Component {
               <Input
                 type="date"
                 name="date"
-                label="Date from"
+                label={i18n.t('date_from')}
                 min="2019-01-01"
                 max="2020-12-31"
                 action={this.filterByDate}
@@ -125,7 +125,7 @@ class App extends Component {
                 type="number"
                 value={this.state.entryFilter}
                 action={this.filterByEntry}
-                label="Minimal entry"
+                label={i18n.t('minimal_entry')}
                 placeholder="$ 0.1"
                 name="entry"
                 min="0"
@@ -133,7 +133,7 @@ class App extends Component {
             </form>
 
             <div className={style.create_tournament}>
-              <p>Not satisfied?</p>
+              <p>{i18n.t('not_satisfied')}</p>
 
               <button onClick={this.openNewTournament} type="submit">
                 {i18n.t('create_new_tournament')}
@@ -151,10 +151,10 @@ class App extends Component {
 
         <div className={style.tournaments_block}>
           <div className={style.header_tournaments}>
-            <p>Tournament Name</p>
-            <p>End Date</p>
-            <p>Users</p>
-            <p>Entry</p>
+            <p>{i18n.t('tournaments_name')}</p>
+            {/* <p>{i18n.t('date')}</p> */}
+            <p>{i18n.t('users')}</p>
+            <p>{i18n.t('entry')}</p>
           </div>
 
           {this.state.fantasyTournaments.map(item => (

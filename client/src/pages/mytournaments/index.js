@@ -6,6 +6,7 @@ import AuthService from '../../services/authService';
 import TournamentService from '../../services/tournamentService';
 
 import style from './style.module.css';
+import i18n from '../../i18n';
 
 class App extends Component {
   constructor() {
@@ -39,15 +40,15 @@ class App extends Component {
         <div className={style.bg_wrap} />
         
         <div className={style.main_block}>
-          <h2>My Tournaments</h2>
+          <h2>{i18n.t('my_tournaments')}</h2>
           <div className={style.tournaments_block}>
-            {!this.state.zeroTournaments && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
+            {!this.state.zeroTournaments && <div className={style.zero_info}>{i18n.t('zero_tournaments')}</div>}
             
             {!this.state.zeroTournaments && <div className={style.header_tournaments}>
-              <p>Tournament Name</p>
-              <p>End Date</p>
-              <p>Users</p>
-              <p>Entry</p>
+              <p>{i18n.t('tournaments_name')}</p>
+              <p>{i18n.t('date')}</p>
+              <p>{i18n.t('users')}</p>
+              <p>{i18n.t('entry')}</p>
             </div>}
 
             {this.state.tournaments.map(item => (
