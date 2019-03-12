@@ -8,7 +8,7 @@ import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeho
 import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
 import style from './style.module.css';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 class TopMenuComponent extends Component {
   constructor() {

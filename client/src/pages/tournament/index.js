@@ -19,7 +19,7 @@ import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
 import style from './style.module.css';
 import classnames from 'classnames';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 const cx = classnames.bind(style);
 

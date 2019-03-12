@@ -8,7 +8,7 @@ import http from '../../services/httpService';
 
 import Button from '../../components/button';
 import style from './style.module.css';
-import i18n from '../../i18n';
+import i18n from 'i18n';
 
 class Profile extends Component {
   constructor() {
