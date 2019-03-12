@@ -169,7 +169,8 @@ class App extends Component {
 
     const isUserRegistered = fantasyTournament.users.map(item => item.user._id).includes(userId);
     const userPlayers = fantasyTournament.users.filter(item => item.user._id === userId)[0];
-
+    
+    const tournamentPrizePool = fantasyTournament.entry * fantasyTournament.users.length;
     let matches = realTournament.matches;
     let usersResults = [];
 
@@ -193,6 +194,7 @@ class App extends Component {
       matches,
       realTournament,
       fantasyTournament,
+      tournamentPrizePool,
       choosedChampions: isUserRegistered ? userPlayers.players : [],
       leaders: tournament.users.length > 0 ? leaders : [],
       chooseChamp: false,
@@ -261,8 +263,6 @@ class App extends Component {
       tournamentPrizePool,
       allMatchesArefinished,
     } = this.state;
-
-    console.log(matches, 'матчи')
 
     const isUserRegistered = fantasyTournament.users.map(item => item.user._id).includes(userId);
     const tournamentWinnings = leaders.length > 0 ? tournamentPrizePool : fantasyTournament.entry;
