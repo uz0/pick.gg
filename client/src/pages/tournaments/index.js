@@ -7,6 +7,7 @@ import UserService from '../../services/userService';
 import TournamentService from '../../services/tournamentService';
 
 import Input from '../../components/input';
+import Select from 'components/select'
 import NewTournament from '../../components/new-tournament';
 import Preloader from '../../components/preloader';
 
@@ -24,6 +25,7 @@ class App extends Component {
     newTournamentIsOpen: false,
     tournaments: [],
     fantasyTournaments: [],
+    filteredTournaments: [],
     entryFilter: '',
     dateFilter: '',
     loader: true,
@@ -88,11 +90,31 @@ class App extends Component {
     );
   }
 
+  filterBySelect = async event =>{
+  
+    this.setState(
+      {
+        selectFilter: event.target.value,
+      },
+      async () => {
+        let filteredTournaments = await this.TournamentService.filterTournamentsBySelect(this.state.selectFilter);
+        this.setState({ fantasyTournaments: filteredTournaments });
+      },
+    );
+    
+  }
+
   async componentDidMount() {
     const fantasyTournaments = await this.TournamentService.getFantasyTournaments();
+    const { tournaments } = await this.TournamentService.getRealTournaments();
 
+    const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
+
+    console.log(filteredTournaments)
     this.setState({
       fantasyTournaments: fantasyTournaments.tournaments,
+      filteredTournaments,
     });
 
     this.preloader();
@@ -111,6 +133,14 @@ class App extends Component {
 
           <div className={style.block_filters}>
             <form>
+              <Select
+                action={this.filterBySelect}
+                name="tournament"
+                values={this.state.filteredTournaments}
+                option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
+                label="Tournament (from list)"
+              />
+
               <Input
                 type="date"
                 name="date"
@@ -120,6 +150,7 @@ class App extends Component {
                 action={this.filterByDate}
                 value={this.state.filterByDate}
               />
+              
               <Input
                 type="number"
                 value={this.state.entryFilter}

@@ -68,4 +68,11 @@ export default class TournamentService {
     return tournaments.tournaments.filter(item => moment(item.date).isAfter(filterDate));
   }
 
+  filterTournamentsBySelect = async(filterSelect) => {
+    const tournaments = await this.getAllTournaments();
+    const tournament = await tournaments.tournaments;
+    console.log(tournament)
+    return tournament.filter(item => item.name === filterSelect)
+  }
+
 }
