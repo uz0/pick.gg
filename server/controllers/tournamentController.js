@@ -235,13 +235,15 @@ const TournamentController = io => {
       return;
     }
 
-    if(user.balance < tournament.entry){
-      res.json({
-        success: false,
-        message: "You have not enough money to take part in this tournament",
-      });
-    } else {
-      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
+    if (`${tournament.creator}` !== `${userId}`) {
+      if(user.balance < tournament.entry){
+        res.json({
+          success: false,
+          message: "You have not enough money to take part in this tournament",
+        });
+      } else {
+        await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
+      }
     }
 
     tournamentUsers.push({
