@@ -25,7 +25,7 @@ class App extends Component {
     newTournamentIsOpen: false,
     tournaments: [],
     fantasyTournaments: [],
-    filteredTournaments: [],
+    tournaments: [],
     entryFilter: '',
     dateFilter: '',
     loader: true,
@@ -63,8 +63,8 @@ class App extends Component {
         dateFilter: event.target.value,
       },
       async () => {
-        let filteredTournaments = await this.TournamentService.filterTournamentsByDate(this.state.dateFilter);
-        this.setState({ fantasyTournaments: filteredTournaments });
+        let tournaments = await this.TournamentService.filterTournamentsByDate(this.state.dateFilter);
+        this.setState({ fantasyTournaments: tournaments });
       },
     );
   }
@@ -84,8 +84,8 @@ class App extends Component {
         entryFilter: e.target.value,
       },
       async () => {
-        let filteredTournaments = await this.TournamentService.filterTournamentsByEntry(this.state.entryFilter);
-        this.setState({ fantasyTournaments: filteredTournaments });
+        let tournaments = await this.TournamentService.filterTournamentsByEntry(this.state.entryFilter);
+        this.setState({ fantasyTournaments: tournaments });
       },
     );
   }
@@ -97,8 +97,8 @@ class App extends Component {
         selectFilter: event.target.value,
       },
       async () => {
-        let filteredTournaments = await this.TournamentService.filterTournamentsBySelect(this.state.selectFilter);
-        this.setState({ fantasyTournaments: filteredTournaments });
+        let tournaments = await this.TournamentService.filterTournamentsBySelect(this.state.selectFilter);
+        this.setState({ fantasyTournaments: tournaments });
       },
     );
     
@@ -108,13 +108,9 @@ class App extends Component {
     const fantasyTournaments = await this.TournamentService.getFantasyTournaments();
     const { tournaments } = await this.TournamentService.getRealTournaments();
 
-    const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
-    const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
-
-    console.log(filteredTournaments)
     this.setState({
       fantasyTournaments: fantasyTournaments.tournaments,
-      filteredTournaments,
+      tournaments,
     });
 
     this.preloader();
@@ -136,7 +132,7 @@ class App extends Component {
               <Select
                 action={this.filterBySelect}
                 name="tournament"
-                values={this.state.filteredTournaments}
+                values={this.state.tournaments}
                 option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
                 label="Tournament (from list)"
               />
