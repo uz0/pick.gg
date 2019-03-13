@@ -67,7 +67,13 @@ const AuthenticationController = (app) => {
 
     try {
       const hash = passwordHash.generate(password);
-      const user = await UserModel.create({ username, password: hash, isAdmin: false });
+
+      const user = await UserModel.create({
+        username,
+        password: hash,
+        balance: 5000,
+        isAdmin: false,
+      });
 
       res.json({
         success: true,
