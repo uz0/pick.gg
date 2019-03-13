@@ -359,15 +359,17 @@ class App extends Component {
             </div>
 
             <div className={style.tournament_leader}>
+            
               <div className={style.header_leader}>
                 <h3>Leaderboard</h3>
                 {fantasyTournament.users.length > 0 ? <p>{fantasyTournament.users.length} users</p> : ''}
               </div>
 
               <div className={style.table_leader}>
-                {fantasyTournament.users.length === 0 && <p className={style.status_leaders}>Waiting for new players</p>}
 
-                <div className={style.top_five}>
+                {fantasyTournament.users.length <= 1 && <p className={style.status_leaders}>Waiting for new players</p>}
+
+                {fantasyTournament.users.length >= 2 && <div className={style.top_five}>
                   {leaders.map((item, index) => (
                     <div key={uuid()} className={style.leader}>
                       <p className={style.number}>{index + 1}</p>
@@ -377,7 +379,8 @@ class App extends Component {
                       </div>
                     </div>
                   ))}
-                </div>
+                </div>}
+
               </div>
             </div>
           </div>
