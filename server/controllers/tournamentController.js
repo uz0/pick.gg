@@ -151,10 +151,6 @@ const TournamentController = io => {
       message = 'Enter entry price';
     }
 
-    if (!rules) {
-      message = 'Enter rules';
-    }
-
     if (message) {
       res.json({
         success: false,
