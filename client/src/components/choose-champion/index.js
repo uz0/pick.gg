@@ -12,22 +12,30 @@ const cx = classnames.bind(style);
 
 class chooseChampion extends Component {
 
-  constructor(){
+  constructor() {
     super();
     this.TransactionService = new TransactionService();
     this.state = {
       userBalance: 0,
       choosedChampions: [],
       modalChoose: false,
+      modalChooseFree: false,
     };
   }
 
   showModal = () => {
-    this.setState({
-      modalChoose: true,
-    });
+    if (this.props.tournamentEntry === 0){
+      this.setState({
+        modalChooseFree: true,
+      });
+    }
+    if (this.props.tournamentEntry > 0){
+      this.setState({
+        modalChoose: true,
+      });
+    }
   }
-
+ 
   participateInTournament = (event) => {
     event.preventDefault();
     this.props.setChoosedChampions(this.state.choosedChampions);
@@ -39,9 +47,9 @@ class chooseChampion extends Component {
 
     let choosedChampions = this.state.choosedChampions;
     let choosedChampionsNames = choosedChampions.map(item => item.name);
-    
+
     if (choosedChampions.length === 5) {
-      if (choosedChampionsNames.includes(champion.name)){
+      if (choosedChampionsNames.includes(champion.name)) {
         choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
         this.setState({ choosedChampions });
         return;
@@ -49,7 +57,7 @@ class chooseChampion extends Component {
       return;
     }
 
-    if (!choosedChampionsNames.includes(champion.name)){
+    if (!choosedChampionsNames.includes(champion.name)) {
       this.setState({ choosedChampions: [...choosedChampions, champion] });
     } else {
       choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
@@ -57,15 +65,15 @@ class chooseChampion extends Component {
     }
   }
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     const userBalance = await this.TransactionService.getUserBalance();
-    
+
     this.setState({
       userBalance: userBalance.balance,
     });
   }
 
-  render(){
+  render() {
     let userBalance = this.state.userBalance;
     let { closeChoose, champions, tournamentEntry } = this.props;
 
@@ -86,21 +94,27 @@ class chooseChampion extends Component {
 
           <form onSubmit={this.showModal}>
             {this.state.modalChoose && <Modal
-              textModal={'You should pay entry '+ tournamentEntry +'$ ?'}
+              textModal={'You should pay entry ' + tournamentEntry + '$ ?'}
               closeModal={this.closeModalChoose}
               submitClick={this.participateInTournament}
             />}
-            
+
+            {this.state.modalChooseFree && <Modal
+              textModal={'Do you want to start with such a list of players?'}
+              closeModal={this.closeModalChoose}
+              submitClick={this.participateInTournament}
+            />}
+
             <div className={style.players}>
               {champions.map(champion => <ChampionCard
                 key={uuid()}
                 name={champion.name}
                 avatar={champion.photo}
-                className={cx({choosed: this.isChampionChoosed(champion.name)})}
+                className={cx({ choosed: this.isChampionChoosed(champion.name) })}
                 onClick={() => this.selectChampion(champion)}
               />)}
             </div>
-            
+
             <div className={style.footer_add}>
               <Button
                 appearance={'_basic-accent'}
