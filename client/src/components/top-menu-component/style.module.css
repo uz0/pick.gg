@@ -3,7 +3,6 @@
   background: var(--background-color);
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
 }
 
  .menu_wrap {	
