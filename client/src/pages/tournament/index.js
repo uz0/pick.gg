@@ -205,7 +205,7 @@ class Tournament extends Component {
       <div className={style.list}>
         <div className={style.item}>
           <label className={style.title}>Prize Pool</label>
-          <p className={style.value}>${prize}</p>
+          <p className={style.value}>{isTournamentNotFree ? `$${prize}` : prize}</p>
         </div>
 
         <div className={style.item}>
