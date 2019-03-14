@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Table from 'components/table';
 import TransactionsService from 'services/transactionService';
 import moment from 'moment';
@@ -52,25 +52,6 @@ class Transactions extends Component {
     this.updateData();
   }
 
-  // renderRow = ({ className, itemClass, textClass, item }) => {
-  //   const formattedDate = moment(item.tournament.date).format('MMM DD');
-
-  //   return <NavLink to={`/tournaments/${item._id}`} className={className}>
-  //     <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
-  //       <span className={textClass}>{item.name}</span>
-  //     </div>
-
-  //     <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
-  //       <span className={textClass}>{formattedDate}</span>
-  //     </div>
-
-  //     <div className={itemClass} style={{'--width': tournamentsTableCaptions.origin.width}}>
-  //       <span className={cx(textClass, this.operationType())}>{item.users.length}</span>
-  //     </div>
-
-  //   </NavLink>;
-  // }
-
   operationType = operation => {
     let className = null;
 
@@ -94,8 +75,15 @@ class Transactions extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const formattedDate = moment(item.date).format('MMM DD');
+    
+    const Wrapper = ({children, ...props }) => {
+      if (item.tournamentId) {
+        return <Link to={`/tournaments/${item.tournamentId}`} {...props}>{children}</Link>
+      }
+      return <div {...props}>{children}</div>
+    }
 
-    return <NavLink to={`/tournaments/${item._id}`} className={className}>
+    return <Wrapper className={className}>
       <div className={itemClass} style={{'--width': transactionsTableCaptions.amount.width}}>
         <span className={textClass}>${item.amount}</span>
       </div>
@@ -107,26 +95,23 @@ class Transactions extends Component {
       <div className={itemClass} style={{'--width': transactionsTableCaptions.origin.width}}>
         <span className={cx(textClass, style.operation, this.operationType(item.origin))}>{item.origin}</span>
       </div>
-
-    </NavLink>;
+    </Wrapper>;
   }
 
   render() {
     return (
       <div className={style.transactions}>
-        <main className={style.main}>
-          <h1>Transactions History</h1>
+        <h1 className={style.title}>Transactions History</h1>
 
-          <Table
-            captions={transactionsTableCaptions}
-            items={this.state.transactions}
-            className={style.table}
-            renderRow={this.renderRow}
-            isLoading={this.state.isLoading}
-            emptyMessage="You haven't had any transactions yet"
-          />
+        <Table
+          captions={transactionsTableCaptions}
+          items={this.state.transactions}
+          className={style.transactions_table}
+          renderRow={this.renderRow}
+          isLoading={this.state.isLoading}
+          emptyMessage="You haven't had any transactions yet"
+        />
 
-        </main>
       </div>
     );
   }

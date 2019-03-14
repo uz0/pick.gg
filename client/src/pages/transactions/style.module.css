@@ -1,11 +1,28 @@
 .transactions {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
+  width: 100%;
+  max-width: var(--container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 50px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
 }
 
-.main {
-  width: 40%;
+.transactions .title {
+  --height: 40px;
+  overflow: hidden;
+  height: var(--height);
+  margin: 0;
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  color: #9696b0;
+  font-size: 40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.transactions_table {
+  margin-top: 50px;
 }
 
 .operation {
@@ -22,18 +39,4 @@
 
 .operation.plus {
   background-color: #2E7D32;
-}
-
-@media screen and (max-width: 768px){
-  .main {
-    width: 45%;
-  }
-  .main h1 {
-    font-size: 32px;
-  }
-}
-@media screen and (max-width: 480px){
-  .main {
-    width: 95%;
-  }
 }
