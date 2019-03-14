@@ -1,15 +1,20 @@
 .top_menu {	
+  display: flex;
+  align-items: center;
   height: 60px;
   background: var(--background-color);
-  display: flex;
-  justify-content: center;
 }
 
  .menu_wrap {	
-  width: 81.25%;	
   display: flex;	
   align-items: center;	
   justify-content: space-between;	
+  width: 100%;
+  max-width: var(--container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
 }	
 
  .logo {	
@@ -39,16 +44,8 @@
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);	
 }
- @media(max-width: 1440px) {	
-  .menu_wrap {	
-    width: 90%;	
-  }	
-}	
 
  @media screen and (max-width: 480px) {	
-  .menu_wrap {	
-    width: 95%;	
-  }
   .top_menu h2{
     font-size: 14px;
   }
