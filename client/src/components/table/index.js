@@ -6,7 +6,7 @@ const cx = classnames.bind(style);
 
 const Table = ({
   captions,
-  withCaptions,
+  noCaptions,
   items,
   renderRow,
   isLoading,
@@ -14,7 +14,7 @@ const Table = ({
   className,
 }) => {
   const isEmptyMessageShown = items.length === 0 && emptyMessage && !isLoading;
-  const isCaptionsShown = withCaptions && items.length > 0;
+  const isCaptionsShown = !noCaptions && items.length > 0;
 
   return <div className={cx('table', className)}>
     {isCaptionsShown &&
