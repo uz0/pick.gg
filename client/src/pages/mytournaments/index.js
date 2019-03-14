@@ -36,7 +36,6 @@ class App extends Component {
   render() {
     return (
       <div className={style.home_page}>
-        <div className={style.bg_wrap} />
         
         <div className={style.main_block}>
           <h2>My Tournaments</h2>

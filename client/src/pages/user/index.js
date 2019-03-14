@@ -66,8 +66,6 @@ class User extends Component {
 
     return (
       <div className={style.home_page}>
-        <div className={style.bg_wrap} />
-
         {loading && <Preloader />}
 
         <main>

@@ -47,8 +47,6 @@ class Login extends Component {
       <div className={style.login_page}>
         <NotificationContainer />
         
-        <div className={style.bg_wrap} />
-
         <div className={style.form_block}>
           <div className={style.info_block}>Login</div>
 
