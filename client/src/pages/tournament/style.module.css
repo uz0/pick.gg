@@ -222,6 +222,7 @@
 .tournament .section {
   flex-shrink: 0;
   display: flex;
+  width: 100%;
   margin-top: 40px;
   padding-bottom: 30px;
 }
@@ -359,7 +360,6 @@
 
   .tournament .section {
     flex-direction: column;
-    width: 100%;
   }
 
   .tournament .section .matches,

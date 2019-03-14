@@ -2,7 +2,7 @@
 }
 
 .table .empty {
-  --height: 40px;
+  --height: 20px;
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
