@@ -172,8 +172,8 @@ class Tournament extends Component {
   };
 
   render() {
-    const me = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
-    const champions = me && me.players || [];
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const champions = currentUserParticipant && currentUserParticipant.players || [];
     const isTournamentNotFree = this.state.fantasyTournament && this.state.fantasyTournament.entry > 0;
     const prize = isTournamentNotFree ? this.getTournamentPrize() : 'Free';
     const entry = isTournamentNotFree ? this.state.fantasyTournament.entry : 'Free';
@@ -195,7 +195,9 @@ class Tournament extends Component {
           </div>
         </div>
 
-        <Button text="Join Tournament" appearance="_basic-accent" className={style.button} />
+        {!currentUserParticipant &&
+          <Button text="Join Tournament" appearance="_basic-accent" className={style.button} />
+        }
       </div>
 
       <h3 className={style.subtitle}>Information</h3>
@@ -222,9 +224,11 @@ class Tournament extends Component {
         </div>
       </div>
 
-      <h3 className={style.subtitle}>My Team</h3>
+      {currentUserParticipant &&
+        <h3 className={style.subtitle}>My Team</h3>
+      }
 
-      {champions.length > 0 &&
+      {currentUserParticipant && champions.length > 0 &&
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
