@@ -31,7 +31,7 @@
   display: flex;
   justify-content: space-between;
   /* padding: 20px; */
-  width: 1200px;
+  width: 1024px;
   margin: 0 auto;
 }
 
@@ -39,13 +39,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1200px;
+  width: 1024px;
   padding-bottom: 20px;
 }
 
 .tournament_header {
   display: flex;
-  flex-direction: column;
   width: 100%;
   font-family: var(--font-family-title);
   text-shadow: 0px 1px 1px #000000;
@@ -54,15 +53,13 @@
 
 .tournament_header > div {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
 }
 
 .tournament_header h2 {
   font-size: 40px;
   margin: 0;
   overflow: hidden;
-  width: 560px;
+  width: 400px;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
@@ -78,7 +75,7 @@
   margin-top: calc(var(--height) / 4);
   font-size: 24px;
   color: #9696B0;
-  text-shadow: 0px 1px 1px #000000;
+  text-shadow: 0px 2px 1px #000000;
   border-radius: 4px;
   background-color: var(--background-color);
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.50);
@@ -92,6 +89,9 @@
 
 .tournament_info {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-basis: 45%;
 }
 .tournament_info p{
   white-space: nowrap;
@@ -99,8 +99,10 @@
 
 .tournament_header p {
   margin: 0;
-  font-size: 40px;
-  padding-left: 40px;
+  font-size: 27px;
+  padding-left: 0px;
+  text-align: left;
+  text-shadow: 0px 2px 1px #000;  
 }
 
 .tournament_content h3 {
@@ -108,7 +110,7 @@
   line-height: 40px;
   font-size: 32px;
   color: #9696B0;
-  text-shadow: 0px 1px 1px #000000;
+  text-shadow: 0px 2px 1px #000000;
   margin-bottom: 15px;
 }
 
@@ -116,6 +118,11 @@
   display: flex;
   justify-content: space-between;
   width: 1200px;
+}
+
+.team_block h3{
+  margin: 0;
+  margin-bottom: 10px;
 }
 
 .tournament_matches {
@@ -208,15 +215,16 @@
   line-height: 40px;
   font-size: 32px;
   color: #9696B0;
-  text-shadow: 0px 1px 1px #000000;
+  text-shadow: 0px 2px 1px #000000;
   margin-bottom: 0px;
+  text-align-last: left;
 }
 
 .team_block {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
+  flex-basis: 55%;
 }
 
 .tournament_bottom {
@@ -294,6 +302,15 @@
   color: #9FA2BE;
   cursor: default !important;
 }
+.item_width{
+  --width: 100px;
+  height: fit-content;
+  font-size: 16px;
+}
+
+.status_game{
+  padding-top: 40px;
+}
 
 .table_leader .status_leaders,
 .tournament_matches .status_matches {
@@ -310,10 +327,10 @@
 
 @media screen and (max-width: 1440px){
   .home_page{
-    width: 90%;
+    width: 1024px;
   }
   .tournament_content{
-    width: 100%;
+    width: 1024px;
   }
   .tournament_team{
     width: 100%;

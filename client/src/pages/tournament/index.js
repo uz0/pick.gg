@@ -147,19 +147,19 @@ class App extends Component {
 
   countLeadersTotalScore = (fantasyTournament, scores) => {
     return fantasyTournament.users
-    .map(item => item.user)
-    .map(item => {
-      item.totalScore = scores
-        .filter(element => element.userId === item._id)
-        .reduce((acc, item) => {
-          return acc + item.totalMatchScore;
-        }, 0);
-      return item;
-    })
-    .sort((a, b) => b.totalScore - a.totalScore);
+      .map(item => item.user)
+      .map(item => {
+        item.totalScore = scores
+          .filter(element => element.userId === item._id)
+          .reduce((acc, item) => {
+            return acc + item.totalMatchScore;
+          }, 0);
+        return item;
+      })
+      .sort((a, b) => b.totalScore - a.totalScore);
   }
 
-  updateData = async() => {
+  updateData = async () => {
 
     const { tournament } = await this.TournamentService.getTournamentById(this.tournamentId);
     const { userId } = this.state;
@@ -169,7 +169,7 @@ class App extends Component {
 
     const isUserRegistered = fantasyTournament.users.map(item => item.user._id).includes(userId);
     const userPlayers = fantasyTournament.users.filter(item => item.user._id === userId)[0];
-    
+
     const tournamentPrizePool = fantasyTournament.entry * fantasyTournament.users.length;
     let matches = realTournament.matches;
     let usersResults = [];
@@ -210,7 +210,7 @@ class App extends Component {
     //tournaments aliases
     const fantasyTournament = tournament;
     const realTournament = tournament.tournament;
-    
+
     const isUserRegistered = fantasyTournament.users.map(item => item.user._id).includes(userId);
     const isUserTournamentCreator = fantasyTournament.creator._id === userId;
     const userPlayers = fantasyTournament.users.filter(item => item.user._id === userId)[0];
@@ -275,6 +275,10 @@ class App extends Component {
     const isMatchGoingOn = (match) => moment().isBetween(moment(match.startDate), moment(match.endDate));
     const tournamentDateFormat = moment(tournamentDate).format('MMM DD');
 
+    const creatorTounament = fantasyTournament.creator
+    console.log(fantasyTournament)
+    console.log(creatorTounament)
+
     return (
       <div className={style.home_page}>
         <div className={style.bg_wrap} />
@@ -284,22 +288,38 @@ class App extends Component {
         <div className={style.tournament_content}>
 
           <div className={style.tournament_header}>
-            <div>
+
+            <div className={style.tournament_info}>
               <h2>{fantasyTournament.name}</h2>
-              <div className={style.tournament_info}>
-                <p>{tournamentDateFormat}</p>
-                <p>{isFreeTournament(fantasyTournament.entry)}</p>
+              <p>by Username</p>
+              <p>{console.log(realTournament)}</p>
+              <p>{`Winner will get: $${tournamentPrizePool}`}</p>
+              <p>Rules: b1/c1/t2/s</p>
+              <div className={style.status_game}>
+                <p>Status: {this.statusGame(tournamentDate)}</p>
+                <p>Date: {tournamentDateFormat}</p>
+                <p>Entry cost: {isFreeTournament(fantasyTournament.entry)}</p>
               </div>
             </div>
 
-            <div>
-              <div className={style.statusGames}>
-                Status: {this.statusGame(tournamentDate)}
+
+            {!winner && champions && champions.length > 0 && <div className={style.team_block}>
+              <h3>Team</h3>
+              <div className={style.tournament_team}>
+                {[0, 1, 2, 3, 4].map(index => <Fragment>
+                  {index < choosedChampions.length && <ChampionCard
+                    key={uuid()}
+                    className={cx(style.no_active, style.item_mobile, style.item_width)}
+                    name={choosedChampions[index].name}
+                    avatar={choosedChampions[index].photo}
+                  />}
+                  {index >= choosedChampions.length && <ChooseChampionCard
+                    key={uuid()}
+                    onClick={this.showChoose}
+                  />}
+                </Fragment>)}
               </div>
-              <div className={style.statusGames}>
-                {`Winner will get: $${tournamentPrizePool}`}
-              </div>
-            </div>
+            </div>}
           </div>
 
           {winner && <div className={style.tournament_winner}>
@@ -314,24 +334,6 @@ class App extends Component {
             closeModalChoose={this.closeModalChoose}
             setChoosedChampions={this.setChoosedChampions}
           />}
-
-          {!winner && champions && champions.length > 0 && <div className={style.team_block}>
-            <h3>Team</h3>
-            <div className={style.tournament_team}>
-              {[0, 1, 2, 3, 4].map(index => <Fragment>
-                {index < choosedChampions.length && <ChampionCard
-                  key={uuid()}
-                  className={cx(style.no_active, style.item_mobile)}
-                  name={choosedChampions[index].name}
-                  avatar={choosedChampions[index].photo}
-                />}
-                {index >= choosedChampions.length && <ChooseChampionCard
-                  key={uuid()}
-                  onClick={this.showChoose}
-                />}
-              </Fragment>)}
-            </div>
-          </div>}
 
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
@@ -359,7 +361,7 @@ class App extends Component {
             </div>
 
             <div className={style.tournament_leader}>
-            
+
               <div className={style.header_leader}>
                 <h3>Leaderboard</h3>
                 {fantasyTournament.users.length > 0 ? <p>{fantasyTournament.users.length} users</p> : ''}
