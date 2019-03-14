@@ -1,7 +1,11 @@
+html {
+  --header-height: 60px;
+}
+
 .top_menu {	
   display: flex;
   align-items: center;
-  height: 60px;
+  height: var(--header-height);
   background: var(--background-color);
 }
 
@@ -49,9 +53,6 @@
   .top_menu h2{
     font-size: 14px;
   }
-  .top_menu {	
-    margin-bottom: 10px;	
-  }	
   .links a{
     font-size: 14px;
   }

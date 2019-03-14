@@ -40,8 +40,6 @@ class Rating extends Component {
     let Avatar = () => this.props.avatar ? <img src={this.props.avatar} alt="userpic"/> : <AvatarPlaceholder />;
     return (
       <div className={style.home_page}>
-        <div className={style.bg_wrap} />
-
         {this.state.loader && <Preloader />}
 
         <main className={style.main_block}>

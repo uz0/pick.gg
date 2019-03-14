@@ -85,7 +85,7 @@ class Tournaments extends Component {
   onEntryFilterChange = event => this.setState({
     filters: {
       ...this.state.filters,
-      entry: parseInt(event.target.value),
+      entry: parseInt(event.target.value, 10),
     },
   });
 
@@ -124,7 +124,7 @@ class Tournaments extends Component {
     }
 
     if (this.state.filters.entry) {
-      tournaments = filter(tournaments, fantasy => fantasy.entry > this.state.filters.entry);
+      tournaments = filter(tournaments, fantasy => fantasy.entry >= this.state.filters.entry);
     }
 
     return <div className={style.tournaments}>
