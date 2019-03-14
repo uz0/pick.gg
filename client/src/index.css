@@ -12,6 +12,9 @@
   --background-color: #252532;
   --primary-color: #060916;
   --caption-color: #787888;
+
+  --layout-padding: 20px;
+  --container-width: calc(1024px + (var(--layout-padding) * 2));
 }
 
 *,
@@ -28,12 +31,36 @@ body {
   line-height: 1.25;
 }
 
+:global(.container) {
+  /*background-image: url('assets/bg-login.jpg');*/
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 button {
   padding: 0;
   border: 0;
   cursor: pointer;
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   margin: 0em;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none;
+}
+
+@media (max-width: 1064px) {
+  :root {
+    --container-width: 100%;
+  }
 }

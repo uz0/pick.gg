@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { withRouter } from 'react-router';
 
 import Input from '../input';
 import Select from '../select';
@@ -224,4 +225,4 @@ class newTournament extends Component {
   }
 }
 
-export default newTournament;
+export default withRouter(newTournament);
