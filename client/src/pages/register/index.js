@@ -14,8 +14,8 @@ class Register extends Component {
     super();
 
     this.NotificationService = new NotificationService();
+    this.AuthService = new AuthService();
 
-    this.auth = new AuthService();
     this.state = {
       username: '',
       password: '',
@@ -53,11 +53,12 @@ class Register extends Component {
       }),
     })
       .then(response => response.json())
-      .then(({ success, message }) => {
+      .then(async({ success, message }) => {
         if (!success) {
           this.NotificationService.show(message)
         }
         if (success){
+          await this.AuthService.login(username, password);
           this.props.history.replace('/tournaments');
         }
       });
