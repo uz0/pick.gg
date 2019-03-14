@@ -32,9 +32,9 @@ body {
 }
 
 :global(.container) {
-  /*background-image: url('assets/bg-login.jpg');*/
+  background-image: url('assets/bg-login.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
 }
 
 button {
