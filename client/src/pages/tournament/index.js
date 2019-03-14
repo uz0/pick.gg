@@ -16,6 +16,7 @@ import ChampionService from 'services/championService';
 import TransactionService from 'services/transactionService';
 import moment from 'moment';
 import map from 'lodash/map';
+import find from 'lodash/find';
 import uuid from 'uuid';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import defaultAvatar from 'assets/placeholder.png';
@@ -63,6 +64,7 @@ class Tournament extends Component {
   constructor() {
     super();
     this.tournamentService = new TournamentService();
+    this.userService = new UserService();
   }
 
   state = {
@@ -73,9 +75,12 @@ class Tournament extends Component {
   };
 
   async componentDidMount() {
-    const tournamentId = this.props.match.params.id;
     this.setState({ isLoading: true });
+
+    const tournamentId = this.props.match.params.id;
     const { tournament } = await this.tournamentService.getTournamentById(tournamentId);
+    const { user } = await this.userService.getMyProfile();
+
     const realTournament = tournament.tournament;
     const users = tournament.users;
     const matches = realTournament.matches;
@@ -83,10 +88,45 @@ class Tournament extends Component {
     this.setState({
       isLoading: false,
       fantasyTournament: tournament,
+      currentUser: user,
       matches,
       users,
     });
   }
+
+  getTournamentStatus = () => {
+    if (!this.state.fantasyTournament) {
+      return '';
+    }
+
+    const tournamentDate = this.state.fantasyTournament.tournament.date;
+
+    if (moment().isSame(moment(tournamentDate), 'h')) {
+      return 'is going on';
+    }
+
+    if (moment(tournamentDate).isBefore(moment())) {
+      return 'archive';
+    }
+
+    if (moment(tournamentDate).isAfter(moment())) {
+      return 'will be soon';
+    }
+  }
+
+  getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
+
+  getCountMatchPoints = matchId => {
+    return 800;
+  };
+
+  getTotalUserScore = userId => {
+    return 3423;
+  };
+
+  getCalcUserProgress = userId => {
+    return 70;
+  };
 
   leadersDefaultSorting = (prev, next) => {
     console.log(prev)
@@ -94,8 +134,8 @@ class Tournament extends Component {
   };
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
-    const totalScore = 3534;
-    const progressPercents = 70;
+    const totalScore = this.getTotalUserScore(item.user._id);
+    const progressPercents = this.getCalcUserProgress(item.user._id);
 
     return <div className={className} key={item.id}>
       <div className={cx('leader_num_cell', itemClass)} style={{'--width': leadersTableCaptions.position.width}}>
@@ -114,6 +154,7 @@ class Tournament extends Component {
 
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
     const time = moment(item.startDate).format('HH:mm');
+    const points = this.getCountMatchPoints(item.id);
 
     return <div className={className} key={item.id}>
       <div className={itemClass} style={{'--width': matchesTableCaptions.name.width}}>
@@ -121,7 +162,7 @@ class Tournament extends Component {
       </div>
 
       <div className={itemClass} style={{'--width': matchesTableCaptions.points.width}}>
-        <div className={style.match_points}>+800</div>
+        <div className={style.match_points}>+{points}</div>
       </div>
 
       <div className={itemClass} style={{'--width': matchesTableCaptions.date.width}}>
@@ -131,15 +172,26 @@ class Tournament extends Component {
   };
 
   render() {
+    const me = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const champions = me && me.players || [];
+    const isTournamentNotFree = this.state.fantasyTournament && this.state.fantasyTournament.entry > 0;
+    const prize = isTournamentNotFree ? this.getTournamentPrize() : 'Free';
+    const entry = isTournamentNotFree ? this.state.fantasyTournament.entry : 'Free';
+    const tournamentName = this.state.fantasyTournament && this.state.fantasyTournament.tournament.name;
+    const fantasyTournamentName = this.state.fantasyTournament && this.state.fantasyTournament.name;
+    const tournamentDate = this.state.fantasyTournament && moment(this.state.fantasyTournament.tournament.date).format('MMM DD, h:mm');
+    const tournamentCreator = this.state.fantasyTournament && this.state.fantasyTournament.creator.username;
+    const status = this.getTournamentStatus();
+
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
-          <h2 className={style.title}>Tournament name</h2>
+          <h2 className={style.title}>{fantasyTournamentName}</h2>
 
           <div className={style.info}>
-            <span>Saturday at 18:00</span>
-            <span>Created by Vasya Popkin</span>
-            <div className={style.status}>is going on</div>
+            <span>{tournamentDate}</span>
+            <span>Created by {tournamentCreator}</span>
+            <div className={style.status}>{status}</div>
           </div>
         </div>
 
@@ -151,17 +203,17 @@ class Tournament extends Component {
       <div className={style.list}>
         <div className={style.item}>
           <label className={style.title}>Prize Pool</label>
-          <p className={style.value}>$15000</p>
+          <p className={style.value}>${prize}</p>
         </div>
 
         <div className={style.item}>
           <label className={style.title}>Entry cost</label>
-          <p className={style.value}>$1</p>
+          <p className={style.value}>{isTournamentNotFree ? `$${entry}` : entry}</p>
         </div>
 
         <div className={style.item}>
           <label className={style.title}>Original Tournament</label>
-          <p className={style.value}>Tournament Name</p>
+          <p className={style.value}>{tournamentName}</p>
         </div>
 
         <div className={style.item}>
@@ -172,47 +224,17 @@ class Tournament extends Component {
 
       <h3 className={style.subtitle}>My Team</h3>
 
-      <div className={style.team}>
-        <div className={style.champion}>
-          <div className={style.image}>
-            <img src={defaultAvatar} />
-          </div>
+      {champions.length > 0 &&
+        <div className={style.team}>
+          {champions.map(champion => <div className={style.champion} key={champion._id}>
+            <div className={style.image}>
+              <img src={defaultAvatar} />
+            </div>
 
-          <span className={style.name}>Xyp9x</span>
+            <span className={style.name}>{champion.name}</span>
+          </div>)}
         </div>
-
-        <div className={style.champion}>
-          <div className={style.image}>
-            <img src={defaultAvatar} />
-          </div>
-
-          <span className={style.name}>Xyp9x</span>
-        </div>
-
-        <div className={style.champion}>
-          <div className={style.image}>
-            <img src={defaultAvatar} />
-          </div>
-
-          <span className={style.name}>Xyp9x</span>
-        </div>
-
-        <div className={style.champion}>
-          <div className={style.image}>
-            <img src={defaultAvatar} />
-          </div>
-
-          <span className={style.name}>Xyp9x</span>
-        </div>
-
-        <div className={style.champion}>
-          <div className={style.image}>
-            <img src={defaultAvatar} />
-          </div>
-
-          <span className={style.name}>Xyp9x</span>
-        </div>
-      </div>
+      }
 
       <div className={style.section}>
         <div className={style.matches}>
