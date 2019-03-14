@@ -172,15 +172,7 @@ const TournamentController = io => {
     }
 
     try {
-      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
-
-      await TransactionModel.create({
-        userId,
-        amount: entry,
-        origin: 'tournament deposit',
-        date: Date.now(),
-      });
-
+      
       const newTournament = await FantasyTournament.create({
         tournament_id: tournamentId,
         name,
@@ -188,6 +180,16 @@ const TournamentController = io => {
         rules,
         creator: userId,
         winner: null,
+      });
+
+      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
+
+      await TransactionModel.create({
+        userId,
+        tournamentId: newTournament._id,
+        amount: entry,
+        origin: 'tournament deposit',
+        date: Date.now(),
       });
 
       res.json({
