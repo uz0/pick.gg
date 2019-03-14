@@ -56,8 +56,6 @@ class Transactions extends Component {
 
     return (
       <div className={style.home_page}>
-        <div className={style.bg_wrap} />
-
         <main className={style.main_block}>
           <h1>Transactions History</h1>
 
