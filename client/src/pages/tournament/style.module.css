@@ -95,7 +95,44 @@
   font-size: 18px;
 }
 
+.tournament .tournament_section + .winner {
+  margin-top: 40px;
+}
+
+.tournament .winner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 120px;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-radius: 4px;
+  background-color: var(--background-color);
+}
+
+.tournament .winner svg {
+  --size: 50px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+}
+
+.tournament .winner .text {
+  margin-left: 30px;
+}
+
+.tournament .winner .text p {
+  line-height: 1.5;
+  font-size: 24px;
+  text-shadow: 0 2px 1px #000;
+  color: #9696b0;
+}
+
 .tournament .tournament_section + .subtitle {
+  margin-top: 40px;
+}
+
+.tournament .winner + .subtitle {
   margin-top: 40px;
 }
 
@@ -321,6 +358,19 @@
   .tournament .tournament_section .button {
     margin-top: 20px;
     margin-left: 0;
+  }
+
+  .tournament .winner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .tournament .winner svg {
+    --size: 40px;
+  }
+
+  .tournament .winner .text p {
+    font-size: 16px;
   }
 
   .tournament .list {

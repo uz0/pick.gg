@@ -182,6 +182,8 @@ class Tournament extends Component {
     const tournamentDate = this.state.fantasyTournament && moment(this.state.fantasyTournament.tournament.date).format('MMM DD, h:mm');
     const tournamentCreator = this.state.fantasyTournament && this.state.fantasyTournament.creator.username;
     const status = this.getTournamentStatus();
+    const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
+    const isJoinButtonShown = !currentUserParticipant && !winner;
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -195,10 +197,26 @@ class Tournament extends Component {
           </div>
         </div>
 
-        {!currentUserParticipant &&
+        {isJoinButtonShown &&
           <Button text="Join Tournament" appearance="_basic-accent" className={style.button} />
         }
       </div>
+
+      {winner &&
+        <div className={style.winner}>
+          <TrophyIcon />
+
+          <div className={style.text}>
+            <p>
+              Tournament is over! Winner is {winner.username}.
+
+              {isTournamentNotFree &&
+                <span> He got ${prize} prize</span>
+              }
+            </p>
+          </div>
+        </div>
+      }
 
       <h3 className={style.subtitle}>Information</h3>
 
