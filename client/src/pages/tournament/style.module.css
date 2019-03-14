@@ -15,6 +15,7 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .tournament .tournament_section .main {
@@ -287,6 +288,9 @@
   }
 
   .tournament .tournament_section .main {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100%;
     padding-right: 0;
   }
 
@@ -296,6 +300,7 @@
   }
 
   .tournament .tournament_section .main .info span {
+    width: 100%;
     padding-right: 0;
   }
 
