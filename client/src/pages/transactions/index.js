@@ -1,8 +1,29 @@
-import React, { Component, Fragment } from 'react';
-import TransactionsService from '../../services/transactionService';
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import Table from 'components/table';
+import TransactionsService from 'services/transactionService';
 import moment from 'moment';
+import classnames from 'classnames/bind';
 import style from './style.module.css';
 
+const cx = classnames.bind(style);
+
+const transactionsTableCaptions = {
+  amount: {
+    text: 'Amount',
+    width: 110,
+  },
+
+  date: {
+    text: 'Date',
+    width: 110,
+  },
+
+  origin: {
+    text: 'Operation',
+    width: 250,
+  },
+};
 
 class Transactions extends Component {
 
@@ -13,7 +34,8 @@ class Transactions extends Component {
     });
 
     this.state = {
-      transactionData: [],
+      transactions: [],
+      isLoading: true,
     };
   }
 
@@ -21,7 +43,8 @@ class Transactions extends Component {
     const historyData = await this.TransactionsService.getTransactionsHistory();
 
     this.setState({
-      transactionData: historyData.history,
+      transactions: historyData.history,
+      isLoading: false,
     });
   }
 
@@ -29,62 +52,84 @@ class Transactions extends Component {
     this.updateData();
   }
 
-  render() {
+  // renderRow = ({ className, itemClass, textClass, item }) => {
+  //   const formattedDate = moment(item.tournament.date).format('MMM DD');
 
-    const { transactionData } = this.state;
+  //   return <NavLink to={`/tournaments/${item._id}`} className={className}>
+  //     <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
+  //       <span className={textClass}>{item.name}</span>
+  //     </div>
 
-    const operationType = operation => {
-      let className = null;
+  //     <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
+  //       <span className={textClass}>{formattedDate}</span>
+  //     </div>
 
-      switch(operation){
-        case "user deposit":
-          className = style.plus;
-          break;
-        case "user withdraw":
-          className = style.minus;
-          break;
-        case "tournament deposit":
-          className = style.minus;
-          break;
-        default:
-          className = style.plus;
-          break;
-      }
+  //     <div className={itemClass} style={{'--width': tournamentsTableCaptions.origin.width}}>
+  //       <span className={cx(textClass, this.operationType())}>{item.users.length}</span>
+  //     </div>
 
-      return <div className={className}>{operation}</div>
+  //   </NavLink>;
+  // }
+
+  operationType = operation => {
+    let className = null;
+
+    switch(operation){
+      case "user deposit":
+        className = style.plus;
+        break;
+      case "user withdraw":
+        className = style.minus;
+        break;
+      case "tournament deposit":
+        className = style.minus;
+        break;
+      default:
+        className = style.plus;
+        break;
     }
 
+    return className;
+  }
+
+  renderRow = ({ className, itemClass, textClass, item }) => {
+    const formattedDate = moment(item.date).format('MMM DD');
+
+    return <NavLink to={`/tournaments/${item._id}`} className={className}>
+      <div className={itemClass} style={{'--width': transactionsTableCaptions.amount.width}}>
+        <span className={textClass}>${item.amount}</span>
+      </div>
+
+      <div className={itemClass} style={{'--width': transactionsTableCaptions.date.width}}>
+        <span className={textClass}>{formattedDate}</span>
+      </div>
+
+      <div className={itemClass} style={{'--width': transactionsTableCaptions.origin.width}}>
+        <span className={cx(textClass, style.operation, this.operationType(item.origin))}>{item.origin}</span>
+      </div>
+
+    </NavLink>;
+  }
+
+  render() {
     return (
-      <div className={style.home_page}>
-        <main className={style.main_block}>
+      <div className={style.transactions}>
+        <main className={style.main}>
           <h1>Transactions History</h1>
 
-          {transactionData.length === 0 && <div className={style.notification}>You haven't had any transactions yet</div>}
-
-          {transactionData.length > 0 && <Fragment>
-            <div className={style.block_header}>
-              <div className={style.amount}>Amount</div>
-              <div className={style.date}>Date</div>
-              <div className={style.operation}>Operation</div>
-            </div>
-
-            <div className={style.block_history}>
-              {transactionData.map(item => (
-                <div className={style.item_history} key={item._id}>
-                  <div>{item.amount}$</div>
-                  <div>{moment(item.date).format('MMM DD')}</div>
-                  {operationType(item.origin)}
-                </div>
-              ))}
-            </div>
-          </Fragment>}
+          <Table
+            captions={transactionsTableCaptions}
+            items={this.state.transactions}
+            className={style.table}
+            renderRow={this.renderRow}
+            isLoading={this.state.isLoading}
+            emptyMessage="You haven't had any transactions yet"
+          />
 
         </main>
       </div>
     );
-
   }
-
 }
 
 export default Transactions;
