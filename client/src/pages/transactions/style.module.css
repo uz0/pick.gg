@@ -6,7 +6,7 @@
 
 .bg_wrap {
   position: absolute;
-  background: url('../../assets/bg-login.png');
+  background: url('../../assets/bg-login.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   height: inherit;
@@ -63,7 +63,15 @@
   padding: 12px;
   border-radius: 4px;
   margin-bottom: 8px;
-  
+}
+
+.notification {
+  padding: 12px;
+  font-size: 18px;
+  color: var(--caption-color);
+  background-color: var(--background-color);
+  box-shadow: 0px 1px 1px #000000;
+  border-radius: 4px;
 }
 
 .item_history div{

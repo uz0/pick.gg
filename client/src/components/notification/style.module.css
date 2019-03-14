@@ -1,5 +1,5 @@
 .wrapper_n {
-  z-index: 2;
+  z-index: 10;
   overflow: hidden;
   position: fixed;
   top: 0;

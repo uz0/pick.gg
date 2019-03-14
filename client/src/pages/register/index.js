@@ -54,11 +54,8 @@ class Register extends Component {
     })
       .then(response => response.json())
       .then(({ success, message }) => {
-        // console.log(response)
-
         if (!success) {
-          // TODO RENDER ERROR!
-          console.error(message);
+          this.NotificationService.show(message)
         }
         if (success){
           this.props.history.replace('/tournaments');

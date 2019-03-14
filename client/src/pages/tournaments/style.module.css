@@ -202,7 +202,7 @@ input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spi
 
 .bg_wrap {
   position: absolute;
-  background: url('../../assets/bg-login.png');
+  background: url('../../assets/bg-login.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   height: inherit;
