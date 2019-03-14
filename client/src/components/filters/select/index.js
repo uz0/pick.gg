@@ -17,7 +17,7 @@ const Select = ({
 
   <select onChange={onChange}>
     {defaultOption &&
-      <option hidden disabled selected>{defaultOption}</option>
+      <option selected value="">{defaultOption}</option>
     }
 
     {options.map(option => <option key={option._id || option.id} value={option._id || option.id}>{option.name}</option>)}
