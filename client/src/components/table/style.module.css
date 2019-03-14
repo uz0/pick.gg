@@ -1,0 +1,114 @@
+.table {
+}
+
+.table .empty {
+  --height: 300px;
+  overflow: hidden;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-weight: var(--font-weight-bold);
+  font-size: 20px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.table .captions {
+  display: flex;
+  align-items: center;
+  min-width: 100%;
+}
+
+.table .captions > .cell {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  width: calc(var(--width) * 1px);
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.table .captions > .cell > .text {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  color: #9d9fbb;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.table .captions + .row {
+  margin-top: 4px;
+}
+
+.table .row {
+  display: flex;
+  align-items: center;
+  min-width: 100%;
+  height: 50px;
+  border-radius: 4px;
+  background-color: var(--bg-color);
+  box-shadow: 0 1px 1px #000;
+  text-decoration: none;
+  transition-property: background-color;
+}
+
+.table .row:not([href]) {
+  --bg-color: var(--background-color);
+  --text-color: var(--caption-color);
+}
+
+.table .row[href]:not(:hover) {
+  --bg-color: var(--background-color);
+  --text-color: var(--caption-color);
+}
+
+.table .row[href]:hover {
+  --bg-color: var(--accent-color);
+  --text-color: #000;
+}
+
+.table .row + .row {
+  margin-top: 6px;
+}
+
+.table .row > .item {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  width: calc(var(--width) * 1px);
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.table .row > .item:not(:last-of-type) {
+  box-shadow: -1px 0 rgba(6, 9, 22, 0.4) inset;
+}
+
+.table .row > .item > .text {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+@media (max-width: 768px) {
+  .table {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .table .captions,
+  .table .row {
+    width: fit-content;
+  }
+}

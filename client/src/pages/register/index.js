@@ -66,8 +66,6 @@ class Register extends Component {
   render() {
     return (
       <div className={style.login_page}>
-        <div className={style.bg_wrap} />
-
         <NotificationContainer />
 
         <div className={style.form_block}>
