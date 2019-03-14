@@ -20,32 +20,6 @@
   font-family: var(--font-family-title);
 }
 
-.bg_wrap {
-  position: absolute;
-  background-image: url('../../assets/bg-login.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: inherit;
-  z-index: -1;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-
-.bg_wrap img {
-  position: relative;
-}
-
-.bg_wrap::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 100%;
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, #11162a 85%);
-}
-
 .start_content button {
   background-color: #FFA928;
   color: #000;
