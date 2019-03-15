@@ -11,6 +11,7 @@ import ProfileSidebar from '../../components/profile-sidebar';
 import Preloader from '../../components/preloader';
 
 import style from './style.module.css';
+import i18n from 'i18n';
 
 class User extends Component {
   constructor() {
@@ -75,35 +76,34 @@ class User extends Component {
 
             <div className={style.user_statistics}>
               <div>
-                <h2>Scores</h2>
+                <h2>{i18n.t('scores')}</h2>
 
                 <div className={style.statistics_masonry}>
                   <div className={style.item}>
-                    <div className={style.value}>{tournaments.length}</div>
-                    <div className={style.key}>tournaments</div>
+                    <div className={style.value}>{this.state.tournaments.length}</div>
+                    <div className={style.key}>{i18n.t('tournaments')}</div>
                   </div>
 
                   <div className={style.item}>
-                    <div className={style.value}>{winnings}</div>
-                    <div className={style.key}>earned</div>
+                    <div className={style.value}>$ {this.state.totalWinnings}</div>
+                    <div className={style.key}>{i18n.t('earned')}</div>
                   </div>
 
                   <div className={style.item}>
-                    <div className={style.value}>{userPlace} <span>of {totalUsers}</span></div>
-                    <div className={style.key}>place</div>
+                    <div className={style.value}>{this.state.userPlace} <span>{i18n.t('of')} {this.state.totalUsers}</span></div>
+                    <div className={style.key}>{i18n.t('place')}</div>
                   </div>
                 </div>
               </div>
               <div>
-                <h2>Recent tournaments</h2>
-                
-                {tournaments.length === 0 && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
+                <h2>{i18n.t('recent_tournaments')}</h2>
+                {tournaments.length === 0 && <div className={style.zero_info}>{i18n.t('not_yet_tournaments')}</div>}
                 <div className={style.tournaments_block}>
                   {tournaments.length > 0 && <div className={style.header_tournaments}>
-                    <p>Tournament Name</p>
-                    <p>End Date</p>
-                    <p>Users</p>
-                    <p>Entry</p>
+                    <p>{i18n.t('tournaments_name')}</p>
+                    <p>{i18n.t('date')}</p>
+                    <p>{i18n.t('users')}</p>
+                    <p>{i18n.t('entry')}</p>
                   </div>}
                   {tournaments.map(item => (
                     <NavLink key={item._id} to={`/tournaments/${item._id}`}>

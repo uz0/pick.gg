@@ -10,27 +10,28 @@ import Select from 'components/filters/select';
 import Table from 'components/table';
 import NewTournamentModal from 'components/new-tournament';
 import Preloader from 'components/preloader';
+import i18n from 'i18n';
 
 import style from './style.module.css';
 
 const tournamentsTableCaptions = {
   name: {
-    text: 'Name',
+    text: i18n.t('name'),
     width: 250,
   },
 
   date: {
-    text: 'Date',
+    text: i18n.t('date'),
     width: 100,
   },
 
   users: {
-    text: 'Users',
+    text: i18n.t('users'),
     width: 80,
   },
 
   entry: {
-    text: 'Entry',
+    text: i18n.t('entry'),
     width: 80,
   },
 };
@@ -93,7 +94,7 @@ class Tournaments extends Component {
     const formattedDate = moment(item.tournament.date).format('MMM DD');
     const entry = item.entry === 0 ? 'Free' : item.entry;
 
-    return <NavLink to={`/tournaments/${item._id}`} className={className}>
+    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -128,28 +129,28 @@ class Tournaments extends Component {
     }
 
     return <div className={style.tournaments}>
-      <h2 className={style.title}>Tournaments</h2>
+      <h2 className={style.title}>{i18n.t('tournaments')}</h2>
 
       <div className={style.content}>
         <div className={style.sidebar}>
           <Select
-            defaultOption="Select tournament"
+            defaultOption={i18n.t('select_tournament')}
             options={this.state.realTournaments}
-            label="Tournament (from list)"
+            label={i18n.t('tournament_list')}
             onChange={this.onTournamentFilterChange}
             className={style.filter_item}
           />
 
           <Input
             type="date"
-            label="Date from"
+            label={i18n.t('date_from')}
             className={style.filter_item}
             onChange={this.onDateFilterChange}
           />
 
           <Input
             type="number"
-            label="Minimal entry"
+            label={i18n.t('minimal_entry')}
             className={style.filter_item}
             placeholder="$ 0.1"
             onChange={this.onEntryFilterChange}
@@ -157,11 +158,11 @@ class Tournaments extends Component {
 
           <div className={style.action}>
             <div className={style.background}>
-              <p className={style.question}>Not satisfied?</p>
+              <p className={style.question}>{i18n.t('not_satisfied')}</p>
             </div>
 
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              Create a new tournament
+              {i18n.t('create_new_tournament')}
             </button>
           </div>
         </div>
@@ -173,7 +174,7 @@ class Tournaments extends Component {
             className={style.table}
             renderRow={this.renderRow}
             isLoading={this.state.isLoading}
-            emptyMessage="There is no tournaments yet"
+            emptyMessage={i18n.t('there_is_no_tournaments_yet')}
           />
         </div>
       </div>

@@ -9,12 +9,18 @@ const Table = ({
   noCaptions,
   items,
   renderRow,
+  defaultSorting,
   isLoading,
   emptyMessage,
   className,
 }) => {
   const isEmptyMessageShown = items.length === 0 && emptyMessage && !isLoading;
   const isCaptionsShown = !noCaptions && items.length > 0;
+  let list = items;
+
+  if (defaultSorting) {
+    list.sort(defaultSorting)
+  }
 
   return <div className={cx('table', className)}>
     {isCaptionsShown &&
@@ -25,9 +31,10 @@ const Table = ({
       </div>
     }
 
-    {items.length > 0 &&
-      items.map(item => renderRow({
+    {list.length > 0 &&
+      list.map((item, index) => renderRow({
         item,
+        index,
         className: style.row,
         itemClass: style.item,
         textClass: style.text,

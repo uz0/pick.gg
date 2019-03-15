@@ -4,7 +4,33 @@ import moment from 'moment';
 
 import TournamentService from '../../services/tournamentService';
 
+import Table from 'components/table';
+import Preloader from 'components/preloader';
+
 import style from './style.module.css';
+import i18n from 'i18n';
+
+const tournamentsTableCaptions = {
+  name: {
+    text: i18n.t('name'),
+    width: 250,
+  },
+
+  date: {
+    text: i18n.t('date'),
+    width: 100,
+  },
+
+  users: {
+    text: i18n.t('users'),
+    width: 80,
+  },
+
+  entry: {
+    text: i18n.t('entry'),
+    width: 80,
+  },
+};
 
 class App extends Component {
   constructor() {
@@ -12,7 +38,7 @@ class App extends Component {
     this.tournamentService = new TournamentService();
     this.state = {
       tournaments: [],
-      zeroTournaments: true,
+      isLoading: false,
     };
   }
 
@@ -22,42 +48,53 @@ class App extends Component {
     this.setState({
       tournaments: tournaments.tournaments,
     });
-    this.zeroTournaments = () => {
-      if (tournaments.tournaments.length !== 0) {
-        this.setState({
-          zeroTournaments: false,
-        });
-      }
-    };
+  }
+
+  renderRow = ({ className, itemClass, textClass, item }) => {
+    const formattedDate = moment(item.tournament.date).format('MMM DD');
+    const entry = item.entry === 0 ? 'Free' : item.entry;
+
+    return <NavLink to={`/tournaments/${item._id}`} className={className}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
+        <span className={textClass}>{item.name}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
+        <span className={textClass}>{formattedDate}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
+        <span className={textClass}>{item.users.length}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
+        <span className={textClass}>{entry}</span>
+      </div>
+    </NavLink>;
   }
 
   render() {
+    let tournaments = this.state.tournaments;
+    console.log(tournaments)
     return (
       <div className={style.home_page}>
-        
         <div className={style.main_block}>
-          <h2>My Tournaments</h2>
-          <div className={style.tournaments_block}>
-            {!this.state.zeroTournaments && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
-            
-            {!this.state.zeroTournaments && <div className={style.header_tournaments}>
-              <p>Tournament Name</p>
-              <p>End Date</p>
-              <p>Users</p>
-              <p>Entry</p>
-            </div>}
+          <h2>My tournaments</h2>
 
-            {this.state.tournaments.map(item => (
-              <NavLink key={item._id} to={`/tournaments/${item._id}`}>
-                <div className={style.card_tournament}>
-                  <p>{item.name}</p>
-                  <p>{moment(item.date).format('MMM DD')}</p>
-                  <p>{item.users.length}</p>
-                  <p>$ {item.entry}</p>
-                </div>
-              </NavLink>
-            ))}
+          <div className={style.section}>
+            <Table
+              captions={tournamentsTableCaptions}
+              items={tournaments}
+              className={style.table}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+              emptyMessage={i18n.t('not_yet_tournaments')}
+            />
           </div>
+
+          {this.state.isLoading &&
+            <Preloader />
+          }
         </div>
       </div>
     );

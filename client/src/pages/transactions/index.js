@@ -109,5 +109,4 @@ class Transactions extends Component {
     );
   }
 }
-
 export default Transactions;
