@@ -52,30 +52,13 @@ class Transactions extends Component {
     this.updateData();
   }
 
-  getOperationType = operation => {
-    let className = null;
-
-    switch(operation){
-      case "user deposit":
-        className = style.plus;
-        break;
-      case "user withdraw":
-        className = style.minus;
-        break;
-      case "tournament deposit":
-        className = style.minus;
-        break;
-      default:
-        className = style.plus;
-        break;
-    }
-
-    return className;
-  }
-
   renderRow = ({ className, itemClass, textClass, item }) => {
     const formattedDate = moment(item.date).format('MMM DD');
-    
+    const isOriginUserDeposit = item.origin === 'user deposit';
+    const isOriginUserWithdraw = item.origin === 'user withdraw';
+    const isOriginTournamentDeposit = item.origin === 'tournament deposit';
+    const isOriginTournamentWinning = item.origin === 'tournament winning';
+
     const Wrapper = ({children, ...props }) => {
       if (item.tournamentId) {
         return <Link to={`/tournaments/${item.tournamentId}`} {...props}>{children}</Link>
@@ -93,7 +76,10 @@ class Transactions extends Component {
       </div>
 
       <div className={itemClass} style={{'--width': transactionsTableCaptions.origin.width}}>
-        <span className={cx(textClass, style.operation, this.getOperationType(item.origin))}>{item.origin}</span>
+        <span className={cx(textClass, style.operation, {
+          'plus': isOriginUserDeposit || isOriginTournamentWinning,
+          'minus': isOriginUserWithdraw || isOriginTournamentDeposit,
+        })}>{item.origin}</span>
       </div>
     </Wrapper>;
   }
