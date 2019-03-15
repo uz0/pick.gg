@@ -30,6 +30,7 @@ export default {translation: {
   minimal_entry: 'Минимальная цена',
   my_tournaments: 'Мои турниры',
   name: 'Имя',
+  not_yet_tournaments: 'Турниров еще нет',
   not_satisfied: 'Не устраивает?',
   or: 'или',
   of: 'из',

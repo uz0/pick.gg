@@ -30,6 +30,7 @@ export default {translation: {
   minimal_entry: 'Minimal entry',
   my_tournaments: 'My tournaments',
   name: 'Name',
+  not_yet_tournaments: 'There is no tournaments yet',
   not_satisfied: 'Not satisfied?',
   or: 'or',
   of: 'of',
@@ -60,5 +61,5 @@ export default {translation: {
   withdraw: 'Withdraw',
   winner_get: 'Winner will get:',
   waiting_players: 'Waiting for new players',
-  zero_tournaments: 'This user has not yet participated in tournaments'
+  zero_tournaments: 'This user has not yet participated in tournaments',
 }};
