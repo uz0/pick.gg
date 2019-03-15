@@ -55,12 +55,11 @@ class Register extends Component {
       .then(response => response.json())
       .then(async({ success, message }) => {
         if (!success) {
-          this.NotificationService.show(message)
+          this.NotificationService.show(message);
+          return;
         }
-        if (success){
-          await this.AuthService.login(username, password);
-          this.props.history.replace('/tournaments');
-        }
+        await this.AuthService.login(username, password);
+        this.props.history.replace('/tournaments');
       });
   }
 
