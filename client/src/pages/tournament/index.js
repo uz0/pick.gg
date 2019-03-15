@@ -85,7 +85,16 @@ class Tournament extends Component {
     }
 
     this.tournamentId = this.props.match.params.id;
+
+    if (!this.tournamentId) {
+      return;
+    }
+
     const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
+
+    if (!tournament) {
+      return;
+    }
 
     const realTournament = tournament.tournament;
     const users = tournament.users;
