@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import AuthService from '../../services/authService';
 import TournamentService from '../../services/tournamentService';
 import TransactionService from '../../services/transactionService';
 import UserService from '../../services/userService';
@@ -16,10 +15,9 @@ import style from './style.module.css';
 class User extends Component {
   constructor() {
     super();
-    this.AuthService = new AuthService();
-    this.UserService = new UserService();
-    this.TransactionService = new TransactionService();
-    this.TournamentService = new TournamentService();
+    this.userService = new UserService();
+    this.transactionService = new TransactionService();
+    this.tournamentService = new TournamentService();
     this.state = {
       tournaments: [],
       userData: {},
@@ -33,10 +31,10 @@ class User extends Component {
 
     const userId = this.props.match.params.id;
 
-    const { tournaments } = await this.TournamentService.getUserTournamentsById(userId);
-    const { winnings } = await this.TransactionService.getTotalWinnings(userId);
-    const { user } = await this.UserService.getUserDataById(userId);
-    const userRating = await this.UserService.getUsersRating();
+    const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
+    const { winnings } = await this.transactionService.getTotalWinnings(userId);
+    const { user } = await this.userService.getUserDataById(userId);
+    const userRating = await this.userService.getUsersRating();
 
     const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1;
     const totalWinnings = winnings.reduce((acc, current) => { return acc + current.amount; }, 0);

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import AuthService from '../../services/authService';
 import TournamentService from '../../services/tournamentService';
 
 import style from './style.module.css';
@@ -10,8 +9,7 @@ import style from './style.module.css';
 class App extends Component {
   constructor() {
     super();
-    this.AuthService = new AuthService();
-    this.TournamentService = new TournamentService();
+    this.tournamentService = new TournamentService();
     this.state = {
       tournaments: [],
       zeroTournaments: true,
@@ -19,7 +17,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    let tournaments = await this.TournamentService.getMyTournaments();
+    let tournaments = await this.tournamentService.getMyTournaments();
 
     this.setState({
       tournaments: tournaments.tournaments,

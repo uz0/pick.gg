@@ -13,8 +13,8 @@ class TopMenuComponent extends Component {
   constructor() {
     super();
 
-    this.Auth = new AuthService();
-    this.UserService = new UserService({
+    this.authService = new AuthService();
+    this.userService = new UserService({
       onUpdate: () => this.updateProfile(),
     });
 
@@ -30,12 +30,12 @@ class TopMenuComponent extends Component {
   }
 
   handleLogout = () => {
-    this.Auth.logout();
+    this.authService.logout();
     this.props.history.replace('/');
   }
 
   updateProfile = async() => {
-    let profile = await this.UserService.getMyProfile();
+    let profile = await this.userService.getMyProfile();
     this.setState({ profile });
   }
 

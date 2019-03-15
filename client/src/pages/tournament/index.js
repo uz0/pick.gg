@@ -25,14 +25,14 @@ const cx = classnames.bind(style);
 class App extends Component {
   constructor() {
     super();
-    this.AuthService = new AuthService();
-    this.UserService = new UserService();
-    this.TournamentService = new TournamentService();
-    this.TransactionService = new TransactionService({
+    this.authService = new AuthService();
+    this.userService = new UserService();
+    this.tournamentService = new TournamentService();
+    this.transactionService = new TransactionService({
       onUpdate: () => this.updateProfile(),
     });
-    this.NotificationService = new NotificationService();
-    this.ChampionService = new ChampionService();
+    this.notificationService = new NotificationService();
+    this.championService = new ChampionService();
     this.tournamentId = window.location.pathname.split('/')[2];
     this.state = {
       champions: [],
@@ -56,7 +56,7 @@ class App extends Component {
     })
 
   updateProfile = async () => {
-    let profile = await this.UserService.getMyProfile();
+    let profile = await this.userService.getMyProfile();
     this.setState({ profile });
   }
 
@@ -67,7 +67,7 @@ class App extends Component {
       });
     }
     else {
-      this.NotificationService.show("Players already selected");
+      this.notificationService.show("Players already selected");
     }
   }
 
@@ -91,12 +91,12 @@ class App extends Component {
 
   setChoosedChampions = async (champions) => {
     const ids = map(champions, champion => champion.id);
-    await this.TournamentService.participateInTournament(this.tournamentId, [...ids]);
+    await this.tournamentService.participateInTournament(this.tournamentId, [...ids]);
 
-    // let tournament = await this.TournamentService.getTournamentById(this.tournamentId);
+    // let tournament = await this.tournamentService.getTournamentById(this.tournamentId);
     this.updateData()
 
-    this.NotificationService.show("You've been registered for the tournament")
+    this.notificationService.show("You've been registered for the tournament")
   }
 
   calcWidth = item => {
@@ -161,7 +161,7 @@ class App extends Component {
 
   updateData = async () => {
 
-    const { tournament } = await this.TournamentService.getTournamentById(this.tournamentId);
+    const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
     const { userId } = this.state;
 
     const fantasyTournament = tournament;
@@ -204,8 +204,8 @@ class App extends Component {
 
   async componentDidMount() {
     //server queries
-    const { tournament } = await this.TournamentService.getTournamentById(this.tournamentId);
-    const userId = await this.AuthService.getProfile()._id;
+    const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
+    const userId = await this.authService.getProfile()._id;
 
     //tournaments aliases
     const fantasyTournament = tournament;

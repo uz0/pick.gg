@@ -29,7 +29,7 @@ class Transactions extends Component {
 
   constructor() {
     super();
-    this.TransactionsService = new TransactionsService({
+    this.transactionsService = new TransactionsService({
       onUpdate: () => this.updateData(),
     });
 
@@ -40,7 +40,7 @@ class Transactions extends Component {
   }
 
   updateData = async () => {
-    const historyData = await this.TransactionsService.getTransactionsHistory();
+    const historyData = await this.transactionsService.getTransactionsHistory();
 
     this.setState({
       transactions: historyData.history,
