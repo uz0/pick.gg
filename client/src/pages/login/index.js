@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import i18n from 'i18next'
 
 import AuthService from '../../services/authService';
 import NotificationService from '../../services/notificationService';
@@ -48,14 +49,14 @@ class Login extends Component {
         <NotificationContainer />
         
         <div className={style.form_block}>
-          <div className={style.info_block}>Login</div>
+          <div className={style.info_block}>{i18n.t('login')}</div>
 
           <form onSubmit={this.handleLogin}>
             <Input
               id="username"
-              label="Email"
+              label={i18n.t('username')}
               name="username"
-              placeholder="login"
+              placeholder={i18n.t('login')}
               type="text"
               autofocus
               value={this.state.username}
@@ -64,7 +65,7 @@ class Login extends Component {
             
             <Input
               id="password"
-              label="Password"
+              label={i18n.t('password')}
               name="password"
               placeholder="password"
               type="password"
@@ -76,12 +77,12 @@ class Login extends Component {
               <Button
                 appearance={'_basic-accent'}
                 type={'submit'}
-                text={'Login'}
+                text={i18n.t('start')}
               />
               
               <div className={style.bottom_login_btn}>
-                <span>or </span>
-                <NavLink to="/register">register</NavLink>
+                <span>{i18n.t('or')} </span>
+                <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
               </div>
             </div>
           </form>
