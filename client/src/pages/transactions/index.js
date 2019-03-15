@@ -60,9 +60,9 @@ class Transactions extends Component {
     const isOriginTournamentDeposit = item.origin === 'tournament deposit';
     const isOriginTournamentWinning = item.origin === 'tournament winning';
 
-    const amountWidth = {'--width': transactionsTableCaptions.amount.width};
-    const dateWidth = {'--width': transactionsTableCaptions.date.width};
-    const origintWidth = {'--width': transactionsTableCaptions.origin.width};
+    const amountWidth = transactionsTableCaptions.amount.width;
+    const dateWidth = transactionsTableCaptions.date.width;
+    const originWidth = transactionsTableCaptions.origin.width;
 
     const Wrapper = ({children, ...props }) => {
       if (item.tournamentId) {
@@ -72,17 +72,17 @@ class Transactions extends Component {
       }
       return <div {...props}>{children}</div>
     }
-
+    
     return <Wrapper key={item._id} className={className}>
-      <div className={itemClass} style={amountWidth}>
+      <div className={itemClass} style={{'--width': amountWidth}}>
         <span className={textClass}>${item.amount}</span>
       </div>
 
-      <div className={itemClass} style={dateWidth}>
+      <div className={itemClass} style={{'--width': dateWidth}}>
         <span className={textClass}>{formattedDate}</span>
       </div>
 
-      <div className={itemClass} style={origintWidth}>
+      <div className={itemClass} style={{'--width': originWidth}}>
         <span className={cx(textClass, style.operation, {
           'plus': isOriginUserDeposit || isOriginTournamentWinning,
           'minus': isOriginUserWithdraw || isOriginTournamentDeposit,
