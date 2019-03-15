@@ -1,134 +1,77 @@
 import React, { Component } from 'react';
-import Button from '../button/index';
-import ChampionCard from '../champion-card';
-import TransactionService from '../../services/transactionService';
-import Modal from '../../components/modal';
+import Button from 'components/button/index';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
-import classnames from 'classnames';
+import classnames from 'classnames/bind';
+import defaultAvatar from 'assets/placeholder.png';
+import i18n from 'i18n';
 import style from './style.module.css';
-import uuid from 'uuid';
 
 const cx = classnames.bind(style);
 
-class chooseChampion extends Component {
+class ChooseChampion extends Component {
+  state = {
+    ids: [],
+  };
 
-  constructor() {
-    super();
-    this.transactionService = new TransactionService();
-    this.state = {
-      userBalance: 0,
-      choosedChampions: [],
-      modalChoose: false,
-      modalChooseFree: false,
-    };
-  }
+  toggleChampion = id => {
+    let ids = [...this.state.ids];
+    const index = ids.indexOf(id);
 
-  showModal = () => {
-    if (this.props.tournamentEntry === 0){
-      this.setState({
-        modalChooseFree: true,
-      });
-    }
-    if (this.props.tournamentEntry > 0){
-      this.setState({
-        modalChoose: true,
-      });
-    }
-  }
- 
-  participateInTournament = (event) => {
-    event.preventDefault();
-    this.props.setChoosedChampions(this.state.choosedChampions);
-  }
-
-  isChampionChoosed = (championName) => this.state.choosedChampions.map(item => item.name).includes(championName);
-
-  selectChampion = (champion) => {
-
-    let choosedChampions = this.state.choosedChampions;
-    let choosedChampionsNames = choosedChampions.map(item => item.name);
-
-    if (choosedChampions.length === 5) {
-      if (choosedChampionsNames.includes(champion.name)) {
-        choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
-        this.setState({ choosedChampions });
-        return;
-      }
+    if (index === -1 && ids.length === 5) {
       return;
     }
 
-    if (!choosedChampionsNames.includes(champion.name)) {
-      this.setState({ choosedChampions: [...choosedChampions, champion] });
+    if (index === -1) {
+      ids.push(id);
     } else {
-      choosedChampions.splice(choosedChampionsNames.indexOf(champion.name), 1);
-      this.setState({ choosedChampions });
+      ids.splice(index, 1);
     }
-  }
 
-  componentDidMount = async () => {
-    const userBalance = await this.transactionService.getUserBalance();
+    this.setState({ ids });
+  };
 
-    this.setState({
-      userBalance: userBalance.balance,
-    });
-  }
+  addPlayers = () => {
+    this.props.action(this.state.ids);
+  };
 
   render() {
-    let userBalance = this.state.userBalance;
-    let { closeChoose, champions, tournamentEntry } = this.props;
+    return <div className={style.wrapper}>
+      <div className={style.modal}>
+        <header className={style.header}>
+          <h3 className={style.title}>{i18n.t('choose_your_champion')}</h3>
 
-    let areChampionsSelected = this.state.choosedChampions.length < 5;
-    let isUserHasMoneyToPlay = userBalance >= tournamentEntry;
-    let isButtonDisabled = (isUserHasMoneyToPlay === false) ? true : areChampionsSelected;
-    return (
-      <div className={style.wrap}>
-        <div className={style.add_сhampion}>
-          <div className={style.header_add}>
-            <h2>Choose your champion</h2>
-            <Button
-              appearance={'_icon-transparent'}
-              icon={<CloseIcon />}
-              onClick={closeChoose}
-            />
+          <button className={style.close} onClick={this.props.onClose}>
+            <CloseIcon />
+          </button>
+        </header>
+
+        <div className={style.content}>
+          <div className={style.list}>
+            {this.props.champions.map(item => <div
+              className={cx('item', {'_is-checked': this.state.ids.indexOf(item.id) !== -1})}
+              key={item._id}
+              onClick={() => this.toggleChampion(item.id)}
+            >
+              <div className={style.image}>
+                <img src={defaultAvatar} alt={i18n.t('champion_avatar')} />
+              </div>
+
+              <p className={style.name}>{item.name}</p>
+            </div>)}
           </div>
-
-          <form onSubmit={this.showModal}>
-            {this.state.modalChoose && <Modal
-              textModal={'You should pay entry ' + tournamentEntry + '$ ?'}
-              closeModal={this.closeModalChoose}
-              submitClick={this.participateInTournament}
-            />}
-
-            {this.state.modalChooseFree && <Modal
-              textModal={'Do you want to start with such a list of players?'}
-              closeModal={this.closeModalChoose}
-              submitClick={this.participateInTournament}
-            />}
-
-            <div className={style.players}>
-              {champions.map(champion => <ChampionCard
-                key={uuid()}
-                name={champion.name}
-                avatar={champion.photo}
-                className={cx({ choosed: this.isChampionChoosed(champion.name) })}
-                onClick={() => this.selectChampion(champion)}
-              />)}
-            </div>
-
-            <div className={style.footer_add}>
-              <Button
-                appearance={'_basic-accent'}
-                onClick={this.showModal}
-                text={'Add players'}
-                disabled={isButtonDisabled}
-                type="button"
-              />
-              {!isUserHasMoneyToPlay && <p className={style.warning}>Sorry, you don't have enough money to take part in a tournament</p>}
-            </div>
-          </form>
         </div>
+
+        <footer className={style.footer}>
+          <Button
+            appearance="_basic-accent"
+            text={i18n.t('add_players')}
+            className={style.button}
+            disabled={this.state.ids.length === 0}
+            onClick={this.addPlayers}
+          />
+        </footer>
       </div>
-    );
+    </div>;
   }
 }
-export default chooseChampion;
+export default ChooseChampion;

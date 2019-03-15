@@ -6,6 +6,7 @@ import http from '../../services/httpService';
 
 import Button from '../../components/button';
 import style from './style.module.css';
+import i18n from 'i18n';
 
 class Profile extends Component {
   constructor() {
@@ -60,7 +61,7 @@ class Profile extends Component {
       }),
     });
   
-    this.notificationService.show("Your data has been updated.");
+    this.notificationService.show(i18n.t('update_data'));
   }
   
   render() {
@@ -68,7 +69,7 @@ class Profile extends Component {
     return (
       <div className={style.home_page}>
         <main>
-          <h1>Profile settings – {this.state.formData.username}</h1>
+          <h1>{i18n.t('setting_profile')} – {this.state.formData.username}</h1>
 
           <div className={style.content}>
             {/* <ProfileSidebar withData={false} /> */}
@@ -76,7 +77,7 @@ class Profile extends Component {
             <div className={style.form_container}>
               <form className={style.form} onSubmit={this.handleSubmit}>
                 <div>
-                  <label>Username</label>
+                  <label>{i18n.t('username')}</label>
                   <input
                     type="text"
                     name="username"
@@ -86,7 +87,7 @@ class Profile extends Component {
                 </div>
 
                 <div>
-                  <label>Email</label>
+                  <label>{i18n.t('email')}</label>
                   <input
                     type="text"
                     name="email"
@@ -96,7 +97,7 @@ class Profile extends Component {
                 </div>
 
                 <div>
-                  <label>About</label>
+                  <label>{i18n.t('about')}</label>
                   <textarea
                     name="about"
                     value={this.state.formData.about}
@@ -104,7 +105,7 @@ class Profile extends Component {
                   />
                 </div>
 
-                <Button appearance={'_basic-accent'} text={'Save changes'} />
+                <Button appearance={'_basic-accent'} text={i18n.t('save_changes')} />
               </form>
 
               {/* <div className={style.password_recovery}>

@@ -27,6 +27,25 @@ export default class AuthService {
     return result;
   }
 
+  oauthLogin = async (email) => {
+    let response = await fetch('/api/authentication/oauth', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    });
+
+    const result = await response.json();
+
+    this.setToken(result.token); // Setting the token in localStorage
+    
+    return result;
+  }
+
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem(this.tokenName);

@@ -2,13 +2,12 @@
 }
 
 .table .empty {
-  --height: 300px;
+  --height: 20px;
   overflow: hidden;
   height: var(--height);
-  text-align: center;
   line-height: var(--height);
   font-weight: var(--font-weight-bold);
-  font-size: 20px;
+  font-size: 16px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -25,6 +24,7 @@
   display: flex;
   align-items: center;
   width: calc(var(--width) * 1px);
+  min-width: 0;
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -81,6 +81,7 @@
   display: flex;
   align-items: center;
   width: calc(var(--width) * 1px);
+  min-width: 0;
   padding-left: 16px;
   padding-right: 16px;
 }

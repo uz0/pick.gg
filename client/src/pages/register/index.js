@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import i18n from 'i18next'
 
 import AuthService from '../../services/authService';
 import NotificationService from '../../services/notificationService';
@@ -33,13 +34,13 @@ class Register extends Component {
   submitForm = async event => {
     event.preventDefault();
 
-    let { username, password, confirmPassword } = this.state;
+    let { username, password, email, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
-      this.notificationService.show("Passwords must be equal");
+      this.notificationService.show(i18n.t('equal_password'));
     }
-    if ( username === "" || password === "" || confirmPassword === "" ){
-      this.notificationService.show("Error empty field");
+    if (!username || !password || !confirmPassword || !email ){
+      this.notificationService.show(i18n.t('empty_field'));
     }
     await fetch('/api/authentication/register', {
       method: 'POST',
@@ -49,6 +50,7 @@ class Register extends Component {
       },
       body: JSON.stringify({
         username,
+        email,
         password,
       }),
     })
@@ -69,26 +71,33 @@ class Register extends Component {
         <NotificationContainer />
 
         <div className={style.form_block}>
-          <div className={style.info_block}>Register</div>
+          <div className={style.info_block}>{i18n.t('register')}</div>
 
           <form onSubmit={this.submitForm}>
             <Input
-              label="Login"
+              label={i18n.t('username')}
               name="username"
               type="text"
               action={this.onChange('username')}
               autofocus
             />
-            
+
             <Input
-              label="Password"
+              label={i18n.t('email')}
+              name="email"
+              type="email"
+              action={this.onChange('email')}
+            />
+
+            <Input
+              label={i18n.t('password')}
               name="password"
               type="password"
               action={this.onChange('password')}
             />
             
             <Input
-              label="Confirm password"
+              label={i18n.t('password_confirm')}
               name="confirmPassword"
               type="password"
               action={this.onChange('confirmPassword')}
@@ -98,12 +107,12 @@ class Register extends Component {
               <Button
                 appearance={'_basic-accent'}
                 type={'submit'}
-                text={'Register'}
+                text={i18n.t('register_enter')}
               />
               
               <div className={style.bottom_login_btn}>
-                <span>or </span>
-                <NavLink to="/login">login</NavLink>
+                <span>{i18n.t('or')} </span>
+                <NavLink to="/login">{i18n.t('login_enter')}</NavLink>
               </div>
             </div>
           </form>
