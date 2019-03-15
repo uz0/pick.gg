@@ -83,4 +83,5 @@ export default {translation: {
   entry_cost: 'Entry Cost',
   original_tournament: 'Original Tournament',
   my_team: 'My Team',
+  youve_been_registered_for_the_tournament: 'you been registered for the tournament',
 }};
