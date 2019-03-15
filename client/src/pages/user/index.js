@@ -99,14 +99,14 @@ class User extends Component {
               </div>
               <div>
                 <h2>{i18n.t('recent_tournaments')}</h2>
-
                 {tournaments.length === 0 && <div className={style.zero_info}>{i18n.t('not_yet_tournaments')}</div>}
                 <div className={style.tournaments_block}>
                   {tournaments.length > 0 && <div className={style.header_tournaments}>
                     <p>{i18n.t('tournaments_name')}</p>
                     <p>{i18n.t('date')}</p>
                     <p>{i18n.t('users')}</p>
-                    <p>{i18n.t('entry')}</p>                  </div>}
+                    <p>{i18n.t('entry')}</p>
+                  </div>}
                   {tournaments.map(item => (
                     <NavLink key={item._id} to={`/tournaments/${item._id}`}>
                       <div className={style.card_tournament}>

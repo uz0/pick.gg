@@ -19,7 +19,6 @@ import { ReactComponent as TrophyIcon } from '../../assets/trophy.svg';
 
 import style from './style.module.css';
 import classnames from 'classnames';
-import i18n from 'i18n';
 
 const cx = classnames.bind(style);
 
@@ -336,9 +335,9 @@ class App extends Component {
 
           <div className={style.tournament_bottom}>
             <div className={style.tournament_matches}>
-              <h3>{i18n.t('matches')}</h3>
+              <h3>Matches</h3>
 
-              {matches.length === 0 ? <p className={style.status_matches}>{i18n.t('matches_soon')}</p> : matches.map((item, index) => (
+              {matches.length === 0 ? <p className={style.status_matches}>{"Matches will appear soon"}</p> : matches.map((item, index) => (
                 <NavLink
                   to="/"
                   target="_blank"

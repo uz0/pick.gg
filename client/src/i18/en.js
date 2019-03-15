@@ -11,7 +11,7 @@ export default {translation: {
   date_from: 'Date from',
   deposit: 'Deposit',
   email: 'Email',
-  entry: 'Entry $',
+  entry: 'Entry',
   earned: 'earned',
   empty_field: 'Error empty field',
   equal_password: 'Passwords must be equal',
@@ -62,4 +62,7 @@ export default {translation: {
   winner_get: 'Winner will get:',
   waiting_players: 'Waiting for new players',
   zero_tournaments: 'This user has not yet participated in tournaments',
+  select_tournament: 'Select tournament',
+  tournament: 'Tournament',
+  there_is_no_tournaments_yet: 'There is no tournaments yet',
 }};

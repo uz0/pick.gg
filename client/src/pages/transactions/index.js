@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import TransactionsService from '../../services/transactionService';
 import moment from 'moment';
 import style from './style.module.css';
-import i18n from 'i18n'
+
 
 class Transactions extends Component {
 
@@ -60,14 +60,12 @@ class Transactions extends Component {
           <h1>Transactions History</h1>
 
           {transactionData.length === 0 && <div className={style.notification}>You haven't had any transactions yet</div>}
-
           {transactionData.length > 0 && <Fragment>
             <div className={style.block_header}>
               <div className={style.amount}>Amount</div>
               <div className={style.date}>Date</div>
               <div className={style.operation}>Operation</div>
             </div>
-
             <div className={style.block_history}>
               {transactionData.map(item => (
                 <div className={style.item_history} key={item._id}>
@@ -78,13 +76,9 @@ class Transactions extends Component {
               ))}
             </div>
           </Fragment>}
-
         </main>
       </div>
     );
-
   }
-
 }
-
 export default Transactions;

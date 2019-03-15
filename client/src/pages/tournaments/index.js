@@ -10,9 +10,9 @@ import Select from 'components/filters/select';
 import Table from 'components/table';
 import NewTournamentModal from 'components/new-tournament';
 import Preloader from 'components/preloader';
+import i18n from 'i18n';
 
 import style from './style.module.css';
-import i18n from 'i18n';
 
 const tournamentsTableCaptions = {
   name: {
@@ -129,12 +129,12 @@ class Tournaments extends Component {
     }
 
     return <div className={style.tournaments}>
-      <h2 className={style.title}>Tournaments</h2>
+      <h2 className={style.title}>{i18n.t('tournaments')}</h2>
 
       <div className={style.content}>
         <div className={style.sidebar}>
           <Select
-            defaultOption="Select tournament"
+            defaultOption={i18n.t('select_tournament')}
             options={this.state.realTournaments}
             label={i18n.t('tournament_list')}
             onChange={this.onTournamentFilterChange}
@@ -174,7 +174,7 @@ class Tournaments extends Component {
             className={style.table}
             renderRow={this.renderRow}
             isLoading={this.state.isLoading}
-            emptyMessage={i18n.t('not_yet_tournaments')}
+            emptyMessage={i18n.t('there_is_no_tournaments_yet')}
           />
         </div>
       </div>
