@@ -52,7 +52,7 @@ class Transactions extends Component {
     this.updateData();
   }
 
-  operationType = operation => {
+  getOperationType = operation => {
     let className = null;
 
     switch(operation){
@@ -93,7 +93,7 @@ class Transactions extends Component {
       </div>
 
       <div className={itemClass} style={{'--width': transactionsTableCaptions.origin.width}}>
-        <span className={cx(textClass, style.operation, this.operationType(item.origin))}>{item.origin}</span>
+        <span className={cx(textClass, style.operation, this.getOperationType(item.origin))}>{item.origin}</span>
       </div>
     </Wrapper>;
   }
