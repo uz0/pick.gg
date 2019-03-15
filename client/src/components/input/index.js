@@ -1,26 +1,39 @@
-import React from 'react';
-
+import React, { Component } from 'react';
+import classnames from "classnames/bind"
 import style from './style.module.css';
 
-const Input = ({ label, name, placeholder, type, autofocus, value, action, className, ...props }) => {
-  return (
-    <label className={style.input_component}>
-      <p className={style.label_component}>
-        {label}
-      </p>
-      
-      <input
-        {...props}
-        name={name}
-        placeholder={placeholder}
-        className={className}
-        type={type}
-        autoFocus={autofocus}
-        value={value}
-        onChange={(e) => action(e)}
-      />
-    </label>
-  );
-};
+const cx = classnames.bind(style);
+
+class Input extends Component {
+  render(){
+
+    const {
+      type,
+      label,
+      name,
+      value,
+      onInput,
+      className,
+      placeholder
+    } = this.props;
+
+    return (
+      <div className={cx('wrapper', className)}>
+
+        {label && <label>{label}</label>}
+
+        <input
+          type={type}
+          name={name}
+          value={value}
+          placeholder={placeholder}
+          onInput={(event) => onInput(event)}
+          onChange={() => {}}
+        />
+
+      </div>
+    );
+  };
+}
 
 export default Input;

@@ -1,15 +1,26 @@
-.input_component {
+.wrapper {
+  --font-size: 20px;
+  --label-color: var(--accent-color);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
-.input_component p {
-  margin: 0;
+.wrapper label {
+  color: var(--label-color);
+  font-size: var(--font-size);
 }
 
-.input_component input[type="date"]::-webkit-inner-spin-button,
-.input_component input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  cursor: pointer;
+.wrapper input {
+  --height: 40px;
+  --border-radius: 4px;
+  --background-color: var(--primary-color);
+  --color: #fff;
+  height: var(--height);
+  padding-left: calc(var(--height) * 0.25);
+  padding-right: calc(var(--height) * 0.25);
+  font-size: var(--font-size);
+  color: var(--color);
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
 }
