@@ -94,7 +94,7 @@ class Tournaments extends Component {
     const formattedDate = moment(item.tournament.date).format('MMM DD');
     const entry = item.entry === 0 ? 'Free' : item.entry;
 
-    return <NavLink to={`/tournaments/${item._id}`} className={className}>
+    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
         <span className={textClass}>{item.name}</span>
       </div>
