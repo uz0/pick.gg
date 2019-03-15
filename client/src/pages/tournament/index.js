@@ -65,7 +65,7 @@ class Tournament extends Component {
     fantasyTournament: null,
     matches: [],
     users: [],
-    isLoading: false,
+    isLoading: true,
     isChooseChampionModalShown: false,
   };
 
