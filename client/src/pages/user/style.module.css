@@ -30,6 +30,7 @@ main {
 
 .content .user_statistics {
   flex-grow: 1;
+  padding-top: 15px;
 }
 
 .content .user_statistics .statistics_masonry {

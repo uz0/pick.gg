@@ -136,7 +136,7 @@ class Tournaments extends Component {
           <Select
             defaultOption={i18n.t('select_tournament')}
             options={this.state.realTournaments}
-            label={i18n.t('tournament')}
+            label={i18n.t('tournament_list')}
             onChange={this.onTournamentFilterChange}
             className={style.filter_item}
           />
@@ -158,11 +158,11 @@ class Tournaments extends Component {
 
           <div className={style.action}>
             <div className={style.background}>
-              <p className={style.question}>Not satisfied?</p>
+              <p className={style.question}>{i18n.t('not_satisfied')}</p>
             </div>
 
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              Create a new tournament
+              {i18n.t('create_new_tournament')}
             </button>
           </div>
         </div>
