@@ -13,8 +13,8 @@ class Register extends Component {
   constructor() {
     super();
 
-    this.NotificationService = new NotificationService();
-    this.AuthService = new AuthService();
+    this.notificationService = new NotificationService();
+    this.authService = new AuthService();
 
     this.state = {
       username: '',
@@ -36,10 +36,10 @@ class Register extends Component {
     let { username, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
-      this.NotificationService.show("Passwords must be equal");
+      this.notificationService.show("Passwords must be equal");
     }
     if ( username === "" || password === "" || confirmPassword === "" ){
-      this.NotificationService.show("Error empty field");
+      this.notificationService.show("Error empty field");
     }
     await fetch('/api/authentication/register', {
       method: 'POST',
@@ -55,10 +55,10 @@ class Register extends Component {
       .then(response => response.json())
       .then(async({ success, message }) => {
         if (!success) {
-          this.NotificationService.show(message);
+          this.notificationService.show(message);
           return;
         }
-        await this.AuthService.login(username, password);
+        await this.authService.login(username, password);
         this.props.history.replace('/tournaments');
       });
   }

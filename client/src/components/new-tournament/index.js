@@ -19,18 +19,18 @@ import style from './style.module.css';
 class newTournament extends Component {
   constructor() {
     super();
-    this.NotificationService = new NotificationService();
-    this.TournamentService = new TournamentService();
-    this.UserService = new UserService();
+    this.notificationService = new NotificationService();
+    this.tournamentService = new TournamentService();
+    this.userService = new UserService();
 
     this.rules = [];
     this.realTournaments = [];
   }
 
   async componentDidMount() {
-    const { tournaments } = await this.TournamentService.getRealTournaments();
+    const { tournaments } = await this.tournamentService.getRealTournaments();
     const { rules } = await http('/api/rules').then(res => res.json());
-    const { user } = await this.UserService.getMyProfile();
+    const { user } = await this.userService.getMyProfile();
 
     const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
     const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
@@ -88,19 +88,19 @@ class newTournament extends Component {
 
     let tournamentId = '';
     if (name === undefined){
-      this.NotificationService.show(`Name is empty`);
+      this.notificationService.show(`Name is empty`);
 
       return;
     }
 
     if (entry === undefined){
-      this.NotificationService.show(`Entry is empty`);
+      this.notificationService.show(`Entry is empty`);
 
       return;
     }
     
     if (this.state.user.balance < entry) {
-      this.NotificationService.show(`Insufficient funds ${entry - this.state.user.balance}$`);
+      this.notificationService.show(`Insufficient funds ${entry - this.state.user.balance}$`);
 
       return;
     }
@@ -108,7 +108,7 @@ class newTournament extends Component {
     if (tournament){
       tournamentId = this.state.filteredTournaments.find(item => item.name === tournament).id;
     } else {
-      this.NotificationService.show('Please, select tournament and try again');
+      this.notificationService.show('Please, select tournament and try again');
       return false;
     }
     
@@ -131,7 +131,7 @@ class newTournament extends Component {
       }),
     }).then(res => res.json());
 
-    this.NotificationService.show(`You've created tournament ${name}`);
+    this.notificationService.show(`You've created tournament ${name}`);
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 

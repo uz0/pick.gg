@@ -14,7 +14,7 @@ class chooseChampion extends Component {
 
   constructor() {
     super();
-    this.TransactionService = new TransactionService();
+    this.transactionService = new TransactionService();
     this.state = {
       userBalance: 0,
       choosedChampions: [],
@@ -66,7 +66,7 @@ class chooseChampion extends Component {
   }
 
   componentDidMount = async () => {
-    const userBalance = await this.TransactionService.getUserBalance();
+    const userBalance = await this.transactionService.getUserBalance();
 
     this.setState({
       userBalance: userBalance.balance,
