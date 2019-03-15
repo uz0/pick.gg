@@ -13,6 +13,7 @@ import find from 'lodash/find';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import defaultAvatar from 'assets/placeholder.png';
 import classnames from 'classnames/bind';
+import i18n from 'i18n';
 
 import style from './style.module.css';
 
@@ -20,34 +21,34 @@ const cx = classnames.bind(style);
 
 const leadersTableCaptions = {
   position: {
-    text: 'Position',
+    text: i18n.t('position'),
     width: 50,
   },
 
   name: {
-    text: 'Name',
+    text: i18n.t('name'),
     width: 190,
   },
 
   points: {
-    text: 'Points',
+    text: i18n.t('points'),
     width: 300,
   },
 };
 
 const matchesTableCaptions = {
   name: {
-    text: 'Name',
+    text: i18n.t('name'),
     width: 300,
   },
 
   points: {
-    text: 'Points',
+    text: i18n.t('points'),
     width: 100,
   },
 
   date: {
-    text: 'Date',
+    text: i18n.t('date'),
     width: 100,
   },
 };
@@ -110,15 +111,15 @@ class Tournament extends Component {
     const tournamentDate = this.state.fantasyTournament.tournament.date;
 
     if (moment().isSame(moment(tournamentDate), 'h')) {
-      return 'is going on';
+      return i18n.t('is_going_on');
     }
 
     if (moment(tournamentDate).isBefore(moment())) {
-      return 'archive';
+      return i18n.t('archive');
     }
 
     if (moment(tournamentDate).isAfter(moment())) {
-      return 'will be soon';
+      return i18n.t('will_be_soon');
     }
   }
 
@@ -149,7 +150,7 @@ class Tournament extends Component {
     await this.tournamentService.participateInTournament(this.tournamentId, ids);
     await this.loadTournamentData();
     this.toggleChampionModal();
-    this.notificationService.show(`You've been registered for the tournament`);
+    this.notificationService.show(i18n.t('youve_been_registered_for_the_tournament'));
   };
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
@@ -177,7 +178,7 @@ class Tournament extends Component {
 
     return <div className={className} key={item.id}>
       <div className={itemClass} style={{'--width': matchesTableCaptions.name.width}}>
-        <span className={textClass}>{`Match ${index + 1}`}</span>
+        <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
 
       <div className={itemClass} style={{'--width': matchesTableCaptions.points.width}}>
@@ -194,8 +195,8 @@ class Tournament extends Component {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isTournamentNotFree = this.state.fantasyTournament && this.state.fantasyTournament.entry > 0;
-    const prize = isTournamentNotFree ? this.getTournamentPrize() : 'Free';
-    const entry = isTournamentNotFree ? this.state.fantasyTournament.entry : 'Free';
+    const prize = isTournamentNotFree ? this.getTournamentPrize() : i18n.t('free');
+    const entry = isTournamentNotFree ? this.state.fantasyTournament.entry : i18n.t('free');
     const tournamentName = this.state.fantasyTournament && this.state.fantasyTournament.tournament.name;
     const fantasyTournamentName = this.state.fantasyTournament && this.state.fantasyTournament.name;
     const tournamentDate = this.state.fantasyTournament && moment(this.state.fantasyTournament.tournament.date).format('MMM DD, h:mm');
@@ -219,7 +220,7 @@ class Tournament extends Component {
 
         {isJoinButtonShown &&
           <Button
-            text="Join Tournament"
+            text={i18n.t('join_tournament')}
             appearance="_basic-accent"
             className={style.button}
             onClick={this.toggleChampionModal}
@@ -233,10 +234,10 @@ class Tournament extends Component {
 
           <div className={style.text}>
             <p>
-              Tournament is over! Winner is {winner.username}.
+              {i18n.t('tournament_over', { winner: winner.username })}
 
               {isTournamentNotFree &&
-                <span> He got ${prize} prize</span>
+                <span> {i18n.t('he_got_prize', { prize: `$${prize}` })}</span>
               }
             </p>
           </div>

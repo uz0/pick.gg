@@ -3,6 +3,7 @@ import Button from 'components/button/index';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import classnames from 'classnames/bind';
 import defaultAvatar from 'assets/placeholder.png';
+import i18n from 'i18n';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -37,7 +38,7 @@ class ChooseChampion extends Component {
     return <div className={style.wrapper}>
       <div className={style.modal}>
         <header className={style.header}>
-          <h3 className={style.title}>Choose your champion</h3>
+          <h3 className={style.title}>{i18n.t('choose_your_champion')}</h3>
 
           <button className={style.close} onClick={this.props.onClose}>
             <CloseIcon />
@@ -52,7 +53,7 @@ class ChooseChampion extends Component {
               onClick={() => this.toggleChampion(item.id)}
             >
               <div className={style.image}>
-                <img src={defaultAvatar} alt="Champion Avatar" />
+                <img src={defaultAvatar} alt={i18n.t('champion_avatar')} />
               </div>
 
               <p className={style.name}>{item.name}</p>
@@ -63,7 +64,7 @@ class ChooseChampion extends Component {
         <footer className={style.footer}>
           <Button
             appearance="_basic-accent"
-            text="Add Players"
+            text={i18n.t('add_players')}
             className={style.button}
             disabled={this.state.ids.length === 0}
             onClick={this.addPlayers}
