@@ -99,9 +99,9 @@ class User extends Component {
               </div>
               <div>
                 <h2>{i18n.t('recent_tournaments')}</h2>
-                {this.state.zeroTournaments && <div className={style.zero_info}>{i18n.t('zero_tournaments')}</div>}
+                {tournaments.length === 0 && <div className={style.zero_info}>{i18n.t('not_yet_tournaments')}</div>}
                 <div className={style.tournaments_block}>
-                  {!this.state.zeroTournaments && <div className={style.header_tournaments}>
+                  {tournaments.length > 0 && <div className={style.header_tournaments}>
                     <p>{i18n.t('tournaments_name')}</p>
                     <p>{i18n.t('date')}</p>
                     <p>{i18n.t('users')}</p>
