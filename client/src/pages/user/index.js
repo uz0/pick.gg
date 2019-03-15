@@ -17,7 +17,6 @@ import i18n from 'i18n';
 class User extends Component {
   constructor() {
     super();
-
     this.AuthService = new AuthService();
     this.UserService = new UserService();
     this.TransactionService = new TransactionService();
@@ -25,55 +24,50 @@ class User extends Component {
     this.state = {
       tournaments: [],
       userData: {},
-      loader: true,
+      totalWinnings: 0,
+      loading: true,
       zeroTournaments: true,
     };
   }
 
-  preloader = () => {
-    this.setState({
-      loader: false,
-    });
-  }
-
   async componentDidMount() {
 
-    let userId = this.props.match.params.id;
+    const userId = this.props.match.params.id;
 
-    let tournaments = await this.TournamentService.getUserTournamentsById(userId);
-    let winnings = await this.TransactionService.getTotalWinnings(userId);
-    let user = await this.UserService.getUserDataById(userId);
-    let userRating = await this.UserService.getUsersRating();
+    const { tournaments } = await this.TournamentService.getUserTournamentsById(userId);
+    const { winnings } = await this.TransactionService.getTotalWinnings(userId);
+    const { user } = await this.UserService.getUserDataById(userId);
+    const userRating = await this.UserService.getUsersRating();
+
     const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1;
-
-    let totalWinnings = winnings.winnings.reduce((acc, current) => { return acc + current.amount; }, 0);
+    const totalWinnings = winnings.reduce((acc, current) => { return acc + current.amount; }, 0);
 
     this.setState({
-      tournaments: tournaments.tournaments,
-      userData: user.user,
+      tournaments: tournaments,
+      userData: user,
       totalWinnings,
       totalUsers: userRating.rating.length,
       userPlace,
+      loading: false,
     });
-    this.preloader();
-    console.log(tournaments.tournaments.length === 0);
-    this.zeroTournaments = () => {
-      if (tournaments.tournaments.length === 0){
-        this.setState({
-          zeroTournaments: true,
-        });
-      }
-    };
 
   }
 
   render() {
 
+    const {
+      totalWinnings,
+      tournaments,
+      totalUsers,
+      userPlace,
+      loading
+    } = this.state;
+
+    const winnings = totalWinnings === 0 ? 'newbie' : `$ ${totalWinnings}`;
+
     return (
       <div className={style.home_page}>
-        <div className={style.bg_wrap} />
-
-        {this.state.loader && <Preloader />}
+        {loading && <Preloader />}
 
         <main>
           <div className={style.content}>
@@ -105,17 +99,15 @@ class User extends Component {
               </div>
               <div>
                 <h2>{i18n.t('recent_tournaments')}</h2>
-                
-                {this.state.zeroTournaments && <div className={style.zero_info}>{i18n.t('zero_tournaments')}</div>}
+
+                {tournaments.length === 0 && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
                 <div className={style.tournaments_block}>
-                  {!this.state.zeroTournaments && <div className={style.header_tournaments}>
+                  {tournaments.length > 0 && <div className={style.header_tournaments}>
                     <p>{i18n.t('tournaments_name')}</p>
                     <p>{i18n.t('date')}</p>
                     <p>{i18n.t('users')}</p>
-                    <p>{i18n.t('entry')}</p>
-                  
-                  </div>}
-                  {this.state.tournaments.map(item => (
+                    <p>{i18n.t('entry')}</p>                  </div>}
+                  {tournaments.map(item => (
                     <NavLink key={item._id} to={`/tournaments/${item._id}`}>
                       <div className={style.card_tournament}>
                         <p>{item.name}</p>

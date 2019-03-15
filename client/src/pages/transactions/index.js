@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import TransactionsService from '../../services/transactionService';
 import moment from 'moment';
 import style from './style.module.css';
@@ -13,33 +13,15 @@ class Transactions extends Component {
     });
 
     this.state = {
-      transitionData: [],
+      transactionData: [],
     };
   }
 
-  OperationData = (item) => {
-    if (item === "user deposit") {
-      return <div className={style.plus}>{item}</div>;
-    }
-
-    if (item === "user withdraw") {
-      return <div className={style.minus}>{item}</div>;
-    }
-
-    if (item === "tournament deposit") {
-      return <div className={style.minus}>{item}</div>;
-    // eslint-disable-next-line no-else-return
-    } else {
-      return <div className={style.plus}>{item}</div>;
-    }
-    
-  }
-
   updateData = async () => {
-    let historyData = await this.TransactionsService.getTransactionsHistory();
+    const historyData = await this.TransactionsService.getTransactionsHistory();
 
     this.setState({
-      transitionData: historyData.history,
+      transactionData: historyData.history,
     });
   }
 
@@ -49,28 +31,54 @@ class Transactions extends Component {
 
   render() {
 
+    const { transactionData } = this.state;
+
+    const operationType = operation => {
+      let className = null;
+
+      switch(operation){
+        case "user deposit":
+          className = style.plus;
+          break;
+        case "user withdraw":
+          className = style.minus;
+          break;
+        case "tournament deposit":
+          className = style.minus;
+          break;
+        default:
+          className = style.plus;
+          break;
+      }
+
+      return <div className={className}>{operation}</div>
+    }
+
     return (
       <div className={style.home_page}>
-        <div className={style.bg_wrap} />
-        
         <main className={style.main_block}>
-          <h1>{i18n.t('transactions_history')}</h1>
-          
-          <div className={style.block_header}>
-            <div className={style.amount}>{i18n.t('amount')}</div>
-            <div className={style.date}>{i18n.t('date')}</div>
-            <div className={style.operation}>{i18n.t('operation')}</div>
-          </div>
-          
-          <div className={style.block_history}>
-            {this.state.transitionData.map(item => (
-              <div className={style.item_history} key={item._id}>
-                <div>{item.amount}$</div>
-                <div>{moment(item.date).format('MMM DD')}</div>
-                {this.OperationData(item.origin)}
-              </div>
-            ))}
-          </div>
+          <h1>Transactions History</h1>
+
+          {transactionData.length === 0 && <div className={style.notification}>You haven't had any transactions yet</div>}
+
+          {transactionData.length > 0 && <Fragment>
+            <div className={style.block_header}>
+              <div className={style.amount}>Amount</div>
+              <div className={style.date}>Date</div>
+              <div className={style.operation}>Operation</div>
+            </div>
+
+            <div className={style.block_history}>
+              {transactionData.map(item => (
+                <div className={style.item_history} key={item._id}>
+                  <div>{item.amount}$</div>
+                  <div>{moment(item.date).format('MMM DD')}</div>
+                  {operationType(item.origin)}
+                </div>
+              ))}
+            </div>
+          </Fragment>}
+
         </main>
       </div>
     );

@@ -29,7 +29,7 @@ const TournamentController = io => {
   router.get('/real', async (req, res) => {
     const tournaments = await TournamentModel
       .find({
-        date: {$gt: moment().toISOString()},
+        date: {$lt: moment().toISOString()},
       })
       .populate('champions')
       .populate('matches')
@@ -105,6 +105,8 @@ const TournamentController = io => {
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
       .populate('tournament')
+      .populate({ path: 'winner', select: 'id username' })
+      .populate({ path: 'creator', select: 'id username' })
       .populate({
         path: 'tournament',
         populate: {
@@ -147,10 +149,6 @@ const TournamentController = io => {
 
     if (!entry) {
       message = 'Enter entry price';
-    }
-
-    if (!rules) {
-      message = 'Enter rules';
     }
 
     if (message) {
@@ -233,13 +231,15 @@ const TournamentController = io => {
       return;
     }
 
-    if(user.balance < tournament.entry){
-      res.json({
-        success: false,
-        message: "You have not enough money to take part in this tournament",
-      });
-    } else {
-      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
+    if (`${tournament.creator}` !== `${userId}`) {
+      if(user.balance < tournament.entry){
+        res.json({
+          success: false,
+          message: "You have not enough money to take part in this tournament",
+        });
+      } else {
+        await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
+      }
     }
 
     tournamentUsers.push({

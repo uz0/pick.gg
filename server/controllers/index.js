@@ -7,6 +7,7 @@ import RuleController from "./ruleController";
 import PlayerController from "./playerController";
 import TransactionController from "./transactionController";
 import SystemController from "./systemController";
+import AdminController from "./adminController";
 
 export {
   HomeController,
@@ -18,4 +19,5 @@ export {
   PlayerController,
   TransactionController,
   SystemController,
+  AdminController,
 };

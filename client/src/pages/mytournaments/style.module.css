@@ -146,33 +146,6 @@
   color: #000;
 }
 
-.bg_wrap {
-  position: absolute;
-  background: url('../../assets/bg-login.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: inherit;
-  z-index: -1;
-  width: 100%;
-  top: 0;
-  left: 0;
-  min-height: 600px;
-  opacity: 0.6;
-}
-
-.bg_wrap img {
-  position: relative;
-}
-
-.bg_wrap::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 100%;
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, #11162a 100%);
-}
 @media (max-width: 1440px) {
   .home_page { 
     width: 70%;

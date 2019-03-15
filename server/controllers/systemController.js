@@ -185,77 +185,116 @@ const SystemController = () => {
     });
   })
 
+  router.get('/delete/:id', async (req, res) => {
+    const id = req.param.id;
+    await FantasyTournament.deleteOne({_id: id})
+    res.send({
+      id,
+      success: "success"
+    })
+  })
+
   router.get('/finalize', async (req, res) => {
-
-    // here we will store refs of the tournaments without winner and finished matches
-    let finishedTournaments = [];
-
-    // Query all tournaments without winner
     const tournaments = await FantasyTournament
       .find({ winner: null })
       .populate('tournament')
-      .populate('rules.rule')
-      .populate({ path: 'users.players', select: 'name' })
-      .populate({ path: 'users.user', select: '_id username' })
+
       .populate({
         path: 'tournament',
-        populate: {
-          path: 'champions',
-        }
-      })
-      .populate({
-        path: 'tournament',
+
         populate: {
           path: 'matches',
+
           populate: {
             path: 'results'
           },
-        }
+        },
       })
 
+    const calculateChampionsPoints = params => {
+      const { rules, results } = params;
+      let sum = 0;
 
-    // Filter tournaments, leaving only finished ones
-    tournaments.forEach(tournament => {
+      results.forEach(result => {
+        const initialRule = find(rules, { rule: result.rule });
+        const multiple = initialRule.score * result.score;
+        sum += multiple;
+      });
 
-      // presume that all matches of the tournament are finished
-      let allMatchesCompleted = true;
+      return sum;
+    };
 
-      tournament.tournament.matches.forEach(match => {
-        if(!match.completed){
-          allMatchesCompleted = false;
-        }
-      })
+    for (let i = 0; i < tournaments.length; i++) {
+      const matches = tournaments[i].tournament.matches;
+      const rules = tournaments[i].rules;
+      const users = tournaments[i].users;
 
-      if (allMatchesCompleted){
-        // finishedTournaments.push(tournament)
-        finishedTournaments.push({
-          _id: tournament._id,
-          users: tournament.users,
-          matches: tournament.tournament.matches,
-          rules: tournament.rules,
-        })
+      if (!matches || matches.length === 0) {
+        continue;
       }
 
-    })
+      if (!users || users.length === 0) {
+        continue;
+      }
 
-    const findTournamentWinner = (tournament) => {
+      let isAllMatchesCompleted = true;
 
-      const users = tournament.users;
-      const usersResults = [];
+      for (let j = 0; j < matches.length; j++) {
+        if (!matches[j].completed) {
+          isAllMatchesCompleted = false;
+        }
+      }
 
+      if (!isAllMatchesCompleted) {
+        continue;
+      }
+
+      let championsPoints = {};
+
+      tournaments[i].tournament.champions_ids.forEach(id => {
+        championsPoints[id] = 0;
+      });
+
+      for (let j = 0; j < matches.length; j++) {
+        matches[j].results.playersResults.forEach(result => {
+          const points = calculateChampionsPoints({results: result.results, rules});
+          championsPoints[result.playerId] += points;
+        });
+      }
+
+      let winner = {
+        points: 0,
+        user: null,
+      };
+
+      for (let j = 0; j < users.length; j++) {
+        let sum = 0;
+
+        users[j].players_ids.forEach(id => {
+          sum += championsPoints[id];
+        });
+
+        if (sum > winner.points) {
+          winner = {
+            points: sum,
+            user: users[j].user,
+          };
+        }
+      }
+
+      const winnerSum = tournaments[i].entry * users.length;
+      await UserModel.findByIdAndUpdate({ _id: winner.user }, {new: true, $inc: { balance: winnerSum }});
+      await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, {winner: winner.user});
+
+      await TransactionModel.create({
+        userId: winner.user,
+        amount: winnerSum,
+        origin: 'tournament winning',
+        date: Date.now(),
+      });
     }
 
-
-    finishedTournaments.forEach(tournament => {
-      findTournamentWinner(tournament);
-    })
-
-    res.send({
-      // tournaments,
-      finishedTournaments,
-      // tournament, 
-    })
-
+    res.send({ success: 'Success' });
   });
 
   router.get('/tournaments', async (req, res) => {

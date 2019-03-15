@@ -43,8 +43,6 @@ class Start extends Component {
       <div className={style.login_page}>
 
         <section className={style.login_section}>
-          <div className={style.bg_wrap} />
-          
           <div className={style.start_content}>
             <h1>Fantasy league</h1>
             

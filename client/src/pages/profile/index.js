@@ -72,7 +72,6 @@ class Profile extends Component {
     
     return (
       <div className={style.home_page}>
-        <div className={style.bg_wrap} />
         <main>
           <h1>{i18n.t('setting_profile')} – {this.state.formData.username}</h1>
 
