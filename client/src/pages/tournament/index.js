@@ -157,7 +157,7 @@ class Tournament extends Component {
     const totalScore = this.getTotalUserScore(item.user._id);
     const progressPercents = this.getCalcUserProgress(item.user._id);
 
-    return <div className={className} key={item.id}>
+    return <div className={className} key={item.user._id}>
       <div className={cx('leader_num_cell', itemClass)} style={{'--width': leadersTableCaptions.position.width}}>
         <span className={textClass}>{index + 1}</span>
       </div>
