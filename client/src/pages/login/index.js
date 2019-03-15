@@ -54,6 +54,10 @@ class Login extends Component {
     }
   };
 
+  onFailureGoogleLogin = async data => {
+    this.NotificationService.show(i18n.t(data.error));
+  };
+
   componentWillMount() {
     if (this.auth.isLoggedIn()) this.props.history.replace('/');
   }
@@ -106,7 +110,7 @@ class Login extends Component {
                 clientId={config.google_client_id}
                 buttonText="Google"
                 onSuccess={this.onSuccessGoogleLogin}
-                onFailure={data => console.log(data)}
+                onFailure={this.onFailureGoogleLogin}
               />
             </div>
           </form>
