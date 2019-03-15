@@ -66,7 +66,9 @@ class Transactions extends Component {
 
     const Wrapper = ({children, ...props }) => {
       if (item.tournamentId) {
-        return <Link to={`/tournaments/${item.tournamentId}`} {...props}>{children}</Link>
+        return <Link to={`/tournaments/${item.tournamentId}`} {...props}>
+          {children}
+        </Link>
       }
       return <div {...props}>{children}</div>
     }
