@@ -15,9 +15,9 @@ const Select = ({
     <label className={style.label}>{ label }</label>
   }
 
-  <select onChange={onChange}>
+  <select onChange={onChange} defaultValue="">
     {defaultOption &&
-      <option selected value="">{defaultOption}</option>
+      <option value="">{defaultOption}</option>
     }
 
     {options.map(option => <option key={option._id || option.id} value={option._id || option.id}>{option.name}</option>)}

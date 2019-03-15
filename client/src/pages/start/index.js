@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import style from './style.module.css';
 import AuthService from '../../services/authService';
+import i18n from "i18next";
 
 import tournamentsList from '../../assets/faq/tournaments_list.png';
 import tournamentsFinished from '../../assets/faq/tournament_finished.png';
@@ -20,7 +21,7 @@ class Start extends Component {
       password: '',
     };
   }
-
+  
   handleChange = event => {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
@@ -47,12 +48,11 @@ class Start extends Component {
             
             <div className={style.start_btns}>
               <NavLink to={startButtonLink}>
-                <button>Start</button>
+                <button>{i18n.t('start')}</button>
               </NavLink>
-              
               <div>
-                <span>or </span>
-                <NavLink to="/register">register</NavLink>
+                <span>{i18n.t('or')} </span>
+                <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
               </div>
             </div>
           </div>
@@ -61,8 +61,8 @@ class Start extends Component {
         <section className={style.guide}>
           <div className={style.step}>
             <div>
-              <h2>1. Choose fantasy tournament</h2>
-              <p>Choose fantasy tournament you would like to take part in.</p>
+              <h2>1. {i18n.t('guade_choose')}</h2>
+              <p>{i18n.t('guade_choose_content')}</p>
             </div>
             <div>
               <img src={tournamentsList} alt="Tournaments list"/>
@@ -70,8 +70,8 @@ class Start extends Component {
           </div>
           <div className={cx(style.step, style.align_right)}>
             <div>
-              <h2>2. Create your dream team</h2>
-              <p>Pick 5 players from the players list.</p>
+              <h2>2. {i18n.t('guade_create')}</h2>
+              <p>{i18n.t('guade_create_content')}</p>
             </div>
             <div>
               <img src={championsCards} alt="User team"/>
@@ -79,8 +79,8 @@ class Start extends Component {
           </div>
           <div className={style.step}>
             <div>
-              <h2>3. Win money</h2>
-              <p>Pick 5 players from the players list.</p>
+              <h2>3. {i18n.t('guade_win')}</h2>
+              <p>{i18n.t('guade_win_content')}</p>
             </div>
             <div>
               <img src={tournamentsFinished} alt="Tournament result"/>

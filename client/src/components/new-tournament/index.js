@@ -15,6 +15,7 @@ import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
 import style from './style.module.css';
+import i18n from 'i18n'
 
 class newTournament extends Component {
   constructor() {
@@ -145,7 +146,7 @@ class newTournament extends Component {
         <div className={style.new_tournament}>
 
           <div className={style.create_block}>
-            <p>Create a new tournament</p>
+            <p>{i18n.t('create_new_tournament')}</p>
           </div>
 
           {this.state.modalChoose && <Modal
@@ -170,7 +171,7 @@ class newTournament extends Component {
               <div className={style.top_block}>
                 <Input
                   action={this.onChange}
-                  label="Name"
+                  label={i18n.t('tournaments_name')}
                   name="name"
                   type="text"
                 />
@@ -180,12 +181,12 @@ class newTournament extends Component {
                   name="tournament"
                   values={this.state.filteredTournaments}
                   option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
-                  label="Tournament (from list)"
+                  label={i18n.t('tournament_list')}
                 />
 
                 <Input
                   action={this.onChange}
-                  label="Entry $"
+                  label={i18n.t('entry')}
                   name="entry"
                   type="text"
                 />
