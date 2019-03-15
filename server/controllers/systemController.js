@@ -288,6 +288,7 @@ const SystemController = () => {
 
       await TransactionModel.create({
         userId: winner.user,
+        tournamentId: tournaments[i]._id,
         amount: winnerSum,
         origin: 'tournament winning',
         date: Date.now(),

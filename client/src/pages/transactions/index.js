@@ -1,82 +1,110 @@
-import React, { Component, Fragment } from 'react';
-import TransactionsService from '../../services/transactionService';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Table from 'components/table';
+import TransactionsService from 'services/transactionService';
 import moment from 'moment';
+import classnames from 'classnames/bind';
 import style from './style.module.css';
 
+const cx = classnames.bind(style);
+
+const transactionsTableCaptions = {
+  amount: {
+    text: 'Amount',
+    width: 110,
+  },
+
+  date: {
+    text: 'Date',
+    width: 110,
+  },
+
+  origin: {
+    text: 'Operation',
+    width: 250,
+  },
+};
 
 class Transactions extends Component {
 
   constructor() {
     super();
-    this.TransactionsService = new TransactionsService({
+    this.transactionsService = new TransactionsService({
       onUpdate: () => this.updateData(),
     });
 
     this.state = {
-      transactionData: [],
+      transactions: [],
+      isLoading: true,
     };
   }
 
   updateData = async () => {
-    const historyData = await this.TransactionsService.getTransactionsHistory();
+    const historyData = await this.transactionsService.getTransactionsHistory();
 
     this.setState({
-      transactionData: historyData.history,
+      transactions: historyData.history,
+      isLoading: false,
     });
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.updateData();
   }
 
-  render() {
+  renderRow = ({ className, itemClass, textClass, item }) => {
+    const formattedDate = moment(item.date).format('MMM DD');
 
-    const { transactionData } = this.state;
+    const isOriginUserDeposit = item.origin === 'user deposit';
+    const isOriginUserWithdraw = item.origin === 'user withdraw';
+    const isOriginTournamentDeposit = item.origin === 'tournament deposit';
+    const isOriginTournamentWinning = item.origin === 'tournament winning';
 
-    const operationType = operation => {
-      let className = null;
+    const amountWidth = transactionsTableCaptions.amount.width;
+    const dateWidth = transactionsTableCaptions.date.width;
+    const originWidth = transactionsTableCaptions.origin.width;
 
-      switch(operation){
-        case "user deposit":
-          className = style.plus;
-          break;
-        case "user withdraw":
-          className = style.minus;
-          break;
-        case "tournament deposit":
-          className = style.minus;
-          break;
-        default:
-          className = style.plus;
-          break;
+    const Wrapper = ({children, ...props }) => {
+      if (item.tournamentId) {
+        return <Link to={`/tournaments/${item.tournamentId}`} {...props}>
+          {children}
+        </Link>
       }
-
-      return <div className={className}>{operation}</div>
+      return <div {...props}>{children}</div>
     }
+    
+    return <Wrapper key={item._id} className={className}>
+      <div className={itemClass} style={{'--width': amountWidth}}>
+        <span className={textClass}>${item.amount}</span>
+      </div>
 
+      <div className={itemClass} style={{'--width': dateWidth}}>
+        <span className={textClass}>{formattedDate}</span>
+      </div>
+
+      <div className={itemClass} style={{'--width': originWidth}}>
+        <span className={cx(textClass, style.operation, {
+          'plus': isOriginUserDeposit || isOriginTournamentWinning,
+          'minus': isOriginUserWithdraw || isOriginTournamentDeposit,
+        })}>{item.origin}</span>
+      </div>
+    </Wrapper>;
+  }
+
+  render() {
     return (
-      <div className={style.home_page}>
-        <main className={style.main_block}>
-          <h1>Transactions History</h1>
+      <div className={style.transactions}>
+        <h1 className={style.title}>Transactions History</h1>
 
-          {transactionData.length === 0 && <div className={style.notification}>You haven't had any transactions yet</div>}
-          {transactionData.length > 0 && <Fragment>
-            <div className={style.block_header}>
-              <div className={style.amount}>Amount</div>
-              <div className={style.date}>Date</div>
-              <div className={style.operation}>Operation</div>
-            </div>
-            <div className={style.block_history}>
-              {transactionData.map(item => (
-                <div className={style.item_history} key={item._id}>
-                  <div>{item.amount}$</div>
-                  <div>{moment(item.date).format('MMM DD')}</div>
-                  {operationType(item.origin)}
-                </div>
-              ))}
-            </div>
-          </Fragment>}
-        </main>
+        <Table
+          captions={transactionsTableCaptions}
+          items={this.state.transactions}
+          className={style.transactions_table}
+          renderRow={this.renderRow}
+          isLoading={this.state.isLoading}
+          emptyMessage="You haven't had any transactions yet"
+        />
+
       </div>
     );
   }
