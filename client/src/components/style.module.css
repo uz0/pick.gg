@@ -94,6 +94,10 @@ body {
   width: 50px;
 }
 
+.login_btn + .social {
+  margin-top: 16px;
+}
+
 @media(max-width: 1440px) {
   .start_content h1 {
     font-size: 140px;

@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import i18n from 'i18next'
 
+import GoogleLogin from 'react-google-login';
 import AuthService from '../../services/authService';
 import NotificationService from '../../services/notificationService';
 import NotificationContainer from '../../components/notification/notification-container';
 
 import Input from '../../components/input';
 import Button from '../../components/button';
+import config from 'config';
+
 import style from '../../components/style.module.css';
 
 class Login extends Component {
@@ -38,9 +41,21 @@ class Login extends Component {
     }
   }
 
+  onSuccessGoogleLogin = async data => {
+    const profile = data.getBasicProfile();
+    const email = profile.getEmail();
+
+    const authRequest = await this.auth.oauthLogin(email);
+
+    if (authRequest.success){
+      this.props.history.replace('/tournaments');
+    } else {
+      this.NotificationService.show(authRequest.message);
+    }
+  };
+
   componentWillMount() {
     if (this.auth.isLoggedIn()) this.props.history.replace('/');
-    
   }
 
   render() {
@@ -84,6 +99,15 @@ class Login extends Component {
                 <span>{i18n.t('or')} </span>
                 <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
               </div>
+            </div>
+
+            <div className={style.social}>
+              <GoogleLogin
+                clientId={config.google_client_id}
+                buttonText="Google"
+                onSuccess={this.onSuccessGoogleLogin}
+                onFailure={data => console.log(data)}
+              />
             </div>
           </form>
         </div>
