@@ -77,4 +77,10 @@ export default {translation: {
   will_be_soon: 'Will be soon',
   champion_avatar: 'Champion Avatar',
   choose_your_champion: 'Choose your champion',
+  created_by: 'Created By',
+  information: 'information',
+  prize_pool: 'Prize Pool',
+  entry_cost: 'Entry Cost',
+  original_tournament: 'Original Tournament',
+  my_team: 'My Team',
 }};
