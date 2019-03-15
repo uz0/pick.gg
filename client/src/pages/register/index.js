@@ -34,12 +34,12 @@ class Register extends Component {
   submitForm = async event => {
     event.preventDefault();
 
-    let { username, password, confirmPassword } = this.state;
+    let { username, password, email, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
       this.NotificationService.show(i18n.t('equal_password'));
     }
-    if ( username === "" || password === "" || confirmPassword === "" ){
+    if (!username || !password || !confirmPassword || !email ){
       this.NotificationService.show(i18n.t('empty_field'));
     }
     await fetch('/api/authentication/register', {
@@ -50,6 +50,7 @@ class Register extends Component {
       },
       body: JSON.stringify({
         username,
+        email,
         password,
       }),
     })
@@ -80,7 +81,14 @@ class Register extends Component {
               action={this.onChange('username')}
               autofocus
             />
-            
+
+            <Input
+              label={i18n.t('email')}
+              name="email"
+              type="email"
+              action={this.onChange('email')}
+            />
+
             <Input
               label={i18n.t('password')}
               name="password"
