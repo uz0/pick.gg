@@ -48,7 +48,7 @@ class Transactions extends Component {
     });
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.updateData();
   }
 
