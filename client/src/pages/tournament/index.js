@@ -213,7 +213,7 @@ class Tournament extends Component {
 
           <div className={style.info}>
             <span>{tournamentDate}</span>
-            <span>Created by {tournamentCreator}</span>
+            <span>{i18n.t('created_by')} {tournamentCreator}</span>
             <div className={style.status}>{status}</div>
           </div>
         </div>
@@ -244,39 +244,39 @@ class Tournament extends Component {
         </div>
       }
 
-      <h3 className={style.subtitle}>Information</h3>
+      <h3 className={style.subtitle}>{i18n.t('information')}</h3>
 
       <div className={style.list}>
         <div className={style.item}>
-          <label className={style.title}>Prize Pool</label>
+          <label className={style.title}>{i18n.t('prize_pool')}</label>
           <p className={style.value}>{isTournamentNotFree ? `$${prize}` : prize}</p>
         </div>
 
         <div className={style.item}>
-          <label className={style.title}>Entry cost</label>
+          <label className={style.title}>{i18n.t('entry_cost')}</label>
           <p className={style.value}>{isTournamentNotFree ? `$${entry}` : entry}</p>
         </div>
 
         <div className={style.item}>
-          <label className={style.title}>Original Tournament</label>
+          <label className={style.title}>{i18n.t('original_tournament')}</label>
           <p className={style.value}>{tournamentName}</p>
         </div>
 
         <div className={style.item}>
-          <label className={style.title}>Rules</label>
+          <label className={style.title}>{i18n.t('rules')}</label>
           <p className={style.value}>b1 / c1 / t2 / s2</p>
         </div>
       </div>
 
       {currentUserParticipant &&
-        <h3 className={style.subtitle}>My Team</h3>
+        <h3 className={style.subtitle}>{i18n.t('my_team')}</h3>
       }
 
       {currentUserParticipant && champions.length > 0 &&
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
-              <img src={defaultAvatar} alt="Champion Avatar" />
+              <img src={defaultAvatar} alt={i18n.t('champion_avatar')}/>
             </div>
 
             <span className={style.name}>{champion.name}</span>
@@ -286,7 +286,7 @@ class Tournament extends Component {
 
       <div className={style.section}>
         <div className={style.matches}>
-          <h3 className={style.subtitle}>Matches</h3>
+          <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
 
           <Table
             noCaptions
@@ -300,7 +300,7 @@ class Tournament extends Component {
         </div>
 
         <div className={style.leaders}>
-          <h3 className={style.subtitle}>Leaderboard</h3>
+          <h3 className={style.subtitle}>{i18n.t('leaderboard')}</h3>
 
           <Table
             noCaptions
