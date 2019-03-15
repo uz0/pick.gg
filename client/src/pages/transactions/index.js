@@ -73,7 +73,7 @@ class Transactions extends Component {
       return <div {...props}>{children}</div>
     }
 
-    return <Wrapper className={className}>
+    return <Wrapper key={item._id} className={className}>
       <div className={itemClass} style={amountWidth}>
         <span className={textClass}>${item.amount}</span>
       </div>
