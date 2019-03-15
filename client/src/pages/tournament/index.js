@@ -145,6 +145,26 @@ class Tournament extends Component {
     console.log(next);
   };
 
+  getRulesNames = () => {
+    if (!this.state.fantasyTournament) {
+      return;
+    }
+
+    const rules = this.state.fantasyTournament.rules;
+    let str = '';
+
+    rules.forEach(rule => {
+      if (!str) {
+        str = rule.rule.name[0] + rule.score;
+        return;
+      }
+
+      str += ` / ${rule.rule.name[0] + rule.score}`;
+    });
+
+    return str;
+  };
+
   addPlayers = async ids => {
     this.setState({ isLoading: true });
     await this.tournamentService.participateInTournament(this.tournamentId, ids);
@@ -205,6 +225,7 @@ class Tournament extends Component {
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
+    const rules = this.getRulesNames();
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -264,7 +285,7 @@ class Tournament extends Component {
 
         <div className={style.item}>
           <label className={style.title}>{i18n.t('rules')}</label>
-          <p className={style.value}>b1 / c1 / t2 / s2</p>
+          <p className={style.value}>{rules}</p>
         </div>
       </div>
 
