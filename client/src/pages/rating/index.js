@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
+import { NavLink } from 'react-router-dom';
 
+import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
 import Preloader from '../../components/preloader';
 
-import AuthService from '../../services/authService';
-import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
-import { NavLink } from 'react-router-dom';
 import uuid from 'uuid';
 import style from './style.module.css';
 import i18n from 'i18n';
@@ -15,9 +13,7 @@ import i18n from 'i18n';
 class Rating extends Component {
   constructor() {
     super();
-    this.AuthService = new AuthService();
-    this.UserService = new UserService();
-    this.TournamentService = new TournamentService();
+    this.userService = new UserService();
     this.state = {
       playersList: [],
       loader: true,
@@ -30,7 +26,7 @@ class Rating extends Component {
     })
 
   componentDidMount = async() => {
-    let rating = await this.UserService.getUsersRating();
+    let rating = await this.userService.getUsersRating();
     rating.rating.forEach((item, index) => item.place = index + 1);
 
     this.setState({ playersList: rating.rating });

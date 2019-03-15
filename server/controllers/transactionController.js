@@ -6,7 +6,7 @@ let router = express.Router();
 const TransactionController = () => {
 
   router.get('/', async (req, res) => {
-    let transaction = await TransactionModel.find();
+    const transaction = await TransactionModel.find();
     res.send({
       transaction,
     }) 
@@ -14,7 +14,7 @@ const TransactionController = () => {
 
   router.get('/history', async (req, res) => {
     const userId = req.decoded._id;
-    let history = await TransactionModel.find({ userId }, null, { sort: { date: 1 }});
+    const history = await TransactionModel.find({ userId }, null, { sort: { date: -1 }});
     res.send({
       history,
     })

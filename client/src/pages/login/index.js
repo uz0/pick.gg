@@ -18,7 +18,7 @@ class Login extends Component {
     super();
 
     this.auth = new AuthService();
-    this.NotificationService = new NotificationService();
+    this.notificationService = new NotificationService();
 
     this.state = {
       username: '',
@@ -37,7 +37,7 @@ class Login extends Component {
     if (authRequest.success){
       this.props.history.replace('/tournaments');
     } else {
-      this.NotificationService.show(authRequest.message);
+      this.notificationService.show(authRequest.message);
     }
   }
 

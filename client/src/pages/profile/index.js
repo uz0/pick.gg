@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import AuthService from '../../services/authService';
-import TournamentService from '../../services/tournamentService';
 import NotificationService from '../../services/notificationService';
 import UserService from '../../services/userService';
 import http from '../../services/httpService';
@@ -14,10 +12,8 @@ class Profile extends Component {
   constructor() {
     super();
 
-    this.AuthService = new AuthService();
-    this.UserService = new UserService();
-    this.NotificationService = new NotificationService();
-    this.TournamentService = new TournamentService();
+    this.userService = new UserService();
+    this.notificationService = new NotificationService();
 
     this.state = {
       formData: {
@@ -39,7 +35,7 @@ class Profile extends Component {
 
 
   async componentDidMount(){
-    let userData = await this.UserService.getMyProfile();
+    let userData = await this.userService.getMyProfile();
     this.setState({ formData: {
       username: userData.user.username,
       email: userData.user.email,
@@ -65,7 +61,7 @@ class Profile extends Component {
       }),
     });
   
-    this.NotificationService.show(i18n.t('update_data'));
+    this.notificationService.show(i18n.t('update_data'));
   }
   
   render() {
