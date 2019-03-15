@@ -41,26 +41,14 @@ class App extends Component {
     this.state = {
       tournaments: [],
       isLoading: false,
-      zeroTournaments: true,
-      fantasyTournaments: [],
     };
   }
 
   async componentDidMount() {
     let tournaments = await this.TournamentService.getMyTournaments();
-    const fantasyTournaments = await this.TournamentService.getFantasyTournaments();
-    console.log(tournaments.tournaments)
     this.setState({
       tournaments: tournaments.tournaments,
-      fantasyTournaments: fantasyTournaments.tournaments,
     });
-    this.zeroTournaments = () => {
-      if (tournaments.tournaments.length !== 0) {
-        this.setState({
-          zeroTournaments: false,
-        });
-      }
-    };
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {

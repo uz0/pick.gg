@@ -100,7 +100,7 @@ class User extends Component {
               <div>
                 <h2>{i18n.t('recent_tournaments')}</h2>
 
-                {tournaments.length === 0 && <div className={style.zero_info}>This user has not yet participated in tournaments</div>}
+                {tournaments.length === 0 && <div className={style.zero_info}>{i18n.t('not_yet_tournaments')}</div>}
                 <div className={style.tournaments_block}>
                   {tournaments.length > 0 && <div className={style.header_tournaments}>
                     <p>{i18n.t('tournaments_name')}</p>
