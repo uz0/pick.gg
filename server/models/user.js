@@ -5,7 +5,14 @@ export default mongoose.model('User', new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   about: { type: String },
-  email: { type: String, unique: true },
+
+  email: {
+    type: String, trim: true, index: {
+      unique: true,
+      partialFilterExpression: {email: {$type: 'string'}}
+    }
+  },
+
   balance: { type: Number },
   isAdmin : { type: Boolean },
 }));
