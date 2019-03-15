@@ -1,23 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
 
-import ChampionCard from 'components/champion-card';
 import Button from 'components/button';
-import ChooseChamp from 'components/choose-champion';
-import ChooseChampionCard from 'components/choose-champion-card';
+import ChooseChampionModal from 'components/choose-champion';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
 
-import AuthService from 'services/authService';
 import UserService from 'services/userService';
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
-import ChampionService from 'services/championService';
-import TransactionService from 'services/transactionService';
 import moment from 'moment';
-import map from 'lodash/map';
 import find from 'lodash/find';
-import uuid from 'uuid';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import defaultAvatar from 'assets/placeholder.png';
 import classnames from 'classnames/bind';
@@ -64,6 +56,7 @@ class Tournament extends Component {
   constructor() {
     super();
     this.tournamentService = new TournamentService();
+    this.notificationService = new NotificationService();
     this.userService = new UserService();
   }
 
@@ -72,14 +65,26 @@ class Tournament extends Component {
     matches: [],
     users: [],
     isLoading: false,
+    isChooseChampionModalShown: false,
   };
 
   async componentDidMount() {
-    this.setState({ isLoading: true });
-
-    const tournamentId = this.props.match.params.id;
-    const { tournament } = await this.tournamentService.getTournamentById(tournamentId);
     const { user } = await this.userService.getMyProfile();
+
+    this.setState({
+      currentUser: user,
+    });
+
+    this.loadTournamentData();
+  }
+
+  loadTournamentData = () => new Promise(async resolve => {
+    if (!this.state.isLoading) {
+      this.setState({ isLoading: true });
+    }
+
+    this.tournamentId = this.props.match.params.id;
+    const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
 
     const realTournament = tournament.tournament;
     const users = tournament.users;
@@ -88,11 +93,14 @@ class Tournament extends Component {
     this.setState({
       isLoading: false,
       fantasyTournament: tournament,
-      currentUser: user,
       matches,
       users,
     });
-  }
+
+    resolve();
+  });
+
+  toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
 
   getTournamentStatus = () => {
     if (!this.state.fantasyTournament) {
@@ -117,20 +125,31 @@ class Tournament extends Component {
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
 
   getCountMatchPoints = matchId => {
+    console.log(matchId);
     return 800;
   };
 
   getTotalUserScore = userId => {
+    console.log(userId);
     return 3423;
   };
 
   getCalcUserProgress = userId => {
+    console.log(userId);
     return 70;
   };
 
   leadersDefaultSorting = (prev, next) => {
-    console.log(prev)
-    console.log(next)
+    console.log(prev);
+    console.log(next);
+  };
+
+  addPlayers = async ids => {
+    this.setState({ isLoading: true });
+    await this.tournamentService.participateInTournament(this.tournamentId, ids);
+    await this.loadTournamentData();
+    this.toggleChampionModal();
+    this.notificationService.show(`You've been registered for the tournament`);
   };
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
@@ -173,7 +192,7 @@ class Tournament extends Component {
 
   render() {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
-    const champions = currentUserParticipant && currentUserParticipant.players || [];
+    const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isTournamentNotFree = this.state.fantasyTournament && this.state.fantasyTournament.entry > 0;
     const prize = isTournamentNotFree ? this.getTournamentPrize() : 'Free';
     const entry = isTournamentNotFree ? this.state.fantasyTournament.entry : 'Free';
@@ -184,6 +203,7 @@ class Tournament extends Component {
     const status = this.getTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     const isJoinButtonShown = !currentUserParticipant && !winner;
+    const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -198,7 +218,12 @@ class Tournament extends Component {
         </div>
 
         {isJoinButtonShown &&
-          <Button text="Join Tournament" appearance="_basic-accent" className={style.button} />
+          <Button
+            text="Join Tournament"
+            appearance="_basic-accent"
+            className={style.button}
+            onClick={this.toggleChampionModal}
+          />
         }
       </div>
 
@@ -250,7 +275,7 @@ class Tournament extends Component {
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
-              <img src={defaultAvatar} />
+              <img src={defaultAvatar} alt="Champion Avatar" />
             </div>
 
             <span className={style.name}>{champion.name}</span>
@@ -291,6 +316,14 @@ class Tournament extends Component {
 
       {this.state.isLoading &&
         <Preloader />
+      }
+
+      {this.state.isChooseChampionModalShown &&
+        <ChooseChampionModal
+          champions={tournamentChampions}
+          onClose={this.toggleChampionModal}
+          action={this.addPlayers}
+        />
       }
     </div>;
   }
