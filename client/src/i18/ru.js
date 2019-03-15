@@ -56,10 +56,14 @@ export default {translation: {
   transactions_history: 'История операций',
   update_data: 'Ваши данные обновлены.',
   username: 'Логин',
-  users: 'Пользователей',
+  users: 'Пользователи',
   user_not_participated: 'Этот пользователь еще не участвовал в турнирах',
   withdraw: 'Снять',
   winner_get: 'Победитель получит:',
   waiting_players: 'Ожидаем новых игроков',
-  zero_tournaments: 'Этот пользователь еще не участвовал в турнирах'
+  zero_tournaments: 'Этот пользователь еще не участвовал в турнирах',
+
+  select_tournament: 'Выберите турнир',
+  tournament: 'Турнир',
+  there_is_no_tournaments_yet: 'Еще нет турниров',
 }};
