@@ -16,22 +16,22 @@ import i18n from 'i18n';
 
 const tournamentsTableCaptions = {
   name: {
-    text: 'Name',
+    text: i18n.t('name'),
     width: 250,
   },
 
   date: {
-    text: 'Date',
+    text: i18n.t('date'),
     width: 100,
   },
 
   users: {
-    text: 'Users',
+    text: i18n.t('users'),
     width: 80,
   },
 
   entry: {
-    text: 'Entry',
+    text: i18n.t('entry'),
     width: 80,
   },
 };
@@ -136,21 +136,21 @@ class Tournaments extends Component {
           <Select
             defaultOption="Select tournament"
             options={this.state.realTournaments}
-            label="Tournament (from list)"
+            label={i18n.t('tournament_list')}
             onChange={this.onTournamentFilterChange}
             className={style.filter_item}
           />
 
           <Input
             type="date"
-            label="Date from"
+            label={i18n.t('date_from')}
             className={style.filter_item}
             onChange={this.onDateFilterChange}
           />
 
           <Input
             type="number"
-            label="Minimal entry"
+            label={i18n.t('minimal_entry')}
             className={style.filter_item}
             placeholder="$ 0.1"
             onChange={this.onEntryFilterChange}
@@ -158,11 +158,11 @@ class Tournaments extends Component {
 
           <div className={style.action}>
             <div className={style.background}>
-              <p className={style.question}>Not satisfied?</p>
+              <p className={style.question}>{i18n.t('not_satisfied')}</p>
             </div>
 
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              Create a new tournament
+              {i18n.t('create_new_tournament')}
             </button>
           </div>
         </div>
@@ -174,7 +174,7 @@ class Tournaments extends Component {
             className={style.table}
             renderRow={this.renderRow}
             isLoading={this.state.isLoading}
-            emptyMessage="There is no tournaments yet"
+            emptyMessage={i18n.t('not_yet_tournaments')}
           />
         </div>
       </div>
