@@ -4,36 +4,25 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-class Input extends Component {
-  render(){
+const Input = ({
+  type = 'text',
+  label,
+  name,
+  value,
+  onInput,
+  className,
+  placeholder
+}) => <div className={cx('wrapper', className)}>
 
-    const {
-      type,
-      label,
-      name,
-      value,
-      onInput,
-      className,
-      placeholder
-    } = this.props;
+  {label && <label>{label}</label>}
 
-    return (
-      <div className={cx('wrapper', className)}>
-
-        {label && <label>{label}</label>}
-
-        <input
-          type={type}
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          onInput={(event) => onInput(event)}
-          onChange={() => {}}
-        />
-
-      </div>
-    );
-  };
-}
+  <input
+    type={type}
+    name={name}
+    value={value}
+    placeholder={placeholder}
+    onInput={onInput}
+  />
+</div>;
 
 export default Input;
