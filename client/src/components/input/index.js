@@ -7,19 +7,16 @@ const cx = classnames.bind(style);
 const Input = ({
   type = 'text',
   label,
-  name,
-  value,
   onInput,
   className,
   placeholder
 }) => <div className={cx('wrapper', className)}>
-
-  {label && <label>{label}</label>}
+  {label &&
+    <label>{label}</label>
+  }
 
   <input
     type={type}
-    name={name}
-    value={value}
     placeholder={placeholder}
     onInput={onInput}
   />
