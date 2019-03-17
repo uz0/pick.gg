@@ -9,6 +9,7 @@ export default {translation: {
   choose_champion: 'Выбери своих чемпионов',
   date: 'Дата',
   date_from: 'Дата от',
+  dashboard: 'Панель управления',
   deposit: 'Депозит',
   email: 'Электронная почта',
   entry: 'Цена',
