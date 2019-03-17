@@ -26,10 +26,7 @@ class Login extends Component {
     };
   }
 
-  handleChange = (event) => {
-    event.preventDefault();
-    this.setState({ [event.target.name]: event.target.value });
-  }
+  handleChange = (event, input) => this.setState({ [input]: event.target.value });
 
   handleLogin = async event => {
     event.preventDefault();
@@ -72,24 +69,16 @@ class Login extends Component {
 
           <form onSubmit={this.handleLogin}>
             <Input
-              id="username"
               label={i18n.t('username')}
-              name="username"
-              placeholder={i18n.t('login')}
-              type="text"
-              autofocus
               value={this.state.username}
-              action={this.handleChange}
+              onInput={(event) => this.handleChange(event, 'username')}
             />
             
             <Input
-              id="password"
-              label={i18n.t('password')}
-              name="password"
-              placeholder="password"
               type="password"
+              label={i18n.t('password')}
               value={this.state.password}
-              action={this.handleChange}
+              onInput={(event) => this.handleChange(event, 'password')}
             />
             
             <div className={style.login_btn}>
