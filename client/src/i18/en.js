@@ -7,6 +7,7 @@ export default {translation: {
   create_new_tournament: 'Create a new tournament',
   create: 'Create',
   choose_champion: 'Choose your champion',
+  dashboard: 'Dashboard',
   date: 'Date',
   date_from: 'Date from',
   deposit: 'Deposit',
