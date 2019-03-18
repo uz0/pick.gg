@@ -84,13 +84,15 @@ class newTournament extends Component {
     });
   }
 
+  handleChange = (event, input) => this.setState({ [input]: event.target.value });
+
   submitForm = async () => {
     let { name, entry, rulesValues, tournament } = this.state;
 
     let tournamentId = '';
+
     if (name === undefined){
       this.notificationService.show(`Name is empty`);
-
       return;
     }
 
@@ -170,10 +172,9 @@ class newTournament extends Component {
             <div>
               <div className={style.top_block}>
                 <Input
-                  action={this.onChange}
                   label={i18n.t('tournaments_name')}
-                  name="name"
-                  type="text"
+                  value={this.state.name}
+                  onInput={(event) => this.handleChange(event, 'name')}
                 />
 
                 <Select
@@ -185,10 +186,9 @@ class newTournament extends Component {
                 />
 
                 <Input
-                  action={this.onChange}
                   label={i18n.t('entry')}
-                  name="entry"
-                  type="text"
+                  value={this.state.entry}
+                  onInput={(event) => this.handleChange(event, 'entry')}
                 />
               </div>
               
