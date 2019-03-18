@@ -7,12 +7,13 @@ import style from './style.module.css';
 class Dashboard extends Component {
   constructor() {
     super();
-    this.state = {};
   }
 
-  componentDidMount() {
-
-  }
+  state = {
+    isLoading: false,
+    fantasyTournaments: [],
+    realTournaments: [],
+  };
 
   render() {
     return (
@@ -25,9 +26,9 @@ class Dashboard extends Component {
               <h4>Menu</h4>
               <nav>
                 <NavLink to="/dashboard/tournaments">Tournaments</NavLink>
+                <NavLink to="/dashboard/fantasy">Fantasy Tournaments</NavLink>
                 <NavLink to="/dashboard/champions">Champions</NavLink>
-                <NavLink to="/dashboard/matches">Matches</NavLink>
-                <NavLink to="/dashboard/results">Match results</NavLink>
+                <NavLink to="/dashboard/users">Users</NavLink>
               </nav>
             </div>
           </div>
