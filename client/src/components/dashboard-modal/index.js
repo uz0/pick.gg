@@ -27,11 +27,13 @@ class Modal extends Component {
 
         {this.props.actions &&
           <div className={cx('actions', {'_is-center': this.props.isActionsCenter})}>
-            {this.props.actions.map(action => <button
+            {this.props.actions.map(action => <Button
+              appearance="_basic-accent"
               key={action.text}
               onClick={action.onClick}
               className={cx({'_is-danger': action.isDanger})}
-            >{action.text}</button>)}
+              text={action.text}
+            />)}
           </div>
         }
       </div>
