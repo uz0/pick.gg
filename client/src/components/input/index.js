@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from "classnames/bind"
 import style from './style.module.css';
+import { PromiseProvider } from 'mongoose';
 
 const cx = classnames.bind(style);
 
@@ -9,7 +10,8 @@ const Input = ({
   label,
   onInput,
   className,
-  placeholder
+  placeholder,
+  ...props,
 }) => <div className={cx('wrapper', className)}>
   {label &&
     <label>{label}</label>
@@ -19,6 +21,7 @@ const Input = ({
     type={type}
     placeholder={placeholder}
     onInput={onInput}
+    {...props}
   />
 </div>;
 
