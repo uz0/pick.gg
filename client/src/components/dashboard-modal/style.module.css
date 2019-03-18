@@ -11,6 +11,7 @@
 
 .wrapper .modal {
   --width: var(--container-width);
+  position: relative;
   display: flex;
   flex-direction: column;
   width: var(--width, 500px);
@@ -57,6 +58,7 @@
 }
 
 .wrapper .modal .content {
+  padding: 30px;
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
