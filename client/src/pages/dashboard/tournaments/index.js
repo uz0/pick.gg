@@ -31,8 +31,23 @@ class Tournaments extends Component {
 
   state = {
     tournaments: [],
+    tournamentEditingData: {},
+    isTournamentEditing: false,
     isLoading: false,
   };
+
+  editTournamentInit = (tournamentId) => {
+    const tournament = this.state.tournaments.filter(tournament => tournament._id === tournamentId)[0];
+    this.setState({
+      isTournamentEditing: true,
+      tournamentEditingData: tournament,
+    });
+  }
+
+  resetTournamentEditing = () => this.setState({
+    isTournamentEditing: false,
+    tournamentEditingData: {}
+  });
 
   async componentDidMount() {
     this.setState({ isLoading: true });
@@ -46,8 +61,9 @@ class Tournaments extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const formattedDate = moment(item.date).format('MMM DD');
+    const tournamentId = item._id;
 
-    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
+    return <div onClick={() => this.editTournamentInit(tournamentId)} className={className} key={item._id}>
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -55,11 +71,15 @@ class Tournaments extends Component {
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
         <span className={textClass}>{formattedDate}</span>
       </div>
-    </NavLink>;
+    </div>;
   }
 
   render() {
-    const { tournaments } = this.state;
+    const {
+      tournaments,
+      isTournamentEditing,
+      tournamentEditingData,
+    } = this.state;
 
     return <div className={style.tournaments}>
       <Table
@@ -71,9 +91,14 @@ class Tournaments extends Component {
         emptyMessage={i18n.t('there_is_no_tournaments_yet')}
       />
 
-      <Modal
-        title="Tournaments edit"
-      />
+      {isTournamentEditing &&
+        <Modal
+          title={tournamentEditingData.name}
+          close={this.resetTournamentEditing}
+        >
+          <h1>Modal window</h1>
+        </Modal>
+      }
     </div>;
   }
 }
