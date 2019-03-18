@@ -67,6 +67,11 @@ button:focus {
   outline: none;
 }
 
+input,
+select {
+  -moz-appearance: textfield;
+}
+
 @media (max-width: 1064px) {
   :root {
     --container-width: 100%;
