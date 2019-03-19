@@ -215,7 +215,7 @@ class Tournament extends Component {
     const time = moment(item.startDate).format('HH:mm');
     const points = this.getCountMatchPoints(item.id);
 
-    return <NavLink to={'match'} target="_blank" className={className} key={item.id}>
+    return <NavLink to={'/tournaments'} target="_blank" className={className} key={item.id}>
       <div className={itemClass} style={{'--width': matchesTableCaptions.name.width}}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
@@ -242,8 +242,7 @@ class Tournament extends Component {
     const tournamentCreator = this.state.fantasyTournament && this.state.fantasyTournament.creator.username;
     const tournamentCreatorLink = this.state.fantasyTournament && this.state.fantasyTournament.creator._id;
     const status = this.getTournamentStatus();
-    const tournamentStatus = this.getFantasyTournamentStatus()
-    console.log(tournamentStatus)
+    const tournamentStatus = this.getFantasyTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
@@ -330,6 +329,7 @@ class Tournament extends Component {
             </div>
 
             <span className={style.name}>{champion.name}</span>
+            <span className={style.scores}>Scores: +{champion.id}</span>
           </div>)}
         </div>
       }
