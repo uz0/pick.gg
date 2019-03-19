@@ -43,6 +43,11 @@
   margin-top: 8px;
 }
 
+.tournament .tournament_section .main .info a{
+  text-decoration: none;
+  color: #9696b0;
+}
+
 .tournament .tournament_section .main .info span {
   --height: 24px;
   overflow: hidden;
