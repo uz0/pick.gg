@@ -35,11 +35,15 @@ class newTournament extends Component {
 
     const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
     const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
-
+    const rulesValues = rules.reduce((obj, rule) => {
+      obj[rule._id] = 0;
+      return obj;
+    }, {})
     this.setState({
       filteredTournaments,
       rules,
       user,
+      rulesValues,
     });
   }
 
@@ -200,7 +204,7 @@ class newTournament extends Component {
                     <input
                       name={item._id}
                       onChange={this.onRulesInputChange}
-                      value={this.state.rulesValues[item._id] || ''}
+                      value={this.state.rulesValues[item._id]}
                       key={item._id}
                       type="number"
                       required
