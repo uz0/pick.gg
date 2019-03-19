@@ -69,6 +69,8 @@ export default {translation: {
   he_got_prize: 'He got {{prize}} prize',
   match: 'Match',
   join_tournament: 'Join Tournament',
+  join_tournament_and: 'Join Tournament and choose your champions',
+  wait_matches: 'Waiting for match results',
   free: 'Free',
   position: 'Position',
   points: 'Points',

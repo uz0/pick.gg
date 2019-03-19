@@ -69,6 +69,8 @@ export default {translation: {
   he_got_prize: 'Он получил {{prize}} приз',
   match: 'Матч',
   join_tournament: 'Присоединиться к турниру',
+  join_tournament_and: 'Присоединяйся к турниру и выбирай своих чемпионов',
+  wait_matches: 'Ожидаем результатов матчей',
   free: 'Free',
   position: 'Позиция',
   points: 'Поинты',
