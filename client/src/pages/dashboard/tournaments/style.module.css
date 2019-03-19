@@ -104,10 +104,6 @@
   color: var(--primary-color);
 }
 
-.tournaments .modal_match {
-  width: 750px !important;
-}
-
 /* .tournaments .title {
   --height: 24px;
   overflow: hidden;
