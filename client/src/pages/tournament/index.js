@@ -132,7 +132,16 @@ class Tournament extends Component {
       return i18n.t('will_be_soon');
     }
   }
-
+  getFantasyTournamentStatus = () => {
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const champions = (currentUserParticipant && currentUserParticipant.players) || [];
+    if(champions.length > 0){
+      return i18n.t('wait_matches');
+    }
+    if(champions.length === 0){
+      return i18n.t('join_tournament_and');
+    }
+  }
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
 
   getCountMatchPoints = matchId => {
@@ -206,7 +215,7 @@ class Tournament extends Component {
     const time = moment(item.startDate).format('HH:mm');
     const points = this.getCountMatchPoints(item.id);
 
-    return <div className={className} key={item.id}>
+    return <NavLink to={'match'} target="_blank" className={className} key={item.id}>
       <div className={itemClass} style={{'--width': matchesTableCaptions.name.width}}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
@@ -218,7 +227,7 @@ class Tournament extends Component {
       <div className={itemClass} style={{'--width': matchesTableCaptions.date.width}}>
         <span className={textClass}>{time}</span>
       </div>
-    </div>;
+    </NavLink>;
   };
 
   render() {
@@ -233,6 +242,8 @@ class Tournament extends Component {
     const tournamentCreator = this.state.fantasyTournament && this.state.fantasyTournament.creator.username;
     const tournamentCreatorLink = this.state.fantasyTournament && this.state.fantasyTournament.creator._id;
     const status = this.getTournamentStatus();
+    const tournamentStatus = this.getFantasyTournamentStatus()
+    console.log(tournamentStatus)
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
@@ -245,12 +256,16 @@ class Tournament extends Component {
 
           <div className={style.info}>
             <span>{tournamentDate}</span>
+
             <span>
               {i18n.t('created_by')}
               <NavLink to={`/user/${tournamentCreatorLink}`}> {tournamentCreator}</NavLink>
             </span>
+
             <div className={style.status}>{status}</div>
           </div>
+
+          <span className={style.fantasy_status}>{tournamentStatus}</span>
         </div>
 
         {isJoinButtonShown &&
