@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Button from 'components/button';
 import ChooseChampionModal from 'components/choose-champion';
@@ -230,12 +231,13 @@ class Tournament extends Component {
     const fantasyTournamentName = this.state.fantasyTournament && this.state.fantasyTournament.name;
     const tournamentDate = this.state.fantasyTournament && moment(this.state.fantasyTournament.tournament.date).format('MMM DD, h:mm');
     const tournamentCreator = this.state.fantasyTournament && this.state.fantasyTournament.creator.username;
+    const tournamentCreatorLink = this.state.fantasyTournament && this.state.fantasyTournament.creator._id;
     const status = this.getTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
-
+    
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
@@ -243,7 +245,10 @@ class Tournament extends Component {
 
           <div className={style.info}>
             <span>{tournamentDate}</span>
-            <span>{i18n.t('created_by')} {tournamentCreator}</span>
+            <span>
+              {i18n.t('created_by')}
+              <NavLink to={`/user/${tournamentCreatorLink}`}> {tournamentCreator}</NavLink>
+            </span>
             <div className={style.status}>{status}</div>
           </div>
         </div>
