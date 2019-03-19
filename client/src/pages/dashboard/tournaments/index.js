@@ -45,6 +45,10 @@ class Tournaments extends Component {
       rules: [],
       rulesValues: {},
     },
+    matchEditingData: {
+      date: '',
+      matchResults: [],
+    },
     isTournamentEditing: false,
     isMatchEditing: false,
     isLoading: false,
@@ -61,6 +65,37 @@ class Tournaments extends Component {
     });
   }
 
+  loadMatchData = () => new Promise(async resolve => {
+    if (!this.state.isLoading) {
+      this.setState({ isLoading: true });
+    }
+
+    this.tournamentId = this.props.match.params.id;
+
+    if (!this.tournamentId) {
+      return;
+    }
+
+    const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
+
+    if (!tournament) {
+      return;
+    }
+
+    const realTournament = tournament.tournament;
+    const users = tournament.users;
+    const matches = realTournament.matches;
+
+    this.setState({
+      isLoading: false,
+      fantasyTournament: tournament,
+      matches,
+      users,
+    });
+
+    resolve();
+  });
+
   editTournamentSubmit = () => console.log('submit');
 
   resetTournamentEditing = () => this.setState({
@@ -68,7 +103,10 @@ class Tournaments extends Component {
     tournamentEditingData: {}
   });
 
-  editMatchInit = () => this.setState({ isMatchEditing: true });
+  editMatchInit = () => {
+    console.log(this.state, 'this state');
+    this.setState({ isMatchEditing: true });
+  }
 
   editMatchReset = () => this.setState({ isMatchEditing: false });
 
@@ -100,6 +138,10 @@ class Tournaments extends Component {
         <span className={textClass}>{formattedDate}</span>
       </div>
     </div>;
+  }
+
+  renderResultInputsRow = () => {
+
   }
 
   render() {
@@ -168,11 +210,15 @@ class Tournaments extends Component {
 
           <div className={cx(style.section, style.matches_section)}>
             <div className={style.title}>Tournament Matches</div>
-            {tournamentEditingData.matches.map((champion, index) => <div key={champion._id} onClick={this.editMatchInit} className={style.match}>
+            {tournamentEditingData.matches.map((champion, index) => <div
+              key={champion._id}
+              onClick={this.editMatchInit}
+              className={style.match}
+            >
               {`Match ${index}`}
             </div>)}
           </div>
-          
+
           {/* <div className={style.rules_inputs}>
             {tournamentEditingData.rules.map(item =>
               <Input
@@ -191,18 +237,35 @@ class Tournaments extends Component {
 
         </Modal>}
 
-        {isMatchEditing && <Modal
-          title='Match Edit'
-          wrapClassName={style.modal_match}
-          close={this.editMatchReset}
-          actions={[{
-            text: 'Update match',
-            onClick: this.editTournamentSubmit,
-            isDanger: false,
-          }]}
-          >
-        </Modal>}
-
+      {isMatchEditing && <Modal
+        title='Match Edit'
+        wrapClassName={style.modal_match}
+        close={this.editMatchReset}
+        actions={[{
+          text: 'Update match',
+          onClick: this.editTournamentSubmit,
+          isDanger: false,
+        }]}
+      >
+        {tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
+          {champion.name}
+          <div className={style.rules_inputs}>
+            {tournamentEditingData.rules.map(item =>
+              <Input
+                placeholder={item.name}
+                className={style.rule_input}
+                name={item._id}
+                onChange={this.onRulesInputChange}
+                value={tournamentEditingData.rulesValues[item._id] || ''}
+                defaultValue={tournamentEditingData.rules[item._id]}
+                key={item._id}
+                type="number"
+                max="10"
+                required
+              />)}
+          </div>
+        </div>)}
+      </Modal>}
     </div>;
   }
 }
