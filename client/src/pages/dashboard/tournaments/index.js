@@ -11,6 +11,8 @@ import Select from 'components/select';
 import Button from 'components/button';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 
+import MatchModal from 'components/match-modal';
+
 import moment from 'moment';
 import i18n from 'i18n';
 
@@ -43,12 +45,10 @@ class Tournaments extends Component {
       name: '',
       date: '',
       rules: [],
+      champions: [],
       rulesValues: {},
     },
-    matchEditingData: {
-      date: '',
-      matchResults: [],
-    },
+    editingMatchId: '',
     isTournamentEditing: false,
     isMatchEditing: false,
     isLoading: false,
@@ -65,36 +65,36 @@ class Tournaments extends Component {
     });
   }
 
-  loadMatchData = () => new Promise(async resolve => {
-    if (!this.state.isLoading) {
-      this.setState({ isLoading: true });
-    }
+  // loadMatchData = () => new Promise(async resolve => {
+  //   if (!this.state.isLoading) {
+  //     this.setState({ isLoading: true });
+  //   }
 
-    this.tournamentId = this.props.match.params.id;
+  //   this.tournamentId = this.props.match.params.id;
 
-    if (!this.tournamentId) {
-      return;
-    }
+  //   if (!this.tournamentId) {
+  //     return;
+  //   }
 
-    const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
+  //   const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
 
-    if (!tournament) {
-      return;
-    }
+  //   if (!tournament) {
+  //     return;
+  //   }
 
-    const realTournament = tournament.tournament;
-    const users = tournament.users;
-    const matches = realTournament.matches;
+  //   const realTournament = tournament.tournament;
+  //   const users = tournament.users;
+  //   const matches = realTournament.matches;
 
-    this.setState({
-      isLoading: false,
-      fantasyTournament: tournament,
-      matches,
-      users,
-    });
+  //   this.setState({
+  //     isLoading: false,
+  //     fantasyTournament: tournament,
+  //     matches,
+  //     users,
+  //   });
 
-    resolve();
-  });
+  //   resolve();
+  // });
 
   editTournamentSubmit = () => console.log('submit');
 
@@ -103,10 +103,10 @@ class Tournaments extends Component {
     tournamentEditingData: {}
   });
 
-  editMatchInit = () => {
-    console.log(this.state, 'this state');
-    this.setState({ isMatchEditing: true });
-  }
+  editMatchInit = (matchId) => this.setState({
+    editingMatchId: matchId,
+    isMatchEditing: true
+  });
 
   editMatchReset = () => this.setState({ isMatchEditing: false });
 
@@ -210,9 +210,9 @@ class Tournaments extends Component {
 
           <div className={cx(style.section, style.matches_section)}>
             <div className={style.title}>Tournament Matches</div>
-            {tournamentEditingData.matches.map((champion, index) => <div
-              key={champion._id}
-              onClick={this.editMatchInit}
+            {tournamentEditingData.matches.map((match, index) => <div
+              key={match._id}
+              onClick={() => this.editMatchInit(match.id)}
               className={style.match}
             >
               {`Match ${index}`}
@@ -237,7 +237,14 @@ class Tournaments extends Component {
 
         </Modal>}
 
-      {isMatchEditing && <Modal
+        {isMatchEditing &&
+          <MatchModal
+            matchId={this.state.editingMatchId}
+            matchChampions={tournamentEditingData.champions}
+          />
+        }
+
+      {/* {isMatchEditing && <Modal
         title='Match Edit'
         wrapClassName={style.modal_match}
         close={this.editMatchReset}
@@ -265,7 +272,7 @@ class Tournaments extends Component {
               />)}
           </div>
         </div>)}
-      </Modal>}
+      </Modal>} */}
     </div>;
   }
 }
