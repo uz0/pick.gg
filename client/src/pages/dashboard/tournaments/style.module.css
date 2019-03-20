@@ -66,12 +66,12 @@
 }
 
 .tournaments .champions_section .champions .champion_add .select {
-  height: var(--height);
+  height: 60px;
   min-width: 200px;
   background-color: var(--primary-color);
   color: var(--accent-color);
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .tournaments .champions_section .champions .champion_add .button {
