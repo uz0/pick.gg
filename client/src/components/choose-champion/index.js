@@ -6,11 +6,14 @@ import defaultAvatar from 'assets/placeholder.png';
 import i18n from 'i18n';
 import style from './style.module.css';
 
+import Modal from 'components/modal'
+
 const cx = classnames.bind(style);
 
 class ChooseChampion extends Component {
   state = {
     ids: [],
+    isFreeTournamentModalShown: false,
   };
 
   toggleChampion = id => {
@@ -30,6 +33,8 @@ class ChooseChampion extends Component {
     this.setState({ ids });
   };
 
+  toggleFreeTournamentModal = () => this.setState({isFreeTournamentModalShown: !this.state.isFreeTournamentModalShown});
+
   addPlayers = () => {
     this.props.action(this.state.ids);
   };
@@ -44,6 +49,8 @@ class ChooseChampion extends Component {
             <CloseIcon />
           </button>
         </header>
+
+        {this.state.isFreeTournamentModalShown && <Modal textModal={i18n.t('free_tournament')} submitClick={this.addPlayers} closeModal={this.toggleFreeTournamentModal}/>}
 
         <div className={style.content}>
           <div className={style.list}>
@@ -67,7 +74,7 @@ class ChooseChampion extends Component {
             text={i18n.t('add_players')}
             className={style.button}
             disabled={this.state.ids.length === 0}
-            onClick={this.addPlayers}
+            onClick={this.toggleFreeTournamentModal}
           />
         </footer>
       </div>

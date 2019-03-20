@@ -62,6 +62,7 @@ class User extends Component {
     } = this.state;
 
     const winnings = totalWinnings === 0 ? 'newbie' : `$ ${totalWinnings}`;
+    const forTotal = totalWinnings === 0 ? '' : i18n.t('earned');
 
     return (
       <div className={style.home_page}>
@@ -85,8 +86,8 @@ class User extends Component {
                   </div>
 
                   <div className={style.item}>
-                    <div className={style.value}>$ {this.state.totalWinnings}</div>
-                    <div className={style.key}>{i18n.t('earned')}</div>
+                    <div className={style.value}>{winnings}</div>
+                    <div className={style.key}>{forTotal}</div>
                   </div>
 
                   <div className={style.item}>

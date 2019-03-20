@@ -35,11 +35,15 @@ class newTournament extends Component {
 
     const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
     const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
-
+    const rulesValues = rules.reduce((obj, rule) => {
+      obj[rule._id] = 0;
+      return obj;
+    }, {})
     this.setState({
       filteredTournaments,
       rules,
       user,
+      rulesValues,
     });
   }
 
@@ -84,13 +88,15 @@ class newTournament extends Component {
     });
   }
 
+  handleChange = (event, input) => this.setState({ [input]: event.target.value });
+
   submitForm = async () => {
     let { name, entry, rulesValues, tournament } = this.state;
 
     let tournamentId = '';
+
     if (name === undefined){
       this.notificationService.show(`Name is empty`);
-
       return;
     }
 
@@ -170,10 +176,9 @@ class newTournament extends Component {
             <div>
               <div className={style.top_block}>
                 <Input
-                  action={this.onChange}
                   label={i18n.t('tournaments_name')}
-                  name="name"
-                  type="text"
+                  value={this.state.name}
+                  onInput={(event) => this.handleChange(event, 'name')}
                 />
 
                 <Select
@@ -185,10 +190,9 @@ class newTournament extends Component {
                 />
 
                 <Input
-                  action={this.onChange}
                   label={i18n.t('entry')}
-                  name="entry"
-                  type="text"
+                  value={this.state.entry}
+                  onInput={(event) => this.handleChange(event, 'entry')}
                 />
               </div>
               
@@ -200,7 +204,7 @@ class newTournament extends Component {
                     <input
                       name={item._id}
                       onChange={this.onRulesInputChange}
-                      value={this.state.rulesValues[item._id] || ''}
+                      value={this.state.rulesValues[item._id]}
                       key={item._id}
                       type="number"
                       required
