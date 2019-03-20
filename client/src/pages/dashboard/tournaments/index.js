@@ -3,12 +3,15 @@ import { NavLink } from 'react-router-dom';
 
 import http from 'services/httpService';
 import TournamentService from 'services/tournamentService';
+import NotificationService from 'services/notificationService';
+import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
 import Select from 'components/select';
 import Button from 'components/button';
+import Preloader from 'components/preloader';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 
 import MatchModal from 'components/match-modal';
@@ -37,6 +40,8 @@ class Tournaments extends Component {
   constructor() {
     super();
     this.tournamentService = new TournamentService();
+    this.notificationService = new NotificationService();
+    this.adminService = new AdminService();
   }
 
   state = {
@@ -44,9 +49,7 @@ class Tournaments extends Component {
     tournamentEditingData: {
       name: '',
       date: '',
-      rules: [],
       champions: [],
-      rulesValues: {},
     },
     editingMatchId: '',
     isTournamentEditing: false,
@@ -65,7 +68,28 @@ class Tournaments extends Component {
     });
   }
 
-  editTournamentSubmit = () => console.log('submit');
+  editTournamentSubmit = async () => {
+    this.setState({ isLoading: true });
+
+    await http('/api/admin/tournaments/real', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tournamentId: this.state.tournamentEditingData._id,
+        tournament: this.state.tournamentEditingData,
+      })
+    });
+
+    const { tournaments } = await this.adminService.getRealTournaments();
+
+    this.setState({
+      isLoading: false,
+      tournaments,
+    }, () => this.notificationService.show('Tournament was successfully updated!'));
+  }
 
   resetTournamentEditing = () => this.setState({
     isTournamentEditing: false,
@@ -79,16 +103,21 @@ class Tournaments extends Component {
 
   matchEditingCompleted = () => this.setState({ isMatchEditing: false });
 
-  async componentDidMount() {
-    this.setState({ isLoading: true });
-    const { tournaments } = await this.tournamentService.getRealTournaments();
-    const { rules } = await http('/api/rules').then(res => res.json());
-
+  handleInputChange = (event) => {
+    const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
     this.setState({
       tournamentEditingData: {
-        rules,
-        rulesValues: {},
-      },
+        ...this.state.tournamentEditingData,
+        [event.target.name]: inputValue,
+      }
+    });
+  }
+
+  async componentDidMount() {
+    this.setState({ isLoading: true });
+    const { tournaments } = await this.adminService.getRealTournaments();
+
+    this.setState({
       tournaments,
       isLoading: false,
     });
@@ -115,6 +144,7 @@ class Tournaments extends Component {
       tournamentEditingData,
       isMatchEditing,
       isTournamentEditing,
+      isLoading,
     } = this.state;
 
     const modalTitle = `Editing ${tournamentEditingData.name}`;
@@ -126,7 +156,7 @@ class Tournaments extends Component {
         items={tournaments}
         className={style.table}
         renderRow={this.renderRow}
-        isLoading={this.state.isLoading}
+        isLoading={isLoading}
         emptyMessage={i18n.t('there_is_no_tournaments_yet')}
       />
 
@@ -140,14 +170,23 @@ class Tournaments extends Component {
             isDanger: false,
           }]}
         >
+
+          {isLoading &&
+            <Preloader />
+          }
+
           <Input
             label="Tournament name"
-            defaultValue={tournamentEditingData.name}
+            name="name"
+            value={tournamentEditingData.name || ''}
+            onChange={this.handleInputChange}
           />
           <Input
+            name="date"
             label="Tournament date"
             type="date"
-            defaultValue={editedTournamentDate}
+            value={editedTournamentDate || ''}
+            onChange={this.handleInputChange}
           />
 
           <div className={cx(style.section, style.champions_section)}>
@@ -184,61 +223,16 @@ class Tournaments extends Component {
             </div>)}
           </div>
 
-          {/* <div className={style.rules_inputs}>
-            {tournamentEditingData.rules.map(item =>
-              <Input
-                label={item.name}
-                className={style.rule_input}
-                name={item._id}
-                onChange={this.onRulesInputChange}
-                value={tournamentEditingData.rulesValues[item._id] || ''}
-                defaultValue={tournamentEditingData.rules[item._id]}
-                key={item._id}
-                type="number"
-                max="10"
-                required
-              />)}
-          </div> */}
-
         </Modal>}
 
-        {isMatchEditing &&
-          <MatchModal
-            matchId={this.state.editingMatchId}
-            matchChampions={tournamentEditingData.champions}
-            matchEditingCompleted={this.matchEditingCompleted}
-          />
-        }
+      {isMatchEditing &&
+        <MatchModal
+          matchId={this.state.editingMatchId}
+          matchChampions={tournamentEditingData.champions}
+          matchEditingCompleted={this.matchEditingCompleted}
+        />
+      }
 
-      {/* {isMatchEditing && <Modal
-        title='Match Edit'
-        wrapClassName={style.modal_match}
-        close={this.editMatchReset}
-        actions={[{
-          text: 'Update match',
-          onClick: this.editTournamentSubmit,
-          isDanger: false,
-        }]}
-      >
-        {tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
-          {champion.name}
-          <div className={style.rules_inputs}>
-            {tournamentEditingData.rules.map(item =>
-              <Input
-                placeholder={item.name}
-                className={style.rule_input}
-                name={item._id}
-                onChange={this.onRulesInputChange}
-                value={tournamentEditingData.rulesValues[item._id] || ''}
-                defaultValue={tournamentEditingData.rules[item._id]}
-                key={item._id}
-                type="number"
-                max="10"
-                required
-              />)}
-          </div>
-        </div>)}
-      </Modal>} */}
     </div>;
   }
 }
