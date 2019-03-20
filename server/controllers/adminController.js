@@ -53,11 +53,6 @@ const AdminController = () => {
     res.json({ match });
   });
 
-  router.get('/players', async (req, res) => {
-    const players = await PlayerModel.find();
-    res.json({ players });
-  });
-
   router.get('/results', async (req, res) => {
     const results = await MatchResultModel.find({playersResults: {$gt: []}});
     res.json({ results });
@@ -78,6 +73,18 @@ const AdminController = () => {
     const matchResult = await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
 
     res.json({ matchResult });
+  });
+
+
+  router.get('/players', async (req, res) => {
+    const players = await PlayerModel.find();
+    res.json({ players });
+  });
+
+  router.get('/players/:id', async (req, res) => {
+    const playerId = req.params.id;
+    const player = await PlayerModel.findById(playerId);
+    res.json({ player });
   });
 
   router.get('/users', async (req, res) => {
