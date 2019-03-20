@@ -25,6 +25,8 @@ const AdminController = () => {
       {
         name: tournament.name,
         date: tournament.date,
+        champions: tournament.champions,
+        champions_ids: tournament.champions_ids,
       },
       {
         upsert: true,
