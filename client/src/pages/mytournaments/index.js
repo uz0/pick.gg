@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import TournamentService from '../../services/tournamentService';
+import TournamentService from 'services/tournamentService';
 
 import Table from 'components/table';
 import Preloader from 'components/preloader';
@@ -43,10 +43,12 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    this.setState({ isLoading: true });
     let tournaments = await this.tournamentService.getMyTournaments();
 
     this.setState({
       tournaments: tournaments.tournaments,
+      isLoading: false,
     });
   }
 
@@ -75,7 +77,6 @@ class App extends Component {
 
   render() {
     let tournaments = this.state.tournaments;
-    console.log(tournaments)
     return (
       <div className={style.home_page}>
         <div className={style.main_block}>
