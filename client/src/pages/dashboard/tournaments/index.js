@@ -65,37 +65,6 @@ class Tournaments extends Component {
     });
   }
 
-  // loadMatchData = () => new Promise(async resolve => {
-  //   if (!this.state.isLoading) {
-  //     this.setState({ isLoading: true });
-  //   }
-
-  //   this.tournamentId = this.props.match.params.id;
-
-  //   if (!this.tournamentId) {
-  //     return;
-  //   }
-
-  //   const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
-
-  //   if (!tournament) {
-  //     return;
-  //   }
-
-  //   const realTournament = tournament.tournament;
-  //   const users = tournament.users;
-  //   const matches = realTournament.matches;
-
-  //   this.setState({
-  //     isLoading: false,
-  //     fantasyTournament: tournament,
-  //     matches,
-  //     users,
-  //   });
-
-  //   resolve();
-  // });
-
   editTournamentSubmit = () => console.log('submit');
 
   resetTournamentEditing = () => this.setState({
@@ -103,12 +72,12 @@ class Tournaments extends Component {
     tournamentEditingData: {}
   });
 
-  editMatchInit = (matchId) => this.setState({
+  matchEditingInit = (matchId) => this.setState({
     editingMatchId: matchId,
     isMatchEditing: true
   });
 
-  editMatchReset = () => this.setState({ isMatchEditing: false });
+  matchEditingCompleted = () => this.setState({ isMatchEditing: false });
 
   async componentDidMount() {
     this.setState({ isLoading: true });
@@ -138,10 +107,6 @@ class Tournaments extends Component {
         <span className={textClass}>{formattedDate}</span>
       </div>
     </div>;
-  }
-
-  renderResultInputsRow = () => {
-
   }
 
   render() {
@@ -212,7 +177,7 @@ class Tournaments extends Component {
             <div className={style.title}>Tournament Matches</div>
             {tournamentEditingData.matches.map((match, index) => <div
               key={match._id}
-              onClick={() => this.editMatchInit(match.id)}
+              onClick={() => this.matchEditingInit(match.id)}
               className={style.match}
             >
               {`Match ${index}`}
@@ -241,6 +206,7 @@ class Tournaments extends Component {
           <MatchModal
             matchId={this.state.editingMatchId}
             matchChampions={tournamentEditingData.champions}
+            matchEditingCompleted={this.matchEditingCompleted}
           />
         }
 

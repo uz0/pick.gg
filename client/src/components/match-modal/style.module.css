@@ -1,6 +1,7 @@
-.modal_match {
-};
-
 .rules_inputs {
   display: flex;
+}
+
+.rules_inputs > div + div {
+  margin-left: 10px;
 }
