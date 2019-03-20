@@ -214,8 +214,11 @@ class Tournament extends Component {
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
     const time = moment(item.startDate).format('HH:mm');
     const points = this.getCountMatchPoints(item.id);
+    const url = '';
+    const disableUrl = url === '';
+    const urlMatch = url === '' ? '' : url;
 
-    return <NavLink to={'/tournaments'} target="_blank" className={className} key={item.id}>
+    return <NavLink to={urlMatch} target="_blank" className={cx(className, {"disable_url": disableUrl})} key={item.id}>
       <div className={itemClass} style={{'--width': matchesTableCaptions.name.width}}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
