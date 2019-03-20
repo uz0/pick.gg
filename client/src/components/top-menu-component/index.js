@@ -85,7 +85,7 @@ class TopMenuComponent extends Component {
 
           <DropDown placeholder={<UserPlaceholder />}>
             {this.state.profile.user.isAdmin &&
-              <NavLink to="/dashboard">
+              <NavLink to="/dashboard/tournaments">
                 {i18n.t('dashboard')}
               </NavLink>
             }
