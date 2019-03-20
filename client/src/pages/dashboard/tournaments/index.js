@@ -9,7 +9,7 @@ import AdminService from 'services/adminService';
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
-import Select from 'components/select';
+import Select from 'components/filters/select';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
@@ -37,8 +37,8 @@ const tournamentsTableCaptions = {
 };
 
 class Tournaments extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.tournamentService = new TournamentService();
     this.notificationService = new NotificationService();
     this.adminService = new AdminService();
@@ -51,7 +51,9 @@ class Tournaments extends Component {
       date: '',
       champions: [],
     },
+    players: [],
     editingMatchId: '',
+    selectedChampion: '',
     isTournamentEditing: false,
     isMatchEditing: false,
     isLoading: false,
@@ -111,7 +113,35 @@ class Tournaments extends Component {
         [event.target.name]: inputValue,
       }
     });
-  }
+  };
+
+  selectChampion = (event) => {
+    this.setState({ selectedChampion: event.target.value })
+  };
+
+  addChampionToTournament = () => {
+    const { selectedChampion, players } = this.state;
+    const tournamentChampions = this.state.tournamentEditingData.champions;
+
+    if(tournamentChampions.find(champion => champion._id === selectedChampion)){
+      this.notificationService.show('This player is already taking part in the tournament');
+
+      return;
+    }
+
+    const champion = players.find(champion => champion._id === selectedChampion);
+    const champions = [...this.state.tournamentEditingData.champions, champion];
+    const champions_ids = [...this.state.tournamentEditingData.champions_ids, champion.id];
+
+    this.setState({
+      ...this.state,
+      tournamentEditingData: {
+        ...this.state.tournamentEditingData,
+        champions,
+        champions_ids
+      }
+    });
+  };
 
   removeChampionFromTournament = (championId) => {
     const champions = this.state.tournamentEditingData.champions.filter(champion => champion.id !== championId);
@@ -124,15 +154,17 @@ class Tournaments extends Component {
         champions,
         champions_ids
       }
-    })
-  }
+    });
+  };
 
   async componentDidMount() {
     this.setState({ isLoading: true });
     const { tournaments } = await this.adminService.getRealTournaments();
+    const { players } = await this.adminService.getAllChampions();
 
     this.setState({
       tournaments,
+      players,
       isLoading: false,
     });
   }
@@ -155,6 +187,7 @@ class Tournaments extends Component {
   render() {
     const {
       tournaments,
+      players,
       tournamentEditingData,
       isMatchEditing,
       isTournamentEditing,
@@ -216,11 +249,14 @@ class Tournaments extends Component {
               </div>)}
               <div className={style.champion_add}>
                 <Select
+                  options={players}
                   className={style.select}
+                  onChange={this.selectChampion}
                 />
                 <Button
                   appearance="_basic-accent"
                   text="Add"
+                  onClick={this.addChampionToTournament}
                   className={style.button}
                 />
               </div>
