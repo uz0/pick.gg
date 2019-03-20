@@ -85,6 +85,24 @@ const AdminController = () => {
     res.json({ users });
   });
 
+  router.get('/users/:id', async (req, res) => {
+    const userId = req.params.id;
+    const user = await UserModel.findById(userId);
+    res.json({ user });
+  });
+
+  router.put('/users/:id', async (req, res) => {
+    const userId = req.params.id;
+    const user = await UserModel.findByIdAndUpdate(userId, req.body, { new: true });
+    res.json({ user });
+  });
+
+  router.delete('/user/:id', async (req, res) => {
+    const userId = req.params.id;
+    const user = await UserModel.findByIdAndDelete(userId);
+    res.json({ user });
+  });
+
   return router;
 }
 
