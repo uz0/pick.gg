@@ -113,6 +113,20 @@ class Tournaments extends Component {
     });
   }
 
+  removeChampionFromTournament = (championId) => {
+    const champions = this.state.tournamentEditingData.champions.filter(champion => champion.id !== championId);
+    const champions_ids = this.state.tournamentEditingData.champions_ids.filter(id => id !== championId);
+
+    this.setState({
+      ...this.state,
+      tournamentEditingData: {
+        ...this.state.tournamentEditingData,
+        champions,
+        champions_ids
+      }
+    })
+  }
+
   async componentDidMount() {
     this.setState({ isLoading: true });
     const { tournaments } = await this.adminService.getRealTournaments();
@@ -196,6 +210,7 @@ class Tournaments extends Component {
                 {champion.name}
                 <Button
                   icon={<CloseIcon />}
+                  onClick={() => this.removeChampionFromTournament(champion.id)}
                   appearance={'_icon-transparent'}
                 />
               </div>)}
