@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
 import Tournaments from './tournaments';
+import FantasyTournaments from './fantasy-tournaments';
 import style from './style.module.css';
 
 class Dashboard extends Component {
@@ -36,6 +37,7 @@ class Dashboard extends Component {
           <div className={style.section}>
             <Switch>
               <Route path="/dashboard/tournaments" component={Tournaments} />
+              <Route path="/dashboard/fantasy" component={FantasyTournaments} />
               {/* <Route exact path="/tournaments/:id" component={Tournament} />
               <Route exact path="/tournaments/:id" component={Tournament} />
               <Route exact path="/tournaments/:id" component={Tournament} /> */}
