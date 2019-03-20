@@ -79,15 +79,17 @@ class MatchModal extends Component {
     });
   }
 
+  editMatchReset = () => {
+
+  }
+
   render() {
     const { results } = this.state;
-
-    console.log(style);
 
     return <Modal
       title='Match Edit'
       wrapClassName={style.modal_match}
-      close={this.editMatchReset}
+      close={this.props.matchEditingCompleted}
       actions={[{
         text: 'Update match',
         onClick: this.editMatchSubmit,
