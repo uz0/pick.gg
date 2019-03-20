@@ -73,14 +73,15 @@ class Tournaments extends Component {
   editTournamentSubmit = async () => {
     this.setState({ isLoading: true });
 
-    await http('/api/admin/tournaments/real', {
+    console.log(this.state.tournamentEditingData);
+
+    await http(`/api/admin/tournaments/real/${this.state.tournamentEditingData._id}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        tournamentId: this.state.tournamentEditingData._id,
         tournament: this.state.tournamentEditingData,
       })
     });
@@ -194,6 +195,8 @@ class Tournaments extends Component {
       isLoading,
     } = this.state;
 
+    console.log(tournaments);
+
     const modalTitle = `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
 
@@ -267,7 +270,7 @@ class Tournaments extends Component {
             <div className={style.title}>Tournament Matches</div>
             {tournamentEditingData.matches.map((match, index) => <div
               key={match._id}
-              onClick={() => this.matchEditingInit(match.id)}
+              onClick={() => this.matchEditingInit(match._id)}
               className={style.match}
             >
               {`Match ${index}`}
