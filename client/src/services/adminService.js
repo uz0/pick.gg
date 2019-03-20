@@ -9,6 +9,12 @@ export default class AdminService {
     return tournaments;
   }
 
+  getFantasyTournaments = async() => {
+    const tournamentsQuery = await http('/api/admin/tournaments/fantasy');
+    const tournaments = await tournamentsQuery.json();
+    return tournaments;
+  }
+
   getAllChampions = async() => {
     const championsQuery = await http('/api/admin/players');
     const champions = await championsQuery.json();
