@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 
 import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
+import Preloader from 'components/preloader';
 
-import http from 'services/httpService'; 
+import http from 'services/httpService';
+import NotificationService from 'services/notificationService';
 
 import classnames from 'classnames/bind';
 import style from './style.module.css';
@@ -13,13 +15,21 @@ const cx = classnames.bind(style);
 
 class MatchModal extends Component {
 
+  constructor(){
+    super();
+    this.notificationService = new NotificationService()
+  }
+
   state = {
     match: {},
     results: [],
     editedResults: [],
+    isLoading: false,
   };
 
   componentDidMount = async() => {
+    this.setState({ isLoading: true })
+
     const { match } = await http(`/api/admin/matches/${this.props.matchId}`).then(res => res.json());
     const { result } = await http(`/api/admin/results/${match[0].results}`).then(res => res.json());
 
@@ -28,6 +38,7 @@ class MatchModal extends Component {
     this.setState({
       match,
       results: resultsWithChampions,
+      isLoading: false,
     });
   }
 
@@ -64,6 +75,8 @@ class MatchModal extends Component {
   }
 
   editMatchSubmit = async() => {
+    this.setState({ isLoading: true });
+
     const { match, results } = this.state;
 
     await http('/api/admin/results', {
@@ -77,6 +90,10 @@ class MatchModal extends Component {
         results,
       })
     });
+
+    this.setState({
+      isLoading: false
+    }, () => this.notificationService.show('Match was successfully updated!'));
   }
 
   editMatchReset = () => {
@@ -84,7 +101,7 @@ class MatchModal extends Component {
   }
 
   render() {
-    const { results } = this.state;
+    const { results, isLoading } = this.state;
 
     return <Modal
       title='Match Edit'
@@ -97,12 +114,15 @@ class MatchModal extends Component {
       }]}
     >
 
-      {results.map((result, resultIndex) => <div key={result._id}>
-        {result.playerName}
+      {isLoading && <Preloader />}
+
+      {results.map((result, resultIndex) => <div key={result._id} className={style.match_results}>
+        <div className={style.player}>{result.playerName}</div>
 
         <div className={style.rules_inputs}>
           {result.results.map((item, ruleIndex) =>
             <Input
+              label={item.rule.name}
               placeholder={item.rule.name}
               className={style.rule_input}
               name={item._id}
