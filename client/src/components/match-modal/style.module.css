@@ -1,7 +1,22 @@
-.rules_inputs {
+.modal_match {
+  position: relative;
+}
+
+.modal_match .match_results + .match_results {
+  margin-top: 12px;
+} 
+
+.modal_match .match_results .player {
+  font-size: 24px;
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--caption-color);
+}
+
+.modal_match .rules_inputs {
   display: flex;
 }
 
-.rules_inputs > div + div {
+.modal_match .rules_inputs > div + div {
   margin-left: 10px;
 }
