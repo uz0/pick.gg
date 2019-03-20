@@ -43,6 +43,11 @@
   margin-top: 8px;
 }
 
+.tournament .tournament_section .main .info a{
+  text-decoration: none;
+  color: #9696b0;
+}
+
 .tournament .tournament_section .main .info span {
   --height: 24px;
   overflow: hidden;
@@ -272,6 +277,12 @@
   width: 48%;
 }
 
+.tournament .section .matches .disable_url{
+  opacity: 0.75;
+  pointer-events: none;
+  cursor: default;
+}
+
 .tournament .section .matches .table .match_points {
   --height: 24px;
   overflow: hidden;
@@ -312,7 +323,20 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
+.fantasy_status{
+  color: var(--accent-color);
+  font-weight: bold;
+  padding-top: 10px;
+  display: block;
+}
+.scores{
+  text-align: center;
+  display: block;
+  font-size: 10px;
+  padding-top: 6px;
+  color: #9696b0;
+  font-weight: bold;
+}
 @media (max-width: 1064px) {
   .tournament .team .champion .image {
     --size: 110px;

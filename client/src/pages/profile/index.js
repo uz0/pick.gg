@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
-import NotificationService from '../../services/notificationService';
-import UserService from '../../services/userService';
-import http from '../../services/httpService';
+import NotificationService from 'services/notificationService';
+import UserService from 'services/userService';
+import http from 'services/httpService';
 
-import Button from '../../components/button';
+import Button from 'components/button';
+import Preloader from 'components/preloader';
+
 import style from './style.module.css';
 import i18n from 'i18n';
 
@@ -21,6 +23,7 @@ class Profile extends Component {
         email: "",
         about: "",
       },
+      isLoading: true,
     };
   }
 
@@ -30,20 +33,25 @@ class Profile extends Component {
     let name = event.target.name;
     let value = event.target.value;
     formData[name] = value;
-    this.setState({formData});
+    this.setState({ formData });
   }
 
 
-  async componentDidMount(){
+  async componentDidMount() {
+    this.setState({ isLoading: true });
     let userData = await this.userService.getMyProfile();
-    this.setState({ formData: {
-      username: userData.user.username,
-      email: userData.user.email,
-      about: userData.user.about,
-    } });
-    
+
+    this.setState({
+      formData: {
+        username: userData.user.username,
+        email: userData.user.email,
+        about: userData.user.about,
+      },
+      isLoading: false,
+    });
+
   }
-  
+
   handleSubmit = async e => {
     e.preventDefault();
 
@@ -60,12 +68,12 @@ class Profile extends Component {
         about,
       }),
     });
-  
+
     this.notificationService.show(i18n.t('update_data'));
   }
-  
+
   render() {
-    
+    console.log(this.state.isLoading)
     return (
       <div className={style.home_page}>
         <main>
@@ -114,6 +122,11 @@ class Profile extends Component {
               </div> */}
             </div>
           </div>
+
+          {this.state.isLoading &&
+            <Preloader />
+          }
+
         </main>
       </div>
     );

@@ -25,11 +25,7 @@ class Register extends Component {
 
   componentWillMount() {}
 
-  onChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  }
+  handleChange = (event, input) => this.setState({ [input]: event.target.value });
 
   submitForm = async event => {
     event.preventDefault();
@@ -76,31 +72,29 @@ class Register extends Component {
           <form onSubmit={this.submitForm}>
             <Input
               label={i18n.t('username')}
-              name="username"
-              type="text"
-              action={this.onChange('username')}
-              autofocus
+              value={this.state.username}
+              onInput={(event) => this.handleChange(event, 'username')}
             />
 
             <Input
               label={i18n.t('email')}
-              name="email"
               type="email"
-              action={this.onChange('email')}
+              value={this.state.email}
+              onInput={(event) => this.handleChange(event, 'email')}
             />
 
             <Input
               label={i18n.t('password')}
-              name="password"
               type="password"
-              action={this.onChange('password')}
+              value={this.state.password}
+              onInput={(event) => this.handleChange(event, 'password')}
             />
             
             <Input
               label={i18n.t('password_confirm')}
-              name="confirmPassword"
               type="password"
-              action={this.onChange('confirmPassword')}
+              value={this.state.confirmPassword}
+              onInput={(event) => this.handleChange(event, 'confirmPassword')}
             />
             
             <div className={style.login_btn}>
