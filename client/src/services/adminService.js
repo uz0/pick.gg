@@ -9,4 +9,10 @@ export default class AdminService {
     return tournaments;
   }
 
+  getAllChampions = async() => {
+    const championsQuery = await http('/api/admin/players');
+    const champions = await championsQuery.json();
+    return champions;    
+  }
+
 }
