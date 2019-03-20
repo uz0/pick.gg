@@ -10,8 +10,28 @@ let router = express.Router();
 
 const AdminController = () => {
   router.get('/tournaments/real', async (req, res) => {
-    const tournaments = await TournamentModel.find();
+    const tournaments = await TournamentModel
+    .find()
+    .populate('champions')
+    .populate('matches')
+    
     res.json({ tournaments });
+  });
+
+  router.put('/tournaments/real/', async (req, res) => {
+    const { tournamentId, tournament } = req.body;
+
+    const updatedTournament = await TournamentModel.findByIdAndUpdate(tournamentId,
+      {
+        name: tournament.name,
+        date: tournament.date,
+      },
+      {
+        upsert: true,
+      },
+    );
+
+    res.json({ tournament: updatedTournament });
   });
 
   router.get('/tournaments/fantasy', async (req, res) => {
@@ -54,13 +74,6 @@ const AdminController = () => {
     const { results, matchId } = req.body;
 
     const matchResult = await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
-
-    // console.log(results);
-    // console.log(matchId);
-
-    // const result = await MatchResultModel
-    //   .findById(resultId)
-    //   .populate('playersResults.results.rule')
 
     res.json({ matchResult });
   });
