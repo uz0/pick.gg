@@ -15,6 +15,7 @@ const AdminController = () => {
       .find()
       .populate('champions')
       .populate('matches')
+      .sort({ date: -1 })
 
     res.json({ tournaments });
   });
@@ -82,6 +83,18 @@ const AdminController = () => {
 
     res.json({
       updatedTournamentMatches
+    });
+  });
+
+  router.post('/tournaments/real', async (req, res) => {
+    const tournaments = await TournamentModel.find();
+    const players = await PlayerModel.find();
+
+    const tournamentsIds = tournaments.map(tournament => tournament.id);
+
+    res.json({
+      tournamentsIds,
+      players
     });
   });
 
