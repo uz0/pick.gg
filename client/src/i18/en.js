@@ -88,4 +88,6 @@ export default {translation: {
   my_team: 'My Team',
   youve_been_registered_for_the_tournament: 'you been registered for the tournament',
   free_tournament: 'Do you want to start with such a team?',
+  balance: 'Balance',
+  admin: 'Admin',
 }};
