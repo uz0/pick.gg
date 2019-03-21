@@ -50,10 +50,9 @@ class FantasyTournaments extends Component {
       name: '',
       date: '',
       champions: [],
+      rules: [],
     },
     players: [],
-    editingMatchId: '',
-    selectedChampion: '',
     isTournamentEditing: false,
     isLoading: false,
   };
@@ -72,19 +71,21 @@ class FantasyTournaments extends Component {
   editTournamentSubmit = async () => {
     this.setState({ isLoading: true });
 
-    await http('/api/admin/tournaments/real', {
+    const tournamentId = this.state.tournamentEditingData._id;
+
+    await http(`/api/admin/tournaments/fantasy/${tournamentId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        tournamentId: this.state.tournamentEditingData._id,
+        tournamentId,
         tournament: this.state.tournamentEditingData,
       })
     });
 
-    const { tournaments } = await this.adminService.getRealTournaments();
+    const { tournaments } = await this.adminService.getFantasyTournaments();
 
     this.setState({
       isLoading: false,
@@ -107,19 +108,22 @@ class FantasyTournaments extends Component {
     });
   };
 
-  removeChampionFromTournament = (championId) => {
-    const champions = this.state.tournamentEditingData.champions.filter(champion => champion.id !== championId);
-    const champions_ids = this.state.tournamentEditingData.champions_ids.filter(id => id !== championId);
+  onRulesInputChange = (event, ruleId) => {
+    let { rules } = this.state.tournamentEditingData;
+
+    rules.forEach(item => {
+      if(item.rule._id === ruleId){
+        item.score = parseInt(event.target.value, 10);
+      }
+    })
 
     this.setState({
-      ...this.state,
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
-        champions,
-        champions_ids
+        rules,
       }
     });
-  };
+  }
 
   async componentDidMount() {
     this.setState({ isLoading: true });
@@ -185,9 +189,34 @@ class FantasyTournaments extends Component {
           <Input
             label="Tournament name"
             name="name"
-            value={tournamentEditingData.name || ''}
+            value={tournamentEditingData.name}
             onChange={this.handleInputChange}
+            className={style.tournament_input}
           />
+          <Input
+            label="Entry sum"
+            name="entry"
+            value={tournamentEditingData.entry}
+            onChange={this.handleInputChange}
+            className={style.tournament_input}
+          />
+
+          <div className={style.rules_inputs}>
+            {tournamentEditingData.rules.map(item => {
+              return <Input
+                key={item.rule._id}
+                label={item.rule.name}
+                placeholder={item.rule.name}
+                className={style.rule_input}
+                name={item.rule._id}
+                onChange={(event) => this.onRulesInputChange(event, item.rule._id)}
+                value={item.score}
+                type="number"
+                min="-10"
+              />
+            })}
+          </div>
+
         </Modal>
       }
     </div>;

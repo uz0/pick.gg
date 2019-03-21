@@ -29,15 +29,9 @@ class MatchModal extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true })
-
     const { match } = await http(`/api/admin/matches/${this.props.matchId}`).then(res => res.json());
 
-    console.log(match, 'match')
-
-    // const { result } = await http(`/api/admin/results/${match.results._id}`).then(res => res.json());
-
     const result = match.results.playersResults;
-
     const resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
 
     this.setState({
