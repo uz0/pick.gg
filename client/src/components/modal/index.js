@@ -12,7 +12,7 @@ class Modal extends Component {
           
           <div className={style.btns_modal}>
             <Button appearance={'_basic-accent'} type={'submit'} onClick={submitClick} text={'Yes'} />
-            <Button appearance={'_basic-accent'} onClick={closeModal} text={'No'} />
+            <Button appearance={'_basic-accent'} className={'_is-danger'} onClick={closeModal} text={'No'} />
           </div>
         </div>
       </div>
