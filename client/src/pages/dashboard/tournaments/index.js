@@ -76,9 +76,6 @@ class Tournaments extends Component {
   editTournamentSubmit = async () => {
     this.setState({ isLoading: true });
 
-    console.log(this.state.tournamentEditingData);
-    console.log(this.state);
-
     await http(`/api/admin/tournaments/real/${this.state.tournamentEditingData._id}`, {
       method: 'PUT',
       headers: {
@@ -100,7 +97,15 @@ class Tournaments extends Component {
 
   resetTournamentEditing = () => this.setState({
     isTournamentEditing: false,
-    tournamentEditingData: {}
+    isMatchEditing: false,
+    tournamentEditingData: {
+      name: '',
+      date: '',
+      champions: [],
+      champions_ids: [],
+      addedChampionsIds: [],
+      removedChampionsIds: [],
+    }
   });
 
   matchEditingInit = (matchId) => this.setState({
@@ -108,7 +113,9 @@ class Tournaments extends Component {
     isMatchEditing: true
   });
 
-  matchEditingCompleted = () => this.setState({ isMatchEditing: false });
+  matchEditingCompleted = () => {
+    this.setState({ isMatchEditing: false });
+  }
 
   handleInputChange = (event) => {
     const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
@@ -121,12 +128,22 @@ class Tournaments extends Component {
   };
 
   selectChampion = (event) => {
-    this.setState({ selectedChampion: event.target.value })
+    if(event.target.value){
+      this.setState({ selectedChampion: event.target.value })
+    }
+
+    return;
   };
 
   addChampionToTournament = () => {
     const { selectedChampion, players } = this.state;
     const tournamentChampions = this.state.tournamentEditingData.champions;
+
+    if(!selectedChampion){
+      this.notificationService.show('Please, choose player from list');
+
+      return;
+    }
 
     if(tournamentChampions.find(champion => champion._id === selectedChampion)){
       this.notificationService.show('This player is already taking part in the tournament');
@@ -265,6 +282,7 @@ class Tournaments extends Component {
                   options={players}
                   className={style.select}
                   onChange={this.selectChampion}
+                  defaultOption={'Select player'}
                 />
                 <Button
                   appearance="_basic-accent"
