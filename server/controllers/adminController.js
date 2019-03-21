@@ -127,6 +127,13 @@ const AdminController = () => {
     res.json({ player });
   });
 
+  router.put('/players/:id', async (req, res) => {
+    const playerId = req.params.id;
+    const playerData = req.body;
+    const player = await PlayerModel.findByIdAndUpdate(playerId, playerData);
+    res.json({ player });
+  });
+
   router.get('/users', async (req, res) => {
     const users = await UserModel.find();
     res.json({ users });
