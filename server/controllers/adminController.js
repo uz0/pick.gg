@@ -87,14 +87,12 @@ const AdminController = () => {
   });
 
   router.post('/tournaments/real', async (req, res) => {
-    const tournaments = await TournamentModel.find();
-    const players = await PlayerModel.find();
+    const { tournament } = req.body;
 
-    const tournamentsIds = tournaments.map(tournament => tournament.id);
+    const newTournament = await TournamentModel.create(tournament);
 
     res.json({
-      tournamentsIds,
-      players
+      newTournament
     });
   });
 
