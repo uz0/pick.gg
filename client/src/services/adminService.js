@@ -21,4 +21,10 @@ export default class AdminService {
     return champions;    
   }
 
+  getAllUsers = async() => {
+    const usersQuery = await http('/api/admin/users');
+    const users = await usersQuery.json();
+    return users;
+  }
+
 }
