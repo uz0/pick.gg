@@ -94,6 +94,7 @@
   flex-grow: 1;
   min-width: 0;
   margin-left: 30px;
-  padding: 16px;
+  margin-top: -20px;
+  padding: 0 16px;
   /* background-color: var(--background-color); */
 }
