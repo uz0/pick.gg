@@ -105,15 +105,8 @@
   color: var(--primary-color);
 }
 
-/* .tournaments .title {
-  --height: 24px;
-  overflow: hidden;
-  height: var(--height);
-  margin: 0;
-  line-height: var(--height);
-  font-family: var(--font-family-title);
-  color: #9696b0;
-  font-size: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-} */
+.tournaments .tournaments_controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
