@@ -55,7 +55,7 @@ class Champions extends Component {
   editChampionSubmit = async () => {
     this.setState({ isLoading: true });
 
-    await http('/api/admin/champions', {
+    await http('/api/admin/players', {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -116,8 +116,6 @@ class Champions extends Component {
       isChampionEditing,
       isLoading,
     } = this.state;
-
-    console.log(players);
 
     const modalTitle = `Editing ${championEditingData.name}`;
 

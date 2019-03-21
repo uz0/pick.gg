@@ -50,6 +50,9 @@ class Tournaments extends Component {
       name: '',
       date: '',
       champions: [],
+      champions_ids: [],
+      addedChampionsIds: [],
+      removedChampionsIds: [],
     },
     players: [],
     editingMatchId: '',
@@ -74,6 +77,7 @@ class Tournaments extends Component {
     this.setState({ isLoading: true });
 
     console.log(this.state.tournamentEditingData);
+    console.log(this.state);
 
     await http(`/api/admin/tournaments/real/${this.state.tournamentEditingData._id}`, {
       method: 'PUT',
@@ -133,13 +137,17 @@ class Tournaments extends Component {
     const champion = players.find(champion => champion._id === selectedChampion);
     const champions = [...this.state.tournamentEditingData.champions, champion];
     const champions_ids = [...this.state.tournamentEditingData.champions_ids, champion.id];
-
+    const addedChampionsIds = [...this.state.tournamentEditingData.addedChampionsIds, champion.id];
+    const removedChampionsIds = this.state.tournamentEditingData.removedChampionsIds.filter(item => item !== champion.id);
+    
     this.setState({
       ...this.state,
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         champions,
-        champions_ids
+        champions_ids,
+        addedChampionsIds,
+        removedChampionsIds
       }
     });
   };
@@ -147,13 +155,17 @@ class Tournaments extends Component {
   removeChampionFromTournament = (championId) => {
     const champions = this.state.tournamentEditingData.champions.filter(champion => champion.id !== championId);
     const champions_ids = this.state.tournamentEditingData.champions_ids.filter(id => id !== championId);
+    const removedChampionsIds = [...this.state.tournamentEditingData.removedChampionsIds, championId];
+    const addedChampionsIds = this.state.tournamentEditingData.addedChampionsIds.filter(item => item !== championId)
 
     this.setState({
       ...this.state,
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         champions,
-        champions_ids
+        champions_ids,
+        addedChampionsIds,
+        removedChampionsIds
       }
     });
   };
@@ -194,8 +206,6 @@ class Tournaments extends Component {
       isTournamentEditing,
       isLoading,
     } = this.state;
-
-    console.log(tournaments);
 
     const modalTitle = `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
