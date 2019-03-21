@@ -7,6 +7,7 @@ import AdminService from 'services/adminService';
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
+import Button from 'components/button';
 import Preloader from 'components/preloader';
 
 import moment from 'moment';
@@ -32,21 +33,27 @@ class Champions extends Component {
   }
 
   state = {
-    championEditingData: {
+    championData: {
       name: '',
+      photo: '',
     },
     players: [],
     isChampionEditing: false,
+    isChampionCreating: false,
     isLoading: false,
   };
+
+  addChampionInit = () => {
+    this.setState({ isChampionCreating: true });
+  }
 
   editChampionInit = (playerId) => {
     const player = this.state.players.filter(player => player._id === playerId)[0];
 
     this.setState({
       isChampionEditing: true,
-      championEditingData: {
-        ...this.state.championEditingData,
+      championData: {
+        ...this.state.championData,
         ...player,
       }
     });
@@ -55,14 +62,16 @@ class Champions extends Component {
   editChampionSubmit = async () => {
     this.setState({ isLoading: true });
 
-    await http('/api/admin/players', {
+    const editedPlayerId = this.state.championData._id;
+
+    await http(`/api/admin/players/${editedPlayerId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        player: this.state.championEditingData,
+        player: this.state.championData,
       })
     });
 
@@ -70,21 +79,83 @@ class Champions extends Component {
 
     this.setState({
       isLoading: false,
+      isChampionEditing: false,
       players,
     }, () => this.notificationService.show('Champion was successfully updated!'));
   }
 
-  resetChampionEditing = () => this.setState({
+  addChampionSubmit = async () => {
+    const { championData } = this.state;
+
+    if(!championData.name){
+      await this.notificationService.show('Please, write champion name')
+      
+      return;
+    }
+
+    this.setState({ isLoading: true });
+
+    await http('/api/admin/players', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        player: this.state.championData,
+      })
+    });
+
+    const { players } = await this.adminService.getAllChampions();
+
+    this.setState({
+      players,
+      isLoading: false,
+      isChampionCreating: false,
+      championData: {
+        name: '',
+        photo: '',
+      }
+    }, () => this.notificationService.show('Champion was successfully created!'));
+  }
+
+  deleteChampion = async() => {
+    this.setState({ isLoading: true });
+
+    const editedPlayerId = this.state.championData._id;
+
+    await http(`/api/admin/players/${editedPlayerId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const { players } = await this.adminService.getAllChampions();
+
+    this.setState({
+      players,
+      isLoading: false,
+      isChampionEditing: false,
+      championData: {
+        name: '',
+        photo: '',
+      }
+    }, () => this.notificationService.show('Champion was successfully deleted!'));
+  }
+
+  resetChampion = () => this.setState({
+    isChampionCreating: false,
     isChampionEditing: false,
-    championEditingData: {}
+    championData: {}
   });
 
   handleInputChange = (event) => {
-    const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
     this.setState({
-      championEditingData: {
-        ...this.state.championEditingData,
-        [event.target.name]: inputValue,
+      championData: {
+        ...this.state.championData,
+        [event.target.name]: event.target.value,
       }
     });
   };
@@ -92,7 +163,7 @@ class Champions extends Component {
   async componentDidMount() {
     this.setState({ isLoading: true });
     const { players } = await this.adminService.getAllChampions();
-   
+
     this.setState({
       players,
       isLoading: false,
@@ -112,32 +183,56 @@ class Champions extends Component {
   render() {
     const {
       players,
-      championEditingData,
+      championData,
       isChampionEditing,
+      isChampionCreating,
       isLoading,
     } = this.state;
 
-    const modalTitle = `Editing ${championEditingData.name}`;
+    const modalTitle = isChampionEditing ? `Editing ${championData.name}` : `Add new champion`;
+    const isChampionModalActive = isChampionEditing || isChampionCreating;
 
-    return <div className={style.tournaments}>
+    const modalActions = isChampionEditing
+    ? [{
+        text: 'Delete champion',
+        onClick: this.deleteChampion,
+        isDanger: true,
+      },{
+        text: 'Update champion',
+        onClick: this.editChampionSubmit,
+        isDanger: false,
+      },]
+    : [{
+        text: 'Add champion',
+        onClick: this.addChampionSubmit,
+        isDanger: false,
+    },];
+
+    return <div className={style.champions}>
+
+      <div className={style.champions_controls}>
+        <Button
+          appearance="_basic-accent"
+          text="Add champion"
+          onClick={this.addChampionInit}
+          className={style.button}
+        />
+      </div>
+
       <Table
         captions={championsTableCaptions}
         items={players}
         className={style.table}
         renderRow={this.renderRow}
         isLoading={isLoading}
-        emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+        emptyMessage={"There's no champions yet"}
       />
 
-      {isChampionEditing &&
+      {isChampionModalActive &&
         <Modal
           title={modalTitle}
-          close={this.resetChampionEditing}
-          actions={[{
-            text: 'Update Champion',
-            onClick: this.editChampionSubmit,
-            isDanger: false,
-          }]}
+          close={this.resetChampion}
+          actions={modalActions}
         >
 
           {isLoading && <Preloader />}
@@ -145,9 +240,15 @@ class Champions extends Component {
           <Input
             label="Champion name"
             name="name"
-            value={championEditingData.name || ''}
+            value={championData.name || ''}
             onChange={this.handleInputChange}
           />
+          <Input
+            label="Champion photo"
+            name="photo"
+            value={championData.photo || ''}
+            onChange={this.handleInputChange}
+          />          
         </Modal>
       }
     </div>;

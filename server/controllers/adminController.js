@@ -177,6 +177,13 @@ const AdminController = () => {
     res.json({ players });
   });
 
+  router.post('/players', async (req, res) => {
+    const playerData = req.body.player;
+
+    const player = await PlayerModel.create(playerData);
+    res.json({ player });
+  });
+
   router.get('/players/:id', async (req, res) => {
     const playerId = req.params.id;
     const player = await PlayerModel.findById(playerId);
@@ -185,8 +192,16 @@ const AdminController = () => {
 
   router.put('/players/:id', async (req, res) => {
     const playerId = req.params.id;
-    const playerData = req.body;
+    const playerData = req.body.player;
+    
     const player = await PlayerModel.findByIdAndUpdate(playerId, playerData);
+    
+    res.json({ player });
+  });
+  
+  router.delete('/players/:id', async (req, res) => {
+    const playerId = req.params.id;
+    const player = await PlayerModel.findByIdAndRemove(playerId);
     res.json({ player });
   });
 
