@@ -32,57 +32,52 @@ const AdminController = () => {
         rule: rule._id,
         score: 0
       }));
+
       return {
         playerId,
         results
       }
     };
 
-    await TournamentModel.findByIdAndUpdate(tournamentId, {
-      name: tournament.name,
-      date: tournament.date,
-      champions: tournament.champions,
-      champions_ids: tournament.champions_ids,
-    },
-    {
-      upsert: true
-    },
-  );
+    await TournamentModel.findByIdAndUpdate(tournamentId,
+      {
+        name: tournament.name,
+        date: tournament.date,
+        champions: tournament.champions,
+        champions_ids: tournament.champions_ids,
+      },
+      {
+        upsert: true
+      },
+    );
 
     const updatedTournamentMatches = await MatchModel
       .find({ id: { $in: tournament.matches_ids } })
       .populate('results')
 
-    for (let i = 0; i < updatedTournamentMatches.length; i++) {
-
-      const resultsId = updatedTournamentMatches[i].results._id;
-
-      const playersResults = addedChampionsIds.reduce((results, championId) => {
-        console.log(championId);
-        results.push(generatePlayerResults(championId));
-        return results;
-      }, []);
-
-      console.log(playersResults)
-
-      // await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-      //   playersResults: [],
-      // });
-
-      if(removedChampionsIds.length > 0){
-        for(let j = 0; j < removedChampionsIds.length; j++){
+    if(addedChampionsIds.length > 0 || removedChampionsIds.length > 0){
+      for (let i = 0; i < updatedTournamentMatches.length; i++) {
+        const resultsId = updatedTournamentMatches[i].results._id;
+  
+        if (removedChampionsIds.length > 0) {
+          for (let j = 0; j < removedChampionsIds.length; j++) {
+            await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
+              $pull: { playersResults: { result: removedChampionsIds[j] } },
+            });
+          }
+        }
+  
+        if (addedChampionsIds.length > 0) {
+          const playersResults = addedChampionsIds.reduce((results, championId) => {
+            results.push(generatePlayerResults(championId));
+            return results;
+          }, []);
+  
           await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-            $pull: { playersResults: { result: removedChampionsIds[j] }},
+            $push: { playersResults: { $each: playersResults } },
           });
         }
       }
-
-      if(addedChampionsIds.length > 0){
-        await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-          $push: { playersResults: { $each: playersResults }},
-        });
-      }
-
     }
 
     res.json({
