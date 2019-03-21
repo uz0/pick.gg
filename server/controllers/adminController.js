@@ -22,53 +22,67 @@ const AdminController = () => {
   router.put('/tournaments/real/:id', async (req, res) => {
     const tournamentId = req.params.id;
     let { tournament } = req.body;
-    const rules = await RuleModel.find();
 
-    await TournamentModel.findByIdAndUpdate(tournamentId,
-      {
-        name: tournament.name,
-        date: tournament.date,
-        champions: tournament.champions,
-        champions_ids: tournament.champions_ids,
-      },
-      {
-        upsert: true,
-      },
-    );
+    const rules = await RuleModel.find();
+    const removedChampionsIds = tournament.removedChampionsIds;
+    const addedChampionsIds = tournament.addedChampionsIds;
+
+    const generatePlayerResults = (playerId) => {
+      const results = rules.map(rule => ({
+        rule: rule._id,
+        score: 0
+      }));
+      return {
+        playerId,
+        results
+      }
+    };
+
+    await TournamentModel.findByIdAndUpdate(tournamentId, {
+      name: tournament.name,
+      date: tournament.date,
+      champions: tournament.champions,
+      champions_ids: tournament.champions_ids,
+    },
+    {
+      upsert: true
+    },
+  );
 
     const updatedTournamentMatches = await MatchModel
       .find({ id: { $in: tournament.matches_ids } })
       .populate('results')
 
-    const updatedTournament = await TournamentModel.findById(tournamentId);
-
-    const allTournamentPlayers = updatedTournament.champions_ids;
-
     for (let i = 0; i < updatedTournamentMatches.length; i++) {
 
-      const playersWithResultsId = updatedTournamentMatches[i].results.playersResults.map(result => result.playerId);
-      const playersWithoutResults = tournament.champions_ids.filter(item => !playersWithResultsId.includes(item));
       const resultsId = updatedTournamentMatches[i].results._id;
 
-      const generatePlayerResults = (playerId) => {
-        const results = rules.map(rule => ({
-          rule: rule._id,
-          score: 0
-        }));
-        return {
-          playerId,
-          results
-        }
-      };
-
-      const playersResults = playersWithoutResults.reduce((results, result) => {
-        results.push(generatePlayerResults(result));
+      const playersResults = addedChampionsIds.reduce((results, championId) => {
+        console.log(championId);
+        results.push(generatePlayerResults(championId));
         return results;
       }, []);
 
-      await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-        $push: { playersResults: { $each: playersResults }},
-      });
+      console.log(playersResults)
+
+      // await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
+      //   playersResults: [],
+      // });
+
+      if(removedChampionsIds.length > 0){
+        for(let j = 0; j < removedChampionsIds.length; j++){
+          await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
+            $pull: { playersResults: { result: removedChampionsIds[j] }},
+          });
+        }
+      }
+
+      if(addedChampionsIds.length > 0){
+        await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
+          $push: { playersResults: { $each: playersResults }},
+        });
+      }
+
     }
 
     res.json({

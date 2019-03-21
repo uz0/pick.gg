@@ -156,8 +156,6 @@ class FantasyTournaments extends Component {
       isLoading,
     } = this.state;
 
-    console.log(this.state);
-
     const modalTitle = `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
 
