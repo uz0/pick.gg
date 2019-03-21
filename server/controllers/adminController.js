@@ -86,9 +86,43 @@ const AdminController = () => {
   });
 
   router.get('/tournaments/fantasy', async (req, res) => {
-    const tournaments = await FantasyTournamentModel.find();
+    const tournaments = await FantasyTournamentModel
+      .find()
+      .populate({
+        path:'creator',
+        select: 'username _id'
+      })
+      .populate({
+        path:'rules.rule',
+      });
+
     res.json({ tournaments });
   });
+
+  router.put('/tournaments/fantasy/:id', async (req, res) => {
+    const tournamentId = req.params.id;
+    const { tournament } = req.body;
+
+    const normalizedRules = tournament.rules.map(rule => ({
+      rule: rule.rule._id,
+      score: rule.score,
+    }));
+
+    await FantasyTournamentModel.findByIdAndUpdate(tournamentId,
+      {
+        name: tournament.name,
+        entry: tournament.entry,
+        rules: normalizedRules,
+      },
+      {
+        upsert: true
+      },
+    );
+
+    res.send({
+      success: 'success',
+    })
+  })
 
   router.get('/matches', async (req, res) => {
     const matches = await MatchModel.find();
