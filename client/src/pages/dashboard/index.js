@@ -3,6 +3,8 @@ import { Route, Switch, NavLink } from 'react-router-dom';
 
 import Tournaments from './tournaments';
 import FantasyTournaments from './fantasy-tournaments';
+import Champions from './champions';
+import Users from './users';
 import style from './style.module.css';
 
 class Dashboard extends Component {
@@ -38,6 +40,8 @@ class Dashboard extends Component {
             <Switch>
               <Route path="/dashboard/tournaments" component={Tournaments} />
               <Route path="/dashboard/fantasy" component={FantasyTournaments} />
+              <Route path="/dashboard/champions" component={Champions} />
+              <Route path="/dashboard/users" component={Users} />
               {/* <Route exact path="/tournaments/:id" component={Tournament} />
               <Route exact path="/tournaments/:id" component={Tournament} />
               <Route exact path="/tournaments/:id" component={Tournament} /> */}
