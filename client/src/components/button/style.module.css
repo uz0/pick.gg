@@ -96,3 +96,7 @@
   text-overflow: ellipsis;
   transition-property: color;
 }
+._is-danger{
+  background: rgb(226, 44, 44);
+  margin-left: 10px;
+}
