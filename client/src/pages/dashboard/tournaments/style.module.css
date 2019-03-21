@@ -2,6 +2,12 @@
 
 }
 
+.tournaments .tournaments_controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
 .tournaments .table .tournament_row {
   cursor: pointer;
 }
@@ -103,10 +109,4 @@
 .tournaments .matches_section .match:hover {
   background-color: var(--accent-color);
   color: var(--primary-color);
-}
-
-.tournaments .tournaments_controls {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 12px;
 }

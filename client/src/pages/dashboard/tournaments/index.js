@@ -30,6 +30,11 @@ const tournamentsTableCaptions = {
     width: 250,
   },
 
+  matches: {
+    text: 'matches',
+    width: 250,
+  },
+
   date: {
     text: i18n.t('date'),
     width: 100,
@@ -53,14 +58,62 @@ class Tournaments extends Component {
       champions_ids: [],
       addedChampionsIds: [],
       removedChampionsIds: [],
+      matches_ids: [],
     },
     players: [],
     editingMatchId: '',
     selectedChampion: '',
     isTournamentEditing: false,
+    isTournamentCreating: false,
     isMatchEditing: false,
     isLoading: false,
   };
+
+  createTournamentInit = () => {
+    this.setState({
+      isTournamentCreating: true,
+    });
+  }
+
+  createTournamentSubmit = async() => {
+    const { tournamentEditingData } = this.state;
+
+    if(!tournamentEditingData.name){
+      this.notificationService.show('Please, write tournament name');
+
+      return;
+    }
+
+    if(!tournamentEditingData.date){
+      this.notificationService.show('Please, choose tournament date');
+
+      return;
+    }
+
+    if(!tournamentEditingData.champions.length === 0){
+      this.notificationService.show('Please, choose tournament players');
+
+      return;
+    }
+
+    await http(`/api/admin/tournaments/real`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tournament: this.state.tournamentEditingData,
+      })
+    });
+
+    const { tournaments } = await this.adminService.getRealTournaments();
+
+    this.setState({
+      isTournamentCreating: false,
+      tournaments,
+    }, () => this.notificationService.show('Tournament was created'));
+  }
 
   editTournamentInit = (tournamentId) => {
     const tournament = this.state.tournaments.filter(tournament => tournament._id === tournamentId)[0];
@@ -95,8 +148,9 @@ class Tournaments extends Component {
     }, () => this.notificationService.show('Tournament was successfully updated!'));
   }
 
-  resetTournamentEditing = () => this.setState({
+  resetTournament = () => this.setState({
     isTournamentEditing: false,
+    isTournamentCreating: false,
     isMatchEditing: false,
     tournamentEditingData: {
       name: '',
@@ -128,7 +182,7 @@ class Tournaments extends Component {
   };
 
   selectChampion = (event) => {
-    if(event.target.value){
+    if (event.target.value) {
       this.setState({ selectedChampion: event.target.value })
     }
 
@@ -139,13 +193,13 @@ class Tournaments extends Component {
     const { selectedChampion, players } = this.state;
     const tournamentChampions = this.state.tournamentEditingData.champions;
 
-    if(!selectedChampion){
+    if (!selectedChampion) {
       this.notificationService.show('Please, choose player from list');
 
       return;
     }
 
-    if(tournamentChampions.find(champion => champion._id === selectedChampion)){
+    if (tournamentChampions.find(champion => champion._id === selectedChampion)) {
       this.notificationService.show('This player is already taking part in the tournament');
 
       return;
@@ -156,7 +210,7 @@ class Tournaments extends Component {
     const champions_ids = [...this.state.tournamentEditingData.champions_ids, champion.id];
     const addedChampionsIds = [...this.state.tournamentEditingData.addedChampionsIds, champion.id];
     const removedChampionsIds = this.state.tournamentEditingData.removedChampionsIds.filter(item => item !== champion.id);
-    
+
     this.setState({
       ...this.state,
       tournamentEditingData: {
@@ -200,13 +254,17 @@ class Tournaments extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    const formattedDate = moment(item.date).format('MMM DD');
+    const formattedDate = moment(item.date).format('DD MMM YYYY');
     const tournamentId = item._id;
 
     return <div onClick={() => this.editTournamentInit(tournamentId)} className={cx(className, style.tournament_row)} key={item._id}>
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
+
+      {/* <div className={itemClass} style={{ '--width': tournamentsTableCaptions.matches.width }}>
+        <span className={textClass}>{item.matches.length}</span>
+      </div> */}
 
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
         <span className={textClass}>{formattedDate}</span>
@@ -221,13 +279,29 @@ class Tournaments extends Component {
       tournamentEditingData,
       isMatchEditing,
       isTournamentEditing,
+      isTournamentCreating,
       isLoading,
     } = this.state;
 
-    const modalTitle = `Editing ${tournamentEditingData.name}`;
+    const modalTitle = isTournamentCreating ? `Create new tournament` : `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
+    const isTournamentHasMatches = tournamentEditingData.matches && tournamentEditingData.matches.length > 0;
+    const isTournamentModalActive = isTournamentEditing || isTournamentCreating;
+    
+    const tournamentModalActionText = isTournamentEditing ? 'Update tournament' : 'Create tournament';
+    const tournamentModalAction = isTournamentEditing ? this.editTournamentSubmit : this.createTournamentSubmit;
 
     return <div className={style.tournaments}>
+
+      <div className={style.tournaments_controls}>
+        <Button
+          appearance="_basic-accent"
+          text="Create new tournament"
+          onClick={this.createTournamentInit}
+          className={style.button}
+        />
+      </div>
+
       <Table
         captions={tournamentsTableCaptions}
         items={tournaments}
@@ -237,13 +311,13 @@ class Tournaments extends Component {
         emptyMessage={i18n.t('there_is_no_tournaments_yet')}
       />
 
-      {isTournamentEditing &&
+      {isTournamentModalActive &&
         <Modal
           title={modalTitle}
-          close={this.resetTournamentEditing}
+          close={this.resetTournament}
           actions={[{
-            text: 'Update tournament',
-            onClick: this.editTournamentSubmit,
+            text: tournamentModalActionText,
+            onClick: tournamentModalAction,
             isDanger: false,
           }]}
         >
@@ -255,16 +329,18 @@ class Tournaments extends Component {
           <Input
             label="Tournament name"
             name="name"
+            placeholder="Choose name"
             value={tournamentEditingData.name || ''}
             onChange={this.handleInputChange}
-          />
+            />
           <Input
             name="date"
             label="Tournament date"
+            placeholder="Choose date"
             type="date"
             value={editedTournamentDate || ''}
             onChange={this.handleInputChange}
-          />
+            />
 
           <div className={cx(style.section, style.champions_section)}>
             <div className={style.title}>Tournament players</div>
@@ -296,12 +372,20 @@ class Tournaments extends Component {
 
           <div className={cx(style.section, style.matches_section)}>
             <div className={style.title}>Tournament Matches</div>
-            {tournamentEditingData.matches.map((match, index) => <div
+            {!isTournamentHasMatches && isTournamentEditing &&
+              <div>There's no any matches yet</div>
+            }
+
+            {!isTournamentHasMatches && !isTournamentEditing &&
+              <div>You can add matches after tournament is created</div>
+            }
+
+            {isTournamentHasMatches && tournamentEditingData.matches.map((match, index) => <div
               key={match._id}
               onClick={() => this.matchEditingInit(match._id)}
               className={style.match}
             >
-              {`Match ${index}`}
+              {`Match ${index + 1}`}
             </div>)}
           </div>
 
