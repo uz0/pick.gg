@@ -4,6 +4,7 @@ import FantasyTournamentModel from "../models/fantasy-tournament";
 import MatchModel from "../models/match";
 import MatchResultModel from "../models/match-result";
 import PlayerModel from "../models/player";
+import RuleModel from "../models/rule";
 import UserModel from "../models/user";
 
 let router = express.Router();
@@ -11,17 +12,19 @@ let router = express.Router();
 const AdminController = () => {
   router.get('/tournaments/real', async (req, res) => {
     const tournaments = await TournamentModel
-    .find()
-    .populate('champions')
-    .populate('matches')
-    
+      .find()
+      .populate('champions')
+      .populate('matches')
+
     res.json({ tournaments });
   });
 
-  router.put('/tournaments/real/', async (req, res) => {
-    const { tournamentId, tournament } = req.body;
+  router.put('/tournaments/real/:id', async (req, res) => {
+    const tournamentId = req.params.id;
+    let { tournament } = req.body;
+    const rules = await RuleModel.find();
 
-    const updatedTournament = await TournamentModel.findByIdAndUpdate(tournamentId,
+    await TournamentModel.findByIdAndUpdate(tournamentId,
       {
         name: tournament.name,
         date: tournament.date,
@@ -33,7 +36,44 @@ const AdminController = () => {
       },
     );
 
-    res.json({ tournament: updatedTournament });
+    const updatedTournamentMatches = await MatchModel
+      .find({ id: { $in: tournament.matches_ids } })
+      .populate('results')
+
+    const updatedTournament = await TournamentModel.findById(tournamentId);
+
+    const allTournamentPlayers = updatedTournament.champions_ids;
+
+    for (let i = 0; i < updatedTournamentMatches.length; i++) {
+
+      const playersWithResultsId = updatedTournamentMatches[i].results.playersResults.map(result => result.playerId);
+      const playersWithoutResults = tournament.champions_ids.filter(item => !playersWithResultsId.includes(item));
+      const resultsId = updatedTournamentMatches[i].results._id;
+
+      const generatePlayerResults = (playerId) => {
+        const results = rules.map(rule => ({
+          rule: rule._id,
+          score: 0
+        }));
+        return {
+          playerId,
+          results
+        }
+      };
+
+      const playersResults = playersWithoutResults.reduce((results, result) => {
+        results.push(generatePlayerResults(result));
+        return results;
+      }, []);
+
+      await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
+        $push: { playersResults: { $each: playersResults }},
+      });
+    }
+
+    res.json({
+      updatedTournamentMatches
+    });
   });
 
   router.get('/tournaments/fantasy', async (req, res) => {
@@ -48,13 +88,13 @@ const AdminController = () => {
 
   router.get('/matches/:id', async (req, res) => {
     const matchId = req.params.id;
-    const match = await MatchModel.find({id: matchId})
+    const match = await MatchModel.findOne({ _id: matchId }).populate('results');
 
     res.json({ match });
   });
 
   router.get('/results', async (req, res) => {
-    const results = await MatchResultModel.find({playersResults: {$gt: []}});
+    const results = await MatchResultModel.find({ playersResults: { $gt: [] } });
     res.json({ results });
   });
 
