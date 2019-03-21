@@ -6,6 +6,7 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
+import ModalAsk from 'components/modal'
 import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
@@ -40,12 +41,15 @@ class Champions extends Component {
     players: [],
     isChampionEditing: false,
     isChampionCreating: false,
+    isChampionDelete: false,
     isLoading: false,
   };
 
   addChampionInit = () => {
     this.setState({ isChampionCreating: true });
   }
+
+  delChampion = () => this.setState({ isChampionDelete: true })
 
   editChampionInit = (playerId) => {
     const player = this.state.players.filter(player => player._id === playerId)[0];
@@ -87,9 +91,9 @@ class Champions extends Component {
   addChampionSubmit = async () => {
     const { championData } = this.state;
 
-    if(!championData.name){
+    if (!championData.name) {
       await this.notificationService.show('Please, write champion name')
-      
+
       return;
     }
 
@@ -119,7 +123,7 @@ class Champions extends Component {
     }, () => this.notificationService.show('Champion was successfully created!'));
   }
 
-  deleteChampion = async() => {
+  deleteChampion = async () => {
     this.setState({ isLoading: true });
 
     const editedPlayerId = this.state.championData._id;
@@ -138,12 +142,14 @@ class Champions extends Component {
       players,
       isLoading: false,
       isChampionEditing: false,
+      isChampionDelete: false,
       championData: {
         name: '',
         photo: '',
       }
     }, () => this.notificationService.show('Champion was successfully deleted!'));
   }
+  closeDeleteChampion = () => this.setState({ isChampionDelete: false });
 
   resetChampion = () => this.setState({
     isChampionCreating: false,
@@ -186,6 +192,7 @@ class Champions extends Component {
       championData,
       isChampionEditing,
       isChampionCreating,
+      isChampionDelete,
       isLoading,
     } = this.state;
 
@@ -193,20 +200,21 @@ class Champions extends Component {
     const isChampionModalActive = isChampionEditing || isChampionCreating;
 
     const modalActions = isChampionEditing
-    ? [{
-        text: 'Delete champion',
-        onClick: this.deleteChampion,
-        isDanger: true,
-      },{
+      ? [{
         text: 'Update champion',
         onClick: this.editChampionSubmit,
         isDanger: false,
+      },
+      {
+        text: 'Delete champion',
+        onClick: this.delChampion,
+        isDanger: true,
       },]
-    : [{
+      : [{
         text: 'Add champion',
         onClick: this.addChampionSubmit,
         isDanger: false,
-    },];
+      },];
 
     return <div className={style.champions}>
 
@@ -237,6 +245,11 @@ class Champions extends Component {
 
           {isLoading && <Preloader />}
 
+          {isChampionDelete && <ModalAsk
+            textModal={'Do you really want to remove the champion?'}
+            submitClick={this.deleteChampion}
+            closeModal={this.closeDeleteChampion} />}
+
           <Input
             label="Champion name"
             name="name"
@@ -248,7 +261,7 @@ class Champions extends Component {
             name="photo"
             value={championData.photo || ''}
             onChange={this.handleInputChange}
-          />          
+          />
         </Modal>
       }
     </div>;
