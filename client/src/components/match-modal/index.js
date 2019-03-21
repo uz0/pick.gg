@@ -15,7 +15,7 @@ const cx = classnames.bind(style);
 
 class MatchModal extends Component {
 
-  constructor(){
+  constructor() {
     super();
     this.notificationService = new NotificationService()
   }
@@ -27,13 +27,18 @@ class MatchModal extends Component {
     isLoading: false,
   };
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     this.setState({ isLoading: true })
 
     const { match } = await http(`/api/admin/matches/${this.props.matchId}`).then(res => res.json());
-    const { result } = await http(`/api/admin/results/${match[0].results}`).then(res => res.json());
 
-    const resultsWithChampions = this.mapResultsToChampions(result.playersResults, this.props.matchChampions);
+    console.log(match, 'match')
+
+    // const { result } = await http(`/api/admin/results/${match.results._id}`).then(res => res.json());
+
+    const result = match.results.playersResults;
+
+    const resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
 
     this.setState({
       match,
@@ -54,14 +59,14 @@ class MatchModal extends Component {
 
     results.forEach(item => {
       item.results.forEach(element => {
-        if(element._id === result._id) {
+        if (element._id === result._id) {
           element.score = parseInt(event.target.value, 10);
 
-          if(editedResults.length > 0 && !editedResults.find(result => result._id === item._id)){
+          if (editedResults.length > 0 && !editedResults.find(result => result._id === item._id)) {
             editedResults.push(item);
           }
-          
-          if(editedResults.length === 0){
+
+          if (editedResults.length === 0) {
             editedResults.push(item);
           }
         }
@@ -74,7 +79,7 @@ class MatchModal extends Component {
     })
   }
 
-  editMatchSubmit = async() => {
+  editMatchSubmit = async () => {
     this.setState({ isLoading: true });
 
     const { match, results } = this.state;
@@ -86,7 +91,7 @@ class MatchModal extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        matchId: match[0].id,
+        matchId: match.id,
         results,
       })
     });
@@ -101,7 +106,7 @@ class MatchModal extends Component {
   }
 
   render() {
-    const { results, isLoading } = this.state;
+    const { results, match, isLoading } = this.state;
 
     return <Modal
       title='Match Edit'
@@ -115,6 +120,15 @@ class MatchModal extends Component {
     >
 
       {isLoading && <Preloader />}
+
+      <Input
+        label="Match ID"
+        name="name"
+        value={match._id}
+        defaultValue={match._id}
+        disabled
+        // onChange={this.handleInputChange}
+      />
 
       {results.map((result, resultIndex) => <div key={result._id} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>
