@@ -5,24 +5,27 @@ let schema = new Schema({
   // id: { type: Number, required: true },
   name: { type: String, required: true },
   date: { type: Date, required: true },
+  champions: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
   // champions_ids: [Number],
   // matches_ids: [Number],
-}, {
-  toObject: {virtuals:true},
-});
+},
+// {
+//   toObject: {virtuals:true},
+// }
+);
 
-schema.virtual('champions', {
-  ref: 'Player',
-  localField: 'champions_ids',
-  foreignField: 'id',
-  justOne: false,
-});
+// schema.virtual('champions', {
+//   ref: 'Player',
+//   localField: 'champions_ids',
+//   foreignField: 'id',
+//   justOne: false,
+// });
 
-schema.virtual('matches', {
-  ref: 'Match',
-  localField: 'matches_ids',
-  foreignField: 'id',
-  justOne: false,
-});
+// schema.virtual('matches', {
+//   ref: 'Match',
+//   localField: 'matches_ids',
+//   foreignField: 'id',
+//   justOne: false,
+// });
 
 export default mongoose.model('Tournament', schema);
