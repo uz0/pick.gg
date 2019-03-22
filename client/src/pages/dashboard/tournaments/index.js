@@ -65,6 +65,7 @@ class Tournaments extends Component {
     isTournamentEditing: false,
     isTournamentCreating: false,
     isMatchEditing: false,
+    isMatchCreating: false,
     isLoading: false,
   };
 
@@ -160,14 +161,18 @@ class Tournaments extends Component {
     }
   });
 
+  matchCreatingInit = () => this.setState({
+    isMatchCreating: true
+  });
+
+  matchCreatingCompleted = () => this.setState({ isMatchCreating: false });
+
   matchEditingInit = (matchId) => this.setState({
     editingMatchId: matchId,
     isMatchEditing: true
   });
 
-  matchEditingCompleted = () => {
-    this.setState({ isMatchEditing: false });
-  }
+  matchEditingCompleted = () => this.setState({ isMatchEditing: false });
 
   handleInputChange = (event) => {
     const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
@@ -272,6 +277,7 @@ class Tournaments extends Component {
       players,
       tournamentEditingData,
       isMatchEditing,
+      isMatchCreating,
       isTournamentEditing,
       isTournamentCreating,
       isLoading,
@@ -281,6 +287,8 @@ class Tournaments extends Component {
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
     const isTournamentHasMatches = tournamentEditingData.matches && tournamentEditingData.matches.length > 0;
     const isTournamentModalActive = isTournamentEditing || isTournamentCreating;
+
+    const isMatchModalActive = isMatchCreating || isMatchEditing;
 
     const tournamentModalActionText = isTournamentEditing ? 'Update tournament' : 'Create tournament';
     const tournamentModalAction = isTournamentEditing ? this.editTournamentSubmit : this.createTournamentSubmit;
@@ -369,7 +377,7 @@ class Tournaments extends Component {
             <Button
               appearance="_basic-accent"
               text="Add match"
-              // onClick={this.addChampionToTournament}
+              onClick={this.matchCreatingInit}
               className={style.button}
             />
 
@@ -392,7 +400,7 @@ class Tournaments extends Component {
 
         </Modal>}
 
-      {isMatchEditing &&
+      {isMatchModalActive &&
         <MatchModal
           matchId={this.state.editingMatchId}
           matchChampions={tournamentEditingData.champions}
