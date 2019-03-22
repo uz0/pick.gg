@@ -3,6 +3,7 @@ import { Route, Switch, NavLink } from 'react-router-dom';
 
 import Tournaments from './tournaments';
 import FantasyTournaments from './fantasy-tournaments';
+import Rules from './rules';
 import Champions from './champions';
 import Users from './users';
 import style from './style.module.css';
@@ -29,6 +30,7 @@ class Dashboard extends Component {
               <h4>Menu</h4>
               <nav>
                 <NavLink to="/dashboard/tournaments">Tournaments</NavLink>
+                <NavLink to="/dashboard/rules">Tournament rules</NavLink>
                 <NavLink to="/dashboard/fantasy">Fantasy Tournaments</NavLink>
                 <NavLink to="/dashboard/champions">Champions</NavLink>
                 <NavLink to="/dashboard/users">Users</NavLink>
@@ -39,6 +41,7 @@ class Dashboard extends Component {
           <div className={style.section}>
             <Switch>
               <Route path="/dashboard/tournaments" component={Tournaments} />
+              <Route path="/dashboard/rules" component={Rules} />
               <Route path="/dashboard/fantasy" component={FantasyTournaments} />
               <Route path="/dashboard/champions" component={Champions} />
               <Route path="/dashboard/users" component={Users} />

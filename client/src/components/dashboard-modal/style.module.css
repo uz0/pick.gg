@@ -75,6 +75,10 @@
   padding-right: var(--layout-padding);
 }
 
+.wrapper .modal .actions > button + button {
+  margin-left: 16px;
+}
+
 .wrapper .modal .actions:not(._is-center) {
   justify-content: flex-end;
 }
