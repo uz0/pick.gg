@@ -11,9 +11,8 @@ let router = express.Router();
 
 const AdminController = () => {
   router.get('/tournaments/real', async (req, res) => {
-    const tournaments = await TournamentModel
-      .find()
-      .populate('champions')
+    const tournaments = await TournamentModel.find()
+      .populate('champions', '_id name')
       .populate('matches')
       .sort({ date: -1 })
 
@@ -45,7 +44,6 @@ const AdminController = () => {
         name: tournament.name,
         date: tournament.date,
         champions: tournament.champions,
-        champions_ids: tournament.champions_ids,
       },
       {
         upsert: true

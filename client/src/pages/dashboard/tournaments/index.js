@@ -55,7 +55,6 @@ class Tournaments extends Component {
       name: '',
       date: '',
       champions: [],
-      champions_ids: [],
       addedChampionsIds: [],
       removedChampionsIds: [],
       matches_ids: [],
@@ -75,22 +74,22 @@ class Tournaments extends Component {
     });
   }
 
-  createTournamentSubmit = async() => {
+  createTournamentSubmit = async () => {
     const { tournamentEditingData } = this.state;
 
-    if(!tournamentEditingData.name){
+    if (!tournamentEditingData.name) {
       this.notificationService.show('Please, write tournament name');
 
       return;
     }
 
-    if(!tournamentEditingData.date){
+    if (!tournamentEditingData.date) {
       this.notificationService.show('Please, choose tournament date');
 
       return;
     }
 
-    if(!tournamentEditingData.champions.length === 0){
+    if (!tournamentEditingData.champions.length === 0) {
       this.notificationService.show('Please, choose tournament players');
 
       return;
@@ -156,7 +155,6 @@ class Tournaments extends Component {
       name: '',
       date: '',
       champions: [],
-      champions_ids: [],
       addedChampionsIds: [],
       removedChampionsIds: [],
     }
@@ -207,16 +205,14 @@ class Tournaments extends Component {
 
     const champion = players.find(champion => champion._id === selectedChampion);
     const champions = [...this.state.tournamentEditingData.champions, champion];
-    const champions_ids = [...this.state.tournamentEditingData.champions_ids, champion.id];
-    const addedChampionsIds = [...this.state.tournamentEditingData.addedChampionsIds, champion.id];
-    const removedChampionsIds = this.state.tournamentEditingData.removedChampionsIds.filter(item => item !== champion.id);
+    const addedChampionsIds = [...this.state.tournamentEditingData.addedChampionsIds, champion._id];
+    const removedChampionsIds = this.state.tournamentEditingData.removedChampionsIds.filter(item => item !== champion._id);
 
     this.setState({
       ...this.state,
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         champions,
-        champions_ids,
         addedChampionsIds,
         removedChampionsIds
       }
@@ -224,8 +220,7 @@ class Tournaments extends Component {
   };
 
   removeChampionFromTournament = (championId) => {
-    const champions = this.state.tournamentEditingData.champions.filter(champion => champion.id !== championId);
-    const champions_ids = this.state.tournamentEditingData.champions_ids.filter(id => id !== championId);
+    const champions = this.state.tournamentEditingData.champions.filter(champion => champion._id !== championId);
     const removedChampionsIds = [...this.state.tournamentEditingData.removedChampionsIds, championId];
     const addedChampionsIds = this.state.tournamentEditingData.addedChampionsIds.filter(item => item !== championId)
 
@@ -234,7 +229,6 @@ class Tournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         champions,
-        champions_ids,
         addedChampionsIds,
         removedChampionsIds
       }
@@ -262,9 +256,9 @@ class Tournaments extends Component {
         <span className={textClass}>{item.name}</span>
       </div>
 
-      {/* <div className={itemClass} style={{ '--width': tournamentsTableCaptions.matches.width }}>
-        <span className={textClass}>{item.matches.length}</span>
-      </div> */}
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.matches.width }}>
+        <span className={textClass}>{item.matches ? item.matches.length : "There's no any matches yet"}</span>
+      </div>
 
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
         <span className={textClass}>{formattedDate}</span>
@@ -287,7 +281,7 @@ class Tournaments extends Component {
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
     const isTournamentHasMatches = tournamentEditingData.matches && tournamentEditingData.matches.length > 0;
     const isTournamentModalActive = isTournamentEditing || isTournamentCreating;
-    
+
     const tournamentModalActionText = isTournamentEditing ? 'Update tournament' : 'Create tournament';
     const tournamentModalAction = isTournamentEditing ? this.editTournamentSubmit : this.createTournamentSubmit;
 
@@ -332,7 +326,7 @@ class Tournaments extends Component {
             placeholder="Choose name"
             value={tournamentEditingData.name || ''}
             onChange={this.handleInputChange}
-            />
+          />
           <Input
             name="date"
             label="Tournament date"
@@ -340,16 +334,16 @@ class Tournaments extends Component {
             type="date"
             value={editedTournamentDate || ''}
             onChange={this.handleInputChange}
-            />
+          />
 
           <div className={cx(style.section, style.champions_section)}>
             <div className={style.title}>Tournament players</div>
             <div className={style.champions}>
-              {tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
+              {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
                 {champion.name}
                 <Button
                   icon={<CloseIcon />}
-                  onClick={() => this.removeChampionFromTournament(champion.id)}
+                  onClick={() => this.removeChampionFromTournament(champion._id)}
                   appearance={'_icon-transparent'}
                 />
               </div>)}
@@ -372,6 +366,13 @@ class Tournaments extends Component {
 
           <div className={cx(style.section, style.matches_section)}>
             <div className={style.title}>Tournament Matches</div>
+            <Button
+              appearance="_basic-accent"
+              text="Add match"
+              // onClick={this.addChampionToTournament}
+              className={style.button}
+            />
+
             {!isTournamentHasMatches && isTournamentEditing &&
               <div>There's no any matches yet</div>
             }
