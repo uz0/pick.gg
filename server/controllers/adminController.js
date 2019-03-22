@@ -241,7 +241,7 @@ const AdminController = () => {
 
   router.put('/users/:id', async (req, res) => {
     const userId = req.params.id;
-    const user = await UserModel.findByIdAndUpdate(userId, req.body, { new: true });
+    const user = await UserModel.findByIdAndUpdate(userId, req.body.user, { new: true });
     res.json({ user });
   });
 
