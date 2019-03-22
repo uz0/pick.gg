@@ -27,4 +27,10 @@ export default class AdminService {
     return users;
   }
 
+  getAllRules = async() => {
+    const rulesQuery = await http('/api/admin/rules');
+    const rules = await rulesQuery.json();
+    return rules;
+  }
+
 }

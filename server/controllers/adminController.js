@@ -131,7 +131,34 @@ const AdminController = () => {
     res.send({
       success: 'success',
     })
-  })
+  });
+
+  router.get('/rules', async (req, res) => {
+    const rules = await RuleModel.find();
+    res.json({ rules });
+  });
+
+  router.post('/rules', async (req, res) => {
+    const ruleData = req.body.rule;
+    const rule = await RuleModel.create(ruleData);
+    
+    res.json({ rule });
+  });
+
+  router.put('/rules/:id', async (req, res) => {
+    const ruleId = req.params.id;
+    const ruleData = req.body.rule;
+
+    const rule = await RuleModel.findByIdAndUpdate(ruleId, ruleData);
+    res.json({ rule });
+  });
+
+  router.delete('/rules/:id', async (req, res) => {
+    const ruleId = req.params.id;
+    const rule = await RuleModel.findByIdAndRemove(ruleId);
+
+    res.json({ rule });
+  });
 
   router.get('/matches', async (req, res) => {
     const matches = await MatchModel.find();
