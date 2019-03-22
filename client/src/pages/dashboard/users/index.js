@@ -59,9 +59,7 @@ class Users extends Component {
   };
 
   editUserInit = (userId) => {
-
     const user = this.state.users.filter(user => user._id === userId)[0];
-    console.log(user)
     this.setState({
       isUserEditing: true,
       userEditingData: {
@@ -71,10 +69,12 @@ class Users extends Component {
     });
   }
 
-  editTournamentSubmit = async () => {
+  editUserSubmit = async () => {
     this.setState({ isLoading: true });
 
-    await http('/api/admin/users', {
+    const userId = this.state.userEditingData._id;
+
+    await http(`/api/admin/users/${userId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -99,11 +99,10 @@ class Users extends Component {
   });
 
   handleInputChange = (event) => {
-    const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
     this.setState({
-      championEditingData: {
-        ...this.state.championEditingData,
-        [event.target.name]: inputValue,
+      userEditingData: {
+        ...this.state.userEditingData,
+        [event.target.name]: event.target.value,
       }
     });
   };
@@ -119,7 +118,6 @@ class Users extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-
     const isAdmin = item.isAdmin ? 'Yes' : 'No';
     const userId = item._id;
 
@@ -145,8 +143,6 @@ class Users extends Component {
       isUserEditing,
       isLoading,
     } = this.state;
-
-    console.log(this.state);
 
     const modalTitle = `Editing ${userEditingData.username}`;
 
@@ -175,21 +171,21 @@ class Users extends Component {
 
           <Input
             label="Username"
-            name="name"
-            value={userEditingData.username || ''}
-            onChange={this.handleChange}
+            name="username"
+            value={userEditingData.username}
+            onChange={this.handleInputChange}
           />
 
           <Input
             label="Balance"
-            name="name"
-            value={userEditingData.balance || ''}
+            name="balance"
+            value={userEditingData.balance}
             onChange={this.handleInputChange}
           />
 
           <Input
             label="Admin"
-            name="name"
+            name="isAdmin"
             type="checkbox"
             value={userEditingData.isAdmin}
             onChange={this.handleInputChange}
