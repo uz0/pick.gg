@@ -137,7 +137,8 @@
 	padding: 9px;
 	border-radius: 3px;
 	display: inline-block;
-	position: relative;
+  position: relative;
+  cursor: pointer;
 }
 
 .css_checkbox:active, .css_checkbox:checked:active {
