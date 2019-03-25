@@ -1,25 +1,25 @@
-.tournaments {
+.users {
 
 }
 
-.tournaments .table .tournament_row {
+.users .table .tournament_row {
   cursor: pointer;
 }
 
-.tournaments .table .tournament_row:hover {
+.users .table .tournament_row:hover {
   --bg-color: var(--accent-color);
   --text-color: #000;
 }
 
-.tournaments .rules_inputs {
+.users .rules_inputs {
   display: flex;
 }
 
-.tournaments .rules_inputs .rule_input + .rule_input {
+.users .rules_inputs .rule_input + .rule_input {
   margin-left: 12px;
 }
 
-.tournaments .section .title {
+.users .section .title {
   line-height: var(--height);
   font-size: 24px;
   font-family: var(--font-family-title);
@@ -27,11 +27,11 @@
   color: var(--caption-color);
 }
 
-.tournaments .champions_section {
+.users .champions_section {
   --height: 40px;
 }
 
-.tournaments .champions_section .champions {
+.users .champions_section .champions {
   --gap: 10px;
   display: flex;
   flex-wrap: wrap;
@@ -39,7 +39,7 @@
   margin-top: calc(var(--gap) * -1);
 }
 
-.tournaments .champions_section .champions .champion {
+.users .champions_section .champions .champion {
   --champion-padding: 12px;
   display: flex;
   height: var(--height);
@@ -57,7 +57,7 @@
   background-color: var(--primary-color);
 }
 
-.tournaments .champions_section .champions .champion_add {
+.users .champions_section .champions .champion_add {
   height: var(--height);
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
   margin-left: var(--gap);
 }
 
-.tournaments .champions_section .champions .champion_add .select {
+.users .champions_section .champions .champion_add .select {
   height: var(--height);
   min-width: 200px;
   background-color: var(--primary-color);
@@ -74,14 +74,14 @@
   border-radius: 4px;
 }
 
-.tournaments .champions_section .champions .champion_add .button {
+.users .champions_section .champions .champion_add .button {
   height: var(--height);
   min-width: 60px;
   font-size: 16px;
   margin-left: var(--gap);
 }
 
-.tournaments .matches_section .match {
+.users .matches_section .match {
   --height: 40px;
   --padding: 10px;
   height: var(--height);
@@ -95,17 +95,17 @@
   cursor: pointer;
 }
 
-.tournaments .matches_section .match:not(:hover){
+.users .matches_section .match:not(:hover){
   background-color: var(--primary-color);
   color: var(--caption-color);
 }
 
-.tournaments .matches_section .match:hover {
+.users .matches_section .match:hover {
   background-color: var(--accent-color);
   color: var(--primary-color);
 }
 
-.tournaments .add_user{
+.users .add_user{
   position: fixed;
   bottom: 30px;
   right: 30px;
@@ -114,15 +114,48 @@
   height: 60px;
   border-radius: 40px;
 }
-/* .tournaments .title {
-  --height: 24px;
-  overflow: hidden;
-  height: var(--height);
-  margin: 0;
-  line-height: var(--height);
-  font-family: var(--font-family-title);
-  color: #9696b0;
-  font-size: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-} */
+
+.users input{
+  margin-bottom: 10px;
+}
+
+.chebox{
+  margin-top: 10px;   
+  display: flex;
+}
+
+.chebox p{
+  color: var(--accent-color);
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.css_checkbox {
+	-webkit-appearance: none;
+	background-color: var(--primary-color);
+	border: 1px solid var(--primary-color);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+
+.css_checkbox:active, .css_checkbox:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.css_checkbox:checked {
+	background-color: var(--primary-color);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+}
+
+.css_checkbox:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: var(--accent-color);;
+}
