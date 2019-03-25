@@ -34,7 +34,7 @@ class newTournament extends Component {
     const { user } = await this.userService.getMyProfile();
 
     const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
-    const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
+    const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions.length > 0);
     const rulesValues = rules.reduce((obj, rule) => {
       obj[rule._id] = 0;
       return obj;
@@ -113,7 +113,7 @@ class newTournament extends Component {
     }
 
     if (tournament){
-      tournamentId = this.state.filteredTournaments.find(item => item.name === tournament).id;
+      tournamentId = this.state.filteredTournaments.find(item => item.name === tournament)._id;
     } else {
       this.notificationService.show('Please, select tournament and try again');
       return false;

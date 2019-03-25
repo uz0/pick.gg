@@ -7,6 +7,7 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
+import ModalAsk from 'components/modal';
 import Input from 'components/input';
 import Select from 'components/filters/select';
 import Button from 'components/button';
@@ -61,6 +62,7 @@ class Tournaments extends Component {
     selectedChampion: '',
     isTournamentEditing: false,
     isTournamentCreating: false,
+    isTournamentDeleting: false,
     isMatchEditing: false,
     isMatchCreating: false,
     isLoading: false,
@@ -99,6 +101,10 @@ class Tournaments extends Component {
 
     this.setState({
       isTournamentCreating: false,
+      tournamentEditingData: {
+        name: '',
+        date: '',
+      },
       tournaments,
     }, () => this.notificationService.show('Tournament was created'));
   }
@@ -140,6 +146,39 @@ class Tournaments extends Component {
       champions: [],
     }
   });
+
+  deleteTournamentConfirmInit = () => {
+    this.setState({
+      isTournamentDeleting: true,
+    });
+  }
+
+  deleteTournamentAccept = () => {
+    this.setState({
+      isTournamentDeleting: false,
+    });
+
+    this.deleteTournament();
+  }
+
+  deleteTournamentDecline = () => {
+    this.setState({
+      isTournamentDeleting: false,
+    });
+  }
+
+  deleteTournament = async () => {
+    const tournamentId = this.state.tournamentEditingData._id;
+    await this.adminService.deleteRealTournament(tournamentId);
+
+    const { tournaments } = await this.adminService.getRealTournaments();
+
+    this.setState({
+      isTournamentEditing: false,
+      isTournamentDeleting: false,
+      tournaments,
+    }, () => this.notificationService.show('Tournament was deleted'));
+  }
 
   createMatch = async () => {
     this.setState({ isLoading: true });
@@ -295,10 +334,9 @@ class Tournaments extends Component {
       isMatchCreating,
       isTournamentEditing,
       isTournamentCreating,
+      isTournamentDeleting,
       isLoading,
     } = this.state;
-
-    console.log(this.state);
 
     const modalTitle = isTournamentCreating ? `Create new tournament` : `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
@@ -307,8 +345,21 @@ class Tournaments extends Component {
 
     const isMatchModalActive = isMatchCreating || isMatchEditing;
 
-    const tournamentModalActionText = isTournamentEditing ? 'Update tournament' : 'Create tournament';
-    const tournamentModalAction = isTournamentEditing ? this.editTournamentSubmit : this.createTournamentSubmit;
+    const modalActions = isTournamentEditing
+    ? [{
+        text: 'Delete tournament',
+        onClick: this.deleteTournamentConfirmInit,
+        isDanger: true,
+      },{
+        text: 'Update tournament',
+        onClick:  this.editTournamentSubmit,
+        isDanger: false,
+      },]
+    : [{
+      text: 'Create tournament',
+      onClick: this.createTournamentSubmit,
+      isDanger: false,
+    }];
 
     return <div className={style.tournaments}>
 
@@ -334,15 +385,19 @@ class Tournaments extends Component {
         <Modal
           title={modalTitle}
           close={this.resetTournament}
-          actions={[{
-            text: tournamentModalActionText,
-            onClick: tournamentModalAction,
-            isDanger: false,
-          }]}
+          actions={modalActions}
         >
 
           {isLoading &&
             <Preloader />
+          }
+
+          {isTournamentDeleting &&
+            <ModalAsk
+              textModal={'Do you really want to delete the tournament?'}
+              submitClick={this.deleteTournamentAccept}
+              closeModal={this.deleteTournamentDecline}
+            />
           }
 
           <div className={style.section}>
@@ -365,68 +420,68 @@ class Tournaments extends Component {
             />
           </div>
 
-          <div className={cx(style.section, style.champions_section)}>
-            <div className={style.title}>Tournament players</div>
-            <div className={style.champions}>
-              {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
-                {champion.name}
-                <Button
-                  icon={<CloseIcon />}
-                  onClick={() => this.removeChampionFromTournament(champion._id)}
-                  appearance={'_icon-transparent'}
-                />
-              </div>)}
-              <div className={style.champion_add}>
-                <Select
-                  options={players}
-                  className={style.select}
-                  onChange={this.selectChampion}
-                  defaultOption={'Select player'}
-                />
-                <Button
-                  appearance="_basic-accent"
-                  text="Add"
-                  onClick={this.addChampionToTournament}
-                  className={style.button}
-                />
+          {isTournamentEditing &&
+            <div className={cx(style.section, style.champions_section)}>
+              <div className={style.title}>Tournament players</div>
+              <div className={style.champions}>
+                {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
+                  {champion.name}
+                  <Button
+                    icon={<CloseIcon />}
+                    onClick={() => this.removeChampionFromTournament(champion._id)}
+                    appearance={'_icon-transparent'}
+                  />
+                </div>)}
+                <div className={style.champion_add}>
+                  <Select
+                    options={players}
+                    className={style.select}
+                    onChange={this.selectChampion}
+                    defaultOption={'Select player'}
+                  />
+                  <Button
+                    appearance="_basic-accent"
+                    text="Add"
+                    onClick={this.addChampionToTournament}
+                    className={style.button}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          }
 
-          <div className={cx(style.section, style.matches_section)}>
-            <div className={style.title}>Tournament Matches</div>
+          {isTournamentEditing &&
+            <div className={cx(style.section, style.matches_section)}>
+              <div className={style.title}>Tournament Matches</div>
 
-            <Button
-              appearance="_basic-accent"
-              text="Create match"
-              onClick={this.createMatch}
-              className={style.button}
-            />
+              <Button
+                appearance="_basic-accent"
+                text="Create match"
+                onClick={this.createMatch}
+                className={style.button}
+              />
 
-            {!isTournamentHasMatches && !isTournamentEditing &&
-              <div>You can add matches after tournament is created</div>
-            }
-
-            {isTournamentHasMatches && tournamentEditingData.matches.map((match, index) =>
-              <div
-                key={match._id}
-                className={style.match}
-                >
+              {isTournamentHasMatches && tournamentEditingData.matches.map((match, index) =>
                 <div
-                  className={style.match_inner}
-                  onClick={() => this.matchEditingInit(match._id)}
-                >
-                  {`Match ${index + 1}`}
+                  key={match._id}
+                  className={style.match}
+                  >
+                  <div
+                    className={style.match_inner}
+                    onClick={() => this.matchEditingInit(match._id)}
+                  >
+                    {`Match ${index + 1}`}
+                  </div>
+                  <Button
+                    appearance="_basic-danger"
+                    text="X"
+                    onClick={() => this.deleteMatch(match._id)}
+                    className={style.button}
+                  />
                 </div>
-                <Button
-                  appearance="_basic-danger"
-                  text="X"
-                  onClick={() => this.deleteMatch(match._id)}
-                  className={style.button}
-                />
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          }
 
         </Modal>}
 

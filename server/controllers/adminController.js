@@ -77,10 +77,19 @@ const AdminController = () => {
           path: 'results'
         }
       })
-      // .populate('matches.results')
       .sort({ date: -1 })
 
     res.json({ tournaments });
+  });
+
+  router.post('/tournaments/real', async (req, res) => {
+    const { tournament } = req.body;
+
+    const newTournament = await TournamentModel.create(tournament);
+
+    res.json({
+      newTournament
+    });
   });
 
   router.get('/tournaments/real/:id', async (req, res) => {
@@ -102,8 +111,6 @@ const AdminController = () => {
     const tournamentId = req.params.id;
     let { tournament } = req.body;
 
-    const rules = await RuleModel.find();
-
     await TournamentModel.findByIdAndUpdate(tournamentId,
       {
         name: tournament.name,
@@ -115,33 +122,24 @@ const AdminController = () => {
       },
     );
 
-    // const updatedTournamentMatches = await MatchModel
-    //   .find({ id: { $in: tournament.matches_ids } })
-    //   .populate('results')
-
-
-    // await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-    //   $pull: { playersResults: { result: removedChampionsIds[j] } },
-    // });
-
-    // results.push(generatePlayerResults(championId));
-
-    // await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-    //   $push: { playersResults: { $each: playersResults } },
-    // });
-
     res.json({
       tournament
     });
   });
 
-  router.post('/tournaments/real', async (req, res) => {
-    const { tournament } = req.body;
+  router.delete('/tournaments/real/:id', async (req, res) => {
+    const tournamentId = req.params.id;
 
-    const newTournament = await TournamentModel.create(tournament);
+    const tournament = await TournamentModel.findById(tournamentId).populate('matches');
+    const tournamentMatchesIds = tournament.matches.map(match => match._id);
+    const tournamentMatchesResultsIds = tournament.matches.map(match => match.results);
+
+    await MatchResultModel.deleteMany({ _id: { $in: tournamentMatchesResultsIds }});
+    await MatchModel.deleteMany({ _id: { $in: tournamentMatchesIds }});
+    await TournamentModel.deleteOne({ _id: tournamentId });
 
     res.json({
-      newTournament
+      tournament
     });
   });
 

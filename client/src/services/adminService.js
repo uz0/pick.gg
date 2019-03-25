@@ -29,6 +29,12 @@ export default class AdminService {
     });
   }
 
+  deleteRealTournament = async (tournamentId) => {
+    await http(`/api/admin/tournaments/real/${tournamentId}`, {
+      method: 'DELETE',
+    });
+  }
+
   createMatch = async(tournamentId) => {
     const matchQuery = await http('/api/admin/matches', {
       method: 'POST',
