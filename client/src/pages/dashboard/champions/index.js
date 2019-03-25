@@ -149,6 +149,7 @@ class Champions extends Component {
       }
     }, () => this.notificationService.show('Champion was successfully deleted!'));
   }
+  
   closeDeleteChampion = () => this.setState({ isChampionDelete: false });
 
   resetChampion = () => this.setState({
