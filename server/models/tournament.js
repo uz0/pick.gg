@@ -6,10 +6,11 @@ let schema = new Schema({
   name: { type: String, required: true },
   date: { type: Date, required: true },
   champions: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
+  matches: [{ type: Schema.Types.ObjectId, ref: 'Match' }],
   champions_ids: [Number],
-  matches_ids: [Number],
+  // matches_ids: [Number],
 },
-// {
+// {1
 //   toObject: {virtuals:true},
 // }
 );
