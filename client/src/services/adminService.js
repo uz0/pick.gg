@@ -1,12 +1,103 @@
 import http from './httpService';
-import moment from 'moment';
 
 export default class AdminService {
+  createRealTournament = async(tournamentData) => {
+    const tournamentQuery = await http(`/api/admin/tournaments/real`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tournament: tournamentData,
+      })
+    });
+    const tournament = await tournamentQuery.json();
+    return tournament;
+  }
+
+  updateRealTournament = async(tournamentId, tournamentData) => {
+    await http(`/api/admin/tournaments/real/${tournamentId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tournament: tournamentData,
+      })
+    });
+  }
+
+  createMatch = async(tournamentId) => {
+    const matchQuery = await http('/api/admin/matches', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tournamentId,
+      })
+    });
+    const match = await matchQuery.json();
+    return match;
+  };
+
+  deleteMatch = async(matchId) => {
+    await http(`/api/admin/matches/${matchId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  getMatchResult = async(matchId) => {
+    const matchResultQuery = await http(`/api/admin/results/${matchId}`);
+    const matchResult = await matchResultQuery.json();
+    return matchResult;
+  };
+
+  addPlayerToRealTournament = async(tournamentId, player) => {
+    const playersQuery = await http('/api/admin/tournaments/real/players', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tournamentId,
+        player,
+      })
+    });
+    const players = await playersQuery.json();
+    return players;
+  }
+
+  removePlayerFromRealTournament = async(tournamentId, playerId) => {
+    const playersQuery = await http('/api/admin/tournaments/real/players', {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tournamentId,
+        playerId,
+      })
+    });
+    const players = await playersQuery.json();
+    return players;
+  }
 
   getRealTournaments = async() => {
     const tournamentsQuery = await http('/api/admin/tournaments/real');
     const tournaments = await tournamentsQuery.json();
     return tournaments;
+  }
+
+  getRealTournamentById = async(tournamentId) => {
+    const tournamentQuery = await http(`/api/admin/tournaments/real/${tournamentId}`);
+    const tournament = await tournamentQuery.json();
+    return tournament;
   }
 
   getFantasyTournaments = async() => {
@@ -32,5 +123,4 @@ export default class AdminService {
     const rules = await rulesQuery.json();
     return rules;
   }
-
 }
