@@ -73,10 +73,10 @@ class Transactions extends Component {
       if (item.tournamentId) {
         return <Link to={`/tournaments/${item.tournamentId}`} {...props}>
           {children}
-        </Link>
+        </Link>;
       }
-      return <div {...props}>{children}</div>
-    }
+      return <div {...props}>{children}</div>;
+    };
 
     return <Wrapper key={item._id} className={className}>
       <div className={itemClass} style={{ '--width': amountWidth }}>

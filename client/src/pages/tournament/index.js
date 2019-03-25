@@ -12,7 +12,6 @@ import NotificationService from 'services/notificationService';
 import moment from 'moment';
 import find from 'lodash/find';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
-import defaultAvatar from 'assets/placeholder.png';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
 
@@ -135,10 +134,10 @@ class Tournament extends Component {
   getFantasyTournamentStatus = () => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    if(champions.length > 0){
+    if (champions.length > 0){
       return i18n.t('wait_matches');
     }
-    if(champions.length === 0){
+    if (champions.length === 0){
       return i18n.t('join_tournament_and');
     }
   }
@@ -328,7 +327,7 @@ class Tournament extends Component {
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
-              <img src={defaultAvatar} alt={i18n.t('champion_avatar')}/>
+              <img src={champion.photo} alt={i18n.t('champion_avatar')}/>
             </div>
 
             <span className={style.name}>{champion.name}</span>

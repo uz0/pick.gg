@@ -1,0 +1,135 @@
+.tournaments {
+
+}
+
+.tournaments .tournaments_controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.tournaments .table .tournament_row {
+  cursor: pointer;
+}
+
+.tournaments .table .tournament_row:hover {
+  --bg-color: var(--accent-color);
+  --text-color: #000;
+}
+
+.tournaments .rules_inputs {
+  display: flex;
+}
+
+.tournaments .rules_inputs .rule_input + .rule_input {
+  margin-left: 12px;
+}
+
+.tournaments .section + .section {
+  margin-top: 12px;
+}
+
+.tournaments .section .title {
+  margin-bottom: 16px;
+  line-height: var(--height);
+  font-size: 24px;
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--caption-color);
+}
+
+.tournaments .section .tournament_input + .tournament_input {
+  margin-top: 12px;
+}
+
+.tournaments .champions_section {
+  --height: 40px;
+}
+
+.tournaments .champions_section .champions {
+  --gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--gap) * -1);
+  margin-top: calc(var(--gap) * -1);
+}
+
+.tournaments .champions_section .champions .champion {
+  --champion-padding: 12px;
+  display: flex;
+  height: var(--height);
+  align-items: center;
+  margin-top: var(--gap);
+  margin-left: var(--gap);
+  padding-left: var(--champion-padding);
+  padding-right: var(--champion-padding);
+  min-width: 0;
+  flex-shrink: 0;
+  font-size: 16px;
+  line-height: var(--height);
+  color: var(--caption-color);
+  border-radius: calc(var(--height) / 2);
+  background-color: var(--primary-color);
+}
+
+.tournaments .champions_section .champions .champion_add {
+  height: var(--height);
+  display: flex;
+  align-items: center;
+  margin-top: var(--gap);
+  margin-left: var(--gap);
+}
+
+.tournaments .champions_section .champions .champion_add .select select {
+  height: 40px;
+  min-width: 200px;
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  border: none;
+  border-radius: 4px;
+}
+
+.tournaments .champions_section .champions .champion_add .button {
+  height: var(--height);
+  min-width: 60px;
+  font-size: 16px;
+  margin-left: var(--gap);
+}
+
+.tournaments .matches_section .match {
+  --height: 40px;
+  --padding: 10px;
+  height: var(--height);
+  padding-left: var(--padding);
+  padding-right: var(--padding);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 300px;
+  margin-top: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tournaments .matches_section .match .match_inner {
+  width: 100%;
+}
+
+.tournaments .matches_section .match .button {
+  min-width: 40px;
+  margin-right: calc(var(--padding) * -1);
+}
+
+.tournaments .matches_section .button {
+  font-size: 16px;
+}
+
+.tournaments .matches_section .match:not(:hover){
+  background-color: var(--primary-color);
+  color: var(--caption-color);
+}
+
+.tournaments .matches_section .match:hover {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}

@@ -1,5 +1,6 @@
 import React from 'react';
-import style from './style.module.css'
+import style from './style.module.css';
+
 const Select = ({ label, values, name, placeholder, type, autofocus, value, action, className, option }) => {
   return (
     <label className={style.input_component}>
@@ -18,7 +19,7 @@ const Select = ({ label, values, name, placeholder, type, autofocus, value, acti
         <option hidden disabled selected value />
 
         {values && values.map(item =>
-          <option 
+          <option
             key={item.id}
             value={item.name}
           >

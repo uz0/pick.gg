@@ -41,7 +41,7 @@ class User extends Component {
     const totalWinnings = winnings.reduce((acc, current) => { return acc + current.amount; }, 0);
 
     this.setState({
-      tournaments: tournaments,
+      tournaments,
       userData: user,
       totalWinnings,
       totalUsers: userRating.rating.length,
@@ -56,9 +56,7 @@ class User extends Component {
     const {
       totalWinnings,
       tournaments,
-      totalUsers,
-      userPlace,
-      loading
+      loading,
     } = this.state;
 
     const winnings = totalWinnings === 0 ? 'newbie' : `$ ${totalWinnings}`;
