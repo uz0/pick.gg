@@ -201,14 +201,14 @@ class Champions extends Component {
 
     const modalActions = isChampionEditing
       ? [{
-        text: 'Update champion',
-        onClick: this.editChampionSubmit,
-        isDanger: false,
-      },
-      {
         text: 'Delete champion',
         onClick: this.delChampion,
         isDanger: true,
+      },
+      {
+        text: 'Update champion',
+        onClick: this.editChampionSubmit,
+        isDanger: false,
       },]
       : [{
         text: 'Add champion',
