@@ -8,9 +8,11 @@ import http from 'services/httpService';
 import NotificationService from 'services/notificationService';
 import AdminService from 'services/adminService';
 
+import moment from 'moment';
+import find from 'lodash/find';
+
 import classnames from 'classnames/bind';
 import style from './style.module.css';
-import find from 'lodash/find';
 
 const cx = classnames.bind(style);
 
@@ -53,13 +55,25 @@ class MatchModal extends Component {
     return results;
   }
 
+  handleInputChange = (event) => {
+    const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
+    this.setState({
+      match: {
+        ...this.state.match,
+        [event.target.name]: inputValue,
+      }
+    });
+
+    console.log(this.state.match);
+  };
+
   onRulesInputChange = (event, resultIndex, ruleIndex) => {
     let { results, editedResults } = this.state;
     const result = results[resultIndex].results[ruleIndex];
 
     results.forEach(item => {
       item.results.forEach(element => {
-        if (element.rule._id === result.rule._id) {
+        if (element._id === result._id) {
           element.score = parseInt(event.target.value, 10);
 
           if (editedResults.length > 0 && !editedResults.find(result => result._id === item._id)) {
@@ -84,25 +98,16 @@ class MatchModal extends Component {
 
     const { match, results } = this.state;
 
-    await http('/api/admin/results', {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        matchId: match.id,
-        results,
-      })
-    });
+    await this.adminService.updateMatch({
+      matchId: match._id,
+      startDate: match.startDate,
+      completed: match.completed,
+      results,
+    })
 
     this.setState({
       isLoading: false
     }, () => this.notificationService.show('Match was successfully updated!'));
-  }
-
-  editMatchReset = () => {
-
   }
 
   render() {
@@ -121,9 +126,11 @@ class MatchModal extends Component {
         isDanger: true,
       }, {
         text: 'Update match',
-        onClick: this.editRuleSubmit,
+        onClick: this.editMatchSubmit,
         isDanger: false,
       }];
+
+    const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
 
     return <Modal
       title={matchModalTitle}
@@ -143,17 +150,35 @@ class MatchModal extends Component {
         onChange={this.handleInputChange}
       />
 
+      <Input
+        type="date"
+        label="Start date"
+        name="startDate"
+        value={formattedMatchDate}
+        defaultValue={formattedMatchDate}
+        onChange={this.handleInputChange}
+      />
+
+      <Input
+        type="checkbox"
+        label="Completed"
+        name="completed"
+        value={match.completed}
+        defaultValue={match.completed}
+        onChange={this.handleInputChange}
+      />
+
       {results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>
 
         <div className={style.rules_inputs}>
           {result.results.map((item, ruleIndex) =>
             <Input
-              key={item.rule._id}
+              key={item._id}
               label={item.rule.name}
               placeholder={item.rule.name}
               className={style.rule_input}
-              name={item.rule._id}
+              name={item._id}
               onChange={(event) => this.onRulesInputChange(event, resultIndex, ruleIndex)}
               value={results[resultIndex].results[ruleIndex].score}
               type="number"
