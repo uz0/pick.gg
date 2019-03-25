@@ -38,6 +38,7 @@ class MatchModal extends Component {
     let matchResult = await this.adminService.getMatchResult(this.props.matchId);
 
     match.results = matchResult.result[0];
+    match.startTime = moment(match.startDate).format('HH:mm');
 
     const result = match.results.playersResults;
     const resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
@@ -63,8 +64,6 @@ class MatchModal extends Component {
         [event.target.name]: inputValue,
       }
     });
-
-    console.log(this.state.match);
   };
 
   onRulesInputChange = (event, resultIndex, ruleIndex) => {
@@ -98,9 +97,12 @@ class MatchModal extends Component {
 
     const { match, results } = this.state;
 
+    const [ hours, minutes ] = match.startTime.split(':');
+    const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
+
     await this.adminService.updateMatch({
       matchId: match._id,
-      startDate: match.startDate,
+      startDate: matchDate,
       completed: match.completed,
       results,
     })
@@ -149,6 +151,15 @@ class MatchModal extends Component {
         name="startDate"
         value={formattedMatchDate}
         defaultValue={formattedMatchDate}
+        onChange={this.handleInputChange}
+      />
+
+      <Input
+        type="time"
+        label="Start time"
+        name="startTime"
+        value={match.startTime}
+        defaultValue={match.startTime}
         onChange={this.handleInputChange}
       />
 
