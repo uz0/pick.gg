@@ -8,9 +8,11 @@ import http from 'services/httpService';
 import NotificationService from 'services/notificationService';
 import AdminService from 'services/adminService';
 
+import moment from 'moment';
+import find from 'lodash/find';
+
 import classnames from 'classnames/bind';
 import style from './style.module.css';
-import find from 'lodash/find';
 
 const cx = classnames.bind(style);
 
@@ -53,6 +55,18 @@ class MatchModal extends Component {
     return results;
   }
 
+  handleInputChange = (event) => {
+    const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
+    this.setState({
+      match: {
+        ...this.state.match,
+        [event.target.name]: inputValue,
+      }
+    });
+
+    console.log(this.state.match);
+  };
+
   onRulesInputChange = (event, resultIndex, ruleIndex) => {
     let { results, editedResults } = this.state;
     const result = results[resultIndex].results[ruleIndex];
@@ -84,25 +98,16 @@ class MatchModal extends Component {
 
     const { match, results } = this.state;
 
-    await http('/api/admin/results', {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        matchId: match._id,
-        results,
-      })
-    });
+    await this.adminService.updateMatch({
+      matchId: match._id,
+      startDate: match.startDate,
+      completed: match.completed,
+      results,
+    })
 
     this.setState({
       isLoading: false
     }, () => this.notificationService.show('Match was successfully updated!'));
-  }
-
-  editMatchReset = () => {
-
   }
 
   render() {
@@ -125,6 +130,8 @@ class MatchModal extends Component {
         isDanger: false,
       }];
 
+    const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
+
     return <Modal
       title={matchModalTitle}
       wrapClassName={style.modal_match}
@@ -140,6 +147,24 @@ class MatchModal extends Component {
         value={match._id}
         defaultValue={match._id}
         disabled
+        onChange={this.handleInputChange}
+      />
+
+      <Input
+        type="date"
+        label="Start date"
+        name="startDate"
+        value={formattedMatchDate}
+        defaultValue={formattedMatchDate}
+        onChange={this.handleInputChange}
+      />
+
+      <Input
+        type="checkbox"
+        label="Completed"
+        name="completed"
+        value={match.completed}
+        defaultValue={match.completed}
         onChange={this.handleInputChange}
       />
 
