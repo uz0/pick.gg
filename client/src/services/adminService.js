@@ -50,6 +50,21 @@ export default class AdminService {
     });
   }
 
+  updateMatch = async({ matchId, results, startDate, completed }) => {
+    await http(`/api/admin/matches/${matchId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        startDate,
+        completed,
+        results,
+      })
+    });
+  }
+
   getMatchResult = async(matchId) => {
     const matchResultQuery = await http(`/api/admin/results/${matchId}`);
     const matchResult = await matchResultQuery.json();

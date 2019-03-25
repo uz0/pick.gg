@@ -245,6 +245,21 @@ const AdminController = () => {
     res.json({ match });
   });
 
+  router.put('/matches/:id', async (req, res) => {
+    const matchId = req.params.id;
+    const { startDate, completed, results } = req.body;
+
+    console.log(startDate, completed);
+
+    await MatchResultModel.findOneAndUpdate({ match_id:  matchId}, { playersResults: results });
+    await MatchModel.update({ _id: matchId }, {
+      startDate,
+      completed,
+    });
+
+    res.json({ success: 'success' });
+  });
+
   router.delete('/matches/:id', async (req, res) => {
     const matchId = req.params.id;
 
@@ -266,15 +281,13 @@ const AdminController = () => {
       .find({match_id: resultId})
       .populate('playersResults.results.rule')
 
-      console.log(result)
-
     res.json({ result });
   });
 
   router.put('/results', async (req, res) => {
     const { results, matchId } = req.body;
 
-    const matchResult = await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
+    const matchResult = await MatchResultModel.findOneAndUpdate({ match_id:  matchId}, { playersResults: results });
 
     res.json({ matchResult });
   });
