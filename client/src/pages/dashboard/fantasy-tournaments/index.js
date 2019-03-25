@@ -163,6 +163,21 @@ class FantasyTournaments extends Component {
     const modalTitle = `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
 
+    let modalActions = [];
+
+    if (!isTournamentEditing) {
+      modalActions.push(
+        { text: 'Create tournament', onClick: this.addChampionSubmit, isDanger: false },
+      );
+    }
+
+    if (isTournamentEditing) {
+      modalActions.push(
+        { text: 'Delete tournament', onClick: this.delChampion, isDanger: true },
+        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false},
+      );
+    }
+
     return <div className={style.tournaments}>
       <Table
         captions={tournamentsTableCaptions}
@@ -177,11 +192,7 @@ class FantasyTournaments extends Component {
         <Modal
           title={modalTitle}
           close={this.resetTournamentEditing}
-          actions={[{
-            text: 'Update tournament',
-            onClick: this.editTournamentSubmit,
-            isDanger: false,
-          }]}
+          actions={modalActions}
         >
 
           {isLoading && <Preloader />}

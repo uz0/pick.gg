@@ -198,23 +198,20 @@ class Champions extends Component {
 
     const modalTitle = isChampionEditing ? `Editing ${championData.name}` : `Add new champion`;
     const isChampionModalActive = isChampionEditing || isChampionCreating;
+    let modalActions = [];
 
-    const modalActions = isChampionEditing
-      ? [{
-        text: 'Delete champion',
-        onClick: this.delChampion,
-        isDanger: true,
-      },
-      {
-        text: 'Update champion',
-        onClick: this.editChampionSubmit,
-        isDanger: false,
-      },]
-      : [{
-        text: 'Add champion',
-        onClick: this.addChampionSubmit,
-        isDanger: false,
-      },];
+    if (!isChampionEditing) {
+      modalActions.push(
+        { text: 'Add champion', onClick: this.addChampionSubmit, isDanger: false },
+      );
+    }
+
+    if (isChampionEditing) {
+      modalActions.push(
+        { text: 'Delete champion', onClick: this.delChampion, isDanger: true },
+        { text: 'Update champion', onClick: this.editChampionSubmit, isDanger: false},
+      );
+    }
 
     return <div className={style.champions}>
 
