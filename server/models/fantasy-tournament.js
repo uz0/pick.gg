@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 let schema = new Schema({
   name        : { type: String, required: true },
   entry       : { type: Number, required: true },
-  tournament_id  : { type: Schema.Types.ObjectId, ref: 'Tournament' },
+  tournament  : { type: Schema.Types.ObjectId, ref: 'Tournament' },
   // tournament_id  : { type: Number },
 
   users       : [{

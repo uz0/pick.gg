@@ -113,30 +113,23 @@ class MatchModal extends Component {
   render() {
     const { results, match, isLoading } = this.state;
 
-    const matchModalTitle = this.props.isMatchCreating ? 'Create match' : 'Edit match';
-    const matchModalActions = this.props.isMatchCreating
-      ? [{
-        text: 'Create match',
-        onClick: this.addRuleSubmit,
-        isDanger: false,
-      }]
-      : [{
-        text: 'Delete match',
-        onClick: this.confirmRuleDeleting,
-        isDanger: true,
-      }, {
-        text: 'Update match',
-        onClick: this.editMatchSubmit,
-        isDanger: false,
-      }];
+    const modalActions = [{
+      text: 'Delete match',
+      onClick: this.confirmRuleDeleting,
+      isDanger: true,
+    }, {
+      text: 'Update match',
+      onClick: this.editMatchSubmit,
+      isDanger: false,
+    }];
 
     const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
 
     return <Modal
-      title={matchModalTitle}
+      title={"Edit match"}
       wrapClassName={style.modal_match}
       close={this.props.matchEditingCompleted}
-      actions={matchModalActions}
+      actions={modalActions}
     >
 
       {isLoading && <Preloader />}

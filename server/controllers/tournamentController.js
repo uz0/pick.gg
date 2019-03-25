@@ -121,7 +121,7 @@ const TournamentController = io => {
             path: 'results'
           }
         }
-      })
+      });
 
     res.json({ tournament });
 
@@ -174,7 +174,7 @@ const TournamentController = io => {
     try {
       
       const newTournament = await FantasyTournament.create({
-        tournament_id: tournamentId,
+        tournament: tournamentId,
         name,
         entry,
         rules,

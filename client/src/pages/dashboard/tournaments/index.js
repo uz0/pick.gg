@@ -345,21 +345,20 @@ class Tournaments extends Component {
 
     const isMatchModalActive = isMatchCreating || isMatchEditing;
 
-    const modalActions = isTournamentEditing
-    ? [{
-        text: 'Delete tournament',
-        onClick: this.deleteTournamentConfirmInit,
-        isDanger: true,
-      },{
-        text: 'Update tournament',
-        onClick:  this.editTournamentSubmit,
-        isDanger: false,
-      },]
-    : [{
-      text: 'Create tournament',
-      onClick: this.createTournamentSubmit,
-      isDanger: false,
-    }];
+    let modalActions = [];
+
+    if (!isTournamentEditing) {
+      modalActions.push(
+        { text: 'Create tournament', onClick: this.createTournamentSubmit, isDanger: false },
+      );
+    }
+
+    if (isTournamentEditing) {
+      modalActions.push(
+        { text: 'Delete tournament', onClick: this.deleteTournamentConfirmInit, isDanger: true },
+        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false},
+      );
+    }
 
     return <div className={style.tournaments}>
 
