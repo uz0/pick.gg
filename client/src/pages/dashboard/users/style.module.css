@@ -105,6 +105,15 @@
   color: var(--primary-color);
 }
 
+.tournaments .add_user{
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  min-width: 20px;
+  height: 60px;
+  border-radius: 40px;
+}
 /* .tournaments .title {
   --height: 24px;
   overflow: hidden;
