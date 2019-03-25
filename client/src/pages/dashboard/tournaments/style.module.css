@@ -59,7 +59,7 @@
   display: flex;
   height: var(--height);
   align-items: center;
-  margin-top: calc(var(--gap) + 10);
+  margin-top: var(--gap);
   margin-left: var(--gap);
   padding-left: var(--champion-padding);
   padding-right: var(--champion-padding);
@@ -76,7 +76,7 @@
   height: var(--height);
   display: flex;
   align-items: center;
-  margin-top: calc(var(--gap) + 10);
+  margin-top: var(--gap);
   margin-left: var(--gap);
 }
 
