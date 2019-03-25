@@ -62,6 +62,18 @@
   --color: var(--accent-color);
 }
 
+.button[appearance$="danger"]:not(:hover) {
+  --background-color: var(--danger-color);
+  --color: #fff;
+}
+
+/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+.button[appearance$="danger"]:hover {
+  --background-color: #ff2020;
+  --color: #fff;
+}
+
+
 /*********/
 
 .button[disabled] {
