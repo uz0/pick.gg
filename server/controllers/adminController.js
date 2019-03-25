@@ -10,13 +10,63 @@ import UserModel from "../models/user";
 let router = express.Router();
 
 const AdminController = () => {
+  router.put('/tournaments/real/players', async (req, res) => {
+    const { tournamentId, player } = req.body;
+
+    const tournament = await TournamentModel.findByIdAndUpdate(tournamentId, {
+      $push: {
+        champions: player
+      }
+    });
+
+    res.json({
+      tournament
+    });
+  });
+
+  router.delete('/tournaments/real/players', async (req, res) => {
+    const { tournamentId, playerId } = req.body;
+
+    const tournament = await TournamentModel.update({ _id: tournamentId }, {
+      $pull: {
+        champions: playerId
+      }
+    });
+
+    res.json({
+      tournament
+    });
+  });
+
   router.get('/tournaments/real', async (req, res) => {
     const tournaments = await TournamentModel.find()
       .populate('champions', '_id name')
       .populate('matches')
+      .populate({
+        path: 'matches',
+        populate: {
+          path: 'results'
+        }
+      })
+      // .populate('matches.results')
       .sort({ date: -1 })
 
     res.json({ tournaments });
+  });
+
+  router.get('/tournaments/real/:id', async (req, res) => {
+    const tournamentId = req.params.id;
+    const tournament = await TournamentModel.findById(tournamentId)
+      .populate('champions', '_id name')
+      .populate('matches')
+      .populate({
+        path: 'matches',
+        populate: {
+          path: 'results'
+        }
+      })
+
+    res.json({ tournament });
   });
 
   router.put('/tournaments/real/:id', async (req, res) => {
@@ -24,20 +74,6 @@ const AdminController = () => {
     let { tournament } = req.body;
 
     const rules = await RuleModel.find();
-    const removedChampionsIds = tournament.removedChampionsIds;
-    const addedChampionsIds = tournament.addedChampionsIds;
-
-    const generatePlayerResults = (playerId) => {
-      const results = rules.map(rule => ({
-        rule: rule._id,
-        score: 0
-      }));
-
-      return {
-        playerId,
-        results
-      }
-    };
 
     await TournamentModel.findByIdAndUpdate(tournamentId,
       {
@@ -50,37 +86,23 @@ const AdminController = () => {
       },
     );
 
-    const updatedTournamentMatches = await MatchModel
-      .find({ id: { $in: tournament.matches_ids } })
-      .populate('results')
+    // const updatedTournamentMatches = await MatchModel
+    //   .find({ id: { $in: tournament.matches_ids } })
+    //   .populate('results')
 
-    if(addedChampionsIds.length > 0 || removedChampionsIds.length > 0){
-      for (let i = 0; i < updatedTournamentMatches.length; i++) {
-        const resultsId = updatedTournamentMatches[i].results._id;
-  
-        if (removedChampionsIds.length > 0) {
-          for (let j = 0; j < removedChampionsIds.length; j++) {
-            await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-              $pull: { playersResults: { result: removedChampionsIds[j] } },
-            });
-          }
-        }
-  
-        if (addedChampionsIds.length > 0) {
-          const playersResults = addedChampionsIds.reduce((results, championId) => {
-            results.push(generatePlayerResults(championId));
-            return results;
-          }, []);
-  
-          await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
-            $push: { playersResults: { $each: playersResults } },
-          });
-        }
-      }
-    }
+
+    // await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
+    //   $pull: { playersResults: { result: removedChampionsIds[j] } },
+    // });
+
+    // results.push(generatePlayerResults(championId));
+
+    // await MatchResultModel.findOneAndUpdate({ _id: resultsId }, {
+    //   $push: { playersResults: { $each: playersResults } },
+    // });
 
     res.json({
-      updatedTournamentMatches
+      tournament
     });
   });
 
@@ -98,11 +120,11 @@ const AdminController = () => {
     const tournaments = await FantasyTournamentModel
       .find()
       .populate({
-        path:'creator',
+        path: 'creator',
         select: 'username _id'
       })
       .populate({
-        path:'rules.rule',
+        path: 'rules.rule',
       });
 
     res.json({ tournaments });
@@ -141,7 +163,7 @@ const AdminController = () => {
   router.post('/rules', async (req, res) => {
     const ruleData = req.body.rule;
     const rule = await RuleModel.create(ruleData);
-    
+
     res.json({ rule });
   });
 
@@ -160,6 +182,55 @@ const AdminController = () => {
     res.json({ rule });
   });
 
+  router.post('/matches', async (req, res) => {
+    const { tournamentId } = req.body;
+
+    const rules = await RuleModel.find();
+
+    const tournament = await TournamentModel.findById(tournamentId);
+    const tournamentChampions = tournament.champions;
+    
+    const match = await MatchModel.create({
+      tournament: tournament._id,
+      startDate: tournament.date,
+      completed: false
+    });
+    const matchId = match._id;
+
+    const generateChampionResults = (championId) => {
+      const results = rules.map(rule => ({
+        rule: rule._id,
+        score: 0
+      }));
+
+      return results;
+    };
+
+    let playersResults = [];
+
+    for(let i = 0; i < tournamentChampions.length; i++){
+      const result = {
+        player_id: tournamentChampions[i],
+        results: [],
+      };
+
+      result.results.push(...generateChampionResults(result.player_id));
+      playersResults.push(result);
+    }
+
+    console.log(playersResults);
+
+    const matchResult = await MatchResultModel.create({
+      match_id: matchId,
+      playersResults,
+    });
+
+    await MatchModel.update({ _id: matchId }, { results: matchResult._id });
+    await TournamentModel.update({ _id: tournamentId }, { $push: { matches: matchId }});
+
+    res.json({ match });
+  });
+
   router.get('/matches', async (req, res) => {
     const matches = await MatchModel.find();
     res.json({ matches });
@@ -167,9 +238,21 @@ const AdminController = () => {
 
   router.get('/matches/:id', async (req, res) => {
     const matchId = req.params.id;
-    const match = await MatchModel.findOne({ _id: matchId }).populate('results');
+    const match = await MatchModel.findOne({ _id: matchId })
+      .populate('results')
+      .populate('playersResults.results.rule');
 
     res.json({ match });
+  });
+
+  router.delete('/matches/:id', async (req, res) => {
+    const matchId = req.params.id;
+
+    await MatchModel.deleteOne({ _id: matchId });
+
+    res.send({
+      success: 'success',
+    })
   });
 
   router.get('/results', async (req, res) => {
@@ -180,8 +263,10 @@ const AdminController = () => {
   router.get('/results/:id', async (req, res) => {
     const resultId = req.params.id;
     const result = await MatchResultModel
-      .findById(resultId)
+      .find({match_id: resultId})
       .populate('playersResults.results.rule')
+
+      console.log(result)
 
     res.json({ result });
   });
@@ -216,12 +301,12 @@ const AdminController = () => {
   router.put('/players/:id', async (req, res) => {
     const playerId = req.params.id;
     const playerData = req.body.player;
-    
+
     const player = await PlayerModel.findByIdAndUpdate(playerId, playerData);
-    
+
     res.json({ player });
   });
-  
+
   router.delete('/players/:id', async (req, res) => {
     const playerId = req.params.id;
     const player = await PlayerModel.findByIdAndRemove(playerId);
