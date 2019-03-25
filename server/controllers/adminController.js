@@ -274,7 +274,7 @@ const AdminController = () => {
   router.put('/results', async (req, res) => {
     const { results, matchId } = req.body;
 
-    const matchResult = await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
+    const matchResult = await MatchResultModel.findOneAndUpdate({ match_id:  matchId}, { playersResults: results });
 
     res.json({ matchResult });
   });
