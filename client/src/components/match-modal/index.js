@@ -59,7 +59,7 @@ class MatchModal extends Component {
 
     results.forEach(item => {
       item.results.forEach(element => {
-        if (element.rule._id === result.rule._id) {
+        if (element._id === result._id) {
           element.score = parseInt(event.target.value, 10);
 
           if (editedResults.length > 0 && !editedResults.find(result => result._id === item._id)) {
@@ -91,7 +91,7 @@ class MatchModal extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        matchId: match.id,
+        matchId: match._id,
         results,
       })
     });
@@ -121,7 +121,7 @@ class MatchModal extends Component {
         isDanger: true,
       }, {
         text: 'Update match',
-        onClick: this.editRuleSubmit,
+        onClick: this.editMatchSubmit,
         isDanger: false,
       }];
 
@@ -149,11 +149,11 @@ class MatchModal extends Component {
         <div className={style.rules_inputs}>
           {result.results.map((item, ruleIndex) =>
             <Input
-              key={item.rule._id}
+              key={item._id}
               label={item.rule.name}
               placeholder={item.rule.name}
               className={style.rule_input}
-              name={item.rule._id}
+              name={item._id}
               onChange={(event) => this.onRulesInputChange(event, resultIndex, ruleIndex)}
               value={results[resultIndex].results[ruleIndex].score}
               type="number"
