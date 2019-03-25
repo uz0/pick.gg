@@ -46,6 +46,7 @@
 	display: inline-block;
   position: relative;
   margin: 5px 0;
+  cursor: pointer;
 }
 
 .css_checkbox:active, .css_checkbox:checked:active {
