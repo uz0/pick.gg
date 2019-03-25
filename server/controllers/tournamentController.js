@@ -29,7 +29,7 @@ const TournamentController = io => {
   router.get('/real', async (req, res) => {
     const tournaments = await TournamentModel
       .find({
-        date: {$lt: moment().toISOString()},
+        // date: {$lt: moment().toISOString()},
       })
       .populate('champions')
       .populate('matches')

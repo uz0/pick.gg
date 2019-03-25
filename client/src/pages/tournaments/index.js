@@ -20,10 +20,10 @@ const tournamentsTableCaptions = {
     width: 250,
   },
 
-  date: {
-    text: i18n.t('date'),
-    width: 100,
-  },
+  // date: {
+  //   text: i18n.t('date'),
+  //   width: 100,
+  // },
 
   users: {
     text: i18n.t('users'),
@@ -91,7 +91,8 @@ class Tournaments extends Component {
   });
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    const formattedDate = moment(item.tournament.date).format('MMM DD');
+    console.log(item, 'item');
+    // const formattedDate = moment(item.tournament.date).format('MMM DD');
     const entry = item.entry === 0 ? 'Free' : item.entry;
 
     return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
@@ -99,9 +100,9 @@ class Tournaments extends Component {
         <span className={textClass}>{item.name}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
+      {/* <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
         <span className={textClass}>{formattedDate}</span>
-      </div>
+      </div> */}
 
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.users.width}}>
         <span className={textClass}>{item.users.length}</span>
