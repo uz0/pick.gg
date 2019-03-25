@@ -159,14 +159,18 @@ class MatchModal extends Component {
         onChange={this.handleInputChange}
       />
 
-      <Input
-        type="checkbox"
-        label="Completed"
-        name="completed"
-        value={match.completed}
-        defaultValue={match.completed}
-        onChange={this.handleInputChange}
-      />
+      <label className={style.chebox}>
+        <p>Completed</p>
+        <input
+          type="checkbox"
+          name="completed"
+          className={style.css_checkbox}
+          value={match.completed}
+          defaultValue={match.completed}
+          onChange={this.handleInputChange}
+        />
+      </label>
+
 
       {results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>
