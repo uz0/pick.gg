@@ -7,8 +7,10 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
+import ModalAsk from 'components/modal'
 import Input from 'components/input';
 import Preloader from 'components/preloader';
+import Button from 'components/button';
 
 import moment from 'moment';
 import i18n from 'i18n';
@@ -50,16 +52,57 @@ class Users extends Component {
       balance: '',
       isAdmin: '',
     },
-    players: [],
     users: [],
-    editingMatchId: '',
-    selectedChampion: '',
+    isUserCreating: false,
     isUserEditing: false,
+    isUserDelete: false,
     isLoading: false,
   };
 
+  addUserInit = () => {
+    this.setState({ isUserCreating: true });
+  }
+
+  addUserSubmit = async () => {
+    const { userEditingData } = this.state;
+
+    if (!userEditingData.username) {
+      await this.notificationService.show('Please, write user name')
+
+      return;
+    }
+
+    this.setState({ isLoading: true });
+
+    await http('/api/admin/users', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: this.state.userEditingData,
+      })
+    });
+
+    const { users } = await this.adminService.getAllUsers();
+
+    this.setState({
+      users,
+      isLoading: false,
+      isUserCreating: false,
+      userEditingData: {
+        username: '',
+        balance: '',
+        isAdmin: '',
+      }
+    }, () => this.notificationService.show('User was successfully created!'));
+  }
+
   editUserInit = (userId) => {
     const user = this.state.users.filter(user => user._id === userId)[0];
+    const isAdmin = this.state.userEditingData.isAdmin
+    console.log(isAdmin)
     this.setState({
       isUserEditing: true,
       userEditingData: {
@@ -71,7 +114,7 @@ class Users extends Component {
 
   editUserSubmit = async () => {
     this.setState({ isLoading: true });
-
+    console.log(this.state.userEditingData)
     const userId = this.state.userEditingData._id;
 
     await http(`/api/admin/users/${userId}`, {
@@ -93,10 +136,43 @@ class Users extends Component {
     }, () => this.notificationService.show('User was successfully updated!'));
   }
 
-  resetUserEditing = () => this.setState({
+  resetUser = () => this.setState({
     isUserEditing: false,
+    isUserCreating: false,
     userEditingData: {}
   });
+
+  deleteUser = async () => {
+    this.setState({ isLoading: true });
+    console.log(this.state.userEditingData)
+    const editedUserId = this.state.userEditingData._id;
+
+    await http(`/api/admin/user/${editedUserId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const { users } = await this.adminService.getAllUsers();
+
+    this.setState({
+      users,
+      isLoading: false,
+      isUsersEditing: false,
+      isUsersDelete: false,
+      userEditingData: {
+        username: '',
+        balance: '',
+        isAdmin: '',
+      }
+    }, () => this.notificationService.show('User was successfully deleted!'));
+  }
+
+  closeDeleteUser = () => this.setState({ isUserDelete: false });
+
+  delUser = () => this.setState({ isUserDelete: true })
 
   handleInputChange = (event) => {
     this.setState({
@@ -140,13 +216,44 @@ class Users extends Component {
     const {
       users,
       userEditingData,
+      isUserCreating,
       isUserEditing,
+      isUserDelete,
       isLoading,
     } = this.state;
 
-    const modalTitle = `Editing ${userEditingData.username}`;
+    console.log(this.state)
+    const modalTitle = isUserEditing ? `Editing ${userEditingData.username}` : `Add new user`;
+    const isUserModalActive = isUserEditing || isUserCreating;
+
+    const modalActions = isUserEditing
+      ? [{
+        text: 'Update user',
+        onClick: this.editUserSubmit,
+        isDanger: false,
+      },
+      {
+        text: 'Delete user',
+        onClick: this.delUser,
+        isDanger: true,
+      },]
+      : [{
+        text: 'Add user',
+        onClick: this.addUserSubmit,
+        isDanger: false,
+      },];
 
     return <div className={style.tournaments}>
+
+      <div className={style.user_controls}>
+        <Button
+          appearance="_basic-accent"
+          text="Add user"
+          onClick={this.addUserInit}
+          className={style.button}
+        />
+      </div>
+
       <Table
         captions={tournamentsTableCaptions}
         items={users}
@@ -156,38 +263,38 @@ class Users extends Component {
         emptyMessage={i18n.t('there_is_no_tournaments_yet')}
       />
 
-      {isUserEditing &&
+      {isUserModalActive &&
         <Modal
           title={modalTitle}
-          close={this.resetUserEditing}
-          actions={[{
-            text: 'Update user',
-            onClick: this.editUserSubmit,
-            isDanger: false,
-          }]}
+          close={this.resetUser}
+          actions={modalActions}
         >
 
           {isLoading && <Preloader />}
 
+          {isUserDelete && <ModalAsk
+            textModal={'Do you really want to remove the user?'}
+            submitClick={this.deleteUser}
+            closeModal={this.closeDeleteUser} />}
+
           <Input
             label="Username"
             name="username"
-            value={userEditingData.username}
+            value={userEditingData.username || ''}
             onChange={this.handleInputChange}
           />
 
           <Input
             label="Balance"
             name="balance"
-            value={userEditingData.balance}
+            value={userEditingData.balance || ''}
             onChange={this.handleInputChange}
           />
 
           <Input
             label="Admin"
             name="isAdmin"
-            type="checkbox"
-            value={userEditingData.isAdmin}
+            defaultValue={userEditingData.isAdmin || ''}
             onChange={this.handleInputChange}
           />
         </Modal>
