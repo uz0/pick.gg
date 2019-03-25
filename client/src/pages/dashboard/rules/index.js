@@ -209,7 +209,7 @@ class Rules extends Component {
         text: 'Create rule',
         onClick: this.addRuleSubmit,
         isDanger: false,
-      },];
+      }];
 
     return <div className={style.rules}>
 
