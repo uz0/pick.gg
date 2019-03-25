@@ -15,7 +15,7 @@ import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
 import style from './style.module.css';
-import i18n from 'i18n'
+import i18n from 'i18n';
 
 class newTournament extends Component {
   constructor() {
@@ -34,11 +34,12 @@ class newTournament extends Component {
     const { user } = await this.userService.getMyProfile();
 
     const tournamentsSortedByDate = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
-    const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions_ids.length > 0);
+    const filteredTournaments = tournamentsSortedByDate.filter(tournament => tournament.champions.length > 0);
     const rulesValues = rules.reduce((obj, rule) => {
       obj[rule._id] = 0;
       return obj;
-    }, {})
+    }, {});
+
     this.setState({
       filteredTournaments,
       rules,
@@ -113,7 +114,7 @@ class newTournament extends Component {
     }
 
     if (tournament){
-      tournamentId = this.state.filteredTournaments.find(item => item.name === tournament).id;
+      tournamentId = this.state.filteredTournaments.find(item => item.name === tournament)._id;
     } else {
       this.notificationService.show('Please, select tournament and try again');
       return false;
@@ -205,10 +206,10 @@ class newTournament extends Component {
                       name={item._id}
                       onChange={this.onRulesInputChange}
                       value={this.state.rulesValues[item._id]}
+                      defaultValue={this.state.rulesValues[item._id]}
                       key={item._id}
                       type="number"
                       required
-                      min="-10"
                       max="10"
                     />
                     <label>{item.name}</label>

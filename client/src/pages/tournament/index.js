@@ -134,17 +134,10 @@ class Tournament extends Component {
   getFantasyTournamentStatus = () => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-<<<<<<< HEAD
-    if(champions.length > 0){
-      return i18n.t('wait_matches');
-    }
-    if(champions.length === 0){
-=======
     if (champions.length > 0){
       return i18n.t('wait_matches');
     }
     if (champions.length === 0){
->>>>>>> 40782a7a6fa48f02a12a05c8aa3b07654db4bcf4
       return i18n.t('join_tournament_and');
     }
   }
