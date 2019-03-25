@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Table from 'components/table';
-import TransactionsService from 'services/transactionService';
 import moment from 'moment';
+
+import TransactionsService from 'services/transactionService';
+
+import Table from 'components/table';
+import Preloader from 'components/preloader';
+
 import classnames from 'classnames/bind';
 import style from './style.module.css';
 
@@ -35,11 +39,12 @@ class Transactions extends Component {
 
     this.state = {
       transactions: [],
-      isLoading: true,
+      isLoading: false,
     };
   }
 
   updateData = async () => {
+    this.setState({ isLoading: true });
     const historyData = await this.transactionsService.getTransactionsHistory();
 
     this.setState({
@@ -64,25 +69,30 @@ class Transactions extends Component {
     const dateWidth = transactionsTableCaptions.date.width;
     const originWidth = transactionsTableCaptions.origin.width;
 
-    const Wrapper = ({children, ...props }) => {
+    const Wrapper = ({ children, ...props }) => {
       if (item.tournamentId) {
         return <Link to={`/tournaments/${item.tournamentId}`} {...props}>
           {children}
-        </Link>
+        </Link>;
       }
+<<<<<<< HEAD
       return <div {...props}>{children}</div>
     }
-    
+=======
+      return <div {...props}>{children}</div>;
+    };
+>>>>>>> 40782a7a6fa48f02a12a05c8aa3b07654db4bcf4
+
     return <Wrapper key={item._id} className={className}>
-      <div className={itemClass} style={{'--width': amountWidth}}>
+      <div className={itemClass} style={{ '--width': amountWidth }}>
         <span className={textClass}>${item.amount}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': dateWidth}}>
+      <div className={itemClass} style={{ '--width': dateWidth }}>
         <span className={textClass}>{formattedDate}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': originWidth}}>
+      <div className={itemClass} style={{ '--width': originWidth }}>
         <span className={cx(textClass, style.operation, {
           'plus': isOriginUserDeposit || isOriginTournamentWinning,
           'minus': isOriginUserWithdraw || isOriginTournamentDeposit,
@@ -104,6 +114,10 @@ class Transactions extends Component {
           isLoading={this.state.isLoading}
           emptyMessage="You haven't had any transactions yet"
         />
+
+        {this.state.isLoading &&
+          <Preloader />
+        }
 
       </div>
     );

@@ -1,3 +1,10 @@
+.login_page{
+  min-height: calc(100% - var(--header-height));
+  background-image: url('assets/bg-login.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
 .login_page .login_section {
   display: flex;
   justify-content: center;

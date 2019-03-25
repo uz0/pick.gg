@@ -21,6 +21,7 @@
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
+  flex-direction: column;
   padding: 40px 40px 40px 180px;
   min-height: 540px;
   align-items: flex-end;

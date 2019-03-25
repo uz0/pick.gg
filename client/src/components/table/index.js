@@ -19,7 +19,7 @@ const Table = ({
   let list = items;
 
   if (defaultSorting) {
-    list.sort(defaultSorting)
+    list.sort(defaultSorting);
   }
 
   return <div className={cx('table', className)}>

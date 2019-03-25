@@ -3,9 +3,11 @@ const Schema = mongoose.Schema;
 
 let schema = new Schema({
   matchId: Number,
+  match_id: { type: Schema.Types.ObjectId, ref: 'Match' },
 
   playersResults: [{
     playerId: Number,
+    player_id: { type: Schema.Types.ObjectId, ref: 'Player' },
 
     results: [{
       rule: { type: Schema.Types.ObjectId, ref: 'Rule' },
