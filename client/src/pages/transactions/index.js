@@ -75,13 +75,8 @@ class Transactions extends Component {
           {children}
         </Link>;
       }
-<<<<<<< HEAD
-      return <div {...props}>{children}</div>
-    }
-=======
       return <div {...props}>{children}</div>;
     };
->>>>>>> 40782a7a6fa48f02a12a05c8aa3b07654db4bcf4
 
     return <Wrapper key={item._id} className={className}>
       <div className={itemClass} style={{ '--width': amountWidth }}>
