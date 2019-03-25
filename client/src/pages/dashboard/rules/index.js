@@ -6,7 +6,7 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
-import ModalAsk from 'components/modal'
+import ModalAsk from 'components/modal';
 import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
@@ -57,7 +57,7 @@ class Rules extends Component {
       ruleData: {
         ...this.state.ruleData,
         ...rule,
-      }
+      },
     });
   }
 
@@ -105,7 +105,7 @@ class Rules extends Component {
       },
       body: JSON.stringify({
         rule: this.state.ruleData,
-      })
+      }),
     });
 
     const { rules } = await this.adminService.getAllRules();
@@ -116,7 +116,7 @@ class Rules extends Component {
       isRuleCreating: false,
       ruleData: {
         name: '',
-      }
+      },
     }, () => this.notificationService.show('Rule was successfully created!'));
   }
 
@@ -143,14 +143,14 @@ class Rules extends Component {
       isRuleDelete: false,
       ruleData: {
         name: '',
-      }
+      },
     }, () => this.notificationService.show('Rule was successfully deleted!'));
   }
 
   resetRule = () => this.setState({
     isRuleCreating: false,
     isRuleEditing: false,
-    ruleData: {}
+    ruleData: {},
   });
 
   handleInputChange = (event) => {
@@ -158,7 +158,7 @@ class Rules extends Component {
       ruleData: {
         ...this.state.ruleData,
         [event.target.name]: event.target.value,
-      }
+      },
     });
   };
 
@@ -173,7 +173,7 @@ class Rules extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    const ruleId = item._id
+    const ruleId = item._id;
 
     return <div onClick={() => this.editRuleInit(ruleId)} className={cx(className, style.rule_row)} key={item._id}>
       <div className={itemClass} style={{ '--width': rulesTableCaptions.name.width }}>

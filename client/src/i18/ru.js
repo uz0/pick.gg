@@ -89,5 +89,5 @@ export default {translation: {
   youve_been_registered_for_the_tournament: 'Вы были зарегистрированы для участия в турнире',
   free_tournament: 'Вы хотите с таким составом стартовать?',
   balance: 'Баланс',
-  admin: 'Админ'
+  admin: 'Админ',
 }};

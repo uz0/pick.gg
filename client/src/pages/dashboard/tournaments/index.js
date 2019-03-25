@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
 
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
@@ -119,7 +118,7 @@ class Tournaments extends Component {
         ...this.state.tournamentEditingData,
         ...tournament,
         champions: tournamentChampions,
-      }
+      },
     });
   }
 
@@ -144,7 +143,7 @@ class Tournaments extends Component {
       name: '',
       date: '',
       champions: [],
-    }
+    },
   });
 
   deleteTournamentConfirmInit = () => {
@@ -192,7 +191,7 @@ class Tournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         matches: tournament.matches,
-      }
+      },
     });
   }
 
@@ -208,13 +207,13 @@ class Tournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         matches: tournament.matches,
-      }
+      },
     });
   }
 
   matchEditingInit = (matchId) => this.setState({
     editingMatchId: matchId,
-    isMatchEditing: true
+    isMatchEditing: true,
   });
 
   matchCreatingCompleted = () => this.setState({ isMatchCreating: false });
@@ -227,13 +226,13 @@ class Tournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         [event.target.name]: inputValue,
-      }
+      },
     });
   };
 
   selectChampion = (event) => {
     if (event.target.value) {
-      this.setState({ selectedChampion: event.target.value })
+      this.setState({ selectedChampion: event.target.value });
     }
 
     return;
@@ -270,7 +269,7 @@ class Tournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         champions,
-      }
+      },
     });
   };
 
@@ -280,7 +279,7 @@ class Tournaments extends Component {
 
     this.setState({ isLoading: true });
 
-    await this.adminService.removePlayerFromRealTournament(tournamentEditingData._id, playerId)
+    await this.adminService.removePlayerFromRealTournament(tournamentEditingData._id, playerId);
 
     const { tournaments } = await this.adminService.getRealTournaments();
 
@@ -290,7 +289,7 @@ class Tournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         champions,
-      }
+      },
     });
   };
 
@@ -356,7 +355,7 @@ class Tournaments extends Component {
     if (isTournamentEditing) {
       modalActions.push(
         { text: 'Delete tournament', onClick: this.deleteTournamentConfirmInit, isDanger: true },
-        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false},
+        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false },
       );
     }
 
@@ -464,7 +463,7 @@ class Tournaments extends Component {
                 <div
                   key={match._id}
                   className={style.match}
-                  >
+                >
                   <div
                     className={style.match_inner}
                     onClick={() => this.matchEditingInit(match._id)}
@@ -477,7 +476,7 @@ class Tournaments extends Component {
                     onClick={() => this.deleteMatch(match._id)}
                     className={style.button}
                   />
-                </div>
+                </div>,
               )}
             </div>
           }

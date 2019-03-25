@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import Button from 'components/button/index';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import classnames from 'classnames/bind';
-import defaultAvatar from 'assets/placeholder.png';
 import i18n from 'i18n';
 import style from './style.module.css';
 
-import Modal from 'components/modal'
+import Modal from 'components/modal';
 
 const cx = classnames.bind(style);
 
