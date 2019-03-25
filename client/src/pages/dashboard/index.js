@@ -45,9 +45,6 @@ class Dashboard extends Component {
               <Route path="/dashboard/fantasy" component={FantasyTournaments} />
               <Route path="/dashboard/champions" component={Champions} />
               <Route path="/dashboard/users" component={Users} />
-              {/* <Route exact path="/tournaments/:id" component={Tournament} />
-              <Route exact path="/tournaments/:id" component={Tournament} />
-              <Route exact path="/tournaments/:id" component={Tournament} /> */}
             </Switch>
           </div>
         </div>
