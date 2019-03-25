@@ -37,7 +37,7 @@ const AdminController = () => {
       results: generateChampionResults()
     }
 
-    const updated = await MatchResultModel.updateMany({match_id: {$in: tournamentMatchesIds}}, {
+    await MatchResultModel.updateMany({match_id: {$in: tournamentMatchesIds}}, {
       $push: {playersResults: playerResult }
     })
 
@@ -53,6 +53,13 @@ const AdminController = () => {
       $pull: {
         champions: playerId
       }
+    });
+
+    const tournamentMatches = await MatchModel.find({ tournament: tournamentId }, '_id');
+    const tournamentMatchesIds = tournamentMatches.map(match => match._id);
+
+    await MatchResultModel.updateMany({match_id: {$in: tournamentMatchesIds}}, {
+      $pull: {playersResults: { player_id: playerId}}
     });
 
     res.json({
