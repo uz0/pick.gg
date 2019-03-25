@@ -195,21 +195,20 @@ class Rules extends Component {
     const modalTitle = isRuleEditing ? `Editing ${ruleData.name}` : `Add new rule`;
     const isRuleModalActive = isRuleEditing || isRuleCreating;
 
-    const modalActions = isRuleEditing
-      ? [{
-          text: 'Delete rule',
-          onClick: this.confirmRuleDeleting,
-          isDanger: true,
-        },{
-          text: 'Update rule',
-          onClick: this.editRuleSubmit,
-          isDanger: false,
-        },]
-      : [{
-        text: 'Create rule',
-        onClick: this.addRuleSubmit,
-        isDanger: false,
-      }];
+    let modalActions = [];
+
+    if (!isRuleEditing) {
+      modalActions.push(
+        { text: 'Create rule', onClick: this.addRuleSubmit, isDanger: false },
+      );
+    }
+
+    if (isRuleEditing) {
+      modalActions.push(
+        { text: 'Delete rule', onClick: this.confirmRuleDeleting, isDanger: true },
+        { text: 'Update rule', onClick: this.editRuleSubmit, isDanger: false},
+      );
+    }
 
     return <div className={style.rules}>
 
