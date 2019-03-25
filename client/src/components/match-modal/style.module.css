@@ -11,6 +11,7 @@
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
   color: var(--caption-color);
+  margin: 15px 0 5px;
 }
 
 .modal_match .rules_inputs {
