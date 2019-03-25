@@ -70,7 +70,7 @@ export default class TournamentService {
 
   filterTournamentsBySelect = async(filterSelect) => {
     const { tournaments } = await this.getFantasyTournaments();
-    return tournaments.filter(item => item.tournament.name === filterSelect)
+    return tournaments.filter(item => item.tournament.name === filterSelect);
   }
 
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Button from 'components/button';
 import ChooseChampionModal from 'components/choose-champion';
@@ -11,7 +12,6 @@ import NotificationService from 'services/notificationService';
 import moment from 'moment';
 import find from 'lodash/find';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
-import defaultAvatar from 'assets/placeholder.png';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
 
@@ -131,7 +131,23 @@ class Tournament extends Component {
       return i18n.t('will_be_soon');
     }
   }
-
+  getFantasyTournamentStatus = () => {
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const champions = (currentUserParticipant && currentUserParticipant.players) || [];
+<<<<<<< HEAD
+    if(champions.length > 0){
+      return i18n.t('wait_matches');
+    }
+    if(champions.length === 0){
+=======
+    if (champions.length > 0){
+      return i18n.t('wait_matches');
+    }
+    if (champions.length === 0){
+>>>>>>> 40782a7a6fa48f02a12a05c8aa3b07654db4bcf4
+      return i18n.t('join_tournament_and');
+    }
+  }
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
 
   getCountMatchPoints = matchId => {
@@ -204,8 +220,11 @@ class Tournament extends Component {
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
     const time = moment(item.startDate).format('HH:mm');
     const points = this.getCountMatchPoints(item.id);
+    const url = '';
+    const disableUrl = url === '';
+    const urlMatch = url === '' ? '' : url;
 
-    return <div className={className} key={item.id}>
+    return <NavLink to={urlMatch} target="_blank" className={cx(className, {"disable_url": disableUrl})} key={item.id}>
       <div className={itemClass} style={{'--width': matchesTableCaptions.name.width}}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
@@ -217,7 +236,7 @@ class Tournament extends Component {
       <div className={itemClass} style={{'--width': matchesTableCaptions.date.width}}>
         <span className={textClass}>{time}</span>
       </div>
-    </div>;
+    </NavLink>;
   };
 
   render() {
@@ -230,12 +249,14 @@ class Tournament extends Component {
     const fantasyTournamentName = this.state.fantasyTournament && this.state.fantasyTournament.name;
     const tournamentDate = this.state.fantasyTournament && moment(this.state.fantasyTournament.tournament.date).format('MMM DD, h:mm');
     const tournamentCreator = this.state.fantasyTournament && this.state.fantasyTournament.creator.username;
+    const tournamentCreatorLink = this.state.fantasyTournament && this.state.fantasyTournament.creator._id;
     const status = this.getTournamentStatus();
+    const tournamentStatus = this.getFantasyTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
-
+    
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
@@ -243,9 +264,16 @@ class Tournament extends Component {
 
           <div className={style.info}>
             <span>{tournamentDate}</span>
-            <span>{i18n.t('created_by')} {tournamentCreator}</span>
+
+            <span>
+              {i18n.t('created_by')}
+              <NavLink to={`/user/${tournamentCreatorLink}`}> {tournamentCreator}</NavLink>
+            </span>
+
             <div className={style.status}>{status}</div>
           </div>
+
+          <span className={style.fantasy_status}>{tournamentStatus}</span>
         </div>
 
         {isJoinButtonShown &&
@@ -306,10 +334,11 @@ class Tournament extends Component {
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
-              <img src={defaultAvatar} alt={i18n.t('champion_avatar')}/>
+              <img src={champion.photo} alt={i18n.t('champion_avatar')}/>
             </div>
 
             <span className={style.name}>{champion.name}</span>
+            <span className={style.scores}>Scores: +{champion.id}</span>
           </div>)}
         </div>
       }
