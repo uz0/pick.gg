@@ -39,6 +39,7 @@ class newTournament extends Component {
       obj[rule._id] = 0;
       return obj;
     }, {})
+
     this.setState({
       filteredTournaments,
       rules,
@@ -205,10 +206,10 @@ class newTournament extends Component {
                       name={item._id}
                       onChange={this.onRulesInputChange}
                       value={this.state.rulesValues[item._id]}
+                      defaultValue={this.state.rulesValues[item._id]}
                       key={item._id}
                       type="number"
                       required
-                      min="-10"
                       max="10"
                     />
                     <label>{item.name}</label>
