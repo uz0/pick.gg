@@ -10,7 +10,7 @@ export default class AdminService {
       },
       body: JSON.stringify({
         tournament: tournamentData,
-      })
+      }),
     });
     const tournament = await tournamentQuery.json();
     return tournament;
@@ -25,7 +25,7 @@ export default class AdminService {
       },
       body: JSON.stringify({
         tournament: tournamentData,
-      })
+      }),
     });
   }
 
@@ -44,7 +44,7 @@ export default class AdminService {
       },
       body: JSON.stringify({
         tournamentId,
-      })
+      }),
     });
     const match = await matchQuery.json();
     return match;
@@ -67,7 +67,7 @@ export default class AdminService {
         startDate,
         completed,
         results,
-      })
+      }),
     });
   }
 
@@ -87,7 +87,7 @@ export default class AdminService {
       body: JSON.stringify({
         tournamentId,
         player,
-      })
+      }),
     });
     const players = await playersQuery.json();
     return players;
@@ -103,7 +103,7 @@ export default class AdminService {
       body: JSON.stringify({
         tournamentId,
         playerId,
-      })
+      }),
     });
     const players = await playersQuery.json();
     return players;
@@ -130,7 +130,7 @@ export default class AdminService {
   getAllChampions = async() => {
     const championsQuery = await http('/api/admin/players');
     const champions = await championsQuery.json();
-    return champions;    
+    return champions;
   }
 
   getAllUsers = async() => {

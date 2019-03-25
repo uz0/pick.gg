@@ -73,7 +73,6 @@ class Profile extends Component {
   }
 
   render() {
-    console.log(this.state.isLoading)
     return (
       <div className={style.home_page}>
         <main>

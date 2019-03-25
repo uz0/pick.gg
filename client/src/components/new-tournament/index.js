@@ -15,7 +15,7 @@ import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
 import style from './style.module.css';
-import i18n from 'i18n'
+import i18n from 'i18n';
 
 class newTournament extends Component {
   constructor() {
@@ -38,7 +38,7 @@ class newTournament extends Component {
     const rulesValues = rules.reduce((obj, rule) => {
       obj[rule._id] = 0;
       return obj;
-    }, {})
+    }, {});
 
     this.setState({
       filteredTournaments,

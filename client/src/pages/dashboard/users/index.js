@@ -57,20 +57,20 @@ class Users extends Component {
   editUserInit = (userId) => {
     const user = this.state.users.filter(user => user._id === userId)[0];
 
-    console.log(this.state)
+    console.log(this.state);
     this.setState({
       isUserEditing: true,
       userEditingData: {
         ...this.state.userEditingData,
         ...user,
-      }
+      },
     });
   }
 
   editUserSubmit = async () => {
     this.setState({ isLoading: true });
 
-    console.log(this.state.userEditingData)
+    console.log(this.state.userEditingData);
     const userId = this.state.userEditingData._id;
 
     await http(`/api/admin/users/${userId}`, {
@@ -81,7 +81,7 @@ class Users extends Component {
       },
       body: JSON.stringify({
         user: this.state.userEditingData,
-      })
+      }),
     });
 
     const { users } = await this.adminService.getAllUsers();
@@ -95,7 +95,7 @@ class Users extends Component {
 
   resetUser = () => this.setState({
     isUserEditing: false,
-    userEditingData: {}
+    userEditingData: {},
   });
 
   handleInputChange = (event) => {
@@ -105,8 +105,8 @@ class Users extends Component {
     this.setState({
       userEditingData: {
         ...this.state.userEditingData,
-        [name]: value
-      }
+        [name]: value,
+      },
     });
   };
 
@@ -147,7 +147,7 @@ class Users extends Component {
       isLoading,
     } = this.state;
 
-    console.log(userEditingData.isAdmin)
+    console.log(userEditingData.isAdmin);
 
     return <div className={style.users}>
 

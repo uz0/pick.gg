@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
 
 import http from 'services/httpService';
 import TournamentService from 'services/tournamentService';
@@ -9,12 +8,7 @@ import AdminService from 'services/adminService';
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
-import Select from 'components/filters/select';
-import Button from 'components/button';
 import Preloader from 'components/preloader';
-import { ReactComponent as CloseIcon } from 'assets/close.svg';
-
-import MatchModal from 'components/match-modal';
 
 import moment from 'moment';
 import i18n from 'i18n';
@@ -64,7 +58,7 @@ class FantasyTournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         ...tournament,
-      }
+      },
     });
   }
 
@@ -82,7 +76,7 @@ class FantasyTournaments extends Component {
       body: JSON.stringify({
         tournamentId,
         tournament: this.state.tournamentEditingData,
-      })
+      }),
     });
 
     const { tournaments } = await this.adminService.getFantasyTournaments();
@@ -95,7 +89,7 @@ class FantasyTournaments extends Component {
 
   resetTournamentEditing = () => this.setState({
     isTournamentEditing: false,
-    tournamentEditingData: {}
+    tournamentEditingData: {},
   });
 
   handleInputChange = (event) => {
@@ -104,7 +98,7 @@ class FantasyTournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         [event.target.name]: inputValue,
-      }
+      },
     });
   };
 
@@ -112,16 +106,16 @@ class FantasyTournaments extends Component {
     let { rules } = this.state.tournamentEditingData;
 
     rules.forEach(item => {
-      if(item.rule._id === ruleId){
+      if (item.rule._id === ruleId){
         item.score = parseInt(event.target.value, 10);
       }
-    })
+    });
 
     this.setState({
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         rules,
-      }
+      },
     });
   }
 
@@ -161,7 +155,6 @@ class FantasyTournaments extends Component {
     } = this.state;
 
     const modalTitle = `Editing ${tournamentEditingData.name}`;
-    const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
 
     let modalActions = [];
 
@@ -224,7 +217,7 @@ class FantasyTournaments extends Component {
                 value={item.score}
                 type="number"
                 min="-10"
-              />
+              />;
             })}
           </div>
 

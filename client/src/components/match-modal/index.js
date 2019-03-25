@@ -11,10 +11,7 @@ import AdminService from 'services/adminService';
 import moment from 'moment';
 import find from 'lodash/find';
 
-import classnames from 'classnames/bind';
 import style from './style.module.css';
-
-const cx = classnames.bind(style);
 
 class MatchModal extends Component {
 
@@ -62,7 +59,7 @@ class MatchModal extends Component {
       match: {
         ...this.state.match,
         [event.target.name]: inputValue,
-      }
+      },
     });
   };
 
@@ -83,13 +80,13 @@ class MatchModal extends Component {
             editedResults.push(item);
           }
         }
-      })
-    })
+      });
+    });
 
     this.setState({
       results,
       editedResults,
-    })
+    });
   }
 
   editMatchSubmit = async () => {
@@ -105,10 +102,10 @@ class MatchModal extends Component {
       startDate: matchDate,
       completed: match.completed,
       results,
-    })
+    });
 
     this.setState({
-      isLoading: false
+      isLoading: false,
     }, () => this.notificationService.show('Match was successfully updated!'));
   }
 
@@ -194,7 +191,7 @@ class MatchModal extends Component {
             />)}
         </div>
       </div>)}
-    </Modal>
+    </Modal>;
   }
 }
 

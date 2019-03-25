@@ -6,12 +6,11 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
-import ModalAsk from 'components/modal'
+import ModalAsk from 'components/modal';
 import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 
-import moment from 'moment';
 import i18n from 'i18n';
 
 import classnames from 'classnames/bind';
@@ -59,7 +58,7 @@ class Champions extends Component {
       championData: {
         ...this.state.championData,
         ...player,
-      }
+      },
     });
   }
 
@@ -76,7 +75,7 @@ class Champions extends Component {
       },
       body: JSON.stringify({
         player: this.state.championData,
-      })
+      }),
     });
 
     const { players } = await this.adminService.getAllChampions();
@@ -92,7 +91,7 @@ class Champions extends Component {
     const { championData } = this.state;
 
     if (!championData.name) {
-      await this.notificationService.show('Please, write champion name')
+      await this.notificationService.show('Please, write champion name');
 
       return;
     }
@@ -107,7 +106,7 @@ class Champions extends Component {
       },
       body: JSON.stringify({
         player: this.state.championData,
-      })
+      }),
     });
 
     const { players } = await this.adminService.getAllChampions();
@@ -119,7 +118,7 @@ class Champions extends Component {
       championData: {
         name: '',
         photo: '',
-      }
+      },
     }, () => this.notificationService.show('Champion was successfully created!'));
   }
 
@@ -146,7 +145,7 @@ class Champions extends Component {
       championData: {
         name: '',
         photo: '',
-      }
+      },
     }, () => this.notificationService.show('Champion was successfully deleted!'));
   }
   
@@ -155,7 +154,7 @@ class Champions extends Component {
   resetChampion = () => this.setState({
     isChampionCreating: false,
     isChampionEditing: false,
-    championData: {}
+    championData: {},
   });
 
   handleInputChange = (event) => {
@@ -163,7 +162,7 @@ class Champions extends Component {
       championData: {
         ...this.state.championData,
         [event.target.name]: event.target.value,
-      }
+      },
     });
   };
 
@@ -178,7 +177,7 @@ class Champions extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    const playerId = item._id
+    const playerId = item._id;
 
     return <div onClick={() => this.editChampionInit(playerId)} className={cx(className, style.tournament_row)} key={item._id}>
       <div className={itemClass} style={{ '--width': championsTableCaptions.name.width }}>

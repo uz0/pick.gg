@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import i18n from 'i18next'
+import i18n from 'i18next';
 
 import GoogleLogin from 'react-google-login';
 import AuthService from '../../services/authService';
