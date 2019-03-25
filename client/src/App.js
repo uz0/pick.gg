@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import TopMenuComponent from './components/top-menu-component';
 import NotificationContainer from './components/notification/notification-container';
+import Dashboard from './pages/dashboard';
 import Transactions from './pages/transactions';
 import Tournaments from './pages/tournaments';
 import Tournament from './pages/tournament';
@@ -17,6 +18,7 @@ const App = ({ history }) => <Fragment>
 
   <div className="container">
     <Switch>
+      <Route path="/dashboard" component={Dashboard} />
       <Route exact path="/tournaments" component={Tournaments} />
       <Route exact path="/tournaments/:id" component={Tournament} />
       <Route exact path="/profile" component={Profile} />
