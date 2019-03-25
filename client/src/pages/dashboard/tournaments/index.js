@@ -365,68 +365,68 @@ class Tournaments extends Component {
             />
           </div>
 
-          <div className={cx(style.section, style.champions_section)}>
-            <div className={style.title}>Tournament players</div>
-            <div className={style.champions}>
-              {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
-                {champion.name}
-                <Button
-                  icon={<CloseIcon />}
-                  onClick={() => this.removeChampionFromTournament(champion._id)}
-                  appearance={'_icon-transparent'}
-                />
-              </div>)}
-              <div className={style.champion_add}>
-                <Select
-                  options={players}
-                  className={style.select}
-                  onChange={this.selectChampion}
-                  defaultOption={'Select player'}
-                />
-                <Button
-                  appearance="_basic-accent"
-                  text="Add"
-                  onClick={this.addChampionToTournament}
-                  className={style.button}
-                />
+          {isTournamentEditing &&
+            <div className={cx(style.section, style.champions_section)}>
+              <div className={style.title}>Tournament players</div>
+              <div className={style.champions}>
+                {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
+                  {champion.name}
+                  <Button
+                    icon={<CloseIcon />}
+                    onClick={() => this.removeChampionFromTournament(champion._id)}
+                    appearance={'_icon-transparent'}
+                  />
+                </div>)}
+                <div className={style.champion_add}>
+                  <Select
+                    options={players}
+                    className={style.select}
+                    onChange={this.selectChampion}
+                    defaultOption={'Select player'}
+                  />
+                  <Button
+                    appearance="_basic-accent"
+                    text="Add"
+                    onClick={this.addChampionToTournament}
+                    className={style.button}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          }
 
-          <div className={cx(style.section, style.matches_section)}>
-            <div className={style.title}>Tournament Matches</div>
+          {isTournamentEditing &&
+            <div className={cx(style.section, style.matches_section)}>
+              <div className={style.title}>Tournament Matches</div>
 
-            <Button
-              appearance="_basic-accent"
-              text="Create match"
-              onClick={this.createMatch}
-              className={style.button}
-            />
+              <Button
+                appearance="_basic-accent"
+                text="Create match"
+                onClick={this.createMatch}
+                className={style.button}
+              />
 
-            {!isTournamentHasMatches && !isTournamentEditing &&
-              <div>You can add matches after tournament is created</div>
-            }
-
-            {isTournamentHasMatches && tournamentEditingData.matches.map((match, index) =>
-              <div
-                key={match._id}
-                className={style.match}
-                >
+              {isTournamentHasMatches && tournamentEditingData.matches.map((match, index) =>
                 <div
-                  className={style.match_inner}
-                  onClick={() => this.matchEditingInit(match._id)}
-                >
-                  {`Match ${index + 1}`}
+                  key={match._id}
+                  className={style.match}
+                  >
+                  <div
+                    className={style.match_inner}
+                    onClick={() => this.matchEditingInit(match._id)}
+                  >
+                    {`Match ${index + 1}`}
+                  </div>
+                  <Button
+                    appearance="_basic-danger"
+                    text="X"
+                    onClick={() => this.deleteMatch(match._id)}
+                    className={style.button}
+                  />
                 </div>
-                <Button
-                  appearance="_basic-danger"
-                  text="X"
-                  onClick={() => this.deleteMatch(match._id)}
-                  className={style.button}
-                />
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          }
 
         </Modal>}
 
