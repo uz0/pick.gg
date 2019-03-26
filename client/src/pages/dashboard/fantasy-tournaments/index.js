@@ -7,6 +7,7 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
+import ModalAsk from 'components/modal';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
 
@@ -48,6 +49,7 @@ class FantasyTournaments extends Component {
     },
     players: [],
     isTournamentEditing: false,
+    isTournamentDeleting: false,
     isLoading: false,
   };
 
@@ -85,6 +87,40 @@ class FantasyTournaments extends Component {
       isLoading: false,
       tournaments,
     }, () => this.notificationService.show('Tournament was successfully updated!'));
+  }
+
+  deleteTournamentConfirmInit = () => {
+    this.setState({
+      isTournamentDeleting: true,
+    });
+  }
+
+  deleteTournamentAccept = () => {
+    this.setState({
+      isTournamentDeleting: false,
+    });
+
+    this.deleteTournament();
+  }
+
+  deleteTournamentDecline = () => {
+    this.setState({
+      isTournamentDeleting: false,
+    });
+  }
+
+  deleteTournament = async () => {
+    const { name, _id } = this.state.tournamentEditingData;
+
+    await this.adminService.deleteFantasyTournament(_id);
+
+    const { tournaments } = await this.adminService.getFantasyTournaments();
+
+    this.setState({
+      isTournamentEditing: false,
+      isTournamentDeleting: false,
+      tournaments,
+    }, () => this.notificationService.show(`Tournament ${name} was deleted`));
   }
 
   resetTournamentEditing = () => this.setState({
@@ -150,6 +186,7 @@ class FantasyTournaments extends Component {
     const {
       tournaments,
       tournamentEditingData,
+      isTournamentDeleting,
       isTournamentEditing,
       isLoading,
     } = this.state;
@@ -166,7 +203,7 @@ class FantasyTournaments extends Component {
 
     if (isTournamentEditing) {
       modalActions.push(
-        { text: 'Delete tournament', onClick: this.delChampion, isDanger: true },
+        { text: 'Delete tournament', onClick: this.deleteTournamentConfirmInit, isDanger: true },
         { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false},
       );
     }
@@ -189,6 +226,14 @@ class FantasyTournaments extends Component {
         >
 
           {isLoading && <Preloader />}
+
+          {isTournamentDeleting &&
+            <ModalAsk
+              textModal={'Do you really want to delete the tournament?'}
+              submitClick={this.deleteTournamentAccept}
+              closeModal={this.deleteTournamentDecline}
+            />
+          }
 
           <Input
             label="Tournament name"

@@ -182,6 +182,16 @@ const AdminController = () => {
     })
   });
 
+  router.delete('/tournaments/fantasy/:id', async (req, res) => {
+    const tournamentId = req.params.id;
+
+    await FantasyTournamentModel.deleteOne({ _id: tournamentId });
+
+    res.json({
+      success: "success"
+    });
+  });
+
   router.get('/rules', async (req, res) => {
     const rules = await RuleModel.find();
     res.json({ rules });
