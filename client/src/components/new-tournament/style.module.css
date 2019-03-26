@@ -165,6 +165,9 @@ input::-webkit-inner-spin-button {
     clip-path: polygon(0% 7%, 100% 0, 100% 100%, 0% 100%);
     align-items: center;
   }
+  .top_block input{
+    width: 100%;
+  }
   .new_tournament label{
     width: 100%;
   }
@@ -175,10 +178,10 @@ input::-webkit-inner-spin-button {
     width: 100%;
   }
   .rules_inputs {
-    width: 270px;
+    width: 100%;
   }
   .rules_inputs input {
-    flex-basis: 49%;
+    width: 100%;
   }
   .close_button {
     align-self: flex-end;
@@ -194,22 +197,14 @@ input::-webkit-inner-spin-button {
     font-size: 16px;
     min-width: 180px
   }
-}
-
-@media(max-width: 320px) {
-  .new_tournament {
-    width: 100%;
-    height: auto;
-  }
- 
-  .rules_inputs {
-    width: 100%;
-  }
-  .rules_inputs input {
+  .input_rules{
     flex-basis: 49%;
   }
+}
+
+@media(max-width: 320px) { 
   .create_block{
-    margin-top: -13%;
+    margin-top: -11%;
     margin-left: 10px;
     padding-right: 45%;
     padding-top: 20px;
