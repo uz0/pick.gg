@@ -20,7 +20,7 @@ const Table = ({
 
   if (defaultSorting) {
     console.log(defaultSorting, 'defaultSorting');
-    console.log(list);
+    console.log(list, 'list');
     list.sort(defaultSorting);
   }
 

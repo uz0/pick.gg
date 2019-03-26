@@ -100,8 +100,8 @@ class Tournament extends Component {
     const users = tournament.users;
     const matches = realTournament.matches;
 
-    users.forEach(user => {
-      user.totalResults = countUserTotalResults(user._id);
+    users.forEach(item => {
+      item.totalResults = this.getTotalUserScore(tournament, item.user._id);
     })
 
     this.setState({
@@ -147,11 +147,9 @@ class Tournament extends Component {
   }
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
 
-  getCountMatchPoints = (matchId, userId) => {
-    const { fantasyTournament } = this.state;
-
-    const userPlayers = this.getUserPlayers(userId);
-    const ruleSet = this.getRulesSet();
+  getCountMatchPoints = (fantasyTournament, matchId, userId) => {
+    const userPlayers = this.getUserPlayers(fantasyTournament, userId);
+    const ruleSet = this.getRulesSet(fantasyTournament);
 
     const userPlayersIds = userPlayers.map(player => player._id);
 
@@ -172,24 +170,22 @@ class Tournament extends Component {
     return userPlayersResultsSum;
   };
 
-  getTotalUserScore = userId => {
-    const { fantasyTournament } = this.state;
-    const userMatchResults = fantasyTournament.tournament.matches.map(match => this.getCountMatchPoints(match._id, userId));
+  getTotalUserScore = (fantasyTournament, userId) => {
+    const userMatchResults = fantasyTournament.tournament.matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
     const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
 
     return totalUserScore;
   };
 
-  getUserPlayers = (userId) => {
-    const { fantasyTournament } = this.state;
+  getUserPlayers = (fantasyTournament, userId) => {
     const user = find(fantasyTournament.users, (item) => item.user._id === userId);
 
     return user.players;
   };
 
-  getCalcUserProgress = userId => {
-    const usersResults = this.state.users.map(item => this.getTotalUserScore(item.user._id));
-    const currentUserResult = this.getTotalUserScore(userId);
+  getCalcUserProgress = (fantasyTournament, userId) => {
+    const usersResults = this.state.users.map(item => this.getTotalUserScore(fantasyTournament, item.user._id));
+    const currentUserResult = this.getTotalUserScore(fantasyTournament, userId);
 
     const maxResult = Math.max(...usersResults);
 
@@ -197,17 +193,14 @@ class Tournament extends Component {
   };
 
   leadersDefaultSorting = (prev, next) => {
-    return prev - next;
+    return next.totalResults - prev.totalResults;
   };
 
-  getRulesSet = () => {
-    const { fantasyTournament } = this.state;
+  getRulesSet = (fantasyTournament) => fantasyTournament.rules.reduce((set, item) => {
+    set[item.rule._id] = item.score;
+    return set;
+  }, {});
 
-    return fantasyTournament.rules.reduce((set, item) => {
-      set[item.rule._id] = item.score;
-      return set;
-    }, {});
-  }
 
   getRulesNames = () => {
     if (!this.state.fantasyTournament) {
@@ -238,8 +231,10 @@ class Tournament extends Component {
   };
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
-    const totalScore = this.getTotalUserScore(item.user._id);
-    const progressPercents = this.getCalcUserProgress(item.user._id);
+    const { fantasyTournament } = this.state;
+
+    const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
+    const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
 
     return <div className={className} key={item.user._id}>
       <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
@@ -257,8 +252,10 @@ class Tournament extends Component {
   };
 
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
+    const { fantasyTournament } = this.state;
+
     const time = moment(item.startDate).format('HH:mm');
-    const points = this.getCountMatchPoints(item._id, this.state.currentUser._id);
+    const points = this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const url = '';
     const disableUrl = url === '';
     const urlMatch = url === '' ? '' : url;
