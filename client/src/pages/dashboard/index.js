@@ -30,8 +30,8 @@ class Dashboard extends Component {
               <h4>Menu</h4>
               <nav>
                 <NavLink to="/dashboard/tournaments">Tournaments</NavLink>
-                <NavLink to="/dashboard/rules">Tournament rules</NavLink>
                 <NavLink to="/dashboard/fantasy">Fantasy Tournaments</NavLink>
+                <NavLink to="/dashboard/rules">Tournament rules</NavLink>
                 <NavLink to="/dashboard/champions">Champions</NavLink>
                 <NavLink to="/dashboard/users">Users</NavLink>
               </nav>
