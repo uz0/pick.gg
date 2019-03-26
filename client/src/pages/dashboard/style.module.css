@@ -96,3 +96,20 @@
   margin-left: 30px;
   padding: 0 16px;
 }
+
+@media screen and (max-width: 480px){
+  .dashboard .content{
+    flex-direction: column;
+  }
+
+  .dashboard .content .sidebar{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .dashboard .content .section{
+    margin-left: 0;
+    padding: 0;
+    padding-bottom: 20px;
+  }
+}
