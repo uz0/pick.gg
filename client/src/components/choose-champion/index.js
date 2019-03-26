@@ -54,9 +54,9 @@ class ChooseChampion extends Component {
         <div className={style.content}>
           <div className={style.list}>
             {this.props.champions.map(item => <div
-              className={cx('item', {'_is-checked': this.state.ids.indexOf(item.id) !== -1})}
+              className={cx('item', {'_is-checked': this.state.ids.indexOf(item._id) !== -1})}
               key={item._id}
-              onClick={() => this.toggleChampion(item.id)}
+              onClick={() => this.toggleChampion(item._id)}
             >
               <div className={style.image}>
                 <img src={item.photo} alt={i18n.t('champion_avatar')} />
