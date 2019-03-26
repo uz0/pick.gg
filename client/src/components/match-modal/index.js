@@ -22,7 +22,13 @@ class MatchModal extends Component {
   }
 
   state = {
-    match: {},
+    match: {
+      _id: '',
+      name: '',
+      startDate: '',
+      startTime: '',
+      completed: false,
+    },
     results: [],
     editedResults: [],
     isLoading: false,
@@ -54,7 +60,16 @@ class MatchModal extends Component {
   }
 
   handleInputChange = (event) => {
-    const inputValue = event.target.name === 'date' ? moment(event.target.value).format() : event.target.value;
+    let inputValue = event.target.value;
+
+    if(event.target.name === 'date'){
+      inputValue = moment(event.target.value).format();
+    }
+
+    if(event.target.type === 'checkbox'){
+      inputValue = event.target.checked;
+    }
+
     this.setState({
       match: {
         ...this.state.match,
@@ -137,9 +152,8 @@ class MatchModal extends Component {
         label="Match ID"
         name="name"
         value={match._id}
-        defaultValue={match._id}
-        disabled
         onChange={this.handleInputChange}
+        disabled
       />
 
       <Input
@@ -147,7 +161,6 @@ class MatchModal extends Component {
         label="Start date"
         name="startDate"
         value={formattedMatchDate}
-        defaultValue={formattedMatchDate}
         onChange={this.handleInputChange}
       />
 
@@ -156,7 +169,6 @@ class MatchModal extends Component {
         label="Start time"
         name="startTime"
         value={match.startTime}
-        defaultValue={match.startTime}
         onChange={this.handleInputChange}
       />
 
@@ -167,7 +179,7 @@ class MatchModal extends Component {
           name="completed"
           className={style.css_checkbox}
           value={match.completed}
-          defaultValue={match.completed}
+          checked={match.completed}
           onChange={this.handleInputChange}
         />
       </label>
