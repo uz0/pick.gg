@@ -100,6 +100,8 @@ class Tournament extends Component {
     const users = tournament.users;
     const matches = realTournament.matches;
 
+    console.log(tournament, 'tournament');
+
     this.setState({
       isLoading: false,
       fantasyTournament: tournament,
@@ -144,23 +146,53 @@ class Tournament extends Component {
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
 
   getCountMatchPoints = matchId => {
-    console.log(matchId);
-    return 800;
+    const { fantasyTournament } = this.state;
+
+    const userPlayers = this.getCurrentUserPlayers();
+    const userPlayersIds = userPlayers.map(player => player._id);
+
+    const ruleSet = fantasyTournament.rules.reduce((set, item) => {
+      set[item.rule._id] = item.score;
+      return set;
+    }, {});
+
+    const match = find(fantasyTournament.tournament.matches, {_id: matchId});
+    const results = match.results.playersResults;
+
+    const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.player_id) ? item : false);
+    const userPlayersResults = userPlayersWithResults.reduce((arr, item) => {
+      arr.push(...item.results)
+      return arr;
+    }, []);
+
+    const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
+      sum += (item.score * ruleSet[item.rule]);
+      return sum;
+    }, 0);
+    
+    return userPlayersResultsSum;
   };
 
   getTotalUserScore = userId => {
-    console.log(userId);
+    // console.log(userId);
     return 3423;
   };
 
+  getCurrentUserPlayers = () => {
+    const { currentUser, fantasyTournament } = this.state;
+    const user = fantasyTournament.users.find(item => item.user._id === currentUser._id);
+
+    return user.players;
+  };
+
   getCalcUserProgress = userId => {
-    console.log(userId);
+    // console.log(userId);
     return 70;
   };
 
   leadersDefaultSorting = (prev, next) => {
-    console.log(prev);
-    console.log(next);
+    // console.log(prev);
+    // console.log(next);
   };
 
   getRulesNames = () => {
@@ -212,7 +244,7 @@ class Tournament extends Component {
 
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
     const time = moment(item.startDate).format('HH:mm');
-    const points = this.getCountMatchPoints(item.id);
+    const points = this.getCountMatchPoints(item._id);
     const url = '';
     const disableUrl = url === '';
     const urlMatch = url === '' ? '' : url;
@@ -249,6 +281,8 @@ class Tournament extends Component {
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
+
+    console.log(currentUserParticipant);
     
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
