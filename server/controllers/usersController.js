@@ -11,7 +11,7 @@ const UsersController = () => {
 
   router.get('/me', async (req, res) => {
     const userId = req.decoded._id;
-    let user = await UserModel.findOne({ _id: userId });
+    let user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin about email');
     res.json({ user });
   });
 
