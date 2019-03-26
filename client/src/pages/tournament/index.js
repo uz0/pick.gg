@@ -100,7 +100,9 @@ class Tournament extends Component {
     const users = tournament.users;
     const matches = realTournament.matches;
 
-    console.log(tournament, 'tournament');
+    users.forEach(user => {
+      user.totalResults = countUserTotalResults(user._id);
+    })
 
     this.setState({
       isLoading: false,
@@ -136,27 +138,24 @@ class Tournament extends Component {
   getFantasyTournamentStatus = () => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    if (champions.length > 0){
+    if (champions.length > 0) {
       return i18n.t('wait_matches');
     }
-    if (champions.length === 0){
+    if (champions.length === 0) {
       return i18n.t('join_tournament_and');
     }
   }
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
 
-  getCountMatchPoints = matchId => {
+  getCountMatchPoints = (matchId, userId) => {
     const { fantasyTournament } = this.state;
 
-    const userPlayers = this.getCurrentUserPlayers();
+    const userPlayers = this.getUserPlayers(userId);
+    const ruleSet = this.getRulesSet();
+
     const userPlayersIds = userPlayers.map(player => player._id);
 
-    const ruleSet = fantasyTournament.rules.reduce((set, item) => {
-      set[item.rule._id] = item.score;
-      return set;
-    }, {});
-
-    const match = find(fantasyTournament.tournament.matches, {_id: matchId});
+    const match = find(fantasyTournament.tournament.matches, { _id: matchId });
     const results = match.results.playersResults;
 
     const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.player_id) ? item : false);
@@ -166,34 +165,49 @@ class Tournament extends Component {
     }, []);
 
     const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
-      sum += (item.score * ruleSet[item.rule]);
+      sum += item.score * ruleSet[item.rule];
       return sum;
     }, 0);
-    
+
     return userPlayersResultsSum;
   };
 
   getTotalUserScore = userId => {
-    // console.log(userId);
-    return 3423;
+    const { fantasyTournament } = this.state;
+    const userMatchResults = fantasyTournament.tournament.matches.map(match => this.getCountMatchPoints(match._id, userId));
+    const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
+
+    return totalUserScore;
   };
 
-  getCurrentUserPlayers = () => {
-    const { currentUser, fantasyTournament } = this.state;
-    const user = fantasyTournament.users.find(item => item.user._id === currentUser._id);
+  getUserPlayers = (userId) => {
+    const { fantasyTournament } = this.state;
+    const user = find(fantasyTournament.users, (item) => item.user._id === userId);
 
     return user.players;
   };
 
   getCalcUserProgress = userId => {
-    // console.log(userId);
-    return 70;
+    const usersResults = this.state.users.map(item => this.getTotalUserScore(item.user._id));
+    const currentUserResult = this.getTotalUserScore(userId);
+
+    const maxResult = Math.max(...usersResults);
+
+    return currentUserResult / maxResult * 100;
   };
 
   leadersDefaultSorting = (prev, next) => {
-    // console.log(prev);
-    // console.log(next);
+    return prev - next;
   };
+
+  getRulesSet = () => {
+    const { fantasyTournament } = this.state;
+
+    return fantasyTournament.rules.reduce((set, item) => {
+      set[item.rule._id] = item.score;
+      return set;
+    }, {});
+  }
 
   getRulesNames = () => {
     if (!this.state.fantasyTournament) {
@@ -228,37 +242,37 @@ class Tournament extends Component {
     const progressPercents = this.getCalcUserProgress(item.user._id);
 
     return <div className={className} key={item.user._id}>
-      <div className={cx('leader_num_cell', itemClass)} style={{'--width': leadersTableCaptions.position.width}}>
+      <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
         <span className={textClass}>{index + 1}</span>
       </div>
 
-      <div className={cx('leader_name_cell', itemClass)} style={{'--width': leadersTableCaptions.name.width}}>
+      <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
         <span className={textClass}>{item.user.username}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': leadersTableCaptions.points.width}}>
-        <div className={style.leader_progress} style={{'--width': progressPercents}}>{totalScore}</div>
+      <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
+        <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
       </div>
     </div>;
   };
 
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
     const time = moment(item.startDate).format('HH:mm');
-    const points = this.getCountMatchPoints(item._id);
+    const points = this.getCountMatchPoints(item._id, this.state.currentUser._id);
     const url = '';
     const disableUrl = url === '';
     const urlMatch = url === '' ? '' : url;
 
-    return <NavLink to={urlMatch} target="_blank" className={cx(className, {"disable_url": disableUrl})} key={item.id}>
-      <div className={itemClass} style={{'--width': matchesTableCaptions.name.width}}>
+    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrl })} key={item.id}>
+      <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': matchesTableCaptions.points.width}}>
+      <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
         <div className={style.match_points}>+{points}</div>
       </div>
 
-      <div className={itemClass} style={{'--width': matchesTableCaptions.date.width}}>
+      <div className={itemClass} style={{ '--width': matchesTableCaptions.date.width }}>
         <span className={textClass}>{time}</span>
       </div>
     </NavLink>;
@@ -283,7 +297,7 @@ class Tournament extends Component {
     const rules = this.getRulesNames();
 
     console.log(currentUserParticipant);
-    
+
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
@@ -361,7 +375,7 @@ class Tournament extends Component {
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
-              <img src={champion.photo} alt={i18n.t('champion_avatar')}/>
+              <img src={champion.photo} alt={i18n.t('champion_avatar')} />
             </div>
 
             <span className={style.name}>{champion.name}</span>
