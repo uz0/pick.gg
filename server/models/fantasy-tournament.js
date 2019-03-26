@@ -10,7 +10,8 @@ let schema = new Schema({
   users       : [{
     _id: { type: Schema.Types.ObjectId, ref: 'User' },
     user: { type: Schema.Types.ObjectId, ref: 'User' },
-    players_ids: [Number],
+    // players_ids: [Number],
+    players: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
   }],
 
   rules: [{
