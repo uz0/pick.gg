@@ -108,6 +108,11 @@ main h1 {
     font-size: 21px;
   }
 
+  .home_page main{
+    width: 90%;
+  }
+  
+
   .content{
     margin-top: 0px;
     display: flex;
