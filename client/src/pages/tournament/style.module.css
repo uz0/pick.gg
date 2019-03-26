@@ -245,6 +245,9 @@
   margin-right: auto;
   border-radius: 4px;
 }
+.tournament .team .champion img{
+  height: inherit;
+}
 
 .tournament .team .champion .name {
   --height: 20px;
