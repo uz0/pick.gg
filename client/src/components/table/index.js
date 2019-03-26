@@ -19,6 +19,8 @@ const Table = ({
   let list = items;
 
   if (defaultSorting) {
+    console.log(defaultSorting, 'defaultSorting');
+    console.log(list, 'list');
     list.sort(defaultSorting);
   }
 
