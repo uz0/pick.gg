@@ -101,7 +101,7 @@ const TournamentController = io => {
 
     const tournament = await FantasyTournament
       .findOne({ _id: id })
-      .populate({ path: 'users.players', select: 'id name photo' })
+      .populate({ path: 'users.players', select: '_id name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
       .populate('tournament')
@@ -124,7 +124,6 @@ const TournamentController = io => {
       });
 
     res.json({ tournament });
-
   });
 
   router.post('/', async (req, res) => {
@@ -246,8 +245,8 @@ const TournamentController = io => {
 
     tournamentUsers.push({
       userId,
+      players,
       user: userId,
-      players_ids: players,
     });
 
     const newTournament = await FantasyTournament
