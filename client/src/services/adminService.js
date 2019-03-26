@@ -35,6 +35,12 @@ export default class AdminService {
     });
   }
 
+  deleteFantasyTournament = async (tournamentId) => {
+    await http(`/api/admin/tournaments/fantasy/${tournamentId}`, {
+      method: 'DELETE',
+    });
+  }
+
   createMatch = async(tournamentId) => {
     const matchQuery = await http('/api/admin/matches', {
       method: 'POST',
