@@ -1,5 +1,7 @@
 import map from 'lodash/map';
 import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
+import groupBy from 'lodash/groupBy';
 import express from "express";
 import TournamentModel from "../models/tournament";
 import FantasyTournament from "../models/fantasy-tournament";
@@ -36,152 +38,116 @@ const SystemController = () => {
   })
 
   router.get('/sync', async (req, res) => {
-    const params = new URLSearchParams();
-    params.append('grant_type', 'client_credentials');
-    params.append('client_id', config.client_id);
-    params.append('client_secret', config.client_secret);
+    console.log('matches loading');
+    let data = await fetch('https://esports-api.thescore.com/lol/matches');
+    data = await data.json();
+    console.log('matches loaded');
 
-    let auth = await fetch('https://api.abiosgaming.com/v2/oauth/access_token', {
-      method: 'POST',
-      body: params,
-    });
-
-    auth = await auth.json();
-    const token = auth.access_token;
-
-    const getAbios = (endPoint, params) => {
-      const url = `https://api.abiosgaming.com/v2/${endPoint}?access_token=${token}`;
-
-      if (params) {
-        const advancedParams = new URLSearchParams();
-        Object.entries(params).map(([key, val]) => advancedParams.append(key, val));
-        return fetch(`${url}&${advancedParams.toString()}`);
-      }
-
-      return fetch(url);
-    };
-
-    const loadPaginatedData = async (endPoint, params) => {
-      console.log(`${endPoint} is loading`);
-      let firstPage = await getAbios(endPoint, params);
-      firstPage = await firstPage.json();
-      console.log(`1 of ${firstPage.last_page} page loaded`);
-
-      let list = firstPage.data;
-
-      if (firstPage.last_page === 1) {
-        return list;
-      }
-
-      const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
-
-      for (let i = 2; i < firstPage.last_page + 1; i++) {
-        const advancedParams = Object.assign(params, { page: i });
-        let response = await getAbios(endPoint, advancedParams);
-        response = await response.json();
-
-        if (!response.error) {
-          console.log(`${i} of ${firstPage.last_page} page loaded`);
-          list = list.concat(response.data);
-        } else {
-          console.log(`${i} of ${firstPage.last_page} page request error`);
-          console.log(response);
-        }
-
-        await wait(350);
-      }
-
-      return list;
-    };
-
-    let game = await getAbios('games', { q: 'CS:GO' });
-    game = await game.json();
-    game = game.data[0];
-
-    let formattedPlayers = [];
     let formattedTournaments = [];
     let formattedMatches = [];
+    let formattedMatchResults = [];
+    let formattedPlayers = [];
 
-    const countPlayers = await PlayerModel.count();
+    data.competitions.forEach(competition => {
+      formattedTournaments.push({
+        id: competition.id,
+        name: competition.full_name,
+        date: null,
+        matches: [],
+        champions: [],
+      });
+    });
 
-    if (countPlayers === 0) {
-      const players = await loadPaginatedData('players', {'games[]': game.id});
+    data.matches.forEach(match => {
+      formattedMatches.push({
+        id: match.id,
+        tournament_id: parseInt(match.competition_url.replace('/lol/competitions/', ''), 10),
+        startDate: match.start_date,
+        results: null,
+        completed: false,
+      });
+    });
 
-      players.forEach(player => {
-        formattedPlayers.push({
-          id: player.id,
-          name: player.nick_name,
-          photo: player.images.default,
-        });
+    const groupedMatches = groupBy(formattedMatches, 'tournament_id');
+
+    Object.keys(groupedMatches).forEach(id => {
+      const tournamentIndex = findIndex(formattedTournaments, { id: groupedMatches[id][0].tournament_id });
+      formattedTournaments[tournamentIndex].matches = map(groupedMatches[id], match => match.id);
+      formattedTournaments[tournamentIndex].date = groupedMatches[id][0].startDate;
+    });
+
+    const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
+    console.log('matches details loading');
+
+    for (let i = 0; i < formattedMatches.length; i++) {
+      await wait(500);
+      let response = await fetch(`https://esports-api.thescore.com/lol/matches/${formattedMatches[i].id}`);
+      response = await response.json();
+
+      response.players.forEach(player => {
+        if (!find(formattedPlayers, { id: player.id })) {
+          formattedPlayers.push({
+            id: player.id,
+            name: player.in_game_name,
+            photo: player.headshot ? player.headshot.w192xh192 : null,
+          });
+        }
+
+        const tournamentIndex = findIndex(formattedTournaments, { id: formattedMatches[i].tournament_id });
+
+        if (formattedTournaments[tournamentIndex].champions.indexOf(player.id) === -1) {
+          formattedTournaments[tournamentIndex].champions.push(player.id);
+        }
       });
 
-      await PlayerModel.deleteMany();
-      console.log('Players model cleared');
-      await PlayerModel.create(formattedPlayers);
-      console.log('Players loaded');
-    } else {
-      console.log('Players loading skipped');
-    }
+      formattedMatches[i].completed = response.matches.status === 'post-match';
 
-    const series = await loadPaginatedData('series', {'games[]': game.id, 'with[]': 'matches'});
-    const tournaments = await loadPaginatedData('tournaments', {'games[]': game.id, 'with[]': 'series'});
+      if (formattedMatches[i].completed) {
+        let object = {
+          matchId: formattedMatches[i].id,
+          playersResults: [],
+        };
 
-    for (let i = 0; i < tournaments.length; i++) {
-      const tournament = tournaments[i];
+        response.player_game_records.forEach(record => {
+          object.playersResults.push({
+            playerId: parseInt(record.player_url.replace('/lol/players/', ''), 10),
 
-      let object = {
-        id: tournament.id,
-        name: tournament.title,
-        date: tournament.start,
-        champions_ids: [],
-        matches_ids: [],
-      };
+            results: [
+              {
+                rule: 'assists',
+                score: record.assists,
+              },
 
-      if (tournament.series && tournament.series.length > 0) {
-        for (let j = 0; j < tournament.series.length; j++) {
-          let oneSeries = find(series, { id: tournament.series[j].id }) || tournament.series[j];
+              {
+                rule: 'deaths',
+                score: record.deaths,
+              },
 
-          if (oneSeries.matches && oneSeries.matches.length > 0) {
-            oneSeries.matches.forEach(match => {
-              formattedMatches.push({
-                id: match.id,
-                tournament_id: tournament.id,
-                // в абиос нет даты у матча, вставил даты турнира
-                startDate: tournament.start,
-                endDate: tournament.end,
-                results: null,
-                completed: false,
-              });
+              {
+                rule: 'kills',
+                score: record.kills,
+              },
+            ],
+          });
+        });
 
-              object.matches_ids.push(match.id);
-            });
-          }
+        formattedMatchResults.push(object);
 
-          if (oneSeries.rosters && oneSeries.rosters.length > 0) {
-            oneSeries.rosters.forEach(roster => {
-              roster.players.forEach(player => {
-                object.champions_ids.push(player.id);
-              });
-            });
-          }
-        }
+        // тут внесение результатов в модель и получение id для связки данных
+        // этот кусок кода не тестировал
+
+        // const resultsResponse = await MatchResult.create(object);
+        // formattedMatches[i].results = resultsResponse._id;
       }
 
-      formattedTournaments.push(object);
+      console.log(`${i} of ${formattedMatches.length} matches loaded`);
     }
 
-    await MatchModel.deleteMany();
-    console.log('Matches cleared');
-    await MatchModel.create(formattedMatches);
-    console.log('Matches loaded');
-
-    await TournamentModel.deleteMany();
-    console.log('Tournaments cleared');
-    await TournamentModel.create(formattedTournaments);
-    console.log('Tournaments loaded');
-
     res.send({
-      success: 'Sync successfully completed',
+      formattedTournaments,
+      formattedMatches,
+      formattedMatchResults,
+      formattedPlayers,
     });
   })
 
