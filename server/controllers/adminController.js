@@ -224,7 +224,7 @@ const AdminController = () => {
     const realTournament = fantasyTournament.tournament;
 
     const matches = realTournament.matches;
-    const areMatchesCompleted = matches.reduce(match => match.completed);
+    const areMatchesCompleted = matches.every(match => match.completed === true);
 
     const rulesSet = fantasyTournament.rules.reduce((set, item) => {
       set[item.rule._id] = item.score;
@@ -307,7 +307,6 @@ const AdminController = () => {
     });
 
     res.json({
-      updatedTournament,
       tournamentId,
       success: "success",
     });
