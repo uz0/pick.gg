@@ -72,7 +72,7 @@ class ChooseChampion extends Component {
             appearance="_basic-accent"
             text={i18n.t('add_players')}
             className={style.button}
-            disabled={this.state.ids.length === 0}
+            disabled={this.state.ids.length < 5}
             onClick={this.toggleFreeTournamentModal}
           />
         </footer>
