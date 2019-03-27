@@ -161,6 +161,11 @@ class Tournament extends Component {
     const userPlayersIds = userPlayers.map(player => player._id);
 
     const match = find(fantasyTournament.tournament.matches, { _id: matchId });
+
+    if(!match.completed){
+      return 0;
+    }
+
     const results = match.results.playersResults;
 
     const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.player_id) ? item : false);
@@ -178,7 +183,9 @@ class Tournament extends Component {
   };
 
   getTotalUserScore = (fantasyTournament, userId) => {
-    const userMatchResults = fantasyTournament.tournament.matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
+    const matches = fantasyTournament.tournament.matches;
+    const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
+    
     const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
 
     return totalUserScore;
@@ -284,15 +291,16 @@ class Tournament extends Component {
     const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const url = '';
     const disableUrl = url === '';
+    const isMatchCompleted = item.completed;
     const urlMatch = url === '' ? '' : url;
 
-    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrl })} key={item.id}>
+    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrl, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
-        {points &&
+        {isMatchCompleted && points &&
           <div className={style.match_points}>+{points}</div>
         }
       </div>
