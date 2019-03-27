@@ -18,6 +18,7 @@ const UsersController = () => {
   router.post('/me', async (req, res) => {
     const userId = req.decoded._id;
     const fields = {
+      username: req.body.username,
       email: req.body.email,
       about: req.body.about,
     }
