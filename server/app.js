@@ -26,6 +26,7 @@ import config from "./config";
 
 const app = express();
 let server = http.Server(app);
+server.timeout = 999999;
 let io = socketIO(server);
 
 mongoose.Promise = Promise;
