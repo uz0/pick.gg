@@ -98,11 +98,16 @@ class Tournament extends Component {
 
     const realTournament = tournament.tournament;
     const users = tournament.users;
+    const currentUserParticipant = find(tournament.users, item => item.user._id === this.state.currentUser._id);
     const matches = realTournament.matches;
 
     users.forEach(item => {
       item.totalResults = this.getTotalUserScore(tournament, item.user._id);
-    })
+    });
+
+    currentUserParticipant.players.forEach(item => {
+      item.championScore = this.getUserPlayerScore(tournament, item._id);
+    });
 
     this.setState({
       isLoading: false,
@@ -135,6 +140,7 @@ class Tournament extends Component {
       return i18n.t('will_be_soon');
     }
   }
+
   getFantasyTournamentStatus = () => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
@@ -145,6 +151,7 @@ class Tournament extends Component {
       return i18n.t('join_tournament_and');
     }
   }
+
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
 
   getCountMatchPoints = (fantasyTournament, matchId, userId) => {
@@ -181,6 +188,24 @@ class Tournament extends Component {
     const user = find(fantasyTournament.users, (item) => item.user._id === userId);
 
     return user.players;
+  };
+
+  getUserPlayerScore = (fantasyTournament, playerId) => {
+    const ruleSet = this.getRulesSet(fantasyTournament);
+    const tournamentMatches = fantasyTournament.tournament.matches;
+    const playerResults = tournamentMatches.map(item => item.results.playersResults.filter(item => item.player_id === playerId).map(item => item.results));
+
+    const aggregatedPlayerResults = playerResults.reduce((arr, item) => {
+      arr.push(...item[0]);
+      return arr;
+    }, []);
+
+    const aggregatedPlayerResultsSum = aggregatedPlayerResults.reduce((sum, item) => {
+      sum += item.score * ruleSet[item.rule];
+      return sum;
+    }, 0);
+
+    return aggregatedPlayerResultsSum;
   };
 
   getCalcUserProgress = (fantasyTournament, userId) => {
@@ -295,6 +320,8 @@ class Tournament extends Component {
 
     console.log(currentUserParticipant);
 
+    console.log(champions, 'champions')
+
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
@@ -376,7 +403,7 @@ class Tournament extends Component {
             </div>
 
             <span className={style.name}>{champion.name}</span>
-            <span className={style.scores}>Scores: +{champion.id}</span>
+            <span className={style.scores}>Scores: +{champion.championScore}</span>
           </div>)}
         </div>
       }
