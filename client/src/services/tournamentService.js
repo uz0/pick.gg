@@ -1,8 +1,8 @@
 import http from './httpService';
 import moment from 'moment';
+import BasicService from './basicService';
 
-export default class TournamentService {
-
+export default class TournamentService extends BasicService {
   participateInTournament = async(tournamentId, players) => {
 
     let participateQuery = await http(`/api/tournaments/${tournamentId}/setup`, {
