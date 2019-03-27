@@ -55,6 +55,7 @@ const SystemController = () => {
         date: null,
         matches: [],
         champions: [],
+        syncAt: new Date().toISOString(),
       });
     });
 
@@ -65,6 +66,7 @@ const SystemController = () => {
         startDate: match.start_date,
         results: null,
         completed: false,
+        syncAt: new Date().toISOString(),
       });
     });
 
@@ -90,6 +92,7 @@ const SystemController = () => {
             id: player.id,
             name: player.in_game_name,
             photo: player.headshot ? player.headshot.w192xh192 : null,
+            syncAt: new Date().toISOString(),
           });
         }
 
@@ -106,6 +109,7 @@ const SystemController = () => {
         let object = {
           matchId: formattedMatches[i].id,
           playersResults: [],
+          syncAt: new Date().toISOString(),
         };
 
         response.player_game_records.forEach(record => {
@@ -126,6 +130,16 @@ const SystemController = () => {
               {
                 rule: 'kills',
                 score: record.kills,
+              },
+
+              {
+                rule: 'creep_score',
+                score: record.creep_score,
+              },
+
+              {
+                rule: 'net_worth',
+                score: record.net_worth,
               },
             ],
           });
