@@ -7,6 +7,8 @@ import PlayerModel from "../models/player";
 import RuleModel from "../models/rule";
 import UserModel from "../models/user";
 
+import find from 'lodash/find';
+
 let router = express.Router();
 
 const AdminController = () => {
@@ -189,6 +191,130 @@ const AdminController = () => {
 
     res.json({
       success: "success"
+    });
+  });
+
+  router.get('/tournaments/fantasy/:id/finalize', async (req, res) => {
+    const tournamentId = req.params.id;
+
+    const fantasyTournament = await FantasyTournamentModel
+      .findById(tournamentId)
+      .populate({ path: 'users.players', select: '_id name photo' })
+      .populate({ path: 'users.user', select: '_id username' })
+      .populate({ path: 'rules.rule' })
+      .populate({ path: 'winner', select: 'id username' })
+      .populate({ path: 'creator', select: 'id username' })
+      .populate('tournament')
+      .populate({
+        path: 'tournament',
+        populate: {
+          path: 'champions',
+        }
+      })
+      .populate({
+        path: 'tournament',
+        populate: {
+          path: 'matches',
+          populate: {
+            path: 'results'
+          }
+        }
+      });
+
+    const realTournament = fantasyTournament.tournament;
+
+    const matches = realTournament.matches;
+    const areMatchesCompleted = matches.reduce(match => match.completed);
+
+    const rulesSet = fantasyTournament.rules.reduce((set, item) => {
+      set[item.rule._id] = item.score;
+      return set;
+    }, {});
+
+    let playersCountedResults = [];
+
+    const getUserPlayers = (userId) => {
+      const user = find(fantasyTournament.users, (item) => item.user._id === userId);
+      return user.players;
+    };
+
+    const getCountMatchPoints = (matchId, userId) => {
+      const userPlayers = getUserPlayers(userId);
+      const userPlayersIds = userPlayers.map(player => player._id);
+  
+      const match = find(matches, { _id: matchId });
+      const results = match.results.playersResults;
+
+      console.log(results, 'results');
+      // console.log(userPlayersIds, 'userPlayersIds');
+  
+      const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.player_id) ? item : false);
+
+      // console.log(userPlayersWithResults, 'userPlayersWithResults');
+
+      const userPlayersResults = userPlayersWithResults.reduce((arr, item) => {
+        arr.push(...item.results)
+        return arr;
+      }, []);
+
+      // console.log(userPlayersResults, 'userPlayersResults');
+  
+      const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
+        sum += item.score * rulesSet[item.rule];
+        return sum;
+      }, 0);
+  
+      return userPlayersResultsSum;
+    };
+
+    const getTotalUserScore = (userId) => {
+      const userMatchResults = fantasyTournament.tournament.matches.map(match => getCountMatchPoints(match._id, userId));
+      const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
+  
+      return totalUserScore;
+    };
+
+    if(!areMatchesCompleted){
+      res.json({
+        success: "false",
+        message: "Not all matches of the tournament are completed"
+      });
+
+      return;
+    }
+
+    if(fantasyTournament.winner !== null){
+      res.json({
+        success: "false",
+        message: "Tournament is already finalized"
+      });
+
+      return;
+    }
+
+    fantasyTournament.users.forEach(item => {
+      // console.log(item.user._id);
+      playersCountedResults.push({
+        player: item.user._id,
+        score: getTotalUserScore(item.user._id)
+      })
+      // item.totalResults = getTotalUserScore(item.user._id);
+      // item.dick = 'dick';
+      // console.log(item.totalResults);
+    });
+
+
+    // console.log(fantasyTournament, 'fantasyTournament');
+    // console.log(tournamentId, 'finalize');
+
+
+    res.json({
+      success: "success",
+      // playersCountedResults,
+      fantasyTournament: fantasyTournament.users,
+      // areMatchesCompleted,
+      // matches
+      // fantasyTournament
     });
   });
 

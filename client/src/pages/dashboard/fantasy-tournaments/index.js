@@ -123,6 +123,11 @@ class FantasyTournaments extends Component {
     }, () => this.notificationService.show(`Tournament ${name} was deleted`));
   }
 
+  finalizeTournament = async() => {
+    const tournamentId = this.state.tournamentEditingData._id;
+    await this.adminService.finalizeFantasyTournament(tournamentId);
+  }
+
   resetTournamentEditing = () => this.setState({
     isTournamentEditing: false,
     tournamentEditingData: {},
@@ -181,7 +186,7 @@ class FantasyTournaments extends Component {
       </div>
     </div>;
   }
-
+   
   render() {
     const {
       tournaments,
@@ -192,6 +197,7 @@ class FantasyTournaments extends Component {
     } = this.state;
 
     const modalTitle = `Editing ${tournamentEditingData.name}`;
+    const tournamentWinner = tournamentEditingData.winner && tournamentEditingData.winner.username || 'Tournament not finalized';
 
     let modalActions = [];
 
@@ -204,6 +210,7 @@ class FantasyTournaments extends Component {
     if (isTournamentEditing) {
       modalActions.push(
         { text: 'Delete tournament', onClick: this.deleteTournamentConfirmInit, isDanger: true },
+        { text: 'Finalize tournament', onClick: this.finalizeTournament, isDanger: true },
         { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false},
       );
     }
@@ -248,6 +255,14 @@ class FantasyTournaments extends Component {
             value={tournamentEditingData.entry}
             onChange={this.handleInputChange}
             className={style.tournament_input}
+          />
+          <Input
+            label="Winner"
+            name="winner"
+            value={tournamentWinner}
+            onChange={this.handleInputChange}
+            className={style.tournament_input}
+            disabled
           />
 
           <div className={style.rules_inputs}>
