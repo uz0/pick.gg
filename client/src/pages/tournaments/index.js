@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import filter from 'lodash/filter';
 
+import io from "socket.io-client";
+
 import TournamentService from 'services/tournamentService';
 
 import Input from 'components/filters/input';
@@ -64,6 +66,19 @@ class Tournaments extends Component {
       fantasyTournaments: fantasyTournaments.tournaments,
       realTournaments: realTournaments.tournaments,
       isLoading: false,
+    });
+
+    this.socket = io();
+    // newTournament без популейта, вообще видно делалось больным человеком, осоторожнее с git blame
+    // увидите автора, бегите
+    this.socket.on("fantasyTournamentCreated", (newTournament) => {
+
+      this.setState({
+        fantasyTournaments: [
+          newTournament,
+          ...this.state.fantasyTournaments,
+        ],
+      });
     });
   }
 
