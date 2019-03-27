@@ -40,15 +40,15 @@ class TopMenuComponent extends Component {
     this.setState({ profile });
   }
 
-  deposit = async(event) => {
-    event.preventDefault();
-    await this.TransactionService.deposit();
-  }
+  // deposit = async(event) => {
+  //   event.preventDefault();
+  //   await this.TransactionService.deposit();
+  // }
   
-  withdraw = async(event) => {
-    event.preventDefault();
-    await this.TransactionService.withdraw();
-  }
+  // withdraw = async(event) => {
+  //   event.preventDefault();
+  //   await this.TransactionService.withdraw();
+  // }
   
   componentDidMount = () => {
     this.updateProfile();
@@ -79,8 +79,8 @@ class TopMenuComponent extends Component {
           <DropDown placeholder={<BalancePlaceholder />}>
             <NavLink to="/transactions">{i18n.t('transactions')}</NavLink>
 
-            <a href="/" onClick={event => this.deposit(event)}>{i18n.t('deposit')}</a>
-            <a href="/" onClick={event => this.withdraw(event)}>{i18n.t('withdraw')}</a>
+            {/* <a href="/" onClick={event => this.deposit(event)}>{i18n.t('deposit')}</a>
+            <a href="/" onClick={event => this.withdraw(event)}>{i18n.t('withdraw')}</a> */}
           </DropDown>
 
           <DropDown placeholder={<UserPlaceholder />}>
