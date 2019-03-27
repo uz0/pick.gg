@@ -41,6 +41,10 @@ export default class AdminService {
     });
   }
 
+  finalizeFantasyTournament = async (tournamentId) => {
+    await http(`/api/admin/tournaments/fantasy/${tournamentId}/finalize`);
+  }
+  
   createMatch = async(tournamentId) => {
     const matchQuery = await http('/api/admin/matches', {
       method: 'POST',
