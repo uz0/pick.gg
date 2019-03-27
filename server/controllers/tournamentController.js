@@ -196,6 +196,8 @@ const TournamentController = io => {
         newTournament,
       });
 
+      io.emit('fantasyTournamentCreated', {newTournament});
+
     } catch (error) {
       res.json({
         success: false,
