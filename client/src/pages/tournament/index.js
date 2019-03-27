@@ -128,11 +128,11 @@ class Tournament extends Component {
 
     const tournamentDate = this.state.fantasyTournament.tournament.date;
 
-    if (moment().isSame(moment(tournamentDate), 'h')) {
+    if (moment().isSame(moment(tournamentDate), 'd')) {
       return i18n.t('is_going_on');
     }
 
-    if (moment(tournamentDate).isBefore(moment())) {
+    if (moment(tournamentDate).add(1, 'days').isBefore(moment())) {
       return i18n.t('archive');
     }
 
@@ -404,7 +404,9 @@ class Tournament extends Component {
             </div>
 
             <span className={style.name}>{champion.name}</span>
-            <span className={style.scores}>Scores: +{champion.championScore}</span>
+            {champion.championScore &&
+              <span className={style.scores}>Scores: +{champion.championScore}</span>
+            }
           </div>)}
         </div>
       }
