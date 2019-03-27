@@ -241,24 +241,25 @@ const AdminController = () => {
     const getCountMatchPoints = (matchId, userId) => {
       const userPlayers = getUserPlayers(userId);
       const userPlayersIds = userPlayers.map(player => player._id);
-  
+
       const match = find(matches, { _id: matchId });
       const results = match.results.playersResults;
 
-      console.log(results, 'results');
-      // console.log(userPlayersIds, 'userPlayersIds');
-  
-      const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.player_id) ? item : false);
+      let userPlayersWithResults = [];
 
-      // console.log(userPlayersWithResults, 'userPlayersWithResults');
+      for(let i = 0; i < results.length; i++){
+        for(let j = 0; j < userPlayersIds.length; j++){
+          if(`${results[i].player_id}` === `${userPlayersIds[j]}`){
+            userPlayersWithResults.push(results[i]);
+          }
+        }
+      }
 
       const userPlayersResults = userPlayersWithResults.reduce((arr, item) => {
-        arr.push(...item.results)
+        arr.push(...item.results);
         return arr;
       }, []);
 
-      // console.log(userPlayersResults, 'userPlayersResults');
-  
       const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
         sum += item.score * rulesSet[item.rule];
         return sum;
@@ -270,7 +271,7 @@ const AdminController = () => {
     const getTotalUserScore = (userId) => {
       const userMatchResults = fantasyTournament.tournament.matches.map(match => getCountMatchPoints(match._id, userId));
       const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
-  
+
       return totalUserScore;
     };
 
@@ -293,28 +294,22 @@ const AdminController = () => {
     }
 
     fantasyTournament.users.forEach(item => {
-      // console.log(item.user._id);
       playersCountedResults.push({
-        player: item.user._id,
+        user: item.user,
         score: getTotalUserScore(item.user._id)
       })
-      // item.totalResults = getTotalUserScore(item.user._id);
-      // item.dick = 'dick';
-      // console.log(item.totalResults);
     });
 
+    const tournamentWinner = playersCountedResults.sort((next, prev) => prev.score - next.score)[0];
 
-    // console.log(fantasyTournament, 'fantasyTournament');
-    // console.log(tournamentId, 'finalize');
-
+    await FantasyTournamentModel.updateOne({ _id: tournamentId }, {
+      winner: tournamentWinner.user._id,
+    });
 
     res.json({
+      updatedTournament,
+      tournamentId,
       success: "success",
-      // playersCountedResults,
-      fantasyTournament: fantasyTournament.users,
-      // areMatchesCompleted,
-      // matches
-      // fantasyTournament
     });
   });
 
