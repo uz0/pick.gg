@@ -71,15 +71,15 @@ const AdminController = () => {
 
   router.get('/tournaments/real', async (req, res) => {
     const tournaments = await TournamentModel.find()
-      .populate('champions', '_id name')
-      .populate('matches')
+      .populate('champions', 'id name')
+      // .populate('matches')
       .populate({
         path: 'matches',
         populate: {
           path: 'results'
         }
       })
-      .sort({ date: -1 })
+      // .sort({ date: -1 })
 
     res.json({ tournaments });
   });
@@ -434,7 +434,8 @@ const AdminController = () => {
   });
 
   router.get('/results', async (req, res) => {
-    const results = await MatchResultModel.find({ playersResults: { $gt: [] } });
+    // const results = await MatchResultModel.find({ playersResults: { $gt: [] } });
+    const results = await MatchResultModel.find();
     res.json({ results });
   });
 

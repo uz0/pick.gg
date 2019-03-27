@@ -39,7 +39,7 @@ const SystemController = () => {
 
   router.get('/sync', async (req, res) => {
     console.log('matches loading');
-    let data = await fetch('https://esports-api.thescore.com/lol/matches');
+    let data = await fetch('https://esports-api.thescore.com/lol/matches?start_date_from=2019-03-22T21:00:00Z');
     data = await data.json();
     console.log('matches loaded');
 
@@ -54,7 +54,9 @@ const SystemController = () => {
         name: competition.full_name,
         date: null,
         matches: [],
+        matches_ids: [],
         champions: [],
+        champions_ids: [],
         syncAt: new Date().toISOString(),
       });
     });
@@ -74,7 +76,7 @@ const SystemController = () => {
 
     Object.keys(groupedMatches).forEach(id => {
       const tournamentIndex = findIndex(formattedTournaments, { id: groupedMatches[id][0].tournament_id });
-      formattedTournaments[tournamentIndex].matches = map(groupedMatches[id], match => match.id);
+      formattedTournaments[tournamentIndex].matches_ids = map(groupedMatches[id], match => match.id);
       formattedTournaments[tournamentIndex].date = groupedMatches[id][0].startDate;
     });
 
@@ -98,8 +100,8 @@ const SystemController = () => {
 
         const tournamentIndex = findIndex(formattedTournaments, { id: formattedMatches[i].tournament_id });
 
-        if (formattedTournaments[tournamentIndex].champions.indexOf(player.id) === -1) {
-          formattedTournaments[tournamentIndex].champions.push(player.id);
+        if (formattedTournaments[tournamentIndex].champions_ids.indexOf(player.id) === -1) {
+          formattedTournaments[tournamentIndex].champions_ids.push(player.id);
         }
       });
 
@@ -149,21 +151,85 @@ const SystemController = () => {
 
         // тут внесение результатов в модель и получение id для связки данных
         // этот кусок кода не тестировал
+        
+        // res.send({
+        //   playersInBaseIds,
+        //   matchPlayersIds,
+        //   playersNotAddedToBaseIds,
+        //   playersNotAddedToBase,
+        //   matchPlayers
+        // })
 
-        // const resultsResponse = await MatchResult.create(object);
-        // formattedMatches[i].results = resultsResponse._id;
+        // res.send({
+        //   object
+        // })
+
+        const resultsResponse = await MatchResult.create(object);
+        formattedMatches[i].resultsId = resultsResponse._id;
+
+        await MatchModel.create(formattedMatches[i]);
+
+        console.log(`Match inserted in ${i} match`);
+
       }
+
+      // Добавляем все матчи
+
+      // Чекаем турниры и добавляем их, если их нет в нашей базе
+      const formattedTournamentsIds = formattedTournaments.map(tournament => tournament.id);
+      
+      const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsIds}});
+      const tournamentsInBaseIds = tournamentsInBase.map(tournament => tournament.id);
+
+      const tournamentsNotAddedToBase = formattedTournaments.filter(item => !tournamentsInBaseIds.includes(item.id));
+      
+      if(tournamentsNotAddedToBase.length > 0) {
+        await TournamentModel.create(tournamentsNotAddedToBase);
+        console.log(`${tournamentsNotAddedToBase.length} tournaments inserted in ${i} match`);
+      }
+      
+      // res.send({
+      //   formattedTournamentsIds,
+      //   tournamentsInBaseIds
+      // })
+
+      // Чекаем игроков и добавляем их, если их нет в нашей базе
+    //   const matchPlayers = response.players;
+    //   const matchPlayersIds = matchPlayers.map(player => player.id);
+      
+    //   const playersInBase = await PlayerModel.find({id: {$in: matchPlayersIds}})
+    //   const playersInBaseIds = playersInBase.map(player => player.id);
+  
+    //   const playersNotAddedToBaseIds = matchPlayersIds.filter(item => !playersInBaseIds.includes(item));
+  
+    //   const playersNotAddedToBase = matchPlayers.reduce((players, player) => {
+    //     if(playersNotAddedToBaseIds.includes(player.id)){
+    //       players.push({
+    //         id: player.id,
+    //         name: player.in_game_name,
+    //         photo: player.headshot ? player.headshot.w192xh192 : null,
+    //         syncAt: new Date().toISOString(),
+    //       })
+    //     }
+    //     return players;
+    //   }, []);
+  
+    //   if(playersNotAddedToBase.length > 0) {
+    //     await PlayerModel.create(playersNotAddedToBase);
+    //     console.log(`${playersNotAddedToBase.length} players inserted in ${i} match`);
+    //   }
 
       console.log(`${i} of ${formattedMatches.length} matches loaded`);
     }
 
     res.send({
-      formattedTournaments,
+      // formattedTournaments,
       formattedMatches,
-      formattedMatchResults,
-      formattedPlayers,
+      // formattedMatchResults,
+      // formattedPlayers,
+      // formattedPlayersLength: formattedPlayers.length,
     });
-  })
+  });
 
   router.get('/delete/:id', async (req, res) => {
     const id = req.param.id;
