@@ -55,7 +55,7 @@ class Profile extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
-    let { email, about } = this.state.formData;
+    let { username, email, about } = this.state.formData;
 
     await http('/api/users/me', {
       method: 'POST',
@@ -64,6 +64,7 @@ class Profile extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        username,
         email,
         about,
       }),
@@ -88,8 +89,8 @@ class Profile extends Component {
                   <input
                     type="text"
                     name="username"
-                    disabled
                     value={this.state.formData.username}
+                    onChange={this.handleChange}
                   />
                 </div>
 
