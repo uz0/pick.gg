@@ -101,11 +101,11 @@ class Tournament extends Component {
     const currentUserParticipant = find(tournament.users, item => item.user._id === this.state.currentUser._id);
     const matches = realTournament.matches;
 
-    users.forEach(item => {
+    users && users.forEach(item => {
       item.totalResults = this.getTotalUserScore(tournament, item.user._id);
     });
 
-    currentUserParticipant.players.forEach(item => {
+    currentUserParticipant && currentUserParticipant.players.forEach(item => {
       item.championScore = this.getUserPlayerScore(tournament, item._id);
     });
 
@@ -278,9 +278,10 @@ class Tournament extends Component {
 
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
     const { fantasyTournament } = this.state;
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
 
     const time = moment(item.startDate).format('HH:mm');
-    const points = this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
+    const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const url = '';
     const disableUrl = url === '';
     const urlMatch = url === '' ? '' : url;
@@ -291,7 +292,9 @@ class Tournament extends Component {
       </div>
 
       <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
-        <div className={style.match_points}>+{points}</div>
+        {points &&
+          <div className={style.match_points}>+{points}</div>
+        }
       </div>
 
       <div className={itemClass} style={{ '--width': matchesTableCaptions.date.width }}>
@@ -319,8 +322,6 @@ class Tournament extends Component {
     const rules = this.getRulesNames();
 
     console.log(currentUserParticipant);
-
-    console.log(champions, 'champions')
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
