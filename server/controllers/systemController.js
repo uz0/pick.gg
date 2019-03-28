@@ -176,8 +176,8 @@ const SystemController = () => {
     const matchesInBase = await MatchModel.find({id: {$in: formattedMatchesIds}})
     const matchesInBaseIds = matchesInBase.map(match => match.id);
 
-    const matchesNotAddedToBase = formattedMatches.filter(item => !matchesInBaseIds.includes(item));
-    const matchesToUpdate = formattedMatches.filter(item => matchesInBaseIds.includes(item));
+    const matchesNotAddedToBase = formattedMatches.filter(item => !matchesInBaseIds.includes(item.id));
+    const matchesToUpdate = formattedMatches.filter(item => matchesInBaseIds.includes(item.id));
 
     for(let i = 0; i < matchesNotAddedToBase.length; i++){
       await MatchModel.create(matchesNotAddedToBase[i]);
