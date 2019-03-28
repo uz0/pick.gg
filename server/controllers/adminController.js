@@ -389,7 +389,8 @@ const AdminController = () => {
   });
 
   router.get('/matches', async (req, res) => {
-    const matches = await MatchModel.find();
+    const matches = await MatchModel.deleteMany();
+    // const matches = await MatchModel.find();
     res.json({ matches });
   });
 

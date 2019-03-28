@@ -466,14 +466,14 @@ class Tournaments extends Component {
                 >
                   <div
                     className={style.match_inner}
-                    onClick={() => this.matchEditingInit(match._id)}
+                    onClick={() => this.matchEditingInit(match.id)}
                   >
                     {`Match ${index + 1}`}
                   </div>
                   <Button
                     appearance="_basic-danger"
                     text="X"
-                    onClick={() => this.deleteMatch(match._id)}
+                    onClick={() => this.deleteMatch(match.id)}
                     className={style.button}
                   />
                 </div>,
