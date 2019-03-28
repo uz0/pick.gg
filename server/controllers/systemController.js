@@ -154,16 +154,20 @@ const SystemController = () => {
         if(match.length === 0){
           const resultsResponse = await MatchResult.create(object);
           formattedMatches[i].resultsId = resultsResponse._id;
+          formattedMatchResults[i].resultsId = resultsResponse._id;
 
           console.log(`Result with id ${resultsResponse.id} was created`);
         }
-        
-        if(match.length > 0){
-          const resultsResponse = await MatchResult.update({matchId: match.id}, object);
-          formattedMatches[i].resultsId = resultsResponse._id;
 
-          console.log(`Result ${i} was updated`);
+        if(match.length > 0){
+          const resultsResponse = await MatchResult.findOneAndUpdate({matchId: match[0].id}, object, {new: true});
+
+          formattedMatches[i].resultsId = resultsResponse._id;
+          formattedMatchResults[i].resultsId = resultsResponse._id;
+
+          console.log(`Result with id ${resultsResponse.id} was updated`);
         }
+
       }
 
       console.log(`${i} of ${formattedMatches.length} matches loaded`);
@@ -191,6 +195,18 @@ const SystemController = () => {
       console.log(`Match ${i} of ${matchesNotAddedToBase.length - 1} has been updated`);
     }
     console.log('End matches sync');
+
+    // Маппим результаты к матчам
+    console.log('Begin matches results sync');
+    for(let i = 0; i < formattedMatchResults.length; i++){
+      const matchId = formattedMatchResults[i].matchId;
+      const resultsId = formattedMatchResults[i].resultsId;
+      
+      await MatchModel.update({ id: matchId }, { resultsId });
+      
+      console.log(`Mapped ${i} results from ${formattedMatchResults.length - 1}`);
+    }
+    console.log('End matches results sync');
 
     // Если игроков нет в нашей базе - то добавляем, если есть - обновляем
     console.log('Begin players sync');
