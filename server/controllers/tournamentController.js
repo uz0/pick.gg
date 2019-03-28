@@ -101,7 +101,7 @@ const TournamentController = io => {
 
     const tournament = await FantasyTournament
       .findOne({ _id: id })
-      .populate({ path: 'users.players', select: '_id name photo' })
+      .populate({ path: 'users.players', select: '_id id name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
       .populate('tournament')
