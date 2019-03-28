@@ -25,7 +25,7 @@ const SystemController = () => {
 
   router.get('/reset', async (req, res) => {
 
-    await FantasyTournament.deleteMany();
+    // await FantasyTournament.deleteMany();
     await TournamentModel.deleteMany();
     await MatchResult.deleteMany();
     await MatchModel.deleteMany();
@@ -84,7 +84,7 @@ const SystemController = () => {
     console.log('matches details loading');
 
     for (let i = 0; i < formattedMatches.length; i++) {
-      await wait(500);
+      await wait(300);
       let response = await fetch(`https://esports-api.thescore.com/lol/matches/${formattedMatches[i].id}`);
       response = await response.json();
 
@@ -149,109 +149,101 @@ const SystemController = () => {
 
         formattedMatchResults.push(object);
 
-        // тут внесение результатов в модель и получение id для связки данных
-        // этот кусок кода не тестировал
-        
-        // res.send({
-        //   playersInBaseIds,
-        //   matchPlayersIds,
-        //   playersNotAddedToBaseIds,
-        //   playersNotAddedToBase,
-        //   matchPlayers
-        // })
-
-        // res.send({
-        //   object
-        // })
-
         const match = await MatchModel.find({id: object.matchId});
 
         if(match.length === 0){
           const resultsResponse = await MatchResult.create(object);
           formattedMatches[i].resultsId = resultsResponse._id;
-          await MatchModel.create(formattedMatches[i]);
 
-          console.log('Match was created');
-          
-          continue;
+          console.log(`Result with id ${resultsResponse.id} was created`);
         }
         
-        const resultsResponse = await MatchResult.update({matchId: match.id}, object);
-        formattedMatches[i].resultsId = resultsResponse._id;
-        await MatchModel.create({id: match.id},formattedMatches[i]);
+        if(match.length > 0){
+          const resultsResponse = await MatchResult.update({matchId: match.id}, object);
+          formattedMatches[i].resultsId = resultsResponse._id;
 
-        console.log('Match was updated');
-
-        console.log(`Match inserted in ${i} match`);
-
+          console.log(`Result ${i} was updated`);
+        }
       }
-
-      // Добавляем все матчи
-      // const formattedTournamentsIds = formattedTournaments.map(tournament => tournament.id);
-      
-      // const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsIds}});
-      // const tournamentsInBaseIds = tournamentsInBase.map(tournament => tournament.id);
-
-      // const tournamentsNotAddedToBase = formattedTournaments.filter(item => !tournamentsInBaseIds.includes(item.id));
-      
-      // if(tournamentsNotAddedToBase.length > 0) {
-      //   await TournamentModel.create(tournamentsNotAddedToBase);
-      //   console.log(`${tournamentsNotAddedToBase.length} tournaments inserted in ${i} match`);
-      // }
-
-      // Чекаем турниры и добавляем их, если их нет в нашей базе
-      const formattedTournamentsIds = formattedTournaments.map(tournament => tournament.id);
-      
-      const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsIds}});
-      const tournamentsInBaseIds = tournamentsInBase.map(tournament => tournament.id);
-
-      const tournamentsNotAddedToBase = formattedTournaments.filter(item => !tournamentsInBaseIds.includes(item.id));
-      
-      if(tournamentsNotAddedToBase.length > 0) {
-        await TournamentModel.create(tournamentsNotAddedToBase);
-        console.log(`${tournamentsNotAddedToBase.length} tournaments inserted in ${i} match`);
-      }
-      
-      // res.send({
-      //   formattedTournamentsIds,
-      //   tournamentsInBaseIds
-      // })
-
-      // Чекаем игроков и добавляем их, если их нет в нашей базе
-    //   const matchPlayers = response.players;
-    //   const matchPlayersIds = matchPlayers.map(player => player.id);
-      
-    //   const playersInBase = await PlayerModel.find({id: {$in: matchPlayersIds}})
-    //   const playersInBaseIds = playersInBase.map(player => player.id);
-  
-    //   const playersNotAddedToBaseIds = matchPlayersIds.filter(item => !playersInBaseIds.includes(item));
-  
-    //   const playersNotAddedToBase = matchPlayers.reduce((players, player) => {
-    //     if(playersNotAddedToBaseIds.includes(player.id)){
-    //       players.push({
-    //         id: player.id,
-    //         name: player.in_game_name,
-    //         photo: player.headshot ? player.headshot.w192xh192 : null,
-    //         syncAt: new Date().toISOString(),
-    //       })
-    //     }
-    //     return players;
-    //   }, []);
-  
-    //   if(playersNotAddedToBase.length > 0) {
-    //     await PlayerModel.create(playersNotAddedToBase);
-    //     console.log(`${playersNotAddedToBase.length} players inserted in ${i} match`);
-    //   }
 
       console.log(`${i} of ${formattedMatches.length} matches loaded`);
     }
 
+    // Если матчей нет в нашей базе - то добавляем, если есть - обновляем
+    console.log('Begin matches sync');
+    const formattedMatchesIds = formattedMatches.map(matches => matches.id);
+
+    const matchesInBase = await MatchModel.find({id: {$in: formattedMatchesIds}})
+    const matchesInBaseIds = matchesInBase.map(match => match.id);
+
+    const matchesNotAddedToBase = formattedMatches.filter(item => !matchesInBaseIds.includes(item));
+    const matchesToUpdate = formattedMatches.filter(item => matchesInBaseIds.includes(item));
+
+    for(let i = 0; i < matchesNotAddedToBase.length; i++){
+      await MatchModel.create(matchesNotAddedToBase[i]);
+      console.log(`Match ${i} of ${matchesNotAddedToBase.length - 1} has been created`);
+    }
+
+    for(let i = 0; i < matchesToUpdate.length; i++){
+      const matchId = matchesToUpdate[i].id;
+
+      await MatchModel.update({id: matchId}, matchesToUpdate[i]);
+      console.log(`Match ${i} of ${matchesNotAddedToBase.length - 1} has been updated`);
+    }
+    console.log('End matches sync');
+
+    // Если игроков нет в нашей базе - то добавляем, если есть - обновляем
+    console.log('Begin players sync');
+    const formattedPlayersIds = formattedPlayers.map(player => player.id);
+
+    const playersInBase = await PlayerModel.find({id: {$in: formattedPlayersIds}});
+    const playersInBaseIds = playersInBase.map(player => player.id);
+
+    const playersNotAddedToBase = formattedPlayers.filter(item => !playersInBaseIds.includes(item.id));
+    const playersToUpdate = formattedPlayers.filter(item => playersInBaseIds.includes(item.id));
+
+    for(let i = 0; i < playersNotAddedToBase.length; i++){
+      const player = await PlayerModel.create(playersNotAddedToBase[i]);
+      console.log(`Player with id ${player.id} has been created`);
+    }
+
+    for(let i = 0; i < playersToUpdate.length; i++){
+      const playerId = playersToUpdate[i].id;
+
+      await PlayerModel.update({id: playerId}, playersToUpdate[i]);
+      console.log(`Player with id ${playerId} was updated`);
+    }
+    console.log('End players sync');
+
+    // Если турниров нет в нашей базе - то добавляем, если есть - обновляем
+    console.log('begin tournaments sync');
+    const formattedTournamentsIds = formattedTournaments.map(tournament => tournament.id);
+
+    const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsIds}});
+    const tournamentsInBaseIds = tournamentsInBase.map(tournament => tournament.id);
+
+    const tournamentsNotAddedToBase = formattedTournaments.filter(item => !tournamentsInBaseIds.includes(item.id));
+    const tournamentsToUpdate = formattedTournaments.filter(item => tournamentsInBaseIds.includes(item.id));
+
+    
+    for(let i = 0; i < tournamentsNotAddedToBase.length; i++){
+      const tournament = await TournamentModel.create(tournamentsNotAddedToBase[i]);
+      console.log(`Tournament with id ${tournament.id} has been created`);
+    }
+
+    for(let i = 0; i < tournamentsToUpdate.length; i++){
+      const tournamentId = tournamentsToUpdate[i].id;
+
+      await TournamentModel.update({id: tournamentId}, tournamentsToUpdate[i]);
+      console.log(`Tournament with id ${tournamentId} was updated`);
+    }
+    console.log('end tournaments sync');
+
     res.send({
-      // formattedTournaments,
+      formattedTournaments,
       formattedMatches,
-      // formattedMatchResults,
-      // formattedPlayers,
-      // formattedPlayersLength: formattedPlayers.length,
+      formattedMatchResults,
+      formattedPlayers,
     });
   });
 

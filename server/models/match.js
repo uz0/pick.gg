@@ -5,7 +5,7 @@ let schema = new Schema({
   id: { type: Number },
   tournament_id: { type: Number },
   // tournament: { type: Schema.Types.ObjectId, ref: 'tournament' }, // Временное поле для создания матча через админку 
-  startDate: { type: Date, required: true },
+  startDate: { type: Date },
   resultsId: { type: String },
   // results: { type: Schema.Types.ObjectId, ref: 'MatchResult' },
   completed: Boolean,

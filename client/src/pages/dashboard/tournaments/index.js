@@ -53,7 +53,7 @@ class Tournaments extends Component {
     tournamentEditingData: {
       name: '',
       date: '',
-      champions: [],
+      champions: null,
       matches_ids: [],
     },
     players: [],
@@ -297,6 +297,8 @@ class Tournaments extends Component {
     this.setState({ isLoading: true });
     const { tournaments } = await this.adminService.getRealTournaments();
     const { players } = await this.adminService.getAllChampions();
+
+    // console.log(tournaments[0].champions);
 
     this.setState({
       tournaments,
