@@ -11,16 +11,16 @@ let schema = new Schema({
   completed: Boolean,
   syncAt: {type: Date }
 }, 
-// {
-//   toObject: {virtuals:true},
-// }
+{
+  toObject: {virtuals:true},
+}
 );
 
-// schema.virtual('tournament', {
-//   ref: 'Tournament',
-//   localField: 'tournament_id',
-//   foreignField: 'id',
-//   justOne: true,
-// });
+schema.virtual('results', {
+  ref: 'MatchResult',
+  localField: 'resultsId',
+  foreignField: '_id',
+  justOne: true,
+});
 
 export default mongoose.model('Match', schema);
