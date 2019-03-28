@@ -164,16 +164,40 @@ const SystemController = () => {
         //   object
         // })
 
-        const resultsResponse = await MatchResult.create(object);
-        formattedMatches[i].resultsId = resultsResponse._id;
+        const match = await MatchModel.find({id: object.matchId});
 
-        await MatchModel.create(formattedMatches[i]);
+        if(match.length === 0){
+          const resultsResponse = await MatchResult.create(object);
+          formattedMatches[i].resultsId = resultsResponse._id;
+          await MatchModel.create(formattedMatches[i]);
+
+          console.log('Match was created');
+          
+          continue;
+        }
+        
+        const resultsResponse = await MatchResult.update({matchId: match.id}, object);
+        formattedMatches[i].resultsId = resultsResponse._id;
+        await MatchModel.create({id: match.id},formattedMatches[i]);
+
+        console.log('Match was updated');
 
         console.log(`Match inserted in ${i} match`);
 
       }
 
       // Добавляем все матчи
+      // const formattedTournamentsIds = formattedTournaments.map(tournament => tournament.id);
+      
+      // const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsIds}});
+      // const tournamentsInBaseIds = tournamentsInBase.map(tournament => tournament.id);
+
+      // const tournamentsNotAddedToBase = formattedTournaments.filter(item => !tournamentsInBaseIds.includes(item.id));
+      
+      // if(tournamentsNotAddedToBase.length > 0) {
+      //   await TournamentModel.create(tournamentsNotAddedToBase);
+      //   console.log(`${tournamentsNotAddedToBase.length} tournaments inserted in ${i} match`);
+      // }
 
       // Чекаем турниры и добавляем их, если их нет в нашей базе
       const formattedTournamentsIds = formattedTournaments.map(tournament => tournament.id);
