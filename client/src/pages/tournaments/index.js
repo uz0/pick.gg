@@ -116,20 +116,20 @@ class Tournaments extends Component {
     const disableUrl = moment(formattedDate).isAfter(today);
     const disableUrlStyle = moment(today).isAfter(formattedDate);
 
-    return <NavLink to={`/tournaments/${item._id}`} className={cx( className, {'disable_url': disableUrlStyle})} key={item._id}>
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
+    return <NavLink to={`/tournaments/${item._id}`} className={cx(className, { 'disable_url': disableUrlStyle })} key={item._id}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
         <span className={textClass}>{formattedDate}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.users.width}}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
         <span className={textClass}>{item.users.length}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.entry.width}}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
         <span className={textClass}>{entry}</span>
       </div>
     </NavLink>;
@@ -182,7 +182,12 @@ class Tournaments extends Component {
             </div>
 
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              {i18n.t('create_new_tournament')}
+              <span>{i18n.t('create_new_tournament')}</span>
+
+              <svg width="200" className={style.back_button} height="100">
+                <polygon points="200,0 200,100 0,100 20,20"
+                  fill="white" />
+              </svg>
             </button>
           </div>
         </div>
