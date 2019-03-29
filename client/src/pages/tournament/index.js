@@ -300,11 +300,15 @@ class Tournament extends Component {
     const time = moment(item.startDate).format('HH:mm');
     const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const url = '';
-    const disableUrl = url === '';
+    // const disableUrl = url === '';
     const isMatchCompleted = item.completed;
     const urlMatch = url === '' ? '' : url;
+    const timeMatch = moment(item.startDate).format('MMM DD HH:mm')
+    const timeNow = moment().format('MMM DD HH:mm')
+    const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
+    console.log(disableUrlStyle, timeNow, timeMatch)
 
-    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrl, "completed": isMatchCompleted })} key={item.id}>
+    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
