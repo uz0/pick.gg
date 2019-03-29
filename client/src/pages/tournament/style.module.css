@@ -336,10 +336,10 @@
   padding-top: 10px;
   display: block;
 }
-.scores{
+.team .scores{
   text-align: center;
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   padding-top: 6px;
   color: #9696b0;
   font-weight: bold;

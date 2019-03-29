@@ -426,9 +426,9 @@ class Tournament extends Component {
             </div>
 
             <span className={style.name}>{champion.name}</span>
-            {champion.championScore &&
-              <span className={style.scores}>Scores: +{champion.championScore}</span>
-            }
+            {champion.championScore !== null &&
+              <div className={style.scores}>{champion.championScore}</div>
+            }{console.log(champion)}
           </div>)}
         </div>
       }
