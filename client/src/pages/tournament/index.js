@@ -422,7 +422,7 @@ class Tournament extends Component {
 
             <span className={style.name}>{champion.name}</span>
             {champion.championScore !== null &&
-              <div className={style.scores}>{champion.championScore}</div>
+              <div className={style.scores}>Score: {champion.championScore}</div>
             }
           </div>)}
         </div>
