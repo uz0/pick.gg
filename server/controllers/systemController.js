@@ -25,7 +25,7 @@ const SystemController = () => {
 
   router.get('/reset', async (req, res) => {
 
-    // await FantasyTournament.deleteMany();
+    await FantasyTournament.deleteMany();
     await TournamentModel.deleteMany();
     await MatchResult.deleteMany();
     await MatchModel.deleteMany();
@@ -58,6 +58,7 @@ const SystemController = () => {
         champions: [],
         champions_ids: [],
         syncAt: new Date().toISOString(),
+        syncType: 'auto',
       });
     });
 
@@ -69,6 +70,7 @@ const SystemController = () => {
         results: null,
         completed: false,
         syncAt: new Date().toISOString(),
+        syncType: 'auto',
       });
     });
 
@@ -95,6 +97,7 @@ const SystemController = () => {
             name: player.in_game_name,
             photo: player.headshot ? player.headshot.w192xh192 : null,
             syncAt: new Date().toISOString(),
+            syncType: 'auto',
           });
         }
 
@@ -112,6 +115,7 @@ const SystemController = () => {
           matchId: formattedMatches[i].id,
           playersResults: [],
           syncAt: new Date().toISOString(),
+          syncType: 'auto',
         };
 
         response.player_game_records.forEach(record => {
