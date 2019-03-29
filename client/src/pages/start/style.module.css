@@ -28,15 +28,23 @@
 }
 
 .start_content button {
-  background-color: #FFA928;
+  background-color: rgb(255, 255, 255);
   color: #000;
   text-transform: uppercase;
   border: none;
   border-radius: 2px;
-  padding: 30px 100px 20px 90px;
+  padding: 30px 60px 20px 60px;
   clip-path: polygon(90.39% 22px, 100% 100%, 0% 100%, 0.09% 4.23%);
   cursor: pointer;
   margin: 0 0 20px 20px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+.start_content svg{
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
 }
 
 .start_content .start_btns {
