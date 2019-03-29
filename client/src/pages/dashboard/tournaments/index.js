@@ -53,7 +53,7 @@ class Tournaments extends Component {
     tournamentEditingData: {
       name: '',
       date: '',
-      champions: [],
+      champions: null,
       matches_ids: [],
     },
     players: [],
@@ -298,6 +298,8 @@ class Tournaments extends Component {
     const { tournaments } = await this.adminService.getRealTournaments();
     const { players } = await this.adminService.getAllChampions();
 
+    // console.log(tournaments[0].champions);
+
     this.setState({
       tournaments,
       players,
@@ -473,7 +475,7 @@ class Tournaments extends Component {
                   <Button
                     appearance="_basic-danger"
                     text="X"
-                    onClick={() => this.deleteMatch(match._id)}
+                    onClick={() => this.deleteMatch(match.id)}
                     className={style.button}
                   />
                 </div>,
