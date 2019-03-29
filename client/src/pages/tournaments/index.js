@@ -116,7 +116,7 @@ class Tournaments extends Component {
     const disableUrl = moment(formattedDate).isAfter(today);
     const disableUrlStyle = moment(today).isAfter(formattedDate);
 
-    return <NavLink to={disableUrl ? `/tournaments/${item._id}` : '#'} className={cx( className, {'disable_url': disableUrlStyle})} key={item._id}>
+    return <NavLink to={`/tournaments/${item._id}`} className={cx( className, {'disable_url': disableUrlStyle})} key={item._id}>
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
         <span className={textClass}>{item.name}</span>
       </div>
