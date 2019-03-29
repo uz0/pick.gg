@@ -213,8 +213,6 @@ class Tournament extends Component {
       return arr;
     },[]);
 
-    // console.log(playerResultsWithdata);
-
     const aggregatedPlayerResultsSum = playerResultsWithdata.reduce((sum, item) => {
       if(rulesNames.includes(item.rule)){
         sum += item.score * ruleSet[item.rule];
@@ -306,7 +304,6 @@ class Tournament extends Component {
     const timeMatch = moment(item.startDate).format('MMM DD HH:mm')
     const timeNow = moment().format('MMM DD HH:mm')
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
-    console.log(disableUrlStyle, timeNow, timeMatch)
 
     return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
@@ -342,8 +339,6 @@ class Tournament extends Component {
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
-
-    console.log(currentUserParticipant);
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -426,8 +421,8 @@ class Tournament extends Component {
             </div>
 
             <span className={style.name}>{champion.name}</span>
-            {champion.championScore &&
-              <span className={style.scores}>Scores: +{champion.championScore}</span>
+            {champion.championScore !== null &&
+              <div className={style.scores}>Score: {champion.championScore}</div>
             }
           </div>)}
         </div>
