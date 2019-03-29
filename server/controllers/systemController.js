@@ -44,6 +44,7 @@ const SystemController = () => {
     console.log('matches loaded');
 
     let formattedTournaments = [];
+    let formattedTournamentsChunks = [];
     let formattedMatches = [];
     let formattedMatchResults = [];
     let formattedPlayers = [];
@@ -78,9 +79,69 @@ const SystemController = () => {
 
     Object.keys(groupedMatches).forEach(id => {
       const tournamentIndex = findIndex(formattedTournaments, { id: groupedMatches[id][0].tournament_id });
+      // formattedTournaments[tournamentIndex].matches_ids = groupedMatches[id];
       formattedTournaments[tournamentIndex].matches_ids = map(groupedMatches[id], match => match.id);
+      formattedTournaments[tournamentIndex].matches = map(groupedMatches[id], match => ({ id: match.id, date: match.startDate, tournamentId: match.tournament_id }));
       formattedTournaments[tournamentIndex].date = groupedMatches[id][0].startDate;
     });
+
+    // Переменная чтобы получить правильный индекс созданного чанка
+    let tournamentChunkOffset = 0;
+
+    // Нужно красиво разбить турниры на чанки
+    for (let i = 0; i < formattedTournaments.length - 1; i++) {
+      const formattedTournament = formattedTournaments[i];
+      const formattedTournamentMatches = formattedTournaments[i].matches.sort((prev, next) => moment(prev.date).format('YYYYMMDD') - moment(next.date).format('YYYYMMDD'));
+
+      let tournamentChunkNamePrefix = 1;
+      let tournamentChunkIdPrefix = 1;
+
+      formattedTournamentsChunks.push({
+        id: `${formattedTournament.id}`,
+        name: `${formattedTournament.name} #1`,
+        date: formattedTournament.date,
+        matches: [],
+        matches_ids: [],
+        champions: [],
+        champions_ids: [],
+        syncAt: new Date().toISOString(),
+        syncType: 'auto',
+      })
+
+      for (let j = 0; j < formattedTournamentMatches.length - 1; j++) {
+        const currentMatchDate = moment(formattedTournamentMatches[j].date);
+        const nextMatchDate = moment(formattedTournamentMatches[j + 1].date);
+
+        if (currentMatchDate.isSame(nextMatchDate, 'day') && formattedTournamentMatches[j].tournamentId === formattedTournament.id) {
+          formattedTournamentsChunks[i + tournamentChunkOffset].matches_ids = [...formattedTournamentsChunks[i + tournamentChunkOffset].matches_ids, formattedTournamentMatches[j].id];
+          continue;
+        }
+
+        formattedTournamentsChunks[i + tournamentChunkOffset].matches_ids = [...formattedTournamentsChunks[i + tournamentChunkOffset].matches_ids, formattedTournamentMatches[j].id];
+
+        // Нам нужно выходить из цикла при последней итерации, иначе создастся пустой турнир без матчей
+        if (j + 1 === formattedTournamentMatches.length - 1) {
+          break;
+        }
+
+        tournamentChunkNamePrefix++;
+        tournamentChunkOffset++;
+
+        formattedTournamentsChunks.push({
+          id: `${formattedTournament.id}_${tournamentChunkIdPrefix}`,
+          name: `${formattedTournament.name} #${tournamentChunkNamePrefix}`,
+          date: nextMatchDate,
+          matches: [],
+          matches_ids: [],
+          champions: [],
+          champions_ids: [],
+          syncAt: new Date().toISOString(),
+          syncType: 'auto',
+        })
+
+        tournamentChunkIdPrefix++;
+      }
+    }
 
     const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
     console.log('matches details loading');
@@ -101,10 +162,12 @@ const SystemController = () => {
           });
         }
 
-        const tournamentIndex = findIndex(formattedTournaments, { id: formattedMatches[i].tournament_id });
+        const tournamentChunk = findIndex(formattedTournamentsChunks, chunk => chunk.matches_ids.includes(formattedMatches[i].id));
 
-        if (formattedTournaments[tournamentIndex].champions_ids.indexOf(player.id) === -1) {
-          formattedTournaments[tournamentIndex].champions_ids.push(player.id);
+        if(formattedTournamentsChunks[tournamentChunk]){
+          if (formattedTournamentsChunks[tournamentChunk].champions_ids.indexOf(player.id) === -1) {
+            formattedTournamentsChunks[tournamentChunk].champions_ids.push(player.id);
+          }
         }
       });
 
@@ -205,9 +268,9 @@ const SystemController = () => {
     for(let i = 0; i < formattedMatchResults.length; i++){
       const matchId = formattedMatchResults[i].matchId;
       const resultsId = formattedMatchResults[i].resultsId;
-      
+
       await MatchModel.update({ id: matchId }, { resultsId });
-      
+
       console.log(`Mapped ${i} results from ${formattedMatchResults.length - 1}`);
     }
     console.log('End matches results sync');
@@ -237,15 +300,15 @@ const SystemController = () => {
 
     // Если турниров нет в нашей базе - то добавляем, если есть - обновляем
     console.log('begin tournaments sync');
-    const formattedTournamentsIds = formattedTournaments.map(tournament => tournament.id);
+    const formattedTournamentsChunksIds = formattedTournamentsChunks.map(tournament => tournament.id);
 
-    const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsIds}});
+    const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsChunksIds}});
     const tournamentsInBaseIds = tournamentsInBase.map(tournament => tournament.id);
 
-    const tournamentsNotAddedToBase = formattedTournaments.filter(item => !tournamentsInBaseIds.includes(item.id));
-    const tournamentsToUpdate = formattedTournaments.filter(item => tournamentsInBaseIds.includes(item.id));
+    const tournamentsNotAddedToBase = formattedTournamentsChunks.filter(item => !tournamentsInBaseIds.includes(item.id));
+    const tournamentsToUpdate = formattedTournamentsChunks.filter(item => tournamentsInBaseIds.includes(item.id));
 
-    
+
     for(let i = 0; i < tournamentsNotAddedToBase.length; i++){
       const tournament = await TournamentModel.create(tournamentsNotAddedToBase[i]);
       console.log(`Tournament with id ${tournament.id} has been created`);
@@ -260,6 +323,7 @@ const SystemController = () => {
     console.log('end tournaments sync');
 
     res.send({
+      formattedTournamentsChunks,
       formattedTournaments,
       formattedMatches,
       formattedMatchResults,
@@ -269,7 +333,7 @@ const SystemController = () => {
 
   router.get('/delete/:id', async (req, res) => {
     const id = req.param.id;
-    await FantasyTournament.deleteOne({_id: id})
+    await FantasyTournament.deleteOne({ _id: id })
     res.send({
       id,
       success: "success"
@@ -339,7 +403,7 @@ const SystemController = () => {
 
       for (let j = 0; j < matches.length; j++) {
         matches[j].results.playersResults.forEach(result => {
-          const points = calculateChampionsPoints({results: result.results, rules});
+          const points = calculateChampionsPoints({ results: result.results, rules });
           championsPoints[result.playerId] += points;
         });
       }
@@ -365,8 +429,8 @@ const SystemController = () => {
       }
 
       const winnerSum = tournaments[i].entry * users.length;
-      await UserModel.findByIdAndUpdate({ _id: winner.user }, {new: true, $inc: { balance: winnerSum }});
-      await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, {winner: winner.user});
+      await UserModel.findByIdAndUpdate({ _id: winner.user }, { new: true, $inc: { balance: winnerSum } });
+      await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, { winner: winner.user });
 
       await TransactionModel.create({
         userId: winner.user,
@@ -382,8 +446,8 @@ const SystemController = () => {
 
   router.get('/tournaments', async (req, res) => {
     const tournaments = await TournamentModel.find({})
-    .populate('champions')
-    .populate('matches')
+      .populate('champions')
+      .populate('matches')
 
     res.send({
       tournaments
@@ -432,7 +496,7 @@ const SystemController = () => {
       success: 'Success',
     });
   })
-  
+
   return router;
 }
 
