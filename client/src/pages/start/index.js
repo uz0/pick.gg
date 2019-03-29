@@ -72,7 +72,15 @@ class Start extends Component {
               <GoogleLogin
                 icon={true}
                 render={renderProps => (
-                    <button onClick={renderProps.onClick}>{i18n.t('start')} with <GoogleIcon /></button>
+                  <button onClick={renderProps.onClick}>
+
+                    <span>{i18n.t('start')} with <GoogleIcon className={style.google_icon} /></span>
+                    
+                    <svg width="250" className={style.back_button} height="80">
+                      <polygon points="240,30 250,80 0,80 0,10"
+                        fill="white" />
+                    </svg>
+                  </button>
                 )}
                 clientId={config.google_client_id}
                 onSuccess={this.onSuccessGoogleLogin}

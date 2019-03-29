@@ -28,25 +28,43 @@
 }
 
 .start_content button {
-  background-color: rgb(255, 255, 255);
+  background-color: transparent;
   color: #000;
   text-transform: uppercase;
   border: none;
   border-radius: 2px;
-  padding: 30px 60px 20px 60px;
-  clip-path: polygon(90.39% 22px, 100% 100%, 0% 100%, 0.09% 4.23%);
   cursor: pointer;
-  margin: 0 0 20px 20px;
   display: flex;
   align-items: center;
   font-weight: bold;
+  position: relative;
+  width: 200px;
+  transition: all 0.3s;
 }
-.start_content svg{
+
+/* .start_content button:hover{
+  transform: rotate(-5deg);
+  transition: all 0.3s ease-in-out;
+} */
+
+.start_content .google_icon{
   width: 20px;
   height: 20px;
   margin-left: 10px;
 }
-
+.start_btns span{
+  position: absolute;
+  top: 0px;
+  left: 44px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+.start_btns .back_button{
+  position: absolute;
+  top: center;
+  right: center;
+}
 .start_content .start_btns {
   display: flex;
   flex-direction: column;
