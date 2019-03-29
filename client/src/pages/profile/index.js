@@ -88,9 +88,8 @@ class Profile extends Component {
                   <input
                     type="text"
                     name="username"
-                    disabled
                     value={this.state.formData.username}
-                  />
+                    />
                 </div>
 
                 <div>
@@ -100,6 +99,7 @@ class Profile extends Component {
                     name="email"
                     value={this.state.formData.email}
                     onChange={this.handleChange}
+                    disabled
                   />
                 </div>
 
