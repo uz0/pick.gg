@@ -65,6 +65,7 @@ class Tournament extends Component {
     fantasyTournament: null,
     matches: [],
     users: [],
+    rulesNames: [],
     isLoading: true,
     isChooseChampionModalShown: false,
   };
@@ -106,7 +107,7 @@ class Tournament extends Component {
     });
 
     currentUserParticipant && currentUserParticipant.players.forEach(item => {
-      item.championScore = this.getUserPlayerScore(tournament, item._id);
+      item.championScore = this.getUserPlayerScore(tournament, item.id);
     });
 
     this.setState({
@@ -157,20 +158,28 @@ class Tournament extends Component {
   getCountMatchPoints = (fantasyTournament, matchId, userId) => {
     const userPlayers = this.getUserPlayers(fantasyTournament, userId);
     const ruleSet = this.getRulesSet(fantasyTournament);
+    const rulesNames = fantasyTournament.rules.map(item => item.rule.name);
 
-    const userPlayersIds = userPlayers.map(player => player._id);
+    const userPlayersIds = userPlayers.map(player => player.id);
 
     const match = find(fantasyTournament.tournament.matches, { _id: matchId });
+
+    if(!match.completed){
+      return 0;
+    }
+
     const results = match.results.playersResults;
 
-    const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.player_id) ? item : false);
+    const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.playerId) ? item : false);
     const userPlayersResults = userPlayersWithResults.reduce((arr, item) => {
       arr.push(...item.results)
       return arr;
     }, []);
 
     const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
-      sum += item.score * ruleSet[item.rule];
+      if(rulesNames.includes(item.rule)){
+        sum += item.score * ruleSet[item.rule];
+      }
       return sum;
     }, 0);
 
@@ -178,7 +187,8 @@ class Tournament extends Component {
   };
 
   getTotalUserScore = (fantasyTournament, userId) => {
-    const userMatchResults = fantasyTournament.tournament.matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
+    const matches = fantasyTournament.tournament.matches;
+    const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
     const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
 
     return totalUserScore;
@@ -192,16 +202,23 @@ class Tournament extends Component {
 
   getUserPlayerScore = (fantasyTournament, playerId) => {
     const ruleSet = this.getRulesSet(fantasyTournament);
+    const rulesNames = fantasyTournament.rules.map(item => item.rule.name);
+
     const tournamentMatches = fantasyTournament.tournament.matches;
-    const playerResults = tournamentMatches.map(item => item.results.playersResults.filter(item => item.player_id === playerId).map(item => item.results));
+    const tournamentMatchesWithResults = tournamentMatches.filter(match => match.results !== null);
 
-    const aggregatedPlayerResults = playerResults.reduce((arr, item) => {
-      arr.push(...item[0]);
+    const playerResults = tournamentMatchesWithResults.map(item => item.results.playersResults.filter(item => item.playerId === playerId).map(item => item.results));
+    const playerResultsWithdata = playerResults.filter(item => item.length > 0).reduce((arr, item) => {
+      item.forEach(element => arr.push(...element));
       return arr;
-    }, []);
+    },[]);
 
-    const aggregatedPlayerResultsSum = aggregatedPlayerResults.reduce((sum, item) => {
-      sum += item.score * ruleSet[item.rule];
+    // console.log(playerResultsWithdata);
+
+    const aggregatedPlayerResultsSum = playerResultsWithdata.reduce((sum, item) => {
+      if(rulesNames.includes(item.rule)){
+        sum += item.score * ruleSet[item.rule];
+      }
       return sum;
     }, 0);
 
@@ -222,7 +239,7 @@ class Tournament extends Component {
   };
 
   getRulesSet = (fantasyTournament) => fantasyTournament.rules.reduce((set, item) => {
-    set[item.rule._id] = item.score;
+    set[`${item.rule.name}`] = item.score;
     return set;
   }, {});
 
@@ -284,15 +301,16 @@ class Tournament extends Component {
     const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const url = '';
     const disableUrl = url === '';
+    const isMatchCompleted = item.completed;
     const urlMatch = url === '' ? '' : url;
 
-    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrl })} key={item.id}>
+    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrl, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
-        {points &&
+        {isMatchCompleted && points &&
           <div className={style.match_points}>+{points}</div>
         }
       </div>

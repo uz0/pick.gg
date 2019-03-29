@@ -280,10 +280,14 @@
   width: 48%;
 }
 
-.tournament .section .matches .disable_url{
+.tournament .section .matches .disable_url {
   opacity: 0.75;
   pointer-events: none;
   cursor: default;
+}
+
+.tournament .section .matches .completed {
+  opacity: 1 !important;
 }
 
 .tournament .section .matches .table .match_points {
