@@ -9,6 +9,7 @@ let schema = new Schema({
   // matches: [{ type: Schema.Types.ObjectId, ref: 'Match' }],
   champions_ids: [Number],
   matches_ids: [Number],
+  syncType: { type: String, enum: ['auto', 'manual'] },
 },
 {
   toObject: {virtuals:true},

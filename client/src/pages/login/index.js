@@ -47,12 +47,12 @@ class Login extends Component {
     if (authRequest.success){
       this.props.history.replace('/tournaments');
     } else {
-      this.NotificationService.show(authRequest.message);
+      this.notificationService.show(authRequest.message);
     }
   };
 
   onFailureGoogleLogin = async data => {
-    this.NotificationService.show(i18n.t(data.error));
+    this.notificationService.show(i18n.t(data.error));
   };
 
   componentWillMount() {
