@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 let schema = new Schema({
-  id: { type: Number },
+  id: { type: String },
   name: { type: String, required: true },
   date: { type: Date, required: true },
   // champions: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
