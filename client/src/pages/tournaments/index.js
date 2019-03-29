@@ -3,8 +3,6 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import filter from 'lodash/filter';
 
-import io from "socket.io-client";
-
 import TournamentService from 'services/tournamentService';
 
 import Input from 'components/filters/input';
@@ -12,7 +10,7 @@ import Select from 'components/filters/select';
 import Table from 'components/table';
 import NewTournamentModal from 'components/new-tournament';
 import Preloader from 'components/preloader';
-import i18n from 'i18n';
+import i18n from 'i18next';
 
 import style from './style.module.css';
 
@@ -67,19 +65,6 @@ class Tournaments extends Component {
       realTournaments: realTournaments.tournaments,
       isLoading: false,
     });
-
-    this.socket = io();
-    // newTournament без популейта, вообще видно делалось больным человеком, осоторожнее с git blame
-    // увидите автора, бегите
-    this.socket.on("fantasyTournamentCreated", (newTournament) => {
-
-      this.setState({
-        fantasyTournaments: [
-          newTournament,
-          ...this.state.fantasyTournaments,
-        ],
-      });
-    });
   }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
@@ -111,7 +96,7 @@ class Tournaments extends Component {
     const entry = item.entry === 0 ? 'Free' : item.entry;
 
     return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
 
@@ -119,11 +104,11 @@ class Tournaments extends Component {
         <span className={textClass}>{formattedDate}</span>
       </div> */}
 
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.users.width}}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
         <span className={textClass}>{item.users.length}</span>
       </div>
 
-      <div className={itemClass} style={{'--width': tournamentsTableCaptions.entry.width}}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
         <span className={textClass}>{entry}</span>
       </div>
     </NavLink>;
