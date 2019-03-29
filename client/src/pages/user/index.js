@@ -9,9 +9,32 @@ import moment from 'moment';
 
 import ProfileSidebar from '../../components/profile-sidebar';
 import Preloader from '../../components/preloader';
+import Table from 'components/table';
 
 import style from './style.module.css';
 import i18n from 'i18n';
+
+const tournamentsTableCaptions = {
+  name: {
+    text: i18n.t('name'),
+    width: 250,
+  },
+
+  // date: {
+  //   text: i18n.t('date'),
+  //   width: 100,
+  // },
+
+  users: {
+    text: i18n.t('users'),
+    width: 80,
+  },
+
+  entry: {
+    text: i18n.t('entry'),
+    width: 80,
+  },
+};
 
 class User extends Component {
   constructor() {
@@ -28,15 +51,35 @@ class User extends Component {
     };
   }
 
+  renderRow = ({ className, itemClass, textClass, item }) => {
+    const entry = item.entry === 0 ? 'Free' : item.entry;
+    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
+        <span className={textClass}>{item.name}</span>
+      </div>
+
+      {/* <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
+        <span className={textClass}>{formattedDate}</span>
+      </div> */}
+
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
+        <span className={textClass}>{item.users.length}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
+        <span className={textClass}>{entry}$</span>
+      </div>
+    </NavLink>;
+  }
+
   async componentDidMount() {
 
     const userId = this.props.match.params.id;
 
-    const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
+    const { tournaments } = await this.tournamentService.getMyTournaments();
     const { winnings } = await this.transactionService.getTotalWinnings(userId);
     const { user } = await this.userService.getUserDataById(userId);
     const userRating = await this.userService.getUsersRating();
-
     const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1;
     const totalWinnings = winnings.reduce((acc, current) => { return acc + current.amount; }, 0);
 
@@ -59,7 +102,7 @@ class User extends Component {
       loading,
     } = this.state;
 
-    const winnings = totalWinnings === 0 ? 'newbie' : `$ ${totalWinnings}`;
+    const winnings = totalWinnings === 0 ? i18n.t('newbie') : `$ ${totalWinnings}`;
     const forTotal = totalWinnings === 0 ? '' : i18n.t('earned');
 
     return (
@@ -96,24 +139,15 @@ class User extends Component {
               </div>
               <div>
                 <h2>{i18n.t('recent_tournaments')}</h2>
-                {tournaments.length === 0 && <div className={style.zero_info}>{i18n.t('not_yet_tournaments')}</div>}
-                <div className={style.tournaments_block}>
-                  {tournaments.length > 0 && <div className={style.header_tournaments}>
-                    <p>{i18n.t('tournaments_name')}</p>
-                    <p>{i18n.t('date')}</p>
-                    <p>{i18n.t('users')}</p>
-                    <p>{i18n.t('entry')}</p>
-                  </div>}
-                  {tournaments.map(item => (
-                    <NavLink key={item._id} to={`/tournaments/${item._id}`}>
-                      <div className={style.card_tournament}>
-                        <p>{item.name}</p>
-                        <p>{moment(item.date).format('MMM DD')}</p>
-                        <p>{item.users.length}</p>
-                        <p>$ {item.entry}</p>
-                      </div>
-                    </NavLink>
-                  ))}
+                <div className={style.section}>
+                  <Table
+                    captions={tournamentsTableCaptions}
+                    items={tournaments}
+                    className={style.table}
+                    renderRow={this.renderRow}
+                    isLoading={this.state.isLoading}
+                    emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+                  />
                 </div>
               </div>
             </div>
