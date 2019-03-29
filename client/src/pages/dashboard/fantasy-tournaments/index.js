@@ -86,7 +86,7 @@ class FantasyTournaments extends Component {
     this.setState({
       isLoading: false,
       tournaments,
-    }, () => this.notificationService.show('Tournament was successfully updated!'));
+    }, () => this.notificationService.show(i18n.t('tournament_updated')));
   }
 
   deleteTournamentConfirmInit = () => {
@@ -120,7 +120,7 @@ class FantasyTournaments extends Component {
       isTournamentEditing: false,
       isTournamentDeleting: false,
       tournaments,
-    }, () => this.notificationService.show(`Tournament ${name} was deleted`));
+    }, () => this.notificationService.show(`${i18n.t('tournament')} ${name} ${i18n.t('was_deleted')}`));
   }
 
   finalizeTournament = async() => {
@@ -196,22 +196,22 @@ class FantasyTournaments extends Component {
       isLoading,
     } = this.state;
 
-    const modalTitle = `Editing ${tournamentEditingData.name}`;
-    const tournamentWinner = tournamentEditingData.winner && tournamentEditingData.winner.username || 'Tournament not finalized';
+    const modalTitle = `${i18n.t('editing')} ${tournamentEditingData.name}`;
+    const tournamentWinner = tournamentEditingData.winner && tournamentEditingData.winner.username || i18n.t('tournament_not_finalized');
 
     let modalActions = [];
 
     if (!isTournamentEditing) {
       modalActions.push(
-        { text: 'Create tournament', onClick: this.addChampionSubmit, isDanger: false },
+        { text: i18n.t('create_tournament'), onClick: this.addChampionSubmit, isDanger: false },
       );
     }
 
     if (isTournamentEditing) {
       modalActions.push(
-        { text: 'Delete tournament', onClick: this.deleteTournamentConfirmInit, isDanger: true },
-        { text: 'Finalize tournament', onClick: this.finalizeTournament, isDanger: true },
-        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false},
+        { text: i18n.t('delete_tournament'), onClick: this.deleteTournamentConfirmInit, isDanger: true },
+        { text: i18n.t('finalize_tournament'), onClick: this.finalizeTournament, isDanger: true },
+        { text: i18n.t('update_tournament'), onClick: this.editTournamentSubmit, isDanger: false},
       );
     }
 
@@ -236,28 +236,28 @@ class FantasyTournaments extends Component {
 
           {isTournamentDeleting &&
             <ModalAsk
-              textModal={'Do you really want to delete the tournament?'}
+              textModal={i18n.t('want_delete_tournament')}
               submitClick={this.deleteTournamentAccept}
               closeModal={this.deleteTournamentDecline}
             />
           }
 
           <Input
-            label="Tournament name"
+            label={i18n.t('tournament_name')}
             name="name"
             value={tournamentEditingData.name}
             onChange={this.handleInputChange}
             className={style.tournament_input}
           />
           <Input
-            label="Entry sum"
+            label={i18n.t('entry_sum')}
             name="entry"
             value={tournamentEditingData.entry}
             onChange={this.handleInputChange}
             className={style.tournament_input}
           />
           <Input
-            label="Winner"
+            label={i18n.t('winner')}
             name="winner"
             value={tournamentWinner}
             onChange={this.handleInputChange}

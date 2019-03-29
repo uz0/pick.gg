@@ -90,7 +90,7 @@ class Users extends Component {
       isLoading: false,
       isUserEditing: false,
       users,
-    }, () => this.notificationService.show('User was successfully updated!'));
+    }, () => this.notificationService.show(i18n.t('user_updated')));
   }
 
   resetUser = () => this.setState({
@@ -121,7 +121,7 @@ class Users extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    const isAdmin = item.isAdmin ? 'Yes' : 'No';
+    const isAdmin = item.isAdmin ? i18n.t('yes') : i18n.t('no');
     const userId = item._id;
 
     return <div onClick={() => this.editUserInit(userId)} className={cx(className, style.tournament_row)} key={item._id}>
@@ -164,7 +164,7 @@ class Users extends Component {
         <Modal
           title={`Editing ${userEditingData.username}`}
           actions={[{
-            text: 'Update user',
+            text: i18n.t('update_user'),
             onClick: this.editUserSubmit,
             isDanger: false,
           }]}
@@ -174,23 +174,22 @@ class Users extends Component {
           {isLoading && <Preloader />}
 
           <Input
-            label="Username"
+            label={i18n.t('username')}
             name="username"
             value={userEditingData.username || ''}
             onChange={this.handleInputChange}
           />
 
           <Input
-            label="Balance"
+            label={i18n.t('balance')}
             name="balance"
             value={userEditingData.balance || ''}
             onChange={this.handleInputChange}
           />
 
           <label className={style.chebox}>
-            <p>Admin</p>
+            <p>{i18n.t('admin')}</p>
             <input
-              label="Admin"
               className={style.css_checkbox}
               name="isAdmin"
               type="checkbox"
