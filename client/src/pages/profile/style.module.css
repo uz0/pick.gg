@@ -57,8 +57,8 @@ main h1 {
   text-indent: 12px;
   color: var(--accent-color);
 }
-.form input[name="username"]{
-  background: rgba(29, 20, 4, 0.5);
+.form input[name="email"]{
+  background: rgb(47, 47, 58);
 }
 .form > div textarea {
   resize: none;
