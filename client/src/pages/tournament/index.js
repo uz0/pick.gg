@@ -12,6 +12,7 @@ import NotificationService from 'services/notificationService';
 import moment from 'moment';
 import find from 'lodash/find';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+import Avatar from 'assets/avatar-placeholder.svg';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
 
@@ -419,7 +420,7 @@ class Tournament extends Component {
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
-              <img src={champion.photo} alt={i18n.t('champion_avatar')} />
+              <img src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} />
             </div>
 
             <span className={style.name}>{champion.name}</span>
