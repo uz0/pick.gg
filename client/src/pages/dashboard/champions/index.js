@@ -249,9 +249,10 @@ class Champions extends Component {
 
           <Input
             label={i18n.t('champion_name')}
-            name="name"
-            value={championData.name || ''}
+            name="id"
+            value={championData.id || ''}
             onChange={this.handleInputChange}
+            disabled
           />
           <Input
             label={i18n.t('champion_photo')}

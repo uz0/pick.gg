@@ -38,13 +38,15 @@ class MatchModal extends Component {
     this.setState({ isLoading: true });
 
     let { match } = await http(`/api/admin/matches/${this.props.matchId}`).then(res => res.json());
-    let matchResult = await this.adminService.getMatchResult(this.props.matchId);
 
-    match.results = matchResult.result[0];
     match.startTime = moment(match.startDate).format('HH:mm');
 
-    const result = match.results.playersResults;
-    const resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
+    const result = match.results && match.results.playersResults;
+    let resultsWithChampions = null;
+
+    if(result){
+      resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
+    }
 
     this.setState({
       match,
@@ -54,7 +56,7 @@ class MatchModal extends Component {
   }
 
   mapResultsToChampions = (results, champions) => {
-    results.forEach(result => result.playerName = find(champions, { _id: result.player_id }).name);
+    results.forEach(result => result.playerName = find(champions, { id: result.playerId }).name);
 
     return results;
   }
@@ -184,8 +186,9 @@ class MatchModal extends Component {
         />
       </label>
 
+      {!results && <div>There's no any results yet</div>}
 
-      {results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
+      {results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>
 
         <div className={style.rules_inputs}>

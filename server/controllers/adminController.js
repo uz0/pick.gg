@@ -71,15 +71,15 @@ const AdminController = () => {
 
   router.get('/tournaments/real', async (req, res) => {
     const tournaments = await TournamentModel.find()
-      .populate('champions', '_id name')
-      .populate('matches')
+      .populate('champions', 'id name')
+      // .populate('matches')
       .populate({
         path: 'matches',
         populate: {
           path: 'results'
         }
       })
-      .sort({ date: -1 })
+      // .sort({ date: -1 })
 
     res.json({ tournaments });
   });
@@ -224,7 +224,7 @@ const AdminController = () => {
     const realTournament = fantasyTournament.tournament;
 
     const matches = realTournament.matches;
-    const areMatchesCompleted = matches.reduce(match => match.completed);
+    const areMatchesCompleted = matches.every(match => match.completed === true);
 
     const rulesSet = fantasyTournament.rules.reduce((set, item) => {
       set[item.rule._id] = item.score;
@@ -307,7 +307,6 @@ const AdminController = () => {
     });
 
     res.json({
-      updatedTournament,
       tournamentId,
       success: "success",
     });
@@ -390,6 +389,9 @@ const AdminController = () => {
   });
 
   router.get('/matches', async (req, res) => {
+    // await PlayerModel.deleteMany();
+    // const matches = await TournamentModel.deleteMany();
+    // const matches = await MatchModel.deleteMany();
     const matches = await MatchModel.find();
     res.json({ matches });
   });
@@ -435,7 +437,8 @@ const AdminController = () => {
   });
 
   router.get('/results', async (req, res) => {
-    const results = await MatchResultModel.find({ playersResults: { $gt: [] } });
+    // const results = await MatchResultModel.find({ playersResults: { $gt: [] } });
+    const results = await MatchResultModel.find();
     res.json({ results });
   });
 
