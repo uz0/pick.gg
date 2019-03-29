@@ -13,8 +13,11 @@ import Table from 'components/table';
 import NewTournamentModal from 'components/new-tournament';
 import Preloader from 'components/preloader';
 import i18n from 'i18n';
+import classnames from 'classnames/bind';
 
 import style from './style.module.css';
+
+const cx = classnames.bind(style);
 
 const tournamentsTableCaptions = {
   name: {
@@ -22,10 +25,10 @@ const tournamentsTableCaptions = {
     width: 250,
   },
 
-  // date: {
-  //   text: i18n.t('date'),
-  //   width: 100,
-  // },
+  date: {
+    text: i18n.t('date'),
+    width: 100,
+  },
 
   users: {
     text: i18n.t('users'),
@@ -107,17 +110,20 @@ class Tournaments extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     console.log(item, 'item');
-    // const formattedDate = moment(item.tournament.date).format('MMM DD');
+    const formattedDate = moment(item.tournament.date).format('MMM DD');
+    const today = moment().format('MMM DD')
     const entry = item.entry === 0 ? 'Free' : item.entry;
+    const disableUrl = moment(formattedDate).isAfter(today);
+    const disableUrlStyle = moment(today).isAfter(formattedDate);
 
-    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
+    return <NavLink to={disableUrl ? `/tournaments/${item._id}` : '#'} className={cx( className, {'disable_url': disableUrlStyle})} key={item._id}>
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.name.width}}>
         <span className={textClass}>{item.name}</span>
       </div>
 
-      {/* <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
+      <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
         <span className={textClass}>{formattedDate}</span>
-      </div> */}
+      </div>
 
       <div className={itemClass} style={{'--width': tournamentsTableCaptions.users.width}}>
         <span className={textClass}>{item.users.length}</span>
