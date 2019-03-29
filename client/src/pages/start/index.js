@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 import style from './style.module.css';
-import AuthService from '../../services/authService';
 import i18n from "i18next";
 import config from 'config';
+
+import NotificationContainer from '../../components/notification/notification-container';
+
+import AuthService from '../../services/authService';
+import NotificationService from '../../services/notificationService';
 
 import tournamentsList from '../../assets/faq/tournaments_list.png';
 import tournamentsFinished from '../../assets/faq/tournament_finished.png';
@@ -18,6 +22,7 @@ class Start extends Component {
   constructor() {
     super();
     this.auth = new AuthService();
+    this.notificationService = new NotificationService();
 
     this.state = {
       username: '',
@@ -37,15 +42,15 @@ class Start extends Component {
   }
 
   onSuccessGoogleLogin = async data => {
-    console.log(profile, email, authRequest)
     const profile = data.getBasicProfile();
     const email = profile.getEmail();
-
+    
     const authRequest = await this.auth.oauthLogin(email);
 
     if (authRequest.success) {
       this.props.history.replace('/tournaments');
     } else {
+      this.props.history.replace('/register');
       this.notificationService.show(authRequest.message);
     }
   };
@@ -64,6 +69,8 @@ class Start extends Component {
     return (
       <div className={style.login_page}>
 
+        <NotificationContainer />
+
         <section className={style.login_section}>
           <div className={style.start_content}>
             <h1>Fantasy league</h1>
@@ -72,16 +79,16 @@ class Start extends Component {
               <GoogleLogin
                 icon={true}
                 render={renderProps => (
-                    <button onClick={renderProps.onClick}>{i18n.t('start')} with <GoogleIcon /></button>
+                  <button onClick={renderProps.onClick}>{i18n.t('start')} with <GoogleIcon /></button>
                 )}
                 clientId={config.google_client_id}
                 onSuccess={this.onSuccessGoogleLogin}
                 onFailure={this.onFailureGoogleLogin}
               />
-              {/* <div>
+              <div>
                 <span>{i18n.t('or')} </span>
                 <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
-              </div> */}
+              </div>
             </div>
           </div>
         </section>
