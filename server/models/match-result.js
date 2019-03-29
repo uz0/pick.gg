@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 let schema = new Schema({
   matchId: Number,
   resultId: String,
+  syncType: { type: String, enum: ['auto', 'manual'] },
   // match_id: { type: Schema.Types.ObjectId, ref: 'Match' },
 
   playersResults: [{
