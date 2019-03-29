@@ -23,15 +23,15 @@ let schema = new Schema({
   winner: { type: Schema.Types.ObjectId, ref: 'User' },
   creator: { type: Schema.Types.ObjectId, ref: 'User' },
 },
-// {
-//   toObject: {virtuals:true},
-// }
+{
+  toObject: {virtuals:true},
+}
 );
 
 // schema.virtual('tournament', {
 //   ref: 'Tournament',
 //   localField: 'tournament_id',
-//   foreignField: '_id',
+//   foreignField: 'id',
 //   justOne: true,
 // });
 

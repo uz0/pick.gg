@@ -25,7 +25,7 @@ const SystemController = () => {
 
   router.get('/reset', async (req, res) => {
 
-    // await FantasyTournament.deleteMany();
+    await FantasyTournament.deleteMany();
     await TournamentModel.deleteMany();
     await MatchResult.deleteMany();
     await MatchModel.deleteMany();
