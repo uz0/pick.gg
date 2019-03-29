@@ -248,6 +248,13 @@ class Champions extends Component {
             closeModal={this.closeDeleteChampion} />}
 
           <Input
+            label="Champion escore id"
+            name="id"
+            value={championData.id || ''}
+            onChange={this.handleInputChange}
+            disabled
+          />
+          <Input
             label="Champion name"
             name="name"
             value={championData.name || ''}
