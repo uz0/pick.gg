@@ -91,6 +91,12 @@
   margin-left: 30px;
 }
 
+.tournaments .content .section .table .disable_url {
+  opacity: 0.8;
+  pointer-events: none;
+  cursor: default;
+}
+
 @media (max-width: 1064px) {
   .tournaments .content .sidebar {
     width: 230px;
