@@ -164,7 +164,7 @@ class Tournament extends Component {
 
     const match = find(fantasyTournament.tournament.matches, { _id: matchId });
 
-    if(!match.completed){
+    if (!match.completed) {
       return 0;
     }
 
@@ -177,7 +177,7 @@ class Tournament extends Component {
     }, []);
 
     const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
-      if(rulesNames.includes(item.rule)){
+      if (rulesNames.includes(item.rule)) {
         sum += item.score * ruleSet[item.rule];
       }
       return sum;
@@ -211,10 +211,10 @@ class Tournament extends Component {
     const playerResultsWithdata = playerResults.filter(item => item.length > 0).reduce((arr, item) => {
       item.forEach(element => arr.push(...element));
       return arr;
-    },[]);
+    }, []);
 
     const aggregatedPlayerResultsSum = playerResultsWithdata.reduce((sum, item) => {
-      if(rulesNames.includes(item.rule)){
+      if (rulesNames.includes(item.rule)) {
         sum += item.score * ruleSet[item.rule];
       }
       return sum;
@@ -285,9 +285,11 @@ class Tournament extends Component {
         <span className={textClass}>{item.user.username}</span>
       </div>
 
-      <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
-        <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
-      </div>
+      {totalScore > 0 &&
+        <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
+          <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+        </div>
+      }
     </div>;
   };
 
