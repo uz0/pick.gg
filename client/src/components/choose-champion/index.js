@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from 'components/button/index';
-import { ReactComponent as CloseIcon } from '../../assets/close.svg';
+import { ReactComponent as CloseIcon } from 'assets/close.svg';
+import Avatar from 'assets/avatar-placeholder.svg';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
 import style from './style.module.css';
@@ -32,13 +33,14 @@ class ChooseChampion extends Component {
     this.setState({ ids });
   };
 
-  toggleFreeTournamentModal = () => this.setState({isFreeTournamentModalShown: !this.state.isFreeTournamentModalShown});
+  toggleFreeTournamentModal = () => this.setState({ isFreeTournamentModalShown: !this.state.isFreeTournamentModalShown });
 
   addPlayers = () => {
     this.props.action(this.state.ids);
   };
 
   render() {
+
     return <div className={style.wrapper}>
       <div className={style.modal}>
         <header className={style.header}>
@@ -49,17 +51,17 @@ class ChooseChampion extends Component {
           </button>
         </header>
 
-        {this.state.isFreeTournamentModalShown && <Modal textModal={i18n.t('free_tournament')} submitClick={this.addPlayers} closeModal={this.toggleFreeTournamentModal}/>}
+        {this.state.isFreeTournamentModalShown && <Modal textModal={i18n.t('free_tournament')} submitClick={this.addPlayers} closeModal={this.toggleFreeTournamentModal} />}
 
         <div className={style.content}>
           <div className={style.list}>
             {this.props.champions.map(item => <div
-              className={cx('item', {'_is-checked': this.state.ids.indexOf(item._id) !== -1})}
+              className={cx('item', { '_is-checked': this.state.ids.indexOf(item._id) !== -1 })}
               key={item._id}
               onClick={() => this.toggleChampion(item._id)}
             >
               <div className={style.image}>
-                <img src={item.photo} alt={i18n.t('champion_avatar')} />
+                <img src={item.photo === null ? Avatar : item.photo} alt={i18n.t('champion_avatar')} />
               </div>
 
               <p className={style.name}>{item.name}</p>
