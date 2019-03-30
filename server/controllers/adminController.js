@@ -69,6 +69,13 @@ const AdminController = () => {
     });
   });
 
+  router.get('/user/:id/admin', async (req, res) => {
+    const userId = req.params.id;
+    const user = await UserModel.findByIdAndUpdate({_id: userId}, {isAdmin: true});
+
+    res.json({ user });
+  });
+
   router.get('/tournaments/real', async (req, res) => {
     const tournaments = await TournamentModel.find()
       .populate('champions', 'id name')
@@ -79,7 +86,7 @@ const AdminController = () => {
           path: 'results'
         }
       })
-      // .sort({ date: -1 })
+      .sort({ date: -1 })
 
     res.json({ tournaments });
   });
@@ -199,7 +206,7 @@ const AdminController = () => {
 
     const fantasyTournament = await FantasyTournamentModel
       .findById(tournamentId)
-      .populate({ path: 'users.players', select: '_id name photo' })
+      .populate({ path: 'users.players', select: '_id id name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate({ path: 'rules.rule' })
       .populate({ path: 'winner', select: 'id username' })
@@ -227,7 +234,7 @@ const AdminController = () => {
     const areMatchesCompleted = matches.every(match => match.completed === true);
 
     const rulesSet = fantasyTournament.rules.reduce((set, item) => {
-      set[item.rule._id] = item.score;
+      set[item.rule.name] = item.score;
       return set;
     }, {});
 
@@ -240,7 +247,7 @@ const AdminController = () => {
 
     const getCountMatchPoints = (matchId, userId) => {
       const userPlayers = getUserPlayers(userId);
-      const userPlayersIds = userPlayers.map(player => player._id);
+      const userPlayersIds = userPlayers.map(player => player.id);
 
       const match = find(matches, { _id: matchId });
       const results = match.results.playersResults;
@@ -249,7 +256,7 @@ const AdminController = () => {
 
       for(let i = 0; i < results.length; i++){
         for(let j = 0; j < userPlayersIds.length; j++){
-          if(`${results[i].player_id}` === `${userPlayersIds[j]}`){
+          if(`${results[i].playerId}` === `${userPlayersIds[j]}`){
             userPlayersWithResults.push(results[i]);
           }
         }
@@ -261,10 +268,12 @@ const AdminController = () => {
       }, []);
 
       const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
-        sum += item.score * rulesSet[item.rule];
+        if(rulesSet[item.rule]){
+          sum += item.score * rulesSet[item.rule];
+        }
         return sum;
       }, 0);
-  
+
       return userPlayersResultsSum;
     };
 
@@ -284,15 +293,6 @@ const AdminController = () => {
       return;
     }
 
-    if(fantasyTournament.winner !== null){
-      res.json({
-        success: "false",
-        message: "Tournament is already finalized"
-      });
-
-      return;
-    }
-
     fantasyTournament.users.forEach(item => {
       playersCountedResults.push({
         user: item.user,
@@ -307,7 +307,7 @@ const AdminController = () => {
     });
 
     res.json({
-      tournamentId,
+      message: "Finalization completed",
       success: "success",
     });
   });
