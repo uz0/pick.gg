@@ -125,7 +125,9 @@ class FantasyTournaments extends Component {
 
   finalizeTournament = async() => {
     const tournamentId = this.state.tournamentEditingData._id;
-    await this.adminService.finalizeFantasyTournament(tournamentId);
+    const finalizeQuery = await this.adminService.finalizeFantasyTournament(tournamentId);
+
+    this.notificationService.show(finalizeQuery.message);
   }
 
   resetTournamentEditing = () => this.setState({
