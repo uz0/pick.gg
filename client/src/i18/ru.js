@@ -77,6 +77,7 @@ export default {translation: {
   position: 'Позиция',
   points: 'Поинты',
   is_going_on: 'Is going on',
+  is_over_: 'Турнир завершён',
   archive: 'Архив',
   will_be_soon: 'Скоро будет',
   champion_avatar: 'Champion Avatar',
