@@ -113,10 +113,8 @@ class Tournaments extends Component {
     const formattedDate = moment(item.tournament.date).format('MMM DD');
     const today = moment().format('MMM DD')
     const entry = item.entry === 0 ? 'Free' : item.entry;
-    const disableUrl = moment(formattedDate).isAfter(today);
-    const disableUrlStyle = moment(today).isAfter(formattedDate);
 
-    return <NavLink to={`/tournaments/${item._id}`} className={cx(className, { 'disable_url': disableUrlStyle })} key={item._id}>
+    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
