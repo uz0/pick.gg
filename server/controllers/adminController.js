@@ -160,6 +160,9 @@ const AdminController = () => {
         select: 'username _id'
       })
       .populate({
+        path: 'winner',
+      })
+      .populate({
         path: 'rules.rule',
       });
 
