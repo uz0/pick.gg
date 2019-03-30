@@ -9,6 +9,7 @@ export default {translation: {
   choose_champion: 'Choose your champion',
   dashboard: 'Dashboard',
   date: 'Date',
+  syncDate: 'Sync date',
   date_from: 'Date from',
   deposit: 'Deposit',
   email: 'Email',

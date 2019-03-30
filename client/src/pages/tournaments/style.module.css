@@ -6,6 +6,7 @@
   padding-top: 20px;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
+  padding-bottom: 20px;
 }
 
 .tournaments .title {
@@ -77,11 +78,28 @@
   padding-right: 20px;
   color: #000;
   font-weight: var(--font-weight-bold);
-  clip-path: polygon(17% 15%, 100% 0, 100% 100%, 0% 100%);
+  /* clip-path: polygon(17% 15%, 100% 0, 100% 100%, 0% 100%); */
   font-size: 20px;
   border-radius: 2px;
   border: none;
-  background-color: var(--accent-color);
+  background-color: transparent;
+}
+.tournaments .content .sidebar .action .button .back_button{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.tournaments .content .sidebar .action .button polygon{
+  fill: #D79634;
+}
+.tournaments .content .sidebar .action .button span{
+  position: absolute;
+  z-index: 1;
+  width: 120px;
+  top: 32px;
+  left: 50px;
 }
 
 .tournaments .content .section {
@@ -89,6 +107,12 @@
   min-width: 0;
   padding-bottom: 30px;
   margin-left: 30px;
+}
+
+.tournaments .content .section .table .disable_url {
+  opacity: 0.8;
+  pointer-events: none;
+  cursor: default;
 }
 
 @media (max-width: 1064px) {

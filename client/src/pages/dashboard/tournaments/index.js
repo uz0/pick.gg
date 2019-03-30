@@ -26,17 +26,27 @@ const cx = classnames.bind(style);
 const tournamentsTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: 250,
+    width: 175,
   },
 
   matches: {
     text: i18n.t('matches'),
-    width: 250,
+    width: 85,
   },
 
   date: {
     text: i18n.t('date'),
     width: 100,
+  },
+
+  syncAt: {
+    text: i18n.t('syncDate'),
+    width: 100,
+  },
+
+  syncType: {
+    text: 'Sync type',
+    width: 60,
   },
 };
 
@@ -309,6 +319,7 @@ class Tournaments extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const formattedDate = moment(item.date).format('DD MMM YYYY');
+    const formattedSyncDate = moment(item.syncAt).format('DD MMM YYYY');
     const tournamentId = item._id;
 
     return <div onClick={() => this.editTournamentInit(tournamentId)} className={cx(className, style.tournament_row)} key={item._id}>
@@ -322,6 +333,14 @@ class Tournaments extends Component {
 
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
         <span className={textClass}>{formattedDate}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.syncAt.width }}>
+        <span className={textClass}>{formattedSyncDate}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.syncType.width }}>
+        <span className={textClass}>{item.syncType}</span>
       </div>
     </div>;
   }
@@ -341,6 +360,7 @@ class Tournaments extends Component {
 
     const modalTitle = isTournamentCreating ? i18n.t('create_new_tournament') : `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
+    const editedTournamentSyncDate = moment(tournamentEditingData.syncAt).format('YYYY-MM-DD');
     const isTournamentHasMatches = tournamentEditingData.matches && tournamentEditingData.matches.length > 0;
     const isTournamentModalActive = isTournamentEditing || isTournamentCreating;
 
@@ -417,6 +437,23 @@ class Tournaments extends Component {
               className={style.tournament_input}
               value={editedTournamentDate || ''}
               onChange={this.handleInputChange}
+            />
+            <Input
+              name="syncAt"
+              label="Sync date"
+              type="date"
+              className={style.tournament_input}
+              value={editedTournamentSyncDate || ''}
+              onChange={this.handleInputChange}
+              disabled
+            />
+            <Input
+              name="syncType"
+              label="Sync type"
+              className={style.tournament_input}
+              value={tournamentEditingData.syncType || ''}
+              onChange={this.handleInputChange}
+              disabled
             />
           </div>
 

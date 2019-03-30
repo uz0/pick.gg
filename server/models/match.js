@@ -9,7 +9,8 @@ let schema = new Schema({
   resultsId: { type: String },
   // results: { type: Schema.Types.ObjectId, ref: 'MatchResult' },
   completed: Boolean,
-  syncAt: {type: Date }
+  syncAt: {type: Date },
+  syncType: { type: String, enum: ['auto', 'manual'] }
 }, 
 {
   toObject: {virtuals:true},

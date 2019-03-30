@@ -101,6 +101,7 @@ class Profile extends Component {
                     name="email"
                     value={this.state.formData.email}
                     onChange={this.handleChange}
+                    disabled
                   />
                 </div>
 
