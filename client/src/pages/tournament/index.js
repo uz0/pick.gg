@@ -128,6 +128,10 @@ class Tournament extends Component {
       return '';
     }
 
+    if (this.state.fantasyTournament.winner !== null) {
+      return i18n.t('is_over');
+    }
+
     const tournamentDate = this.state.fantasyTournament.tournament.date;
 
     if (moment().isSame(moment(tournamentDate), 'd')) {
@@ -145,7 +149,12 @@ class Tournament extends Component {
 
   getFantasyTournamentStatus = () => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const tournamentWinner = this.state.fantasyTournament && this.state.fantasyTournament.winner !== null;
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
+
+    if (tournamentWinner) {
+      return i18n.t('is_over');
+    }
     if (champions.length > 0) {
       return i18n.t('wait_matches');
     }
@@ -297,12 +306,13 @@ class Tournament extends Component {
   renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
     const { fantasyTournament } = this.state;
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
-
-    const time = moment(item.startDate).format('HH:mm');
+    
     const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
-    const url = '';
-    // const disableUrl = url === '';
+    const matchPoints = points > 0 ? points : 0;
+
     const isMatchCompleted = item.completed;
+    const time = moment(item.startDate).format('HH:mm');
+    const url = '';
     const urlMatch = url === '' ? '' : url;
     const timeMatch = moment(item.startDate).format('MMM DD HH:mm')
     const timeNow = moment().format('MMM DD HH:mm')
@@ -314,8 +324,8 @@ class Tournament extends Component {
       </div>
 
       <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
-        {isMatchCompleted && points &&
-          <div className={style.match_points}>+{points}</div>
+        {isMatchCompleted && currentUserParticipant &&
+          <div className={style.match_points}>{`+${matchPoints}`}</div>
         }
       </div>
 
