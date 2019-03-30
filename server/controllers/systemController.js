@@ -231,8 +231,6 @@ const SystemController = () => {
 
           formattedMatches[i].resultsId = resultsResponse._id;
           formattedMatchResults[i].resultsId = resultsResponse._id;
-
-          console.log(`Result with id ${resultsResponse.id} was updated`);
         }
 
       }
@@ -317,7 +315,7 @@ const SystemController = () => {
     for(let i = 0; i < tournamentsToUpdate.length; i++){
       const tournamentId = tournamentsToUpdate[i].id;
 
-      await TournamentModel.update({id: tournamentId}, tournamentsToUpdate[i]);
+      await TournamentModel.findOneAndUpdate({id: tournamentId}, tournamentsToUpdate[i]);
       console.log(`Tournament with id ${tournamentId} was updated`);
     }
     console.log('end tournaments sync');
