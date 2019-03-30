@@ -93,10 +93,10 @@ class Start extends Component {
                 onSuccess={this.onSuccessGoogleLogin}
                 onFailure={this.onFailureGoogleLogin}
               />
-              <div>
+              {/* <div>
                 <span>{i18n.t('or')} </span>
                 <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
