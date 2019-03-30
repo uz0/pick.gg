@@ -145,7 +145,7 @@ class newTournament extends Component {
 
   render() {
     let { onClose } = this.props;
-    const areTournamentsLoaded = this.state.filteredTournaments.length > 0 ? true : false;
+    const areRulesLoading = this.state.rules.length === 0;
 
     return (
       <div className={style.wrap}>
@@ -165,7 +165,7 @@ class newTournament extends Component {
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
 
-            {!areTournamentsLoaded && <Preloader />}
+            {areRulesLoading && <Preloader />}
 
             <Button
               className={style.close_button}
