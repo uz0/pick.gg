@@ -249,6 +249,7 @@ class Rules extends Component {
             name="name"
             value={ruleData.name || ''}
             onChange={this.handleInputChange}
+            disabled
           />
         </Modal>
       }
