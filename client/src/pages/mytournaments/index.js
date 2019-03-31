@@ -80,7 +80,7 @@ class App extends Component {
     return (
       <div className={style.home_page}>
         <div className={style.main_block}>
-          <h2>My tournaments</h2>
+          <h2>{i18n.t('my_tournaments')}</h2>
 
           <div className={style.section}>
             <Table

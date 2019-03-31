@@ -39,17 +39,19 @@ main h1 {
 }
 
 .form > div:not(:first-of-type){
-  margin-top: 30px;
+  margin-top: 16px;
 }
 
 .form > div label {
   color: #D79634;
+  font-size: 20px;
 }
 
-.form > div input,
+.form > div input[type="text"],
 .form > div textarea {
   border: none;
-  height: 60px;
+  height: 40px;
+  font-size: 16px;
   margin-top: 6px;
   background-color: #060916;
   box-shadow: 0px 1px 1px #000000;
@@ -62,11 +64,43 @@ main h1 {
 }
 .form > div textarea {
   resize: none;
-  margin-bottom: 20px;
   padding: 12px;
   text-indent: 0px;
   height: auto;
 }
+
+.localization {
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.localization > label {
+  margin-bottom: 8px;
+}
+
+.localization > div {
+  display: flex;
+}
+
+.localization .item {
+  display: flex;
+  align-items: center;
+}
+
+.localization .item + .item {
+  margin-left: 12px;
+}
+
+.localization .item label {
+  margin-right: 8px;
+}
+
+.localization .item input {
+  height: 18px;
+  width: 18px;
+}
+
+
 
 .password_recovery {
   height: 75px;
