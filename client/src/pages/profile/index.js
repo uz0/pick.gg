@@ -23,6 +23,7 @@ class Profile extends Component {
         email: "",
         about: "",
       },
+      locale: "",
       isLoading: true,
     };
   }
@@ -39,7 +40,8 @@ class Profile extends Component {
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    let userData = await this.userService.getMyProfile();
+    const userData = await this.userService.getMyProfile();
+    const locale = localStorage.getItem('_pgg_locale');
 
     this.setState({
       formData: {
@@ -47,9 +49,19 @@ class Profile extends Component {
         email: userData.user.email,
         about: userData.user.about,
       },
+      locale,
       isLoading: false,
     });
+  }
 
+  changeLocale = (event) => {
+    this.setState({
+      locale: event.target.name,
+    })
+
+    localStorage.setItem('_pgg_locale', event.target.name);
+
+    i18n.changeLanguage(event.target.name);
   }
 
   handleSubmit = async e => {
@@ -89,7 +101,7 @@ class Profile extends Component {
                     type="text"
                     name="username"
                     value={this.state.formData.username}
-                    />
+                  />
                 </div>
 
                 <div>
@@ -110,6 +122,32 @@ class Profile extends Component {
                     value={this.state.formData.about}
                     onChange={this.handleChange}
                   />
+                </div>
+
+                <div className={style.localization}>
+                  <label>{i18n.t('settings_locale')}</label>
+                  <div>
+                    <div className={style.item}>
+                      <label>Ru</label>
+                      <input
+                        name='ru'
+                        type='radio'
+                        value={this.state.locale}
+                        checked={this.state.locale === 'ru'}
+                        onChange={this.changeLocale}
+                        />
+                    </div>
+                    <div className={style.item}>
+                      <label>En</label>
+                      <input
+                        name='en'
+                        type='radio'
+                        value={this.state.locale}
+                        checked={this.state.locale === 'en'}
+                        onChange={this.changeLocale}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <Button appearance={'_basic-accent'} text={i18n.t('save_changes')} />
