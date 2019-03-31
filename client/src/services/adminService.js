@@ -46,6 +46,12 @@ export default class AdminService {
     const finalizeResult = await finalizeQuery.json();
     return finalizeResult;
   }
+
+  finalizeAllFantasyTournaments = async () => {
+    const finalizeQuery = await http(`/api/system/finalize`);
+    const finalizeResult = await finalizeQuery.json();
+    return finalizeResult;
+  }
   
   createMatch = async(tournamentId) => {
     const matchQuery = await http('/api/admin/matches', {

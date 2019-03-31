@@ -164,7 +164,7 @@ const SystemController = () => {
 
         const tournamentChunk = findIndex(formattedTournamentsChunks, chunk => chunk.matches_ids.includes(formattedMatches[i].id));
 
-        if(formattedTournamentsChunks[tournamentChunk]){
+        if (formattedTournamentsChunks[tournamentChunk]) {
           if (formattedTournamentsChunks[tournamentChunk].champions_ids.indexOf(player.id) === -1) {
             formattedTournamentsChunks[tournamentChunk].champions_ids.push(player.id);
           }
@@ -216,18 +216,27 @@ const SystemController = () => {
 
         formattedMatchResults.push(object);
 
-        const match = await MatchModel.find({id: object.matchId});
+        const match = await MatchModel.find({ id: object.matchId });
 
-        if(match.length === 0){
+        if (match.length === 0) {
           const resultsResponse = await MatchResult.create(object);
           formattedMatches[i].resultsId = resultsResponse._id;
           formattedMatchResults[i].resultsId = resultsResponse._id;
 
-          console.log(`Result with id ${resultsResponse.id} was created`);
+          continue;
         }
 
-        if(match.length > 0){
-          const resultsResponse = await MatchResult.findOneAndUpdate({matchId: match[0].id}, object, {new: true});
+        if (match.length > 0) {
+          const resultsResponse = await MatchResult.findOneAndUpdate({ matchId: match[0].id }, object, { new: true });
+
+          if (!resultsResponse) {
+            const newResults = await MatchResult.create(object);
+
+            formattedMatches[i].resultsId = newResults._id;
+            formattedMatchResults[i].resultsId = newResults._id;
+
+            continue;
+          }
 
           formattedMatches[i].resultsId = resultsResponse._id;
           formattedMatchResults[i].resultsId = resultsResponse._id;
@@ -242,28 +251,28 @@ const SystemController = () => {
     console.log('Begin matches sync');
     const formattedMatchesIds = formattedMatches.map(matches => matches.id);
 
-    const matchesInBase = await MatchModel.find({id: {$in: formattedMatchesIds}})
+    const matchesInBase = await MatchModel.find({ id: { $in: formattedMatchesIds } })
     const matchesInBaseIds = matchesInBase.map(match => match.id);
 
     const matchesNotAddedToBase = formattedMatches.filter(item => !matchesInBaseIds.includes(item.id));
     const matchesToUpdate = formattedMatches.filter(item => matchesInBaseIds.includes(item.id));
 
-    for(let i = 0; i < matchesNotAddedToBase.length; i++){
+    for (let i = 0; i < matchesNotAddedToBase.length; i++) {
       await MatchModel.create(matchesNotAddedToBase[i]);
       console.log(`Match ${i} of ${matchesNotAddedToBase.length - 1} has been created`);
     }
 
-    for(let i = 0; i < matchesToUpdate.length; i++){
+    for (let i = 0; i < matchesToUpdate.length; i++) {
       const matchId = matchesToUpdate[i].id;
 
-      await MatchModel.update({id: matchId}, matchesToUpdate[i]);
+      await MatchModel.update({ id: matchId }, matchesToUpdate[i]);
       console.log(`Match ${i} of ${matchesNotAddedToBase.length - 1} has been updated`);
     }
     console.log('End matches sync');
 
     // Маппим результаты к матчам
     console.log('Begin matches results sync');
-    for(let i = 0; i < formattedMatchResults.length; i++){
+    for (let i = 0; i < formattedMatchResults.length; i++) {
       const matchId = formattedMatchResults[i].matchId;
       const resultsId = formattedMatchResults[i].resultsId;
 
@@ -277,21 +286,21 @@ const SystemController = () => {
     console.log('Begin players sync');
     const formattedPlayersIds = formattedPlayers.map(player => player.id);
 
-    const playersInBase = await PlayerModel.find({id: {$in: formattedPlayersIds}});
+    const playersInBase = await PlayerModel.find({ id: { $in: formattedPlayersIds } });
     const playersInBaseIds = playersInBase.map(player => player.id);
 
     const playersNotAddedToBase = formattedPlayers.filter(item => !playersInBaseIds.includes(item.id));
     const playersToUpdate = formattedPlayers.filter(item => playersInBaseIds.includes(item.id));
 
-    for(let i = 0; i < playersNotAddedToBase.length; i++){
+    for (let i = 0; i < playersNotAddedToBase.length; i++) {
       const player = await PlayerModel.create(playersNotAddedToBase[i]);
       console.log(`Player with id ${player.id} has been created`);
     }
 
-    for(let i = 0; i < playersToUpdate.length; i++){
+    for (let i = 0; i < playersToUpdate.length; i++) {
       const playerId = playersToUpdate[i].id;
 
-      await PlayerModel.update({id: playerId}, playersToUpdate[i]);
+      await PlayerModel.update({ id: playerId }, playersToUpdate[i]);
       console.log(`Player with id ${playerId} was updated`);
     }
     console.log('End players sync');
@@ -300,22 +309,22 @@ const SystemController = () => {
     console.log('begin tournaments sync');
     const formattedTournamentsChunksIds = formattedTournamentsChunks.map(tournament => tournament.id);
 
-    const tournamentsInBase = await TournamentModel.find({id: {$in: formattedTournamentsChunksIds}});
+    const tournamentsInBase = await TournamentModel.find({ id: { $in: formattedTournamentsChunksIds } });
     const tournamentsInBaseIds = tournamentsInBase.map(tournament => tournament.id);
 
     const tournamentsNotAddedToBase = formattedTournamentsChunks.filter(item => !tournamentsInBaseIds.includes(item.id));
     const tournamentsToUpdate = formattedTournamentsChunks.filter(item => tournamentsInBaseIds.includes(item.id));
 
 
-    for(let i = 0; i < tournamentsNotAddedToBase.length; i++){
+    for (let i = 0; i < tournamentsNotAddedToBase.length; i++) {
       const tournament = await TournamentModel.create(tournamentsNotAddedToBase[i]);
       console.log(`Tournament with id ${tournament.id} has been created`);
     }
 
-    for(let i = 0; i < tournamentsToUpdate.length; i++){
+    for (let i = 0; i < tournamentsToUpdate.length; i++) {
       const tournamentId = tournamentsToUpdate[i].id;
 
-      await TournamentModel.findOneAndUpdate({id: tournamentId}, tournamentsToUpdate[i]);
+      await TournamentModel.findOneAndUpdate({ id: tournamentId }, tournamentsToUpdate[i]);
       console.log(`Tournament with id ${tournamentId} was updated`);
     }
     console.log('end tournaments sync');
@@ -342,7 +351,9 @@ const SystemController = () => {
     const tournaments = await FantasyTournament
       .find({ winner: null })
       .populate('tournament')
-
+      .populate({ path: 'users.players', select: 'id name' })
+      .populate({ path: 'users.user', select: '_id username' })
+      .populate({ path: 'rules.rule' })
       .populate({
         path: 'tournament',
 
@@ -353,16 +364,23 @@ const SystemController = () => {
             path: 'results'
           },
         },
-      })
+      });
 
     const calculateChampionsPoints = params => {
       const { rules, results } = params;
+      const normalizedRules = rules.map(rule => ({
+        rule: rule.rule.name,
+        score: rule.score
+      }));
       let sum = 0;
 
       results.forEach(result => {
-        const initialRule = find(rules, { rule: result.rule });
-        const multiple = initialRule.score * result.score;
-        sum += multiple;
+        const initialRule = find(normalizedRules, { rule: result.rule });
+
+        if (initialRule) {
+          const multiple = initialRule.score * result.score;
+          sum += multiple;
+        }
       });
 
       return sum;
@@ -413,6 +431,7 @@ const SystemController = () => {
 
       for (let j = 0; j < users.length; j++) {
         let sum = 0;
+        users[j].players_ids = users[j].players.map(player => player.id);
 
         users[j].players_ids.forEach(id => {
           sum += championsPoints[id];
@@ -427,11 +446,13 @@ const SystemController = () => {
       }
 
       const winnerSum = tournaments[i].entry * users.length;
-      await UserModel.findByIdAndUpdate({ _id: winner.user }, { new: true, $inc: { balance: winnerSum } });
-      await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, { winner: winner.user });
+      await UserModel.findByIdAndUpdate({ _id: winner.user._id }, { new: true, $inc: { balance: winnerSum } });
+      await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, { winner: winner.user._id });
+
+      console.log(winner, 'winner');
 
       await TransactionModel.create({
-        userId: winner.user,
+        userId: winner.user._id,
         tournamentId: tournaments[i]._id,
         amount: winnerSum,
         origin: 'tournament winning',
@@ -439,7 +460,12 @@ const SystemController = () => {
       });
     }
 
-    res.send({ success: 'Success' });
+    let updateTournamentsNames = tournaments.map(tournament => tournament.name).join(', ');
+
+    res.send({
+      success: 'Success',
+      message: `${updateTournamentsNames} were finalized`,
+    });
   });
 
   router.get('/tournaments', async (req, res) => {
@@ -450,7 +476,7 @@ const SystemController = () => {
     res.send({
       tournaments
     })
-  })
+  });
 
   router.get('/createmock', async (req, res) => {
     const players = MockService.getChampions();
