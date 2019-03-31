@@ -9,6 +9,7 @@ import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
 import ModalAsk from 'components/modal';
 import Input from 'components/input';
+import Button from 'components/button';
 import Preloader from 'components/preloader';
 
 import moment from 'moment';
@@ -123,9 +124,15 @@ class FantasyTournaments extends Component {
     }, () => this.notificationService.show(`Tournament ${name} was deleted`));
   }
 
-  finalizeTournament = async() => {
+  finalizeTournament = async () => {
     const tournamentId = this.state.tournamentEditingData._id;
     const finalizeQuery = await this.adminService.finalizeFantasyTournament(tournamentId);
+
+    this.notificationService.show(finalizeQuery.message);
+  }
+
+  finalizeTournaments = async () => {
+    const finalizeQuery = await this.adminService.finalizeAllFantasyTournaments();
 
     this.notificationService.show(finalizeQuery.message);
   }
@@ -149,7 +156,7 @@ class FantasyTournaments extends Component {
     let { rules } = this.state.tournamentEditingData;
 
     rules.forEach(item => {
-      if (item.rule._id === ruleId){
+      if (item.rule._id === ruleId) {
         item.score = parseInt(event.target.value, 10);
       }
     });
@@ -188,7 +195,7 @@ class FantasyTournaments extends Component {
       </div>
     </div>;
   }
-   
+
   render() {
     const {
       tournaments,
@@ -213,11 +220,20 @@ class FantasyTournaments extends Component {
       modalActions.push(
         { text: 'Delete tournament', onClick: this.deleteTournamentConfirmInit, isDanger: true },
         { text: 'Finalize tournament', onClick: this.finalizeTournament, isDanger: true },
-        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false},
+        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false },
       );
     }
 
     return <div className={style.tournaments}>
+      <div className={style.controls}>
+        <Button
+          appearance="_basic-accent"
+          text="Finalize all tournaments"
+          onClick={this.finalizeTournaments}
+          className={style.button}
+        />
+      </div>
+
       <Table
         captions={tournamentsTableCaptions}
         items={tournaments}
