@@ -17,14 +17,6 @@
   --text-color: #000;
 }
 
-/* .champions .rules_inputs {
-  display: flex;
-}
-
-.champions .rules_inputs .rule_input + .rule_input {
-  margin-left: 12px;
-} */
-
 .rules .section .title {
   line-height: var(--height);
   font-size: 24px;
