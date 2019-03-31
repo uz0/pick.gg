@@ -6,6 +6,7 @@ import filter from 'lodash/filter';
 import io from "socket.io-client";
 
 import TournamentService from 'services/tournamentService';
+import NotificationService from 'services/notificationService';
 
 import Input from 'components/filters/input';
 import Select from 'components/filters/select';
@@ -44,6 +45,7 @@ const tournamentsTableCaptions = {
 class Tournaments extends Component {
   constructor() {
     super();
+    this.notificationService = new NotificationService();
     this.tournamentService = new TournamentService();
   }
 
@@ -69,23 +71,25 @@ class Tournaments extends Component {
       fantasyTournaments: fantasyTournaments.tournaments,
       realTournaments: realTournaments.tournaments,
       isLoading: false,
-    });
+    }, () => console.log(this.state));
 
     this.socket = io();
     // newTournament без популейта, вообще видно делалось больным человеком, осоторожнее с git blame
     // увидите автора, бегите
-    this.socket.on("fantasyTournamentCreated", (newTournament) => {
+    this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
 
       this.setState({
         fantasyTournaments: [
-          newTournament,
           ...this.state.fantasyTournaments,
+          newTournamentPopulated,
         ],
-      });
+      }, () => this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`));
     });
   }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
+
+  tournamentsDefaultSorting = (prev, next) => moment(next.tournament.date).format('YYYYMMDD') - moment(prev.tournament.date).format('YYYYMMDD');
 
   onTournamentFilterChange = event => this.setState({
     filters: {
@@ -193,6 +197,7 @@ class Tournaments extends Component {
         <div className={style.section}>
           <Table
             captions={tournamentsTableCaptions}
+            defaultSorting={this.tournamentsDefaultSorting}
             items={tournaments}
             className={style.table}
             renderRow={this.renderRow}
