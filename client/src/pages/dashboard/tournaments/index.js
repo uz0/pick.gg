@@ -104,7 +104,10 @@ class Tournaments extends Component {
       return;
     }
 
-    await this.adminService.createRealTournament(this.state.tournamentEditingData);
+    await this.adminService.createRealTournament({
+      ...this.state.tournamentEditingData,
+      origin: 'manual',
+    });
 
     const { tournaments } = await this.adminService.getRealTournaments();
 
@@ -438,23 +441,37 @@ class Tournaments extends Component {
               value={editedTournamentDate || ''}
               onChange={this.handleInputChange}
             />
-            <Input
-              name="syncAt"
-              label="Sync date"
-              type="date"
-              className={style.tournament_input}
-              value={editedTournamentSyncDate || ''}
-              onChange={this.handleInputChange}
-              disabled
-            />
-            <Input
-              name="syncType"
-              label="Sync type"
-              className={style.tournament_input}
-              value={tournamentEditingData.syncType || ''}
-              onChange={this.handleInputChange}
-              disabled
-            />
+            {!isTournamentCreating &&
+              <Input
+                name="syncAt"
+                label="Sync date"
+                type="date"
+                className={style.tournament_input}
+                value={editedTournamentSyncDate || ''}
+                onChange={this.handleInputChange}
+                disabled
+              />
+            }
+            {!isTournamentCreating &&
+              <Input
+                name="syncType"
+                label="Sync type"
+                className={style.tournament_input}
+                value={tournamentEditingData.syncType || ''}
+                onChange={this.handleInputChange}
+                disabled
+              />
+            }
+            {!isTournamentCreating &&
+              <Input
+                name="origin"
+                label="Origin"
+                className={style.tournament_input}
+                value={tournamentEditingData.origin || ''}
+                onChange={this.handleInputChange}
+                disabled
+              />
+            }
           </div>
 
           {isTournamentEditing &&

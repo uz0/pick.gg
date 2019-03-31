@@ -10,6 +10,7 @@ let schema = new Schema({
   champions_ids: [Number],
   matches_ids: [Number],
   syncType: { type: String, enum: ['auto', 'manual'] },
+  origin: { type: String, enum: ['escore', 'manual'] },
 },
 {
   toObject: {virtuals:true},

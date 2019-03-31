@@ -60,6 +60,7 @@ const SystemController = () => {
         champions_ids: [],
         syncAt: new Date().toISOString(),
         syncType: 'auto',
+        origin: 'escore',
       });
     });
 
@@ -72,6 +73,7 @@ const SystemController = () => {
         completed: false,
         syncAt: new Date().toISOString(),
         syncType: 'auto',
+        origin: 'escore',
       });
     });
 
@@ -106,6 +108,7 @@ const SystemController = () => {
         champions_ids: [],
         syncAt: new Date().toISOString(),
         syncType: 'auto',
+        origin: 'escore',
       })
 
       for (let j = 0; j < formattedTournamentMatches.length - 1; j++) {
@@ -137,6 +140,7 @@ const SystemController = () => {
           champions_ids: [],
           syncAt: new Date().toISOString(),
           syncType: 'auto',
+          origin: 'escore',
         })
 
         tournamentChunkIdPrefix++;
@@ -159,6 +163,7 @@ const SystemController = () => {
             photo: player.headshot ? player.headshot.w192xh192 : null,
             syncAt: new Date().toISOString(),
             syncType: 'auto',
+            origin: 'escore',
           });
         }
 
