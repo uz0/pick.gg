@@ -26,5 +26,4 @@ export default class TransactionService extends BasicService {
   getTransactionsHistory = async() => {
     return this.request('GET', '/api/transactions/history');
   }
-
 }
