@@ -169,9 +169,10 @@ class Champions extends Component {
   async componentDidMount() {
     this.setState({ isLoading: true });
     const { players } = await this.adminService.getAllChampions();
+    const sortedPlayers = players.sort((prev, next) => prev.name.localeCompare(next.name));
 
     this.setState({
-      players,
+      players: sortedPlayers,
       isLoading: false,
     });
   }
