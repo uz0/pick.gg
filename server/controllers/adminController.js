@@ -2,6 +2,7 @@ import express from "express";
 import TournamentModel from "../models/tournament";
 import FantasyTournamentModel from "../models/fantasy-tournament";
 import MatchModel from "../models/match";
+import TransactionModel from "../models/transaction";
 import MatchResultModel from "../models/match-result";
 import PlayerModel from "../models/player";
 import RuleModel from "../models/rule";
@@ -231,6 +232,15 @@ const AdminController = () => {
         }
       });
 
+      if(fantasyTournament.winner){
+        res.json({
+          success: "false",
+          message: "Tournament is already finalized"
+        });
+  
+        return;
+      }
+
     const realTournament = fantasyTournament.tournament;
 
     const matches = realTournament.matches;
@@ -304,9 +314,19 @@ const AdminController = () => {
     });
 
     const tournamentWinner = playersCountedResults.sort((next, prev) => prev.score - next.score)[0];
+    const tournamentPrize = fantasyTournament.entry * fantasyTournament.users.length; 
 
     await FantasyTournamentModel.updateOne({ _id: tournamentId }, {
       winner: tournamentWinner.user._id,
+    });
+
+    await UserModel.findByIdAndUpdate({ _id: tournamentWinner.user._id }, { new: true, $inc: { balance: tournamentPrize } });
+    await TransactionModel.create({
+      userId: tournamentWinner.user._id,
+      tournamentId,
+      amount: tournamentPrize,
+      origin: 'tournament winning',
+      date: Date.now(),
     });
 
     res.json({
@@ -392,10 +412,8 @@ const AdminController = () => {
   });
 
   router.get('/matches', async (req, res) => {
-    // await PlayerModel.deleteMany();
-    // const matches = await TournamentModel.deleteMany();
-    // const matches = await MatchModel.deleteMany();
     const matches = await MatchModel.find();
+    console.log(matches);
     res.json({ matches });
   });
 
