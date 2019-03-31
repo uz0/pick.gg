@@ -2,6 +2,12 @@
 
 }
 
+.tournaments .controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
 .tournaments .table .tournament_row {
   cursor: pointer;
 }
@@ -30,16 +36,3 @@
   font-weight: var(--font-weight-bold);
   color: var(--caption-color);
 }
-
-/* .tournaments .title {
-  --height: 24px;
-  overflow: hidden;
-  height: var(--height);
-  margin: 0;
-  line-height: var(--height);
-  font-family: var(--font-family-title);
-  color: #9696b0;
-  font-size: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-} */
