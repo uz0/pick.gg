@@ -465,11 +465,12 @@ const SystemController = () => {
       });
     }
 
-    let updateTournamentsNames = tournaments.map(tournament => tournament.name).join(', ');
+    const updateTournamentsNames = tournaments.map(tournament => tournament.name).join(', ');
+    const message = updateTournamentsNames.length > 0 ? updateTournamentsNames : 'All tournaments already finalized';
 
     res.send({
       success: 'Success',
-      message: `${updateTournamentsNames} were finalized`,
+      message,
     });
   });
 
