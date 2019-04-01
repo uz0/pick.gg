@@ -56,8 +56,7 @@ class MatchModal extends Component {
   }
 
   mapResultsToChampions = (results, champions) => {
-    results.forEach(result => result.playerName = find(champions, { id: result.playerId }).name);
-
+    results.forEach(result => result.playerName = find(champions, { _id: result.playerId }).name);
     return results;
   }
 

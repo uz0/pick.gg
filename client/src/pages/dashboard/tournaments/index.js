@@ -529,7 +529,7 @@ class Tournaments extends Component {
                   <Button
                     appearance="_basic-danger"
                     text="X"
-                    onClick={() => this.deleteMatch(match.id)}
+                    onClick={() => this.deleteMatch(match._id)}
                     className={style.button}
                   />
                 </div>,
