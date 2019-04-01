@@ -124,6 +124,7 @@ class Tournament extends Component {
   toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
 
   getTournamentStatus = () => {
+
     if (!this.state.fantasyTournament) {
       return '';
     }
@@ -138,7 +139,7 @@ class Tournament extends Component {
       return i18n.t('is_going_on');
     }
 
-    if (moment(tournamentDate).add(1, 'days').isBefore(moment())) {
+    if (moment(tournamentDate).add(16, 'hours').isBefore(moment())) {
       return i18n.t('archive');
     }
 
@@ -353,6 +354,8 @@ class Tournament extends Component {
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
 
+    console.log(status);
+
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
@@ -366,7 +369,7 @@ class Tournament extends Component {
               <NavLink to={`/user/${tournamentCreatorLink}`}> {tournamentCreator}</NavLink>
             </span>
 
-            <div className={style.status}>{status}</div>
+            {status && <div className={style.status}>{status}</div>}
           </div>
 
           <span className={style.fantasy_status}>{tournamentStatus}</span>
