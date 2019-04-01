@@ -43,6 +43,15 @@ const SystemController = () => {
     data = await data.json();
     console.log('matches loaded');
 
+    console.log('rules loading');
+    const rulesQuery = await RuleModel.find();
+    const rules = rulesQuery.reduce((obj, rule) => {
+      obj[rule.name] = rule._id;
+      return obj
+    }, {});
+
+    console.log('rules loaded');
+
     let formattedTournaments = [];
     let formattedTournamentsChunks = [];
     let formattedMatches = [];
@@ -54,9 +63,7 @@ const SystemController = () => {
         id: competition.id,
         name: competition.full_name,
         date: null,
-        matches: [],
         matches_ids: [],
-        champions: [],
         champions_ids: [],
         syncAt: new Date().toISOString(),
         syncType: 'auto',
@@ -102,9 +109,7 @@ const SystemController = () => {
         id: `${formattedTournament.id}`,
         name: `${formattedTournament.name} #1`,
         date: formattedTournament.date,
-        matches: [],
         matches_ids: [],
-        champions: [],
         champions_ids: [],
         syncAt: new Date().toISOString(),
         syncType: 'auto',
@@ -134,9 +139,7 @@ const SystemController = () => {
           id: `${formattedTournament.id}_${tournamentChunkIdPrefix}`,
           name: `${formattedTournament.name} #${tournamentChunkNamePrefix}`,
           date: nextMatchDate,
-          matches: [],
           matches_ids: [],
-          champions: [],
           champions_ids: [],
           syncAt: new Date().toISOString(),
           syncType: 'auto',
@@ -146,6 +149,8 @@ const SystemController = () => {
         tournamentChunkIdPrefix++;
       }
     }
+
+    console.log('worked');
 
     const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
     console.log('matches details loading');
@@ -180,7 +185,7 @@ const SystemController = () => {
 
       if (formattedMatches[i].completed) {
         let object = {
-          matchId: formattedMatches[i].id,
+          resultId: formattedMatches[i].id,
           playersResults: [],
           syncAt: new Date().toISOString(),
           syncType: 'auto',
@@ -188,63 +193,72 @@ const SystemController = () => {
 
         response.player_game_records.forEach(record => {
           object.playersResults.push({
-            playerId: parseInt(record.player_url.replace('/lol/players/', ''), 10),
+            id: parseInt(record.player_url.replace('/lol/players/', ''), 10),
 
             results: [
               {
-                rule: 'assists',
+                rule: rules['assists'],
                 score: record.assists,
               },
-
               {
-                rule: 'deaths',
+                rule: rules['deaths'],
                 score: record.deaths,
               },
-
               {
-                rule: 'kills',
+                rule: rules['kills'],
                 score: record.kills,
               },
+              // {
+              //   rule: 'creep_score',
+              //   score: record.creep_score,
+              // },
 
-              {
-                rule: 'creep_score',
-                score: record.creep_score,
-              },
-
-              {
-                rule: 'net_worth',
-                score: record.net_worth,
-              },
+              // {
+              //   rule: 'net_worth',
+              //   score: record.net_worth,
+              // },
             ],
           });
         });
 
         formattedMatchResults.push(object);
 
-        const match = await MatchModel.find({ id: object.matchId });
+        
+        const match = await MatchModel.find({ id: object.id });
+
+        // res.send({
+        //   rules,
+        //   object,
+        //   match
+        // });
+        // return;
 
         if (match.length === 0) {
           const resultsResponse = await MatchResult.create(object);
-          formattedMatches[i].resultsId = resultsResponse._id;
-          formattedMatchResults[i].resultsId = resultsResponse._id;
+          formattedMatches[i].resultId = resultsResponse._id;
+          formattedMatchResults[i].resultId = resultsResponse._id;
 
           continue;
         }
 
         if (match.length > 0) {
-          const resultsResponse = await MatchResult.findOneAndUpdate({ matchId: match[0].id }, object, { new: true });
+          
+          const resultsResponse = await MatchResult.findOneAndUpdate({ matchId: match[0]._id }, object, { new: true });
+          
+          res.send({match, object, resultsResponse});
+          return;
 
           if (!resultsResponse) {
             const newResults = await MatchResult.create(object);
-
+            
             formattedMatches[i].resultsId = newResults._id;
-            formattedMatchResults[i].resultsId = newResults._id;
+            formattedMatchResults[i].resultId = newResults._id;
 
             continue;
           }
 
           formattedMatches[i].resultsId = resultsResponse._id;
-          formattedMatchResults[i].resultsId = resultsResponse._id;
+          formattedMatchResults[i].resultId = resultsResponse._id;
         }
 
       }
