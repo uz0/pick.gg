@@ -2,28 +2,28 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 let schema = new Schema({
-  matchId: Number,
+  matchId: String,
   resultId: String,
   syncType: { type: String, enum: ['auto', 'manual'] },
-  // match_id: { type: Schema.Types.ObjectId, ref: 'Match' },
 
   playersResults: [{
-    playerId: Number,
-    // player_id: { type: Schema.Types.ObjectId, ref: 'Player' },
+    playerId: String,
 
     results: [{
-      rule: { type: String },
+      rule: { type: Schema.Types.ObjectId, ref: 'Rule' },
       score: { type: Number },
     }],
   }],
-}, {
-  toObject: {virtuals:true},
-});
+},
+{
+  toObject: { virtuals: true },
+}
+);
 
 schema.virtual('playersResults.player', {
   ref: 'Player',
   localField: 'playersResults.playerId',
-  foreignField: 'id',
+  foreignField: '_id',
   justOne: true,
 });
 

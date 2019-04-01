@@ -108,7 +108,7 @@ class Tournament extends Component {
     });
 
     currentUserParticipant && currentUserParticipant.players.forEach(item => {
-      item.championScore = this.getUserPlayerScore(tournament, item.id);
+      item.championScore = this.getUserPlayerScore(tournament, item._id);
     });
 
     this.setState({
@@ -169,9 +169,9 @@ class Tournament extends Component {
   getCountMatchPoints = (fantasyTournament, matchId, userId) => {
     const userPlayers = this.getUserPlayers(fantasyTournament, userId);
     const ruleSet = this.getRulesSet(fantasyTournament);
-    const rulesNames = fantasyTournament.rules.map(item => item.rule.name);
+    const rulesIds = fantasyTournament.rules.map(item => item.rule._id);
 
-    const userPlayersIds = userPlayers.map(player => player.id);
+    const userPlayersIds = userPlayers.map(player => player._id);
 
     const match = find(fantasyTournament.tournament.matches, { _id: matchId });
 
@@ -187,8 +187,10 @@ class Tournament extends Component {
       return arr;
     }, []);
 
+    console.log(userPlayersWithResults, userPlayersResults, 'userPlayersResults');
+
     const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
-      if (rulesNames.includes(item.rule)) {
+      if (rulesIds.includes(item.rule)) {
         sum += item.score * ruleSet[item.rule];
       }
       return sum;
@@ -213,7 +215,7 @@ class Tournament extends Component {
 
   getUserPlayerScore = (fantasyTournament, playerId) => {
     const ruleSet = this.getRulesSet(fantasyTournament);
-    const rulesNames = fantasyTournament.rules.map(item => item.rule.name);
+    const rulesIds = fantasyTournament.rules.map(item => item.rule._id);
 
     const tournamentMatches = fantasyTournament.tournament.matches;
     const tournamentMatchesWithResults = tournamentMatches.filter(match => match.results !== null);
@@ -225,7 +227,7 @@ class Tournament extends Component {
     }, []);
 
     const aggregatedPlayerResultsSum = playerResultsWithdata.reduce((sum, item) => {
-      if (rulesNames.includes(item.rule)) {
+      if (rulesIds.includes(item.rule)) {
         sum += item.score * ruleSet[item.rule];
       }
       return sum;
@@ -248,7 +250,7 @@ class Tournament extends Component {
   };
 
   getRulesSet = (fantasyTournament) => fantasyTournament.rules.reduce((set, item) => {
-    set[`${item.rule.name}`] = item.score;
+    set[`${item.rule._id}`] = item.score;
     return set;
   }, {});
 
