@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 let schema = new Schema({
-  id: Number,
   matchId: String,
   resultId: String,
   syncType: { type: String, enum: ['auto', 'manual'] },
