@@ -2,29 +2,7 @@ import decode from 'jwt-decode';
 
 export default class AuthService {
   constructor() {
-    this.login = this.login.bind(this);
-    this.getProfile = this.getProfile.bind(this);
     this.tokenName = 'JWS_TOKEN';
-  }
-
-  login = async (username, password) => {
-    let response = await fetch('/api/authentication/authenticate', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    });
-
-    const result = await response.json();
-
-    this.setToken(result.token); // Setting the token in localStorage
-    
-    return result;
   }
 
   oauthLogin = async (email, name, photo) => {

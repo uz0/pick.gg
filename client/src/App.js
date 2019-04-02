@@ -26,7 +26,7 @@ const App = ({ history }) => <Fragment>
       <Route exact path="/mytournaments" component={MyTournaments} />
       <Route exact path="/rating" component={Rating} />
       <Route exact path="/transactions" component={Transactions} />
-      <Redirect to="/tournaments"/>
+      <Redirect to="/"/>
     </Switch>
   </div>
 </Fragment>;

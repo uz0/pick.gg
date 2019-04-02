@@ -35,12 +35,6 @@ class Start extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  // handleLogin = async event => {
-  //   event.preventDefault();
-  //   let success = await this.auth.login(this.state.username, this.state.password);
-  //   if (success) this.props.history.replace('/');
-  // }
-
   onSuccessGoogleLogin = async data => {
     const profile = data.getBasicProfile();
     const email = profile.getEmail();
@@ -67,7 +61,6 @@ class Start extends Component {
   }
 
   render() {
-    let startButtonLink = localStorage.getItem('JWS_TOKEN') ? "/tournaments" : "/login";
     return (
       <div className={style.login_page}>
 
@@ -95,10 +88,6 @@ class Start extends Component {
                 onSuccess={this.onSuccessGoogleLogin}
                 onFailure={this.onFailureGoogleLogin}
               />
-              {/* <div>
-                <span>{i18n.t('or')} </span>
-                <NavLink to="/register">{i18n.t('register_enter')}</NavLink>
-              </div> */}
             </div>
           </div>
         </section>
