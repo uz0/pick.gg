@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import filter from 'lodash/filter';
 
+import io from "socket.io-client";
+
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
 
@@ -71,7 +73,18 @@ class Tournaments extends Component {
       realTournaments: realTournaments.tournaments,
       isLoading: false,
     });
-  }
+
+    this.socket = io();
+    this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
+
+       this.setState({
+        fantasyTournaments: [
+          ...this.state.fantasyTournaments,
+          newTournamentPopulated,
+        ],
+      }, () => this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`));
+    });
+  };
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
 
@@ -99,7 +112,6 @@ class Tournaments extends Component {
   });
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    console.log(item, 'item');
     const formattedDate = moment(item.tournament.date).format('MMM DD');
     const today = moment().format('MMM DD')
     const entry = item.entry === 0 ? 'Free' : item.entry;

@@ -1,8 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthService from '../../services/authService';
+import NotificationService from '../../services/notificationService';
 import UserService from '../../services/userService';
 import TransactionService from '../../services/transactionService';
+
+import io from "socket.io-client";
 
 import config from '../../config';
 import { GoogleLogout } from 'react-google-login';
@@ -18,6 +21,7 @@ class TopMenuComponent extends Component {
     super();
 
     this.authService = new AuthService();
+    this.notificationService = new NotificationService();
     this.userService = new UserService({
       onUpdate: () => this.updateProfile(),
     });
@@ -54,6 +58,26 @@ class TopMenuComponent extends Component {
   // }
   
   componentDidMount = () => {
+    this.socket = io();
+
+    // this.socket.on("realTournamentCreated", (newTournament) => {
+    //   this.notificationService.show(`New real tournament with name ${newTournament.name} was created`);
+    // });
+
+    this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
+      const newBalance = this.state.profile.user.balance - entry;
+
+      this.setState({
+        profile: {
+          user: {
+            ...this.state.profile.user,
+            balance: newBalance,
+          }
+        }
+      })
+    });
+
+
     this.updateProfile();
   }
 

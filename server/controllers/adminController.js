@@ -12,7 +12,7 @@ import find from 'lodash/find';
 
 let router = express.Router();
 
-const AdminController = () => {
+const AdminController = io => {
   router.put('/tournaments/real/players', async (req, res) => {
     const { tournamentId, player } = req.body;
 
@@ -92,6 +92,8 @@ const AdminController = () => {
     const { tournament } = req.body;
 
     const newTournament = await TournamentModel.create(tournament);
+
+    io.emit('realTournamentCreated', newTournament);
 
     res.json({
       newTournament
