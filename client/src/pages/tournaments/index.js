@@ -74,7 +74,7 @@ class Tournaments extends Component {
       isLoading: false,
     });
 
-    this.socket = io();	
+    this.socket = io();
     this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
 
        this.setState({
@@ -112,7 +112,6 @@ class Tournaments extends Component {
   });
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    console.log(item, 'item');
     const formattedDate = moment(item.tournament.date).format('MMM DD');
     const today = moment().format('MMM DD')
     const entry = item.entry === 0 ? 'Free' : item.entry;
