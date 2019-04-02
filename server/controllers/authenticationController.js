@@ -7,17 +7,22 @@ let router = express.Router();
 
 const AuthenticationController = (app) => {
   router.post("/oauth", async (req, res) => {
-    const email = req.body.email;
+    const { email, name, photo } = req.body;
+
     let user = await UserModel.findOne({ email });
 
-    if (!user) {
-      res.json({
-        success: false,
-        message: "Authentication failed. User not found."
+    if(!user){
+      await UserModel.create({
+        username: name,
+        photo,
+        email,
+        password: '',
+        balance: 5000,
+        isAdmin: false,
       });
-
-      return;
     }
+
+    user = await UserModel.findOne({ email });
 
     const payload = {
       _id: user._id,

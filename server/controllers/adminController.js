@@ -76,7 +76,7 @@ const AdminController = () => {
   router.get('/tournaments/real', async (req, res) => {
     const tournaments = await TournamentModel.find()
       .populate('champions', 'id name')
-      // .populate('matches')
+      .populate('matches')
       .populate({
         path: 'matches',
         populate: {
@@ -407,7 +407,18 @@ const AdminController = () => {
   });
 
   router.get('/matches', async (req, res) => {
-    const matches = await MatchModel.find();
+    const matches = await MatchModel.find()
+      // .populate({
+      //   path: 'results',
+      //   populate: {
+      //     path: 'playersResults.player',
+      //     select: 'name'
+      //   },
+      //   populate: {
+      //     path: 'playersResults.results.rule',
+      //     select: 'name'  
+      //   }
+      // })
     console.log(matches);
     res.json({ matches });
   });

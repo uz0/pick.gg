@@ -98,11 +98,11 @@ class Tournaments extends Component {
       return;
     }
 
-    if (!tournamentEditingData.champions.length === 0) {
-      this.notificationService.show('Please, choose tournament players');
+    // if (!tournamentEditingData.champions_ids.length === 0) {
+    //   this.notificationService.show('Please, choose tournament players');
 
-      return;
-    }
+    //   return;
+    // }
 
     await this.adminService.createRealTournament({
       ...this.state.tournamentEditingData,
