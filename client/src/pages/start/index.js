@@ -35,17 +35,19 @@ class Start extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleLogin = async event => {
-    event.preventDefault();
-    let success = await this.auth.login(this.state.username, this.state.password);
-    if (success) this.props.history.replace('/');
-  }
+  // handleLogin = async event => {
+  //   event.preventDefault();
+  //   let success = await this.auth.login(this.state.username, this.state.password);
+  //   if (success) this.props.history.replace('/');
+  // }
 
   onSuccessGoogleLogin = async data => {
     const profile = data.getBasicProfile();
     const email = profile.getEmail();
-    
-    const authRequest = await this.auth.oauthLogin(email);
+    const name = profile.getName();
+    const photo = profile.getImageUrl();
+
+    const authRequest = await this.auth.oauthLogin(email, name, photo);
 
     if (authRequest.success) {
       this.props.history.replace('/tournaments');
