@@ -39,7 +39,7 @@ const SystemController = () => {
 
   router.get('/sync', async (req, res) => {
     console.log('matches loading');
-    let data = await fetch('https://esports-api.thescore.com/lol/matches?start_date_from=2019-03-29T21:00:00Z');
+    let data = await fetch('https://esports-api.thescore.com/lol/matches?start_date_from=2019-03-23T21:00:00Z');
     data = await data.json();
     console.log('matches loaded');
 
@@ -393,33 +393,40 @@ const SystemController = () => {
   router.get('/finalize', async (req, res) => {
     const tournaments = await FantasyTournament
       .find({ winner: null })
-      .populate('tournament')
-      .populate({ path: 'users.players', select: 'id name' })
+      .populate({ path: 'users.players', select: '_id id name photo' })
       .populate({ path: 'users.user', select: '_id username' })
       .populate({ path: 'rules.rule' })
+      .populate({ path: 'winner', select: 'id username' })
+      .populate({ path: 'creator', select: 'id username' })
+      .populate('tournament')
       .populate({
         path: 'tournament',
-
+        populate: {
+          path: 'champions',
+        }
+      })
+      .populate({
+        path: 'tournament',
         populate: {
           path: 'matches',
-
           populate: {
             path: 'results'
-          },
-        },
+          }
+        }
       });
 
     const calculateChampionsPoints = params => {
       const { rules, results } = params;
       const normalizedRules = rules.map(rule => ({
-        rule: rule.rule.name,
+        rule: rule.rule._id,
         score: rule.score
       }));
+
       let sum = 0;
 
       results.forEach(result => {
         const initialRule = find(normalizedRules, { rule: result.rule });
-
+        
         if (initialRule) {
           const multiple = initialRule.score * result.score;
           sum += multiple;
@@ -474,7 +481,7 @@ const SystemController = () => {
 
       for (let j = 0; j < users.length; j++) {
         let sum = 0;
-        users[j].players_ids = users[j].players.map(player => player.id);
+        users[j].players_ids = users[j].players.map(player => player._id);
 
         users[j].players_ids.forEach(id => {
           sum += championsPoints[id];
@@ -483,16 +490,15 @@ const SystemController = () => {
         if (sum > winner.points) {
           winner = {
             points: sum,
-            user: users[j].user,
+            user: users[j].user._id,
           };
         }
       }
 
       const winnerSum = tournaments[i].entry * users.length;
-      await UserModel.findByIdAndUpdate({ _id: winner.user._id }, { new: true, $inc: { balance: winnerSum } });
-      await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, { winner: winner.user._id });
+      await UserModel.findByIdAndUpdate({ _id: winner.user }, { new: true, $inc: { balance: winnerSum } });
+      await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, { winner: winner.user });
 
-      console.log(winner, 'winner');
 
       await TransactionModel.create({
         userId: winner.user._id,
