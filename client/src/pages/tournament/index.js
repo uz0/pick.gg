@@ -323,7 +323,7 @@ class Tournament extends Component {
 
     return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
-        <span className={textClass}>{`${i18n.t('match')} ${index + 1}`}</span>
+        <span className={textClass}>{item.name}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
