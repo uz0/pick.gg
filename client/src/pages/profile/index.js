@@ -22,6 +22,7 @@ class Profile extends Component {
         username: "",
         email: "",
         about: "",
+        photo: "",
       },
       locale: "",
       isLoading: true,
@@ -47,6 +48,7 @@ class Profile extends Component {
       formData: {
         username: userData.user.username,
         email: userData.user.email,
+        photo: userData.user.photo,
         about: userData.user.about,
       },
       locale,
@@ -67,7 +69,7 @@ class Profile extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
-    let { username, email, about } = this.state.formData;
+    let { username, email, photo, about } = this.state.formData;
 
     await http('/api/users/me', {
       method: 'POST',
@@ -78,6 +80,7 @@ class Profile extends Component {
       body: JSON.stringify({
         username,
         email,
+        photo,
         about,
       }),
     });
@@ -114,6 +117,16 @@ class Profile extends Component {
                     value={this.state.formData.email}
                     onChange={this.handleChange}
                     disabled
+                  />
+                </div>
+
+                <div>
+                  <label>Photo</label>
+                  <input
+                    type="text"
+                    name="photo"
+                    value={this.state.formData.photo}
+                    onChange={this.handleChange}
                   />
                 </div>
 

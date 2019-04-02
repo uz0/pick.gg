@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
-import AuthService from '../../services/authService';
-import NotificationService from '../../services/notificationService';
-import UserService from '../../services/userService';
-import TransactionService from '../../services/transactionService';
+import AuthService from 'services/authService';
+import NotificationService from 'services/notificationService';
+import UserService from 'services/userService';
+import TransactionService from 'services/transactionService';
 
 import io from "socket.io-client";
 
-import config from '../../config';
+import config from 'config';
 import { GoogleLogout } from 'react-google-login';
 
-import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
+import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
 import style from './style.module.css';
@@ -82,13 +82,14 @@ class TopMenuComponent extends Component {
   }
 
   render() {
-    const Avatar = () => this.props.avatar ?
-      <img src={this.props.avatar} alt="userpic"/> :
+    const Avatar = () => this.state.profile.user.photo ?
+      <img className={style.avatar_circle} src={this.state.profile.user.photo} alt="userpic"/> :
       <AvatarPlaceholder />;
 
     const BalancePlaceholder = () => `$${this.state.profile.user.balance}`;
     const UserPlaceholder = () => <Fragment>
       <Avatar />
+      {console.log(this.state.profile.user)}
       {this.state.profile.user.username}
     </Fragment>;
 

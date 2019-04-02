@@ -11,7 +11,7 @@ const UsersController = () => {
 
   router.get('/me', async (req, res) => {
     const userId = req.decoded._id;
-    let user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin about email');
+    let user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin photo about email');
     res.json({ user });
   });
 
@@ -20,6 +20,7 @@ const UsersController = () => {
     const fields = {
       username: req.body.username,
       email: req.body.email,
+      photo: req.body.photo,
       about: req.body.about,
     }
     
