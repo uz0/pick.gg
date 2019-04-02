@@ -30,7 +30,7 @@ const tournamentsTableCaptions = {
   },
 
   matches: {
-    text: 'matches',
+    text: i18n.t('matches'),
     width: 85,
   },
 
@@ -87,13 +87,13 @@ class Tournaments extends Component {
     const { tournamentEditingData } = this.state;
 
     if (!tournamentEditingData.name) {
-      this.notificationService.show('Please, write tournament name');
+      this.notificationService.show(i18n.t('please_name_tournament'));
 
       return;
     }
 
     if (!tournamentEditingData.date) {
-      this.notificationService.show('Please, choose tournament date');
+      this.notificationService.show(i18n.t('please_date_tournament'));
 
       return;
     }
@@ -118,7 +118,7 @@ class Tournaments extends Component {
         date: '',
       },
       tournaments,
-    }, () => this.notificationService.show('Tournament was created'));
+    }, () => this.notificationService.show(i18n.t('tournament_created')));
   }
 
   editTournamentInit = (tournamentId) => {
@@ -145,7 +145,7 @@ class Tournaments extends Component {
     this.setState({
       isLoading: false,
       tournaments,
-    }, () => this.notificationService.show('Tournament was successfully updated!'));
+    }, () => this.notificationService.show(i18n.t('tournament_updated')));
   }
 
   resetTournament = () => this.setState({
@@ -189,7 +189,7 @@ class Tournaments extends Component {
       isTournamentEditing: false,
       isTournamentDeleting: false,
       tournaments,
-    }, () => this.notificationService.show('Tournament was deleted'));
+    }, () => this.notificationService.show(i18n.t('tournament_deleted')));
   }
 
   createMatch = async () => {
@@ -256,13 +256,13 @@ class Tournaments extends Component {
     const tournamentId = tournamentEditingData._id;
 
     if (!selectedChampion) {
-      this.notificationService.show('Please, choose player from list');
+      this.notificationService.show(i18n.t('player_from_list'));
 
       return;
     }
 
     if (tournamentEditingData.champions.find(champion => champion._id === selectedChampion)) {
-      this.notificationService.show('This player is already taking part in the tournament');
+      this.notificationService.show(i18n.t('player_already'));
 
       return;
     }
@@ -331,7 +331,7 @@ class Tournaments extends Component {
       </div>
 
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.matches.width }}>
-        <span className={textClass}>{item.matches ? item.matches.length : "There's no any matches yet"}</span>
+        <span className={textClass}>{item.matches ? item.matches.length : i18n.t('no_any_matches')}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
@@ -361,7 +361,7 @@ class Tournaments extends Component {
       isLoading,
     } = this.state;
 
-    const modalTitle = isTournamentCreating ? `Create new tournament` : `Editing ${tournamentEditingData.name}`;
+    const modalTitle = isTournamentCreating ? i18n.t('create_new_tournament') : `Editing ${tournamentEditingData.name}`;
     const editedTournamentDate = moment(tournamentEditingData.date).format('YYYY-MM-DD');
     const editedTournamentSyncDate = moment(tournamentEditingData.syncAt).format('YYYY-MM-DD');
     const isTournamentHasMatches = tournamentEditingData.matches && tournamentEditingData.matches.length > 0;
@@ -373,14 +373,14 @@ class Tournaments extends Component {
 
     if (!isTournamentEditing) {
       modalActions.push(
-        { text: 'Create tournament', onClick: this.createTournamentSubmit, isDanger: false },
+        { text: i18n.t('create_tournament'), onClick: this.createTournamentSubmit, isDanger: false },
       );
     }
 
     if (isTournamentEditing) {
       modalActions.push(
-        { text: 'Delete tournament', onClick: this.deleteTournamentConfirmInit, isDanger: true },
-        { text: 'Update tournament', onClick: this.editTournamentSubmit, isDanger: false },
+        { text: i18n.t('delete_tournament'), onClick: this.deleteTournamentConfirmInit, isDanger: true },
+        { text: i18n.t('update_tournament'), onClick: this.editTournamentSubmit, isDanger: false },
       );
     }
 
@@ -389,7 +389,7 @@ class Tournaments extends Component {
       <div className={style.tournaments_controls}>
         <Button
           appearance="_basic-accent"
-          text="Create new tournament"
+          text={i18n.t('create_new_tournament')}
           onClick={this.createTournamentInit}
           className={style.button}
         />
@@ -417,7 +417,7 @@ class Tournaments extends Component {
 
           {isTournamentDeleting &&
             <ModalAsk
-              textModal={'Do you really want to delete the tournament?'}
+              textModal={i18n.t('want_delete_tournament')}
               submitClick={this.deleteTournamentAccept}
               closeModal={this.deleteTournamentDecline}
             />
@@ -425,7 +425,7 @@ class Tournaments extends Component {
 
           <div className={style.section}>
             <Input
-              label="Tournament name"
+              label={i18n.t('tournament_name')}
               name="name"
               placeholder="Choose name"
               className={style.tournament_input}
@@ -434,7 +434,7 @@ class Tournaments extends Component {
             />
             <Input
               name="date"
-              label="Tournament date"
+              label={i18n.t('tournament_date')}
               placeholder="Choose date"
               type="date"
               className={style.tournament_input}
@@ -476,7 +476,7 @@ class Tournaments extends Component {
 
           {isTournamentEditing &&
             <div className={cx(style.section, style.champions_section)}>
-              <div className={style.title}>Tournament players</div>
+              <div className={style.title}>{i18n.t('tournament_players')}</div>
               <div className={style.champions}>
                 {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => <div key={champion._id} className={style.champion}>
                   {champion.name}
@@ -491,11 +491,11 @@ class Tournaments extends Component {
                     options={players}
                     className={style.select}
                     onChange={this.selectChampion}
-                    defaultOption={'Select player'}
+                    defaultOption={i18n.t('select_player')}
                   />
                   <Button
                     appearance="_basic-accent"
-                    text="Add"
+                    text={i18n.t('add')}
                     onClick={this.addChampionToTournament}
                     className={style.button}
                   />
@@ -506,11 +506,11 @@ class Tournaments extends Component {
 
           {isTournamentEditing &&
             <div className={cx(style.section, style.matches_section)}>
-              <div className={style.title}>Tournament Matches</div>
+              <div className={style.title}>{i18n.t('tournament_matches')}</div>
 
               <Button
                 appearance="_basic-accent"
-                text="Create match"
+                text={i18n.t('create_match')}
                 onClick={this.createMatch}
                 className={style.button}
               />

@@ -84,14 +84,14 @@ class Champions extends Component {
       isLoading: false,
       isChampionEditing: false,
       players,
-    }, () => this.notificationService.show('Champion was successfully updated!'));
+    }, () => this.notificationService.show(i18n.t('champion_updated')));
   }
 
   addChampionSubmit = async () => {
     const { championData } = this.state;
 
     if (!championData.name) {
-      await this.notificationService.show('Please, write champion name');
+      await this.notificationService.show(i18n.t('please_champion_name'));
 
       return;
     }
@@ -119,7 +119,7 @@ class Champions extends Component {
         name: '',
         photo: '',
       },
-    }, () => this.notificationService.show('Champion was successfully created!'));
+    }, () => this.notificationService.show(i18n.t('champion_created')));
   }
 
   deleteChampion = async () => {
@@ -146,7 +146,7 @@ class Champions extends Component {
         name: '',
         photo: '',
       },
-    }, () => this.notificationService.show('Champion was successfully deleted!'));
+    }, () => this.notificationService.show(i18n.t('champion_deleted')));
   }
   
   closeDeleteChampion = () => this.setState({ isChampionDelete: false });
@@ -197,20 +197,20 @@ class Champions extends Component {
       isLoading,
     } = this.state;
 
-    const modalTitle = isChampionEditing ? `Editing ${championData.name}` : `Add new champion`;
+    const modalTitle = isChampionEditing ? `${i18n.t('editing')} ${championData.name}` : i18n('add_new_champion');
     const isChampionModalActive = isChampionEditing || isChampionCreating;
     let modalActions = [];
 
     if (!isChampionEditing) {
       modalActions.push(
-        { text: 'Add champion', onClick: this.addChampionSubmit, isDanger: false },
+        { text: i18n.t('add_champion'), onClick: this.addChampionSubmit, isDanger: false },
       );
     }
 
     if (isChampionEditing) {
       modalActions.push(
-        { text: 'Delete champion', onClick: this.delChampion, isDanger: true },
-        { text: 'Update champion', onClick: this.editChampionSubmit, isDanger: false},
+        { text: i18n.t('delete_champion'), onClick: this.delChampion, isDanger: true },
+        { text: i18n.t('update_champion'), onClick: this.editChampionSubmit, isDanger: false},
       );
     }
 
@@ -219,7 +219,7 @@ class Champions extends Component {
       <div className={style.champions_controls}>
         <Button
           appearance="_basic-accent"
-          text="Add champion"
+          text={i18n.t('add_champion')}
           onClick={this.addChampionInit}
           className={style.button}
         />
@@ -231,7 +231,7 @@ class Champions extends Component {
         className={style.table}
         renderRow={this.renderRow}
         isLoading={isLoading}
-        emptyMessage={"There's no champions yet"}
+        emptyMessage={i18n.t('no_champions')}
       />
 
       {isChampionModalActive &&
@@ -244,25 +244,19 @@ class Champions extends Component {
           {isLoading && <Preloader />}
 
           {isChampionDelete && <ModalAsk
-            textModal={'Do you really want to remove the champion?'}
+            textModal={i18n.t('want_remove_champion')}
             submitClick={this.deleteChampion}
             closeModal={this.closeDeleteChampion} />}
 
           <Input
-            label="Champion escore id"
+            label={i18n.t('champion_name')}
             name="id"
             value={championData.id || ''}
             onChange={this.handleInputChange}
             disabled
           />
           <Input
-            label="Champion name"
-            name="name"
-            value={championData.name || ''}
-            onChange={this.handleInputChange}
-          />
-          <Input
-            label="Champion photo"
+            label={i18n.t('champion_photo')}
             name="photo"
             value={championData.photo || ''}
             onChange={this.handleInputChange}
