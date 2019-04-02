@@ -77,10 +77,10 @@ class TopMenuComponent extends Component {
           </div>
 
           <DropDown placeholder={<BalancePlaceholder />}>
-            <NavLink to="/transactions">{i18n.t('transactions')}</NavLink>
+            <NavLink to="/transactions"><i class="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
 
-            {/* <a href="/" onClick={event => this.deposit(event)}>{i18n.t('deposit')}</a>
-            <a href="/" onClick={event => this.withdraw(event)}>{i18n.t('withdraw')}</a> */}
+            <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i class="material-icons">add_circle</i>{i18n.t('deposit')}</a>
+            <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i class="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
           </DropDown>
 
           <DropDown placeholder={<UserPlaceholder />}>
