@@ -5,10 +5,10 @@ import style from './style.module.css';
 class ProfileSidebar extends Component {
 
   render() {
-    let { withData, nickname, description } = this.props;
+    let { withData, nickname, description, source } = this.props;
     return (
       <aside className={style.sidebar}>
-        <Avatar />
+        <Avatar source={source} />
         
         <div className={style.content}>
           { !withData && <a href="/">Change avatar</a> }
