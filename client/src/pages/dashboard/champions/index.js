@@ -197,7 +197,7 @@ class Champions extends Component {
       isLoading,
     } = this.state;
 
-    const modalTitle = isChampionEditing ? `${i18n.t('editing')} ${championData.name}` : i18n('add_new_champion');
+    const modalTitle = isChampionEditing ? `${i18n.t('editing')} ${championData.name}` : i18n.t('add_new_champion');
     const isChampionModalActive = isChampionEditing || isChampionCreating;
     let modalActions = [];
 
