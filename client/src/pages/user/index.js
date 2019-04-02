@@ -112,6 +112,7 @@ class User extends Component {
         <main>
           <div className={style.content}>
             <ProfileSidebar
+              source={this.state.userData.photo}
               withData={true}
               nickname={this.state.userData.username}
               description={this.state.userData.about} />
