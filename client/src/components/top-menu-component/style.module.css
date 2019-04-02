@@ -71,6 +71,10 @@ html {
   background: transparent;
   text-align: left;
 }
+.avatar_circle{
+  border-radius: 50%;
+  object-fit: cover;
+}
 
  @media screen and (max-width: 480px) {	
   .top_menu h2{
