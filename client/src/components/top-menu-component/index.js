@@ -4,6 +4,9 @@ import AuthService from '../../services/authService';
 import UserService from '../../services/userService';
 import TransactionService from '../../services/transactionService';
 
+import config from '../../config';
+import { GoogleLogout } from 'react-google-login';
+
 import { ReactComponent as AvatarPlaceholder } from '../../assets/avatar-placeholder.svg';
 import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
@@ -30,8 +33,8 @@ class TopMenuComponent extends Component {
     };
   }
 
-  handleLogout = () => {
-    this.authService.logout();
+  handleLogout = async() => {
+    await this.authService.logout();
     this.props.history.replace('/');
   }
 
@@ -77,10 +80,10 @@ class TopMenuComponent extends Component {
           </div>
 
           <DropDown placeholder={<BalancePlaceholder />}>
-            <NavLink to="/transactions"><i class="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
+            <NavLink to="/transactions"><i className="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
 
-            <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i class="material-icons">add_circle</i>{i18n.t('deposit')}</a>
-            <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i class="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
+            <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i className="material-icons">add_circle</i>{i18n.t('deposit')}</a>
+            <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i className="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
           </DropDown>
 
           <DropDown placeholder={<UserPlaceholder />}>
@@ -92,7 +95,15 @@ class TopMenuComponent extends Component {
             <NavLink to="/mytournaments">{i18n.t('my_tournaments')}</NavLink>
             <NavLink to={`/user/${this.props.user._id}`}>{i18n.t('public_profile')}</NavLink>
             <NavLink to="/profile">{i18n.t('setting_profile')}</NavLink>
-            <a href="/" onClick={this.handleLogout}>{i18n.t('log_out')}</a>
+            <GoogleLogout
+              buttonText="Logout"
+              clientId={config.google_client_id}
+              onLogoutSuccess={this.handleLogout}
+              render={renderProps => (
+                <button onClick={renderProps.onClick}>{i18n.t('log_out')}</button>
+              )}
+            >
+            </GoogleLogout>
           </DropDown>
         </div>
       </div>
