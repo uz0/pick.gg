@@ -74,6 +74,7 @@ const SystemController = () => {
     data.matches.forEach(match => {
       formattedMatches.push({
         id: match.id,
+        name: '',
         tournament_id: parseInt(match.competition_url.replace('/lol/competitions/', ''), 10),
         startDate: match.start_date,
         results: null,
@@ -157,6 +158,10 @@ const SystemController = () => {
       let response = await fetch(`https://esports-api.thescore.com/lol/matches/${formattedMatches[i].id}`);
       response = await response.json();
 
+      if (response.teams[0] && response.teams[1]) {
+        formattedMatches[i].name = `${response.teams[0].full_name} vs ${response.teams[1].full_name}`;
+      }
+
       response.players.forEach(player => {
         if (!find(formattedPlayers, { id: player.id })) {
           formattedPlayers.push({
@@ -166,6 +171,7 @@ const SystemController = () => {
             syncAt: new Date().toISOString(),
             syncType: 'auto',
             origin: 'escore',
+            stats: [],
           });
         }
 
@@ -176,6 +182,22 @@ const SystemController = () => {
             formattedTournamentsChunks[tournamentChunk].champions_ids.push(player.id);
           }
         }
+      });
+
+      response.match_lineups.forEach(lineup => {
+        const playerId = parseInt(lineup.player_url.replace('/lol/players/', ''));
+        const formatterPlayerIndex = findIndex(formattedPlayers, { id: playerId });
+
+        lineup.leader_urls.forEach(url => {
+          const stat = find(response.leaders, { api_uri: url });
+
+          if (!find(formattedPlayers[formatterPlayerIndex].stats, { category: stat.category })) {
+            formattedPlayers[formatterPlayerIndex].stats.push({
+              category: stat.category,
+              value: stat.formatted_stat,
+            });
+          }
+        });
       });
 
       formattedMatches[i].completed = response.matches.status === 'post-match';
