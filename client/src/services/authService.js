@@ -27,7 +27,7 @@ export default class AuthService {
     return result;
   }
 
-  oauthLogin = async (email) => {
+  oauthLogin = async (email, name, photo) => {
     let response = await fetch('/api/authentication/oauth', {
       method: 'POST',
       headers: {
@@ -36,6 +36,8 @@ export default class AuthService {
       },
       body: JSON.stringify({
         email,
+        name,
+        photo,
       }),
     });
 
