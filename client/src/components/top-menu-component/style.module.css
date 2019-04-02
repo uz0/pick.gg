@@ -63,6 +63,14 @@ html {
   cursor: default;
   opacity: 0.3;
 }
+.top_menu .btn_logout{
+  font-size: 16px;
+  color: #9FA2BE;
+  text-shadow: 0px 2px 0px #000000;
+  line-height: 2;
+  background: transparent;
+  text-align: left;
+}
 
  @media screen and (max-width: 480px) {	
   .top_menu h2{
