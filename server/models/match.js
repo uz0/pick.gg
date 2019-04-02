@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 let schema = new Schema({
   id: { type: Number },
   tournament_id: { type: String },
+  name: { type: String },
   // tournament: { type: Schema.Types.ObjectId, ref: 'tournament' }, // Временное поле для создания матча через админку 
   startDate: { type: Date },
   resultsId: { type: String },
