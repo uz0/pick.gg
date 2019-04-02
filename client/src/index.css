@@ -42,7 +42,8 @@ body {
 
 :global(.container) {
   min-height: calc(100% - var(--header-height));
-  background-image: url('assets/bg-login.png');
+  background: url('assets/bg-login.png');
+  background-color: #000;
   background-repeat: no-repeat;
   background-size: 100% auto;
 }
