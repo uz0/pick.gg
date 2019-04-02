@@ -151,10 +151,17 @@ class MatchModal extends Component {
 
       <Input
         label="Match ID"
-        name="name"
+        name="id"
         value={match._id}
         onChange={this.handleInputChange}
         disabled
+      />
+
+      <Input
+        label="Match name"
+        name="name"
+        value={match.name}
+        onChange={this.handleInputChange}
       />
 
       <Input

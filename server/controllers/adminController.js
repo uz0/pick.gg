@@ -372,6 +372,7 @@ const AdminController = () => {
     const match = await MatchModel.create({
       tournament_id: tournament._id,
       startDate: tournament.date,
+      name: 'New match',
       completed: false
     });
     const matchId = match._id;
@@ -408,18 +409,6 @@ const AdminController = () => {
 
   router.get('/matches', async (req, res) => {
     const matches = await MatchModel.find()
-      // .populate({
-      //   path: 'results',
-      //   populate: {
-      //     path: 'playersResults.player',
-      //     select: 'name'
-      //   },
-      //   populate: {
-      //     path: 'playersResults.results.rule',
-      //     select: 'name'  
-      //   }
-      // })
-    console.log(matches);
     res.json({ matches });
   });
 

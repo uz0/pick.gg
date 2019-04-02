@@ -519,12 +519,12 @@ class Tournaments extends Component {
                 <div
                   key={match._id}
                   className={style.match}
-                >
+                  >
                   <div
                     className={style.match_inner}
                     onClick={() => this.matchEditingInit(match._id)}
                   >
-                    {`Match ${index + 1}`}
+                    {match.name}
                   </div>
                   <Button
                     appearance="_basic-danger"
