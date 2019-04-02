@@ -187,8 +187,6 @@ class Tournament extends Component {
       return arr;
     }, []);
 
-    console.log(userPlayersWithResults, userPlayersResults, 'userPlayersResults');
-
     const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
       if (rulesIds.includes(item.rule)) {
         sum += item.score * ruleSet[item.rule];
