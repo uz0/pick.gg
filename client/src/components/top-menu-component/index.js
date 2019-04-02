@@ -103,7 +103,7 @@ class TopMenuComponent extends Component {
               clientId={config.google_client_id}
               onLogoutSuccess={this.handleLogout}
               render={renderProps => (
-                <button onClick={renderProps.onClick}>{i18n.t('log_out')}</button>
+                <button className={style.btn_logout} onClick={renderProps.onClick}>{i18n.t('log_out')}</button>
               )}
             >
             </GoogleLogout>
