@@ -247,6 +247,13 @@ const TournamentController = io => {
         });
       } else {
         await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
+        await TransactionModel.create({
+          userId,
+          tournamentId: tournament._id,
+          amount: tournament.entry,
+          origin: 'tournament deposit',
+          date: Date.now(),
+        });
       }
     }
 
