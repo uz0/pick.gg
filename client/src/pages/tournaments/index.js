@@ -3,8 +3,6 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import filter from 'lodash/filter';
 
-import io from "socket.io-client";
-
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
 
@@ -13,6 +11,7 @@ import Select from 'components/filters/select';
 import Table from 'components/table';
 import NewTournamentModal from 'components/new-tournament';
 import Preloader from 'components/preloader';
+
 import i18n from 'i18n';
 import classnames from 'classnames/bind';
 
@@ -71,19 +70,6 @@ class Tournaments extends Component {
       fantasyTournaments: fantasyTournaments.tournaments,
       realTournaments: realTournaments.tournaments,
       isLoading: false,
-    }, () => console.log(this.state));
-
-    this.socket = io();
-    // newTournament без популейта, вообще видно делалось больным человеком, осоторожнее с git blame
-    // увидите автора, бегите
-    this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
-
-      this.setState({
-        fantasyTournaments: [
-          ...this.state.fantasyTournaments,
-          newTournamentPopulated,
-        ],
-      }, () => this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`));
     });
   }
 

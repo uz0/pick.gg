@@ -83,14 +83,14 @@ class Rules extends Component {
       isLoading: false,
       isRuleEditing: false,
       rules,
-    }, () => this.notificationService.show('Rule was successfully updated!'));
+    }, () => this.notificationService.show(i18n.t('rule_updated')));
   }
 
   addRuleSubmit = async () => {
     const { ruleData } = this.state;
 
     if (!ruleData.name) {
-      await this.notificationService.show('Please, write rule name');
+      await this.notificationService.show(i18n.t('please_rule_name'));
 
       return;
     }
@@ -117,7 +117,7 @@ class Rules extends Component {
       ruleData: {
         name: '',
       },
-    }, () => this.notificationService.show('Rule was successfully created!'));
+    }, () => this.notificationService.show(i18n.t('rule_created')));
   }
 
   deleteRule = async () => {
@@ -144,7 +144,7 @@ class Rules extends Component {
       ruleData: {
         name: '',
       },
-    }, () => this.notificationService.show('Rule was successfully deleted!'));
+    }, () => this.notificationService.show(i18n.t('rule_deleted')));
   }
 
   resetRule = () => this.setState({
@@ -192,21 +192,21 @@ class Rules extends Component {
       isLoading,
     } = this.state;
 
-    const modalTitle = isRuleEditing ? `Editing ${ruleData.name}` : `Add new rule`;
+    const modalTitle = isRuleEditing ? `${i18n.t('editing')} ${ruleData.name}` : i18n.t('add_new_rule');
     const isRuleModalActive = isRuleEditing || isRuleCreating;
 
     let modalActions = [];
 
     if (!isRuleEditing) {
       modalActions.push(
-        { text: 'Create rule', onClick: this.addRuleSubmit, isDanger: false },
+        { text: i18n.t('create_rule'), onClick: this.addRuleSubmit, isDanger: false },
       );
     }
 
     if (isRuleEditing) {
       modalActions.push(
-        { text: 'Delete rule', onClick: this.confirmRuleDeleting, isDanger: true },
-        { text: 'Update rule', onClick: this.editRuleSubmit, isDanger: false},
+        { text: i18n.t('delete_rule'), onClick: this.confirmRuleDeleting, isDanger: true },
+        { text: i18n.t('update_rule'), onClick: this.editRuleSubmit, isDanger: false},
       );
     }
 
@@ -215,7 +215,7 @@ class Rules extends Component {
       <div className={style.rules_controls}>
         <Button
           appearance="_basic-accent"
-          text="Add rule"
+          text={i18n.t('add_rule')}
           onClick={this.addRuleInit}
           className={style.button}
         />
@@ -227,7 +227,7 @@ class Rules extends Component {
         className={style.table}
         renderRow={this.renderRow}
         isLoading={isLoading}
-        emptyMessage={"There's no rules yet"}
+        emptyMessage={i18n.t('no_rules')}
       />
 
       {isRuleModalActive &&
@@ -240,12 +240,12 @@ class Rules extends Component {
           {isLoading && <Preloader />}
 
           {confirmRuleDeleting && <ModalAsk
-            textModal={'Do you really want to remove the rule?'}
+            textModal={i18n.t('want_remove_rule')}
             submitClick={this.deleteRule}
             closeModal={this.closeConfirmRuleDeleting} />}
 
           <Input
-            label="Rule name"
+            label={i18n.t('rule_name')}
             name="name"
             value={ruleData.name || ''}
             onChange={this.handleInputChange}
