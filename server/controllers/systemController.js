@@ -88,7 +88,6 @@ const SystemController = () => {
 
     Object.keys(groupedMatches).forEach(id => {
       const tournamentIndex = findIndex(formattedTournaments, { id: groupedMatches[id][0].tournament_id });
-      // formattedTournaments[tournamentIndex].matches_ids = groupedMatches[id];
       formattedTournaments[tournamentIndex].matches_ids = map(groupedMatches[id], match => match.id);
       formattedTournaments[tournamentIndex].matches = map(groupedMatches[id], match => ({ id: match.id, date: match.startDate, tournamentId: match.tournament_id }));
       formattedTournaments[tournamentIndex].date = groupedMatches[id][0].startDate;
@@ -154,7 +153,6 @@ const SystemController = () => {
     console.log('matches details loading');
 
     for (let i = 0; i < formattedMatches.length; i++) {
-    // for (let i = 0; i < 5; i++) {
       await wait(400);
       let response = await fetch(`https://esports-api.thescore.com/lol/matches/${formattedMatches[i].id}`);
       response = await response.json();
