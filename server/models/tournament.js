@@ -5,8 +5,6 @@ let schema = new Schema({
   id: { type: String },
   name: { type: String, required: true },
   date: { type: Date, required: true },
-  // champions: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
-  // matches: [{ type: Schema.Types.ObjectId, ref: 'Match' }],
   champions_ids: [String],
   matches_ids: [String],
   syncType: { type: String, enum: ['auto', 'manual'] },
