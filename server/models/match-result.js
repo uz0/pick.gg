@@ -7,6 +7,7 @@ let schema = new Schema({
   syncType: { type: String, enum: ['auto', 'manual'] },
 
   playersResults: [{
+    id: Number,
     playerId: String,
 
     results: [{
