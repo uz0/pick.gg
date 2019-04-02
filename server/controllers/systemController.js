@@ -39,7 +39,7 @@ const SystemController = () => {
 
   router.get('/sync', async (req, res) => {
     console.log('matches loading');
-    let data = await fetch('https://esports-api.thescore.com/lol/matches?start_date_from=2019-03-22T21:00:00Z');
+    let data = await fetch('https://esports-api.thescore.com/lol/matches?start_date_from=2019-03-29T21:00:00Z');
     data = await data.json();
     console.log('matches loaded');
 
@@ -150,13 +150,12 @@ const SystemController = () => {
       }
     }
 
-    console.log('worked');
-
     const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
     console.log('matches details loading');
 
     for (let i = 0; i < formattedMatches.length; i++) {
-      await wait(300);
+    // for (let i = 0; i < 5; i++) {
+      await wait(400);
       let response = await fetch(`https://esports-api.thescore.com/lol/matches/${formattedMatches[i].id}`);
       response = await response.json();
 
@@ -185,7 +184,7 @@ const SystemController = () => {
 
       if (formattedMatches[i].completed) {
         let object = {
-          resultId: formattedMatches[i].id,
+          resultsId: formattedMatches[i].id,
           playersResults: [],
           syncAt: new Date().toISOString(),
           syncType: 'auto',
@@ -226,41 +225,33 @@ const SystemController = () => {
         
         const match = await MatchModel.find({ id: object.id });
 
-        // res.send({
-        //   rules,
-        //   object,
-        //   match
-        // });
-        // return;
-
         if (match.length === 0) {
           const resultsResponse = await MatchResult.create(object);
-          formattedMatches[i].resultId = resultsResponse._id;
-          formattedMatchResults[i].resultId = resultsResponse._id;
+          formattedMatches[i].resultsId = resultsResponse._id;
+          formattedMatchResults[i].resultsId = resultsResponse._id;
 
+          console.log(`MatchResult was created`);
           continue;
         }
-
+        
         if (match.length > 0) {
-          
           const resultsResponse = await MatchResult.findOneAndUpdate({ matchId: match[0]._id }, object, { new: true });
           
-          res.send({match, object, resultsResponse});
-          return;
-
           if (!resultsResponse) {
             const newResults = await MatchResult.create(object);
             
             formattedMatches[i].resultsId = newResults._id;
-            formattedMatchResults[i].resultId = newResults._id;
-
+            formattedMatchResults[i].resultsId = newResults._id;
+            
+            console.log(`MatchResult was updated`);
             continue;
           }
 
-          formattedMatches[i].resultsId = resultsResponse._id;
-          formattedMatchResults[i].resultId = resultsResponse._id;
-        }
+          console.log(`MatchResult was updated`);
 
+          formattedMatches[i].resultsId = resultsResponse._id;
+          formattedMatchResults[i].resultsId = resultsResponse._id;
+        }
       }
 
       console.log(`${i} of ${formattedMatches.length} matches loaded`);
@@ -285,21 +276,9 @@ const SystemController = () => {
       const matchId = matchesToUpdate[i].id;
 
       await MatchModel.update({ id: matchId }, matchesToUpdate[i]);
-      console.log(`Match ${i} of ${matchesNotAddedToBase.length - 1} has been updated`);
+      console.log(`Match ${i} of ${matchesToUpdate.length} has been updated`);
     }
     console.log('End matches sync');
-
-    // Маппим результаты к матчам
-    console.log('Begin matches results sync');
-    for (let i = 0; i < formattedMatchResults.length; i++) {
-      const matchId = formattedMatchResults[i].matchId;
-      const resultsId = formattedMatchResults[i].resultsId;
-
-      await MatchModel.update({ id: matchId }, { resultsId });
-
-      console.log(`Mapped ${i} results from ${formattedMatchResults.length - 1}`);
-    }
-    console.log('End matches results sync');
 
     // Если игроков нет в нашей базе - то добавляем, если есть - обновляем
     console.log('Begin players sync');
@@ -324,8 +303,54 @@ const SystemController = () => {
     }
     console.log('End players sync');
 
+    // Маппим результаты к матчам
+    console.log('Begin matches results sync');
+
+    // Нужно заменить player id из escore на _id player из базы
+    const allPlayers = await PlayerModel.find({id: {$exists: true}});
+    const allPlayersIdsMap = allPlayers.reduce((obj, item) => {
+      obj[item.id] = item._id;
+      return obj;
+    }, {});
+
+    for(let i = 0; i < formattedMatchResults.length; i++){
+
+      formattedMatchResults[i].playersResults.forEach(item => {
+        item.playerId = allPlayersIdsMap[item.id]
+      })
+
+      await MatchResult.update({_id: formattedMatchResults[i].resultsId}, { playersResults: formattedMatchResults[i].playersResults })
+    }
+
+    for (let i = 0; i < formattedMatchResults.length; i++) {
+      const matchId = formattedMatchResults[i].matchId;
+      const resultsId = formattedMatchResults[i].resultsId;
+
+      await MatchModel.update({ id: matchId }, { resultsId });
+
+      console.log(`Mapped ${i} results from ${formattedMatchResults.length - 1}`);
+    }
+
+    console.log('End matches results sync');
+
     // Если турниров нет в нашей базе - то добавляем, если есть - обновляем
     console.log('begin tournaments sync');
+
+    // Нужно заменить id с escore на _id из Монги, иначе всё сломается и я снова отхвачу...
+    for(let i = 0; i < formattedTournamentsChunks.length; i++){
+      const chunkEscoreMatchesIds = formattedTournamentsChunks[i].matches_ids;
+      const chunkEscorePlayersIds = formattedTournamentsChunks[i].champions_ids;
+
+      const matches = await MatchModel.find({ id: {$in: chunkEscoreMatchesIds} });
+      const players = await PlayerModel.find({ id: {$in: chunkEscorePlayersIds} });
+
+      const matchesIds = matches.map(match => match._id);
+      const playersIds = players.map(player => player._id);
+      
+      formattedTournamentsChunks[i].matches_ids  = [...matchesIds];
+      formattedTournamentsChunks[i].champions_ids  = [...playersIds];
+    }
+
     const formattedTournamentsChunksIds = formattedTournamentsChunks.map(tournament => tournament.id);
 
     const tournamentsInBase = await TournamentModel.find({ id: { $in: formattedTournamentsChunksIds } });
@@ -333,7 +358,6 @@ const SystemController = () => {
 
     const tournamentsNotAddedToBase = formattedTournamentsChunks.filter(item => !tournamentsInBaseIds.includes(item.id));
     const tournamentsToUpdate = formattedTournamentsChunks.filter(item => tournamentsInBaseIds.includes(item.id));
-
 
     for (let i = 0; i < tournamentsNotAddedToBase.length; i++) {
       const tournament = await TournamentModel.create(tournamentsNotAddedToBase[i]);
