@@ -1,5 +1,6 @@
 @import '../~normalize.css';
 @import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,700|Roboto:400,700');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 :root {
   --font-family-title: 'Bai Jamjuree';

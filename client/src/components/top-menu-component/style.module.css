@@ -9,6 +9,14 @@ html {
   background: var(--background-color);
 }
 
+.top_menu a{
+  display: flex;
+  align-items: center;
+}
+.top_menu a i{
+  margin-right: 5px;
+}
+
  .menu_wrap {	
   display: flex;	
   align-items: center;	
@@ -48,6 +56,12 @@ html {
   color: rgb(252, 252, 252);
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);	
+}
+
+ .top_menu .disabled{
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.3;
 }
 
  @media screen and (max-width: 480px) {	
