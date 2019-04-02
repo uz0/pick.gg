@@ -57,7 +57,7 @@ app.use("/api/players", PlayerController());
 app.use("/api/tournaments", TournamentController(io));
 app.use("/api/transactions", TransactionController());
 app.use("/api/system", SystemController());
-app.use("/api/admin", AdminVerifyMiddleware, AdminController());
+app.use("/api/admin", AdminVerifyMiddleware, AdminController(io));
 
 // express will serve up index.html if it doesn't recognize the route
 app.get("/*", (req, res) => {
