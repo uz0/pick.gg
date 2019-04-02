@@ -54,6 +54,9 @@ class TopMenuComponent extends Component {
   // }
   
   componentDidMount = () => {
+
+    
+
     this.updateProfile();
   }
 
