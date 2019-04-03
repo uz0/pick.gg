@@ -38,8 +38,12 @@ class TopMenuComponent extends Component {
   }
 
   handleLogout = async () => {
-    await this.authService.logout();
-    this.props.history.replace('/');
+    try {
+      await this.authService.logout();
+      this.props.history.replace('/');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   updateProfile = async () => {
@@ -77,7 +81,6 @@ class TopMenuComponent extends Component {
       })
     });
 
-
     this.updateProfile();
   }
 
@@ -114,32 +117,32 @@ class TopMenuComponent extends Component {
           <DropDown placeholder={<UserPlaceholder />}>
             {this.state.profile.user.isAdmin &&
               <NavLink to="/dashboard/tournaments">
-                <i class="material-icons">dashboard</i>
+                <i className="material-icons">dashboard</i>
                 {i18n.t('dashboard')}
               </NavLink>
             }
 
             <NavLink to="/mytournaments">
-              <i class="material-icons">assignment</i>
+              <i className="material-icons">assignment</i>
               {i18n.t('my_tournaments')}
             </NavLink>
 
             <NavLink to={`/user/${this.props.user._id}`}>
-              <i class="material-icons">person</i>
+              <i className="material-icons">person</i>
               {i18n.t('public_profile')}
             </NavLink>
 
             <NavLink to="/profile">
-              <i class="material-icons">settings</i>
+              <i className="material-icons">settings</i>
               {i18n.t('setting_profile')}
             </NavLink>
 
             <GoogleLogout
               buttonText="Logout"
               clientId={config.google_client_id}
-              onLogoutSuccess={this.handleLogout}
+              redirectUri={"/"}
               render={renderProps => (
-                <button className={style.btn_logout} onClick={renderProps.onClick}>
+                <button className={style.btn_logout} onClick={this.handleLogout}>
                   <i class="material-icons">exit_to_app</i>
                   {i18n.t('log_out')}
                 </button>
