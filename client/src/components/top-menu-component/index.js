@@ -4,6 +4,7 @@ import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 import TransactionService from 'services/transactionService';
+import TournamentService from 'services/tournamentService';
 
 import io from "socket.io-client";
 
@@ -29,6 +30,10 @@ class TopMenuComponent extends Component {
     this.TransactionService = new TransactionService({
       onUpdate: () => this.updateProfile(),
     });
+    
+    this.TournamentService = new TournamentService({
+      onUpdate: () => this.updateProfile(),
+    })
 
     this.state = {
       profile: {
@@ -62,24 +67,24 @@ class TopMenuComponent extends Component {
   // }
 
   componentDidMount = () => {
-    this.socket = io();
+    // this.socket = io();
 
     // this.socket.on("realTournamentCreated", (newTournament) => {
     //   this.notificationService.show(`New real tournament with name ${newTournament.name} was created`);
     // });
 
-    this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
-      const newBalance = this.state.profile.user.balance - entry;
+    // this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
+    //   const newBalance = this.state.profile.user.balance - entry;
 
-      this.setState({
-        profile: {
-          user: {
-            ...this.state.profile.user,
-            balance: newBalance,
-          }
-        }
-      })
-    });
+    //   this.setState({
+    //     profile: {
+    //       user: {
+    //         ...this.state.profile.user,
+    //         balance: newBalance,
+    //       }
+    //     }
+    //   })
+    // });
 
     this.updateProfile();
   }
@@ -140,9 +145,9 @@ class TopMenuComponent extends Component {
             <GoogleLogout
               buttonText="Logout"
               clientId={config.google_client_id}
-              redirectUri={"/"}
+              onLogoutSuccess={this.handleLogout}
               render={renderProps => (
-                <button className={style.btn_logout} onClick={this.handleLogout}>
+                <button className={style.btn_logout} {...renderProps}>
                   <i className="material-icons">exit_to_app</i>
                   {i18n.t('log_out')}
                 </button>
