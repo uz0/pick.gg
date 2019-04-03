@@ -70,7 +70,16 @@ html {
   line-height: 2;
   background: transparent;
   text-align: left;
+  display: flex;
+  align-items: center;
 }
+.top_menu .btn_logout:hover{
+  color: var(--accent-color);
+}
+.top_menu .btn_logout i{
+  margin-right: 5px;
+}
+
 .avatar_circle{
   border-radius: 50%;
   object-fit: cover;
