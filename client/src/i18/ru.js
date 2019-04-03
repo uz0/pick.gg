@@ -48,7 +48,7 @@ export default {translation: {
   rules: 'Правила',
   scores: 'Результаты',
   save_changes: 'Сохранить изменения',
-  start: 'Вход',
+  start_with: 'Вход через',
   setting_profile: 'Настройки профиля',
   team: 'Команда',
   transactions: 'Операции',
