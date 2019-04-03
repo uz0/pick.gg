@@ -143,7 +143,7 @@ class TopMenuComponent extends Component {
               redirectUri={"/"}
               render={renderProps => (
                 <button className={style.btn_logout} onClick={this.handleLogout}>
-                  <i class="material-icons">exit_to_app</i>
+                  <i className="material-icons">exit_to_app</i>
                   {i18n.t('log_out')}
                 </button>
               )}
