@@ -4,21 +4,11 @@ import BasicService from './basicService';
 
 export default class TournamentService extends BasicService {
   participateInTournament = async(tournamentId, players) => {
+    return this.request('POST', `/api/tournaments/${tournamentId}/setup`, players);
+  }
 
-    let participateQuery = await http(`/api/tournaments/${tournamentId}/setup`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        players,
-      }),
-    });
-
-    let participate = await participateQuery.json();
-    return participate;
-
+  createNewTournament = (payload) => {
+    return this.request('POST', '/api/tournaments', payload);
   }
 
   getRealTournaments = async() => {
