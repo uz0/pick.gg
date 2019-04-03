@@ -354,8 +354,6 @@ class Tournament extends Component {
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
 
-    console.log(status);
-
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
