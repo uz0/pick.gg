@@ -275,7 +275,12 @@ class Tournament extends Component {
 
   addPlayers = async ids => {
     this.setState({ isLoading: true });
-    await this.tournamentService.participateInTournament(this.tournamentId, ids);
+
+    const payload = {
+      players: ids,
+    }
+
+    await this.tournamentService.participateInTournament(this.tournamentId, payload);
     await this.loadTournamentData();
     this.toggleChampionModal();
     this.notificationService.show(i18n.t('youve_been_registered_for_the_tournament'));

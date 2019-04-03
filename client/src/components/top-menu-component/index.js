@@ -6,7 +6,7 @@ import UserService from 'services/userService';
 import TransactionService from 'services/transactionService';
 import TournamentService from 'services/tournamentService';
 
-// import io from "socket.io-client";
+import io from "socket.io-client";
 
 import config from 'config';
 import { GoogleLogout } from 'react-google-login';
@@ -67,11 +67,11 @@ class TopMenuComponent extends Component {
   // }
 
   componentDidMount = () => {
-    // this.socket = io();
+    this.socket = io();
 
-    // this.socket.on("realTournamentCreated", (newTournament) => {
-    //   this.notificationService.show(`New real tournament with name ${newTournament.name} was created`);
-    // });
+    this.socket.on("fantasyTournamentCreated", (newTournament) => {
+      this.notificationService.show(`New fantasy tournament with name ${newTournament.name} was created`);
+    });
 
     // this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
     //   const newBalance = this.state.profile.user.balance - entry;
