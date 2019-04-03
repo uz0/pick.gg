@@ -125,19 +125,14 @@ class newTournament extends Component {
       score: rulesValues[item],
     }));
 
-    const { newTournament } = await http('/api/tournaments', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        entry,
-        rules: [...normalizedRules],
-        tournamentId,
-      }),
-    }).then(res => res.json());
+    const payload = {
+      name,
+      entry,
+      rules: [...normalizedRules],
+      tournamentId,
+    }
+
+    const { newTournament } = await this.tournamentService.createNewTournament(payload);
 
     this.notificationService.show(`You've created tournament ${name}`);
     this.props.history.push(`/tournaments/${newTournament._id}`);
