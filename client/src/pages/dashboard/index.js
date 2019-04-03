@@ -10,10 +10,6 @@ import style from './style.module.css';
 import i18n from 'i18n'
 
 class Dashboard extends Component {
-  constructor() {
-    super();
-  }
-
   state = {
     isLoading: false,
     fantasyTournaments: [],

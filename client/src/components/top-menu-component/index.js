@@ -6,7 +6,7 @@ import UserService from 'services/userService';
 import TransactionService from 'services/transactionService';
 import TournamentService from 'services/tournamentService';
 
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 import config from 'config';
 import { GoogleLogout } from 'react-google-login';

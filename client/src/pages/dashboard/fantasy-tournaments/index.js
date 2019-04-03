@@ -206,7 +206,7 @@ class FantasyTournaments extends Component {
     } = this.state;
 
     const modalTitle = `${i18n.t('editing')} ${tournamentEditingData.name}`;
-    const tournamentWinner = tournamentEditingData.winner && tournamentEditingData.winner.username || i18n.t('tournament_not_finalized');
+    const tournamentWinner = tournamentEditingData.winner ? tournamentEditingData.winner.username : i18n.t('tournament_not_finalized');
 
     let modalActions = [];
 

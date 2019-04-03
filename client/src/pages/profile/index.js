@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
-import http from 'services/httpService';
 
 import Button from 'components/button';
 import Preloader from 'components/preloader';
