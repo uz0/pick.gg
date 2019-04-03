@@ -159,6 +159,7 @@ class Tournaments extends Component {
             defaultOption={i18n.t('select_tournament')}
             options={this.state.realTournaments}
             label={i18n.t('tournament_list')}
+            onChange={this.onTournamentFilterChange}
           />
 
           <Input
