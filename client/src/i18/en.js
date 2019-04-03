@@ -48,7 +48,7 @@ export default {translation: {
   rules: 'Rules',
   scores: 'Scores',
   save_changes: 'Save changes',
-  start: 'Start',
+  start_with: 'Start with',
   setting_profile: 'Setting profile',
   team: 'Team',
   transactions: 'Transactions',
