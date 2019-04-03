@@ -38,7 +38,6 @@ class Profile extends Component {
     this.setState({ formData });
   }
 
-
   async componentDidMount() {
     this.setState({ isLoading: true });
     const userData = await this.userService.getMyProfile();
@@ -66,25 +65,12 @@ class Profile extends Component {
     i18n.changeLanguage(event.target.name);
   }
 
-  handleSubmit = async e => {
-    e.preventDefault();
+  handleSubmit = (event) => {
+    event.preventDefault();
 
-    let { username, email, photo, about } = this.state.formData;
+    const { formData } = this.state;
 
-    await http('/api/users/me', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        photo,
-        about,
-      }),
-    });
-
+    this.userService.updateProfile(formData);
     this.notificationService.show(i18n.t('update_data'));
   }
 
