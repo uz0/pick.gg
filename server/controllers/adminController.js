@@ -139,11 +139,14 @@ const AdminController = io => {
     const tournamentId = req.params.id;
 
     const tournament = await TournamentModel.findById(tournamentId).populate('matches');
-    const tournamentMatchesIds = tournament.matches.map(match => match._id);
-    const tournamentMatchesResultsIds = tournament.matches.map(match => match.results);
+    
+    if(tournament.matches){
+      const tournamentMatchesResultsIds = tournament.matches.map(match => match.resultsId);
+      
+      await MatchModel.deleteMany({ _id: { $in: tournament.matches_ids } });
+      await MatchResultModel.deleteMany({ _id: { $in: tournamentMatchesResultsIds } });
+    }
 
-    await MatchResultModel.deleteMany({ _id: { $in: tournamentMatchesResultsIds } });
-    await MatchModel.deleteMany({ _id: { $in: tournamentMatchesIds } });
     await TournamentModel.deleteOne({ _id: tournamentId });
 
     res.json({
