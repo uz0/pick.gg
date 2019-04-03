@@ -5,7 +5,6 @@ import TransactionService from '../../services/transactionService';
 import UserService from '../../services/userService';
 
 import { NavLink } from 'react-router-dom';
-import moment from 'moment';
 
 import ProfileSidebar from '../../components/profile-sidebar';
 import Preloader from '../../components/preloader';

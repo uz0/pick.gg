@@ -15,11 +15,8 @@ import NewTournamentModal from 'components/new-tournament';
 import Preloader from 'components/preloader';
 
 import i18n from 'i18n';
-import classnames from 'classnames/bind';
 
 import style from './style.module.css';
-
-const cx = classnames.bind(style);
 
 const tournamentsTableCaptions = {
   name: {
@@ -113,7 +110,6 @@ class Tournaments extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const formattedDate = moment(item.tournament.date).format('MMM DD');
-    const today = moment().format('MMM DD')
     const entry = item.entry === 0 ? 'Free' : item.entry;
 
     return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
