@@ -57,7 +57,7 @@ class Start extends Component {
   };
 
   componentWillMount() {
-    if (this.auth.isLoggedIn()) this.props.history.replace('/');
+    if (this.auth.isLoggedIn()) this.props.history.replace('/tournaments');
   }
 
   render() {
