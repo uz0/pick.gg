@@ -74,14 +74,14 @@ class Tournaments extends Component {
     this.socket = io();
     this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
 
-       this.setState({
+      this.setState({
         fantasyTournaments: [
           ...this.state.fantasyTournaments,
           newTournamentPopulated,
         ],
       }, () => this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`));
     });
-  };
+  }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
 

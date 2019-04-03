@@ -183,7 +183,7 @@ class Tournament extends Component {
 
     const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.playerId) ? item : false);
     const userPlayersResults = userPlayersWithResults.reduce((arr, item) => {
-      arr.push(...item.results)
+      arr.push(...item.results);
       return arr;
     }, []);
 
@@ -304,7 +304,7 @@ class Tournament extends Component {
     </div>;
   };
 
-  renderMatchRow = ({ className, itemClass, textClass, index, item }) => {
+  renderMatchRow = ({ className, itemClass, textClass, item }) => {
     const { fantasyTournament } = this.state;
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     
@@ -315,8 +315,8 @@ class Tournament extends Component {
     const time = moment(item.startDate).format('HH:mm');
     const url = '';
     const urlMatch = url === '' ? '' : url;
-    const timeMatch = moment(item.startDate).format('MMM DD HH:mm')
-    const timeNow = moment().format('MMM DD HH:mm')
+    const timeMatch = moment(item.startDate).format('MMM DD HH:mm');
+    const timeNow = moment().format('MMM DD HH:mm');
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
     return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>

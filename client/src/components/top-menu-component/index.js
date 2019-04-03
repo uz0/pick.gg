@@ -33,7 +33,7 @@ class TopMenuComponent extends Component {
     
     this.TournamentService = new TournamentService({
       onUpdate: () => this.updateProfile(),
-    })
+    });
 
     this.state = {
       profile: {
