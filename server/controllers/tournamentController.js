@@ -255,7 +255,6 @@ const TournamentController = io => {
           date: Date.now(),
         });
 
-        io.emit('fantasyTournamentEntryPaid', { entry: tournament.entry });
       }
     }
 
