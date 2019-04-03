@@ -44,7 +44,7 @@ class MatchModal extends Component {
     const result = match.results && match.results.playersResults;
     let resultsWithChampions = null;
 
-    if(result){
+    if (result){
       resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
     }
 
@@ -63,11 +63,11 @@ class MatchModal extends Component {
   handleInputChange = (event) => {
     let inputValue = event.target.value;
 
-    if(event.target.name === 'date'){
+    if (event.target.name === 'date'){
       inputValue = moment(event.target.value).format();
     }
 
-    if(event.target.type === 'checkbox'){
+    if (event.target.type === 'checkbox'){
       inputValue = event.target.checked;
     }
 

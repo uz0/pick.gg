@@ -7,7 +7,7 @@ import Rules from './rules';
 import Champions from './champions';
 import Users from './users';
 import style from './style.module.css';
-import i18n from 'i18n'
+import i18n from 'i18n';
 
 class Dashboard extends Component {
   state = {

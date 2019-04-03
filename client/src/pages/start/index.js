@@ -51,7 +51,7 @@ class Start extends Component {
   };
 
   onFailureGoogleLogin = async data => {
-    console.log('fail ', data)
+    console.log('fail ', data);
     this.notificationService.show(i18n.t(data.error));
   };
 

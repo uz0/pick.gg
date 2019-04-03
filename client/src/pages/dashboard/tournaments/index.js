@@ -515,11 +515,11 @@ class Tournaments extends Component {
                 className={style.button}
               />
 
-              {isTournamentHasMatches && tournamentEditingData.matches.map((match, index) =>
+              {isTournamentHasMatches && tournamentEditingData.matches.map((match) =>
                 <div
                   key={match._id}
                   className={style.match}
-                  >
+                >
                   <div
                     className={style.match_inner}
                     onClick={() => this.matchEditingInit(match._id)}

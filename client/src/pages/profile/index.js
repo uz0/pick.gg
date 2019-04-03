@@ -57,7 +57,7 @@ class Profile extends Component {
   changeLocale = (event) => {
     this.setState({
       locale: event.target.name,
-    })
+    });
 
     localStorage.setItem('_pgg_locale', event.target.name);
 
@@ -135,7 +135,7 @@ class Profile extends Component {
                         value={this.state.locale}
                         checked={this.state.locale === 'ru'}
                         onChange={this.changeLocale}
-                        />
+                      />
                     </div>
                     <div className={style.item}>
                       <label>En</label>

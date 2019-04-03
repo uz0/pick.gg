@@ -130,7 +130,7 @@ class newTournament extends Component {
       entry,
       rules: [...normalizedRules],
       tournamentId,
-    }
+    };
 
     const { newTournament } = await this.tournamentService.createNewTournament(payload);
 
