@@ -197,7 +197,7 @@
 
   .login_page{
     min-height: calc(100% - var(--header-height));
-    background-image: url('assets/bg-login.png');
+    background-image: url('assets/bg-login-min.png');
     background-color: #000;
     background-repeat: no-repeat;
     background-size: auto 45%;
@@ -207,7 +207,7 @@
   .start_content .front_layout{
     width: 250px;
   }
-  
+
   .guide .step {
     flex-wrap: wrap;
   }
