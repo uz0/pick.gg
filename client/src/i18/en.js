@@ -154,4 +154,6 @@ export default {translation: {
   want_remove_rule: 'Do you really want to remove the rule?',
   rule_name: 'Rule name',
   finalize_all: 'Finalize all tournaments',
+  newbie: 'newbie',
+  transactions_history: 'Transactions History',
 }};
