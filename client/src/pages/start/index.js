@@ -9,10 +9,11 @@ import NotificationContainer from '../../components/notification/notification-co
 import AuthService from '../../services/authService';
 import NotificationService from '../../services/notificationService';
 
-import tournamentsList from '../../assets/faq/tournaments_list.png';
-import tournamentsFinished from '../../assets/faq/tournament_finished.png';
-import championsCards from '../../assets/faq/champions.png';
+import tournamentsList from 'assets/faq/tournaments_list.png';
+import tournamentsFinished from 'assets/faq/tournament_finished.png';
+import championsCards from 'assets/faq/champions.png';
 import { ReactComponent as GoogleIcon } from 'assets/google-icon.svg';
+import zed from 'assets/zed.webm'
 
 import classnames from 'classnames';
 const cx = classnames.bind(style);
@@ -67,27 +68,34 @@ class Start extends Component {
 
         <section className={style.login_section}>
           <div className={style.start_content}>
-            <h1>Fantasy league</h1>
+            <div className={style.wrap_layout}>
+              <div className={style.front_layout}>
+                <h1>Fantasy league</h1>
 
-            <div className={style.start_btns}>
-              <GoogleLogin
-                icon={true}
-                render={renderProps => (
-                  <button onClick={renderProps.onClick}>
+                <div className={style.start_btns}>
+                  <GoogleLogin
+                    icon={true}
+                    render={renderProps => (
+                      <button onClick={renderProps.onClick}>
 
-                    <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
-                    
-                    <svg width="250" className={style.back_button} height="80">
-                      <polygon points="240,30 250,80 0,80 0,10"
-                        fill="white" />
-                    </svg>
-                  </button>
-                )}
-                clientId={config.google_client_id}
-                onSuccess={this.onSuccessGoogleLogin}
-                onFailure={this.onFailureGoogleLogin}
-              />
+                        <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
+
+                        <svg width="250" className={style.back_button} height="80">
+                          <polygon points="240,30 250,80 0,80 0,10"
+                            fill="white" />
+                        </svg>
+                      </button>
+                    )}
+                    clientId={config.google_client_id}
+                    onSuccess={this.onSuccessGoogleLogin}
+                    onFailure={this.onFailureGoogleLogin}
+                  />
+                </div>
+              </div>
             </div>
+            <video loop autoPlay>
+              <source src={zed} />
+            </video>
           </div>
         </section>
 
