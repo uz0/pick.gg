@@ -114,6 +114,10 @@
   --color: #000;
 }
 
+.wrapper .modal .content .list .item:not(._is-checked):hover .statistic_item{
+  --color: #000;
+}
+
 .wrapper .modal .content .list .item._is-checked {
   --bg-color: var(--accent-color);
   --color: #000;
@@ -148,6 +152,18 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
+}
+
+.wrapper .modal .content .list .item .statistic_item{
+  font-size: 11px;
+  padding: 10px 5px 0;
+  color: var(--color);
+  font-weight: bold;
+}
+
+.wrapper .modal .content .list .item .stats_item{
+  display: flex;
+  justify-content: center;
 }
 
 .wrapper .modal .footer {

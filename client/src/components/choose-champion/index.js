@@ -42,24 +42,24 @@ class ChooseChampion extends Component {
   renderStatisticItem = ({ category, value }) => {
     let categoryText = '';
 
-    if(category === 'kda_ratio'){
+    if (category === 'kda_ratio') {
       return;
     }
 
-    if(category === 'avg_kills') {
+    if (category === 'avg_kills') {
       categoryText = 'K';
     }
-    
-    if(category === 'avg_deaths') {
+
+    if (category === 'avg_deaths') {
       categoryText = 'D';
     }
-    
-    if(category === 'avg_assists') {
+
+    if (category === 'avg_assists') {
       categoryText = 'A';
     }
 
     return <div key={value} className={style.statistic_item}>
-      {categoryText}:{value}
+      {categoryText}: {value}
     </div>
   }
 
@@ -90,9 +90,13 @@ class ChooseChampion extends Component {
                 <img src={item.photo === null ? Avatar : item.photo} alt={i18n.t('champion_avatar')} />
               </div>
 
-              {item.stats.map(element => this.renderStatisticItem(element))}
+
 
               <p className={style.name}>{item.name}</p>
+
+              <div className={style.stats_item}>
+                {item.stats.map(element => this.renderStatisticItem(element))}
+              </div>
             </div>)}
           </div>
         </div>
