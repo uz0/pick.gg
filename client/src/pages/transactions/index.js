@@ -9,22 +9,23 @@ import Preloader from 'components/preloader';
 
 import classnames from 'classnames/bind';
 import style from './style.module.css';
+import i18n from 'i18n';
 
 const cx = classnames.bind(style);
 
 const transactionsTableCaptions = {
   amount: {
-    text: 'Amount',
+    text: i18n.t('amount'),
     width: 110,
   },
 
   date: {
-    text: 'Date',
+    text: i18n.t('date'),
     width: 110,
   },
 
   origin: {
-    text: 'Operation',
+    text: i18n.t('operation'),
     width: 250,
   },
 };
@@ -91,7 +92,7 @@ class Transactions extends Component {
         <span className={cx(textClass, style.operation, {
           'plus': isOriginUserDeposit || isOriginTournamentWinning,
           'minus': isOriginUserWithdraw || isOriginTournamentDeposit,
-        })}>{item.origin}</span>
+        })}>{i18n.t(`${item.origin}`)}</span>
       </div>
     </Wrapper>;
   }
@@ -99,7 +100,7 @@ class Transactions extends Component {
   render() {
     return (
       <div className={style.transactions}>
-        <h1 className={style.title}>Transactions History</h1>
+        <h1 className={style.title}>{i18n.t('transactions_history')}</h1>
 
         <Table
           captions={transactionsTableCaptions}
