@@ -39,7 +39,33 @@ class ChooseChampion extends Component {
     this.props.action(this.state.ids);
   };
 
+  renderStatisticItem = ({ category, value }) => {
+    let categoryText = '';
+
+    if(category === 'kda_ratio'){
+      return;
+    }
+
+    if(category === 'avg_kills') {
+      categoryText = 'K';
+    }
+    
+    if(category === 'avg_deaths') {
+      categoryText = 'D';
+    }
+    
+    if(category === 'avg_assists') {
+      categoryText = 'A';
+    }
+
+    return <div key={value} className={style.statistic_item}>
+      {categoryText}:{value}
+    </div>
+  }
+
   render() {
+
+    console.log(this.props.tournamentChampions, 'tournamentChampions');
 
     return <div className={style.wrapper}>
       <div className={style.modal}>
@@ -63,6 +89,8 @@ class ChooseChampion extends Component {
               <div className={style.image}>
                 <img src={item.photo === null ? Avatar : item.photo} alt={i18n.t('champion_avatar')} />
               </div>
+
+              {item.stats.map(element => this.renderStatisticItem(element))}
 
               <p className={style.name}>{item.name}</p>
             </div>)}
