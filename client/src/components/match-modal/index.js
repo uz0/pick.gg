@@ -114,6 +114,7 @@ class MatchModal extends Component {
     const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
 
     await this.adminService.updateMatch({
+      name: match.name,
       matchId: match._id,
       startDate: matchDate,
       completed: match.completed,

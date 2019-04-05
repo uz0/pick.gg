@@ -55,7 +55,9 @@ class Tournaments extends Component {
     super(props);
     this.tournamentService = new TournamentService();
     this.notificationService = new NotificationService();
-    this.adminService = new AdminService();
+    this.adminService = new AdminService({
+      onUpdate: (data) => this.updateMatch(data),
+    });
   }
 
   state = {
@@ -220,6 +222,19 @@ class Tournaments extends Component {
       tournamentEditingData: {
         ...this.state.tournamentEditingData,
         matches: tournament.matches,
+      },
+    });
+  };
+
+  updateMatch = ({ match }) => {
+    let matches = this.state.tournamentEditingData.matches;
+    let updatedMatches = matches.map(item => item._id === match._id ? match : item);
+
+    this.setState({
+      isLoading: false,
+      tournamentEditingData: {
+        ...this.state.tournamentEditingData,
+        matches: updatedMatches,
       },
     });
   }
