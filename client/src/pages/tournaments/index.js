@@ -21,22 +21,22 @@ import style from './style.module.css';
 const tournamentsTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: 250,
+    width: window.innerWidth < 480 ? 150 : 350,
   },
 
   date: {
     text: i18n.t('date'),
-    width: 100,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 
   users: {
     text: i18n.t('users'),
-    width: 80,
+    width: 100,
   },
 
   entry: {
     text: i18n.t('entry'),
-    width: 80,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 };
 
