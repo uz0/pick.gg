@@ -191,17 +191,17 @@ const TournamentController = io => {
         date: Date.now(),
       });
 
-      res.json({
-        success: true,
-        newTournament,
-      });
-
       const newTournamentPopulated = await FantasyTournament.findOne({_id: newTournament._id})
         .populate('tournament', 'name date')
         .populate({ path: 'users.players', select: 'id name' })
         .populate({ path: 'users.user', select: '_id username' })
-
+      
       io.emit('fantasyTournamentCreated', {newTournamentPopulated});
+
+      res.json({
+        success: true,
+        newTournament,
+      });
 
     } catch (error) {
       res.json({
