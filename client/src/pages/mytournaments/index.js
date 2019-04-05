@@ -13,7 +13,7 @@ import i18n from 'i18n';
 const tournamentsTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: 250,
+    width: 100,
   },
 
   date: {

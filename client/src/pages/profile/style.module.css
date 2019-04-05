@@ -14,6 +14,8 @@ main h1 {
   font-size: 40px;
   color: #9696B0;
   text-shadow: 0px 1px 1px #000000;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .content {
@@ -134,9 +136,6 @@ main h1 {
   }
 }
 
-@media (max-width: 768px) {
-}
-
 @media (max-width: 480px) {
   main h1{
     font-size: 21px;
@@ -145,7 +144,12 @@ main h1 {
   .home_page main{
     width: 90%;
   }
-  
+  .form_container .form label{
+    font-size: 16px;
+  }
+  .form_container .form button{
+    font-size: 16px;
+  }
 
   .content{
     margin-top: 0px;

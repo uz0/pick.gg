@@ -1,5 +1,5 @@
 .transactions {
-  width: 100%;
+  width: 50%;
   max-width: var(--container-width);
   margin-left: auto;
   margin-right: auto;
@@ -38,4 +38,19 @@
 
 .operation.plus {
   background-color: #2E7D32;
+}
+
+@media screen and (max-width: 480px){
+  .transactions{
+    width: 100%;
+  }
+  .transactions .title{
+    font-size: 26px;
+  }
+  .transactions_table{
+    margin-top: 20px;
+  }
+  .transactions .table .row .item .text{
+    font-size: 12px;
+  }
 }

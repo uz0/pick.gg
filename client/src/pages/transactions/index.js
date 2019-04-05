@@ -16,17 +16,17 @@ const cx = classnames.bind(style);
 const transactionsTableCaptions = {
   amount: {
     text: i18n.t('amount'),
-    width: 110,
+    width: 80,
   },
 
   date: {
     text: i18n.t('date'),
-    width: 110,
+    width: 90,
   },
 
   origin: {
     text: i18n.t('operation'),
-    width: 250,
+    width: 200,
   },
 };
 

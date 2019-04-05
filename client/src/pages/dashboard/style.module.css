@@ -98,8 +98,12 @@
 }
 
 @media screen and (max-width: 480px){
+  .dashboard .title{
+    font-size: 26px;
+  }
   .dashboard .content{
     flex-direction: column;
+    margin-top: 20px;
   }
 
   .dashboard .content .sidebar{
