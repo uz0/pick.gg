@@ -97,7 +97,7 @@ class TopMenuComponent extends Component {
     const BalancePlaceholder = () => `$${this.state.profile.user.balance}`;
     const UserPlaceholder = () => <Fragment>
       <Avatar />
-      {this.state.profile.user.username}
+      <span>{this.state.profile.user.username}</span>
     </Fragment>;
 
     return (
