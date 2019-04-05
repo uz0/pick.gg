@@ -18,17 +18,17 @@ const tournamentsTableCaptions = {
 
   date: {
     text: i18n.t('date'),
-    width: 100,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 
   users: {
     text: i18n.t('users'),
-    width: 80,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 
   entry: {
     text: i18n.t('entry'),
-    width: 80,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 };
 

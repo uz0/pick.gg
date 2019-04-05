@@ -16,7 +16,7 @@ import i18n from 'i18n';
 const tournamentsTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: 250,
+    width: window.innerWidth < 480 ? 150 : 250,
   },
 
   // date: {
@@ -26,12 +26,12 @@ const tournamentsTableCaptions = {
 
   users: {
     text: i18n.t('users'),
-    width: 80,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 
   entry: {
     text: i18n.t('entry'),
-    width: 80,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 };
 

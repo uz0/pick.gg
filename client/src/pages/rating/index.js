@@ -13,7 +13,7 @@ import i18n from 'i18n';
 const ratingTableCaptions = {
   place: {
     text: '#',
-    width: 50,
+    width: window.innerWidth < 480 ? 50 : 40,
   },
 
   // avatar: {
@@ -23,12 +23,12 @@ const ratingTableCaptions = {
 
   username: {
     text: i18n.t('name'),
-    width: 150,
+    width: window.innerWidth < 480 ? 150 : 350,
   },
 
   winning: {
     text: i18n.t('amount'),
-    width: 80,
+    width: window.innerWidth < 480 ? 80 : 150,
   },
 };
 
