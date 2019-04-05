@@ -156,4 +156,8 @@ export default {translation: {
   finalize_all: 'Завершить все турниры',
   newbie: 'новичок',
   transactions_history: 'История операций',
+  really_want_create: 'Вы действительно хотите создать турнир?',
+  kills: 'Убийства',
+  assists: 'Помощи',
+  deaths: 'Смерти',
 }};

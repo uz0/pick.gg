@@ -156,4 +156,5 @@ export default {translation: {
   finalize_all: 'Finalize all tournaments',
   newbie: 'newbie',
   transactions_history: 'Transactions History',
+  really_want_create: 'Do you really want to create a tournament?',
 }};

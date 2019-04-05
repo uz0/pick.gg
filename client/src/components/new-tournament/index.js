@@ -138,6 +138,26 @@ class newTournament extends Component {
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 
+  nameRules = ( name ) => {
+    let rulesText = '';
+
+    if(name === 'kills'){
+      rulesText = i18n.t('kills');
+    }
+
+    if(name === 'assists'){
+      rulesText = i18n.t('assists');
+    }
+
+    if(name === 'deaths'){
+      rulesText = i18n.t('deaths');
+    }
+
+    return <div className={style.statistic_item}>
+      {rulesText}
+    </div>
+  }
+
   render() {
     let { onClose } = this.props;
     const areRulesLoading = this.state.rules.length === 0;
@@ -152,7 +172,7 @@ class newTournament extends Component {
           </div>
 
           {this.state.modalChoose && <Modal
-            textModal={'Do you really want to create a tournament?'}
+            textModal={i18n.t('really_want_create')}
             closeModal={this.closeModalChoose}
             submitClick={this.submitForm}
           />
@@ -207,7 +227,7 @@ class newTournament extends Component {
                       required
                       max="10"
                     />
-                    <label>{item.name}</label>
+                    <label>{this.nameRules(item.name)}</label>
                   </div>)}
               </div>
               
