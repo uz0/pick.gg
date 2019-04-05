@@ -10,7 +10,7 @@
 }
 
 .tournaments .title {
-  --height: 40px;
+  --height: 41px;
   overflow: hidden;
   height: var(--height);
   margin: 0;
@@ -62,7 +62,7 @@
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
-  font-size: 20px;
+  font-size: 18px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -100,6 +100,7 @@
   width: 120px;
   top: 32px;
   left: 50px;
+  font-size: 18px;
 }
 
 .tournaments .content .section {

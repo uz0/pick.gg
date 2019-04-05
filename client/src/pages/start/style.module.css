@@ -73,6 +73,7 @@
   z-index: 1;
   display: flex;
   align-items: center;
+  font-size: 18px;
 }
 .start_btns .back_button{
   position: absolute;
