@@ -437,15 +437,19 @@ const AdminController = io => {
 
   router.put('/matches/:id', async (req, res) => {
     const matchId = req.params.id;
-    const { startDate, completed, results } = req.body;
+    const { startDate, completed, name, results } = req.body;
 
     await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
-    await MatchModel.update({ _id: matchId }, {
+    const match = await MatchModel.findByIdAndUpdate(matchId, {
+      name,
       startDate,
       completed,
-    });
+    }, { new: true });
 
-    res.json({ success: 'success' });
+    res.json({
+      success: 'success',
+      match
+    });
   });
 
   router.delete('/matches/:id', async (req, res) => {

@@ -1,6 +1,7 @@
 import http from './httpService';
+import BasicService from './basicService';
 
-export default class AdminService {
+export default class AdminService extends BasicService {
   createRealTournament = async(tournamentData) => {
     const tournamentQuery = await http(`/api/admin/tournaments/real`, {
       method: 'POST',
@@ -74,20 +75,30 @@ export default class AdminService {
     });
   }
 
-  updateMatch = async({ matchId, results, startDate, completed }) => {
-    await http(`/api/admin/matches/${matchId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        startDate,
-        completed,
-        results,
-      }),
+  updateMatch = async({ matchId, results, startDate, name, completed }) => {
+    return this.request('PUT', `/api/admin/matches/${matchId}`, {
+      name,
+      startDate,
+      completed,
+      results,
     });
   }
+
+  // updateMatch = async({ matchId, results, startDate, name, completed }) => {
+  //   await http(`/api/admin/matches/${matchId}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       name,
+  //       startDate,
+  //       completed,
+  //       results,
+  //     }),
+  //   });
+  // }
 
   getMatchResult = async(matchId) => {
     const matchResultQuery = await http(`/api/admin/results/${matchId}`);

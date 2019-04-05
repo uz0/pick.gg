@@ -15,7 +15,6 @@ export default class BasicService {
   }
 
   update = (data) => {
-    console.log('hello');
     updateHandlers.forEach(handler => {
       if (handler.name === this.constructor.name) {
         handler.callback(data);
@@ -34,7 +33,7 @@ export default class BasicService {
 
     let parsed = await result.json();
 
-    if (method === 'POST') {
+    if (method === 'POST' || method === 'PUT') {
       this.update(parsed);
     }
 
