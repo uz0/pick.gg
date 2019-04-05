@@ -6,7 +6,7 @@ export default {translation: {
   best_players: 'Рейтинг лучших игроков',
   create_new_tournament: 'Создать турнир',
   create: 'Создать',
-  choose_champion: 'Выбери своих чемпионов',
+  choose_champion: 'Выбери 5 чемпионов',
   date: 'Дата',
   date_from: 'Дата от',
   syncDate: 'Дата синхронизации',
