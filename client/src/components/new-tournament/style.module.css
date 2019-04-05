@@ -38,7 +38,7 @@
 }
 
 .top_block p {
-  font-size: 20px;
+  font-size: 16px;
   padding: 0px 0px 4px;
   color: #EDAF53;
   font-weight: normal;
@@ -98,7 +98,7 @@
 }
 
 .new_tournament p {
-  font-size: 20px;
+  font-size: 15px;
   color: var(--accent-color);
   text-align: left;
   margin: 0;
