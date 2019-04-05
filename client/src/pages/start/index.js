@@ -13,7 +13,7 @@ import tournamentsList from 'assets/faq/tournaments_list.png';
 import tournamentsFinished from 'assets/faq/tournament_finished.png';
 import championsCards from 'assets/faq/champions.png';
 import { ReactComponent as GoogleIcon } from 'assets/google-icon.svg';
-import zed from 'assets/zed.webm'
+import zed from 'assets/zed.mp4'
 
 import classnames from 'classnames';
 const cx = classnames.bind(style);
