@@ -192,7 +192,7 @@ class newTournament extends Component {
                 />
               </div>
               
-              <p>Rules</p>
+              <p>{i18n.t('rules')}</p>
               
               <div className={style.rules_inputs}>
                 {this.state.rules.map(item =>
@@ -215,7 +215,7 @@ class newTournament extends Component {
                 <Button
                   appearance={'_basic-accent'}
                   type={'submit'}
-                  text={'Create'}
+                  text={i18n.t('create')}
                 />
               </div>
             </div>
