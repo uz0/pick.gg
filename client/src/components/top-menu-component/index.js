@@ -69,8 +69,8 @@ class TopMenuComponent extends Component {
   componentDidMount = () => {
     this.socket = io();
 
-    this.socket.on("fantasyTournamentCreated", (newTournament) => {
-      this.notificationService.show(`New fantasy tournament with name ${newTournament.name} was created`);
+    this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
+      this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`);
     });
 
     // this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
