@@ -120,6 +120,7 @@ main {
   }
   .content .user_statistics .statistics_masonry {
     margin-bottom: 0px;
+    --height: 94px;
   }
 }
 @media screen and (max-width: 320px){

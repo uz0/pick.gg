@@ -20,17 +20,17 @@ const cx = classnames.bind(style);
 const usersTableCaptions = {
   username: {
     text: i18n.t('name'),
-    width: 250,
+    width: window.innerWidth < 480 ? 100 : 350,
   },
 
   balance: {
     text: i18n.t('balance'),
-    width: 100,
+    width: 80,
   },
 
   isAdmin: {
     text: i18n.t('admin'),
-    width: 100,
+    width: 80,
   },
 };
 

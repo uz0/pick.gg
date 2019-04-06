@@ -26,12 +26,12 @@ const cx = classnames.bind(style);
 const tournamentsTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: 175,
+    width: window.innerWidth < 480 ? 100 : 175,
   },
 
   matches: {
     text: i18n.t('matches'),
-    width: 85,
+    width: 75,
   },
 
   date: {

@@ -21,6 +21,7 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const leadersTableCaptions = {
+  
   position: {
     text: i18n.t('position'),
     width: 50,
@@ -28,29 +29,29 @@ const leadersTableCaptions = {
 
   name: {
     text: i18n.t('name'),
-    width: 190,
+    width: window.innerWidth < 480 ? 100 : 200,
   },
 
   points: {
     text: i18n.t('points'),
-    width: 300,
+    width: window.innerWidth < 480 ? 100 : 300,
   },
 };
 
 const matchesTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: 300,
+    width: window.innerWidth < 480 ? 100 : 300,
   },
 
   points: {
     text: i18n.t('points'),
-    width: 100,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 
   date: {
     text: i18n.t('date'),
-    width: 100,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 };
 
