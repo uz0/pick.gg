@@ -113,3 +113,9 @@
     width: fit-content;
   }
 }
+
+@media (max-width: 480px){
+  .table .row > .item > .text{
+    font-size: 12px;
+  }
+}

@@ -24,3 +24,9 @@
   font-weight: var(--font-weight-bold);
   color: var(--caption-color);
 }
+
+@media screen and (max-width: 480px){
+  .rules_controls .button{
+    font-size: 16px;
+  }
+}

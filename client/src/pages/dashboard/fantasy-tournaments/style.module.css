@@ -28,7 +28,9 @@
 .tournaments .rules_inputs .rule_input + .rule_input {
   margin-left: 12px;
 }
-
+.controls .button{
+  font-size: 16px;
+}
 .tournaments .section .title {
   line-height: var(--height);
   font-size: 24px;

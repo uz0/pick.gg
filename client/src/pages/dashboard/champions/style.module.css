@@ -86,3 +86,9 @@
   font-size: 16px;
   margin-left: var(--gap);
 }
+
+@media screen and (max-width: 480px){
+  .champions_controls .button{
+    font-size: 16px;
+  }
+}

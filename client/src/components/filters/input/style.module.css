@@ -43,6 +43,7 @@ html {
   background-image: url('assets/icon-calendar.svg');
   background-repeat: no-repeat;
   background-size: auto var(--icon-height);
+  width: 100%;
 
   background-position:
     left calc(100% - var(--default-input-padding))

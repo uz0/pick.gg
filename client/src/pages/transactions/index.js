@@ -16,17 +16,17 @@ const cx = classnames.bind(style);
 const transactionsTableCaptions = {
   amount: {
     text: i18n.t('amount'),
-    width: 110,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 
   date: {
     text: i18n.t('date'),
-    width: 110,
+    width: window.innerWidth < 480 ? 75 : 100,
   },
 
   origin: {
     text: i18n.t('operation'),
-    width: 250,
+    width: window.innerWidth < 480 ? 150 : 200,
   },
 };
 

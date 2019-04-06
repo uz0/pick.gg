@@ -16,6 +16,12 @@
   padding-top: calc(var(--sidebar-size) / 4);
 }
 
+.content .nickname{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 10px;
+}
+
 .content > a {
   color: #fff;
   text-decoration: underline;
