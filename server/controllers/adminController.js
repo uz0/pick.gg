@@ -233,14 +233,14 @@ const AdminController = io => {
         }
       });
 
-    if (fantasyTournament.winner) {
-      res.json({
-        success: "false",
-        message: "Tournament is already finalized"
-      });
+    // if (fantasyTournament.winner) {
+    //   res.json({
+    //     success: "false",
+    //     message: "Tournament is already finalized"
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     const realTournament = fantasyTournament.tournament;
 
@@ -248,7 +248,7 @@ const AdminController = io => {
     const areMatchesCompleted = matches.every(match => match.completed === true);
 
     const rulesSet = fantasyTournament.rules.reduce((set, item) => {
-      set[item.rule.name] = item.score;
+      set[item.rule._id] = item.score;
       return set;
     }, {});
 
@@ -261,7 +261,7 @@ const AdminController = io => {
 
     const getCountMatchPoints = (matchId, userId) => {
       const userPlayers = getUserPlayers(userId);
-      const userPlayersIds = userPlayers.map(player => player.id);
+      const userPlayersIds = userPlayers.map(player => player._id);
 
       const match = find(matches, { _id: matchId });
       const results = match.results.playersResults;
