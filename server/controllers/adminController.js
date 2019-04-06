@@ -233,14 +233,14 @@ const AdminController = io => {
         }
       });
 
-    // if (fantasyTournament.winner) {
-    //   res.json({
-    //     success: "false",
-    //     message: "Tournament is already finalized"
-    //   });
+    if (fantasyTournament.winner) {
+      res.json({
+        success: "false",
+        message: "Tournament is already finalized"
+      });
 
-    //   return;
-    // }
+      return;
+    }
 
     const realTournament = fantasyTournament.tournament;
 
