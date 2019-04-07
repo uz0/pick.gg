@@ -160,4 +160,5 @@ export default {translation: {
   kills: 'Убийства',
   assists: 'Помощи',
   deaths: 'Смерти',
+  match_add_player_error: 'Пожалуйста, сначала добавьте киберспортсменов',
 }};

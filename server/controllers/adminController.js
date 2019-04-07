@@ -373,6 +373,13 @@ const AdminController = io => {
       .populate('champions');
 
     const tournamentChampions = tournament.champions;
+    
+    if(!tournament.champions){
+      res.send({
+        message: 'match_add_player_error',
+      });
+      return;
+    }
 
     const match = await MatchModel.create({
       tournament_id: tournament._id,
@@ -409,7 +416,10 @@ const AdminController = io => {
     await MatchModel.update({ _id: matchId }, { resultsId: matchResult._id });
     await TournamentModel.update({ _id: tournamentId }, { $push: { matches_ids: matchId } });
 
-    res.json({ match });
+    res.json({
+      message: 'Match was successfuly created',
+      match,
+    });
   });
 
   router.get('/matches', async (req, res) => {

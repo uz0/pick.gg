@@ -157,4 +157,5 @@ export default {translation: {
   newbie: 'newbie',
   transactions_history: 'Transactions History',
   really_want_create: 'Do you really want to create a tournament?',
+  match_add_player_error: 'Please, add players to the tournament first',
 }};
