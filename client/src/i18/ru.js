@@ -27,6 +27,7 @@ export default {translation: {
   log_out: 'Выйти',
   login: 'Вход',
   login_enter: 'войти',
+  login_message_on_redirect: 'Пожалуйста, войдите в систему',
   matches: 'Матчи',
   matches_soon: 'Матчи скоро появятся',
   minimal_entry: 'Минимальная цена',

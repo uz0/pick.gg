@@ -23,11 +23,12 @@ class Start extends Component {
     super();
     this.auth = new AuthService();
     this.notificationService = new NotificationService();
+  }
 
-    this.state = {
-      username: '',
-      password: '',
-    };
+  componentDidMount(){
+    if(this.props.history.action === 'REPLACE'){
+      this.notificationService.show(i18n.t('login_message_on_redirect'));
+    }
   }
 
   handleChange = event => {
