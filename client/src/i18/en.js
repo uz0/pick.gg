@@ -85,7 +85,7 @@ export default {translation: {
   archive: 'Archive',
   will_be_soon: 'Will be soon',
   champion_avatar: 'Champion Avatar',
-  choose_your_champion: 'Choose your champion',
+  choose_your_champion: 'Choose five champions',
   created_by: 'Created By',
   information: 'Information',
   prize_pool: 'Prize Pool',
