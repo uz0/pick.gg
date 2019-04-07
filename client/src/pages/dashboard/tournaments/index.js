@@ -198,8 +198,10 @@ class Tournaments extends Component {
     this.setState({ isLoading: true });
 
     const tournamentId = this.state.tournamentEditingData._id;
-    await this.adminService.createMatch(tournamentId);
+    const match = await this.adminService.createMatch(tournamentId);
     const { tournament } = await this.adminService.getRealTournamentById(tournamentId);
+
+    await this.notificationService.show(i18n.t(match.message));
 
     this.setState({
       isLoading: false,
@@ -325,8 +327,6 @@ class Tournaments extends Component {
     this.setState({ isLoading: true });
     const { tournaments } = await this.adminService.getRealTournaments();
     const { players } = await this.adminService.getAllChampions();
-
-    // console.log(tournaments[0].champions);
 
     this.setState({
       tournaments,
