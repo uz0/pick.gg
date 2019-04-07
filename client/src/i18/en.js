@@ -27,6 +27,7 @@ export default {translation: {
   log_out: 'Log out',
   login: 'Login',
   login_enter: 'login',
+  login_message_on_redirect: 'Please, log in into system',
   matches: 'Matches',
   matches_soon: 'Matches will appear soon',
   minimal_entry: 'Minimal entry',

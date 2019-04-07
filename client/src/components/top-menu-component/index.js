@@ -45,7 +45,7 @@ class TopMenuComponent extends Component {
   handleLogout = async () => {
     try {
       await this.authService.logout();
-      this.props.history.replace('/');
+      this.props.history.push('/');
     } catch (error) {
       console.log(error);
     }
