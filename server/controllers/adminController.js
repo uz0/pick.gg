@@ -330,6 +330,15 @@ const AdminController = io => {
       date: Date.now(),
     });
 
+    const tournamentUserNames = fantasyTournament.users.map(item => item.user.username);
+
+    io.emit('fantasyTournamentFinalized', {
+      tournamentId,
+      participants: tournamentUserNames,
+      winner: tournamentWinner.user.username,
+      prize: tournamentPrize,
+    });
+
     res.json({
       message: "Finalization completed",
       success: "success",

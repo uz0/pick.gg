@@ -162,4 +162,6 @@ export default {translation: {
   assists: 'Помощи',
   deaths: 'Смерти',
   match_add_player_error: 'Пожалуйста, сначала добавьте киберспортсменов',
+  fantasy_tournament_is_over: 'Внимание! Фентези турнир окончен! Посмотрите, вдруг вы победили? :)',
+  fantasy_tournament_is_over_winner: 'Урра! Вы стали победителем Фентези турнира!',
 }};

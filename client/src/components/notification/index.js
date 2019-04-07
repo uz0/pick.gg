@@ -21,6 +21,8 @@ class Notification extends Component {
   }
 
   render() {
+    const isHaveLink = this.props.link ? true : false;
+
     return (
       <div className={style.wrapper_n}>
         <div className={classnames(style.notification, {'_is-shown': this.state.isShown})}>
@@ -30,7 +32,8 @@ class Notification extends Component {
             icon={<CloseIcon />}
             onClick={() => this.close()}
           />
-          {this.props.text}
+          {!isHaveLink && this.props.text}
+          {isHaveLink && <span onClick={() => this.props.history.push(this.props.link)}>{this.props.text}</span>}
         </div>
       </div>
     );
