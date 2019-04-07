@@ -92,35 +92,46 @@ class newTournament extends Component {
   handleChange = (event, input) => this.setState({ [input]: event.target.value });
 
   submitForm = async () => {
-    let { name, entry, rulesValues, tournament } = this.state;
+    this.setState({ modalChoose: false });
+
+    const {
+      user,
+      name,
+      entry,
+      rulesValues,
+      tournament,
+      filteredTournaments,
+    } = this.state;
 
     let tournamentId = '';
 
-    if (name === undefined){
+    if (!name){
       this.notificationService.show(`Name is empty`);
+
       return;
     }
 
-    if (entry === undefined){
+    if (!entry){
       this.notificationService.show(`Entry is empty`);
 
       return;
     }
     
-    if (this.state.user.balance < entry) {
-      this.notificationService.show(`Insufficient funds ${entry - this.state.user.balance}$`);
+    if (user.balance < entry) {
+      this.notificationService.show(`Insufficient funds ${entry - user.balance}$`);
 
       return;
     }
 
-    if (tournament){
-      tournamentId = this.state.filteredTournaments.find(item => item.name === tournament)._id;
-    } else {
+    if (!tournament) {
       this.notificationService.show('Please, select tournament and try again');
-      return false;
+
+      return;
     }
+
+    tournamentId = filteredTournaments.find(item => item.name === tournament)._id;
     
-    let normalizedRules = Object.keys(rulesValues).map(item => ({
+    const normalizedRules = Object.keys(rulesValues).map(item => ({
       rule: item,
       score: rulesValues[item],
     }));
