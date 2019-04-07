@@ -73,6 +73,36 @@ class TopMenuComponent extends Component {
       this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`);
     });
 
+    this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
+      const currentUser = this.state.profile.user.username;
+
+      console.log(tournamentId, participants, winner, prize );
+
+      if(!participants.includes(currentUser)){
+        return;
+      }
+
+      if(winner === currentUser){
+        const balance = this.state.profile.user.balance + prize;
+
+        this.setState({
+          profile: {
+            user: {
+              ...this.state.profile.user,
+              balance,
+            }
+          }
+        })
+
+        this.notificationService.show(i18n.t('fantasy_tournament_is_over_winner'), `/tournaments/${tournamentId}`, this.props.history);
+
+        return;
+      }
+
+      this.notificationService.show(i18n.t('fantasy_tournament_is_over'), `/tournaments/${tournamentId}`, this.props.history);
+    });
+
+
     // this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
     //   const newBalance = this.state.profile.user.balance - entry;
 

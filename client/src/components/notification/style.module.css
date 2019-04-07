@@ -43,6 +43,10 @@
   --opacity: 1;
 }
 
+.notification span {
+  cursor: pointer;
+}
+
 .notification button {
   position: absolute;
   right: 8px;
