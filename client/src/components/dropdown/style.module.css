@@ -19,7 +19,7 @@
   background-color: rgba(0, 0, 0, 0.25);
   border-radius: 4px;
 }
-.userbox span{
+.userbox .box_user{
   text-overflow: ellipsis;
   overflow: hidden;
   width: 100px;
@@ -70,7 +70,7 @@
   .userbox{
     font-size: 18px;
   }
-  .userbox span{
+  .userbox .box_user{
     width: 65px;
     font-size: 14px;
   }
@@ -82,7 +82,7 @@
   .userbox{
     font-size: 12px;
   }
-  .userbox span{
+  .userbox .box_user{
     width: 40px;
   }
   .userbox svg,
