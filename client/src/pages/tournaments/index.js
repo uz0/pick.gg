@@ -7,6 +7,7 @@ import io from "socket.io-client";
 
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
+import UserService from 'services/userService';
 
 import Input from 'components/filters/input';
 import Select from 'components/filters/select';
@@ -21,22 +22,22 @@ import style from './style.module.css';
 const tournamentsTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 150 : 350,
+    width: window.innerWidth < 480 ? 150 : 450,
   },
 
   date: {
     text: i18n.t('date'),
-    width: window.innerWidth < 480 ? 75 : 100,
+    width: window.innerWidth < 480 ? 75 : 70,
   },
 
   users: {
     text: i18n.t('users'),
-    width: 100,
+    width: window.innerWidth < 480 ? 70 : 70,
   },
 
   entry: {
     text: i18n.t('entry'),
-    width: window.innerWidth < 480 ? 75 : 100,
+    width: window.innerWidth < 480 ? 75 : 70,
   },
 };
 
@@ -44,6 +45,9 @@ class Tournaments extends Component {
   constructor() {
     super();
     this.notificationService = new NotificationService();
+    this.userService = new UserService({
+      onUpdate: () => this.updateProfile(),
+    });
     this.tournamentService = new TournamentService();
   }
 
@@ -52,6 +56,9 @@ class Tournaments extends Component {
     isAddTournamentModalShown: false,
     fantasyTournaments: [],
     realTournaments: [],
+    profile: {
+      user: {},
+    },
 
     filters: {
       tournament: '',
@@ -59,6 +66,11 @@ class Tournaments extends Component {
       entry: null,
     },
   };
+
+  updateProfile = async () => {
+    let profile = await this.userService.getMyProfile();
+    this.setState({ profile });
+  }
 
   async componentDidMount() {
     this.setState({ isLoading: true });
@@ -72,7 +84,7 @@ class Tournaments extends Component {
     });
 
     this.socket = io();
-    this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
+    this.socket.on("fantasyTournamentCreated", ({ newTournamentPopulated }) => {
 
       this.setState({
         fantasyTournaments: [
@@ -81,7 +93,8 @@ class Tournaments extends Component {
         ],
       });
     });
-    
+    this.updateProfile();
+
   }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
@@ -151,8 +164,8 @@ class Tournaments extends Component {
       <h2 className={style.title}>{i18n.t('tournaments')}</h2>
 
       <div className={style.content}>
-        <div className={style.sidebar}>
-          <Select
+        {this.state.profile.user.isAdmin && <div className={style.sidebar}>
+          {/* <Select
             defaultOption={i18n.t('select_tournament')}
             options={this.state.realTournaments}
             label={i18n.t('tournament_list')}
@@ -172,7 +185,7 @@ class Tournaments extends Component {
             className={style.filter_item}
             placeholder="$ 0.1"
             onChange={this.onEntryFilterChange}
-          />
+          /> */}
 
           <div className={style.action}>
             <div className={style.background}>
@@ -188,7 +201,7 @@ class Tournaments extends Component {
               </svg>
             </button>
           </div>
-        </div>
+        </div>}
 
         <div className={style.section}>
           <Table
