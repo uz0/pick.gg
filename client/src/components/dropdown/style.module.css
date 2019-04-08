@@ -22,7 +22,8 @@
 .userbox span{
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 100px;
+  min-width: 80px;
+  max-width: 120px;
   font-size: 16px;
   white-space: nowrap;
   pointer-events: none;
@@ -74,6 +75,7 @@
   .userbox span{
     width: 65px;
     font-size: 14px;
+    min-width: 50px;
   }
   .menu a {
     font-size: 18px;
