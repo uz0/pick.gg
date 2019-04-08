@@ -465,6 +465,8 @@ const AdminController = io => {
       completed,
     }, { new: true });
 
+    io.emit('matchUpdated', { match });
+
     res.json({
       success: 'success',
       match

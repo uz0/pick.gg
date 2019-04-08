@@ -356,7 +356,8 @@ class Tournament extends Component {
     const status = this.getTournamentStatus();
     const tournamentStatus = this.getFantasyTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
-    const isJoinButtonShown = !currentUserParticipant && !winner;
+    const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
+    const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
 
