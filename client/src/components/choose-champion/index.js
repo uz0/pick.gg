@@ -7,6 +7,7 @@ import i18n from 'i18n';
 import style from './style.module.css';
 
 import Modal from 'components/modal';
+import { finished } from 'stream';
 
 const cx = classnames.bind(style);
 
@@ -90,12 +91,10 @@ class ChooseChampion extends Component {
                 <img src={item.photo === null ? Avatar : item.photo} alt={i18n.t('champion_avatar')} />
               </div>
 
-
-
               <p className={style.name}>{item.name}</p>
 
               <div className={style.stats_item}>
-                {item.stats.map(element => this.renderStatisticItem(element))}
+                {/* {item.stats.map(element => this.renderStatisticItem(element))} */}
               </div>
             </div>)}
           </div>
