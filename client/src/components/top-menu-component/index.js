@@ -76,8 +76,6 @@ class TopMenuComponent extends Component {
     this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
       const currentUser = this.state.profile.user.username;
 
-      console.log(tournamentId, participants, winner, prize );
-
       if(!participants.includes(currentUser)){
         return;
       }
@@ -100,6 +98,10 @@ class TopMenuComponent extends Component {
       }
 
       this.notificationService.show(i18n.t('fantasy_tournament_is_over'), `/tournaments/${tournamentId}`, this.props.history);
+    });
+
+    this.socket.on("matchUpdated", ({ match }) => {
+      this.notificationService.show(i18n.t('match_status_changed'));
     });
 
 
