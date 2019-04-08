@@ -164,4 +164,5 @@ export default {translation: {
   match_add_player_error: 'Пожалуйста, сначала добавьте киберспортсменов',
   fantasy_tournament_is_over: 'Внимание! Фентези турнир окончен! Посмотрите, вдруг вы победили? :)',
   fantasy_tournament_is_over_winner: 'Урра! Вы стали победителем Фентези турнира!',
+  match_status_changed: 'Внимание! Закончился один из матчей в Фентези турнире, можете посмотреть результат!'
 }};
