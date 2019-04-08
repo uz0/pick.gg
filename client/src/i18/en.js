@@ -92,7 +92,7 @@ export default {translation: {
   entry_cost: 'Entry Cost',
   original_tournament: 'Original Tournament',
   my_team: 'My Team',
-  youve_been_registered_for_the_tournament: 'You been registered for the tournament',
+  youve_been_registered_for_the_tournament: "You've been registered for the tournament",
   free_tournament: 'Do you want to start with such a team?',
   balance: 'Balance',
   admin: 'Admin',
