@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 import Button from 'components/button';
+import Modal from 'components/dashboard-modal';
 import ChooseChampionModal from 'components/choose-champion';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
@@ -16,12 +17,36 @@ import Avatar from 'assets/avatar-placeholder.svg';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
 
+import _ from 'lodash';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
+const matchResultsTableCaptions = {
+  player: {
+    text: i18n.t('position'),
+    width: 65,
+  },
+
+  kill: {
+    text: i18n.t('name'),
+    width: window.innerWidth < 480 ? 100 : 200,
+  },
+
+  death: {
+    text: i18n.t('points'),
+    width: window.innerWidth < 480 ? 100 : 250,
+  },
+
+  assists: {
+    text: i18n.t('points'),
+    width: window.innerWidth < 480 ? 100 : 250,
+  },
+};
+
+
 const leadersTableCaptions = {
-  
   position: {
     text: i18n.t('position'),
     width: 65,
@@ -287,6 +312,14 @@ class Tournament extends Component {
     this.notificationService.show(i18n.t('youve_been_registered_for_the_tournament'));
   };
 
+  openMatchResults = (event, item) => {
+    event.preventDefault();
+
+    let matchResults = [];
+    let playersResults = item.results.playersResults;
+    let groupedMatchResults = Object.values(_.groupBy(playersResults, 'id'));
+  }
+
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
     const { fantasyTournament } = this.state;
 
@@ -325,7 +358,7 @@ class Tournament extends Component {
     const timeNow = moment().format('MMM DD HH:mm');
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
-    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
+    return <NavLink to={urlMatch} onClick={(event) => this.openMatchResults(event, item)} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -342,6 +375,8 @@ class Tournament extends Component {
     </NavLink>;
   };
 
+  renderMatchResultRow = ({ className, itemClass, textClass, item }) => {};
+
   render() {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
@@ -357,7 +392,8 @@ class Tournament extends Component {
     const tournamentStatus = this.getFantasyTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
-    const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
+    const isJoinButtonShown = !currentUserParticipant && !winner;
+    // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
 
@@ -483,6 +519,20 @@ class Tournament extends Component {
         <Preloader />
       }
 
+      {/* <Modal
+        title={`Название матча`}
+        close={this.resetTournament}
+        actions={Х}
+      >
+        <Table
+          captions={matchResultsTableCaptions}
+          items={[]}
+          renderRow={this.renderMatchResultRow}
+          className={style.table}
+          emptyMessage="There is no results yet"
+        />
+      </Modal> */}
+      
       {this.state.isChooseChampionModalShown &&
         <ChooseChampionModal
           champions={tournamentChampions}
