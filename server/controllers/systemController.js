@@ -29,7 +29,7 @@ const SystemController = () => {
     await TournamentModel.deleteMany();
     await MatchResult.deleteMany();
     await MatchModel.deleteMany();
-    await PlayerModel.deleteMany();
+    // await PlayerModel.deleteMany();
 
     res.send({
       "success": "all data was resetted"
@@ -242,7 +242,6 @@ const SystemController = () => {
 
         formattedMatchResults.push(object);
 
-        
         const match = await MatchModel.find({ id: object.id });
 
         if (match.length === 0) {
@@ -262,7 +261,7 @@ const SystemController = () => {
             
             formattedMatches[i].resultsId = newResults._id;
             formattedMatchResults[i].resultsId = newResults._id;
-            
+
             console.log(`MatchResult was updated`);
             continue;
           }

@@ -287,7 +287,7 @@
 
 .tournament .section .matches .disable_url {
   opacity: 0.75;
-  pointer-events: none;
+  /* pointer-events: none; */
   cursor: default;
 }
 
