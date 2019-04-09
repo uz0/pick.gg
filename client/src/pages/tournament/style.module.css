@@ -61,6 +61,11 @@
   text-overflow: ellipsis;
 }
 
+.tournament .tournament_section .main .info span a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
 .tournament .tournament_section .main .info span:nth-of-type(n+2) {
   margin-left: 10px;
 }
