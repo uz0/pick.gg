@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import Button from 'components/button';
 import ChooseChampionModal from 'components/choose-champion';
@@ -370,8 +370,7 @@ class Tournament extends Component {
             <span>{tournamentDate}</span>
 
             <span>
-              {i18n.t('created_by')}
-              <NavLink to={`/user/${tournamentCreatorLink}`}> {tournamentCreator}</NavLink>
+              {i18n.t('created_by')} <Link to={`/user/${tournamentCreatorLink}`}>{tournamentCreator}</Link>
             </span>
 
             {status && <div className={style.status}>{status}</div>}
