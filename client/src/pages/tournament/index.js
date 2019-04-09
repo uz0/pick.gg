@@ -24,7 +24,7 @@ const leadersTableCaptions = {
   
   position: {
     text: i18n.t('position'),
-    width: 50,
+    width: 65,
   },
 
   name: {
@@ -34,7 +34,7 @@ const leadersTableCaptions = {
 
   points: {
     text: i18n.t('points'),
-    width: window.innerWidth < 480 ? 100 : 300,
+    width: window.innerWidth < 480 ? 100 : 250,
   },
 };
 
