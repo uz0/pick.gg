@@ -164,8 +164,8 @@ class Tournaments extends Component {
       <h2 className={style.title}>{i18n.t('tournaments')}</h2>
 
       <div className={style.content}>
-        {this.state.profile.user.isAdmin && <div className={style.sidebar}>
-          {/* <Select
+        <div className={style.sidebar}>
+          <Select
             defaultOption={i18n.t('select_tournament')}
             options={this.state.realTournaments}
             label={i18n.t('tournament_list')}
@@ -185,9 +185,9 @@ class Tournaments extends Component {
             className={style.filter_item}
             placeholder="$ 0.1"
             onChange={this.onEntryFilterChange}
-          /> */}
+          />
 
-          <div className={style.action}>
+          {this.state.profile.user.isAdmin && <div className={style.action}>
             <div className={style.background}>
               <p className={style.question}>{i18n.t('not_satisfied')}</p>
             </div>
@@ -200,31 +200,31 @@ class Tournaments extends Component {
                   fill="white" />
               </svg>
             </button>
-          </div>
-        </div>}
-
-        <div className={style.section}>
-          <Table
-            captions={tournamentsTableCaptions}
-            defaultSorting={this.tournamentsDefaultSorting}
-            items={tournaments}
-            className={style.table}
-            renderRow={this.renderRow}
-            isLoading={this.state.isLoading}
-            emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-          />
+          </div>}
         </div>
-      </div>
+  
+        <div className={style.section}>
+            <Table
+              captions={tournamentsTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={tournaments}
+              className={style.table}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+              emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+            />
+          </div>
+        </div>
 
-      {this.state.isLoading &&
-        <Preloader />
-      }
+        {this.state.isLoading &&
+          <Preloader />
+        }
 
-      {this.state.isAddTournamentModalShown &&
-        <NewTournamentModal onClose={this.toggleNewTournamentModal} />
-      }
-    </div>;
+        {this.state.isAddTournamentModalShown &&
+          <NewTournamentModal onClose={this.toggleNewTournamentModal} />
+        }
+      </div>;
+    }
   }
-}
-
+  
 export default Tournaments;
