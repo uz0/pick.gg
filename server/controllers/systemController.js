@@ -216,16 +216,16 @@ const SystemController = () => {
 
             results: [
               {
-                rule: rules['assists'],
-                score: record.assists,
+                rule: rules['kills'],
+                score: record.kills,
               },
               {
                 rule: rules['deaths'],
                 score: record.deaths,
               },
               {
-                rule: rules['kills'],
-                score: record.kills,
+                rule: rules['assists'],
+                score: record.assists,
               },
               // {
               //   rule: 'creep_score',
