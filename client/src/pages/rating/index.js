@@ -13,7 +13,7 @@ import i18n from 'i18n';
 const ratingTableCaptions = {
   place: {
     text: '#',
-    width: window.innerWidth < 480 ? 50 : 40,
+    width: window.innerWidth < 480 ? 50 : 66,
   },
 
   // avatar: {
@@ -57,7 +57,7 @@ class Rating extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     let Avatar = () => this.props.photo ? <img src={this.props.photo} alt="userpic" /> : <AvatarPlaceholder />;
-    { console.log(item) }
+
     return <NavLink to={`/user/${item._id}`} className={className} key={item._id}>
       <div className={itemClass} style={{ '--width': ratingTableCaptions.place.width }}>
         <span className={textClass}>{item.place}</span>
