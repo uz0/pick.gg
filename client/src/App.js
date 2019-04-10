@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import TopMenuComponent from './components/top-menu-component';
+import Footer from './components/footer';
 import NotificationContainer from './components/notification/notification-container';
 import Dashboard from './pages/dashboard';
 import Transactions from './pages/transactions';
@@ -29,6 +30,8 @@ const App = ({ history }) => <Fragment>
       <Redirect to="/"/>
     </Switch>
   </div>
+
+  <Footer />
 </Fragment>;
 
 export default App;
