@@ -321,6 +321,10 @@
   flex-shrink: 0;
 }
 
+.tournament .section .leaders .summoner_arr{
+  margin-top: 20px;
+}
+
 .tournament .section .leaders .table .leader_progress {
   --height: 24px;
   overflow: hidden;
@@ -348,6 +352,10 @@
   padding-top: 6px;
   color: #9696b0;
   font-weight: bold;
+}
+
+.summoner_arr{
+  margin-top: 20px;
 }
 @media (max-width: 1064px) {
   .tournament .team .champion .image {
