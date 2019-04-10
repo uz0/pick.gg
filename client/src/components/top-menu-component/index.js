@@ -15,7 +15,10 @@ import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.s
 import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
 import style from './style.module.css';
+import classnames from 'classnames/bind';
 import i18n from 'i18n';
+
+const cx = classnames.bind(style);
 
 class TopMenuComponent extends Component {
   constructor() {
@@ -125,11 +128,11 @@ class TopMenuComponent extends Component {
     const Avatar = () => this.state.profile.user.photo ?
       <img className={style.avatar_circle} src={this.state.profile.user.photo} alt="userpic" /> :
       <AvatarPlaceholder />;
-
+    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : this.state.profile.user.username;
     const BalancePlaceholder = () => `$${this.state.profile.user.balance}`;
     const UserPlaceholder = () => <Fragment>
       <Avatar />
-      <span>{this.state.profile.user.username}</span>
+      <span>{isMenuIcon}</span>
     </Fragment>;
 
     return (
