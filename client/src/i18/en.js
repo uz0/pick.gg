@@ -56,7 +56,6 @@ export default {translation: {
   tournaments: 'Tournaments',
   tournaments_name: 'Tournaments name',
   tournament_list: 'Tournament(from list)',
-  transactions_history: 'Transactions History',
   update_data: 'Your data has been updated.',
   username: 'Username',
   users: 'Users',
@@ -162,4 +161,5 @@ export default {translation: {
   fantasy_tournament_is_over: 'Hey! Fantasy tournament is over! Check who is the winner!',
   fantasy_tournament_is_over_winner: 'Congratulations! You are the winner of the Fantasy tournament!',
   match_status_changed: 'Hey! It seems one of the matches is over! You can check it out!',
+  terms_and_agreement: 'Terms and Agreement'
 }};
