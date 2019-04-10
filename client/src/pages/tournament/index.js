@@ -316,10 +316,29 @@ class Tournament extends Component {
 
   openMatchResults = (event, item) => {
     event.preventDefault();
-
-    let matchResults = [];
     let playersResults = item.results.playersResults;
     let groupedMatchResults = Object.values(_.groupBy(playersResults, 'id'));
+    let matchResults = [];
+
+    for(let i = 0; i < groupedMatchResults.length; i++){
+      const obj = {...groupedMatchResults[i][0]};
+
+      for(let j = 0; j < groupedMatchResults[i].length; j++){
+        const score = groupedMatchResults[i][j].results[j].score;
+        obj.results[j].score += score;
+      }
+      
+      matchResults.push(obj);
+    }
+
+    // console.log(groupedMatchResults, 'groupedMatchResults');
+
+    console.log(groupedMatchResults, 'groupedMatchResults');
+    console.log(matchResults, 'matchResults');
+
+    // console.log(groupedMatchResults);
+    // console.log(playersResults);
+
   }
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
@@ -410,7 +429,9 @@ class Tournament extends Component {
     </NavLink>;
   };
 
-  renderMatchResultRow = ({ className, itemClass, textClass, item }) => { };
+  renderMatchResultRow = ({ className, itemClass, textClass, item }) => {
+    console.log(item);
+  };
 
   render() {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
