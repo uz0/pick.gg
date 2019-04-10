@@ -365,6 +365,16 @@
 .summoner_arr{
   margin-top: 20px;
 }
+
+.match_info_modal {
+  --width: 700px !important;
+  max-height: 700px !important;
+}
+
+.match_result_row {
+  --bg-color: red !important;
+}
+
 @media (max-width: 1064px) {
   .tournament .team .champion .image {
     --size: 110px;
