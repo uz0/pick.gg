@@ -325,6 +325,14 @@
   margin-top: 20px;
 }
 
+.tournament .section .leaders .active_summoner{
+  background: var(--accent-color);
+}
+
+.tournament .section .leaders .active_summoner span{
+  color: #000;
+}
+
 .tournament .section .leaders .table .leader_progress {
   --height: 24px;
   overflow: hidden;
