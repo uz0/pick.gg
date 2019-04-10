@@ -95,6 +95,7 @@ class Tournament extends Component {
     rulesNames: [],
     isLoading: true,
     isChooseChampionModalShown: false,
+    username: '',
   };
 
   async componentDidMount() {
@@ -102,6 +103,7 @@ class Tournament extends Component {
 
     this.setState({
       currentUser: user,
+      username: user.username,
     });
 
     this.loadTournamentData();
@@ -343,10 +345,42 @@ class Tournament extends Component {
     </div>;
   };
 
+  isUsername = (item) => {
+    const summonerName = this.state.username;
+    
+    return item.user.username === summonerName;
+  }
+
+  renderSummonerLeaderRow = ({ className, itemClass, textClass, item }) => {
+    const { fantasyTournament } = this.state;
+    const users = this.state.users;
+    const sortUsers = users.sort(this.leadersDefaultSorting);
+    const indexUser = sortUsers.findIndex(this.isUsername);
+
+    const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
+    const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
+
+    return <div className={cx(className, 'summoner_arr')} key={item.user._id}>
+      <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
+        <span className={textClass}>{indexUser + 1}</span>
+      </div>
+
+      <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
+        <span className={textClass}>{item.user.username}</span>
+      </div>
+
+      {totalScore > 0 &&
+        <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
+          <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+        </div>
+      }
+    </div>;
+  };
+
   renderMatchRow = ({ className, itemClass, textClass, item }) => {
     const { fantasyTournament } = this.state;
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
-    
+
     const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const matchPoints = points > 0 ? points : 0;
 
@@ -375,7 +409,7 @@ class Tournament extends Component {
     </NavLink>;
   };
 
-  renderMatchResultRow = ({ className, itemClass, textClass, item }) => {};
+  renderMatchResultRow = ({ className, itemClass, textClass, item }) => { };
 
   render() {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
@@ -396,6 +430,10 @@ class Tournament extends Component {
     // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
+    const topTen = this.state.users.slice(0, 9);
+    const summonerName = this.state.username;
+    const summonerArr = topTen.filter(item => item.user.username === summonerName);
+    const renderSummonerArr = summonerArr ? '' : summonerArr;
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -505,13 +543,21 @@ class Tournament extends Component {
           <Table
             noCaptions
             captions={leadersTableCaptions}
-            items={this.state.users}
+            items={topTen}
             renderRow={this.renderLeaderRow}
             isLoading={this.state.isLoading}
             defaultSorting={this.leadersDefaultSorting}
             className={style.table}
             emptyMessage="There is no participants yet"
           />
+          {renderSummonerArr &&
+            <Table
+              noCaptions
+              items={summonerArr}
+              renderRow={this.renderSummonerLeaderRow}
+              isLoading={this.state.isLoading}
+              className={style.table}
+            />}
         </div>
       </div>
 
@@ -532,7 +578,7 @@ class Tournament extends Component {
           emptyMessage="There is no results yet"
         />
       </Modal> */}
-      
+
       {this.state.isChooseChampionModalShown &&
         <ChooseChampionModal
           champions={tournamentChampions}
