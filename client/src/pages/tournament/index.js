@@ -25,26 +25,25 @@ const cx = classnames.bind(style);
 
 const matchResultsTableCaptions = {
   player: {
-    text: i18n.t('position'),
-    width: 65,
+    text: 'Player',
+    width: 120,
   },
 
   kill: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 100 : 200,
+    text: 'Kills',
+    width: window.innerWidth < 480 ? 50 : 75,
   },
 
   death: {
-    text: i18n.t('points'),
-    width: window.innerWidth < 480 ? 100 : 250,
+    text: 'Deaths',
+    width: window.innerWidth < 480 ? 50 : 75,
   },
 
   assists: {
-    text: i18n.t('points'),
-    width: window.innerWidth < 480 ? 100 : 250,
+    text: 'Assists',
+    width: window.innerWidth < 480 ? 50 : 75,
   },
 };
-
 
 const leadersTableCaptions = {
   position: {
@@ -316,29 +315,47 @@ class Tournament extends Component {
 
   openMatchResults = (event, item) => {
     event.preventDefault();
-    let playersResults = item.results.playersResults;
-    let groupedMatchResults = Object.values(_.groupBy(playersResults, 'id'));
+
+    const fantasyTournamentChampions = this.state.fantasyTournament.tournament.champions;
+    const fantasyTournamentRules = this.state.fantasyTournament.rules.map(item => item.rule);
+
+    const playersResults = item.results.playersResults;
+    const groupedMatchResults = Object.values(Object.freeze(_.groupBy(playersResults, 'id')));
     let matchResults = [];
 
-    for(let i = 0; i < groupedMatchResults.length; i++){
-      const obj = {...groupedMatchResults[i][0]};
+    for (let i = 0; i < groupedMatchResults.length; i++) {
+      let matchResult = _.cloneDeep(groupedMatchResults[i][0]);
 
-      for(let j = 0; j < groupedMatchResults[i].length; j++){
-        const score = groupedMatchResults[i][j].results[j].score;
-        obj.results[j].score += score;
+      for (let j = 1; j < groupedMatchResults[i].length; j++) {
+        matchResult.results[0].score += groupedMatchResults[i][j].results[0].score;
+        matchResult.results[1].score += groupedMatchResults[i][j].results[1].score;
+        matchResult.results[2].score += groupedMatchResults[i][j].results[2].score;
       }
-      
-      matchResults.push(obj);
+
+      matchResults.push(matchResult);
     }
 
-    // console.log(groupedMatchResults, 'groupedMatchResults');
+    matchResults.forEach(match => {
+      match.playerName = _.find(fantasyTournamentChampions, { _id: match.playerId }).name;
 
-    console.log(groupedMatchResults, 'groupedMatchResults');
-    console.log(matchResults, 'matchResults');
+      match.results.forEach(item => {
+        item.ruleName = _.find(fantasyTournamentRules, { _id: item.rule }).name;
+      })
+    });
 
-    // console.log(groupedMatchResults);
-    // console.log(playersResults);
+    this.setState({
+      isMatchInfoActive: true,
+      matchInfo: matchResults,
+      matchTitle: item.name,
+    });
+  }
 
+  closeMatchResults = () => {
+    this.setState({
+      isMatchInfoActive: false,
+      matchInfo: [],
+      matchTitle: '',
+    })
   }
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
@@ -348,7 +365,7 @@ class Tournament extends Component {
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
 
-    return <div className={cx(className, {'active_summoner': summonerArr})} key={item.user._id}>
+    return <div className={cx(className, { 'active_summoner': summonerArr })} key={item.user._id}>
       <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
         <span className={textClass}>{index + 1}</span>
       </div>
@@ -367,7 +384,7 @@ class Tournament extends Component {
 
   isUsername = (item) => {
     const summonerName = this.state.username;
-    
+
     return item.user.username === summonerName;
   }
 
@@ -430,7 +447,24 @@ class Tournament extends Component {
   };
 
   renderMatchResultRow = ({ className, itemClass, textClass, item }) => {
-    console.log(item);
+    return <div className={cx(className)}>
+      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.player.width }}>
+        <span className={textClass}>{item.playerName}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.kill.width }}>
+        <span className={textClass}>{item.results[0].score}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.death.width }}>
+        <span className={textClass}>{item.results[1].score}</span>
+      </div>
+
+      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.assists.width }}>
+        <span className={textClass}>{item.results[2].score}</span>
+      </div>
+
+    </div>
   };
 
   render() {
@@ -456,6 +490,7 @@ class Tournament extends Component {
     const summonerName = this.state.username;
     const summonerArr = topTen.filter(item => item.user.username === summonerName);
     const renderSummonerArr = summonerArr ? '' : summonerArr;
+    const matchInfo = this.state.matchInfo && this.state.matchInfo;
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -587,19 +622,20 @@ class Tournament extends Component {
         <Preloader />
       }
 
-      {/* <Modal
-        title={`Название матча`}
-        close={this.resetTournament}
-        actions={Х}
+      {this.state.isMatchInfoActive && <Modal
+        title={this.state.matchTitle}
+        close={this.closeMatchResults}
+        wrapClassName={style.match_info_modal}
       >
         <Table
           captions={matchResultsTableCaptions}
-          items={[]}
+          items={matchInfo}
           renderRow={this.renderMatchResultRow}
           className={style.table}
           emptyMessage="There is no results yet"
         />
-      </Modal> */}
+      </Modal>
+      }
 
       {this.state.isChooseChampionModalShown &&
         <ChooseChampionModal
