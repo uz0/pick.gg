@@ -324,11 +324,12 @@ class Tournament extends Component {
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
     const { fantasyTournament } = this.state;
-
+    const summonerName = this.state.username;
+    const summonerArr = item.user.username === summonerName;
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
 
-    return <div className={className} key={item.user._id}>
+    return <div className={cx(className, {'active_summoner': summonerArr})} key={item.user._id}>
       <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
         <span className={textClass}>{index + 1}</span>
       </div>
