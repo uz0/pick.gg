@@ -18,6 +18,7 @@
   color: #9696B0;
   background-color: rgba(0, 0, 0, 0.25);
   border-radius: 4px;
+  transition: all 0.3s;
 }
 .userbox span{
   text-overflow: ellipsis;
@@ -31,6 +32,8 @@
 .dropdown.active .userbox,
 .userbox:hover {
   background-color: rgba(0, 0, 0, 1);
+  color: rgb(255, 255, 255);
+  transition: all 0.3s;
 }
 
 .userbox svg,
@@ -73,9 +76,9 @@
     font-size: 18px;
   }
   .userbox span{
-    width: 65px;
+    width: 25px;
     font-size: 14px;
-    min-width: 50px;
+    min-width: 25px;
   }
   .menu a {
     font-size: 18px;
@@ -85,13 +88,10 @@
   .userbox{
     font-size: 12px;
   }
-  .userbox span{
-    width: 40px;
-  }
   .userbox svg,
   .userbox img {
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
 }
   .links a {
     font-size: 14px;
