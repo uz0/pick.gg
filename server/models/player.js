@@ -7,6 +7,7 @@ export default mongoose.model('Player', new Schema({
   photo: { type: String },
   syncType: { type: String, enum: ['auto', 'manual'] },
   origin: { type: String, enum: ['escore', 'manual'] },
+  position: { type: String },
 
   stats: [{
     category: String,

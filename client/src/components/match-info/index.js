@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import Preloader from 'components/preloader';
+import Modal from 'components/modal';
+import Input from 'components/input';
+
+import moment from 'moment';
 
 import style from './style.module.css';
 

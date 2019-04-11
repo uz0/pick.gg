@@ -154,21 +154,21 @@ class newTournament extends Component {
   nameRules = ( name ) => {
     let rulesText = '';
 
-    if(name === 'kills'){
+    if (name === 'kills'){
       rulesText = i18n.t('kills');
     }
 
-    if(name === 'assists'){
+    if (name === 'assists'){
       rulesText = i18n.t('assists');
     }
 
-    if(name === 'deaths'){
+    if (name === 'deaths'){
       rulesText = i18n.t('deaths');
     }
 
     return <div className={style.statistic_item}>
       {rulesText}
-    </div>
+    </div>;
   }
 
   render() {

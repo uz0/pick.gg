@@ -7,7 +7,6 @@ import i18n from 'i18n';
 import style from './style.module.css';
 
 import Modal from 'components/modal';
-import { finished } from 'stream';
 
 const cx = classnames.bind(style);
 
@@ -61,8 +60,8 @@ class ChooseChampion extends Component {
 
     return <div key={value} className={style.statistic_item}>
       {categoryText}: {value}
-    </div>
-  }
+    </div>;
+  };
 
   render() {
 
@@ -93,8 +92,16 @@ class ChooseChampion extends Component {
 
               <p className={style.name}>{item.name}</p>
 
+              {item.position &&
+                <div className={style.stats_item}>
+                  <div className={style.statistic_item}>
+                    Position: {item.position}
+                  </div>
+                </div>
+              }
+
               <div className={style.stats_item}>
-                {/* {item.stats.map(element => this.renderStatisticItem(element))} */}
+                {item.stats.map(element => this.renderStatisticItem(element))}
               </div>
             </div>)}
           </div>

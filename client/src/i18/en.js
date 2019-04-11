@@ -5,6 +5,7 @@ export default {translation: {
   amount: 'Amount',
   best_players: 'Best Players rankings',
   create_new_tournament: 'Create a new tournament',
+  sync_data: 'Sync data',
   create: 'Create',
   choose_champion: 'Choose your 5 champions',
   dashboard: 'Dashboard',
@@ -136,6 +137,7 @@ export default {translation: {
   want_remove_champion: 'Do you really want to remove the champion?',
   champion_name: 'Champion name',
   champion_photo: 'Champion photo',
+  champion_position: 'Champion position',
   was_deleted: 'was deleted',
   tournament_not_finalized: 'Tournament not finalized',
   finalize_tournament: 'Finalize tournament',
@@ -161,5 +163,5 @@ export default {translation: {
   fantasy_tournament_is_over: 'Hey! Fantasy tournament is over! Check who is the winner!',
   fantasy_tournament_is_over_winner: 'Congratulations! You are the winner of the Fantasy tournament!',
   match_status_changed: 'Hey! It seems one of the matches is over! You can check it out!',
-  terms_and_agreement: 'Terms and Agreement'
+  terms_and_agreement: 'Terms and Agreement',
 }};
