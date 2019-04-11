@@ -7,6 +7,8 @@ import ChooseChampionModal from 'components/choose-champion';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
 
+import io from "socket.io-client";
+
 import UserService from 'services/userService';
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
@@ -105,13 +107,19 @@ class Tournament extends Component {
       username: user.username,
     });
 
+    this.socket = io();
+
+    this.socket.on('tournamentParticipantsUpdate', () => {
+      this.loadTournamentData();
+    });
+
     this.loadTournamentData();
   }
 
   loadTournamentData = () => new Promise(async resolve => {
-    if (!this.state.isLoading) {
-      this.setState({ isLoading: true });
-    }
+    // if (!this.state.isLoading) {
+    //   this.setState({ isLoading: true });
+    // }
 
     this.tournamentId = this.props.match.params.id;
 
