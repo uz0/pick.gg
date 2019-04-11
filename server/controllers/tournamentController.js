@@ -269,6 +269,8 @@ const TournamentController = io => {
       .populate({ path: 'users.user', select: '_id username' })
       .populate({ path: 'users.players' })
 
+    io.emit('tournamentParticipantsUpdate');
+
     res.json({
       success: true,
       tournament: newTournament,
