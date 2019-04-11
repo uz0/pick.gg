@@ -9,7 +9,6 @@ import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
-import Input from 'components/filters/input';
 import Select from 'components/filters/select';
 import Table from 'components/table';
 import NewTournamentModal from 'components/new-tournament';
@@ -172,59 +171,34 @@ class Tournaments extends Component {
             onChange={this.onTournamentFilterChange}
           />
 
-          <Input
-            type="date"
-            label={i18n.t('date_from')}
-            className={style.filter_item}
-            onChange={this.onDateFilterChange}
-          />
-
-          <Input
-            type="number"
-            label={i18n.t('minimal_entry')}
-            className={style.filter_item}
-            placeholder="$ 0.1"
-            onChange={this.onEntryFilterChange}
-          />
-
-          {this.state.profile.user.isAdmin && <div className={style.action}>
-            <div className={style.background}>
-              <p className={style.question}>{i18n.t('not_satisfied')}</p>
-            </div>
-
+          {this.state.profile.user.isAdmin &&
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              <span>{i18n.t('create_new_tournament')}</span>
-
-              <svg width="200" className={style.back_button} height="100">
-                <polygon points="200,0 200,100 0,100 20,20"
-                  fill="white" />
-              </svg>
-            </button>
-          </div>}
+              <i class="material-icons">add</i>
+            </button>}
         </div>
-  
+
         <div className={style.section}>
-            <Table
-              captions={tournamentsTableCaptions}
-              defaultSorting={this.tournamentsDefaultSorting}
-              items={tournaments}
-              className={style.table}
-              renderRow={this.renderRow}
-              isLoading={this.state.isLoading}
-              emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-            />
-          </div>
+          <Table
+            captions={tournamentsTableCaptions}
+            defaultSorting={this.tournamentsDefaultSorting}
+            items={tournaments}
+            className={style.table}
+            renderRow={this.renderRow}
+            isLoading={this.state.isLoading}
+            emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+          />
         </div>
+      </div>
 
-        {this.state.isLoading &&
-          <Preloader />
-        }
+      {this.state.isLoading &&
+        <Preloader />
+      }
 
-        {this.state.isAddTournamentModalShown &&
-          <NewTournamentModal onClose={this.toggleNewTournamentModal} />
-        }
-      </div>;
-    }
+      {this.state.isAddTournamentModalShown &&
+        <NewTournamentModal onClose={this.toggleNewTournamentModal} />
+      }
+    </div>;
   }
-  
+}
+
 export default Tournaments;

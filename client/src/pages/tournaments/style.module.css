@@ -24,12 +24,47 @@
 
 .tournaments .content {
   display: flex;
+  flex-direction: column;
   margin-top: 50px;
 }
 
 .tournaments .content .sidebar {
   flex-shrink: 0;
   width: 270px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 30px;
+}
+
+.tournaments .content .sidebar label{
+  padding-left: 15px;
+}
+
+.tournaments .content .sidebar select{
+  height: 50px;
+  padding: 0 10px;
+  background-color: var(--background-color);
+  cursor: pointer;
+}
+
+.tournaments .content .sidebar .button {
+  background-color: var(--accent-color);
+  margin-top: 20px;
+  margin-left: 20px;
+  border-radius: 50%;
+  display: flex;
+  padding: 5px;
+  transition: all 0.2s;
+}
+
+.tournaments .content .sidebar .button:hover{
+  transition: all 0.2s;
+  background-color: rgb(235, 163, 55);
+}
+
+.tournaments .content .sidebar .button i{
+  color: #000;
+  font-size: 34px;
 }
 
 .tournaments .content .sidebar .filter_item:nth-of-type(n+2) {
@@ -107,7 +142,6 @@
   flex-grow: 1;
   min-width: 0;
   padding-bottom: 30px;
-  margin-left: 30px;
 }
 
 .tournaments .content .section .table .disable_url {
