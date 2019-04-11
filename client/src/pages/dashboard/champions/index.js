@@ -260,6 +260,12 @@ class Champions extends Component {
             value={championData.photo || ''}
             onChange={this.handleInputChange}
           />
+          <Input
+            label={i18n.t('champion_position')}
+            name="position"
+            value={championData.position || ''}
+            onChange={this.handleInputChange}
+          />
         </Modal>
       }
     </div>;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
+// import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
 
@@ -56,7 +56,7 @@ class Rating extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    let Avatar = () => this.props.photo ? <img src={this.props.photo} alt="userpic" /> : <AvatarPlaceholder />;
+    // let Avatar = () => this.props.photo ? <img src={this.props.photo} alt="userpic" /> : <AvatarPlaceholder />;
 
     return <NavLink to={`/user/${item._id}`} className={className} key={item._id}>
       <div className={itemClass} style={{ '--width': ratingTableCaptions.place.width }}>
@@ -78,7 +78,7 @@ class Rating extends Component {
   }
 
   render() {
-    let Avatar = () => this.props.photo ? <img src={this.props.photo} alt="userpic" /> : <AvatarPlaceholder />;
+    // let Avatar = () => this.props.photo ? <img src={this.props.photo} alt="userpic" /> : <AvatarPlaceholder />;
     return (
       <div className={style.home_page}>
         {this.state.loader && <Preloader />}

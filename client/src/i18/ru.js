@@ -5,6 +5,7 @@ export default {translation: {
   amount: 'Сумма',
   best_players: 'Рейтинг лучших игроков',
   create_new_tournament: 'Создать турнир',
+  sync_data: 'Синхронизация',
   create: 'Создать',
   choose_champion: 'Выбери пять чемпионов',
   date: 'Дата',
@@ -136,6 +137,7 @@ export default {translation: {
   want_remove_champion: 'Вы действительно хотите удалить чемпиона?',
   champion_name: 'Имя чемпиона',
   champion_photo: 'Аватар чемпиона',
+  champion_position: 'Роль чемпиона',
   was_deleted: 'был удалён',
   tournament_not_finalized: 'Турнир не завершен',
   finalize_tournament: 'Завершить турнир',
@@ -164,5 +166,5 @@ export default {translation: {
   fantasy_tournament_is_over: 'Внимание! Фентези турнир окончен! Посмотрите, вдруг вы победили? :)',
   fantasy_tournament_is_over_winner: 'Урра! Вы стали победителем Фентези турнира!',
   match_status_changed: 'Внимание! Закончился один из матчей в Фентези турнире, можете посмотреть результат!',
-  terms_and_agreement: 'Условия и Соглашения'
+  terms_and_agreement: 'Условия и Соглашения',
 }};

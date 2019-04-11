@@ -55,6 +55,7 @@ const UsersController = () => {
           _id: 1,
           winning: 1,
           'username': '$user.username',
+          'photo': '$user.photo',
         }
       },
       {
@@ -69,6 +70,7 @@ const UsersController = () => {
         $project: {
           _id: 1,
           username: 1,
+          photo: 1,
         }
       },
       {
@@ -84,7 +86,7 @@ const UsersController = () => {
       },
       {
         $project: {
-          transactions: 0
+          transactions: 0,
         }
       }
     ])

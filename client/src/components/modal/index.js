@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../button';
 import style from './style.module.css';
-import i18n from 'i18n'
+import i18n from 'i18n';
 
 class Modal extends Component {
   render(){

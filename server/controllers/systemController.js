@@ -29,7 +29,7 @@ const SystemController = () => {
     await TournamentModel.deleteMany();
     await MatchResult.deleteMany();
     await MatchModel.deleteMany();
-    // await PlayerModel.deleteMany();
+    await PlayerModel.deleteMany();
 
     res.send({
       "success": "all data was resetted"
@@ -171,6 +171,7 @@ const SystemController = () => {
             syncAt: new Date().toISOString(),
             syncType: 'auto',
             origin: 'escore',
+            position: player.position,
             stats: [],
           });
         }
