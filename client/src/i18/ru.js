@@ -164,5 +164,5 @@ export default {translation: {
   fantasy_tournament_is_over: 'Внимание! Фентези турнир окончен! Посмотрите, вдруг вы победили? :)',
   fantasy_tournament_is_over_winner: 'Урра! Вы стали победителем Фентези турнира!',
   match_status_changed: 'Внимание! Закончился один из матчей в Фентези турнире, можете посмотреть результат!',
-  terms_and_agreement: 'Условия и Соглашения'
+  terms_and_agreement: 'Условия и Соглашения',
 }};
