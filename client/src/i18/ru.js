@@ -137,6 +137,7 @@ export default {translation: {
   want_remove_champion: 'Вы действительно хотите удалить чемпиона?',
   champion_name: 'Имя чемпиона',
   champion_photo: 'Аватар чемпиона',
+  champion_position: 'Роль чемпиона',
   was_deleted: 'был удалён',
   tournament_not_finalized: 'Турнир не завершен',
   finalize_tournament: 'Завершить турнир',
