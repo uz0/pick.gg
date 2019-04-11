@@ -23,7 +23,7 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const matchResultsTableCaptions = {
+const matchInfoTableCaptions = {
   player: {
     text: 'Player',
     width: 120,
@@ -350,7 +350,7 @@ class Tournament extends Component {
     });
   }
 
-  closeMatchResults = () => {
+  closeMatchInfo = () => {
     this.setState({
       isMatchInfoActive: false,
       matchInfo: [],
@@ -446,21 +446,21 @@ class Tournament extends Component {
     </NavLink>;
   };
 
-  renderMatchResultRow = ({ className, itemClass, textClass, item }) => {
-    return <div className={cx(className)}>
-      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.player.width }}>
+  renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
+    return <div className={cx(className, style.row_dark)}>
+      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
         <span className={textClass}>{item.playerName}</span>
       </div>
 
-      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.kill.width }}>
+      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.kill.width }}>
         <span className={textClass}>{item.results[0].score}</span>
       </div>
 
-      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.death.width }}>
+      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.death.width }}>
         <span className={textClass}>{item.results[1].score}</span>
       </div>
 
-      <div className={itemClass} style={{ '--width': matchResultsTableCaptions.assists.width }}>
+      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.assists.width }}>
         <span className={textClass}>{item.results[2].score}</span>
       </div>
 
@@ -624,13 +624,13 @@ class Tournament extends Component {
 
       {this.state.isMatchInfoActive && <Modal
         title={this.state.matchTitle}
-        close={this.closeMatchResults}
+        close={this.closeMatchInfo}
         wrapClassName={style.match_info_modal}
       >
         <Table
-          captions={matchResultsTableCaptions}
+          captions={matchInfoTableCaptions}
           items={matchInfo}
-          renderRow={this.renderMatchResultRow}
+          renderRow={this.renderMatchInfoRow}
           className={style.table}
           emptyMessage="There is no results yet"
         />
