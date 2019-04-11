@@ -455,7 +455,11 @@ class Tournament extends Component {
   };
 
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
-    return <div className={cx(className, style.row_dark)}>
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const champions = (currentUserParticipant && currentUserParticipant.players) || [];
+    const isPlayerChoosedByUser = _.find(champions, {_id: item.playerId}) ? true : false;
+
+    return <div className={cx(className, style.row_dark, {[style.row_choosed]: isPlayerChoosedByUser})}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
         <span className={textClass}>{item.playerName}</span>
       </div>
