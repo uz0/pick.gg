@@ -7,7 +7,6 @@ import i18n from 'i18n';
 import style from './style.module.css';
 
 import Modal from 'components/modal';
-import { finished } from 'stream';
 
 const cx = classnames.bind(style);
 
@@ -61,8 +60,8 @@ class ChooseChampion extends Component {
 
     return <div key={value} className={style.statistic_item}>
       {categoryText}: {value}
-    </div>
-  }
+    </div>;
+  };
 
   render() {
 

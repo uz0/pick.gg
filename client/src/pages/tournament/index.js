@@ -314,7 +314,7 @@ class Tournament extends Component {
 
     const payload = {
       players: ids,
-    }
+    };
 
     await this.tournamentService.participateInTournament(this.tournamentId, payload);
     await this.loadTournamentData();
@@ -349,7 +349,7 @@ class Tournament extends Component {
 
       match.results.forEach(item => {
         item.ruleName = _.find(fantasyTournamentRules, { _id: item.rule }).name;
-      })
+      });
     });
 
     this.setState({
@@ -364,7 +364,7 @@ class Tournament extends Component {
       isMatchInfoActive: false,
       matchInfo: [],
       matchTitle: '',
-    })
+    });
   }
 
   renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
@@ -477,7 +477,7 @@ class Tournament extends Component {
         <span className={textClass}>{item.results[2].score}</span>
       </div>
 
-    </div>
+    </div>;
   };
 
   render() {
@@ -494,7 +494,7 @@ class Tournament extends Component {
     const status = this.getTournamentStatus();
     const tournamentStatus = this.getFantasyTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
-    const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
+    // const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
     const isJoinButtonShown = !currentUserParticipant && !winner;
     // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;

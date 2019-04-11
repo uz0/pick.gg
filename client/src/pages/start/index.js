@@ -3,7 +3,7 @@ import GoogleLogin from 'react-google-login';
 import style from './style.module.css';
 import i18n from "i18next";
 import config from 'config';
-import WOW from 'wowjs'
+import WOW from 'wowjs';
 
 import NotificationContainer from 'components/notification/notification-container';
 
@@ -14,7 +14,7 @@ import tournamentsList from 'assets/faq/tournaments_list.png';
 import tournamentsFinished from 'assets/faq/tournament_finished.png';
 import championsCards from 'assets/faq/champions.png';
 import { ReactComponent as GoogleIcon } from 'assets/google-icon.svg';
-import zed from 'assets/zed.mp4'
+import zed from 'assets/zed.mp4';
 
 import classnames from 'classnames';
 const cx = classnames.bind(style);
@@ -27,7 +27,7 @@ class Start extends Component {
   }
 
   componentDidMount(){
-    if(this.props.history.action === 'REPLACE'){
+    if (this.props.history.action === 'REPLACE'){
       this.notificationService.show(i18n.t('login_message_on_redirect'));
     }
     new WOW.WOW().init();
