@@ -375,6 +375,10 @@
   --bg-color: red !important;
 }
 
+.row_dark {
+  --bg-color: #1b1b21 !important;
+}
+
 @media (max-width: 1064px) {
   .tournament .team .champion .image {
     --size: 110px;
