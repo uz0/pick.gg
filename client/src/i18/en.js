@@ -137,6 +137,7 @@ export default {translation: {
   want_remove_champion: 'Do you really want to remove the champion?',
   champion_name: 'Champion name',
   champion_photo: 'Champion photo',
+  champion_position: 'Champion position',
   was_deleted: 'was deleted',
   tournament_not_finalized: 'Tournament not finalized',
   finalize_tournament: 'Finalize tournament',
