@@ -5,6 +5,7 @@ export default {translation: {
   amount: 'Сумма',
   best_players: 'Рейтинг лучших игроков',
   create_new_tournament: 'Создать турнир',
+  sync_data: 'Синхронизация',
   create: 'Создать',
   choose_champion: 'Выбери пять чемпионов',
   date: 'Дата',

@@ -5,6 +5,7 @@ export default {translation: {
   amount: 'Amount',
   best_players: 'Best Players rankings',
   create_new_tournament: 'Create a new tournament',
+  sync_data: 'Sync data',
   create: 'Create',
   choose_champion: 'Choose your 5 champions',
   dashboard: 'Dashboard',

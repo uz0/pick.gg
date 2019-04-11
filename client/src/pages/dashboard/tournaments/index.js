@@ -85,6 +85,19 @@ class Tournaments extends Component {
     });
   }
 
+  syncData = async () => {
+    this.setState({ isLoading: true });
+    
+    try {
+      await this.adminService.syncDataWithEscore();
+    } catch(error) {
+      this.notificationService.show('Oops, something went wrong with synchronization');
+    }
+
+    this.notificationService.show('Synchronization completed!');
+    this.setState({ isLoading: false });
+  }
+
   createTournamentSubmit = async () => {
     const { tournamentEditingData } = this.state;
 
@@ -402,6 +415,12 @@ class Tournaments extends Component {
     return <div className={style.tournaments}>
 
       <div className={style.tournaments_controls}>
+        <Button
+          appearance="_basic-accent"
+          text={i18n.t('sync_data')}
+          onClick={this.syncData}
+          className={style.button}
+        />
         <Button
           appearance="_basic-accent"
           text={i18n.t('create_new_tournament')}
