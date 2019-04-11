@@ -109,7 +109,8 @@ class Tournament extends Component {
 
     this.socket = io();
 
-    this.socket.on('tournamentParticipantsUpdate', () => {
+    this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
+      this.notificationService.show(`${user.username} has been registered to the tournament`);
       this.loadTournamentData();
     });
 
@@ -117,9 +118,9 @@ class Tournament extends Component {
   }
 
   loadTournamentData = () => new Promise(async resolve => {
-    // if (!this.state.isLoading) {
-    //   this.setState({ isLoading: true });
-    // }
+    if (!this.state.isLoading) {
+      this.setState({ isLoading: true });
+    }
 
     this.tournamentId = this.props.match.params.id;
 
