@@ -92,11 +92,13 @@ class ChooseChampion extends Component {
 
               <p className={style.name}>{item.name}</p>
 
-              <div className={style.stats_item}>
-                <div className={style.statistic_item}>
-                  {item.position}
+              {item.position &&
+                <div className={style.stats_item}>
+                  <div className={style.statistic_item}>
+                    Position: {item.position}
+                  </div>
                 </div>
-              </div>
+              }
 
               <div className={style.stats_item}>
                 {item.stats.map(element => this.renderStatisticItem(element))}
