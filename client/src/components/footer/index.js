@@ -1,8 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component} from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthWrapper from '../authWrapper';
-
-import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 
 import style from './style.module.css';
 import i18n from 'i18n';
