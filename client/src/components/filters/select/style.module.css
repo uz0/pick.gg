@@ -29,4 +29,7 @@
   border-radius: 4px;
   border: var(--default-input-border) solid var(--background-color);
   background-color: var(--primary-color);
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
