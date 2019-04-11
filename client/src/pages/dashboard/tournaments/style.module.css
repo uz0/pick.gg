@@ -8,6 +8,10 @@
   margin-bottom: 12px;
 }
 
+.tournaments .tournaments_controls button + button {
+  margin-left: 12px;
+}
+
 .tournaments .table .tournament_row {
   cursor: pointer;
 }

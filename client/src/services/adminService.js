@@ -2,6 +2,12 @@ import http from './httpService';
 import BasicService from './basicService';
 
 export default class AdminService extends BasicService {
+  syncDataWithEscore = async() => {
+    const syncQuery = await http(`/api/system/sync`);
+    const syncResult = await syncQuery.json();
+    return syncResult;
+  }
+
   createRealTournament = async(tournamentData) => {
     const tournamentQuery = await http(`/api/admin/tournaments/real`, {
       method: 'POST',
