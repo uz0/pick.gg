@@ -30,7 +30,9 @@ class Start extends Component {
     if(this.props.history.action === 'REPLACE'){
       this.notificationService.show(i18n.t('login_message_on_redirect'));
     }
-    new WOW.WOW().init();
+    if(window.innerWidth > 1024){
+      new WOW.WOW().init();
+    }
   }
 
   handleChange = event => {
@@ -108,7 +110,7 @@ class Start extends Component {
               <h2>1. {i18n.t('guade_choose')}</h2>
               <p>{i18n.t('guade_choose_content')}</p>
             </div>
-            <div className={'wow fadeInRight'} data-wow-delay="0.3s">
+            <div className={'wow fadeInRight'} data-wow-delay="0.2s">
               <img src={tournamentsList} alt="Tournaments list" />
             </div>
           </div>
