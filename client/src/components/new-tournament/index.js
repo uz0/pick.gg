@@ -129,6 +129,8 @@ class newTournament extends Component {
       return;
     }
 
+    this.props.onClose();
+
     tournamentId = filteredTournaments.find(item => item.name === tournament)._id;
     
     const normalizedRules = Object.keys(rulesValues).map(item => ({
