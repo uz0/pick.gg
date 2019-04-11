@@ -269,7 +269,7 @@ const TournamentController = io => {
       .populate({ path: 'users.user', select: '_id username' })
       .populate({ path: 'users.players' })
 
-    io.emit('tournamentParticipantsUpdate');
+    io.emit('tournamentParticipantsUpdate', { user });
 
     res.json({
       success: true,
