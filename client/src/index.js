@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import 'typeface-roboto';
 import './index.css';
+import './animate.css';
 
 import App from './App';
 import Start from './pages/start';

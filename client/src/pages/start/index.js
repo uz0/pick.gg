@@ -3,11 +3,12 @@ import GoogleLogin from 'react-google-login';
 import style from './style.module.css';
 import i18n from "i18next";
 import config from 'config';
+import WOW from 'wowjs'
 
-import NotificationContainer from '../../components/notification/notification-container';
+import NotificationContainer from 'components/notification/notification-container';
 
-import AuthService from '../../services/authService';
-import NotificationService from '../../services/notificationService';
+import AuthService from 'services/authService';
+import NotificationService from 'services/notificationService';
 
 import tournamentsList from 'assets/faq/tournaments_list.png';
 import tournamentsFinished from 'assets/faq/tournament_finished.png';
@@ -29,6 +30,7 @@ class Start extends Component {
     if(this.props.history.action === 'REPLACE'){
       this.notificationService.show(i18n.t('login_message_on_redirect'));
     }
+    new WOW.WOW().init();
   }
 
   handleChange = event => {
@@ -101,30 +103,30 @@ class Start extends Component {
         </section>
 
         <section className={style.guide}>
-          <div className={style.step}>
-            <div>
+          <div className={cx(style.step)}>
+            <div className={'wow fadeInLeft'}>
               <h2>1. {i18n.t('guade_choose')}</h2>
               <p>{i18n.t('guade_choose_content')}</p>
             </div>
-            <div>
+            <div className={'wow fadeInRight'} data-wow-delay="0.3s">
               <img src={tournamentsList} alt="Tournaments list" />
             </div>
           </div>
           <div className={cx(style.step, style.align_right)}>
-            <div>
+            <div className={'wow fadeInRight'}>
               <h2>2. {i18n.t('guade_create')}</h2>
               <p>{i18n.t('guade_create_content')}</p>
             </div>
-            <div>
+            <div className={'wow fadeInLeft'} data-wow-delay="0.3s">
               <img src={championsCards} alt="User team" />
             </div>
           </div>
           <div className={style.step}>
-            <div>
+            <div className={'wow fadeInLeft'}>
               <h2>3. {i18n.t('guade_win')}</h2>
               <p>{i18n.t('guade_win_content')}</p>
             </div>
-            <div>
+            <div className={'wow fadeInRight'} data-wow-delay="0.3s">
               <img src={tournamentsFinished} alt="Tournament result" />
             </div>
           </div>
