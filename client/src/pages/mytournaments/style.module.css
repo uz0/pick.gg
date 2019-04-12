@@ -5,6 +5,7 @@
   /* padding: 20px; */
   width: 1000px;
   margin: 0 auto;
+  padding-bottom: 40px;
 }
 .home_page h2{
   font-family: var(--font-family-title);
