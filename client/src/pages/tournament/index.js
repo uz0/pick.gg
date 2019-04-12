@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import WOW from 'wowjs'
+import WOW from 'wowjs';
 
 import Button from 'components/button';
 import Modal from 'components/dashboard-modal';
