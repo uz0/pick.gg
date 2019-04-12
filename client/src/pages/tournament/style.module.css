@@ -103,7 +103,6 @@
 }
 
 .tournament .tournament_section .button span {
-  font-size: 18px;
   font-size: 20px;
   padding: 15px 0;
 }
@@ -494,5 +493,9 @@
   .tournament .section .leaders {
     margin-left: 0;
     margin-top: 40px;
+  }
+
+  .tournament .tournament_section .button span {
+    font-size: 15px;
   }
 }

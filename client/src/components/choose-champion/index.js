@@ -25,7 +25,9 @@ class ChooseChampion extends Component {
     if (index === -1 && ids.length === 5) {
       return;
     }
-
+    if (ids.length === 5){
+      
+    }
     if (index === -1) {
       ids.push(id);
     } else {
