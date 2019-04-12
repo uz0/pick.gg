@@ -19,40 +19,23 @@ main h1 {
 .content{
   margin: 0 auto;
 }
-.header_table {
-  display: flex;
-  font-size: 20px;
-  color: #9D9FBB;
-}
-.number_header{
-  padding: 10px 20px;
-}
-.name_header{
-  padding-left: 85px;
-  padding-top: 10px;
-  min-width: 335px;
-}
-.name_table{
-  min-width: 250px;
-}
-.item_table{
+
+.main_block .section .avatar_table{
+  width: 30px;
+  --height: 30px !important;
   display: flex;
   align-items: center;
-  color: var(--caption-color);
-  font-size: 20px;
-  text-decoration: none;
-  margin-bottom: 10px;
-  padding: 10px 20px;
-  background: var(--background-color);
-}
-.avatar_table{
-  width: 60px;
-  height: 60px;
-  margin: 0px 20px;
+  overflow: auto;
+  margin: 0 auto;
+  border-radius: 50%;
 }
 .avatar_table img{
-  width: 60px;
-  border-radius: 50%;
+  width: 30px;
+  height: initial;
+}
+
+.avatar_table svg{
+  width: 30px;
 }
 .percent_header{
   padding-top: 10px;
@@ -70,20 +53,16 @@ main h1 {
     min-width: 165px;
   }
   .avatar_table{
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
   }
   .avatar_table img{
-    width: 40px;
+    width: 20px;
+
   }
-  .name_table{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    min-width: 140px;
-  }
-}
-@media screen and (max-width: 480px){
-  .name_table{
-    width: 140px;
+  .main_block > .section .avatar_table{
+    width: 20px;
+    margin: 0;
+    height: 20px !important;
   }
 }
