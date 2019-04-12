@@ -3,7 +3,6 @@ import GoogleLogin from 'react-google-login';
 import style from './style.module.css';
 import i18n from "i18next";
 import config from 'config';
-import WOW from 'wowjs';
 
 import NotificationContainer from 'components/notification/notification-container';
 
@@ -29,9 +28,6 @@ class Start extends Component {
   componentDidMount(){
     if (this.props.history.action === 'REPLACE'){
       this.notificationService.show(i18n.t('login_message_on_redirect'));
-    }
-    if (window.innerWidth > 1024){
-      new WOW.WOW().init();
     }
   }
 
@@ -106,29 +102,29 @@ class Start extends Component {
 
         <section className={style.guide}>
           <div className={cx(style.step)}>
-            <div className={'wow fadeInLeft'}>
+            <div>
               <h2>1. {i18n.t('guade_choose')}</h2>
               <p>{i18n.t('guade_choose_content')}</p>
             </div>
-            <div className={'wow fadeInRight'} data-wow-delay="0.2s">
+            <div>
               <img src={tournamentsList} alt="Tournaments list" />
             </div>
           </div>
           <div className={cx(style.step, style.align_right)}>
-            <div className={'wow fadeInRight'}>
+            <div>
               <h2>2. {i18n.t('guade_create')}</h2>
               <p>{i18n.t('guade_create_content')}</p>
             </div>
-            <div className={'wow fadeInLeft'} data-wow-delay="0.3s">
+            <div>
               <img src={championsCards} alt="User team" />
             </div>
           </div>
           <div className={style.step}>
-            <div className={'wow fadeInLeft'}>
+            <div>
               <h2>3. {i18n.t('guade_win')}</h2>
               <p>{i18n.t('guade_win_content')}</p>
             </div>
-            <div className={'wow fadeInRight'} data-wow-delay="0.3s">
+            <div>
               <img src={tournamentsFinished} alt="Tournament result" />
             </div>
           </div>

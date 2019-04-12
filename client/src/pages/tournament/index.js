@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import WOW from 'wowjs';
 
 import Button from 'components/button';
 import Modal from 'components/dashboard-modal';
@@ -154,11 +153,7 @@ class Tournament extends Component {
       matches,
       users,
     });
-    if (window.innerWidth > 1024) {
-      const wow = new WOW.WOW();
-      wow.init();
-    }
-    
+
     resolve();
   });
 
@@ -533,8 +528,7 @@ class Tournament extends Component {
             text={i18n.t('join_tournament')}
             appearance="_basic-accent"
             onClick={this.toggleChampionModal}
-            className={cx(style.button, 'wow shake')}
-            data-wow-delay="1s"
+            className={cx(style.button)}
           />
         }
       </div>
