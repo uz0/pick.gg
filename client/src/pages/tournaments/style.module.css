@@ -42,7 +42,7 @@
 
 .tournaments .content .sidebar select{
   height: 50px;
-  padding: 0 10px;
+  padding: 0 15px;
   background-color: var(--background-color);
   cursor: pointer;
 }
