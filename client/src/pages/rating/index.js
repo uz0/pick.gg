@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import i18n from 'i18n';
 
-// import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
+import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
 
 import UserService from 'services/userService';
 
 import style from './style.module.css';
-import i18n from 'i18n';
+import classnames from 'classnames/bind';
+
+const cx = classnames.bind(style);
 
 const ratingTableCaptions = {
   place: {
@@ -16,14 +19,14 @@ const ratingTableCaptions = {
     width: window.innerWidth < 480 ? 50 : 66,
   },
 
-  // avatar: {
-  //   text: '',
-  //   width: 100,
-  // },
+  avatar: {
+    text: '',
+    width: window.innerWidth < 480 ? 55 : 80,
+  },
 
   username: {
     text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 150 : 350,
+    width: window.innerWidth < 480 ? 110 : 350,
   },
 
   winning: {
@@ -56,16 +59,16 @@ class Rating extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    // let Avatar = () => this.props.photo ? <img src={this.props.photo} alt="userpic" /> : <AvatarPlaceholder />;
+    let Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
 
     return <NavLink to={`/user/${item._id}`} className={className} key={item._id}>
       <div className={itemClass} style={{ '--width': ratingTableCaptions.place.width }}>
         <span className={textClass}>{item.place}</span>
       </div>
-
-      {/* <div className={itemClass} style={{ '--width': ratingTableCaptions.avatar.width }}>
-        <span className={textClass}><AvatarPlaceholder/></span>
-      </div> */}
+      {console.log(item)}
+      <div className={itemClass} style={{ '--width': ratingTableCaptions.avatar.width }}>
+        <span className={cx(textClass, style.avatar_table)} ><Avatar /></span>
+      </div>
 
       <div className={itemClass} style={{ '--width': ratingTableCaptions.username.width }}>
         <span className={textClass}>{item.username}</span>
