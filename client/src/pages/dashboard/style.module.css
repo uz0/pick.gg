@@ -6,9 +6,7 @@
   max-width: var(--container-width);
   margin-left: auto;
   margin-right: auto;
-  padding-top: 20px;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
+  padding: 20px var(--layout-padding) 40px var(--layout-padding);
 }
 
 .dashboard .title {

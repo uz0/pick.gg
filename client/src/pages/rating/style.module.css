@@ -6,6 +6,7 @@
 .main_block {
   width: 550px;
   margin: 0 auto;
+  padding-bottom: 40px;
 }
 
 main h1 {
