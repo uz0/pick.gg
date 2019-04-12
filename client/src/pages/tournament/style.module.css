@@ -99,10 +99,13 @@
 .tournament .tournament_section .button {
   flex-shrink: 0;
   margin-left: 16px;
+  height: auto;
 }
 
 .tournament .tournament_section .button span {
   font-size: 18px;
+  font-size: 20px;
+  padding: 15px 0;
 }
 
 .tournament .tournament_section + .winner {
