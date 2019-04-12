@@ -8,6 +8,8 @@ import style from './style.module.css';
 
 import Modal from 'components/modal';
 
+import uuid from 'uuid';
+
 const cx = classnames.bind(style);
 
 class ChooseChampion extends Component {
@@ -58,15 +60,12 @@ class ChooseChampion extends Component {
       categoryText = 'A';
     }
 
-    return <div key={value} className={style.statistic_item}>
+    return <div key={uuid()} className={style.statistic_item}>
       {categoryText}: {value}
     </div>;
   };
 
   render() {
-
-    console.log(this.props.tournamentChampions, 'tournamentChampions');
-
     return <div className={style.wrapper}>
       <div className={style.modal}>
         <header className={style.header}>
