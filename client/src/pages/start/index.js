@@ -30,7 +30,7 @@ class Start extends Component {
     if (this.props.history.action === 'REPLACE'){
       this.notificationService.show(i18n.t('login_message_on_redirect'));
     }
-    if(window.innerWidth > 1024){
+    if (window.innerWidth > 1024){
       new WOW.WOW().init();
     }
   }

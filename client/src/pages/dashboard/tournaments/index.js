@@ -90,7 +90,7 @@ class Tournaments extends Component {
     
     try {
       await this.adminService.syncDataWithEscore();
-    } catch(error) {
+    } catch (error) {
       this.notificationService.show('Oops, something went wrong with synchronization');
     }
 
