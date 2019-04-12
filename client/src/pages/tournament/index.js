@@ -533,7 +533,7 @@ class Tournament extends Component {
             text={i18n.t('join_tournament')}
             appearance="_basic-accent"
             onClick={this.toggleChampionModal}
-            className={cx(style.button, 'wow heartBeat')}
+            className={cx(style.button, 'wow shake')}
             data-wow-delay="1s"
           />
         }
