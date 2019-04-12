@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import WOW from 'wowjs'
 
 import Button from 'components/button';
 import Modal from 'components/dashboard-modal';
@@ -153,7 +154,11 @@ class Tournament extends Component {
       matches,
       users,
     });
-
+    if (window.innerWidth > 1024) {
+      const wow = new WOW.WOW();
+      wow.init();
+    }
+    
     resolve();
   });
 
@@ -458,9 +463,9 @@ class Tournament extends Component {
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    const isPlayerChoosedByUser = _.find(champions, {_id: item.playerId}) ? true : false;
+    const isPlayerChoosedByUser = _.find(champions, { _id: item.playerId }) ? true : false;
 
-    return <div className={cx(className, style.row_dark, {[style.row_choosed]: isPlayerChoosedByUser})}>
+    return <div className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
         <span className={textClass}>{item.playerName}</span>
       </div>
@@ -527,8 +532,9 @@ class Tournament extends Component {
           <Button
             text={i18n.t('join_tournament')}
             appearance="_basic-accent"
-            className={style.button}
             onClick={this.toggleChampionModal}
+            className={cx(style.button, 'wow heartBeat')}
+            data-wow-delay="1s"
           />
         }
       </div>
