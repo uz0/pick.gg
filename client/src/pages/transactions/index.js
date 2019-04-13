@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+import io from "socket.io-client";
 import moment from 'moment';
 
 import TransactionsService from 'services/transactionService';
@@ -56,6 +58,9 @@ class Transactions extends Component {
 
   componentDidMount() {
     this.updateData();
+
+    this.socket = io();
+    this.socket.on('fantasyTournamentFinalized', () => this.updateData());
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
