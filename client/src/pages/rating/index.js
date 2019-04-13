@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import i18n from 'i18n';
 
+import io from "socket.io-client";
+
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
@@ -51,21 +53,35 @@ class Rating extends Component {
     })
 
   componentDidMount = async () => {
-    let rating = await this.userService.getUsersRating();
-    rating.rating.forEach((item, index) => item.place = index + 1);
+    this.loadData();
 
-    this.setState({ playersList: rating.rating });
+    this.socket = io();
+    this.socket.on('fantasyTournamentFinalized', () => this.loadData());
+
     this.preloader();
   }
 
-  renderRow = ({ className, itemClass, textClass, item }) => {
-    let Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
+  loadData = async () => {
+    let rating = await this.userService.getUsersRating();
+    const currentUser = await this.userService.getMyProfile();
 
-    return <NavLink to={`/user/${item._id}`} className={className} key={item._id}>
+    rating.rating.forEach((item, index) => item.place = index + 1);
+
+    this.setState({
+      currentUser,
+      playersList: rating.rating
+    });
+  }
+
+  renderRow = ({ className, itemClass, textClass, item }) => {
+    const Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
+    const currentUserRow = this.state.currentUser.user._id === item._id;
+
+    return <NavLink to={`/user/${item._id}`} className={cx(className, { [style.current_user]: currentUserRow })} key={item._id}>
       <div className={itemClass} style={{ '--width': ratingTableCaptions.place.width }}>
         <span className={textClass}>{item.place}</span>
       </div>
-      {console.log(item)}
+
       <div className={itemClass} style={{ '--width': ratingTableCaptions.avatar.width }}>
         <span className={cx(textClass, style.avatar_table)} ><Avatar /></span>
       </div>
@@ -81,7 +97,6 @@ class Rating extends Component {
   }
 
   render() {
-    // let Avatar = () => this.props.photo ? <img src={this.props.photo} alt="userpic" /> : <AvatarPlaceholder />;
     return (
       <div className={style.home_page}>
         {this.state.loader && <Preloader />}
