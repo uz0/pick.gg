@@ -42,6 +42,12 @@ main h1 {
 .percent_header{
   padding-top: 10px;
 }
+
+.current_user {
+  --bg-color: var(--accent-color) !important;
+  --text-color: #000 !important;
+}
+
 @media screen and (max-width: 480px){
   .main_block{
     width: 90%;
