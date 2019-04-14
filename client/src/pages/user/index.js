@@ -4,6 +4,8 @@ import TournamentService from '../../services/tournamentService';
 import TransactionService from '../../services/transactionService';
 import UserService from '../../services/userService';
 
+import io from "socket.io-client";
+
 import { NavLink } from 'react-router-dom';
 
 import ProfileSidebar from '../../components/profile-sidebar';
@@ -18,11 +20,6 @@ const tournamentsTableCaptions = {
     text: i18n.t('name'),
     width: window.innerWidth < 480 ? 150 : 250,
   },
-
-  // date: {
-  //   text: i18n.t('date'),
-  //   width: 100,
-  // },
 
   users: {
     text: i18n.t('users'),
@@ -57,10 +54,6 @@ class User extends Component {
         <span className={textClass}>{item.name}</span>
       </div>
 
-      {/* <div className={itemClass} style={{'--width': tournamentsTableCaptions.date.width}}>
-        <span className={textClass}>{formattedDate}</span>
-      </div> */}
-
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
         <span className={textClass}>{item.users.length}</span>
       </div>
@@ -72,7 +65,13 @@ class User extends Component {
   }
 
   async componentDidMount() {
+    this.loadData();
 
+    this.socket = io();
+    this.socket.on('fantasyTournamentFinalized', () => this.loadData());
+  }
+
+  loadData = async () => {
     const userId = this.props.match.params.id;
 
     const { tournaments } = await this.tournamentService.getMyTournaments();
@@ -90,7 +89,6 @@ class User extends Component {
       userPlace,
       loading: false,
     });
-
   }
 
   render() {

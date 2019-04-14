@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
+import io from "socket.io-client";
+
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 
