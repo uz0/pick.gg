@@ -44,6 +44,7 @@ class Tournaments extends Component {
   constructor() {
     super();
     this.notificationService = new NotificationService();
+    this.socket = io();
     this.userService = new UserService({
       onUpdate: () => this.updateProfile(),
     });
@@ -82,7 +83,6 @@ class Tournaments extends Component {
       isLoading: false,
     });
 
-    this.socket = io();
     this.socket.on("fantasyTournamentCreated", ({ newTournamentPopulated }) => {
 
       this.setState({
@@ -93,7 +93,11 @@ class Tournaments extends Component {
       });
     });
     this.updateProfile();
+  }
 
+  componentWillUnmount() {
+    console.log('tournaments are unmounted');
+    this.socket.disconnect();
   }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
@@ -173,7 +177,7 @@ class Tournaments extends Component {
 
           {this.state.profile.user.isAdmin &&
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              <i class="material-icons">add</i>
+              <i className="material-icons">add</i>
             </button>}
         </div>
 
