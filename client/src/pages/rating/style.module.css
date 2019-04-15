@@ -12,8 +12,8 @@
 main h1 {
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
-  font-size: 40px;
-  color: #9696B0;
+  font-size: 34px;
+  color: var(--caption-color);
   text-shadow: 0px 1px 1px #000000;
   padding-bottom: 20px;
 }
@@ -43,9 +43,9 @@ main h1 {
   padding-top: 10px;
 }
 
-.current_user {
-  --bg-color: var(--accent-color) !important;
-  --text-color: #000 !important;
+.section .current_user {
+  background: var(--accent-color) !important;
+  --text-color: #fff !important;
 }
 
 @media screen and (max-width: 480px){

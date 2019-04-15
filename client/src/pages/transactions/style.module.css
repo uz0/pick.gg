@@ -12,7 +12,7 @@
   height: var(--height);
   line-height: var(--height);
   font-family: var(--font-family-title);
-  color: #9696b0;
+  color: var(--caption-color);
   font-size: 40px;
   white-space: nowrap;
   text-overflow: ellipsis;

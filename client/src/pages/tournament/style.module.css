@@ -31,7 +31,7 @@
   margin: 0;
   line-height: var(--height);
   font-family: var(--font-family-title);
-  color: #9696b0;
+  color: var(--caption-color);
   font-size: 40px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -45,7 +45,7 @@
 
 .tournament .tournament_section .main .info a{
   text-decoration: none;
-  color: #9696b0;
+  color: var(--caption-color);
 }
 
 .tournament .tournament_section .main .info span {
@@ -56,7 +56,7 @@
   padding-right: 12px;
   line-height: var(--height);
   font-size: 15px;
-  color: #9696b0;
+  color: var(--caption-color);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -108,7 +108,7 @@
 }
 
 .tournament .tournament_section + .winner {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .tournament .winner {
@@ -137,7 +137,7 @@
   line-height: 1.5;
   font-size: 24px;
   text-shadow: 0 2px 1px #000;
-  color: #9696b0;
+  color: var(--caption-color);
 }
 
 .tournament .tournament_section + .subtitle {
@@ -155,7 +155,7 @@
   height: var(--height);
   line-height: var(--height);
   font-family: var(--font-family-title);
-  color: #9696b0;
+  color: var(--caption-color);
   font-size: 24px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -200,7 +200,7 @@
   height: var(--height);
   line-height: var(--height);
   font-size: 13px;
-  color: #9696b0;
+  color: var(--header-color);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -213,7 +213,7 @@
   line-height: var(--height);
   font-size: 15px;
   font-weight: var(--font-weight-bold);
-  color: #9696b0;
+  color: var(--header-color);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -360,7 +360,7 @@
   display: block;
   font-size: 12px;
   padding-top: 6px;
-  color: #9696b0;
+  color: var(--caption-color);
   font-weight: bold;
 }
 

@@ -16,8 +16,8 @@
   margin: 0;
   line-height: var(--height);
   font-family: var(--font-family-title);
-  color: #9696b0;
-  font-size: 40px;
+  color: var(--caption-color);
+  font-size: 34px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -25,36 +25,47 @@
 .tournaments .content {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .tournaments .content .sidebar {
   flex-shrink: 0;
-  width: 270px;
+  width: 230px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding-bottom: 30px;
 }
 
 .tournaments .content .sidebar label{
   padding-left: 15px;
+  color: #f1f1f1;
 }
 
 .tournaments .content .sidebar select{
-  height: 50px;
+  height: 40px;
   padding: 0 15px;
   background-color: var(--background-color);
+  background: linear-gradient(180deg,rgba(80,92,120,.3),rgba(49,54,68,.3));
   cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.tournaments .content .sidebar select:hover{
+  color: rgb(228, 171, 48);
 }
 
 .tournaments .content .sidebar .button {
   background-color: var(--accent-color);
-  margin-top: 20px;
-  margin-left: 20px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
-  padding: 5px;
+  justify-content: center;
+  align-items: center;
   transition: all 0.2s;
+  margin-top: 20px;
 }
 
 .tournaments .content .sidebar .button:hover{
@@ -64,7 +75,7 @@
 
 .tournaments .content .sidebar .button i{
   color: #000;
-  font-size: 34px;
+  font-size: 20px;
 }
 
 .tournaments .content .sidebar .filter_item:nth-of-type(n+2) {
