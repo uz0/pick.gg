@@ -14,39 +14,40 @@ html {
   align-items: center;
 }
 .top_menu a i{
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
- .menu_wrap {	
-  display: flex;	
-  align-items: center;	
-  justify-content: space-between;	
+ .menu_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   max-width: var(--container-width);
   margin-left: auto;
   margin-right: auto;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
-}	
+}
 
- .logo {	
-  margin-right: auto;	
-}	
+ .logo {
+  margin-right: auto;
+}
 
- .top_menu a {	
+ .top_menu a {
   text-decoration: none;
   font-size: 16px;
   white-space: nowrap;
 }	
 
- .top_menu h2 {	
-  margin: 0;	
-  font-size: 20px;	
-  font-family: var(--font-family-title);	
-  font-weight: var(--font-weight-bold);	
-  line-height: 40px;	
-  color: rgb(252, 252, 252);
-}	
+ .top_menu h2 {
+  margin: 0;
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-bold);
+  line-height: 40px;
+  color: var(--header-color);
+  font-size: 18px;
+}
+
 .links{
   display: flex;
   align-items: center;
@@ -57,7 +58,8 @@ html {
   margin-left: 60px;
   color: rgb(252, 252, 252);
   font-family: var(--font-family-title);
-  font-weight: var(--font-weight-bold);	
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
 }
 
  .top_menu .disabled{
@@ -67,19 +69,20 @@ html {
 }
 .top_menu .btn_logout{
   font-size: 16px;
-  color: #9FA2BE;
+  color: var(--header-color);
   text-shadow: 0px 2px 0px #000000;
   line-height: 2;
   background: transparent;
   text-align: left;
   display: flex;
   align-items: center;
+  padding: 5px 0;
 }
 .top_menu .btn_logout:hover{
   color: var(--accent-color);
 }
 .top_menu .btn_logout i{
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .avatar_circle{

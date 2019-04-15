@@ -17,10 +17,10 @@
 .button[appearance^="_basic"] {
   --height: 40px;
   justify-content: center;
-  min-width: 130px;
-  padding-left: 20px;
-  padding-right: 20px;
-  font-size: 20px;
+  min-width: 64px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 16px;
   font-weight: 700;
   border-radius: 4px;
 }
