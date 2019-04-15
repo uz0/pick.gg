@@ -55,9 +55,11 @@
 
   --accent-color: #D79634;
   --danger-color: #fb4343;
-  --background-color: #252532;
+  /* --background-color: #252532; */
+  --background-color: #151534;
   --primary-color: #060916;
-  --caption-color: #787888;
+  --caption-color: #e3e3e6;
+  --header-color: #eeeeee;
 
   --layout-padding: 20px;
   --container-width: calc(1024px + (var(--layout-padding) * 2));
@@ -87,7 +89,7 @@ body {
 :global(.container) {
   min-height: calc(100% - var(--header-height));
   background: url('assets/bg-login.png');
-  background-color: #000;
+  background-color: rgb(11, 8, 20);
   background-repeat: no-repeat;
   background-size: 100% auto;
 }
