@@ -69,7 +69,7 @@ class Rating extends Component {
 
     this.setState({
       currentUser,
-      playersList: rating.rating
+      playersList: rating.rating,
     });
   }
 
