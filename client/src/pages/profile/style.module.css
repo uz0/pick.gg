@@ -47,7 +47,8 @@ main h1 {
 
 .form > div label {
   color: #D79634;
-  font-size: 20px;
+  font-size: 12px;
+  padding-left: 12px;
 }
 
 .form > div input[type="text"],
@@ -63,7 +64,7 @@ main h1 {
   color: var(--accent-color);
 }
 .content .form input[name="email"]{
-  opacity: 0.7;
+  opacity: 0.8;
 }
 .form > div textarea {
   resize: none;
