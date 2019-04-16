@@ -14,6 +14,7 @@ import { GoogleLogout } from 'react-google-login';
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
+import NotificationBell from '../notification/notification-bell';
 import style from './style.module.css';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
@@ -152,6 +153,8 @@ class TopMenuComponent extends Component {
             <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i className="material-icons">add_circle</i>{i18n.t('deposit')}</a>
             <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i className="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
           </DropDown>
+
+          <NotificationBell />
 
           <DropDown placeholder={<UserPlaceholder />}>
             {this.state.profile.user.isAdmin &&
