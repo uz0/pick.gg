@@ -2,13 +2,14 @@
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "plugins": [
-    "react",
+    "react"
   ],
   "env": {
     "browser": true,
     "node": true,
     "mocha": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "parserOptions": {
     "ecmaFeatures": {
@@ -22,7 +23,9 @@
     }
   },
   "globals": {
-    "sleep": 1
+    "sleep": 1,
+    "page": true,
+    "browser": true
   },
   "rules": {
     "react/jsx-no-bind": [2, { "ignoreRefs": true, "allowArrowFunctions": true }],
