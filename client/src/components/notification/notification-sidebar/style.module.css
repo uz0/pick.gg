@@ -1,0 +1,30 @@
+.overlay {
+  display: flex;
+  width: 100vw;
+  height: calc(100vh + 60px);
+  justify-content: flex-end;
+  top: 0;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.overlay .sidebar {
+  width: 430px;
+  height: 100vh;
+  background-color: #080812;
+}
+
+.overlay .sidebar .header {
+  height: 60px;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.overlay .sidebar .header .close {
+  margin-top: 8px;
+}
