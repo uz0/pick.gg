@@ -2,20 +2,6 @@
   padding: 0px;
 }
 
-.create_block {
-  position: absolute;
-  padding: 25px 418px 30px 24px;
-  padding: 20px;
-  background: var(--primary-color);
-  border: 1px solid var(--accent-color);
-  border-radius: 4px;
-  z-index: 0;
-}
-
-.create_block p {
-  width: 70px;
-}
-
 .new_tournament form {
   box-sizing: border-box;
   overflow: hidden;
@@ -184,7 +170,6 @@ input::-webkit-inner-spin-button {
     align-self: flex-end;
   }
   .create_block {
-    /* top: 40px; */
     padding-right: 100px;
     padding-bottom: 50px;
     margin-top: -10%;

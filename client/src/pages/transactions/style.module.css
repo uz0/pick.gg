@@ -28,6 +28,7 @@
   padding-left: calc(var(--height) / 3);
   padding-right: calc(var(--height) / 3);
   border-radius: calc(var(--height) / 2);
+  font-size: 12px !important;
 }
 
 .operation.minus {
