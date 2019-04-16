@@ -180,9 +180,9 @@ class newTournament extends Component {
 
         <div className={style.new_tournament}>
 
-          <div className={style.create_block}>
+          {/* <div className={style.create_block}>
             <p>{i18n.t('create_new_tournament')}</p>
-          </div>
+          </div> */}
 
           {this.state.modalChoose && <Modal
             textModal={i18n.t('really_want_create')}
