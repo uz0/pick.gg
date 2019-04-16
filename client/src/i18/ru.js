@@ -17,6 +17,7 @@ export default {translation: {
   entry: 'Цена',
   earned: 'зачислено',
   empty_field: 'Ошибка пустое поле',
+  notification_sidebar_header: 'Уведомления',
   equal_password: 'Пароли должны совпадать',
   guade_choose: 'Выбери фэнтези турнир',
   guade_choose_content: 'Выберите фэнтези турнир, в котором вы хотели бы принять участие.',
