@@ -46,7 +46,7 @@
 
 .start_content button {
   background-color: #f1f1f1;
-  padding: 15px 20px;
+  padding: 10px 16px;
   color: #000;
   text-transform: uppercase;
   border: none;
@@ -58,11 +58,6 @@
   position: relative;
   transition: all 0.3s;
 }
-
-/* .start_content button:hover{
-  transform: rotate(-5deg);
-  transition: all 0.3s ease-in-out;
-} */
 
 .start_content .google_icon{
   width: 20px;
@@ -76,7 +71,7 @@
   z-index: 1; */
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 16px;
 }
 .start_btns .back_button{
   position: absolute;
@@ -127,8 +122,8 @@
 
 .guide .step h2 {
   margin-top: 0;
-  margin-bottom: 24px;
-  font-size: 36px;
+  margin-bottom: 20px;
+  font-size: 30px;
   text-transform: uppercase;
 }
 
@@ -137,7 +132,7 @@
 }
 
 .guide .step p {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .start_content video{
