@@ -11,18 +11,19 @@
   background: rgba(153, 153, 153, 0.7);
 }
 .modal{
-  width: 400px;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: flex-start;
-  background: #000;
+  background: var(--background-color);
   color: #fff;
   border-radius: 4px;
   padding: 20px;
 }
 .modal p{
   margin-top: 0;
+  font-size: 16px;
 }
 
 .btns_modal{
@@ -31,6 +32,6 @@
   margin-top: 20px;
 }
 .btns_modal button{
-  margin-right: 10px;
-  font-size: 16px;
+  margin-right: 5px;
+  font-size: 14px;
 }

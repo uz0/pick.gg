@@ -109,10 +109,10 @@
   transition-property: color;
 }
 ._is-danger{
-  background: rgb(59, 59, 59);
+  background: rgba(255, 255, 255, 0.1);
   margin-left: 10px;
   color: #fff;
 }
 ._is-danger:hover{
-  background: rgb(68, 68, 68);
+  background: rgba(255, 255, 255, 0.2);
 }
