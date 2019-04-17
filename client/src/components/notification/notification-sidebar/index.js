@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Button from 'components/button';
+import Notification from 'components/notification';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
+import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+import { ReactComponent as MatchIcon } from 'assets/battle.svg';
 
 import NotificationService from '../../../services/notificationService';
 
 import style from './style.module.css';
-import classnames from 'classnames';
 
 import i18n from 'i18n';
 
@@ -15,19 +17,50 @@ class NotificationSidebar extends Component {
     super();
     this.notificationService = new NotificationService({
       showNotificationSidebar: this.showNotificationSidebar,
+      pushNotificationToSidebar: this.pushNotificationToState,
     });
     
     this.state = {
       isShown: false,
+      notifications: [],
     }
+  }
+
+  pushNotificationToState = (notification) => {
+    this.notificationService.incrementNotificationCounter();
+
+    this.setState({
+      notifications: [...this.state.notifications, notification],
+    });
+  }
+  
+  pullNotificationFromState = (id) => {
+    const notificationsList = this.state.notifications.filter(item => item.id !== id);
+
+    this.notificationService.decrementNotificationCounter();
+
+    this.setState({
+      notifications: notificationsList,
+    });
   }
 
   showNotificationSidebar = () => this.setState({ isShown: true });
 
   hideNotificationSidebar = () => this.setState({ isShown: false });
 
+  renderNotification = ({ id, type, message }) => {
+    return <Notification
+      key={id}
+      message={message}
+      image={<MatchIcon />}
+      wrapperStyle={style.wrapper_n}
+      notificationStyle={style.notification}
+      onClose={() => this.pullNotificationFromState(id)}
+    />
+  }
+
   render() {
-    const { isShown } = this.state;
+    const { isShown, notifications } = this.state;
 
     return <>
       {isShown && <div className={style.overlay}>
@@ -43,7 +76,7 @@ class NotificationSidebar extends Component {
             />
           </div>
           <div className={style.content}>
-            {this.props.children}
+            {notifications.map(notification => this.renderNotification(notification))}
           </div>
         </div>
       </div>

@@ -7,25 +7,33 @@ import { ReactComponent as MatchIcon } from 'assets/battle.svg';
 let notificationActions = {};
 
 class NotificationService {
-
   constructor(options){
     if(options){
       notificationActions.showNotificationSidebar = options.showNotificationSidebar;
+      notificationActions.pushNotificationToSidebar = options.pushNotificationToSidebar;
+
+      if(options.incrementNotificationCounter){
+        notificationActions.incrementNotificationCounter = options.incrementNotificationCounter;
+        notificationActions.decrementNotificationCounter = options.decrementNotificationCounter;
+      }
     }
   }
 
-  showSingleNotification = (text, link, history) => {
-
+  showSingleNotification = ({ id, type, message }) => {
     const target = document.getElementById('notifications-wrapper');
     ReactDOM.render(<Notification
       image={<MatchIcon />}
-      message={text}
-      link={link}
-      history={history}
+      message={message}
     />, target);
 
-    setTimeout(() => this.hideSingleNotification(), 70000);
-
+    setTimeout(() => {
+      notificationActions.pushNotificationToSidebar({
+        id,
+        type,
+        message
+      });
+      this.hideSingleNotification();
+    }, 5000);
   }
   
   hideSingleNotification = () => {
@@ -36,7 +44,15 @@ class NotificationService {
   showNotificationSidebar(){
     notificationActions.showNotificationSidebar();
   }
-
+  
+  incrementNotificationCounter(){
+    notificationActions.incrementNotificationCounter();
+  }
+  
+  decrementNotificationCounter(){
+    console.log(notificationActions);
+    notificationActions.decrementNotificationCounter();
+  }
 }
 
 export default NotificationService;

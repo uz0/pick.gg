@@ -125,8 +125,6 @@ class TopMenuComponent extends Component {
     this.updateProfile();
   }
 
-  notificationMock = () => this.notificationService.showSingleNotification(i18n.t('fantasy_tournament_is_over_winner'));
-
   render() {
     const Avatar = () => this.state.profile.user.photo ?
       <img className={style.avatar_circle} src={this.state.profile.user.photo} alt="userpic" /> :

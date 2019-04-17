@@ -24,10 +24,11 @@ class Notification extends Component {
 
   render() {
     const isHaveLink = this.props.link ? true : false;
+    const closeButtonAction = this.props.onClose ? this.props.onClose : this.close;
 
     return (
-      <div className={style.wrapper_n}>
-        <div className={classnames(style.notification, {'_is-shown': this.state.isShown})}>
+      <div className={classnames(style.wrapper_n, this.props.wrapperStyle)}>
+        <div className={classnames(style.notification, {'_is-shown': this.state.isShown}, this.props.notificationStyle)}>
           <div className={style.image}>
             {this.props.image}
           </div>
@@ -38,7 +39,7 @@ class Notification extends Component {
             className={style.close_button}
             appearance={'_icon-transparent'}
             icon={<CloseIcon />}
-            onClick={() => this.close()}
+            onClick={closeButtonAction}
           />
         </div>
       </div>
