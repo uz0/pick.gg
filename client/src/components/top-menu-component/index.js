@@ -139,10 +139,12 @@ class TopMenuComponent extends Component {
       <div className={style.top_menu}>
         <div className={style.menu_wrap}>
           <div className={style.links}>
-            <NavLink to="/tournaments">
-              <h2>Pick.gg</h2>
+            <NavLink to="/">
+              <h2 className={style.desktop_logo}>Pick.gg</h2>
+              <h2 className={style.mobile_logo}>P</h2>
             </NavLink>
 
+            <NavLink to="/rating">{i18n.t('tournaments')}</NavLink>
             <NavLink to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 

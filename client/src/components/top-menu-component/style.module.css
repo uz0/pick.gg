@@ -53,13 +53,16 @@ html {
   align-items: center;
   margin-right: auto;
 }
-
-.links a:nth-child(2){
-  margin-left: 60px;
+.links a{
+  margin-left: 20px;
   color: rgb(252, 252, 252);
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
   font-size: 18px;
+}
+.links a:first-child{
+  margin-left: 0;
+  margin-right: 40px;
 }
 
  .top_menu .disabled{
@@ -95,21 +98,29 @@ html {
   color: rgb(252, 252, 252);
 }
 
- @media screen and (max-width: 480px) {	
+.mobile_logo{
+  display: none;
+}
+
+ @media (max-width: 480px) {	
   .top_menu h2{
     font-size: 14px;
   }
   .links a{
+    font-size: 12px;
+    margin-left: 8px;
+  }
+  .links a:first-child{
+    /* margin-left: 20px; */
+    margin-right: 0px;
     font-size: 14px;
   }
-  .links a:nth-child(2){
-    margin-left: 20px;
-    margin-right: 10px;
+
+  .desktop_logo{
+    display: none;
+  }
+  .top_menu .mobile_logo{
+    display: block;
+    font-size: 20px;
   }
 } 
-@media(max-width: 480px){
-  .links a:nth-child(2){
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-}
