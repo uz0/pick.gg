@@ -158,6 +158,7 @@ class Tournament extends Component {
     this.setState({
       isLoading: false,
       fantasyTournament: tournament,
+      isChooseChampionModalShown: false,
       matches,
       users,
     });
@@ -328,7 +329,6 @@ class Tournament extends Component {
 
     await this.tournamentService.participateInTournament(this.tournamentId, payload);
     await this.loadTournamentData();
-    this.toggleChampionModal();
 
     this.notificationService.showSingleNotification({
       type: 'success',
