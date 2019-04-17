@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Notification from '../components/notification';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+import { ReactComponent as MatchIcon } from 'assets/battle.svg';
 
 let notificationActions = {};
 
@@ -17,7 +18,7 @@ class NotificationService {
 
     const target = document.getElementById('notifications-wrapper');
     ReactDOM.render(<Notification
-      image={<TrophyIcon />}
+      image={<MatchIcon />}
       message={text}
       link={link}
       history={history}

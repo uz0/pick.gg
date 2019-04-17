@@ -50,6 +50,11 @@
   flex-shrink: 0;
 }
 
+.wrapper_n .notification .image svg {
+  width: 100%;
+  height: 100%;
+}
+
 .wrapper_n .notification .message {
   --height: 60px;
   height: var(--height);
