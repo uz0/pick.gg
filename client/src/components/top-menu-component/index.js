@@ -74,7 +74,11 @@ class TopMenuComponent extends Component {
     this.socket = io();
 
     this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
-      this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`);
+      this.notificationService.showSingleNotification({
+        type: 'match',
+        shouldBeAddedToSidebar: false,
+        message: `New fantasy tournament with name ${newTournamentPopulated.name} was created`,
+      });
     });
 
     this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
@@ -96,16 +100,32 @@ class TopMenuComponent extends Component {
           },
         });
 
-        this.notificationService.show(i18n.t('fantasy_tournament_is_over_winner'), `/tournaments/${tournamentId}`, this.props.history);
+        this.notificationService.showSingleNotification({
+          type: 'winning',
+          shouldBeAddedToSidebar: false,
+          message: i18n.t('fantasy_tournament_is_over_winner'),
+        });
 
         return;
       }
 
-      this.notificationService.show(i18n.t('fantasy_tournament_is_over'), `/tournaments/${tournamentId}`, this.props.history);
+      this.notificationService.showSingleNotification({
+        type: 'match',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('fantasy_tournament_is_over'),
+      });
     });
 
     this.socket.on("matchUpdated", () => {
-      this.notificationService.show(i18n.t('match_status_changed'));
+      const path = this.props.history.location.pathname;
+
+      if(path !== '/dashboard/tournaments'){
+        this.notificationService.showSingleNotification({
+          type: 'match',
+          shouldBeAddedToSidebar: false,
+          message: i18n.t('match_status_changed'),
+        });
+      }
     });
 
 
