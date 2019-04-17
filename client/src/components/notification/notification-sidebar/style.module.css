@@ -41,6 +41,11 @@
   padding-right: 16px;
 }
 
+.overlay .sidebar .content .notifications_empty {
+  font-size: 16px;
+  color: #9c9c9c;
+}
+
 .overlay .sidebar .content .wrapper_n {
   position: static;
 }
