@@ -125,6 +125,8 @@ class TopMenuComponent extends Component {
     this.updateProfile();
   }
 
+  notificationMock = () => this.notificationService.showSingleNotification(i18n.t('fantasy_tournament_is_over_winner'));
+
   render() {
     const Avatar = () => this.state.profile.user.photo ?
       <img className={style.avatar_circle} src={this.state.profile.user.photo} alt="userpic" /> :
@@ -138,7 +140,7 @@ class TopMenuComponent extends Component {
 
     return (
       <div className={style.top_menu}>
-        <div className={style.menu_wrap}>
+        <div className={style.menu_wrap} onClick={this.notificationMock}>
           <div className={style.links}>
             <NavLink to="/tournaments">
               <h2>Pick.gg</h2>
