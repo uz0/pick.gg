@@ -76,6 +76,7 @@ class NotificationSidebar extends Component {
             />
           </div>
           <div className={style.content}>
+            {notifications.length === 0 && <p className={style.notifications_empty}>Новых уведомлений нет</p>}
             {notifications.map(notification => this.renderNotification(notification))}
           </div>
         </div>
