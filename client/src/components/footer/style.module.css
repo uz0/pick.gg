@@ -4,14 +4,14 @@ html {
 
 .footer {	
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   background: var(--background-color);
 }
 
 .footer_wrap{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   max-width: var(--container-width);
   margin-left: auto;
@@ -26,6 +26,11 @@ html {
   white-space: nowrap;
   color: var(--caption-color);
   font-family: var(--font-family-title);
+  transition: all 0.3s;
+}
+
+.footer a:hover{
+  text-shadow: 0 0 2px #fff;
 }
 
  .footer p {
@@ -38,9 +43,58 @@ html {
   color: var(--caption-color);
 }
 
- @media screen and (max-width: 480px) {
-
+.footer a svg{
+  width: 16px;
 }
-@media(max-width: 480px){
+.footer a svg path{
+  fill: var(--header-color);
+}
 
+.footer a svg:hover{
+  filter: drop-shadow(0 0 2px white);
+  transition: all 0.3s;
+}
+
+.change_lng{
+  padding: 0px;
+  display: flex;
+}
+.change_lng a{
+  padding: 0 4px;
+}
+
+.contact{
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.contact p{
+  margin-right: 10px;
+}
+
+.info_footer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@media(max-width: 480px){
+  .info_footer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .contact p{
+    display: none;
+  }
+  .footer a{
+    font-size: 10px;
+  }
+  .footer p{
+    font-size: 10px;
+  }
+  .footer{
+    padding: 0 0 15px;
+  }
 }
