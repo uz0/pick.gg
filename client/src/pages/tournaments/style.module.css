@@ -9,66 +9,27 @@
   padding-bottom: 20px;
 }
 
-.tournaments .title {
-  --height: 41px;
-  overflow: hidden;
-  height: var(--height);
-  margin: 0;
-  line-height: var(--height);
-  font-family: var(--font-family-title);
-  color: var(--caption-color);
-  font-size: 34px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .tournaments .content {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
 }
 
-.tournaments .content .sidebar {
-  flex-shrink: 0;
-  width: 230px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 30px;
-}
-
-.tournaments .content .sidebar label{
-  padding-left: 15px;
-  color: #f1f1f1;
-}
-
-.tournaments .content .sidebar select{
-  height: 40px;
-  padding: 0 15px;
-  background-color: var(--background-color);
-  background: linear-gradient(180deg,rgba(80,92,120,.3),rgba(49,54,68,.3));
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.tournaments .content .sidebar select:hover{
-  color: rgb(228, 171, 48);
-}
-
-.tournaments .content .sidebar .button {
+.tournaments .section .button {
   background-color: var(--accent-color);
-  width: 40px;
-  height: 40px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all 0.2s;
-  margin-top: 20px;
+  position: fixed;
+  right: calc(100px + (var(--layout-padding) * 2));
+  bottom: 20px;
 }
 
-.tournaments .content .sidebar .button:hover{
+.tournaments .content .button:hover{
   transition: all 0.2s;
   background-color: rgb(235, 163, 55);
 }
@@ -78,71 +39,11 @@
   font-size: 20px;
 }
 
-.tournaments .content .sidebar .filter_item:nth-of-type(n+2) {
-  margin-top: 16px;
-}
-
-.tournaments .content .sidebar .filter_item + .action {
-  margin-top: 50px;
-}
-
-.tournaments .content .sidebar .action {
-  position: relative;
-  max-width: 300px;
-  padding-bottom: 46px;
-}
-
-.tournaments .content .sidebar .action .background {
-  width: calc(100% - 40px);
-  height: 90px;
-  padding-top: 14px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border: 1px solid var(--accent-color);
-  border-radius: 4px;
-  background-color: var(--primary-color);
-}
-
-.tournaments .content .sidebar .action .background .question {
-  --height: 20px;
-  overflow: hidden;
-  height: var(--height);
-  line-height: var(--height);
-  font-size: 18px;
-  color: var(--accent-color);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.tournaments .content .sidebar .action .button {
-  position: absolute;
-  right: 0;
-  top: 40px;
-  width: calc(100% - 40px);
-  height: 96px;
-  padding-left: 40px;
-  padding-right: 20px;
-  color: #000;
-  font-weight: var(--font-weight-bold);
-  font-size: 20px;
-  border-radius: 2px;
-  border: none;
-  background-color: transparent;
-}
-
-.tournaments .content .sidebar .action .button span{
-  position: absolute;
-  z-index: 1;
-  width: 120px;
-  top: 32px;
-  left: 50px;
-  font-size: 18px;
-}
-
 .tournaments .content .section {
   flex-grow: 1;
   min-width: 0;
   padding-bottom: 30px;
+  position: relative;
 }
 
 .tournaments .content .section .table .disable_url {
@@ -151,10 +52,12 @@
   cursor: default;
 }
 
-@media (max-width: 1064px) {
-  .tournaments .content .sidebar {
-    width: 230px;
+@media (max-width: 1264px) {
+  .tournaments .content .button{
+    bottom: 30px;
+    right: 30px;
   }
+
 }
 
 @media (max-width: 768px) {
@@ -181,9 +84,5 @@
   .tournaments .content .sidebar select{
     height: 40px;
     font-size: 14px;
-  }
-
-  .tournaments .content .sidebar .button{
-    padding: 0;
   }
 }

@@ -164,23 +164,7 @@ class Tournaments extends Component {
     }
 
     return <div className={style.tournaments}>
-      <h2 className={style.title}>{i18n.t('tournaments')}</h2>
-
       <div className={style.content}>
-        <div className={style.sidebar}>
-          <Select
-            defaultOption={i18n.t('select_tournament')}
-            options={this.state.realTournaments}
-            label={i18n.t('tournament_list')}
-            onChange={this.onTournamentFilterChange}
-          />
-
-          {this.state.profile.user.isAdmin &&
-            <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              <i className="material-icons">add</i>
-            </button>}
-        </div>
-
         <div className={style.section}>
           <Table
             captions={tournamentsTableCaptions}
@@ -191,6 +175,11 @@ class Tournaments extends Component {
             isLoading={this.state.isLoading}
             emptyMessage={i18n.t('there_is_no_tournaments_yet')}
           />
+          
+          {this.state.profile.user.isAdmin &&
+            <button className={style.button} onClick={this.toggleNewTournamentModal}>
+              <i className="material-icons">add</i>
+            </button>}
         </div>
       </div>
 
