@@ -8,16 +8,22 @@ import classnames from 'classnames';
 const cx = classnames.bind(style);
 
 class NotificationBell extends Component {
-
   constructor(){
     super();
-    this.notificationService = new NotificationService();
+    this.notificationService = new NotificationService({
+      incrementNotificationCounter: this.incrementNotificationCounter,
+      decrementNotificationCounter: this.decrementNotificationCounter,
+    });
   }
 
   state = {
     isActive: false,
-    notificationCount: 12,
+    notificationCount: 0,
   }
+
+  incrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount + 1, });
+
+  decrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount - 1, });
 
   showNotificationSidebar = () => this.notificationService.showNotificationSidebar();
 
@@ -26,7 +32,9 @@ class NotificationBell extends Component {
 
     return (
       <div className={style.notification} onClick={this.showNotificationSidebar}>
-        <span className={style.counter}>{counterValue}</span>
+        {counterValue > 0 &&
+          <span className={style.counter}>{counterValue}</span>
+        }
         <i className="material-icons">notifications</i>
       </div>
     );

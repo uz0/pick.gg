@@ -33,3 +33,26 @@
 .overlay .sidebar .header .close {
   margin-top: 8px;
 }
+
+.overlay .sidebar .content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.overlay .sidebar .content .wrapper_n {
+  position: static;
+}
+
+.overlay .sidebar .content .wrapper_n + .wrapper_n {
+  margin-top: 16px;
+} 
+
+.overlay .sidebar .content .notification {
+  position: relative;
+  top: 0;
+}
+
+/* .overlay .sidebar .content .notification + .notification {
+} */
