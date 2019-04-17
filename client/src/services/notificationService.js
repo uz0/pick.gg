@@ -1,19 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Notification from '../components/notification';
+import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+
+let notificationActions = {};
 
 class NotificationService {
-  show = (text, link, history) => {
-    const target = document.getElementById("notifications-wrapper");
-    ReactDOM.render(<Notification text={text} link={link} history={history} />, target);
 
-    setTimeout(() => this.hide(), 3000);
+  constructor(options){
+    if(options){
+      notificationActions.showNotificationSidebar = options.showNotificationSidebar;
+    }
+  }
+
+  showSingleNotification = (text, link, history) => {
+
+    const target = document.getElementById('notifications-wrapper');
+    ReactDOM.render(<Notification
+      image={<TrophyIcon />}
+      message={text}
+      link={link}
+      history={history}
+    />, target);
+
+    setTimeout(() => this.hideSingleNotification(), 70000);
+
   }
   
-  hide = () => {
-    const target = document.getElementById("notifications-wrapper");
+  hideSingleNotification = () => {
+    const target = document.getElementById('notifications-wrapper');
     ReactDOM.unmountComponentAtNode(target);
   }
+
+  showNotificationSidebar(){
+    notificationActions.showNotificationSidebar();
+  }
+
 }
 
 export default NotificationService;

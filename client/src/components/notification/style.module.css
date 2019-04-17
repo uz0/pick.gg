@@ -10,23 +10,22 @@
 }
 
 .wrapper_n .notification {
-  --height: 60px;
+  --height: 120px;
+  --width: 400px;
+  display: flex;
+  align-items: center;
   position: absolute;
-  overflow: hidden;
-  left: calc(50% - (600px / 2));
-  top: 0px;
-  width: 600px;
+  right: 0px;
+  top: 60px;
+  width: var(--width);
   height: var(--height);
-  line-height: var(--height);
   padding-left: 20px;
   padding-right: 20px;
-  background: var(--accent-color);
+  background: #202c3e;
   border-radius: 4px;
   font-size: 14px;
-  color: #000;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  transform: translateY(calc(var(--translate) * -1));
+  color: #fff;
+  transform: translateX(calc(var(--translate) * -1));
   opacity: var(--opacity);
   pointer-events: auto;
   transition-property: transform, opacity;
@@ -34,13 +33,29 @@
 }
 
 .wrapper_n .notification:not(:global(._is-shown)) {
-  --translate: var(--height);
+  --translate: calc(-1 * var(--width));
   --opacity: 0;
 }
 
 .wrapper_n .notification:global(._is-shown) {
   --translate: 0;
   --opacity: 1;
+}
+
+.wrapper_n .notification .image {
+  --size: 60px;
+  height: var(--size);
+  width: var(--size);
+  margin-right: calc(var(--size) / 4);
+  flex-shrink: 0;
+}
+
+.wrapper_n .notification .message {
+  --height: 60px;
+  height: var(--height);
+  display: flex;
+  line-height: 1.5;
+  align-items: center;
 }
 
 .notification span {
@@ -58,7 +73,11 @@
 }
 
 .notification button svg path {
-  fill: #000;
+  fill: #fff;
+}
+
+.notification button:hover svg path {
+  fill: var(--accent-color);
 }
 
 @media (max-width: 768px) {
