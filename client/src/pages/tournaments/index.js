@@ -95,10 +95,10 @@ class Tournaments extends Component {
     this.updateProfile();
   }
 
-  componentWillUnmount() {
-    console.log('tournaments are unmounted');
-    this.socket.disconnect();
-  }
+  // componentWillUnmount() {
+    // console.log('tournaments are unmounted');
+    // this.socket.disconnect();
+  // }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
 

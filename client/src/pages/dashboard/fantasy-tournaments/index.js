@@ -87,7 +87,12 @@ class FantasyTournaments extends Component {
     this.setState({
       isLoading: false,
       tournaments,
-    }, () => this.notificationService.show(i18n.t('tournament_updated')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('tournament_updated'),
+      })
+    );
   }
 
   deleteTournamentConfirmInit = () => {
@@ -121,20 +126,33 @@ class FantasyTournaments extends Component {
       isTournamentEditing: false,
       isTournamentDeleting: false,
       tournaments,
-    }, () => this.notificationService.show(`${i18n.t('tournament')} ${name} ${i18n.t('was_deleted')}`));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: `${i18n.t('tournament')} ${name} ${i18n.t('was_deleted')}`,
+      })
+    );
   }
 
   finalizeTournament = async () => {
     const tournamentId = this.state.tournamentEditingData._id;
     const finalizeQuery = await this.adminService.finalizeFantasyTournament(tournamentId);
 
-    this.notificationService.show(finalizeQuery.message);
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: finalizeQuery.message,
+    });
   }
 
   finalizeTournaments = async () => {
     const finalizeQuery = await this.adminService.finalizeAllFantasyTournaments();
 
-    this.notificationService.show(finalizeQuery.message);
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: finalizeQuery.message,
+    });
   }
 
   resetTournamentEditing = () => this.setState({

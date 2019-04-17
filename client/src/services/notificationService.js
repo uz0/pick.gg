@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import Notification from '../components/notification';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import { ReactComponent as MatchIcon } from 'assets/battle.svg';
+import { ReactComponent as WarningIcon } from 'assets/warning.svg';
+import { ReactComponent as SuccessIcon } from 'assets/success.svg';
+import { ReactComponent as ErrorIcon } from 'assets/error.svg';
 
 let notificationActions = {};
 
@@ -19,19 +22,41 @@ class NotificationService {
     }
   }
 
-  showSingleNotification = ({ id, type, message }) => {
+  showSingleNotification = ({ id, shouldBeAddedToSidebar, type,  message }) => {
     const target = document.getElementById('notifications-wrapper');
+    let icon = '';
+
+    switch(type){
+      case 'success': 
+        icon = <SuccessIcon/>;
+        break;
+      case 'warning': 
+        icon = <WarningIcon/>;
+        break;
+      case 'error': 
+        icon = <ErrorIcon/>;
+        break;
+      case 'match': 
+        icon = <MatchIcon/>;
+        break;
+      case 'winning': 
+        icon = <TrophyIcon/>;
+        break;
+    }
+
     ReactDOM.render(<Notification
-      image={<MatchIcon />}
+      image={icon}
       message={message}
     />, target);
 
     setTimeout(() => {
-      notificationActions.pushNotificationToSidebar({
-        id,
-        type,
-        message
-      });
+      if(shouldBeAddedToSidebar){
+        notificationActions.pushNotificationToSidebar({
+          id,
+          type,
+          message
+        });
+      }
       this.hideSingleNotification();
     }, 5000);
   }

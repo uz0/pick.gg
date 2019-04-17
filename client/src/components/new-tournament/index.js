@@ -106,25 +106,41 @@ class newTournament extends Component {
     let tournamentId = '';
 
     if (!name){
-      this.notificationService.show(`Name is empty`);
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: "Tournament name field shouldn't be empty",
+      });
 
       return;
     }
 
     if (!entry){
-      this.notificationService.show(`Entry is empty`);
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: "Entry field shouldn't be empty",
+      });
 
       return;
     }
     
     if (user.balance < entry) {
-      this.notificationService.show(`Insufficient funds ${entry - user.balance}$`);
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: `Insufficient funds ${entry - user.balance}$`,
+      });
 
       return;
     }
 
     if (!tournament) {
-      this.notificationService.show('Please, select tournament and try again');
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Please, select tournament and try again',
+      });
 
       return;
     }
@@ -147,7 +163,12 @@ class newTournament extends Component {
 
     const { newTournament } = await this.tournamentService.createNewTournament(payload);
 
-    this.notificationService.show(`You've created tournament ${name}`);
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: `You've created tournament ${name}`,
+    })
+
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 

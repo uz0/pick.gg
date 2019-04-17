@@ -90,7 +90,12 @@ class Users extends Component {
       isLoading: false,
       isUserEditing: false,
       users,
-    }, () => this.notificationService.show(i18n.t('user_updated')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('user_updated'),
+      })
+    );
   }
 
   resetUser = () => this.setState({

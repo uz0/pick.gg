@@ -110,7 +110,12 @@ class Tournament extends Component {
     this.socket = io();
 
     this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
-      this.notificationService.show(`${user.username} has been registered to the tournament`);
+      this.notificationService.showSingleNotification({
+        type: 'match',
+        shouldBeAddedToSidebar: false,
+        message: `${user.username} has been registered to the tournament`,
+      });
+
       this.loadTournamentData();
     });
 
@@ -234,7 +239,9 @@ class Tournament extends Component {
   };
 
   getTotalUserScore = (fantasyTournament, userId) => {
+    
     const matches = fantasyTournament.tournament.matches;
+    console.log(fantasyTournament, 'matches');
     const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
     const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
 
@@ -319,7 +326,12 @@ class Tournament extends Component {
     await this.tournamentService.participateInTournament(this.tournamentId, payload);
     await this.loadTournamentData();
     this.toggleChampionModal();
-    this.notificationService.show(i18n.t('youve_been_registered_for_the_tournament'));
+
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('youve_been_registered_for_the_tournament'),
+    });
   };
 
   openMatchResults = (event, item) => {
