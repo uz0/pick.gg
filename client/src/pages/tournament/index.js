@@ -110,11 +110,14 @@ class Tournament extends Component {
     this.socket = io();
 
     this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        shouldBeAddedToSidebar: false,
-        message: `${user.username} has been registered to the tournament`,
-      });
+
+      if (this.state.currentUser.username !== user.username) {
+        this.notificationService.showSingleNotification({
+          type: 'match',
+          shouldBeAddedToSidebar: false,
+          message: `${user.username} has been registered to the tournament`,
+        });
+      }
 
       this.loadTournamentData();
     });
