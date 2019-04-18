@@ -20,6 +20,8 @@ let schema = new Schema({
     score: { type: Number },
   }],
 
+  thumbnail: { type: String, default: '' },
+
   winner: { type: Schema.Types.ObjectId, ref: 'User' },
   creator: { type: Schema.Types.ObjectId, ref: 'User' },
 },
