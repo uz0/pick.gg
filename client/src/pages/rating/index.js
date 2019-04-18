@@ -47,10 +47,10 @@ class Rating extends Component {
     };
   }
 
-  preloader = () =>
-    this.setState({
-      loader: false,
-    })
+  // preloader = () =>
+  //   this.setState({
+  //     loader: false,
+  //   })
 
   componentDidMount = async () => {
     this.loadData();
@@ -58,7 +58,8 @@ class Rating extends Component {
     this.socket = io();
     this.socket.on('fantasyTournamentFinalized', () => this.loadData());
 
-    this.preloader();
+    // this.preloader();
+    
   }
 
   loadData = async () => {
@@ -70,6 +71,7 @@ class Rating extends Component {
     this.setState({
       currentUser,
       playersList: rating.rating,
+      loader: false,
     });
   }
 
@@ -96,33 +98,46 @@ class Rating extends Component {
     </NavLink>;
   }
 
+  // renderTopUsers = ({ }) => {
+  //   const Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
+  //   return <NavLink to={`/user/${item._id}`}>
+  //     <div className={style.user_avatar}>
+  //       <Avatar />
+  //     </div>
+  //     <div className={style.user_name}>{item.username}</div>
+  //     <div className={style.user_winning}>${item.winning}</div>
+  //   </NavLink>
+  // }
+
   render() {
     return (
       <div className={style.home_page}>
-        {this.state.loader && <Preloader />}
+        {/* {this.state.loader && <Preloader />} */}
 
         <main className={style.main_block}>
           <h1>{i18n.t('best_players')}</h1>
+          
 
-          <div className={style.section}>
-            <Table
-              captions={ratingTableCaptions}
-              defaultSorting={this.tournamentsDefaultSorting}
-              items={this.state.playersList}
-              className={style.table}
-              renderRow={this.renderRow}
-              isLoading={this.state.isLoading}
-              emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-            />
-          </div>
+            <div className={cx(style.section, { [style.demo] : this.state.loader})}>
+              
+              <Table
+                captions={ratingTableCaptions}
+                defaultSorting={this.tournamentsDefaultSorting}
+                items={this.state.playersList}
+                className={style.table}
+                renderRow={this.renderRow}
+                isLoading={this.state.isLoading}
+                // emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+              />
+            </div>
 
-          {this.state.isLoading &&
-            <Preloader />
-          }
+            {/* {this.state.isLoading &&
+              <Preloader /> */}
+            }
         </main>
       </div >
-    );
-  }
-}
-
+        );
+      }
+    }
+    
 export default Rating;
