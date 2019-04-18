@@ -137,9 +137,10 @@ class FantasyTournaments extends Component {
   finalizeTournament = async () => {
     const tournamentId = this.state.tournamentEditingData._id;
     const finalizeQuery = await this.adminService.finalizeFantasyTournament(tournamentId);
+    let notificationType = finalizeQuery.message === 'Tournament is already finalized' ? 'warning' : 'success';
 
     this.notificationService.showSingleNotification({
-      type: 'success',
+      type: notificationType,
       shouldBeAddedToSidebar: false,
       message: finalizeQuery.message,
     });

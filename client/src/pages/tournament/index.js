@@ -245,7 +245,6 @@ class Tournament extends Component {
   getTotalUserScore = (fantasyTournament, userId) => {
     
     const matches = fantasyTournament.tournament.matches;
-    console.log(fantasyTournament, 'matches');
     const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
     const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
 
