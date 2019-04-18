@@ -48,6 +48,32 @@ main h1 {
   --text-color: #fff !important;
 }
 
+.demo{
+  background-image: url("../../assets/table-row.svg");
+  height: 600px;
+  background-size: 100%;
+  opacity: 1;
+  animation: test 1s infinite;
+}
+
+@keyframes test{
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  0% { opacity: 1; }
+}
+
+@keyframes shine {
+  to {
+    background-position:
+      0 0,
+      100% 0, /* move highlight to right */
+      120px 0,
+      120px 40px,
+      120px 80px,
+      120px 120px;
+  }
+}
+
 @media screen and (max-width: 480px){
   .main_block{
     width: 90%;
