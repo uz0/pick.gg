@@ -37,8 +37,8 @@ class Notification extends Component {
     const closeButtonAction = this.props.onClose ? this.props.onClose : this.close;
 
     return (
-      <div onClick={this.handleLinkRedirect} className={classnames(style.wrapper_n, {[style.clickable]: this.props.link},this.props.wrapperStyle)}>
-        <div className={classnames(style.notification, {'_is-shown': this.state.isShown}, this.props.notificationStyle)}>
+      <div onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, {[style.clickable]: this.props.link},this.props.wrapperStyle)}>
+        <div className={cx(style.notification, {'_is-shown': this.state.isShown}, this.props.notificationStyle)}>
           <div className={style.image}>
             {this.props.image}
           </div>

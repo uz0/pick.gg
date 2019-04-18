@@ -42,6 +42,9 @@ class NotificationService {
       case 'winning': 
         icon = <TrophyIcon/>;
         break;
+      default:
+        icon = <SuccessIcon/>;
+        break;
     }
 
     ReactDOM.render(
