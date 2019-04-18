@@ -9,6 +9,10 @@
   pointer-events: none !important;
 }
 
+.wrapper_n.clickable {
+  cursor: pointer;
+}
+
 .wrapper_n .notification {
   --height: 120px;
   --width: 400px;

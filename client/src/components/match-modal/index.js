@@ -124,8 +124,6 @@ class MatchModal extends Component {
       results,
     });
 
-    console.log('match updated');
-
     this.setState({
       isLoading: false,
     }, () => this.notificationService.showSingleNotification({

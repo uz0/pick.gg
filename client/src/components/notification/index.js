@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import history from '../../history';
 import Button from '../button';
 import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
 
 import style from './style.module.css';
 import classnames from 'classnames';
+
+const cx = classnames.bind(style);
 
 class Notification extends Component {
   state = {
@@ -13,6 +16,14 @@ class Notification extends Component {
 
   componentDidMount(){
     setTimeout(() => this.setState({ isShown: true }), 100);
+  }
+
+  handleLinkRedirect = () => {
+    if(!this.props.link){
+      return;
+    }
+
+    history.replace(this.props.link);
   }
   
   close = () => {
@@ -23,17 +34,16 @@ class Notification extends Component {
   }
 
   render() {
-    const isHaveLink = this.props.link ? true : false;
     const closeButtonAction = this.props.onClose ? this.props.onClose : this.close;
 
     return (
-      <div className={classnames(style.wrapper_n, this.props.wrapperStyle)}>
+      <div onClick={this.handleLinkRedirect} className={classnames(style.wrapper_n, {[style.clickable]: this.props.link},this.props.wrapperStyle)}>
         <div className={classnames(style.notification, {'_is-shown': this.state.isShown}, this.props.notificationStyle)}>
           <div className={style.image}>
             {this.props.image}
           </div>
 
-          {!isHaveLink && <p className={style.message}>{this.props.message}</p>}
+          <p className={style.message}>{this.props.message}</p>
 
           <Button
             className={style.close_button}
@@ -46,4 +56,5 @@ class Notification extends Component {
     );
   }
 }
+
 export default Notification;

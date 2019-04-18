@@ -77,6 +77,7 @@ class TopMenuComponent extends Component {
       this.notificationService.showSingleNotification({
         type: 'match',
         shouldBeAddedToSidebar: false,
+        link: `tournaments/${newTournamentPopulated._id}`,
         message: `New fantasy tournament with name ${newTournamentPopulated.name} was created`,
       });
     });
@@ -102,7 +103,8 @@ class TopMenuComponent extends Component {
 
         this.notificationService.showSingleNotification({
           type: 'winning',
-          shouldBeAddedToSidebar: false,
+          shouldBeAddedToSidebar: true,
+          link: `tournaments/${tournamentId}`,
           message: i18n.t('fantasy_tournament_is_over_winner'),
         });
 
@@ -111,7 +113,8 @@ class TopMenuComponent extends Component {
 
       this.notificationService.showSingleNotification({
         type: 'match',
-        shouldBeAddedToSidebar: false,
+        shouldBeAddedToSidebar: true,
+        link: `tournaments/${tournamentId}`,
         message: i18n.t('fantasy_tournament_is_over'),
       });
     });
@@ -122,7 +125,7 @@ class TopMenuComponent extends Component {
       if(path !== '/dashboard/tournaments'){
         this.notificationService.showSingleNotification({
           type: 'match',
-          shouldBeAddedToSidebar: false,
+          shouldBeAddedToSidebar: true,
           message: i18n.t('match_status_changed'),
         });
       }

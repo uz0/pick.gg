@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import Button from 'components/button';
 import Notification from 'components/notification';
-import { ReactComponent as CloseIcon } from 'assets/close.svg';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+import { ReactComponent as CloseIcon } from 'assets/close.svg';
 import { ReactComponent as MatchIcon } from 'assets/battle.svg';
+import { ReactComponent as WarningIcon } from 'assets/warning.svg';
+import { ReactComponent as SuccessIcon } from 'assets/success.svg';
+import { ReactComponent as ErrorIcon } from 'assets/error.svg';
 
 import NotificationService from '../../../services/notificationService';
 
@@ -48,15 +51,36 @@ class NotificationSidebar extends Component {
 
   hideNotificationSidebar = () => this.setState({ isShown: false });
 
-  renderNotification = ({ id, type, message }) => {
+  renderNotification = ({ id, link, type, message }) => {
+    let icon = '';
+
+    switch(type){
+      case 'success':
+        icon = <SuccessIcon/>;
+        break;
+      case 'warning':
+        icon = <WarningIcon/>;
+        break;
+      case 'error':
+        icon = <ErrorIcon/>;
+        break;
+      case 'match':
+        icon = <MatchIcon/>;
+        break;
+      case 'winning':
+        icon = <TrophyIcon/>;
+        break;
+    }
+
     return <Notification
       key={id}
       message={message}
-      image={<MatchIcon />}
+      image={icon}
+      link={link}
       wrapperStyle={style.wrapper_n}
       notificationStyle={style.notification}
       onClose={() => this.pullNotificationFromState(id)}
-    />
+    />;
   }
 
   render() {

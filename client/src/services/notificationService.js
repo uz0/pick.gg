@@ -22,7 +22,7 @@ class NotificationService {
     }
   }
 
-  showSingleNotification = ({ id, shouldBeAddedToSidebar, type,  message }) => {
+  showSingleNotification = ({ id, shouldBeAddedToSidebar, link, type,  message }) => {
     const target = document.getElementById('notifications-wrapper');
     let icon = '';
 
@@ -44,10 +44,12 @@ class NotificationService {
         break;
     }
 
-    ReactDOM.render(<Notification
-      image={icon}
-      message={message}
-    />, target);
+    ReactDOM.render(
+      <Notification
+        image={icon}
+        link={link}
+        message={message}
+      />, target);
 
     setTimeout(() => {
       if(shouldBeAddedToSidebar){

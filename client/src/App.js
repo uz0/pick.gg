@@ -17,8 +17,8 @@ import './i18n';
 const App = ({ history }) => <Fragment>
   <TopMenuComponent history={history} />
 
-  <NotificationContainer />
   <NotificationSidebar />
+  <NotificationContainer />
 
   <div className="container">
     <Switch>
