@@ -10,6 +10,7 @@ import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
 import NewTournamentModal from 'components/new-tournament';
+import TournamentCard from 'components/tournament-card';
 import Preloader from 'components/preloader';
 
 import i18n from 'i18n';
@@ -119,7 +120,9 @@ class Tournaments extends Component {
     return <div className={style.tournaments}>
       <div className={style.content}>
         <div className={style.section}>
-          
+
+          {this.state.fantasyTournaments.map(item => <TournamentCard {...item} />)}
+
           {this.state.profile.user.isAdmin &&
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
               <i className="material-icons">add</i>

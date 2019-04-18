@@ -40,16 +40,13 @@
 }
 
 .tournaments .content .section {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   flex-grow: 1;
   min-width: 0;
   padding-bottom: 30px;
   position: relative;
-}
-
-.tournaments .content .section .table .disable_url {
-  opacity: 0.8;
-  pointer-events: none;
-  cursor: default;
 }
 
 @media (max-width: 1264px) {
