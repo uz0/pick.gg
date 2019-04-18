@@ -9,36 +9,12 @@ import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
-import Select from 'components/filters/select';
-import Table from 'components/table';
 import NewTournamentModal from 'components/new-tournament';
 import Preloader from 'components/preloader';
 
 import i18n from 'i18n';
 
 import style from './style.module.css';
-
-const tournamentsTableCaptions = {
-  name: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 150 : 450,
-  },
-
-  date: {
-    text: i18n.t('date'),
-    width: window.innerWidth < 480 ? 75 : 70,
-  },
-
-  users: {
-    text: i18n.t('users'),
-    width: window.innerWidth < 480 ? 70 : 70,
-  },
-
-  entry: {
-    text: i18n.t('entry'),
-    width: window.innerWidth < 480 ? 75 : 70,
-  },
-};
 
 class Tournaments extends Component {
   constructor() {
@@ -125,29 +101,6 @@ class Tournaments extends Component {
     },
   });
 
-  renderRow = ({ className, itemClass, textClass, item }) => {
-    const formattedDate = moment(item.tournament.date).format('MMM DD');
-    const entry = item.entry === 0 ? 'Free' : item.entry;
-
-    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
-        <span className={textClass}>{item.name}</span>
-      </div>
-
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
-        <span className={textClass}>{formattedDate}</span>
-      </div>
-
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
-        <span className={textClass}>{item.users.length}</span>
-      </div>
-
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
-        <span className={textClass}>{entry}</span>
-      </div>
-    </NavLink>;
-  }
-
   render() {
     let tournaments = this.state.fantasyTournaments;
 
@@ -166,15 +119,6 @@ class Tournaments extends Component {
     return <div className={style.tournaments}>
       <div className={style.content}>
         <div className={style.section}>
-          <Table
-            captions={tournamentsTableCaptions}
-            defaultSorting={this.tournamentsDefaultSorting}
-            items={tournaments}
-            className={style.table}
-            renderRow={this.renderRow}
-            isLoading={this.state.isLoading}
-            emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-          />
           
           {this.state.profile.user.isAdmin &&
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
