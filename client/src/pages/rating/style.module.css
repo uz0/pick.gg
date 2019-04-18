@@ -53,12 +53,12 @@ main h1 {
   height: 600px;
   background-size: 100%;
   opacity: 1;
-  animation: test 1s infinite;
+  animation: test 0.5s infinite;
 }
 
 @keyframes test{
   0% { opacity: 1; }
-  50% { opacity: 0.6; }
+  50% { opacity: 0.8; }
   0% { opacity: 1; }
 }
 
