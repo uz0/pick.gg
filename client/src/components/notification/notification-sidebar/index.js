@@ -70,6 +70,9 @@ class NotificationSidebar extends Component {
       case 'winning':
         icon = <TrophyIcon/>;
         break;
+      default:
+        icon = <SuccessIcon/>;
+        break;
     }
 
     return <Notification

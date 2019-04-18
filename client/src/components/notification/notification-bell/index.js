@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import NotificationService from 'services/notificationService';
 
 import style from './style.module.css';
-import classnames from 'classnames';
-
-const cx = classnames.bind(style);
 
 class NotificationBell extends Component {
   constructor(){
