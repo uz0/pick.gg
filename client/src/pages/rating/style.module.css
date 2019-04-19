@@ -6,7 +6,6 @@
 .main_block {
   width: 550px;
   margin: 0 auto;
-  padding-bottom: 40px;
 }
 
 main h1 {
@@ -15,8 +14,11 @@ main h1 {
   font-size: 34px;
   color: var(--caption-color);
   text-shadow: 0px 1px 1px #000000;
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
+  text-align: center;
+  text-transform: uppercase;
 }
+
 .content{
   margin: 0 auto;
 }
@@ -48,35 +50,39 @@ main h1 {
   --text-color: #fff !important;
 }
 
-.demo{
+
+.is_preloader_table{
+  margin-top: 20px;
   background-image: url("../../assets/table-row.svg");
-  height: 600px;
+  height: 590px;
   background-size: 100%;
   opacity: 1;
-  animation: test 0.5s infinite;
+  animation: loading 0.5s infinite;
 }
 
-@keyframes test{
+.is_preloader_card{
+  margin-top: 20px;
+  background-image: url("../../assets/card-placeholder.svg");
+  background-size: 185px;
+  background-repeat: repeat-x; 
+  height: 250px;
+  opacity: 1;
+  animation: loading 0.5s infinite;
+}
+
+@keyframes loading{
   0% { opacity: 1; }
   50% { opacity: 0.8; }
   0% { opacity: 1; }
 }
 
-@keyframes shine {
-  to {
-    background-position:
-      0 0,
-      100% 0, /* move highlight to right */
-      120px 0,
-      120px 40px,
-      120px 80px,
-      120px 120px;
-  }
-}
 
 @media screen and (max-width: 480px){
   .main_block{
     width: 90%;
+  }
+  .section{
+    width: 100%;
   }
   main h1{
     font-size: 26px;
@@ -98,5 +104,15 @@ main h1 {
     width: 20px;
     margin: 0;
     height: 20px !important;
+  }
+  .is_preloader_card{
+    background-image: url("../../assets/card-placeholder-min.svg");
+    height: 150px;
+    width: 100%;
+    background-size: 100px;
+  }
+  .is_preloader_table{
+    background-image: url("../../assets/table-row-min.svg");
+    margin-top: 50px;
   }
 }

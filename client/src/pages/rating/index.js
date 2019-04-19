@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
+import Card from 'components/card-user';
 
 import UserService from 'services/userService';
 
@@ -43,7 +44,7 @@ class Rating extends Component {
     this.userService = new UserService();
     this.state = {
       playersList: [],
-      loader: true,
+      isLoader: true,
     };
   }
 
@@ -59,7 +60,7 @@ class Rating extends Component {
     this.socket.on('fantasyTournamentFinalized', () => this.loadData());
 
     // this.preloader();
-    
+
   }
 
   loadData = async () => {
@@ -71,7 +72,7 @@ class Rating extends Component {
     this.setState({
       currentUser,
       playersList: rating.rating,
-      loader: false,
+      isLoader: false,
     });
   }
 
@@ -98,46 +99,58 @@ class Rating extends Component {
     </NavLink>;
   }
 
-  // renderTopUsers = ({ }) => {
-  //   const Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
-  //   return <NavLink to={`/user/${item._id}`}>
-  //     <div className={style.user_avatar}>
-  //       <Avatar />
-  //     </div>
-  //     <div className={style.user_name}>{item.username}</div>
-  //     <div className={style.user_winning}>${item.winning}</div>
-  //   </NavLink>
-  // }
+  renderTopUsers = ({ className, avatarClass, nameClass, winningsClass, item }) => {
+    const Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
+    return <NavLink to={`/user/${item._id}`} className={className}>
+      <div className={avatarClass}>
+        <Avatar />
+      </div>
+      <div className={nameClass}>{item.username} #{item.place}</div>
+      <div className={winningsClass}>${item.winning}</div>
+    </NavLink>
+  }
 
   render() {
+
+    const topUsers = this.state.playersList.slice(0, 3);
+    const sliceUsers = this.state.playersList.slice(3);
+
     return (
       <div className={style.home_page}>
         {/* {this.state.loader && <Preloader />} */}
 
         <main className={style.main_block}>
           <h1>{i18n.t('best_players')}</h1>
-          
 
-            <div className={cx(style.section, { [style.demo] : this.state.loader})}>
-              
-              <Table
-                captions={ratingTableCaptions}
-                defaultSorting={this.tournamentsDefaultSorting}
-                items={this.state.playersList}
-                className={style.table}
-                renderRow={this.renderRow}
-                isLoading={this.state.isLoading}
-                // emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-              />
-            </div>
+          <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoader })}>
+            <Card
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={topUsers}
+              className={style.card}
+              renderCard={this.renderTopUsers}
+            />
+          </div>
 
-            {/* {this.state.isLoading &&
+          <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoader })}>
+
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={sliceUsers}
+              className={style.card}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            // emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+            />
+          </div>
+
+          {/* {this.state.isLoading &&
               <Preloader /> */}
-            }
+          }
         </main>
       </div >
-        );
-      }
-    }
-    
+    );
+  }
+}
+
 export default Rating;
