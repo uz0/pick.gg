@@ -84,14 +84,23 @@ class Champions extends Component {
       isLoading: false,
       isChampionEditing: false,
       players,
-    }, () => this.notificationService.show(i18n.t('champion_updated')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('champion_updated'),
+      })
+    );
   }
 
   addChampionSubmit = async () => {
     const { championData } = this.state;
 
     if (!championData.name) {
-      await this.notificationService.show(i18n.t('please_champion_name'));
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('please_champion_name'),
+      })
 
       return;
     }
@@ -119,7 +128,12 @@ class Champions extends Component {
         name: '',
         photo: '',
       },
-    }, () => this.notificationService.show(i18n.t('champion_created')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('champion_created'),
+      })
+    );
   }
 
   deleteChampion = async () => {
@@ -146,7 +160,12 @@ class Champions extends Component {
         name: '',
         photo: '',
       },
-    }, () => this.notificationService.show(i18n.t('champion_deleted')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('champion_deleted'),
+      })
+    );
   }
   
   closeDeleteChampion = () => this.setState({ isChampionDelete: false });

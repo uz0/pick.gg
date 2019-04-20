@@ -27,7 +27,11 @@ class Start extends Component {
 
   componentDidMount(){
     if (this.props.history.action === 'REPLACE'){
-      this.notificationService.show(i18n.t('login_message_on_redirect'));
+      this.notificationService.showSingleNotification({
+        type: 'warning',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('login_message_on_redirect')
+      });
     }
   }
 
@@ -48,13 +52,21 @@ class Start extends Component {
       this.props.history.replace('/tournaments');
     } else {
       this.props.history.replace('/register');
-      this.notificationService.show(authRequest.message);
+
+      this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: authRequest.message,
+      });
     }
   };
 
   onFailureGoogleLogin = async data => {
-    console.log('fail ', data);
-    this.notificationService.show(i18n.t(data.error));
+    this.notificationService.showSingleNotification({
+      type: 'error',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t(data.error),
+    });
   };
 
   componentWillMount() {

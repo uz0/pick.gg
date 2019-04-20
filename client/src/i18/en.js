@@ -16,6 +16,7 @@ export default {translation: {
   email: 'Email',
   entry: 'Entry',
   earned: 'earned',
+  notification_sidebar_header: 'Notifications',
   empty_field: 'Error empty field',
   equal_password: 'Passwords must be equal',
   guade_choose: 'Choose fantasy tournament',
