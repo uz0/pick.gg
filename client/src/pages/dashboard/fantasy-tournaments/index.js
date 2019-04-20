@@ -45,6 +45,7 @@ class FantasyTournaments extends Component {
     tournamentEditingData: {
       name: '',
       date: '',
+      thumbnail: '',
       champions: [],
       rules: [],
     },
@@ -290,6 +291,13 @@ class FantasyTournaments extends Component {
             label={i18n.t('entry_sum')}
             name="entry"
             value={tournamentEditingData.entry}
+            onChange={this.handleInputChange}
+            className={style.tournament_input}
+          />
+          <Input
+            label={i18n.t('tournament_thumb')}
+            name="thumbnail"
+            value={tournamentEditingData.thumbnail}
             onChange={this.handleInputChange}
             className={style.tournament_input}
           />
