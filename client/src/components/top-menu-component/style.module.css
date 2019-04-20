@@ -9,11 +9,17 @@ html {
   background: var(--background-color);
 }
 
-.top_menu a{
+.top_menu a,
+.top_menu .item {
   display: flex;
   align-items: center;
+  text-decoration: none;
+  font-size: 16px;
+  white-space: nowrap;
+  color: #fff;
 }
-.top_menu a i{
+.top_menu a i,
+.top_menu .item i {
   margin-right: 10px;
 }
 
@@ -29,15 +35,9 @@ html {
   padding-right: var(--layout-padding);
 }
 
- .logo {
+.logo {
   margin-right: auto;
 }
-
- .top_menu a {
-  text-decoration: none;
-  font-size: 16px;
-  white-space: nowrap;
-}	
 
  .top_menu h2 {
   margin: 0;
@@ -98,11 +98,23 @@ html {
   color: rgb(252, 252, 252);
 }
 
-.mobile_logo{
+.desktop_hidden {
   display: none;
 }
 
- @media (max-width: 480px) {	
+@media (max-width: 768px) {
+  .mobile_hidden {
+    display: none;
+  }
+  .desktop_hidden {
+    display: block;
+  }
+  .links a.mobile_hidden {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
   .top_menu h2{
     font-size: 14px;
   }
@@ -110,17 +122,12 @@ html {
     font-size: 12px;
     margin-left: 8px;
   }
+  .mobile_hidden {
+    display: none;
+  }
   .links a:first-child{
     /* margin-left: 20px; */
     margin-right: 0px;
     font-size: 14px;
   }
-
-  .desktop_logo{
-    display: none;
-  }
-  .top_menu .mobile_logo{
-    display: block;
-    font-size: 20px;
-  }
-} 
+}
