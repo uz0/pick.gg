@@ -121,7 +121,7 @@ class Tournaments extends Component {
       <div className={style.content}>
         <div className={style.section}>
 
-          {this.state.fantasyTournaments.map(item => <TournamentCard {...item} />)}
+          {this.state.fantasyTournaments.map(item => <TournamentCard key={item._id} {...item} />)}
 
           {this.state.profile.user.isAdmin &&
             <button className={style.button} onClick={this.toggleNewTournamentModal}>

@@ -7,18 +7,41 @@ import style from './style.module.css';
 
 import thumbnail from '../../assets/tournament_thumbnail.jpg';
 
+import lck_thumb from '../../assets/tournaments-thumbnails/lck-thumb.jpg';
+import lcs_thumb from '../../assets/tournaments-thumbnails/lcs-thumb.jpg';
+import lpl_thumb from '../../assets/tournaments-thumbnails/lpl-thumb.jpg';
+
 import moment from 'moment';
 
 const cx = classnames.bind(style);
 
 const TournamentCard = ({ _id, entry, name, tournament, rules, users  }) => {
   const tournamentPrize = users.length * entry;
-  const tournamentDate = moment(tournament.date).format('DD MMM YYYY')
+  const tournamentDate = moment(tournament.date).format('DD MMM YYYY');
+  const tournamentName = tournament.name.split(' ')[0];
+
+  let thumb = thumbnail;
+
+  switch(tournamentName){
+    case 'LCK':
+      thumb = lck_thumb;
+      break;
+    case 'LCS':
+      thumb = lcs_thumb;
+      break;
+    case 'LPL':
+      thumb = lpl_thumb;
+      break;
+    default:
+      break;
+  }
+
+  // console.log(tournamentName);
 
   return (
     <Link to={`/tournaments/${_id}`} className={style.card}>
       <div className={style.thumbnail}>
-        <img src={thumbnail} />
+        <img src={thumb} />
       </div>
       <div className={style.content}>
         <h3>{name}</h3>
