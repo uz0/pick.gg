@@ -1,42 +1,60 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import history from '../../history';
 import Button from '../button';
 import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
 
 import style from './style.module.css';
 import classnames from 'classnames';
 
-class Notification extends Component {
+const cx = classnames.bind(style);
 
+class Notification extends Component {
   state = {
     isShown: false,
   }
 
   componentDidMount(){
     setTimeout(() => this.setState({ isShown: true }), 100);
-    setTimeout(() => this.setState({ isShown: false }), 2800);
+  }
+
+  handleLinkRedirect = () => {
+    if(!this.props.link){
+      return;
+    }
+
+    history.replace(this.props.link);
   }
   
   close = () => {
-    setTimeout(() => this.setState({ isShown: false }), 100);
+    this.setState({ isShown: false }, () => setTimeout(() => {
+      const notificationContainer = document.getElementById('notifications-wrapper');
+      ReactDOM.unmountComponentAtNode(notificationContainer);
+    }, 100));
   }
 
   render() {
-    const isHaveLink = this.props.link ? true : false;
+    const closeButtonAction = this.props.onClose ? this.props.onClose : this.close;
 
     return (
-      <div className={style.wrapper_n}>
-        <div className={classnames(style.notification, {'_is-shown': this.state.isShown})}>
+      <div onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, {[style.clickable]: this.props.link},this.props.wrapperStyle)}>
+        <div className={cx(style.notification, {'_is-shown': this.state.isShown}, this.props.notificationStyle)}>
+          <div className={style.image}>
+            {this.props.image}
+          </div>
+
+          <p className={style.message}>{this.props.message}</p>
+
           <Button
             className={style.close_button}
             appearance={'_icon-transparent'}
             icon={<CloseIcon />}
-            onClick={() => this.close()}
+            onClick={closeButtonAction}
           />
-          {!isHaveLink && this.props.text}
-          {isHaveLink && <span onClick={() => this.props.history.push(this.props.link)}>{this.props.text}</span>}
         </div>
       </div>
     );
   }
 }
+
 export default Notification;

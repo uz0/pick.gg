@@ -57,7 +57,6 @@ class Users extends Component {
   editUserInit = (userId) => {
     const user = this.state.users.filter(user => user._id === userId)[0];
 
-    console.log(this.state);
     this.setState({
       isUserEditing: true,
       userEditingData: {
@@ -70,7 +69,6 @@ class Users extends Component {
   editUserSubmit = async () => {
     this.setState({ isLoading: true });
 
-    console.log(this.state.userEditingData);
     const userId = this.state.userEditingData._id;
 
     await http(`/api/admin/users/${userId}`, {
@@ -90,7 +88,12 @@ class Users extends Component {
       isLoading: false,
       isUserEditing: false,
       users,
-    }, () => this.notificationService.show(i18n.t('user_updated')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('user_updated'),
+      })
+    );
   }
 
   resetUser = () => this.setState({
@@ -146,8 +149,6 @@ class Users extends Component {
       isUserEditing,
       isLoading,
     } = this.state;
-
-    console.log(userEditingData.isAdmin);
 
     return <div className={style.users}>
 

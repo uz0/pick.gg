@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import history from './history';
 
 import 'typeface-roboto';
 import './index.css';
@@ -11,14 +12,14 @@ import Locale from './locale';
 // import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Router basename='/' history={history}>
     <Switch>
-      <Route exact path="/" component={Start} />
-      <Route exact path="/ru" component={Locale} />
-      <Route exact path="/en" component={Locale} />
+      <Route exact path='/' component={Start} />
+      <Route exact path='/ru' component={Locale} />
+      <Route exact path='/en' component={Locale} />
       <Route component={App} />
     </Switch>
-  </BrowserRouter>,
+  </Router>,
   document.getElementById('root'),
 );
 
