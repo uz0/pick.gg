@@ -59,5 +59,8 @@
   top: 0;
 }
 
-/* .overlay .sidebar .content .notification + .notification {
-} */
+@media (max-width: 768px) {
+  .overlay .sidebar .header {
+    padding-right: 16px;
+  }
+}

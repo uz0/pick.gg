@@ -161,7 +161,7 @@ class TopMenuComponent extends Component {
 
     return (
       <div className={style.top_menu}>
-        <div className={style.menu_wrap} onClick={this.notificationMock}>
+        <div className={style.menu_wrap}>
           <div className={style.links}>
             <NavLink to="/">
               <h2 className={style.logo}>Pick.gg</h2>
