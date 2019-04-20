@@ -130,6 +130,7 @@ const TournamentController = io => {
     const {
       tournamentId,
       name,
+      thumbnail,
       entry,
       rules,
     } = req.body;
@@ -176,6 +177,7 @@ const TournamentController = io => {
         tournament: tournamentId,
         name,
         entry,
+        thumbnail,
         rules,
         creator: userId,
         winner: null,

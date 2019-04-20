@@ -15,6 +15,7 @@ export default {translation: {
   deposit: 'Deposit',
   email: 'Email',
   entry: 'Entry',
+  tournament_thumb: 'Tournament image link',
   earned: 'earned',
   notification_sidebar_header: 'Notifications',
   empty_field: 'Error empty field',

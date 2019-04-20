@@ -15,6 +15,7 @@ export default {translation: {
   deposit: 'Депозит',
   email: 'Электронная почта',
   entry: 'Цена',
+  tournament_thumb: 'Изображение турнира (ссылка)',
   earned: 'зачислено',
   empty_field: 'Ошибка пустое поле',
   notification_sidebar_header: 'Уведомления',
