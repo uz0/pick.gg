@@ -41,12 +41,15 @@
 
 .tournaments .content .section {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   flex-grow: 1;
   min-width: 0;
   padding-bottom: 30px;
   position: relative;
+}
+
+.tournaments .content .section a:not(:last-of-type){
+  margin-right: 20px;
 }
 
 @media (max-width: 1264px) {
