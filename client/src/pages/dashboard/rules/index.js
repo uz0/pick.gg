@@ -83,14 +83,24 @@ class Rules extends Component {
       isLoading: false,
       isRuleEditing: false,
       rules,
-    }, () => this.notificationService.show(i18n.t('rule_updated')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('rule_updated'),
+      })
+    );
   }
+
 
   addRuleSubmit = async () => {
     const { ruleData } = this.state;
 
     if (!ruleData.name) {
-      await this.notificationService.show(i18n.t('please_rule_name'));
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('please_rule_name'),
+      })
 
       return;
     }
@@ -117,7 +127,12 @@ class Rules extends Component {
       ruleData: {
         name: '',
       },
-    }, () => this.notificationService.show(i18n.t('rule_created')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('rule_created'),
+      })
+    );
   }
 
   deleteRule = async () => {
@@ -144,7 +159,12 @@ class Rules extends Component {
       ruleData: {
         name: '',
       },
-    }, () => this.notificationService.show(i18n.t('rule_deleted')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('rule_deleted'),
+      })
+    );
   }
 
   resetRule = () => this.setState({

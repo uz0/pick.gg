@@ -56,7 +56,10 @@ class MatchModal extends Component {
   }
 
   mapResultsToChampions = (results, champions) => {
-    results.forEach(result => result.playerName = find(champions, { _id: result.playerId }).name);
+    results.forEach(result => {
+      result.playerName = find(champions, { _id: result.playerId }).name;
+    });
+
     return results;
   }
 
@@ -123,7 +126,12 @@ class MatchModal extends Component {
 
     this.setState({
       isLoading: false,
-    }, () => this.notificationService.show('Match was successfully updated!'));
+    }, () => this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: 'Match was successfully updated!',
+    }));
+
   }
 
   render() {

@@ -1,18 +1,87 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Notification from '../components/notification';
+import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+import { ReactComponent as MatchIcon } from 'assets/battle.svg';
+import { ReactComponent as WarningIcon } from 'assets/warning.svg';
+import { ReactComponent as SuccessIcon } from 'assets/success.svg';
+import { ReactComponent as ErrorIcon } from 'assets/error.svg';
+
+let notificationActions = {};
 
 class NotificationService {
-  show = (text, link, history) => {
-    const target = document.getElementById("notifications-wrapper");
-    ReactDOM.render(<Notification text={text} link={link} history={history} />, target);
+  constructor(options){
+    if(options){
+      notificationActions.showNotificationSidebar = options.showNotificationSidebar;
+      notificationActions.pushNotificationToSidebar = options.pushNotificationToSidebar;
 
-    setTimeout(() => this.hide(), 3000);
+      if(options.incrementNotificationCounter){
+        notificationActions.incrementNotificationCounter = options.incrementNotificationCounter;
+        notificationActions.decrementNotificationCounter = options.decrementNotificationCounter;
+      }
+    }
+  }
+
+  showSingleNotification = ({ id, shouldBeAddedToSidebar, link, type,  message }) => {
+    const target = document.getElementById('notifications-wrapper');
+    let icon = '';
+
+    switch(type){
+      case 'success': 
+        icon = <SuccessIcon/>;
+        break;
+      case 'warning': 
+        icon = <WarningIcon/>;
+        break;
+      case 'error': 
+        icon = <ErrorIcon/>;
+        break;
+      case 'match': 
+        icon = <MatchIcon/>;
+        break;
+      case 'winning': 
+        icon = <TrophyIcon/>;
+        break;
+      default:
+        icon = <SuccessIcon/>;
+        break;
+    }
+
+    ReactDOM.render(
+      <Notification
+        image={icon}
+        link={link}
+        message={message}
+      />, target);
+
+    setTimeout(() => {
+      if(shouldBeAddedToSidebar){
+        notificationActions.pushNotificationToSidebar({
+          id,
+          type,
+          message
+        });
+      }
+      this.hideSingleNotification();
+    }, 5000);
   }
   
-  hide = () => {
-    const target = document.getElementById("notifications-wrapper");
+  hideSingleNotification = () => {
+    const target = document.getElementById('notifications-wrapper');
     ReactDOM.unmountComponentAtNode(target);
+  }
+
+  showNotificationSidebar(){
+    notificationActions.showNotificationSidebar();
+  }
+  
+  incrementNotificationCounter(){
+    notificationActions.incrementNotificationCounter();
+  }
+  
+  decrementNotificationCounter(){
+    console.log(notificationActions);
+    notificationActions.decrementNotificationCounter();
   }
 }
 

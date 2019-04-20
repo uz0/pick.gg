@@ -72,7 +72,11 @@ class Profile extends Component {
     const { formData } = this.state;
 
     this.userService.updateProfile(formData);
-    this.notificationService.show(i18n.t('update_data'));
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('update_data'),
+    });
   }
 
   render() {

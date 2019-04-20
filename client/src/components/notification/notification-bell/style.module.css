@@ -1,0 +1,40 @@
+.notification {
+  position: relative;
+  height: 50px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-family-title);
+  color: var(--header-color);
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.notification:hover {
+  background-color: rgba(0, 0, 0, 1);
+  color: rgb(255, 255, 255);
+  transition: all 0.3s;
+}
+
+.notification .counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  line-height: 1;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #F44336;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex-shrink: 0;
+  font-size: 10px;
+}
