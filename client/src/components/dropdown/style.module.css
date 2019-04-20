@@ -44,6 +44,10 @@
   pointer-events: none;
 }
 
+.userbox i {
+  pointer-events: none;
+}
+
 .menu {
   display: none;
   padding: 10px 20px;

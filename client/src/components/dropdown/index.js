@@ -27,7 +27,7 @@ class DropDown extends Component {
   
   render() {
     return (
-      <div className={cx(style.dropdown, { active: this.state.isActive })} onClick={this.toggleDropDown}>
+      <div className={cx(style.dropdown, { active: this.state.isActive }, this.props.className)} onClick={this.toggleDropDown}>
         <div ref={(userbox) => {this.userbox = userbox;}} className={style.userbox}>
           { this.props.placeholder }
         </div>
