@@ -92,11 +92,18 @@
 @media (max-width: 768px) {
   .wrapper_n .notification {
     --height: 50px;
-    width: calc(100% - 20px);
+    width: 100%;
     max-width: 400px;
     font-size: 13px;
-    left: 10px;
-    right: 10px;
-    top: 10px;
+  }
+  .wrapper_n .notification .message {
+    --height: 50px;
+  }
+  .wrapper_n .notification .image {
+    --size: 30px;
+  }
+  .notification button {
+    right: 0;
+    top: 0;
   }
 }

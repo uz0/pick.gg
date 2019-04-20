@@ -126,7 +126,6 @@ html {
     display: none;
   }
   .links a:first-child{
-    /* margin-left: 20px; */
     margin-right: 0px;
     font-size: 14px;
   }
