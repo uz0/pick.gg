@@ -10,6 +10,9 @@ import Preloader from 'components/preloader';
 
 import style from './style.module.css';
 import i18n from 'i18n';
+import classnames from 'classnames/bind';
+
+const cx = classnames.bind(style);
 
 class Profile extends Component {
   constructor() {
@@ -83,13 +86,13 @@ class Profile extends Component {
     return (
       <div className={style.home_page}>
         <main>
-          <h1>{i18n.t('setting_profile')} – {this.state.formData.username}</h1>
+          {/* <h1>{i18n.t('setting_profile')} – {this.state.formData.username}</h1> */}
 
           <div className={style.content}>
             {/* <ProfileSidebar withData={false} /> */}
 
-            <div className={style.form_container}>
-              <form className={style.form} onSubmit={this.handleSubmit}>
+            <div className={cx(style.form_container, { [style.is_preloader_form]: this.state.isLoading })}>
+              <form className={cx(style.form)} onSubmit={this.handleSubmit}>
                 <div>
                   <label>{i18n.t('username')}</label>
                   <input
@@ -166,9 +169,9 @@ class Profile extends Component {
             </div>
           </div>
 
-          {this.state.isLoading &&
+          {/* {this.state.isLoading &&
             <Preloader />
-          }
+          } */}
 
         </main>
       </div>
