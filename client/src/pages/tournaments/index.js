@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import filter from 'lodash/filter';
+import groupBy from 'lodash/groupBy';
 
 import io from "socket.io-client";
 
@@ -31,6 +32,7 @@ class Tournaments extends Component {
   state = {
     isLoading: false,
     isAddTournamentModalShown: false,
+    groupedFantasyTournaments: [],
     fantasyTournaments: [],
     realTournaments: [],
     profile: {
@@ -52,13 +54,18 @@ class Tournaments extends Component {
   async componentDidMount() {
     this.setState({ isLoading: true });
     const fantasyTournaments = await this.tournamentService.getFantasyTournaments();
+    const groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
     const realTournaments = await this.tournamentService.getRealTournaments();
 
     this.setState({
+      groupedFantasyTournaments,
       fantasyTournaments: fantasyTournaments.tournaments,
       realTournaments: realTournaments.tournaments,
       isLoading: false,
     });
+
+    console.log(this.state);
+    // console.log(Object.values(this.state.groupedFantasyTournaments), 'this.state');
 
     this.socket.on("fantasyTournamentCreated", ({ newTournamentPopulated }) => {
 
@@ -102,6 +109,9 @@ class Tournaments extends Component {
     },
   });
 
+  renderTournamentGroupTitle = () => {};
+  renderTournamentCard = () => {};
+
   render() {
     let tournaments = this.state.fantasyTournaments;
 
@@ -121,7 +131,14 @@ class Tournaments extends Component {
       <div className={style.content}>
         <div className={style.section}>
 
-          {this.state.fantasyTournaments.map(item => <TournamentCard key={item._id} {...item} />)}
+          {this.state.groupedFantasyTournaments.map(item => {
+            return <div key={item[0]._id} className={style.tournament_group}>
+              <h3 className={style.title}>{item[0].tournament.name}</h3>
+              <div className={style.tournaments_cards}>
+                {item.map(element => <TournamentCard key={element._id} {...element} />)}
+              </div>
+            </div>
+          })}
 
           {this.state.profile.user.isAdmin &&
             <button className={style.button} onClick={this.toggleNewTournamentModal}>

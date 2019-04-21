@@ -130,15 +130,15 @@ class Tournaments extends Component {
       return;
     }
 
-    if (!tournamentEditingData.champions_ids.length === 0) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: 'Please, choose tournament players',
-      });
+    // if (!tournamentEditingData.champions_ids.length === 0) {
+    //   this.notificationService.showSingleNotification({
+    //     type: 'error',
+    //     shouldBeAddedToSidebar: false,
+    //     message: 'Please, choose tournament players',
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     await this.adminService.createRealTournament({
       ...this.state.tournamentEditingData,
