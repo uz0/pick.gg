@@ -183,6 +183,7 @@ const AdminController = io => {
     await FantasyTournamentModel.findByIdAndUpdate(tournamentId,
       {
         name: tournament.name,
+        thumbnail: tournament.thumbnail,
         entry: tournament.entry,
         rules: normalizedRules,
       },
