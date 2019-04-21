@@ -40,16 +40,27 @@
 }
 
 .tournaments .content .section {
-  flex-grow: 1;
-  min-width: 0;
   padding-bottom: 30px;
   position: relative;
 }
 
-.tournaments .content .section .table .disable_url {
-  opacity: 0.8;
-  pointer-events: none;
-  cursor: default;
+.tournaments .content .section .tournament_group + .tournament_group {
+  margin-top: 32px;
+}
+
+.tournaments .content .section .tournament_group .title {
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.tournaments .content .section .tournament_group .tournaments_cards {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tournaments .content .section a:not(:last-of-type){
+  margin-right: 20px;
 }
 
 @media (max-width: 1264px) {
@@ -57,7 +68,6 @@
     bottom: 30px;
     right: 30px;
   }
-
 }
 
 @media (max-width: 768px) {
@@ -72,16 +82,21 @@
     justify-content: space-between;
   }
 
-  .tournaments .title{
+  /* .tournaments .title{
     display: none;
-  }
+  } */
 
   .tournaments .content .section {
     margin-left: 0;
     margin-top: 0px;
   }
 
-  .tournaments .content .sidebar select{
+  .tournaments .content .section a:not(:last-of-type) {
+    margin-right: 0px;
+    margin-bottom: 20px;
+  }
+
+  .tournaments .content .sidebar select {
     height: 40px;
     font-size: 14px;
   }

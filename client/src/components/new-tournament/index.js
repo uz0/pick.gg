@@ -98,6 +98,7 @@ class newTournament extends Component {
       user,
       name,
       entry,
+      thumbnail,
       rulesValues,
       tournament,
       filteredTournaments,
@@ -156,6 +157,7 @@ class newTournament extends Component {
 
     const payload = {
       name,
+      thumbnail,
       entry,
       rules: [...normalizedRules],
       tournamentId,
@@ -237,6 +239,12 @@ class newTournament extends Component {
                   values={this.state.filteredTournaments}
                   option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
                   label={i18n.t('tournament_list')}
+                />
+
+                <Input
+                  label={i18n.t('tournament_thumb')}
+                  value={this.state.thumbnail}
+                  onInput={(event) => this.handleChange(event, 'thumbnail')}
                 />
 
                 <Input
