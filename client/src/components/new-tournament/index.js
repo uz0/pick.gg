@@ -98,6 +98,7 @@ class newTournament extends Component {
       user,
       name,
       entry,
+      thumbnail,
       rulesValues,
       tournament,
       filteredTournaments,
@@ -106,25 +107,41 @@ class newTournament extends Component {
     let tournamentId = '';
 
     if (!name){
-      this.notificationService.show(`Name is empty`);
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: "Tournament name field shouldn't be empty",
+      });
 
       return;
     }
 
     if (!entry){
-      this.notificationService.show(`Entry is empty`);
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: "Entry field shouldn't be empty",
+      });
 
       return;
     }
     
     if (user.balance < entry) {
-      this.notificationService.show(`Insufficient funds ${entry - user.balance}$`);
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: `Insufficient funds ${entry - user.balance}$`,
+      });
 
       return;
     }
 
     if (!tournament) {
-      this.notificationService.show('Please, select tournament and try again');
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Please, select tournament and try again',
+      });
 
       return;
     }
@@ -140,6 +157,7 @@ class newTournament extends Component {
 
     const payload = {
       name,
+      thumbnail,
       entry,
       rules: [...normalizedRules],
       tournamentId,
@@ -147,7 +165,12 @@ class newTournament extends Component {
 
     const { newTournament } = await this.tournamentService.createNewTournament(payload);
 
-    this.notificationService.show(`You've created tournament ${name}`);
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: `You've created tournament ${name}`,
+    })
+
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 
@@ -216,6 +239,12 @@ class newTournament extends Component {
                   values={this.state.filteredTournaments}
                   option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
                   label={i18n.t('tournament_list')}
+                />
+
+                <Input
+                  label={i18n.t('tournament_thumb')}
+                  value={this.state.thumbnail}
+                  onInput={(event) => this.handleChange(event, 'thumbnail')}
                 />
 
                 <Input
