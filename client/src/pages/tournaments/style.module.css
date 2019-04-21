@@ -40,12 +40,22 @@
 }
 
 .tournaments .content .section {
-  display: flex;
-  flex-wrap: wrap;
-  flex-grow: 1;
-  min-width: 0;
   padding-bottom: 30px;
   position: relative;
+}
+
+.tournaments .content .section .tournament_group + .tournament_group {
+  margin-top: 32px;
+}
+
+.tournaments .content .section .tournament_group .title {
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.tournaments .content .section .tournament_group .tournaments_cards {
+  display: flex;
+  align-items: center;
 }
 
 .tournaments .content .section a:not(:last-of-type){
