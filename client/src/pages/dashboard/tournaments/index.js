@@ -91,10 +91,19 @@ class Tournaments extends Component {
     try {
       await this.adminService.syncDataWithEscore();
     } catch (error) {
-      this.notificationService.show('Oops, something went wrong with synchronization');
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Oops, something went wrong with synchronization',
+      });
     }
 
-    this.notificationService.show('Synchronization completed!');
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: 'Synchronization completed!',
+    });
+
     this.setState({ isLoading: false });
   }
 
@@ -102,22 +111,31 @@ class Tournaments extends Component {
     const { tournamentEditingData } = this.state;
 
     if (!tournamentEditingData.name) {
-      this.notificationService.show(i18n.t('please_name_tournament'));
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('please_name_tournament'),
+      });
 
       return;
     }
 
     if (!tournamentEditingData.date) {
-      this.notificationService.show(i18n.t('please_date_tournament'));
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('please_date_tournament'),
+      });
 
       return;
     }
 
     // if (!tournamentEditingData.champions_ids.length === 0) {
-    //   this.notificationService.show('Please, choose tournament players');
-
-    //   return;
-    // }
+    //   this.notificationService.showSingleNotification({
+    //     type: 'error',
+    //     shouldBeAddedToSidebar: false,
+    //     message: 'Please, choose tournament players',
+    //   });
 
     await this.adminService.createRealTournament({
       ...this.state.tournamentEditingData,
@@ -133,7 +151,12 @@ class Tournaments extends Component {
         date: '',
       },
       tournaments,
-    }, () => this.notificationService.show(i18n.t('tournament_created')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('tournament_created'),
+      })
+    );
   }
 
   editTournamentInit = (tournamentId) => {
@@ -160,7 +183,12 @@ class Tournaments extends Component {
     this.setState({
       isLoading: false,
       tournaments,
-    }, () => this.notificationService.show(i18n.t('tournament_updated')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('tournament_updated'),
+      })
+    );
   }
 
   resetTournament = () => this.setState({
@@ -204,7 +232,12 @@ class Tournaments extends Component {
       isTournamentEditing: false,
       isTournamentDeleting: false,
       tournaments,
-    }, () => this.notificationService.show(i18n.t('tournament_deleted')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('tournament_deleted'),
+      })
+    );
   }
 
   createMatch = async () => {
@@ -214,7 +247,11 @@ class Tournaments extends Component {
     const match = await this.adminService.createMatch(tournamentId);
     const { tournament } = await this.adminService.getRealTournamentById(tournamentId);
 
-    await this.notificationService.show(i18n.t(match.message));
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t(match.message),
+    })
 
     this.setState({
       isLoading: false,
@@ -286,13 +323,21 @@ class Tournaments extends Component {
     const tournamentId = tournamentEditingData._id;
 
     if (!selectedChampion) {
-      this.notificationService.show(i18n.t('player_from_list'));
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('player_from_list'),
+      });
 
       return;
     }
 
     if (tournamentEditingData.champions.find(champion => champion._id === selectedChampion)) {
-      this.notificationService.show(i18n.t('player_already'));
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('player_already'),
+      });
 
       return;
     }

@@ -45,6 +45,7 @@ class FantasyTournaments extends Component {
     tournamentEditingData: {
       name: '',
       date: '',
+      thumbnail: '',
       champions: [],
       rules: [],
     },
@@ -87,7 +88,12 @@ class FantasyTournaments extends Component {
     this.setState({
       isLoading: false,
       tournaments,
-    }, () => this.notificationService.show(i18n.t('tournament_updated')));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('tournament_updated'),
+      })
+    );
   }
 
   deleteTournamentConfirmInit = () => {
@@ -121,20 +127,34 @@ class FantasyTournaments extends Component {
       isTournamentEditing: false,
       isTournamentDeleting: false,
       tournaments,
-    }, () => this.notificationService.show(`${i18n.t('tournament')} ${name} ${i18n.t('was_deleted')}`));
+    }, () => this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: `${i18n.t('tournament')} ${name} ${i18n.t('was_deleted')}`,
+      })
+    );
   }
 
   finalizeTournament = async () => {
     const tournamentId = this.state.tournamentEditingData._id;
     const finalizeQuery = await this.adminService.finalizeFantasyTournament(tournamentId);
+    let notificationType = finalizeQuery.message === 'Tournament is already finalized' ? 'warning' : 'success';
 
-    this.notificationService.show(finalizeQuery.message);
+    this.notificationService.showSingleNotification({
+      type: notificationType,
+      shouldBeAddedToSidebar: false,
+      message: finalizeQuery.message,
+    });
   }
 
   finalizeTournaments = async () => {
     const finalizeQuery = await this.adminService.finalizeAllFantasyTournaments();
 
-    this.notificationService.show(finalizeQuery.message);
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: finalizeQuery.message,
+    });
   }
 
   resetTournamentEditing = () => this.setState({
@@ -271,6 +291,13 @@ class FantasyTournaments extends Component {
             label={i18n.t('entry_sum')}
             name="entry"
             value={tournamentEditingData.entry}
+            onChange={this.handleInputChange}
+            className={style.tournament_input}
+          />
+          <Input
+            label={i18n.t('tournament_thumb')}
+            name="thumbnail"
+            value={tournamentEditingData.thumbnail}
             onChange={this.handleInputChange}
             className={style.tournament_input}
           />

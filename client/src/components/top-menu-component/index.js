@@ -14,6 +14,7 @@ import { GoogleLogout } from 'react-google-login';
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
+import NotificationBell from '../notification/notification-bell';
 import style from './style.module.css';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
@@ -73,7 +74,12 @@ class TopMenuComponent extends Component {
     this.socket = io();
 
     this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
-      this.notificationService.show(`New fantasy tournament with name ${newTournamentPopulated.name} was created`);
+      this.notificationService.showSingleNotification({
+        type: 'match',
+        shouldBeAddedToSidebar: false,
+        link: `tournaments/${newTournamentPopulated._id}`,
+        message: `New fantasy tournament with name ${newTournamentPopulated.name} was created`,
+      });
     });
 
     this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
@@ -95,16 +101,34 @@ class TopMenuComponent extends Component {
           },
         });
 
-        this.notificationService.show(i18n.t('fantasy_tournament_is_over_winner'), `/tournaments/${tournamentId}`, this.props.history);
+        this.notificationService.showSingleNotification({
+          type: 'winning',
+          shouldBeAddedToSidebar: true,
+          link: `tournaments/${tournamentId}`,
+          message: i18n.t('fantasy_tournament_is_over_winner'),
+        });
 
         return;
       }
 
-      this.notificationService.show(i18n.t('fantasy_tournament_is_over'), `/tournaments/${tournamentId}`, this.props.history);
+      this.notificationService.showSingleNotification({
+        type: 'match',
+        shouldBeAddedToSidebar: true,
+        link: `tournaments/${tournamentId}`,
+        message: i18n.t('fantasy_tournament_is_over'),
+      });
     });
 
     this.socket.on("matchUpdated", () => {
-      this.notificationService.show(i18n.t('match_status_changed'));
+      const path = this.props.history.location.pathname;
+
+      if(path !== '/dashboard/tournaments'){
+        this.notificationService.showSingleNotification({
+          type: 'match',
+          shouldBeAddedToSidebar: true,
+          message: i18n.t('match_status_changed'),
+        });
+      }
     });
 
 
@@ -140,28 +164,73 @@ class TopMenuComponent extends Component {
         <div className={style.menu_wrap}>
           <div className={style.links}>
             <NavLink to="/">
-              <h2 className={style.desktop_logo}>Pick.gg</h2>
-              <h2 className={style.mobile_logo}>P</h2>
+              <h2 className={style.logo}>Pick.gg</h2>
             </NavLink>
 
-            <NavLink to="/rating">{i18n.t('tournaments')}</NavLink>
-            <NavLink to="/rating">{i18n.t('rating')}</NavLink>
+            <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('tournaments')}</NavLink>
+            <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
-          <DropDown placeholder={<BalancePlaceholder />}>
+          <DropDown className={style.mobile_hidden} placeholder={<BalancePlaceholder />}>
             <NavLink to="/transactions"><i className="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
 
             <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i className="material-icons">add_circle</i>{i18n.t('deposit')}</a>
             <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i className="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
           </DropDown>
 
-          <DropDown placeholder={<UserPlaceholder />}>
+          <NotificationBell />
+
+          <DropDown className={style.mobile_hidden} placeholder={<UserPlaceholder />}>
             {this.state.profile.user.isAdmin &&
               <NavLink to="/dashboard/tournaments">
                 <i className="material-icons">dashboard</i>
                 {i18n.t('dashboard')}
               </NavLink>
             }
+
+            <NavLink to="/mytournaments">
+              <i className="material-icons">assignment</i>
+              {i18n.t('my_tournaments')}
+            </NavLink>
+
+            <NavLink to={`/user/${this.props.user._id}`}>
+              <i className="material-icons">person</i>
+              {i18n.t('public_profile')}
+            </NavLink>
+
+            <NavLink to="/profile">
+              <i className="material-icons">settings</i>
+              {i18n.t('setting_profile')}
+            </NavLink>
+
+            <GoogleLogout
+              buttonText="Logout"
+              clientId={config.google_client_id}
+              onLogoutSuccess={this.handleLogout}
+              render={renderProps => (
+                <button className={style.btn_logout} {...renderProps}>
+                  <i className="material-icons">exit_to_app</i>
+                  {i18n.t('log_out')}
+                </button>
+              )}
+            />
+          </DropDown>
+
+          <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
+            <div className={style.item}>
+              <i className="material-icons">account_balance_wallet</i>
+              {`$${this.state.profile.user.balance}`}
+            </div>
+
+            <NavLink to="/transactions">
+              <i className="material-icons">attach_money</i>
+              {i18n.t('transactions')}
+            </NavLink>
+
+            <NavLink to="/dashboard/tournaments">
+              <i className="material-icons">dashboard</i>
+              {i18n.t('dashboard')}
+            </NavLink>
 
             <NavLink to="/mytournaments">
               <i className="material-icons">assignment</i>

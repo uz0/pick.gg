@@ -183,6 +183,7 @@ const AdminController = io => {
     await FantasyTournamentModel.findByIdAndUpdate(tournamentId,
       {
         name: tournament.name,
+        thumbnail: tournament.thumbnail,
         entry: tournament.entry,
         rules: normalizedRules,
       },
@@ -233,14 +234,14 @@ const AdminController = io => {
         }
       });
 
-    if (fantasyTournament.winner) {
-      res.json({
-        success: "false",
-        message: "Tournament is already finalized"
-      });
+    // if (fantasyTournament.winner) {
+    //   res.json({
+    //     success: "false",
+    //     message: "Tournament is already finalized"
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     const realTournament = fantasyTournament.tournament;
 
@@ -413,8 +414,6 @@ const AdminController = io => {
 
       playersResults.push(result);
     }
-
-    console.log(playersResults);
 
     const matchResult = await MatchResultModel.create({
       matchId,
