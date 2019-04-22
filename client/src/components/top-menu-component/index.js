@@ -167,7 +167,7 @@ class TopMenuComponent extends Component {
               <h2 className={style.logo}>Pick.gg</h2>
             </NavLink>
 
-            <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('tournaments')}</NavLink>
+            <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
             <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 

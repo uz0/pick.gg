@@ -63,6 +63,20 @@
   margin-right: 20px;
 }
 
+.tournaments .content .is_preloader_card{
+  background-image: url('../../assets/card-tournament.svg');
+  background-size: 100%;
+  min-height: 400px;
+  max-width: 320px;
+  animation: loading 0.5s infinite;
+}
+
+@keyframes loading{
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  0% { opacity: 1; }
+}
+
 @media (max-width: 1264px) {
   .tournaments .content .button{
     bottom: 30px;
@@ -99,5 +113,8 @@
   .tournaments .content .sidebar select {
     height: 40px;
     font-size: 14px;
+  }
+  .tournaments .content .is_preloader_card{
+    background-size: cover;
   }
 }

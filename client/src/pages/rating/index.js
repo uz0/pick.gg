@@ -5,8 +5,8 @@ import i18n from 'i18n';
 import io from "socket.io-client";
 
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
-import Preloader from 'components/preloader';
 import Table from 'components/table';
+import Card from 'components/card-user';
 
 import UserService from 'services/userService';
 
@@ -43,14 +43,14 @@ class Rating extends Component {
     this.userService = new UserService();
     this.state = {
       playersList: [],
-      loader: true,
+      isLoading: true,
     };
   }
 
-  preloader = () =>
-    this.setState({
-      loader: false,
-    })
+  // preloader = () =>
+  //   this.setState({
+  //     loader: false,
+  //   })
 
   componentDidMount = async () => {
     this.loadData();
@@ -58,7 +58,8 @@ class Rating extends Component {
     this.socket = io();
     this.socket.on('fantasyTournamentFinalized', () => this.loadData());
 
-    this.preloader();
+    // this.preloader();
+
   }
 
   loadData = async () => {
@@ -70,6 +71,7 @@ class Rating extends Component {
     this.setState({
       currentUser,
       playersList: rating.rating,
+      isLoading: false,
     });
   }
 
@@ -96,29 +98,49 @@ class Rating extends Component {
     </NavLink>;
   }
 
+  renderTopUsers = ({ className, avatarClass, nameClass, winningsClass, item }) => {
+    const Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
+    return <NavLink to={`/user/${item._id}`} className={className}>
+      <div className={avatarClass}>
+        <Avatar />
+      </div>
+      <div className={nameClass}>{item.username} #{item.place}</div>
+      <div className={winningsClass}>${item.winning}</div>
+    </NavLink>
+  }
+
   render() {
+
+    const topUsers = this.state.playersList.slice(0, 3);
+    const sliceUsers = this.state.playersList.slice(3);
+
     return (
       <div className={style.home_page}>
-        {this.state.loader && <Preloader />}
 
         <main className={style.main_block}>
           <h1>{i18n.t('best_players')}</h1>
 
-          <div className={style.section}>
-            <Table
-              captions={ratingTableCaptions}
+          <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoading })}>
+            <Card
               defaultSorting={this.tournamentsDefaultSorting}
-              items={this.state.playersList}
-              className={style.table}
-              renderRow={this.renderRow}
-              isLoading={this.state.isLoading}
-              emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+              items={topUsers}
+              className={style.card}
+              renderCard={this.renderTopUsers}
             />
           </div>
 
-          {this.state.isLoading &&
-            <Preloader />
-          }
+          <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoading })}>
+
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={sliceUsers}
+              className={style.card}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
+          </div>
+
         </main>
       </div >
     );

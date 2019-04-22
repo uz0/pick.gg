@@ -93,11 +93,6 @@ html {
   object-fit: cover;
 }
 
-.links a{
-  font-size: 20px;
-  color: rgb(252, 252, 252);
-}
-
 .desktop_hidden {
   display: none;
 }
