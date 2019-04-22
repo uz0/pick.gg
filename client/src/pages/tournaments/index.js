@@ -12,7 +12,6 @@ import UserService from 'services/userService';
 
 import NewTournamentModal from 'components/new-tournament';
 import TournamentCard from 'components/tournament-card';
-import Preloader from 'components/preloader';
 
 import i18n from 'i18n';
 
@@ -149,10 +148,6 @@ class Tournaments extends Component {
             </button>}
         </div>
       </div>
-
-      {/* {this.state.isLoading &&
-        <Preloader /> */}
-      }
 
       {this.state.isAddTournamentModalShown &&
         <NewTournamentModal onClose={this.toggleNewTournamentModal} />

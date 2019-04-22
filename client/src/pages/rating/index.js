@@ -5,7 +5,6 @@ import i18n from 'i18n';
 import io from "socket.io-client";
 
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
-import Preloader from 'components/preloader';
 import Table from 'components/table';
 import Card from 'components/card-user';
 
@@ -44,7 +43,7 @@ class Rating extends Component {
     this.userService = new UserService();
     this.state = {
       playersList: [],
-      isLoader: true,
+      isLoading: true,
     };
   }
 
@@ -72,7 +71,7 @@ class Rating extends Component {
     this.setState({
       currentUser,
       playersList: rating.rating,
-      isLoader: false,
+      isLoading: false,
     });
   }
 
@@ -117,12 +116,11 @@ class Rating extends Component {
 
     return (
       <div className={style.home_page}>
-        {/* {this.state.loader && <Preloader />} */}
 
         <main className={style.main_block}>
           <h1>{i18n.t('best_players')}</h1>
 
-          <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoader })}>
+          <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoading })}>
             <Card
               defaultSorting={this.tournamentsDefaultSorting}
               items={topUsers}
@@ -131,7 +129,7 @@ class Rating extends Component {
             />
           </div>
 
-          <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoader })}>
+          <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoading })}>
 
             <Table
               captions={ratingTableCaptions}
@@ -140,13 +138,9 @@ class Rating extends Component {
               className={style.card}
               renderRow={this.renderRow}
               isLoading={this.state.isLoading}
-            // emptyMessage={i18n.t('there_is_no_tournaments_yet')}
             />
           </div>
 
-          {/* {this.state.isLoading &&
-              <Preloader /> */}
-          }
         </main>
       </div >
     );

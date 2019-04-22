@@ -7,7 +7,6 @@ import moment from 'moment';
 import TransactionsService from 'services/transactionService';
 
 import Table from 'components/table';
-import Preloader from 'components/preloader';
 
 import classnames from 'classnames/bind';
 import style from './style.module.css';
@@ -117,10 +116,6 @@ class Transactions extends Component {
             emptyMessage="You haven't had any transactions yet"
           />
         </div>
-
-        {/* {this.state.isLoading &&
-          <Preloader /> */}
-        }
 
       </div>
     );
