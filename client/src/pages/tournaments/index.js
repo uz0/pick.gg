@@ -17,6 +17,9 @@ import Preloader from 'components/preloader';
 import i18n from 'i18n';
 
 import style from './style.module.css';
+import classnames from 'classnames/bind';
+
+const cx = classnames.bind(style);
 
 class Tournaments extends Component {
   constructor() {
@@ -129,7 +132,7 @@ class Tournaments extends Component {
 
     return <div className={style.tournaments}>
       <div className={style.content}>
-        <div className={style.section}>
+        <div className={cx(style.section,{ [style.is_preloader_card]: this.state.isLoading })}>
 
           {this.state.groupedFantasyTournaments.map(item => {
             return <div key={item[0]._id} className={style.tournament_group}>
@@ -147,8 +150,8 @@ class Tournaments extends Component {
         </div>
       </div>
 
-      {this.state.isLoading &&
-        <Preloader />
+      {/* {this.state.isLoading &&
+        <Preloader /> */}
       }
 
       {this.state.isAddTournamentModalShown &&
