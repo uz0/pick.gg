@@ -98,6 +98,7 @@ export default {translation: {
   free_tournament: 'Вы хотите с таким составом стартовать?',
   balance: 'Баланс',
   admin: 'Админ',
+  streamer: 'Стример',
   please_name_tournament: 'Пожалуйста, напишите название турнира',
   please_date_tournament: 'Пожалуйста, выберите дату турнира',
   please_players_tournament: 'Пожалуйста, выберите игроков турнира',

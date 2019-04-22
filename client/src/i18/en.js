@@ -98,6 +98,7 @@ export default {translation: {
   free_tournament: 'Do you want to start with such a team?',
   balance: 'Balance',
   admin: 'Admin',
+  streamer: 'Streamer',
   please_name_tournament: 'Please, write tournament name',
   please_date_tournament: 'Please, choose tournament date',
   please_players_tournament: 'Please, choose tournament players',

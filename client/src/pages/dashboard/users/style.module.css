@@ -119,43 +119,44 @@
   margin-bottom: 10px;
 }
 
-.chebox{
+.checkbox {
   display: flex;
 }
 
-.chebox p{
+.checkbox p {
   color: var(--accent-color);
   font-size: 16px;
   margin-right: 10px;
 }
 
-.css_checkbox {
-	-webkit-appearance: none;
-	background-color: var(--primary-color);
-	border: 1px solid var(--primary-color);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-	padding: 9px;
-	border-radius: 3px;
-	display: inline-block;
+.checkbox .input {
+  -webkit-appearance: none;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+  padding: 9px;
+  border-radius: 3px;
+  display: inline-block;
   position: relative;
   cursor: pointer;
 }
 
-.css_checkbox:active, .css_checkbox:checked:active {
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+.checkbox .input:active,
+.checkbox .input:checked:active {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
 }
 
-.css_checkbox:checked {
-  	background-color: var(--primary-color);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-	color: #99a1a7;
+.checkbox .input:checked {
+  background-color: var(--primary-color);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+  color: #99a1a7;
 }
 
-.css_checkbox:checked:after {
-	content: '\2714';
-	font-size: 14px;
-	position: absolute;
-	top: 0px;
-	left: 3px;
-	color: var(--accent-color);;
+.checkbox .input:checked:after {
+  content: '\2714';
+  font-size: 14px;
+  position: absolute;
+  top: 0px;
+  left: 3px;
+  color: var(--accent-color);
 }

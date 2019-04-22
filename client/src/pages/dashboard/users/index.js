@@ -48,6 +48,7 @@ class Users extends Component {
       username: '',
       balance: '',
       isAdmin: '',
+      isStreamer: '',
     },
     users: [],
     isUserEditing: false,
@@ -188,13 +189,24 @@ class Users extends Component {
             onChange={this.handleInputChange}
           />
 
-          <label className={style.chebox}>
+          <label className={style.checkbox}>
             <p>{i18n.t('admin')}</p>
             <input
-              className={style.css_checkbox}
+              className={style.input}
               name="isAdmin"
               type="checkbox"
               defaultChecked={userEditingData.isAdmin}
+              onChange={this.handleInputChange}
+            />
+          </label>
+
+          <label className={style.checkbox}>
+            <p>{i18n.t('streamer')}</p>
+            <input
+              className={style.input}
+              name="isStreamer"
+              type="checkbox"
+              defaultChecked={userEditingData.isStreamer}
               onChange={this.handleInputChange}
             />
           </label>
