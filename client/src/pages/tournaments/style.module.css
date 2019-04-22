@@ -59,22 +59,32 @@
   flex-wrap: wrap;
 }
 
-.tournaments .content .section a:not(:last-of-type){
+.tournaments .content .section .tournament_group .tournaments_cards a:nth-of-type(3) ~ * {
+  margin-top: 16px;
+}
+
+.tournaments .content .section a:not(:last-of-type) {
   margin-right: 20px;
 }
 
-.tournaments .content .is_preloader_card{
+.tournaments .content .is_preloader_card {
   background-image: url('../../assets/card-tournament.svg');
   background-size: 100%;
   min-height: 400px;
   max-width: 320px;
-  animation: loading 0.5s infinite;
+  animation: loading 1s infinite;
 }
 
-@keyframes loading{
-  0% { opacity: 1; }
-  50% { opacity: 0.8; }
-  0% { opacity: 1; }
+@keyframes loading {
+  0% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.5;
+  }
+  0% {
+    opacity: 0.75;
+  }
 }
 
 @media (max-width: 1264px) {
@@ -96,9 +106,9 @@
     justify-content: space-between;
   }
 
-  /* .tournaments .title{
-    display: none;
-  } */
+  .tournaments .content .section .tournament_group .tournaments_cards a:nth-of-type(3) ~ * {
+    margin-top: 0;
+  }
 
   .tournaments .content .section {
     margin-left: 0;
