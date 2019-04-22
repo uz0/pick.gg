@@ -138,7 +138,7 @@ class FantasyTournaments extends Component {
   finalizeTournament = async () => {
     const tournamentId = this.state.tournamentEditingData._id;
     const finalizeQuery = await this.adminService.finalizeFantasyTournament(tournamentId);
-    let notificationType = finalizeQuery.message === 'Tournament is already finalized' ? 'warning' : 'success';
+    let notificationType = finalizeQuery.success ? 'success' : 'error';
 
     this.notificationService.showSingleNotification({
       type: notificationType,
@@ -240,7 +240,7 @@ class FantasyTournaments extends Component {
       modalActions.push(
         { text: i18n.t('delete_tournament'), onClick: this.deleteTournamentConfirmInit, isDanger: true },
         { text: i18n.t('finalize_tournament'), onClick: this.finalizeTournament, isDanger: true },
-        { text: i18n.t('update_tournament'), onClick: this.editTournamentSubmit, isDanger: false},
+        { text: i18n.t('update_tournament'), onClick: this.editTournamentSubmit, isDanger: false },
       );
     }
 
