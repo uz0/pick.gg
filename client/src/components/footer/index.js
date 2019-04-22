@@ -26,7 +26,7 @@ class TopMenuComponent extends Component {
           </div>
 
           <div className={style.contact}>
-            <p>Contact as:</p>
+            <p>Contact us:</p>
 
             <NavLink to="#">
               <DiscordIcon />

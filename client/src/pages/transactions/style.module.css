@@ -41,7 +41,7 @@
 
 .is_preloader_table{
   margin-top: 70px;
-  background-image: url("../../assets/table-row.svg");
+  background-image: url("assets/table-row.svg");
   min-height: 700px;
   background-size: 100%;
   opacity: 1;
@@ -68,7 +68,7 @@
     font-size: 12px;
   }
   .is_preloader_table{
-    background-image: url('../../assets/table-row-min.svg');
+    background-image: url('assets/table-row-min.svg');
     background-size: 100%;
     width: 100%;
     margin-top: 40px;

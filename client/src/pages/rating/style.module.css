@@ -53,7 +53,7 @@ main h1 {
 
 .is_preloader_table{
   margin-top: 20px;
-  background-image: url("../../assets/table-row.svg");
+  background-image: url("assets/table-row.svg");
   height: 590px;
   background-size: 100%;
   opacity: 1;
@@ -62,7 +62,7 @@ main h1 {
 
 .is_preloader_card{
   margin-top: 20px;
-  background-image: url("../../assets/card-placeholder.svg");
+  background-image: url("assets/card-placeholder.svg");
   background-size: 185px;
   background-repeat: repeat-x; 
   height: 250px;
@@ -106,13 +106,13 @@ main h1 {
     height: 20px !important;
   }
   .is_preloader_card{
-    background-image: url("../../assets/card-placeholder-min.svg");
+    background-image: url("assets/card-placeholder-min.svg");
     height: 150px;
     width: 100%;
     background-size: 100px;
   }
   .is_preloader_table{
-    background-image: url("../../assets/table-row-min.svg");
+    background-image: url("assets/table-row-min.svg");
     margin-top: 50px;
   }
 }
