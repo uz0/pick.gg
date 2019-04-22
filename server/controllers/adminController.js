@@ -234,14 +234,23 @@ const AdminController = io => {
         }
       });
 
-    // if (fantasyTournament.winner) {
-    //   res.json({
-    //     success: "false",
-    //     message: "Tournament is already finalized"
-    //   });
+    if (fantasyTournament.winner) {
+      res.json({
+        success: false,
+        message: "Tournament is already finalized"
+      });
 
-    //   return;
-    // }
+      return;
+    }
+
+    if (fantasyTournament.users.length === 0) {
+      res.json({
+        success: false,
+        message: "You can't finalize tournament without participants"
+      });
+
+      return;
+    }
 
     const realTournament = fantasyTournament.tournament;
 
@@ -301,7 +310,7 @@ const AdminController = io => {
 
     if (!areMatchesCompleted) {
       res.json({
-        success: "false",
+        success: false,
         message: "Not all matches of the tournament are completed"
       });
 
