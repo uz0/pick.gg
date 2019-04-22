@@ -578,7 +578,7 @@ class Tournament extends Component {
 
         <div className={style.item}>
           <label className={style.title}>{i18n.t('original_tournament')}</label>
-          <p className={style.value}>{tournamentName}</p>
+          <p className={style.value}>{moment(tournamentDate).format('DD MMM')} – {tournamentName}</p>
         </div>
 
         <div className={style.item}>
