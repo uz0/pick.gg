@@ -7,7 +7,6 @@ import moment from 'moment';
 import TransactionsService from 'services/transactionService';
 
 import Table from 'components/table';
-import Preloader from 'components/preloader';
 
 import classnames from 'classnames/bind';
 import style from './style.module.css';
@@ -42,7 +41,7 @@ class Transactions extends Component {
 
     this.state = {
       transactions: [],
-      isLoading: false,
+      isLoading: true,
     };
   }
 
@@ -107,18 +106,16 @@ class Transactions extends Component {
       <div className={style.transactions}>
         <h1 className={style.title}>{i18n.t('transactions_history')}</h1>
 
-        <Table
-          captions={transactionsTableCaptions}
-          items={this.state.transactions}
-          className={style.transactions_table}
-          renderRow={this.renderRow}
-          isLoading={this.state.isLoading}
-          emptyMessage="You haven't had any transactions yet"
-        />
-
-        {this.state.isLoading &&
-          <Preloader />
-        }
+        <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoading })}>
+          <Table
+            captions={transactionsTableCaptions}
+            items={this.state.transactions}
+            className={style.transactions_table}
+            renderRow={this.renderRow}
+            isLoading={this.state.isLoading}
+            emptyMessage="You haven't had any transactions yet"
+          />
+        </div>
 
       </div>
     );
