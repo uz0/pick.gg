@@ -1,98 +1,4 @@
-.new_tournament {
-  padding: 0px;
-}
-
-.new_tournament form {
-  box-sizing: border-box;
-  padding: 20px;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-  background-color: var(--background-color);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-.new_tournament .top_block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.top_block p {
-  font-size: 16px;
-  padding: 0px 0px 4px;
-  color: #EDAF53;
-  font-weight: normal;
-}
-
-.input_component {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.new_tournament input {
-  background-color: var(--primary-color);
-  color: var(--accent-color);
-  font-size: 18px;
-  border: none;
-  border-radius: 2px;
-  padding: 8px 10px;
-}
-
-.top_block input {
-  width: 300px;
-  margin-bottom: 10px;
-  height: 40px;
-}
-
-.rules_inputs {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 300px;
-  margin: 0;
-}
-
-.rules_inputs input {
-  --gap: 10;
-  width: 145px;
-  color: var(--accent-color);
-  margin-top: calc(var(--gap) * 1px);
-  height: 40px;
-  padding-top: 10px;
-  padding: 10px 0 2px 8px;
-  font-size: 14px;
-}
-
-.new_tournament select {
-  background-color: var(--primary-color);
-  color: var(--accent-color);
-  font-size: 18px;
-  border: none;
-  border-radius: 2px;
-  padding: 8px 10px;
-  margin-bottom: 10px;
-  width: 300px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.new_tournament p {
-  font-size: 15px;
-  color: var(--accent-color);
-  text-align: left;
-  margin: 0;
-}
-
-.bottom_btn {
-  margin-top: 16px;
-}
-
-.wrap {
-  background: rgba(0, 0, 0, 0.6);
+.wrapper {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -103,29 +9,82 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-.input_rules {
+.tournament form {
+  --form-width: 600px;
+  padding: 20px;
+  width: var(--form-width);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.tournament form .close {
+  align-self: flex-end;
+}
+
+.tournament form .input_group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tournament form p {
+  font-size: 16px;
+  color: var(--accent-color);
+}
+
+.tournament form input {
+  font-size: 18px;
+  color: var(--accent-color);
+  border: none;
+  border-radius: 2px;
+  background-color: var(--primary-color);
+}
+
+.tournament form .input_group input {
+  margin-bottom: 10px;
+  height: 40px;
+}
+
+.tournament form .rules_inputs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tournament form .rules_inputs input {
+  --gap: 10px;
+  margin-top: var(--gap);
+  margin-right: var(--gap);
+  padding: 10px 0 2px 8px;
+  height: 40px;
+  width: 145px;
+  font-size: 14px;
+  color: var(--accent-color);
+}
+
+.tournament .input_rules {
   position: relative;
 }
 
-.input_rules label {
+.tournament .input_rules label {
   position: absolute;
-  color: #fff;
   left: 10px;
-  top: 19px;
-  transition: all 0.3s;
+  top: 20px;
   font-size: 16px;
-  padding: 1px;
-  border-radius: 5px;
+  border-radius: 6px;
   color: rgb(97, 97, 97);
+  transition: all 0.3s;
   pointer-events: none;
 }
 
 .input_rules input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0; 
+.input_rules input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 .input_rules input:valid + label,
@@ -135,50 +94,38 @@ input::-webkit-inner-spin-button {
   color: var(--accent-color);
 }
 
- .focused {
-  left: 7px;
-  top: 12px;
-  font-size: 10px;
-  color: var(--accent-color);
+.tournament .submit {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.tournament .players {
+  display: flex;
 }
 
 @media screen and (max-width: 480px) {
-  .new_tournament {
+  .tournament {
     width: 100%;
     height: auto;
   }
 
-  .new_tournament form {
+  .tournament form {
     padding: 20px;
     align-items: center;
   }
 
-  .top_block input{
+  .input_group input{ 
     width: 100%;
   }
 
-  .new_tournament label{
+  .tournament label {
     width: 100%;
   }
 
-  .new_tournament label>input {
+  .tournament label > input {
     width: 100%;
-  }
-
-  .new_tournament label>select {
-    width: 100%;
-  }
-
-  .rules_inputs {
-    width: 100%;
-  }
-
-  .rules_inputs input {
-    width: 100%;
-  }
-
-  .close_button {
-    align-self: flex-end;
   }
 
   .create_block {
@@ -211,7 +158,7 @@ input::-webkit-inner-spin-button {
     font-size: 14px;
   }
 
-  .top_block {
+  .input_group {
     align-items: center;
   }
 }
