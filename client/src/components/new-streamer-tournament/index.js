@@ -3,11 +3,11 @@ import moment from 'moment';
 import { withRouter } from 'react-router';
 
 import groupBy from 'lodash/groupBy';
+import findIndex from 'lodash/findIndex';
 
 import Input from '../input';
 import Button from '../button';
-import Modal from '../../components/modal';
-import PlayersModal from '../../components/dashboard-modal';
+import Modal from '../../components/dashboard-modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 
 import http from '../../services/httpService';
@@ -66,9 +66,10 @@ class NewStreamerTournament extends Component {
 
   state = {
     players: [],
-    chosenPlayersIds: [],
+    chosenPlayers: [],
     rulesValues: {},
     rules: [],
+    championData: [],
     modalChoose: false,
   }
 
@@ -105,24 +106,20 @@ class NewStreamerTournament extends Component {
   handleChange = (event, input) => this.setState({ [input]: event.target.value });
 
   playerClickHandler = (player) => {
-    let { chosenPlayersIds } = this.state;
-    const index = chosenPlayersIds.indexOf(player._id);
+    let { chosenPlayers } = this.state;
+    const index = findIndex(chosenPlayers, { _id: player._id });
 
-    if (index === -1 && chosenPlayersIds.length === 5) {
+    if (index === -1 && chosenPlayers.length === 10) {
       return;
     }
 
-    if (chosenPlayersIds.length === 5) {
-
-    }
-
     if (index === -1) {
-      chosenPlayersIds.push(player._id);
+      chosenPlayers.push(player);
     } else {
-      chosenPlayersIds.splice(index, 1);
+      chosenPlayers.splice(index, 1);
     }
 
-    this.setState({ chosenPlayersIds });
+    this.setState({ chosenPlayers });
   }
 
   submitForm = async () => {
@@ -204,6 +201,15 @@ class NewStreamerTournament extends Component {
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 
+  handleChampionInputChange = (event) => {
+    this.setState({
+      championData: {
+        ...this.state.championData,
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
+
   renderRuleInput = ({ _id, name }) => {
     return <div key={_id} className={style.input_rules}>
       <input
@@ -244,12 +250,12 @@ class NewStreamerTournament extends Component {
       <div className={style.wrapper}>
         <div className={style.tournament}>
 
-          {this.state.modalChoose && <Modal
+          {/* {this.state.modalChoose && <Modal
             textModal={i18n.t('really_want_create')}
             closeModal={this.closeModalChoose}
             submitClick={this.submitForm}
           />
-          }
+          } */}
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
 
@@ -308,16 +314,42 @@ class NewStreamerTournament extends Component {
           </form>
         </div>
 
-        <PlayersModal
+        <Modal
           title={'Choose 10 players'}
+          wrapClassName={style.players_modal}
         >
-          <div className={style.players}>
+
+          <div className={style.players_sidebar}>
+            <h3>Chosen players</h3>
+
+            {this.state.chosenPlayers.length === 0 && 
+              <p className={style.attention}>You haven't chosen any players yet</p>
+            }
+            
+            {this.state.chosenPlayers.length > 1 && this.state.chosenPlayers.length < 10 && 
+              <p className={style.attention}>Great! {10 - this.state.chosenPlayers.length} players left</p>
+            }
+
+            <div className={style.chosen_players}>
+              {this.state.chosenPlayers.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
+            </div>
+
+            <p>Cannot find your player?</p>
+
+            <Button
+              text='Create new player'
+              appearance='_basic-accent'
+            />
+
+          </div>
+
+          <div className={style.players_list}>
             {Object.keys(this.state.players).map((item, index) => <div className={style.group}>
               <h3>{item}</h3>
               <div className={style.group_players}>
                 {Object.values(this.state.players)[index].map(element => <div
                   onClick={() => this.playerClickHandler(element)}
-                  className={cx(style.player, { [style.selected]: this.state.chosenPlayersIds.indexOf(element._id) !== -1 })}
+                  className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: element._id }) !== -1 })}
                 >
                   {element.name}
                 </div>)
@@ -325,8 +357,38 @@ class NewStreamerTournament extends Component {
               </div>
             </div>)}
           </div>
-        </PlayersModal>
 
+          <Modal
+            title={'Create new player'}
+            wrapClassName={style.create_player_modal}
+            actions={[{
+              text: 'Add player',
+              onClick: () => {},
+              isDanger: true
+            }]}
+          >
+            <div className={style.inputs}>
+              <Input
+                label={i18n.t('champion_name')}
+                name="name"
+                value={this.state.championData.name || ''}
+                onChange={this.handleChampionInputChange}
+              />
+              <Input
+                label={i18n.t('champion_photo')}
+                name="photo"
+                value={this.state.championData.photo || ''}
+                onChange={this.handleChampionInputChange}
+              />
+              <Input
+                label={i18n.t('champion_position')}
+                name="position"
+                value={this.state.championData.position || ''}
+                onChange={this.handleChampionInputChange}
+              />
+            </div>
+          </Modal>
+        </Modal>
       </div>
     );
   }
