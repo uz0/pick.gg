@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { withRouter } from 'react-router';
 
+import groupBy from 'lodash/groupBy';
+
 import Input from '../input';
 import Button from '../button';
 import Modal from '../../components/modal';
@@ -14,13 +16,16 @@ import NotificationService from '../../services/notificationService';
 import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
+import classnames from 'classnames'; 
 import style from './style.module.css';
 import i18n from 'i18n';
+
+const cx = classnames.bind(style);
 
 class NewStreamerTournament extends Component {
   constructor() {
     super();
-    
+
     this.adminService = new AdminService();
     this.notificationService = new NotificationService();
     this.tournamentService = new TournamentService();
@@ -35,7 +40,16 @@ class NewStreamerTournament extends Component {
     const { user } = await this.userService.getMyProfile();
 
     const { players } = await this.adminService.getAllChampions();
-    const sortedPlayers = players.sort((prev, next) => prev.name.localeCompare(next.name));
+    const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
+
+    const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
+
+    // console.log(groupedPlayers, 'groupedPlayers');
+
+    // groupedPlayers['1-9'] = 
+
+    // console.log(Object.keys(groupedPlayers));
+    // console.log(Object.values(groupedPlayers));
 
     const rulesValues = rules.reduce((obj, rule) => {
       obj[rule._id] = 0;
@@ -43,7 +57,7 @@ class NewStreamerTournament extends Component {
     }, {});
 
     this.setState({
-      players: sortedPlayers,
+      players: groupedPlayers,
       rules,
       user,
       rulesValues,
@@ -52,6 +66,7 @@ class NewStreamerTournament extends Component {
 
   state = {
     players: [],
+    chosenPlayersIds: [],
     rulesValues: {},
     rules: [],
     modalChoose: false,
@@ -68,11 +83,11 @@ class NewStreamerTournament extends Component {
     if (formattedInputValue <= 10 && formattedInputValue >= 0) {
       value = formattedInputValue;
     }
-    
+
     if (formattedInputValue >= 10) {
       value = 10;
     }
-    
+
     if (formattedInputValue <= 0) {
       value = 0;
     }
@@ -89,6 +104,27 @@ class NewStreamerTournament extends Component {
 
   handleChange = (event, input) => this.setState({ [input]: event.target.value });
 
+  playerClickHandler = (player) => {
+    let { chosenPlayersIds } = this.state;
+    const index = chosenPlayersIds.indexOf(player._id);
+
+    if (index === -1 && chosenPlayersIds.length === 5) {
+      return;
+    }
+
+    if (chosenPlayersIds.length === 5) {
+
+    }
+
+    if (index === -1) {
+      chosenPlayersIds.push(player._id);
+    } else {
+      chosenPlayersIds.splice(index, 1);
+    }
+
+    this.setState({ chosenPlayersIds });
+  }
+
   submitForm = async () => {
     this.setState({ modalChoose: false });
 
@@ -103,7 +139,7 @@ class NewStreamerTournament extends Component {
 
     let tournamentId = '';
 
-    if (!name){
+    if (!name) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -113,7 +149,7 @@ class NewStreamerTournament extends Component {
       return;
     }
 
-    if (!entry){
+    if (!entry) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -122,7 +158,7 @@ class NewStreamerTournament extends Component {
 
       return;
     }
-    
+
     if (user.balance < entry) {
       this.notificationService.showSingleNotification({
         type: 'error',
@@ -184,6 +220,22 @@ class NewStreamerTournament extends Component {
     </div>
   }
 
+  renderPlayer = ({ _id, name }) => {
+    return <div key={_id} className={style.input_rules}>
+      <input
+        max="10"
+        type="number"
+        name={_id}
+        onChange={this.onRuleInputChange}
+        value={this.state.rulesValues[_id]}
+        defaultValue={this.state.rulesValues[_id]}
+      />
+      <label>
+        {i18n.t(name)}
+      </label>
+    </div>
+  }
+
   render() {
     const { onClose } = this.props;
     const areRulesLoading = this.state.rules.length === 0;
@@ -193,10 +245,10 @@ class NewStreamerTournament extends Component {
         <div className={style.tournament}>
 
           {this.state.modalChoose && <Modal
-              textModal={i18n.t('really_want_create')}
-              closeModal={this.closeModalChoose}
-              submitClick={this.submitForm}
-            />
+            textModal={i18n.t('really_want_create')}
+            closeModal={this.closeModalChoose}
+            submitClick={this.submitForm}
+          />
           }
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
@@ -228,7 +280,7 @@ class NewStreamerTournament extends Component {
                   onInput={(event) => this.handleChange(event, 'entry')}
                 />
               </div>
-              
+
               <p>Tournament players</p>
               <div>
                 <Button
@@ -239,11 +291,11 @@ class NewStreamerTournament extends Component {
               </div>
 
               <p>{i18n.t('rules')}</p>
-              
+
               <div className={style.rules_inputs}>
                 {this.state.rules.map(item => this.renderRuleInput(item))}
               </div>
-              
+
               <div className={style.submit}>
                 <Button
                   appearance={'_basic-accent'}
@@ -259,8 +311,19 @@ class NewStreamerTournament extends Component {
         <PlayersModal
           title={'Choose 10 players'}
         >
-          <div style={style.players}>
-            {this.state.players.map(player => <p>{player.name}</p>)}
+          <div className={style.players}>
+            {Object.keys(this.state.players).map((item, index) => <div className={style.group}>
+              <h3>{item}</h3>
+              <div className={style.group_players}>
+                {Object.values(this.state.players)[index].map(element => <div
+                  onClick={() => this.playerClickHandler(element)}
+                  className={cx(style.player, { [style.selected]: this.state.chosenPlayersIds.indexOf(element._id) !== -1 })}
+                >
+                  {element.name}
+                </div>)
+                }
+              </div>
+            </div>)}
           </div>
         </PlayersModal>
 

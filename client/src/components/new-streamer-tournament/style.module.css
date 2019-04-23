@@ -101,8 +101,35 @@
   align-items: flex-end;
 }
 
-.tournament .players {
+.players {
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.players .group > h3 {
+  color: #fff;
+}
+
+.players .group .group_players {
+  display: flex;
+  flex-wrap: wrap;
+  width: 600px;
+}
+
+.players .group .group_players div {
+  padding: 4px;
+  font-size: 14px;
+  border-radius: 16px;
+  color: #909095;
+  background-color: #2f2f5b;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.players .group .group_players div.selected {
+  background-color: var(--accent-color) !important;
 }
 
 @media screen and (max-width: 480px) {
