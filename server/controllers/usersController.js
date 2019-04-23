@@ -5,13 +5,13 @@ let router = express.Router();
 
 const UsersController = () => {
   router.get('/', async (req, res) => {
-    let users = await UserModel.find();
+    const users = await UserModel.find();
     res.json({ users });
   });
 
   router.get('/me', async (req, res) => {
     const userId = req.decoded._id;
-    let user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin photo about email');
+    const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email');
     res.json({ user });
   });
 
