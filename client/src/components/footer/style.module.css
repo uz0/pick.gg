@@ -10,7 +10,8 @@ html {
 
 .footer_wrap{
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
   max-width: var(--container-width);
@@ -18,6 +19,7 @@ html {
   margin-right: auto;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
+  padding-bottom: 10px;
 }
 
  .footer a {	
@@ -73,9 +75,12 @@ html {
   margin-right: 10px;
 }
 
+.one_row{
+  display: flex;
+}
+
 .info_footer{
   display: flex;
-  flex-direction: row;
   align-items: center;
 }
 
