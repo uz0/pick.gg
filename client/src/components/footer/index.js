@@ -20,24 +20,29 @@ class TopMenuComponent extends Component {
     return (
       <div className={style.footer}>
         <div className={style.footer_wrap}>
+          <div className={style.one_row}>
+            <div className={style.info_footer}>
+
+              <p>© 2019 uz0</p>
+
+              <NavLink to="#">{i18n.t('terms_and_agreement')}</NavLink>
+            </div>
+
+            <div className={style.contact}>
+              <p>Contact us:</p>
+
+              <NavLink to="#">
+                <DiscordIcon />
+              </NavLink>
+            </div>
+          </div>
+
           <div className={style.change_lng}>
             <NavLink to="/ru">RU</NavLink>
+
             <NavLink to="/en">EN</NavLink>
           </div>
 
-          <div className={style.contact}>
-            <p>Contact us:</p>
-
-            <NavLink to="#">
-              <DiscordIcon />
-            </NavLink>
-          </div>
-
-          <div className={style.info_footer}>
-            <p>© 2019 uz0</p>
-
-            <NavLink to="#">{i18n.t('terms_and_agreement')}</NavLink>
-          </div>
         </div>
       </div>
     );
