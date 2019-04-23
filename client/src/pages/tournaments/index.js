@@ -11,6 +11,7 @@ import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
 import NewTournamentModal from 'components/new-tournament';
+import NewStreamerTournamentModal from 'components/new-streamer-tournament';
 import TournamentCard from 'components/tournament-card';
 
 import i18n from 'i18n';
@@ -34,6 +35,7 @@ class Tournaments extends Component {
   state = {
     isLoading: false,
     isAddTournamentModalShown: false,
+    isStreamerTournamentModalShown: false,
     groupedFantasyTournaments: [],
     fantasyTournaments: [],
     realTournaments: [],
@@ -66,9 +68,6 @@ class Tournaments extends Component {
       isLoading: false,
     });
 
-    console.log(this.state);
-    // console.log(Object.values(this.state.groupedFantasyTournaments), 'this.state');
-
     this.socket.on("fantasyTournamentCreated", ({ newTournamentPopulated }) => {
 
       this.setState({
@@ -87,6 +86,8 @@ class Tournaments extends Component {
   // }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
+
+  toggleNewStreamerTournamentModal = () => this.setState({ isStreamerTournamentModalShown: !this.state.isStreamerTournamentModalShown });
 
   tournamentsDefaultSorting = (prev, next) => moment(next.tournament.date).format('YYYYMMDD') - moment(prev.tournament.date).format('YYYYMMDD');
 
@@ -146,11 +147,21 @@ class Tournaments extends Component {
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
               <i className="material-icons">add</i>
             </button>}
+
+          {this.state.profile.user.isStreamer &&
+            <button className={style.button} onClick={this.toggleNewStreamerTournamentModal}>
+              <i className="material-icons">add</i>
+              Стример
+            </button>}
         </div>
       </div>
 
       {this.state.isAddTournamentModalShown &&
         <NewTournamentModal onClose={this.toggleNewTournamentModal} />
+      }
+
+      {this.state.isStreamerTournamentModalShown &&
+        <NewStreamerTournamentModal onClose={this.toggleNewStreamerTournamentModal} />
       }
     </div>;
   }
