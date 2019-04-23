@@ -3,13 +3,13 @@ import moment from 'moment';
 import { withRouter } from 'react-router';
 
 import Input from '../input';
-import Select from '../select';
 import Button from '../button';
 import Modal from '../../components/modal';
-import Preloader from '../../components/preloader';
+import PlayersModal from '../../components/dashboard-modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 
 import http from '../../services/httpService';
+import AdminService from '../../services/adminService';
 import NotificationService from '../../services/notificationService';
 import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
@@ -20,6 +20,8 @@ import i18n from 'i18n';
 class NewStreamerTournament extends Component {
   constructor() {
     super();
+    
+    this.adminService = new AdminService();
     this.notificationService = new NotificationService();
     this.tournamentService = new TournamentService();
     this.userService = new UserService();
@@ -32,12 +34,16 @@ class NewStreamerTournament extends Component {
     const { rules } = await http('/api/rules').then(res => res.json());
     const { user } = await this.userService.getMyProfile();
 
+    const { players } = await this.adminService.getAllChampions();
+    const sortedPlayers = players.sort((prev, next) => prev.name.localeCompare(next.name));
+
     const rulesValues = rules.reduce((obj, rule) => {
       obj[rule._id] = 0;
       return obj;
     }, {});
 
     this.setState({
+      players: sortedPlayers,
       rules,
       user,
       rulesValues,
@@ -45,6 +51,7 @@ class NewStreamerTournament extends Component {
   }
 
   state = {
+    players: [],
     rulesValues: {},
     rules: [],
     modalChoose: false,
@@ -54,15 +61,19 @@ class NewStreamerTournament extends Component {
 
   closeModalChoose = () => this.setState({ modalChoose: false });
 
-  onRulesInputChange = event => {
+  onRuleInputChange = event => {
     const formattedInputValue = parseInt(event.target.value, 10);
     let value = 0;
 
     if (formattedInputValue <= 10 && formattedInputValue >= 0) {
       value = formattedInputValue;
-    } else if (formattedInputValue >= 10) {
+    }
+    
+    if (formattedInputValue >= 10) {
       value = 10;
-    } else if (formattedInputValue <= 0) {
+    }
+    
+    if (formattedInputValue <= 0) {
       value = 0;
     }
 
@@ -157,33 +168,29 @@ class NewStreamerTournament extends Component {
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 
-  nameRules = ( name ) => {
-    let rulesText = '';
-
-    if (name === 'kills'){
-      rulesText = i18n.t('kills');
-    }
-
-    if (name === 'assists'){
-      rulesText = i18n.t('assists');
-    }
-
-    if (name === 'deaths'){
-      rulesText = i18n.t('deaths');
-    }
-
-    return <div className={style.statistic_item}>
-      {rulesText}
-    </div>;
+  renderRuleInput = ({ _id, name }) => {
+    return <div key={_id} className={style.input_rules}>
+      <input
+        max="10"
+        type="number"
+        name={_id}
+        onChange={this.onRuleInputChange}
+        value={this.state.rulesValues[_id]}
+        defaultValue={this.state.rulesValues[_id]}
+      />
+      <label>
+        {i18n.t(name)}
+      </label>
+    </div>
   }
 
   render() {
-    let { onClose } = this.props;
+    const { onClose } = this.props;
     const areRulesLoading = this.state.rules.length === 0;
 
     return (
-      <div className={style.wrap}>
-        <div className={style.new_tournament}>
+      <div className={style.wrapper}>
+        <div className={style.tournament}>
 
           {this.state.modalChoose && <Modal
               textModal={i18n.t('really_want_create')}
@@ -194,17 +201,15 @@ class NewStreamerTournament extends Component {
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
 
-            {/* {areRulesLoading && <Preloader />} */}
-
             <Button
-              className={style.close_button}
+              className={style.close}
               appearance={'_icon-transparent'}
               icon={<CloseIcon />}
               onClick={onClose}
             />
 
             <div>
-              <div className={style.top_block}>
+              <div className={style.input_group}>
                 <Input
                   label={i18n.t('tournaments_name')}
                   value={this.state.name}
@@ -224,35 +229,41 @@ class NewStreamerTournament extends Component {
                 />
               </div>
               
+              <p>Tournament players</p>
+              <div>
+                <Button
+                  appearance={'_basic-accent'}
+                  type={'submit'}
+                  text={'Choose players'}
+                />
+              </div>
+
               <p>{i18n.t('rules')}</p>
               
               <div className={style.rules_inputs}>
-                {this.state.rules.map(item =>
-                  <div className={style.input_rules} key={item._id}>
-                    <input
-                      name={item._id}
-                      onChange={this.onRulesInputChange}
-                      value={this.state.rulesValues[item._id]}
-                      defaultValue={this.state.rulesValues[item._id]}
-                      key={item._id}
-                      type="number"
-                      required
-                      max="10"
-                    />
-                    <label>{this.nameRules(item.name)}</label>
-                  </div>)}
+                {this.state.rules.map(item => this.renderRuleInput(item))}
               </div>
               
-              <div className={style.bottom_btn}>
+              <div className={style.submit}>
                 <Button
                   appearance={'_basic-accent'}
                   type={'submit'}
                   text={i18n.t('create')}
                 />
               </div>
+
             </div>
           </form>
         </div>
+
+        <PlayersModal
+          title={'Choose 10 players'}
+        >
+          <div style={style.players}>
+            {this.state.players.map(player => <p>{player.name}</p>)}
+          </div>
+        </PlayersModal>
+
       </div>
     );
   }
