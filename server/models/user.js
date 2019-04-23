@@ -2,10 +2,20 @@ import mongoose from "mongoose";
 let Schema = mongoose.Schema;
 
 export default mongoose.model('User', new Schema({
-  username: { type: String, unique: true, required: true },
-  password: { type: String },
-  about: { type: String },
-  photo: { type: String },
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String
+  },
+  about: {
+    type: String
+  },
+  photo: {
+    type: String
+  },
 
   email: {
     type: String, trim: true, index: {
