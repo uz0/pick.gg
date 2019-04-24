@@ -19,9 +19,10 @@ import {
   PlayerController,
   SystemController,
   AdminController,
+  StreamerController,
 } from "./controllers";
 
-import { AuthVerifyMiddleware, AdminVerifyMiddleware } from "./middlewares";
+import { AuthVerifyMiddleware, AdminVerifyMiddleware, StreamerVerifyMiddleware } from "./middlewares";
 import config from "./config";
 
 const app = express();
@@ -57,7 +58,9 @@ app.use("/api/players", PlayerController());
 app.use("/api/tournaments", TournamentController(io));
 app.use("/api/transactions", TransactionController());
 app.use("/api/system", SystemController());
+
 app.use("/api/admin", AdminVerifyMiddleware, AdminController(io));
+app.use("/api/streamer", StreamerVerifyMiddleware, StreamerController(io));
 
 // express will serve up index.html if it doesn't recognize the route
 app.get("/*", (req, res) => {
