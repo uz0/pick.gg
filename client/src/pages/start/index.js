@@ -6,6 +6,7 @@ import i18n from "i18next";
 import config from 'config';
 
 import NotificationContainer from 'components/notification/notification-container';
+import Footer from 'components/footer';
 
 import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
@@ -15,9 +16,6 @@ import Lolchamp from 'assets/start/lolchamp.png';
 import Lck from 'assets/start/lck.png';
 import { ReactComponent as GoogleIcon } from 'assets/google-icon.svg';
 import zed from 'assets/zed.mp4';
-
-import classnames from 'classnames';
-const cx = classnames.bind(style);
 
 class Start extends Component {
   constructor() {
@@ -150,23 +148,25 @@ class Start extends Component {
             <div className={style.tournaments}>
 
               <div className={style.item_tournament}>
-                <img src={Lpl} />
+                <img src={Lpl} alt="lpl" />
               </div>
 
               <div className={style.item_tournament}>
-                <img src={Lck} />
+                <img src={Lck} alt="lck" />
               </div>
 
               <div className={style.item_tournament}>
-                <img src={Lolchamp} />
+                <img src={Lolchamp} alt="lolchamp" />
               </div>
             </div>
           </div>
         </section>
 
         <section className={style.play_fantasy}>
-          <NavLink to="#">PLAY FANTASY LEAGUE</NavLink>
+          <NavLink to="/tournaments">PLAY FANTASY LEAGUE</NavLink>
         </section>
+
+        <Footer />
       </div>
     );
   }
