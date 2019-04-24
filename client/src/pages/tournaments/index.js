@@ -7,7 +7,6 @@ import groupBy from 'lodash/groupBy';
 import io from "socket.io-client";
 
 import TournamentService from 'services/tournamentService';
-import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
 import NewTournamentModal from 'components/new-tournament';
@@ -24,7 +23,6 @@ const cx = classnames.bind(style);
 class Tournaments extends Component {
   constructor() {
     super();
-    this.notificationService = new NotificationService();
     this.socket = io();
     this.userService = new UserService({
       onUpdate: () => this.updateProfile(),
