@@ -106,7 +106,7 @@ class Rating extends Component {
       </div>
       <div className={nameClass}>{item.username} #{item.place}</div>
       <div className={winningsClass}>${item.winning}</div>
-    </NavLink>
+    </NavLink>;
   }
 
   render() {

@@ -85,10 +85,10 @@ class Champions extends Component {
       isChampionEditing: false,
       players,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('champion_updated'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('champion_updated'),
+    }),
     );
   }
 
@@ -100,7 +100,7 @@ class Champions extends Component {
         type: 'error',
         shouldBeAddedToSidebar: false,
         message: i18n.t('please_champion_name'),
-      })
+      });
 
       return;
     }
@@ -129,10 +129,10 @@ class Champions extends Component {
         photo: '',
       },
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('champion_created'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('champion_created'),
+    }),
     );
   }
 
@@ -161,13 +161,13 @@ class Champions extends Component {
         photo: '',
       },
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('champion_deleted'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('champion_deleted'),
+    }),
     );
   }
-  
+
   closeDeleteChampion = () => this.setState({ isChampionDelete: false });
 
   resetChampion = () => this.setState({
@@ -229,7 +229,7 @@ class Champions extends Component {
     if (isChampionEditing) {
       modalActions.push(
         { text: i18n.t('delete_champion'), onClick: this.delChampion, isDanger: true },
-        { text: i18n.t('update_champion'), onClick: this.editChampionSubmit, isDanger: false},
+        { text: i18n.t('update_champion'), onClick: this.editChampionSubmit, isDanger: false },
       );
     }
 

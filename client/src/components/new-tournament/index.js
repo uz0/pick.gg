@@ -169,7 +169,7 @@ class newTournament extends Component {
       type: 'success',
       shouldBeAddedToSidebar: false,
       message: `You've created tournament ${name}`,
-    })
+    });
 
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }

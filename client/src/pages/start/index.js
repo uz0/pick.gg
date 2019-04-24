@@ -29,7 +29,7 @@ class Start extends Component {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
-        message: i18n.t('login_message_on_redirect')
+        message: i18n.t('login_message_on_redirect'),
       });
     }
   }

@@ -40,9 +40,9 @@ html {
   margin-right: 20px;
   font-size: 12px;
   font-family: var(--font-family-title);
-  /* font-weight: var(--font-weight-bold); */
   line-height: 40px;	
   color: var(--caption-color);
+  white-space: nowrap;
 }
 
 .footer a svg{
@@ -87,11 +87,10 @@ html {
 @media(max-width: 480px){
   .info_footer{
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
-  .contact p{
-    display: none;
+  .contact{
+    padding: 0 0 0 10px;
   }
   .footer a{
     font-size: 10px;
