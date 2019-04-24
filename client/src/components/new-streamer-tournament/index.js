@@ -69,13 +69,25 @@ class NewStreamerTournament extends Component {
     chosenPlayers: [],
     rulesValues: {},
     rules: [],
-    championData: [],
+    championData: {
+      name: '',
+      photo: '',
+      position: ''
+    },
+    isPlayerCreating: false,
     modalChoose: false,
   }
 
   showModal = () => this.setState({ modalChoose: true });
 
   closeModalChoose = () => this.setState({ modalChoose: false });
+
+  showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
+  
+  closePlayerCreatingModal = () => this.setState({
+    championData: [],
+    isPlayerCreating: false,
+  });
 
   onRuleInputChange = event => {
     const formattedInputValue = parseInt(event.target.value, 10);
@@ -101,9 +113,16 @@ class NewStreamerTournament extends Component {
     });
   }
 
-  onChange = event => this.setState({ [event.target.name]: event.target.value });
-
   handleChange = (event, input) => this.setState({ [input]: event.target.value });
+
+  handleChampionInputChange = (event) => {
+    this.setState({
+      championData: {
+        ...this.state.championData,
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
 
   playerClickHandler = (player) => {
     let { chosenPlayers } = this.state;
@@ -120,6 +139,29 @@ class NewStreamerTournament extends Component {
     }
 
     this.setState({ chosenPlayers });
+  }
+
+  submitPlayerCreatingForm = () => {
+    const { name, photo, position } = this.state.championData;
+
+    if(name.length === 0 || name.position === 0) {
+      this.notificationService.showSingleNotification({
+        type: 'warning',
+        shouldBeAddedToSidebar: false,
+        message: `Fields name and position are required`,
+      });
+    }
+
+    if(name.length > 20) {
+      this.notificationService.showSingleNotification({
+        type: 'warning',
+        shouldBeAddedToSidebar: false,
+        message: `Name can not contain more than 20 characters`,
+      });
+    }
+
+    console.log(this.state.championData);
+    console.log('submitted!');
   }
 
   submitForm = async () => {
@@ -201,15 +243,6 @@ class NewStreamerTournament extends Component {
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 
-  handleChampionInputChange = (event) => {
-    this.setState({
-      championData: {
-        ...this.state.championData,
-        [event.target.name]: event.target.value,
-      },
-    });
-  };
-
   renderRuleInput = ({ _id, name }) => {
     return <div key={_id} className={style.input_rules}>
       <input
@@ -218,23 +251,6 @@ class NewStreamerTournament extends Component {
         name={_id}
         onChange={this.onRuleInputChange}
         value={this.state.rulesValues[_id]}
-        defaultValue={this.state.rulesValues[_id]}
-      />
-      <label>
-        {i18n.t(name)}
-      </label>
-    </div>
-  }
-
-  renderPlayer = ({ _id, name }) => {
-    return <div key={_id} className={style.input_rules}>
-      <input
-        max="10"
-        type="number"
-        name={_id}
-        onChange={this.onRuleInputChange}
-        value={this.state.rulesValues[_id]}
-        defaultValue={this.state.rulesValues[_id]}
       />
       <label>
         {i18n.t(name)}
@@ -339,15 +355,16 @@ class NewStreamerTournament extends Component {
             <Button
               text='Create new player'
               appearance='_basic-accent'
+              onClick={this.showPlayerCreatingModal}
             />
-
           </div>
 
           <div className={style.players_list}>
-            {Object.keys(this.state.players).map((item, index) => <div className={style.group}>
+            {Object.keys(this.state.players).map((item, index) => <div key={item} className={style.group}>
               <h3>{item}</h3>
               <div className={style.group_players}>
                 {Object.values(this.state.players)[index].map(element => <div
+                  key={element._id}
                   onClick={() => this.playerClickHandler(element)}
                   className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: element._id }) !== -1 })}
                 >
@@ -358,36 +375,38 @@ class NewStreamerTournament extends Component {
             </div>)}
           </div>
 
-          <Modal
-            title={'Create new player'}
-            wrapClassName={style.create_player_modal}
-            actions={[{
-              text: 'Add player',
-              onClick: () => {},
-              isDanger: true
-            }]}
-          >
-            <div className={style.inputs}>
-              <Input
-                label={i18n.t('champion_name')}
-                name="name"
-                value={this.state.championData.name || ''}
-                onChange={this.handleChampionInputChange}
-              />
-              <Input
-                label={i18n.t('champion_photo')}
-                name="photo"
-                value={this.state.championData.photo || ''}
-                onChange={this.handleChampionInputChange}
-              />
-              <Input
-                label={i18n.t('champion_position')}
-                name="position"
-                value={this.state.championData.position || ''}
-                onChange={this.handleChampionInputChange}
-              />
-            </div>
-          </Modal>
+          {this.state.isPlayerCreating && <Modal
+              title={'Create new player'}
+              wrapClassName={style.create_player_modal}
+              close={this.closePlayerCreatingModal}
+              actions={[{
+                text: 'Add player',
+                onClick: this.submitPlayerCreatingForm,
+                isDanger: true
+              }]}
+            >
+              <div className={style.inputs}>
+                <Input
+                  label={i18n.t('champion_name')}
+                  name="name"
+                  value={this.state.championData.name || ''}
+                  onChange={this.handleChampionInputChange}
+                />
+                <Input
+                  label={i18n.t('champion_photo')}
+                  name="photo"
+                  value={this.state.championData.photo || ''}
+                  onChange={this.handleChampionInputChange}
+                />
+                <Input
+                  label={i18n.t('champion_position')}
+                  name="position"
+                  value={this.state.championData.position || ''}
+                  onChange={this.handleChampionInputChange}
+                />
+              </div>
+            </Modal>
+          }
         </Modal>
       </div>
     );
