@@ -7,6 +7,7 @@ import findIndex from 'lodash/findIndex';
 
 import Input from '../input';
 import Button from '../button';
+import Preloader from '../preloader';
 import Modal from '../../components/dashboard-modal';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 
@@ -38,6 +39,8 @@ class NewStreamerTournament extends Component {
   }
 
   async componentDidMount() {
+    this.setState({ arePlayersLoading: true });
+
     const { rules } = await http('/api/rules').then(res => res.json());
     const { user } = await this.userService.getMyProfile();
 
@@ -45,13 +48,6 @@ class NewStreamerTournament extends Component {
     const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
 
     const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
-
-    // console.log(groupedPlayers, 'groupedPlayers');
-
-    // groupedPlayers['1-9'] = 
-
-    // console.log(Object.keys(groupedPlayers));
-    // console.log(Object.values(groupedPlayers));
 
     const rulesValues = rules.reduce((obj, rule) => {
       obj[rule._id] = 0;
@@ -63,6 +59,7 @@ class NewStreamerTournament extends Component {
       rules,
       user,
       rulesValues,
+      arePlayersLoading: false,
     });
   }
 
@@ -77,6 +74,7 @@ class NewStreamerTournament extends Component {
       position: ''
     },
     isPlayerCreating: false,
+    isChampionModalLoading: false,
     modalChoose: false,
   }
 
@@ -143,7 +141,9 @@ class NewStreamerTournament extends Component {
     this.setState({ chosenPlayers });
   }
 
-  submitPlayerCreatingForm = () => {
+  submitPlayerCreatingForm = async(event) => {
+    event.preventDefault();
+
     const { name, photo, position } = this.state.championData;
 
     if(name.length === 0 || name.position === 0) {
@@ -152,18 +152,54 @@ class NewStreamerTournament extends Component {
         shouldBeAddedToSidebar: false,
         message: `Fields name and position are required`,
       });
+
+      return;
     }
 
     if(name.length > 20) {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
-        message: `Name can not contain more than 20 characters`,
+        message: 'Name can not contain more than 20 characters',
       });
+
+      return;
     }
 
-    console.log(this.state.championData);
-    console.log('submitted!');
+    const payload = {
+      name,
+      photo,
+      position
+    };
+
+    try {
+      this.setState({ isChampionModalLoading: true });
+
+      await this.streamerService.createPlayer(payload);
+
+      this.notificationService.showSingleNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: `You've created player with name ${name}`,
+      });
+
+      const { players } = await this.adminService.getAllChampions();
+      const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
+  
+      const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
+
+      this.setState({
+        players: groupedPlayers,
+        championData: {
+          name: '',
+          photo: '',
+          position: ''
+        },
+        isChampionModalLoading: false,
+      });
+    } catch(error){
+      console.log(error);
+    }
   }
 
   submitForm = async () => {
@@ -262,7 +298,7 @@ class NewStreamerTournament extends Component {
 
   render() {
     const { onClose } = this.props;
-    const areRulesLoading = this.state.rules.length === 0;
+    const arePlayersLoading = this.state.rules.length === 0;
 
     return (
       <div className={style.wrapper}>
@@ -362,6 +398,12 @@ class NewStreamerTournament extends Component {
           </div>
 
           <div className={style.players_list}>
+
+            {this.state.arePlayersLoading && <Preloader
+                isFullScreen={false}
+              />
+            }
+
             {Object.keys(this.state.players).map((item, index) => <div key={item} className={style.group}>
               <h3>{item}</h3>
               <div className={style.group_players}>
@@ -387,6 +429,12 @@ class NewStreamerTournament extends Component {
                 isDanger: true
               }]}
             >
+
+              {this.state.isChampionModalLoading && <Preloader
+                  isFullScreen={false}
+                />
+              }
+
               <div className={style.inputs}>
                 <Input
                   label={i18n.t('champion_name')}
