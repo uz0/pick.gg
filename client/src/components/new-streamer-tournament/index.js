@@ -73,6 +73,7 @@ class NewStreamerTournament extends Component {
       photo: '',
       position: ''
     },
+    isPlayerChoosing: false,
     isPlayerCreating: false,
     isChampionModalLoading: false,
     modalChoose: false,
@@ -87,6 +88,14 @@ class NewStreamerTournament extends Component {
   closePlayerCreatingModal = () => this.setState({
     championData: [],
     isPlayerCreating: false,
+  });
+
+  showPlayerChoosingModal = () => {
+    this.setState({ isPlayerChoosing: true });
+  }
+
+  closePlayerChoosingModal = () => this.setState({
+    isPlayerChoosing: false,
   });
 
   onRuleInputChange = event => {
@@ -347,6 +356,7 @@ class NewStreamerTournament extends Component {
                   appearance={'_basic-accent'}
                   type={'submit'}
                   text={'Choose players'}
+                  onClick={this.showPlayerChoosingModal}
                 />
               </div>
 
@@ -368,8 +378,9 @@ class NewStreamerTournament extends Component {
           </form>
         </div>
 
-        <Modal
+        {this.state.isPlayerChoosing && <Modal
           title={'Choose 10 players'}
+          close={this.closePlayerChoosingModal}
           wrapClassName={style.players_modal}
         >
 
@@ -388,11 +399,18 @@ class NewStreamerTournament extends Component {
               {this.state.chosenPlayers.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
             </div>
 
+            {this.state.chosenPlayers.length === 10 && <Button
+                text='Add players to tournament'
+                appearance='_basic-accent'
+                onClick={this.showPlayerCreatingModal}
+              />
+            }
+
             <p>Cannot find your player?</p>
 
             <Button
               text='Create new player'
-              appearance='_basic-accent'
+              appearance='_basic-default'
               onClick={this.showPlayerCreatingModal}
             />
           </div>
@@ -458,6 +476,7 @@ class NewStreamerTournament extends Component {
             </Modal>
           }
         </Modal>
+        }
       </div>
     );
   }
