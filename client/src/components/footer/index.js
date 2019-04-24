@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import AuthWrapper from '../authWrapper';
 import { ReactComponent as DiscordIcon } from 'assets/icon-discord.svg';
 
 import style from './style.module.css';
 import i18n from 'i18n';
 
-class TopMenuComponent extends Component {
+class Footer extends Component {
   constructor() {
     super();
     this.state = {
@@ -49,4 +48,4 @@ class TopMenuComponent extends Component {
   }
 }
 
-export default AuthWrapper(TopMenuComponent);
+export default Footer;
