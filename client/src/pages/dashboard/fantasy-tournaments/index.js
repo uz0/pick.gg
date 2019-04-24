@@ -270,7 +270,9 @@ class FantasyTournaments extends Component {
           actions={modalActions}
         >
 
-          {isLoading && <Preloader />}
+          {isLoading && <Preloader
+            isFullScreen={true}
+          />}
 
           {isTournamentDeleting &&
             <ModalAsk

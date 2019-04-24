@@ -257,7 +257,9 @@ class Rules extends Component {
           actions={modalActions}
         >
 
-          {isLoading && <Preloader />}
+          {isLoading && <Preloader
+            isFullScreen={true}
+          />}
 
           {confirmRuleDeleting && <ModalAsk
             textModal={i18n.t('want_remove_rule')}
