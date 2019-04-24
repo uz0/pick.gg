@@ -19,6 +19,7 @@ const AuthenticationController = (app) => {
         password: '',
         balance: 5000,
         isAdmin: false,
+        isStreamer: false,
       });
     }
 
@@ -27,6 +28,7 @@ const AuthenticationController = (app) => {
     const payload = {
       _id: user._id,
       isAdmin: user.isAdmin, // WARNING! security vulnerability attention!
+      isStreamer: user.isStreamer, // WARNING! security vulnerability attention!
       username: user.username
     };
 
@@ -61,6 +63,7 @@ const AuthenticationController = (app) => {
         const payload = {
           _id: user._id,
           isAdmin: user.isAdmin, // WARNING! security vulnerability attention!
+          isStreamer: user.isStreamer, // WARNING! security vulnerability attention!
           username: user.username
         };
 
