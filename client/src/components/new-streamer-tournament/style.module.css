@@ -35,6 +35,7 @@
 
 .tournament form p {
   font-size: 16px;
+  margin-bottom: 8px;
   color: var(--accent-color);
 }
 
@@ -58,7 +59,6 @@
 
 .tournament form .rules_inputs input {
   --gap: 10px;
-  margin-top: var(--gap);
   margin-right: var(--gap);
   padding: 10px 0 2px 8px;
   height: 40px;
@@ -74,7 +74,7 @@
 .tournament .input_rules label {
   position: absolute;
   left: 10px;
-  top: 20px;
+  top: 10px;
   font-size: 16px;
   border-radius: 6px;
   color: rgb(97, 97, 97);
@@ -131,8 +131,12 @@
   color: var(--accent-color);
 }
 
+.players_sidebar .add_players_to_tournament {
+  margin-bottom: 12px;
+} 
+
 .players_sidebar .chosen_players {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .players_sidebar .chosen_players > div {
@@ -162,12 +166,14 @@
   color: #fff;
 }
 
-.players_list .group .group_players {
+.players_list .group .group_players,
+.chosen_champions {
   display: flex;
   flex-wrap: wrap;
 }
 
-.players_list .group .group_players div {
+.players_list .group .group_players div,
+.chosen_champions div {
   --height: 24px;
   height: var(--height);
   display: flex;
@@ -190,7 +196,6 @@
 
 .create_player_modal {
   --width: 600px !important;
-  /* width: 400px; */
   height: 440px;
   margin: auto !important;
 }
