@@ -13,6 +13,7 @@ import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 import http from '../../services/httpService';
 import AdminService from '../../services/adminService';
 import NotificationService from '../../services/notificationService';
+import StreamerService from '../../services/streamerService';
 import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
@@ -28,6 +29,7 @@ class NewStreamerTournament extends Component {
 
     this.adminService = new AdminService();
     this.notificationService = new NotificationService();
+    this.streamerService = new StreamerService();
     this.tournamentService = new TournamentService();
     this.userService = new UserService();
 
