@@ -65,6 +65,7 @@ class NewStreamerTournament extends Component {
 
   state = {
     players: [],
+    matches: [],
     chosenPlayers: [],
     rulesValues: {},
     rules: [],
@@ -73,8 +74,13 @@ class NewStreamerTournament extends Component {
       photo: '',
       position: ''
     },
+    matchData: {
+      name: '',
+      startTime: ''
+    },
     isPlayerChoosing: false,
     isPlayerCreating: false,
+    isMatchCreating: false,
     isChampionModalLoading: false,
     modalChoose: false,
   }
@@ -90,12 +96,16 @@ class NewStreamerTournament extends Component {
     isPlayerCreating: false,
   });
 
-  showPlayerChoosingModal = () => {
-    this.setState({ isPlayerChoosing: true });
-  }
+  showPlayerChoosingModal = () => this.setState({ isPlayerChoosing: true });
 
   closePlayerChoosingModal = () => this.setState({
     isPlayerChoosing: false,
+  });
+
+  showMatchCreatingModal = () => this.setState({ isMatchCreating: true });
+
+  closeMatchCreatingModal = () => this.setState({
+    isMatchCreating: false,
   });
 
   onRuleInputChange = event => {
@@ -132,6 +142,50 @@ class NewStreamerTournament extends Component {
       },
     });
   };
+
+  handleMatchInputChange = (event) => {
+    this.setState({
+      matchData: {
+        ...this.state.matchData,
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
+
+  addMatch = () => {
+    let { matches, matchData } = this.state;
+
+    if(matchData.name.length === 0){
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Match field can not be empty',
+      });
+
+      return;
+    }
+
+    if(matchData.startTime.length === 0){
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Date field can not be empty',
+      });
+
+      return;
+    }
+
+    matches.push(matchData);
+
+    this.setState({
+      matches,
+      matchData: {
+        name: '',
+        startTime: ''
+      },
+      isMatchCreating: false,
+    });
+  }
 
   playerClickHandler = (player) => {
     let { chosenPlayers } = this.state;
@@ -350,20 +404,31 @@ class NewStreamerTournament extends Component {
                 />
               </div>
 
-              <p>Tournament players</p>
-              <div>
-                <Button
-                  appearance={'_basic-accent'}
-                  type={'submit'}
-                  text={'Choose players'}
-                  onClick={this.showPlayerChoosingModal}
-                />
+              <div className={style.input_group}>
+                <p>{i18n.t('rules')}</p>
+                <div className={style.rules_inputs}>
+                  {this.state.rules.map(item => this.renderRuleInput(item))}
+                </div>
               </div>
 
-              <p>{i18n.t('rules')}</p>
+              <p>Tournament players</p>
+              <div className={style.chosen_champions}>
+                {this.state.chosenPlayers.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
+                <Button
+                  appearance={'_circle-accent'}
+                  icon={<i className="material-icons">add</i>}
+                  onClick={this.showPlayerChoosingModal}
+                  />
+              </div>
 
-              <div className={style.rules_inputs}>
-                {this.state.rules.map(item => this.renderRuleInput(item))}
+              <p>Tournament matches</p>
+              <div>
+                {this.state.matches.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
+                <Button
+                  appearance={'_circle-accent'}
+                  icon={<i className="material-icons">add</i>}
+                  onClick={this.showMatchCreatingModal}
+                />
               </div>
 
               <div className={style.submit}>
@@ -377,6 +442,33 @@ class NewStreamerTournament extends Component {
             </div>
           </form>
         </div>
+
+        {this.state.isMatchCreating && <Modal
+            title={'Add match'}
+            close={this.closeMatchCreatingModal}
+            wrapClassName={style.create_player_modal}
+            actions={[{
+              text: 'Add match',
+              onClick: this.addMatch,
+              isDanger: true
+            }]}
+          >
+            <Input
+              label="Match name"
+              name="name"
+              value={this.state.matchData.name}
+              onChange={this.handleMatchInputChange}
+            />
+
+            <Input
+              type="time"
+              label="Start time"
+              name="startTime"
+              value={this.state.matchData.startTime}
+              onChange={this.handleMatchInputChange}
+            />
+          </Modal>
+        }
 
         {this.state.isPlayerChoosing && <Modal
           title={'Choose 10 players'}
@@ -399,20 +491,23 @@ class NewStreamerTournament extends Component {
               {this.state.chosenPlayers.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
             </div>
 
-            {this.state.chosenPlayers.length === 10 && <Button
-                text='Add players to tournament'
-                appearance='_basic-accent'
-                onClick={this.showPlayerCreatingModal}
-              />
+            {this.state.chosenPlayers.length === 10 &&
+              <div className={style.add_players_to_tournament}>
+                <Button
+                  text='Add players to tournament'
+                  appearance='_basic-accent'
+                  onClick={this.showPlayerCreatingModal}
+                />
+              </div>
             }
 
             <p>Cannot find your player?</p>
 
-            <Button
-              text='Create new player'
-              appearance='_basic-default'
-              onClick={this.showPlayerCreatingModal}
-            />
+              <Button
+                text='Create new player'
+                appearance='_basic-default'
+                onClick={this.showPlayerCreatingModal}
+              />
           </div>
 
           <div className={style.players_list}>
@@ -438,15 +533,15 @@ class NewStreamerTournament extends Component {
           </div>
 
           {this.state.isPlayerCreating && <Modal
-              title={'Create new player'}
-              wrapClassName={style.create_player_modal}
-              close={this.closePlayerCreatingModal}
-              actions={[{
-                text: 'Add player',
-                onClick: this.submitPlayerCreatingForm,
-                isDanger: true
-              }]}
-            >
+            title={'Create new player'}
+            wrapClassName={style.create_player_modal}
+            close={this.closePlayerCreatingModal}
+            actions={[{
+              text: 'Add player',
+              onClick: this.submitPlayerCreatingForm,
+              isDanger: true
+            }]}
+          >
 
               {this.state.isChampionModalLoading && <Preloader
                   isFullScreen={false}
