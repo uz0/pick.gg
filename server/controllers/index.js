@@ -7,6 +7,7 @@ import RuleController from "./ruleController";
 import PlayerController from "./playerController";
 import TransactionController from "./transactionController";
 import SystemController from "./systemController";
+import StreamerController from "./streamerController";
 import AdminController from "./adminController";
 
 export {
@@ -19,5 +20,6 @@ export {
   PlayerController,
   TransactionController,
   SystemController,
+  StreamerController,
   AdminController,
 };
