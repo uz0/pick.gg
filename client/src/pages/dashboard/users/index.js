@@ -173,7 +173,9 @@ class Users extends Component {
           close={this.resetUser}
         >
 
-          {isLoading && <Preloader />}
+          {isLoading && <Preloader
+            isFullScreen={true}
+          />}
 
           <Input
             label={i18n.t('username')}

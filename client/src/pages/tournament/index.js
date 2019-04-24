@@ -646,7 +646,9 @@ class Tournament extends Component {
       </div>
 
       {this.state.isLoading &&
-        <Preloader />
+        <Preloader
+          isFullScreen={true}
+        />
       }
 
       {this.state.isMatchInfoActive && <Modal

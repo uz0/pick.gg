@@ -491,7 +491,9 @@ class Tournaments extends Component {
         >
 
           {isLoading &&
-            <Preloader />
+            <Preloader
+              isFullScreen={true}
+            />
           }
 
           {isTournamentDeleting &&

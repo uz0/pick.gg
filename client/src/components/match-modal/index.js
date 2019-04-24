@@ -156,7 +156,9 @@ class MatchModal extends Component {
       actions={modalActions}
     >
 
-      {isLoading && <Preloader />}
+      {isLoading && <Preloader
+        isFullScreen={true}
+      />}
 
       <Input
         label="Match ID"

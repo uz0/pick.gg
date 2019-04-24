@@ -104,7 +104,9 @@ class User extends Component {
 
     return (
       <div className={style.home_page}>
-        {loading && <Preloader />}
+        {loading && <Preloader
+          isFullScreen={true}
+        />}
 
         <main>
           <div className={style.content}>

@@ -216,7 +216,9 @@ class newTournament extends Component {
 
           <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
 
-            {areRulesLoading && <Preloader />}
+            {areRulesLoading && <Preloader
+              isFullScreen={true}
+            />}
 
             <Button
               className={style.close_button}
