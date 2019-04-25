@@ -1,0 +1,26 @@
+.step:not(.isActive) {
+  display: none;
+}
+
+.step.isActive {
+  display: block;
+}
+
+.controls {
+  display: flex;
+}
+
+.controls > a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 12px;
+}
+
+@media screen and (max-width: 480px) {
+
+}
+
+@media(max-width: 320px) { 
+
+}
