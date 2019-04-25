@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Modal from 'components/dashboard-modal';
 import MultiStepForm from './multi-step-form';
 import style from './style.module.css';
 
@@ -11,11 +12,12 @@ class NewStreamerTournament extends Component {
 
   render() {
     return (
-      <div className={style.wrapper}>
-        <div className={style.tournament}>
-          <MultiStepForm />
-        </div>
-      </div>
+      <Modal
+        title={'Create new tournament'}
+        wrapClassName={style.tournament_modal}
+      >
+        <MultiStepForm />
+      </Modal>
     );
   }
 }

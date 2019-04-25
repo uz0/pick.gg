@@ -173,10 +173,8 @@ class PlayersStep extends Component {
     <p className={style.name}>{name}</p>
 
     {position &&
-      <div className={style.stats_item}>
-        <div className={style.statistic_item}>
-          Position: {position}
-        </div>
+      <div className={style.position}>
+        Position: {position}
       </div>
     }
   </div>

@@ -6,6 +6,8 @@ import GeneralStep from '../general';
 import PlayersStep from '../players';
 import MatchesStep from '../matches';
 
+import NotificationService from 'services/notificationService';
+
 import classnames from 'classnames';
 import style from './style.module.css';
 import i18n from 'i18n';
@@ -15,6 +17,8 @@ const cx = classnames.bind(style);
 class MultiStepForm extends Component {
   constructor() {
     super();
+
+    this.notificationService =  new NotificationService();
   }
 
   async componentDidMount() {
@@ -23,16 +27,45 @@ class MultiStepForm extends Component {
 
   state = {
     stepIndex: 1,
+    generalData: {
+      name: '',
+      thumbnail: '',
+      entry: '',
+      rules: [],
+      rulesValues: {},
+    }
   }
 
-  handleStepChange = (event, stepIndex) => {
-    event.preventDefault();
+  getGeneralData = () => {
+    this.setState({
+      generalData: {
+        
+      }
+    })
+  }
 
-    this.setState({ stepIndex });
+  isFirstStepCompleted() {
+    const { name, entry } = this.state.generalData;
+
+    if(name === '' || entry === ''){
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Name and entry fields can not be empty',
+      });
+
+      return false;
+    }
+
+    return true;
   }
 
   nextStep = () => {
     if(this.state.stepIndex === 3 ){
+      return;
+    }
+
+    if(this.state.stepIndex === 1 && !this.isFirstStepCompleted()){
       return;
     }
 

@@ -1,13 +1,14 @@
-p {
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: var(--accent-color);
-}
 
 .input_group {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.input_group p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--accent-color);
 }
 
 .input_group input {
