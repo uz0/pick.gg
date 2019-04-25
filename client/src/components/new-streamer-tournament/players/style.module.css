@@ -72,8 +72,8 @@
 .chosen_champions .champion {
   flex-grow: 1;
   min-width: 0;
-  width: 120px;
-  max-width: 120px;
+  width: 110px;
+  max-width: 110px;
   margin-top: var(--gap);
   margin-left: var(--gap);
   padding: 12px;
@@ -88,8 +88,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 4px;
@@ -108,11 +108,17 @@
   margin-top: 8px;
   line-height: var(--height);
   text-align: center;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--color);
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
+}
+
+.chosen_champions .champion .position {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .players_list .group .group_players {
