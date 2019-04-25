@@ -18,7 +18,7 @@ import StreamerService from '../../services/streamerService';
 import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
-import classnames from 'classnames'; 
+import classnames from 'classnames';
 import style from './style.module.css';
 import i18n from 'i18n';
 
@@ -90,7 +90,7 @@ class NewStreamerTournament extends Component {
   closeModalChoose = () => this.setState({ modalChoose: false });
 
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
-  
+
   closePlayerCreatingModal = () => this.setState({
     championData: [],
     isPlayerCreating: false,
@@ -155,7 +155,7 @@ class NewStreamerTournament extends Component {
   addMatch = () => {
     let { matches, matchData } = this.state;
 
-    if(matchData.name.length === 0){
+    if (matchData.name.length === 0) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -165,7 +165,7 @@ class NewStreamerTournament extends Component {
       return;
     }
 
-    if(matchData.startTime.length === 0){
+    if (matchData.startTime.length === 0) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -204,12 +204,12 @@ class NewStreamerTournament extends Component {
     this.setState({ chosenPlayers });
   }
 
-  submitPlayerCreatingForm = async(event) => {
+  submitPlayerCreatingForm = async (event) => {
     event.preventDefault();
 
     const { name, photo, position } = this.state.championData;
 
-    if(name.length === 0 || name.position === 0) {
+    if (name.length === 0 || name.position === 0) {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
@@ -219,7 +219,7 @@ class NewStreamerTournament extends Component {
       return;
     }
 
-    if(name.length > 20) {
+    if (name.length > 20) {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
@@ -248,7 +248,7 @@ class NewStreamerTournament extends Component {
 
       const { players } = await this.adminService.getAllChampions();
       const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
-  
+
       const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
 
       this.setState({
@@ -260,7 +260,7 @@ class NewStreamerTournament extends Component {
         },
         isChampionModalLoading: false,
       });
-    } catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
@@ -359,6 +359,23 @@ class NewStreamerTournament extends Component {
     </div>
   }
 
+  renderMatch = (match, index) => {
+    return <div className={style.match}>
+      <div className={style.info_item}>
+        {`${index + 1}. ${match.name}`}
+      </div>
+      <div className={style.info_item}>
+        {match.startTime}
+      </div>
+      <button className={style.delete}>
+        <i className="material-icons">delete_forever</i>
+      </button>
+      <button className={style.edit}>
+        <i className="material-icons">edit</i>
+      </button>
+    </div>
+  }
+
   render() {
     const { onClose } = this.props;
     const arePlayersLoading = this.state.rules.length === 0;
@@ -418,12 +435,12 @@ class NewStreamerTournament extends Component {
                   appearance={'_circle-accent'}
                   icon={<i className="material-icons">add</i>}
                   onClick={this.showPlayerChoosingModal}
-                  />
+                />
               </div>
 
               <p>Tournament matches</p>
               <div>
-                {this.state.matches.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
+                {this.state.matches.map((item, index) => this.renderMatch(item, index))}
                 <Button
                   appearance={'_circle-accent'}
                   icon={<i className="material-icons">add</i>}
@@ -444,30 +461,30 @@ class NewStreamerTournament extends Component {
         </div>
 
         {this.state.isMatchCreating && <Modal
-            title={'Add match'}
-            close={this.closeMatchCreatingModal}
-            wrapClassName={style.create_player_modal}
-            actions={[{
-              text: 'Add match',
-              onClick: this.addMatch,
-              isDanger: true
-            }]}
-          >
-            <Input
-              label="Match name"
-              name="name"
-              value={this.state.matchData.name}
-              onChange={this.handleMatchInputChange}
-            />
+          title={'Add match'}
+          close={this.closeMatchCreatingModal}
+          wrapClassName={style.create_player_modal}
+          actions={[{
+            text: 'Add match',
+            onClick: this.addMatch,
+            isDanger: true
+          }]}
+        >
+          <Input
+            label="Match name"
+            name="name"
+            value={this.state.matchData.name}
+            onChange={this.handleMatchInputChange}
+          />
 
-            <Input
-              type="time"
-              label="Start time"
-              name="startTime"
-              value={this.state.matchData.startTime}
-              onChange={this.handleMatchInputChange}
-            />
-          </Modal>
+          <Input
+            type="time"
+            label="Start time"
+            name="startTime"
+            value={this.state.matchData.startTime}
+            onChange={this.handleMatchInputChange}
+          />
+        </Modal>
         }
 
         {this.state.isPlayerChoosing && <Modal
@@ -479,11 +496,11 @@ class NewStreamerTournament extends Component {
           <div className={style.players_sidebar}>
             <h3>Chosen players</h3>
 
-            {this.state.chosenPlayers.length === 0 && 
+            {this.state.chosenPlayers.length === 0 &&
               <p className={style.attention}>You haven't chosen any players yet</p>
             }
-            
-            {this.state.chosenPlayers.length > 1 && this.state.chosenPlayers.length < 10 && 
+
+            {this.state.chosenPlayers.length > 1 && this.state.chosenPlayers.length < 10 &&
               <p className={style.attention}>Great! {10 - this.state.chosenPlayers.length} players left</p>
             }
 
@@ -503,18 +520,18 @@ class NewStreamerTournament extends Component {
 
             <p>Cannot find your player?</p>
 
-              <Button
-                text='Create new player'
-                appearance='_basic-default'
-                onClick={this.showPlayerCreatingModal}
-              />
+            <Button
+              text='Create new player'
+              appearance='_basic-default'
+              onClick={this.showPlayerCreatingModal}
+            />
           </div>
 
           <div className={style.players_list}>
 
             {this.state.arePlayersLoading && <Preloader
-                isFullScreen={false}
-              />
+              isFullScreen={false}
+            />
             }
 
             {Object.keys(this.state.players).map((item, index) => <div key={item} className={style.group}>
@@ -543,32 +560,32 @@ class NewStreamerTournament extends Component {
             }]}
           >
 
-              {this.state.isChampionModalLoading && <Preloader
-                  isFullScreen={false}
-                />
-              }
+            {this.state.isChampionModalLoading && <Preloader
+              isFullScreen={false}
+            />
+            }
 
-              <div className={style.inputs}>
-                <Input
-                  label={i18n.t('champion_name')}
-                  name="name"
-                  value={this.state.championData.name || ''}
-                  onChange={this.handleChampionInputChange}
-                />
-                <Input
-                  label={i18n.t('champion_photo')}
-                  name="photo"
-                  value={this.state.championData.photo || ''}
-                  onChange={this.handleChampionInputChange}
-                />
-                <Input
-                  label={i18n.t('champion_position')}
-                  name="position"
-                  value={this.state.championData.position || ''}
-                  onChange={this.handleChampionInputChange}
-                />
-              </div>
-            </Modal>
+            <div className={style.inputs}>
+              <Input
+                label={i18n.t('champion_name')}
+                name="name"
+                value={this.state.championData.name || ''}
+                onChange={this.handleChampionInputChange}
+              />
+              <Input
+                label={i18n.t('champion_photo')}
+                name="photo"
+                value={this.state.championData.photo || ''}
+                onChange={this.handleChampionInputChange}
+              />
+              <Input
+                label={i18n.t('champion_position')}
+                name="position"
+                value={this.state.championData.position || ''}
+                onChange={this.handleChampionInputChange}
+              />
+            </div>
+          </Modal>
           }
         </Modal>
         }
