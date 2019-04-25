@@ -1,0 +1,84 @@
+p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--accent-color);
+}
+
+.input_group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input_group input {
+  margin-bottom: 10px;
+  height: 40px;
+}
+
+.rules_inputs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.rules_inputs input {
+  --gap: 10px;
+  margin-right: var(--gap);
+  padding: 10px 0 2px 8px;
+  height: 40px;
+  width: 145px;
+  font-size: 14px;
+  color: var(--accent-color);
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.rules_inputs .input {
+  position: relative;
+}
+
+.rules_inputs .input label {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  color: rgb(97, 97, 97);
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.rules_inputs .input input::-webkit-outer-spin-button,
+rules_inputs .input input::-webkit-inner-spin-.button {
+  -webkit-appearance: none;
+}
+
+.rules_inputs .input input:valid + label,
+rules_inputs .input input:focus + .label { 
+  transform: translate3d(-3px, -7px, 0);
+  font-size: 10px;
+  color: var(--accent-color);
+}
+
+@media screen and (max-width: 480px) {
+  .input_group input { 
+    width: 100%;
+  }
+
+  .tournament label {
+    width: 100%;
+  }
+
+  .tournament label > input {
+    width: 100%;
+  }
+
+  .input_rules {
+    flex-basis: 49%;
+  }
+}
+
+@media(max-width: 320px) { 
+  .input_group {
+    align-items: center;
+  }
+}
