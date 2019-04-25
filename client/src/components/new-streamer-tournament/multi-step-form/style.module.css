@@ -1,3 +1,9 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}
+
 .step:not(.isActive) {
   display: none;
 }
@@ -6,16 +12,35 @@
   display: block;
 }
 
-.controls {
+.steps {
+  height: 30px;
+  width: auto;
+  padding-left: 10px;
+  margin-bottom: 12px;
   display: flex;
-}
-
-.controls > a {
+  align-items: center;
+  border-radius: 4px;
+  background-color: var(--primary-color);
   text-decoration: none;
   color: #fff;
-  font-size: 14px;
-  margin-right: 12px;
+  font-size: 16px;
 }
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.controls .next {
+  margin-left: auto;
+}
+
+.controls .next i {
+  order: 1;
+}
+
+.controls .prev {}
 
 @media screen and (max-width: 480px) {
 

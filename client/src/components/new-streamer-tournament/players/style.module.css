@@ -62,14 +62,65 @@
   color: #fff;
 }
 
-.players_list .group .group_players,
 .chosen_champions {
+  --gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--gap) * -1);
+}
+
+.chosen_champions .champion {
+  flex-grow: 1;
+  min-width: 0;
+  width: 120px;
+  max-width: 120px;
+  margin-top: var(--gap);
+  margin-left: var(--gap);
+  padding: 12px;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: #909095;
+  cursor: pointer;
+}
+
+.chosen_champions .champion .image {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
+.chosen_champions .champion .image img {
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.chosen_champions .champion .name {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  text-align: center;
+  font-size: 15px;
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.players_list .group .group_players {
   display: flex;
   flex-wrap: wrap;
 }
 
-.players_list .group .group_players div,
-.chosen_champions div {
+.players_list .group .group_players div {
   --height: 24px;
   height: var(--height);
   display: flex;

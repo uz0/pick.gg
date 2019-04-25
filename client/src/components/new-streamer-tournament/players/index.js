@@ -9,6 +9,8 @@ import Button from 'components/button';
 import Preloader from 'components/preloader';
 import Modal from 'components/dashboard-modal';
 
+import Avatar from 'assets/avatar-placeholder.svg';
+
 import http from 'services/httpService';
 import AdminService from 'services/adminService';
 import NotificationService from 'services/notificationService';
@@ -160,18 +162,37 @@ class PlayersStep extends Component {
     }
   }
 
+  renderChampion = ({ _id, name, photo, position }) => <div
+    className={style.champion}
+    key={_id}
+  >
+    <div className={style.image}>
+      <img src={photo ? photo : Avatar} alt={i18n.t('champion_avatar')} />
+    </div>
+
+    <p className={style.name}>{name}</p>
+
+    {position &&
+      <div className={style.stats_item}>
+        <div className={style.statistic_item}>
+          Position: {position}
+        </div>
+      </div>
+    }
+  </div>
+
   render() {
     return (
       <div>
         <p>Tournament players</p>
         <div className={style.chosen_champions}>
-          {this.state.chosenPlayers.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
+          {this.state.chosenPlayers.map((item, index) => this.renderChampion(item))}
+        </div>
           <Button
             appearance={'_circle-accent'}
             icon={<i className="material-icons">add</i>}
             onClick={this.showPlayerChoosingModal}
           />
-        </div>
 
         {this.state.isPlayerChoosing && <Modal
           title={'Choose 10 players'}

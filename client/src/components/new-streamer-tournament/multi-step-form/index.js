@@ -27,32 +27,65 @@ class MultiStepForm extends Component {
 
   handleStepChange = (event, stepIndex) => {
     event.preventDefault();
-    
+
     this.setState({ stepIndex });
+  }
+
+  nextStep = () => {
+    if(this.state.stepIndex === 3 ){
+      return;
+    }
+
+    this.setState({ stepIndex: this.state.stepIndex + 1 });
+  }
+
+  prevStep = () => {
+    if(this.state.stepIndex === 1){
+      return;
+    }
+
+    this.setState({ stepIndex: this.state.stepIndex - 1 });
   }
 
   render() {
     const { stepIndex } = this.state;
 
-    return <div>
-      <div className={style.controls}>
-        <a href="#" onClick={(event) => this.handleStepChange(event, 1)} >1. General information</a>
-        <a href="#" onClick={(event) => this.handleStepChange(event, 2)} >2. Tournament players</a>
-        <a href="#" onClick={(event) => this.handleStepChange(event, 3)} >3. Tournament matches</a>
+    return <div className={style.form}>
+      <div className={style.steps}>
+        {`Step ${stepIndex} of 3`}
       </div>
 
       <div className={style.content}>
-        <div className={cx(style.step, {[style.isActive]: stepIndex === 1})}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
           <GeneralStep />
         </div>
 
-        <div className={cx(style.step, {[style.isActive]: stepIndex === 2})}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
           <PlayersStep />
         </div>
 
-        <div className={cx(style.step, {[style.isActive]: stepIndex === 3})}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
           <MatchesStep />
         </div>
+      </div>
+
+      <div className={style.controls}>
+        {this.state.stepIndex !== 1 && <Button
+            className={style.prev}
+            appearance={'_basic-accent'}
+            text='prev'
+            icon={<i className="material-icons">arrow_back</i>}
+            onClick={this.prevStep}
+          />
+        }
+        {this.state.stepIndex !== 3 && <Button
+            className={style.next}
+            appearance={'_basic-accent'}
+            text='next'
+            icon={<i className="material-icons">arrow_forward</i>}
+            onClick={this.nextStep}
+          />
+        }
       </div>
     </div>;
   }

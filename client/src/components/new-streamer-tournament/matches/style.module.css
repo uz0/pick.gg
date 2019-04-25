@@ -1,3 +1,13 @@
+.create_player_modal {
+  --width: 600px !important;
+  height: 440px;
+  margin: auto !important;
+}
+
+.create_player_modal .inputs > div:not(:last-of-type) {
+  margin-bottom: 16px;
+}
+
 .match {
   --height: 30px;
   height: var(--height);
