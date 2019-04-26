@@ -19,7 +19,9 @@ import Avatar from 'assets/avatar-placeholder.svg';
 import classnames from 'classnames/bind';
 import i18n from 'i18n';
 
+
 import _ from 'lodash';
+import every from 'lodash/every';
 
 import style from './style.module.css';
 
@@ -185,7 +187,7 @@ class Tournament extends Component {
     }
 
     if (moment(tournamentDate).add(16, 'hours').isBefore(moment())) {
-      return i18n.t('archive');
+      return i18n.t('');
     }
 
     if (moment(tournamentDate).isAfter(moment())) {
@@ -210,6 +212,8 @@ class Tournament extends Component {
   }
 
   getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
+
+  getCountUsers = () => 3;
 
   getCountMatchPoints = (fantasyTournament, matchId, userId) => {
     const userPlayers = this.getUserPlayers(fantasyTournament, userId);
@@ -243,7 +247,7 @@ class Tournament extends Component {
   };
 
   getTotalUserScore = (fantasyTournament, userId) => {
-    
+
     const matches = fantasyTournament.tournament.matches;
     const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
     const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
@@ -398,10 +402,10 @@ class Tournament extends Component {
       </div>
 
       {totalScore > 0 &&
-        <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
-          <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
-        </div>
-      }
+      <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
+        <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+      </div>
+    }
     </div>;
   };
 
@@ -452,7 +456,7 @@ class Tournament extends Component {
     const timeNow = moment().format('MMM DD HH:mm');
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
-    return <NavLink to={urlMatch} onClick={(event) => this.openMatchResults(event, item)} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
+    return <NavLink to='#' onClick={(event) => this.openMatchResults(event, item)} className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -514,10 +518,19 @@ class Tournament extends Component {
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
     const topTen = this.state.users.slice(0, 9);
+
     const summonerName = this.state.username;
     const summonerArr = topTen.filter(item => item.user.username === summonerName);
     const renderSummonerArr = summonerArr ? '' : summonerArr;
     const matchInfo = this.state.matchInfo && this.state.matchInfo;
+    const countUsers = this.getCountUsers();
+    const isMatchesUncompleted = every(this.state.matches, { completed: true });
+
+    console.log(countUsers);
+    // console.log(isMatchCompleted);
+    // const isResults = find(firstUser, item => item.totalResults);
+    // console.log(isResults);
+    // console.log(firstUser);
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -622,9 +635,12 @@ class Tournament extends Component {
         </div>
 
         <div className={style.leaders}>
-          <h3 className={style.subtitle}>{i18n.t('leaderboard')}</h3>
-
-          <Table
+          <h3 className={style.subtitle}>{isMatchesUncompleted ? i18n.t('leaderboard') : 'Invite a friend'}</h3>
+          {/* {!isMatchesUncompleted && <div className={style.info_users}>
+            <p>Users: </p>
+            <button>Invite</button>
+          </div>} */}
+          {isMatchesUncompleted && <Table
             noCaptions
             captions={leadersTableCaptions}
             items={topTen}
@@ -633,9 +649,8 @@ class Tournament extends Component {
             defaultSorting={this.leadersDefaultSorting}
             className={style.table}
             emptyMessage="There is no participants yet"
-          />
-          {renderSummonerArr &&
-            <Table
+          />}
+          {renderSummonerArr && isMatchesUncompleted &&  <Table
               noCaptions
               items={summonerArr}
               renderRow={this.renderSummonerLeaderRow}
