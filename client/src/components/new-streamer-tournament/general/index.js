@@ -80,6 +80,30 @@ class GeneralStep extends Component {
     });
   }
 
+  nextStep = () => {
+    const { name, entry, thumbnail, rules, rulesValues } = this.state;
+
+    if(name === '' || entry === ''){
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Name and entry fields can not be empty',
+      });
+
+      return;
+    }
+
+    const payload = {
+      name,
+      entry,
+      rules,
+      thumbnail,
+      rulesValues,
+    }
+
+    this.props.nextStep(payload);
+  }
+
   renderRuleInput = ({ _id, name }) => {
     return <div key={_id} className={style.input}>
       <input
@@ -97,7 +121,7 @@ class GeneralStep extends Component {
 
   render() {
     return (
-      <div>
+      <div className={style.general}>
         {this.state.isLoading &&
           <Preloader isFullScreen={false} />
         }
@@ -128,6 +152,17 @@ class GeneralStep extends Component {
             {this.state.rules.map(item => this.renderRuleInput(item))}
           </div>
         </div>
+
+        <div className={style.controls}>
+          <Button
+            className={style.next}
+            appearance={'_basic-accent'}
+            text='next'
+            icon={<i className='material-icons'>arrow_forward</i>}
+            onClick={this.nextStep}
+          />
+        </div>
+
       </div>
     );
   }

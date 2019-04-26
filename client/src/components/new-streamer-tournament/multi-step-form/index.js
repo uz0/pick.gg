@@ -27,13 +27,11 @@ class MultiStepForm extends Component {
 
   state = {
     stepIndex: 1,
-    generalData: {
-      name: '',
-      thumbnail: '',
-      entry: '',
-      rules: [],
-      rulesValues: {},
-    }
+    name: '',
+    thumbnail: '',
+    entry: '',
+    rules: [],
+    rulesValues: {},
   }
 
   getGeneralData = () => {
@@ -44,32 +42,20 @@ class MultiStepForm extends Component {
     })
   }
 
-  isFirstStepCompleted() {
-    const { name, entry } = this.state.generalData;
-
-    if(name === '' || entry === ''){
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: 'Name and entry fields can not be empty',
-      });
-
-      return false;
-    }
-
-    return true;
-  }
-
-  nextStep = () => {
+  nextStep = (payload) => {
     if(this.state.stepIndex === 3 ){
       return;
     }
 
-    if(this.state.stepIndex === 1 && !this.isFirstStepCompleted()){
-      return;
-    }
+    // if(this.state.stepIndex === 1){
+    //   return;
+    // }
 
-    this.setState({ stepIndex: this.state.stepIndex + 1 });
+    this.setState({
+      ...payload,
+      stepIndex: this.state.stepIndex + 1
+    }, () => console.log(this.state));
+
   }
 
   prevStep = () => {
@@ -90,7 +76,9 @@ class MultiStepForm extends Component {
 
       <div className={style.content}>
         <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
-          <GeneralStep />
+          <GeneralStep
+            nextStep={this.nextStep}
+          />
         </div>
 
         <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
@@ -102,7 +90,7 @@ class MultiStepForm extends Component {
         </div>
       </div>
 
-      <div className={style.controls}>
+      {/* <div className={style.controls}>
         {this.state.stepIndex !== 1 && <Button
             className={style.prev}
             appearance={'_basic-accent'}
@@ -119,7 +107,8 @@ class MultiStepForm extends Component {
             onClick={this.nextStep}
           />
         }
-      </div>
+      </div> */}
+
     </div>;
   }
 }
