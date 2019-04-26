@@ -5,12 +5,10 @@ let schema = new Schema({
   id: { type: Number },
   tournament_id: { type: String },
   name: { type: String },
-  // tournament: { type: Schema.Types.ObjectId, ref: 'tournament' }, // Временное поле для создания матча через админку 
   startDate: { type: Date },
   resultsId: { type: String },
-  // results: { type: Schema.Types.ObjectId, ref: 'MatchResult' },
   completed: Boolean,
-  syncAt: {type: Date },
+  syncAt: { type: Date },
   syncType: { type: String, enum: ['auto', 'manual'] },
   origin: { type: String, enum: ['escore', 'manual'] },
 }, 

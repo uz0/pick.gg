@@ -2,6 +2,7 @@ import express from "express";
 import PlayerModel from "../models/player";
 
 import TournamentModel from '../models/tournament';
+import FantasyTournament from '../models/fantasy-tournament';
 import MatchModel from '../models/tournament';
 
 let router = express.Router();
@@ -44,53 +45,78 @@ const StreamerController = () => {
   router.post('/tournament', async (req, res) => {
     const { name, photo, position } = req.body;
 
+    let createdMatchesIds = [];
 
+    const generatePlayersResults = (players) => {
+      let results = [];
+      const rulesIds = Object.keys(rulesValues);
+      let rulesMock = rulesIds.map(item => ({ rule: item, score: 0 }));
 
+      for(let i = 0; i < players.length; i++){
+        const playerResult = {
+          playerId: players[i],
+          results: rulesMock,
+        }
 
+        results.push(playerResult);
+      }
 
-
-    // id: { type: String },
-    // name: { type: String, required: true },
-    // date: { type: Date, required: true },
-    // champions_ids: [String],
-    // matches_ids: [String],
-    // syncType: { type: String, enum: ['auto', 'manual'] },
-    // origin: { type: String, enum: ['escore', 'manual'] },
-
-
-    // {
-    //   name        : { type: String, required: true },
-    //   entry       : { type: Number, required: true },
-    //   tournament  : { type: Schema.Types.ObjectId, ref: 'Tournament' },
+      return results;
+    }
     
-    //   users       : [{
-    //     _id: { type: Schema.Types.ObjectId, ref: 'User' },
-    //     user: { type: Schema.Types.ObjectId, ref: 'User' },
-    //     players: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
-    //   }],
+    for(let i = 0; i < matches.length; i++){
+      const matchMock = {
+        tournament_id: '',
+        resultsId: '',
+        name: matches[i].name,
+        completed: false,
+        startDate: new Date(),
+        syncAt: new Date(),
+        syncType: 'manual',
+        origin: 'manual',
+      };
+
+      const match = await MatchModel.create(matchMock);
+      const matchId = match._id;
+      
+      const matchResultMock = {
+        matchId,
+        playersResults: generatePlayersResults(playersIds),
+      };
+      
+      const matchResult = await MatchResultModel.create(matchResultMock);
+      const matchResultId = matchResult._id;
+
+      await MatchModel.update({ _id: matchId }, { resultId: matchResultId });
+
+      createdMatchesIds.push(matchId);
+    }
+
+    const tournament = await TournamentModel.create({
+      name,
+      date: new Date(),
+      champions_ids: playersIds,
+      matches_ids: createdMatchesIds,
+      syncType: 'manual',
+      origin: 'manual',
+    });
+
+    const tournamentId = tournament._id;
     
-    //   rules: [{
-    //     _id: { type: Schema.Types.ObjectId, ref: 'Rule' },
-    //     rule: { type: Schema.Types.ObjectId, ref: 'Rule' },
-    //     score: { type: Number },
-    //   }],
-    
-    //   thumbnail: { type: String, default: '' },
-    
-    //   winner: { type: Schema.Types.ObjectId, ref: 'User' },
-    //   creator: { type: Schema.Types.ObjectId, ref: 'User' },
-    // },
+    const fantasyTournamentRules = Object.values(rulesValues).map(rules => ({
+      rules: rules[0],
+      score: rules[1]
+    }));
 
+    const fantasyTournament = await FantasyTournament.create({
+      name,
+      entry,
+      thumbnail,
+      tournament: tournamentId,
+      rules: fantasyTournamentRules,
+    });
 
-
-
-    // const { tournament } = req.body;
-    // const newTournament = await TournamentModel.create(tournament);
-
-
-
-
-    res.send({ player });
+    res.send({ fantasyTournament });
   });
 
   return router;

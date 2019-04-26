@@ -148,6 +148,23 @@ class MatchesStep extends Component {
     });
   }
 
+  // this.submitTournament
+  submitTournament = () => {
+    const { matches } = this.state;
+
+    if(this.state.matches.length === 0){
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Tournament must have at least one match',
+      });
+
+      return;
+    }
+
+    this.props.createTournament(matches);
+  }
+
   renderMatch = (match, index) => {
     return <div className={style.match}>
       <div className={style.info_item}>
@@ -225,7 +242,7 @@ class MatchesStep extends Component {
               appearance={'_basic-accent'}
               text='Create tournament'
               // icon={<i className="material-icons">arrow_forward</i>}
-              onClick={this.nextStep}
+              onClick={this.submitTournament}
             />
         </div>
       </div>

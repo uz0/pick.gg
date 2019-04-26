@@ -7,6 +7,7 @@ import PlayersStep from '../players';
 import MatchesStep from '../matches';
 
 import NotificationService from 'services/notificationService';
+import UserService from 'services/userService';
 
 import classnames from 'classnames';
 import style from './style.module.css';
@@ -19,10 +20,15 @@ class MultiStepForm extends Component {
     super();
 
     this.notificationService =  new NotificationService();
+    this.userService =  new UserService();
   }
 
   async componentDidMount() {
+    const { user } = await this.userService.getMyProfile();
 
+    this.setState({
+      user,
+    })
   }
 
   state = {
@@ -56,8 +62,21 @@ class MultiStepForm extends Component {
     this.setState({ stepIndex: this.state.stepIndex - 1 });
   }
 
-  createTournament = () => {
+  createTournament = (tournamentMatches) => {
+    const { name, thumbnail, entry, players, matches, rulesValues } = this.state;
 
+    const playersIds = players.map(player => player._id);
+
+    const payload = {
+      name,
+      entry,
+      playersIds,
+      matches: tournamentMatches,
+      thumbnail,
+      rulesValues
+    }
+
+    console.log(payload);
   }
 
   render() {
