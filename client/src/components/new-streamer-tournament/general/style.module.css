@@ -1,3 +1,8 @@
+.general {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
 
 .input_group {
   display: flex;
@@ -59,6 +64,22 @@ rules_inputs .input input:focus + .label {
   font-size: 10px;
   color: var(--accent-color);
 }
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.controls .next {
+  margin-left: auto;
+}
+
+.controls .next i {
+  order: 1;
+}
+
+.controls .prev {}
 
 @media screen and (max-width: 480px) {
   .input_group input { 
