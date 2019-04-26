@@ -1,3 +1,20 @@
+.players {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.players h3 {
+  margin-bottom: 12px;
+  font-size: 24px;
+  color: #fff;
+}
+
+.players .action_button {
+  margin-top: var(--gap);
+  margin-left: var(--gap);
+}
+
 .players_modal {
   --container-width: 1000px;
   position: relative;
@@ -20,6 +37,7 @@
 }
 
 .players_sidebar h3 {
+  font-size: 20px;
   margin-bottom: 8px;
 }
 
@@ -32,7 +50,7 @@
 } 
 
 .players_sidebar .chosen_players {
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 .players_sidebar .chosen_players > div {
@@ -66,7 +84,9 @@
   --gap: 12px;
   display: flex;
   flex-wrap: wrap;
+  margin-top: calc(var(--gap) * -1);
   margin-left: calc(var(--gap) * -1);
+  margin-bottom: 12px;
 }
 
 .chosen_champions .champion {
@@ -156,6 +176,22 @@
 .create_player_modal .inputs > div:not(:last-of-type) {
   margin-bottom: 16px;
 }
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.controls .next {
+  margin-left: auto;
+}
+
+.controls .next i {
+  order: 1;
+}
+
+.controls .prev {}
 
 @media screen and (max-width: 480px) {
   .input_group input{ 
