@@ -11,6 +11,8 @@ import classnames from 'classnames';
 import style from './style.module.css';
 import i18n from 'i18n';
 
+import uuid from 'uuid';
+
 const cx = classnames.bind(style);
 
 class MatchesStep extends Component {
@@ -24,10 +26,12 @@ class MatchesStep extends Component {
   state = {
     matches: [],
     matchData: {
+      id: '',
       name: '',
       startTime: ''
     },
     isMatchCreating: false,
+    isMatchEditing: false,
   }
 
   showMatchCreatingModal = () => this.setState({
@@ -35,6 +39,11 @@ class MatchesStep extends Component {
   });
 
   closeMatchCreatingModal = () => this.setState({
+    matchData: {
+      id: '',
+      name: '',
+      startTime: ''
+    },
     isMatchCreating: false,
   });
 
@@ -75,10 +84,67 @@ class MatchesStep extends Component {
     this.setState({
       matches,
       matchData: {
+        id: uuid(),
         name: '',
         startTime: ''
       },
       isMatchCreating: false,
+    });
+  }
+
+  removeMatch = (matchId) => {
+    const matches = this.state.matches.filter(item => item.id !== matchId);
+
+    this.setState({ matches });
+  }
+
+  editMatch = (match) => {
+    this.setState({
+      matchData: {
+        ...match,
+      },
+      isMatchEditing: true,
+    });
+  }
+
+  updateMatch = () => {
+    let { matches, matchData } = this.state;
+
+    if (matchData.name.length === 0) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Match field can not be empty',
+      });
+
+      return;
+    }
+
+    if (matchData.startTime.length === 0) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Date field can not be empty',
+      });
+
+      return;
+    }
+
+    matches.forEach(item => {
+      if(item.id === matchData.id) {
+        item.name = matchData.name;
+        item.startTime = matchData.startTime;
+      }
+    });
+
+    this.setState({
+      matches,
+      matchData: {
+        id: '',
+        name: '',
+        startTime: ''
+      },
+      isMatchEditing: false,
     });
   }
 
@@ -90,10 +156,10 @@ class MatchesStep extends Component {
       <div className={style.info_item}>
         {match.startTime}
       </div>
-      <button className={style.delete}>
+      <button className={style.delete} onClick={() => this.removeMatch(match.id)}>
         <i className="material-icons">delete_forever</i>
       </button>
-      <button className={style.edit}>
+      <button className={style.edit} onClick={() => this.editMatch(match)}>
         <i className="material-icons">edit</i>
       </button>
     </div>
@@ -101,9 +167,15 @@ class MatchesStep extends Component {
 
 
   render() {
+    const { isMatchEditing, isMatchCreating } = this.state;
+    
+    const isModalActive = isMatchEditing || isMatchCreating;
+    const modalAction = isMatchCreating ? this.addMatch : this.updateMatch;
+    const modalActionText = isMatchCreating ? 'Create match' : 'Edit match';
+
     return (
-      <div>
-        <p>Tournament matches</p>
+      <div className={style.matches}>
+        <h3>Tournament matches</h3>
         <div>
           {this.state.matches.map((item, index) => this.renderMatch(item, index))}
           <Button
@@ -113,13 +185,13 @@ class MatchesStep extends Component {
           />
         </div>
 
-        {this.state.isMatchCreating && <Modal
+        {isModalActive && <Modal
           title={'Add match'}
           close={this.closeMatchCreatingModal}
           wrapClassName={style.create_player_modal}
           actions={[{
-            text: 'Add match',
-            onClick: this.addMatch,
+            text: modalActionText,
+            onClick: modalAction,
             isDanger: true
           }]}
         >
@@ -139,6 +211,23 @@ class MatchesStep extends Component {
           />
         </Modal>
         }
+
+        <div className={style.controls}>
+          <Button
+              className={style.prev}
+              appearance={'_basic-accent'}
+              text='prev'
+              icon={<i className="material-icons">arrow_back</i>}
+              onClick={this.prevStep}
+            />
+          <Button
+              className={style.next}
+              appearance={'_basic-accent'}
+              text='Create tournament'
+              // icon={<i className="material-icons">arrow_forward</i>}
+              onClick={this.nextStep}
+            />
+        </div>
       </div>
     );
   }
