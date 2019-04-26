@@ -170,6 +170,14 @@ class Tournament extends Component {
 
   toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
 
+  copyInput = () => {
+    document.querySelector('#copyUrl').select();
+    document.execCommand('copy');
+    this.setState({
+      animate: true,
+    })
+
+  }
   getTournamentStatus = () => {
 
     if (!this.state.fantasyTournament) {
@@ -402,10 +410,10 @@ class Tournament extends Component {
       </div>
 
       {totalScore > 0 &&
-      <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
-        <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
-      </div>
-    }
+        <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
+          <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+        </div>
+      }
     </div>;
   };
 
@@ -518,19 +526,15 @@ class Tournament extends Component {
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
     const topTen = this.state.users.slice(0, 9);
-
+    const countUsers = this.state.users.length;
+    console.log(countUsers);
     const summonerName = this.state.username;
     const summonerArr = topTen.filter(item => item.user.username === summonerName);
     const renderSummonerArr = summonerArr ? '' : summonerArr;
     const matchInfo = this.state.matchInfo && this.state.matchInfo;
-    const countUsers = this.getCountUsers();
+
     const isMatchesUncompleted = every(this.state.matches, { completed: true });
 
-    console.log(countUsers);
-    // console.log(isMatchCompleted);
-    // const isResults = find(firstUser, item => item.totalResults);
-    // console.log(isResults);
-    // console.log(firstUser);
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -636,10 +640,22 @@ class Tournament extends Component {
 
         <div className={style.leaders}>
           <h3 className={style.subtitle}>{isMatchesUncompleted ? i18n.t('leaderboard') : 'Invite a friend'}</h3>
-          {/* {!isMatchesUncompleted && <div className={style.info_users}>
-            <p>Users: </p>
-            <button>Invite</button>
-          </div>} */}
+          {!isMatchesUncompleted && <div className={cx(style.info_users, { [style.anim_teemo]: this.state.animate })}>
+
+            <div className={style.copy_block}>
+              <input
+                id="copyUrl"
+                className={style.input_href}
+                defaultValue={window.location.href} />
+              <button
+                className={style.copy_button}
+                onClick={this.copyInput}
+              >
+                <i className="material-icons">file_copy</i>
+              </button>
+            </div>
+            <p>Users: {countUsers}</p>
+          </div>}
           {isMatchesUncompleted && <Table
             noCaptions
             captions={leadersTableCaptions}
@@ -650,13 +666,13 @@ class Tournament extends Component {
             className={style.table}
             emptyMessage="There is no participants yet"
           />}
-          {renderSummonerArr && isMatchesUncompleted &&  <Table
-              noCaptions
-              items={summonerArr}
-              renderRow={this.renderSummonerLeaderRow}
-              isLoading={this.state.isLoading}
-              className={style.table}
-            />}
+          {renderSummonerArr && isMatchesUncompleted && <Table
+            noCaptions
+            items={summonerArr}
+            renderRow={this.renderSummonerLeaderRow}
+            isLoading={this.state.isLoading}
+            className={style.table}
+          />}
         </div>
       </div>
 
