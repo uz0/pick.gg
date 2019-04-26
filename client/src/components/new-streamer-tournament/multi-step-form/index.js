@@ -72,7 +72,7 @@ class MultiStepForm extends Component {
       </div>
 
       <div className={style.content}>
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
           <GeneralStep
             nextStep={this.nextStep}
           />
@@ -85,30 +85,12 @@ class MultiStepForm extends Component {
           />
         </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
-          <MatchesStep />
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+          <MatchesStep
+            prevStep={this.prevStep}
+          />
         </div>
       </div>
-
-      {/* <div className={style.controls}>
-        {this.state.stepIndex !== 1 && <Button
-            className={style.prev}
-            appearance={'_basic-accent'}
-            text='prev'
-            icon={<i className="material-icons">arrow_back</i>}
-            onClick={this.prevStep}
-          />
-        }
-        {this.state.stepIndex !== 3 && <Button
-            className={style.next}
-            appearance={'_basic-accent'}
-            text='next'
-            icon={<i className="material-icons">arrow_forward</i>}
-            onClick={this.nextStep}
-          />
-        }
-      </div> */}
-
     </div>;
   }
 }
