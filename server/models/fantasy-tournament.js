@@ -5,12 +5,10 @@ let schema = new Schema({
   name        : { type: String, required: true },
   entry       : { type: Number, required: true },
   tournament  : { type: Schema.Types.ObjectId, ref: 'Tournament' },
-  // tournament_id  : { type: Number },
 
   users       : [{
     _id: { type: Schema.Types.ObjectId, ref: 'User' },
     user: { type: Schema.Types.ObjectId, ref: 'User' },
-    // players_ids: [Number],
     players: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
   }],
 

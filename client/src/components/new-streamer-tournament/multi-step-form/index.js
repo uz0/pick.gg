@@ -31,16 +31,9 @@ class MultiStepForm extends Component {
     thumbnail: '',
     entry: '',
     players: [],
+    matches: [],
     rules: [],
     rulesValues: {},
-  }
-
-  getGeneralData = () => {
-    this.setState({
-      generalData: {
-        
-      }
-    })
   }
 
   nextStep = (payload) => {
@@ -63,6 +56,10 @@ class MultiStepForm extends Component {
     this.setState({ stepIndex: this.state.stepIndex - 1 });
   }
 
+  createTournament = () => {
+
+  }
+
   render() {
     const { stepIndex } = this.state;
 
@@ -72,7 +69,7 @@ class MultiStepForm extends Component {
       </div>
 
       <div className={style.content}>
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
           <GeneralStep
             nextStep={this.nextStep}
           />
@@ -85,9 +82,10 @@ class MultiStepForm extends Component {
           />
         </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
           <MatchesStep
             prevStep={this.prevStep}
+            createTournament={this.createTournament}
           />
         </div>
       </div>
