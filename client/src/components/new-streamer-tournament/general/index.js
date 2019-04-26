@@ -26,6 +26,7 @@ const cx = classnames.bind(style);
 class GeneralStep extends Component {
   constructor() {
     super();
+    this.notificationService = new NotificationService();
   }
 
   state = {

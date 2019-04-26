@@ -51,6 +51,7 @@ class PlayersStep extends Component {
   state = {
     players: [],
     chosenPlayers: [],
+    playersAddedToTournament: [],
     championData: {
       name: '',
       photo: '',
@@ -83,6 +84,13 @@ class PlayersStep extends Component {
       },
     });
   };
+
+  addPlayersToTournament = () => {
+    this.setState({
+      playersAddedToTournament: this.state.chosenPlayers,
+      isPlayerChoosing: false,
+    })
+  }
 
   playerClickHandler = (player) => {
     let { chosenPlayers } = this.state;
@@ -180,17 +188,43 @@ class PlayersStep extends Component {
   </div>
 
   render() {
+    const { playersAddedToTournament } = this.state;
+
+    const buttonText = playersAddedToTournament.length === 0 ? 'Add players' : 'Edit players';
+    const buttonIcon = playersAddedToTournament.length === 0 ? 'add' : 'edit';
+
     return (
-      <div>
-        <p>Tournament players</p>
+      <div className={style.players}>
+        <h3>Tournament players</h3>
         <div className={style.chosen_champions}>
-          {this.state.chosenPlayers.map((item, index) => this.renderChampion(item))}
-        </div>
+          {this.state.playersAddedToTournament.map((item, index) => this.renderChampion(item))}
           <Button
-            appearance={'_circle-accent'}
-            icon={<i className="material-icons">add</i>}
+            className={style.action_button}
+            appearance={'_basic-accent'}
+            text={buttonText}
+            icon={<i className="material-icons">{buttonIcon}</i>}
             onClick={this.showPlayerChoosingModal}
           />
+        </div>
+
+        <div className={style.controls}>
+          {this.state.stepIndex !== 1 && <Button
+            className={style.prev}
+            appearance={'_basic-accent'}
+            text='prev'
+            icon={<i className="material-icons">arrow_back</i>}
+            onClick={this.prevStep}
+          />
+          }
+          {this.state.stepIndex !== 3 && <Button
+            className={style.next}
+            appearance={'_basic-accent'}
+            text='next'
+            icon={<i className="material-icons">arrow_forward</i>}
+            onClick={this.nextStep}
+          />
+          }
+        </div>
 
         {this.state.isPlayerChoosing && <Modal
           title={'Choose 10 players'}
@@ -218,12 +252,12 @@ class PlayersStep extends Component {
                 <Button
                   text='Add players to tournament'
                   appearance='_basic-accent'
-                  onClick={this.showPlayerCreatingModal}
+                  onClick={this.addPlayersToTournament}
                 />
               </div>
             }
 
-            <p>Cannot find your player?</p>
+            <h3>Cannot find your player?</h3>
 
             <Button
               text='Create new player'

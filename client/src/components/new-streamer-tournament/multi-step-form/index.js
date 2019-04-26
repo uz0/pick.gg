@@ -75,14 +75,17 @@ class MultiStepForm extends Component {
       </div>
 
       <div className={style.content}>
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
           <GeneralStep
             nextStep={this.nextStep}
           />
         </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
-          <PlayersStep />
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+          <PlayersStep
+            nextStep={this.nextStep}
+            prevStep={this.prevStep}  
+          />
         </div>
 
         <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
