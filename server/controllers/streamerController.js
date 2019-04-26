@@ -33,6 +33,11 @@ const StreamerController = () => {
     res.send({ player });
   });
 
+  router.get('/players', async (req, res) => {
+    const players = await PlayerModel.find();
+    res.json({ players });
+  });
+
   return router;
 }
 

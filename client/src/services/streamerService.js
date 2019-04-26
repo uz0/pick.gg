@@ -18,4 +18,10 @@ export default class StreamerService extends BasicService {
     const requestResult = await request.json();
     return requestResult;
   }
+
+  getAllChampions = async() => {
+    const championsQuery = await http('/api/streamer/players');
+    const champions = await championsQuery.json();
+    return champions;
+  }
 }
