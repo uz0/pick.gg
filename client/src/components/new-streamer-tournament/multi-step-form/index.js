@@ -30,6 +30,7 @@ class MultiStepForm extends Component {
     name: '',
     thumbnail: '',
     entry: '',
+    players: [],
     rules: [],
     rulesValues: {},
   }
@@ -46,10 +47,6 @@ class MultiStepForm extends Component {
     if(this.state.stepIndex === 3 ){
       return;
     }
-
-    // if(this.state.stepIndex === 1){
-    //   return;
-    // }
 
     this.setState({
       ...payload,
@@ -75,16 +72,16 @@ class MultiStepForm extends Component {
       </div>
 
       <div className={style.content}>
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
           <GeneralStep
             nextStep={this.nextStep}
           />
         </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+        <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
           <PlayersStep
             nextStep={this.nextStep}
-            prevStep={this.prevStep}  
+            prevStep={this.prevStep}
           />
         </div>
 

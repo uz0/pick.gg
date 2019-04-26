@@ -12,7 +12,6 @@ import Modal from 'components/dashboard-modal';
 import Avatar from 'assets/avatar-placeholder.svg';
 
 import http from 'services/httpService';
-import AdminService from 'services/adminService';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 
@@ -26,7 +25,6 @@ class PlayersStep extends Component {
   constructor() {
     super();
 
-    this.adminService = new AdminService();
     this.notificationService = new NotificationService();
     this.streamerService = new StreamerService();
 
@@ -37,7 +35,7 @@ class PlayersStep extends Component {
   async componentDidMount() {
     this.setState({ arePlayersLoading: true });
 
-    const { players } = await this.adminService.getAllChampions();
+    const { players } = await this.streamerService.getAllChampions();
     const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
 
     const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
@@ -84,6 +82,26 @@ class PlayersStep extends Component {
       },
     });
   };
+
+  nextStep = () => {
+    const { playersAddedToTournament } = this.state;
+
+    if(playersAddedToTournament.length !== 10){
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Tournament must have 10 players',
+      });
+
+      return;
+    }
+
+    const payload = {
+      players: playersAddedToTournament,
+    }
+
+    this.props.nextStep(payload);
+  }
 
   addPlayersToTournament = () => {
     this.setState({
@@ -151,7 +169,7 @@ class PlayersStep extends Component {
         message: `You've created player with name ${name}`,
       });
 
-      const { players } = await this.adminService.getAllChampions();
+      const { players } = await this.streamerService.getAllChampions();
       const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
 
       const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
@@ -213,7 +231,7 @@ class PlayersStep extends Component {
             appearance={'_basic-accent'}
             text='prev'
             icon={<i className="material-icons">arrow_back</i>}
-            onClick={this.prevStep}
+            onClick={this.props.prevStep}
           />
           }
           {this.state.stepIndex !== 3 && <Button
