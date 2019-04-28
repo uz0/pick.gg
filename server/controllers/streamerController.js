@@ -3,7 +3,8 @@ import PlayerModel from "../models/player";
 
 import TournamentModel from '../models/tournament';
 import FantasyTournament from '../models/fantasy-tournament';
-import MatchModel from '../models/tournament';
+import MatchModel from '../models/match';
+import MatchResultModel from '../models/match-result';
 
 let router = express.Router();
 
@@ -43,7 +44,7 @@ const StreamerController = () => {
   });
 
   router.post('/tournament', async (req, res) => {
-    const { name, photo, position } = req.body;
+    const { name, userId, entry, matches, thumbnail, playersIds, rulesValues } = req.body;
 
     let createdMatchesIds = [];
 
@@ -70,8 +71,8 @@ const StreamerController = () => {
         resultsId: '',
         name: matches[i].name,
         completed: false,
-        startDate: new Date(),
-        syncAt: new Date(),
+        startDate: new Date().toISOString(),
+        syncAt: new Date().toISOString(),
         syncType: 'manual',
         origin: 'manual',
       };
@@ -87,14 +88,14 @@ const StreamerController = () => {
       const matchResult = await MatchResultModel.create(matchResultMock);
       const matchResultId = matchResult._id;
 
-      await MatchModel.update({ _id: matchId }, { resultId: matchResultId });
-
+      await MatchModel.update({ _id: matchId }, { resultsId: matchResultId });
+      
       createdMatchesIds.push(matchId);
     }
-
+    
     const tournament = await TournamentModel.create({
       name,
-      date: new Date(),
+      date: new Date().toISOString(),
       champions_ids: playersIds,
       matches_ids: createdMatchesIds,
       syncType: 'manual',
@@ -103,10 +104,11 @@ const StreamerController = () => {
 
     const tournamentId = tournament._id;
     
-    const fantasyTournamentRules = Object.values(rulesValues).map(rules => ({
-      rules: rules[0],
-      score: rules[1]
-    }));
+    const fantasyTournamentRules = Object.entries(rulesValues).map(rule => ({
+        rule: rule[0],
+        score: rule[1]
+      })
+    );
 
     const fantasyTournament = await FantasyTournament.create({
       name,
@@ -114,6 +116,7 @@ const StreamerController = () => {
       thumbnail,
       tournament: tournamentId,
       rules: fantasyTournamentRules,
+      creator: userId,
     });
 
     res.send({ fantasyTournament });

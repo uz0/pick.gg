@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { withRouter } from 'react-router-dom';
+
 import Button from '../../button';
 
 import GeneralStep from '../general';
@@ -7,6 +9,7 @@ import PlayersStep from '../players';
 import MatchesStep from '../matches';
 
 import NotificationService from 'services/notificationService';
+import StreamerService from 'services/streamerService';
 import UserService from 'services/userService';
 
 import classnames from 'classnames';
@@ -19,7 +22,8 @@ class MultiStepForm extends Component {
   constructor() {
     super();
 
-    this.notificationService =  new NotificationService();
+    this.notificationService = new NotificationService();
+    this.streamerService = new StreamerService();
     this.userService =  new UserService();
   }
 
@@ -27,7 +31,7 @@ class MultiStepForm extends Component {
     const { user } = await this.userService.getMyProfile();
 
     this.setState({
-      user,
+      userId: user._id,
     })
   }
 
@@ -62,8 +66,8 @@ class MultiStepForm extends Component {
     this.setState({ stepIndex: this.state.stepIndex - 1 });
   }
 
-  createTournament = (tournamentMatches) => {
-    const { name, thumbnail, entry, players, matches, rulesValues } = this.state;
+  createTournament = async (tournamentMatches) => {
+    const { name, userId, thumbnail, entry, players, rulesValues } = this.state;
 
     const playersIds = players.map(player => player._id);
 
@@ -73,10 +77,11 @@ class MultiStepForm extends Component {
       playersIds,
       matches: tournamentMatches,
       thumbnail,
-      rulesValues
-    }
+      rulesValues,
+      userId
+    };
 
-    console.log(payload);
+    await this.streamerService.createTournament(payload);
   }
 
   render() {
@@ -112,4 +117,4 @@ class MultiStepForm extends Component {
   }
 }
 
-export default MultiStepForm;
+export default withRouter(MultiStepForm);

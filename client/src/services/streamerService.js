@@ -19,7 +19,28 @@ export default class StreamerService extends BasicService {
     return requestResult;
   }
 
-  getAllChampions = async() => {
+  async createTournament({ name, entry, playersIds, matches, thumbnail, rulesValues, userId }) {
+    const request = await http(`/api/streamer/tournament`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId,
+        name,
+        entry,
+        matches,
+        thumbnail,
+        playersIds,
+        rulesValues,
+      }),
+    });
+    const requestResult = await request.json();
+    return requestResult;
+  }
+
+  async getAllChampions() {
     const championsQuery = await http('/api/streamer/players');
     const champions = await championsQuery.json();
     return champions;
