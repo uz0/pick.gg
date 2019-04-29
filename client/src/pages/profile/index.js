@@ -169,9 +169,9 @@ class Profile extends Component {
             </div>
           </div>
 
-          {/* {this.state.isLoading &&
+          {this.state.isLoading &&
             <Preloader />
-          } */}
+          }
 
         </main>
       </div>

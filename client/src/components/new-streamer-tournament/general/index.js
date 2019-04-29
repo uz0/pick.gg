@@ -1,27 +1,14 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import { withRouter } from 'react-router';
-
-import groupBy from 'lodash/groupBy';
-import findIndex from 'lodash/findIndex';
 
 import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
-import Modal from 'components/dashboard-modal';
 
 import http from 'services/httpService';
-import AdminService from 'services/adminService';
 import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
-import TournamentService from 'services/tournamentService';
-import UserService from 'services/userService';
 
-import classnames from 'classnames';
 import style from './style.module.css';
 import i18n from 'i18n';
-
-const cx = classnames.bind(style);
 
 class GeneralStep extends Component {
   constructor() {
