@@ -226,18 +226,18 @@ class MatchesStep extends Component {
 
         <div className={style.controls}>
           <Button
-              className={style.prev}
-              appearance={'_basic-accent'}
-              text='prev'
-              icon={<i className='material-icons'>arrow_back</i>}
-              onClick={this.props.prevStep}
-            />
+            className={style.prev}
+            appearance={'_basic-accent'}
+            text='prev'
+            icon={<i className='material-icons'>arrow_back</i>}
+            onClick={this.props.prevStep}
+          />
           <Button
-              className={style.next}
-              appearance={'_basic-accent'}
-              text='Create tournament'
-              onClick={this.submitTournament}
-            />
+            className={style.next}
+            appearance={'_basic-accent'}
+            text='Create tournament'
+            onClick={this.submitTournament}
+          />
         </div>
       </div>
     );
