@@ -43,6 +43,45 @@ const StreamerController = () => {
     res.json({ players });
   });
 
+  router.get('/matches/:id', async (req, res) => {
+    const matchId = req.params.id;
+    const match = await MatchModel.findOne({ _id: matchId })
+      .populate({
+        path: 'results',
+        populate: {
+          path: 'playersResults.player',
+          select: 'name'
+        },
+        populate: {
+          path: 'playersResults.results.rule',
+          select: 'name'  
+        }
+      })
+
+    res.json({ match });
+  });
+
+  router.put('/matches/:id', async (req, res) => {
+    const matchId = req.params.id;
+    const { startDate, completed, name, results } = req.body;
+
+    await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
+    const match = await MatchModel.findByIdAndUpdate(matchId, {
+      name,
+      startDate,
+      completed,
+    }, {
+      new: true
+    });
+
+    io.emit('matchUpdated', { match });
+
+    res.json({
+      success: 'success',
+      match
+    });
+  });
+
   router.post('/tournament', async (req, res) => {
     const { name, userId, entry, matches, thumbnail, playersIds, rulesValues } = req.body;
 

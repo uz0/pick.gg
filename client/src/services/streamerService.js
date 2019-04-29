@@ -45,4 +45,16 @@ export default class StreamerService extends BasicService {
     const champions = await championsQuery.json();
     return champions;
   }
+
+  async getMatchInfo(matchId) {
+    const matchQuery = await http(`/api/streamer/matches/${matchId}`);
+    const match = await matchQuery.json();
+    return match;
+  }
+
+  // async updateMatch(matchId) {
+  //   const matchQuery = await http(`/api/streamer/matches/${matchId}`);
+  //   const match = await matchQuery.json();
+  //   return match;
+  // }
 }
