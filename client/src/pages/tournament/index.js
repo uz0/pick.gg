@@ -6,6 +6,7 @@ import Modal from 'components/dashboard-modal';
 import ChooseChampionModal from 'components/choose-champion';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
+import MatchModal from 'components/match-modal-tournament';
 
 import io from "socket.io-client";
 
@@ -96,6 +97,8 @@ class Tournament extends Component {
     rulesNames: [],
     isLoading: true,
     isChooseChampionModalShown: false,
+    isMatchEditModalShown: false,
+    editingMatchId: '',
     username: '',
   };
 
@@ -373,6 +376,24 @@ class Tournament extends Component {
     });
   }
 
+  editMatchInit = (event, item) => {
+    event.preventDefault();
+
+    this.setState({
+      isMatchEditModalShown: true,
+      editingMatchId: item._id,
+    })
+
+    console.log(item, 'item');
+  }
+
+  closeMatchEditing = () => {
+    this.setState({
+      isMatchEditModalShown: false,
+      editingMatchId: '',
+    });
+  }
+
   closeMatchInfo = () => {
     this.setState({
       isMatchInfoActive: false,
@@ -445,14 +466,18 @@ class Tournament extends Component {
     const matchPoints = points > 0 ? points : 0;
 
     const isMatchCompleted = item.completed;
-    const time = moment(item.startDate).format('HH:mm');
+    const isUserStreamerAndCreator = this.state.currentUser.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
+
     const url = '';
     const urlMatch = url === '' ? '' : url;
+    
+    const time = moment(item.startDate).format('HH:mm');
     const timeMatch = moment(item.startDate).format('MMM DD HH:mm');
     const timeNow = moment().format('MMM DD HH:mm');
+
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
-    return <NavLink to={urlMatch} onClick={(event) => this.openMatchResults(event, item)} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
+    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -466,6 +491,15 @@ class Tournament extends Component {
       <div className={itemClass} style={{ '--width': matchesTableCaptions.date.width }}>
         <span className={textClass}>{time}</span>
       </div>
+
+      <div onClick={(event) => this.openMatchResults(event, item)}>
+        <button>Match results</button>
+      </div>
+
+      {isUserStreamerAndCreator && <div>
+          <button onClick={(event) => this.editMatchInit(event, item)}>Match info</button>
+        </div>
+      }
     </NavLink>;
   };
 
@@ -671,6 +705,14 @@ class Tournament extends Component {
           champions={tournamentChampions}
           onClose={this.toggleChampionModal}
           action={this.addPlayers}
+        />
+      }
+
+      {this.state.isMatchEditModalShown &&
+        <MatchModal
+          matchId={this.state.editingMatchId}
+          closeMatchEditing={this.closeMatchEditing}
+          matchChampions={tournamentChampions}
         />
       }
     </div>;
