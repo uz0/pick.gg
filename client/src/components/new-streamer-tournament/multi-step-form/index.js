@@ -81,7 +81,9 @@ class MultiStepForm extends Component {
       userId
     };
 
-    await this.streamerService.createTournament(payload);
+    const { fantasyTournament } = await this.streamerService.createTournament(payload);
+
+    this.props.history.replace(`/tournaments/${fantasyTournament._id}`);
   }
 
   render() {
