@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import { withRouter } from 'react-router-dom';
 
-import Button from '../../button';
-
 import GeneralStep from '../general';
 import PlayersStep from '../players';
 import MatchesStep from '../matches';
@@ -14,7 +12,6 @@ import UserService from 'services/userService';
 
 import classnames from 'classnames';
 import style from './style.module.css';
-import i18n from 'i18n';
 
 const cx = classnames.bind(style);
 

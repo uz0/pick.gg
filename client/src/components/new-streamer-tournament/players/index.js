@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 
 import groupBy from 'lodash/groupBy';
 import findIndex from 'lodash/findIndex';
@@ -11,7 +10,6 @@ import Modal from 'components/dashboard-modal';
 
 import Avatar from 'assets/avatar-placeholder.svg';
 
-import http from 'services/httpService';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 

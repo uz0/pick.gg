@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as TrophyIcon } from '../../assets/trophy-cup.svg';
 
-import classnames from 'classnames';
 import style from './style.module.css';
 
 import thumb_default from '../../assets/tournament_thumbnail.jpg';
@@ -12,8 +11,6 @@ import lcs_thumb from '../../assets/tournaments-thumbnails/lcs-thumb.jpg';
 import lpl_thumb from '../../assets/tournaments-thumbnails/lpl-thumb.jpg';
 
 import moment from 'moment';
-
-const cx = classnames.bind(style);
 
 const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users  }) => {
   const tournamentPrize = users.length * entry;
@@ -45,7 +42,7 @@ const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users 
   return (
     <Link to={`/tournaments/${_id}`} className={style.card}>
       <div className={style.thumbnail}>
-        <img src={thumb} />
+        <img src={thumb} alt={'tournament thumbnail'}/>
       </div>
       <div className={style.content}>
         <h3>{name}</h3>

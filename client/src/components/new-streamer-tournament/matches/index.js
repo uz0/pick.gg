@@ -7,13 +7,9 @@ import Modal from '../../dashboard-modal';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 
-import classnames from 'classnames';
 import style from './style.module.css';
-import i18n from 'i18n';
 
 import uuid from 'uuid';
-
-const cx = classnames.bind(style);
 
 class MatchesStep extends Component {
   constructor() {
@@ -148,7 +144,6 @@ class MatchesStep extends Component {
     });
   }
 
-  // this.submitTournament
   submitTournament = () => {
     const { matches } = this.state;
 
@@ -174,10 +169,10 @@ class MatchesStep extends Component {
         {match.startTime}
       </div>
       <button className={style.delete} onClick={() => this.removeMatch(match.id)}>
-        <i className="material-icons">delete_forever</i>
+        <i className='material-icons'>delete_forever</i>
       </button>
       <button className={style.edit} onClick={() => this.editMatch(match)}>
-        <i className="material-icons">edit</i>
+        <i className='material-icons'>edit</i>
       </button>
     </div>
   }
@@ -197,7 +192,7 @@ class MatchesStep extends Component {
           {this.state.matches.map((item, index) => this.renderMatch(item, index))}
           <Button
             appearance={'_circle-accent'}
-            icon={<i className="material-icons">add</i>}
+            icon={<i className='material-icons'>add</i>}
             onClick={this.showMatchCreatingModal}
           />
         </div>
@@ -213,16 +208,16 @@ class MatchesStep extends Component {
           }]}
         >
           <Input
-            label="Match name"
-            name="name"
+            label='Match name'
+            name='name'
             value={this.state.matchData.name}
             onChange={this.handleInputChange}
           />
 
           <Input
-            type="time"
-            label="Start time"
-            name="startTime"
+            type='time'
+            label='Start time'
+            name='startTime'
             value={this.state.matchData.startTime}
             onChange={this.handleInputChange}
           />
@@ -234,14 +229,13 @@ class MatchesStep extends Component {
               className={style.prev}
               appearance={'_basic-accent'}
               text='prev'
-              icon={<i className="material-icons">arrow_back</i>}
+              icon={<i className='material-icons'>arrow_back</i>}
               onClick={this.prevStep}
             />
           <Button
               className={style.next}
               appearance={'_basic-accent'}
               text='Create tournament'
-              // icon={<i className="material-icons">arrow_forward</i>}
               onClick={this.submitTournament}
             />
         </div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import filter from 'lodash/filter';
 import groupBy from 'lodash/groupBy';
@@ -12,8 +11,6 @@ import UserService from 'services/userService';
 import NewTournamentModal from 'components/new-tournament';
 import NewStreamerTournamentModal from 'components/new-streamer-tournament';
 import TournamentCard from 'components/tournament-card';
-
-import i18n from 'i18n';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';
