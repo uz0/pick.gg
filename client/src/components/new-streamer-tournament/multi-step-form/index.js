@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import GeneralStep from '../general';
 import PlayersStep from '../players';
 import MatchesStep from '../matches';
+import Preloader from 'components/preloader';
 
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
@@ -41,6 +42,7 @@ class MultiStepForm extends Component {
     matches: [],
     rules: [],
     rulesValues: {},
+    isLoading: false,
   }
 
   nextStep = (payload) => {
@@ -64,6 +66,8 @@ class MultiStepForm extends Component {
   }
 
   createTournament = async (tournamentMatches) => {
+    this.setState({ isLoading: true });
+
     const { name, userId, thumbnail, entry, players, rulesValues } = this.state;
 
     const playersIds = players.map(player => player._id);
@@ -80,6 +84,14 @@ class MultiStepForm extends Component {
 
     const { fantasyTournament } = await this.streamerService.createTournament(payload);
 
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: `Tournament with name ${fantasyTournament.name} has been created`,
+    });
+
+    this.setState({ isLoading: false });
+
     this.props.history.replace(`/tournaments/${fantasyTournament._id}`);
   }
 
@@ -87,6 +99,11 @@ class MultiStepForm extends Component {
     const { stepIndex } = this.state;
 
     return <div className={style.form}>
+
+      {this.state.isLoading &&
+        <Preloader isFullScreen={false} />
+      }
+
       <div className={style.steps}>
         {`Step ${stepIndex} of 3`}
       </div>
