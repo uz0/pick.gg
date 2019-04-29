@@ -230,7 +230,7 @@ class MatchesStep extends Component {
               appearance={'_basic-accent'}
               text='prev'
               icon={<i className='material-icons'>arrow_back</i>}
-              onClick={this.prevStep}
+              onClick={this.props.prevStep}
             />
           <Button
               className={style.next}
