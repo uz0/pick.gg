@@ -149,7 +149,6 @@ class Tournaments extends Component {
           {this.state.profile.user.isStreamer &&
             <button className={style.button} onClick={this.toggleNewStreamerTournamentModal}>
               <i className="material-icons">add</i>
-              Стример
             </button>}
         </div>
       </div>
@@ -159,7 +158,7 @@ class Tournaments extends Component {
       }
 
       {this.state.isStreamerTournamentModalShown &&
-        <NewStreamerTournamentModal onClose={this.toggleNewStreamerTournamentModal} />
+        <NewStreamerTournamentModal closeModal={this.toggleNewStreamerTournamentModal} />
       }
     </div>;
   }
