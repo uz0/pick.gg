@@ -82,3 +82,9 @@
 .card .content .info svg path {
   fill: var(--accent-color);
 }
+
+@media(max-width: 320px){
+  .card{
+    width: 280px;
+  }
+}
