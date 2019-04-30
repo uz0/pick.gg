@@ -90,3 +90,14 @@
 .wrapper .modal .actions._is-center {
   justify-content: center;
 }
+
+@media(max-width: 480px){
+  .wrapper .modal{
+    --width: 100%;
+  }
+  .wrapper .modal .header .title{
+    font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
