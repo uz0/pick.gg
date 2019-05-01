@@ -1,6 +1,8 @@
 import express from "express";
 import UserModel from "../models/user";
 import TransactionModel from "../models/transaction";
+import riotFetch from '../riotFetch';
+
 let router = express.Router();
 
 const UsersController = () => {
@@ -11,7 +13,7 @@ const UsersController = () => {
 
   router.get('/me', async (req, res) => {
     const userId = req.decoded._id;
-    const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email summonerName');
+    const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email summonerName streamerAccountId');
     res.json({ user });
   });
 
@@ -20,12 +22,22 @@ const UsersController = () => {
 
     const { username, email, photo, about, summonerName } = req.body;
 
+    let streamerAccountId = '';
+
+    if (summonerName != ''){
+      let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${summonerName}`);
+      accountInfo = await accountInfo.json();
+
+      streamerAccountId = accountInfo.accountId;
+    }
+
     const fields = {
       email,
       photo,
       about,
       username,
       summonerName,
+      streamerAccountId
     }
 
     const updatedUser = await UserModel

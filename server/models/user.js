@@ -28,4 +28,5 @@ export default mongoose.model('User', new Schema({
   isAdmin : { type: Boolean },
   isStreamer : { type: Boolean },
   summonerName: { type: String },
+  streamerAccountId: { type: String },
 }));
