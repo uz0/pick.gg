@@ -23,12 +23,14 @@ class Profile extends Component {
 
     this.state = {
       formData: {
-        username: "",
-        email: "",
-        about: "",
-        photo: "",
+        username: '',
+        email: '',
+        about: '',
+        photo: '',
+        summonerName: '',
+        isStreamer: '',
       },
-      locale: "",
+      locale: '',
       isLoading: true,
     };
   }
@@ -53,6 +55,8 @@ class Profile extends Component {
         email: userData.user.email,
         photo: userData.user.photo,
         about: userData.user.about,
+        summonerName: userData.user.summonerName,
+        isStreamer: userData.user.isStreamer,
       },
       locale,
       isLoading: false,
@@ -102,6 +106,17 @@ class Profile extends Component {
                     onChange={this.handleChange}
                   />
                 </div>
+
+                {this.state.formData.isStreamer && <div>
+                    <label>{i18n.t('summonerName')}</label>
+                    <input
+                      type="text"
+                      name="summonerName"
+                      value={this.state.formData.summonerName}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                }
 
                 <div>
                   <label>{i18n.t('email')}</label>

@@ -11,24 +11,27 @@ const UsersController = () => {
 
   router.get('/me', async (req, res) => {
     const userId = req.decoded._id;
-    const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email');
+    const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email summonerName');
     res.json({ user });
   });
 
   router.post('/me', async (req, res) => {
     const userId = req.decoded._id;
+
+    const { username, email, photo, about, summonerName } = req.body;
+
     const fields = {
-      username: req.body.username,
-      email: req.body.email,
-      photo: req.body.photo,
-      about: req.body.about,
+      email,
+      photo,
+      about,
+      username,
+      summonerName,
     }
-    
+
     const updatedUser = await UserModel
       .findOneAndUpdate({ _id: userId }, fields);
 
     res.json({
-      id: "5c61c99b9810a7173819faa5",
       success: true,
       user: updatedUser,
     });

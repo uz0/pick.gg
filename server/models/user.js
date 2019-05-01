@@ -27,4 +27,5 @@ export default mongoose.model('User', new Schema({
   balance: { type: Number },
   isAdmin : { type: Boolean },
   isStreamer : { type: Boolean },
+  summonerName: { type: String },
 }));
