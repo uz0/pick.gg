@@ -21,6 +21,7 @@ import classnames from 'classnames/bind';
 import i18n from 'i18n';
 
 import _ from 'lodash';
+import uuid from 'uuid';
 
 import style from './style.module.css';
 
@@ -477,7 +478,7 @@ class Tournament extends Component {
 
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
-    return <NavLink to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })} key={item.id}>
+    return <NavLink key={uuid()} to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -492,13 +493,13 @@ class Tournament extends Component {
         <span className={textClass}>{time}</span>
       </div>
 
-      <div onClick={(event) => this.openMatchResults(event, item)}>
-        <button>Match results</button>
-      </div>
+      <button className={style.match_button} onClick={(event) => this.openMatchResults(event, item)}>
+        <i className="material-icons">list</i>
+      </button>
 
-      {isUserStreamerAndCreator && <div>
-          <button onClick={(event) => this.editMatchInit(event, item)}>Match info</button>
-        </div>
+      {isUserStreamerAndCreator && <button className={style.match_button} onClick={(event) => this.editMatchInit(event, item)}>
+          <i className="material-icons">info</i>
+        </button>
       }
     </NavLink>;
   };
@@ -508,7 +509,7 @@ class Tournament extends Component {
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isPlayerChoosedByUser = _.find(champions, { _id: item.playerId }) ? true : false;
 
-    return <div className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
+    return <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
         <span className={textClass}>{item.playerName}</span>
       </div>
