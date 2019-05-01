@@ -5,6 +5,8 @@ import TournamentModel from '../models/tournament';
 import FantasyTournament from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
 import MatchResultModel from '../models/match-result';
+import UserModel from '../models/user';
+import riotFetch from "../riotFetch";
 
 let router = express.Router();
 
@@ -17,13 +19,13 @@ const StreamerController = () => {
   router.post('/players', async (req, res) => {
     const { name, photo, position } = req.body;
 
-    if(name.length > 20){
+    if (name.length > 20) {
       res.status(400).send({
         error: 'Name can not contain more than 20 characters',
       })
     }
 
-    if(!position){
+    if (!position) {
       res.status(400).send({
         error: 'Position field is required',
       })
@@ -43,6 +45,29 @@ const StreamerController = () => {
     res.json({ players });
   });
 
+  router.get('/matches/last/:id', async (req, res) => {
+    const accountId = req.params.id;
+
+    let matchesList = await riotFetch(`lol/match/v4/matchlists/by-account/${accountId}`);
+    matchesList = await matchesList.json();
+    matchesList = matchesList.matches.slice(0, 5);
+
+    let matchesIds = matchesList.map(match => match.gameId);
+    let detailedMatches = [];
+
+    for(let i = 0; i < matchesIds.length; i++){
+      let match = await riotFetch(`lol/match/v4/matches/${matchesIds[i]}`);
+      match = await match.json();
+
+      detailedMatches.push(match);
+    }
+
+    res.json({
+      success: 'true',
+      matches: detailedMatches,
+    });
+  });
+
   router.get('/matches/:id', async (req, res) => {
     const matchId = req.params.id;
     const match = await MatchModel.findOne({ _id: matchId })
@@ -54,7 +79,7 @@ const StreamerController = () => {
         },
         populate: {
           path: 'playersResults.results.rule',
-          select: 'name'  
+          select: 'name'
         }
       })
 
@@ -71,10 +96,29 @@ const StreamerController = () => {
       startDate,
       completed,
     }, {
-      new: true
-    });
+        new: true
+      });
 
     io.emit('matchUpdated', { match });
+
+    res.json({
+      success: 'success',
+      match
+    });
+  });
+
+  router.put('/matches/:id/result', async (req, res) => {
+    const matchId = req.params.id;
+    const { startDate, completed, name, results } = req.body;
+
+    await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
+    const match = await MatchModel.findByIdAndUpdate(matchId, {
+      name,
+      startDate,
+      completed,
+    }, {
+      new: true
+    });
 
     res.json({
       success: 'success',
@@ -92,7 +136,7 @@ const StreamerController = () => {
       const rulesIds = Object.keys(rulesValues);
       let rulesMock = rulesIds.map(item => ({ rule: item, score: 0 }));
 
-      for(let i = 0; i < players.length; i++){
+      for (let i = 0; i < players.length; i++) {
         const playerResult = {
           playerId: players[i],
           results: rulesMock,
@@ -103,8 +147,8 @@ const StreamerController = () => {
 
       return results;
     }
-    
-    for(let i = 0; i < matches.length; i++){
+
+    for (let i = 0; i < matches.length; i++) {
       const matchMock = {
         tournament_id: '',
         resultsId: '',
@@ -118,20 +162,20 @@ const StreamerController = () => {
 
       const match = await MatchModel.create(matchMock);
       const matchId = match._id;
-      
+
       const matchResultMock = {
         matchId,
         playersResults: generatePlayersResults(playersIds),
       };
-      
+
       const matchResult = await MatchResultModel.create(matchResultMock);
       const matchResultId = matchResult._id;
 
       await MatchModel.update({ _id: matchId }, { resultsId: matchResultId });
-      
+
       createdMatchesIds.push(matchId);
     }
-    
+
     const tournament = await TournamentModel.create({
       name,
       date: new Date().toISOString(),
@@ -142,11 +186,11 @@ const StreamerController = () => {
     });
 
     const tournamentId = tournament._id;
-    
+
     const fantasyTournamentRules = Object.entries(rulesValues).map(rule => ({
-        rule: rule[0],
-        score: rule[1]
-      })
+      rule: rule[0],
+      score: rule[1]
+    })
     );
 
     const fantasyTournament = await FantasyTournament.create({
