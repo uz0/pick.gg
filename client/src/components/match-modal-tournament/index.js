@@ -7,6 +7,7 @@ import Preloader from 'components/preloader';
 import http from 'services/httpService';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
+import UserService from 'services/userService';
 
 import moment from 'moment';
 import find from 'lodash/find';
@@ -19,6 +20,7 @@ class MatchModal extends Component {
     super();
     this.notificationService = new NotificationService();
     this.streamerService = new StreamerService();
+    this.userService = new UserService();
   }
 
   state = {
@@ -40,6 +42,8 @@ class MatchModal extends Component {
     const { matchId, matchChampions } = this.props;
 
     let { match } = await this.streamerService.getMatchInfo(matchId);
+    const { user } = await this.userService.getMyProfile();
+    const { matches } = await this.streamerService.getLastMatches(user.streamerAccountId);
 
     match.startTime = moment(match.startDate).format('HH:mm');
 
@@ -133,7 +137,6 @@ class MatchModal extends Component {
       shouldBeAddedToSidebar: false,
       message: 'Match was successfully updated!',
     }));
-
   }
 
   render() {
@@ -157,14 +160,6 @@ class MatchModal extends Component {
       {isLoading && <Preloader
         isFullScreen={false}
       />}
-
-      <Input
-        label="Match ID"
-        name="id"
-        value={match._id}
-        onChange={this.handleInputChange}
-        disabled
-      />
 
       <Input
         label="Match name"
