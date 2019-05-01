@@ -6,7 +6,21 @@
 
 @media(max-width: 480px) {
   .tournament {
-    width: 100%;
+    width: 90%;
     height: auto;
+  }
+  .tournament_modal {
+    --width: 100% !important;
+    height: 560px;
+    margin: 0;
+  }
+}
+
+@media(max-width: 320px) {
+  .tournament {
+    height: 100%;
+  }
+  .tournament_modal {
+    height: 100%  ;
   }
 }

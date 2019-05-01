@@ -88,7 +88,7 @@ class PlayersStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: 'Tournament must have 10 players',
+        message: i18n.t('tournament_must_have'),
       });
 
       return;
@@ -134,7 +134,7 @@ class PlayersStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
-        message: `Fields name and position are required`,
+        message: i18n.t('fields_required'),
       });
 
       return;
@@ -144,7 +144,7 @@ class PlayersStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
-        message: 'Name can not contain more than 20 characters',
+        message: i18n.t('name_contain'),
       });
 
       return;
@@ -164,7 +164,7 @@ class PlayersStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'success',
         shouldBeAddedToSidebar: false,
-        message: `You've created player with name ${name}`,
+        message: `${i18n.t('you_created_player')} ${name}`,
       });
 
       const { players } = await this.streamerService.getAllChampions();
@@ -206,7 +206,7 @@ class PlayersStep extends Component {
   render() {
     const { playersAddedToTournament } = this.state;
 
-    const buttonText = playersAddedToTournament.length === 0 ? 'Add players' : 'Edit players';
+    const buttonText = playersAddedToTournament.length === 0 ? i18n.t('add_players') : i18n.t('edit_players');
     const buttonIcon = playersAddedToTournament.length === 0 ? 'add' : 'edit';
 
     return (
@@ -227,7 +227,7 @@ class PlayersStep extends Component {
           {this.state.stepIndex !== 1 && <Button
             className={style.prev}
             appearance={'_basic-accent'}
-            text='prev'
+            text={i18n.t('prev')}
             icon={<i className="material-icons">arrow_back</i>}
             onClick={this.props.prevStep}
           />
@@ -235,7 +235,7 @@ class PlayersStep extends Component {
           {this.state.stepIndex !== 3 && <Button
             className={style.next}
             appearance={'_basic-accent'}
-            text='next'
+            text={i18n.t('next')}
             icon={<i className="material-icons">arrow_forward</i>}
             onClick={this.nextStep}
           />
@@ -243,20 +243,20 @@ class PlayersStep extends Component {
         </div>
 
         {this.state.isPlayerChoosing && <Modal
-          title={'Choose 10 players'}
+          title={i18n.t('choose_10')}
           close={this.closePlayerChoosingModal}
           wrapClassName={style.players_modal}
         >
 
           <div className={style.players_sidebar}>
-            <h3>Chosen players</h3>
+            <h3>{i18n.t('chosen_players')}</h3>
 
             {this.state.chosenPlayers.length === 0 &&
-              <p className={style.attention}>You haven't chosen any players yet</p>
+              <p className={style.attention}>{i18n.t('you_not_chosen')}</p>
             }
 
             {this.state.chosenPlayers.length > 1 && this.state.chosenPlayers.length < 10 &&
-              <p className={style.attention}>Great! {10 - this.state.chosenPlayers.length} players left</p>
+              <p className={style.attention}>{i18n.t('great')} {10 - this.state.chosenPlayers.length} {i18n.t('players_left')}</p>
             }
 
             <div className={style.chosen_players}>
@@ -266,17 +266,17 @@ class PlayersStep extends Component {
             {this.state.chosenPlayers.length === 10 &&
               <div className={style.add_players_to_tournament}>
                 <Button
-                  text='Add players to tournament'
+                  text={i18n.t('add_players_to_tournament')}
                   appearance='_basic-accent'
                   onClick={this.addPlayersToTournament}
                 />
               </div>
             }
 
-            <h3>Cannot find your player?</h3>
+            <h3>{i18n.t('cannot_find')}</h3>
 
             <Button
-              text='Create new player'
+              text={i18n.t('create_new_player')}
               appearance='_basic-default'
               onClick={this.showPlayerCreatingModal}
             />
@@ -306,11 +306,11 @@ class PlayersStep extends Component {
         }
 
         {this.state.isPlayerCreating && <Modal
-          title={'Create new player'}
+          title={i18n.t('create_new_player')}
           wrapClassName={style.create_player_modal}
           close={this.closePlayerCreatingModal}
           actions={[{
-            text: 'Add player',
+            text: i18n.t('add_player'),
             onClick: this.submitPlayerCreatingForm,
             isDanger: true
           }]}
