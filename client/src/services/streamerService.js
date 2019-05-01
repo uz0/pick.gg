@@ -52,9 +52,25 @@ export default class StreamerService extends BasicService {
     return match;
   }
 
-  // async updateMatch(matchId) {
-  //   const matchQuery = await http(`/api/streamer/matches/${matchId}`);
-  //   const match = await matchQuery.json();
-  //   return match;
-  // }
+  async updateMatch({ matchId, results, startDate, name, completed }) {
+    await http(`/api/streamer/matches/${matchId}/result`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        startDate,
+        completed,
+        results,
+      }),
+    });
+  }
+
+  async getLastMatches(accountId) {
+    const matchesQuery = await http(`/api/streamer/matches/last/${accountId}`);
+    const matches = await matchesQuery.json();
+    return matches;
+  }
 }
