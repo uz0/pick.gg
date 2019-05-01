@@ -312,6 +312,27 @@
   text-overflow: ellipsis;
 }
 
+.tournament .section .matches .match_button {
+  position: relative;
+  width: 60px;
+  height: 50px;
+  background-color: #101027;
+  transition: 0.3s ease;
+}
+
+.tournament .section .matches .match_button:hover {
+  background-color: #1c1c3e;
+}
+
+.tournament .section .matches .match_button i {
+  color: #fff;
+}
+
+.tournament .section .matches .match_button:last-of-type {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
 .tournament .section .leaders {
   width: 48%;
   margin-left: 4%;
