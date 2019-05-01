@@ -347,7 +347,7 @@ class Tournament extends Component {
     const fantasyTournamentRules = this.state.fantasyTournament.rules.map(item => item.rule);
 
     const playersResults = item.results.playersResults;
-    const groupedMatchResults = Object.values(Object.freeze(_.groupBy(playersResults, 'id')));
+    const groupedMatchResults = Object.values(Object.freeze(_.groupBy(playersResults, 'playerId')));
     let matchResults = [];
 
     for (let i = 0; i < groupedMatchResults.length; i++) {
