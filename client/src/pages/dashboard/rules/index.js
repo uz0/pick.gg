@@ -84,10 +84,10 @@ class Rules extends Component {
       isRuleEditing: false,
       rules,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('rule_updated'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('rule_updated'),
+    }),
     );
   }
 
@@ -100,7 +100,7 @@ class Rules extends Component {
         type: 'error',
         shouldBeAddedToSidebar: false,
         message: i18n.t('please_rule_name'),
-      })
+      });
 
       return;
     }
@@ -128,10 +128,10 @@ class Rules extends Component {
         name: '',
       },
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('rule_created'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('rule_created'),
+    }),
     );
   }
 
@@ -160,10 +160,10 @@ class Rules extends Component {
         name: '',
       },
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('rule_deleted'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('rule_deleted'),
+    }),
     );
   }
 
@@ -226,7 +226,7 @@ class Rules extends Component {
     if (isRuleEditing) {
       modalActions.push(
         { text: i18n.t('delete_rule'), onClick: this.confirmRuleDeleting, isDanger: true },
-        { text: i18n.t('update_rule'), onClick: this.editRuleSubmit, isDanger: false},
+        { text: i18n.t('update_rule'), onClick: this.editRuleSubmit, isDanger: false },
       );
     }
 

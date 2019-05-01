@@ -1,4 +1,4 @@
-.login_page{
+.login_page {
   min-height: calc(100% - var(--header-height));
   background-color: #000;
   background-repeat: no-repeat;
@@ -13,7 +13,7 @@
   height: 100vh;
 }
 
-.start_content .wrap_layout{
+.start_content .wrap_layout {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,7 +25,7 @@
   z-index: 5;
 }
 
-.start_content .front_layout{
+.start_content .front_layout {
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@
   width: 340px;
   margin: 0 0 100px;
   font-family: var(--font-family-title);
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   color: #f1f1f1;
   text-transform: uppercase;
   text-align: center;
@@ -59,25 +59,24 @@
   transition: all 0.3s;
 }
 
-.start_content .google_icon{
+.start_content .google_icon {
   width: 20px;
   height: 20px;
   margin-left: 10px;
 }
-.start_btns span{
-  /* position: absolute;
-  top: 0px;
-  left: 44px;
-  z-index: 1; */
+
+.start_btns span {
   display: flex;
   align-items: center;
   font-size: 16px;
 }
-.start_btns .back_button{
+
+.start_btns .back_button {
   position: absolute;
   top: center;
   right: center;
 }
+
 .start_content .start_btns {
   display: flex;
   flex-direction: column;
@@ -88,54 +87,48 @@
   color: #fff;
 }
 
-.guide {
-  max-width: 81.75%;
-  margin-left: auto;
-  margin-right: auto;
+.login_page h2 {
+  font-size: 36px;
 }
 
-.guide .step {
-  display: flex;
-  justify-content: space-between;
-  color: var(--caption-color);
-  text-shadow: 0px 2px 0px #000000;
-  padding-bottom: 70px;
-  box-shadow: 0px 1px 0px 0px rgba(37, 37, 50, 1);
+.login_page h3 {
+  font-size: 24px;
+  padding-top: 36px;
 }
 
-.guide .step:not(:first-of-type) {
-  padding-top: 70px;
-}
-
-.guide .step > div {
-  flex-basis: 47.5%;
-}
-
-.guide .step.align_right > div:nth-of-type(2) {
-  order: -1;
-}
-
-.guide .step > div img {
-  width: 100%;
-  height: auto;
-}
-
-.guide .step h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 30px;
+.login_page h4, h3, h2 {
   text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0px 1px 0px 0px rgba(37, 37, 50, 1);
 }
 
-.guide .step p:first-of-type {
-  margin-top: 0;
+.login_page h4 {
+  font-size: 18px;
+  padding-top: 20px;
 }
 
-.guide .step p {
-  font-size: 20px;
+.login_page .guide p {
+  font-size: 14px;
+  width: 600px;
+  padding-top: 10px;
+  text-shadow: 0px 1px 0px 0px rgba(37, 37, 50, 1);
+  line-height: 1.5;
 }
 
-.start_content video{
+.guide {
+  color: #fff;
+  background-image: url('assets/start/bg-guide.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.guide .wrap_guide {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 110px 50px;
+}
+
+.start_content video {
   position: absolute;
   width: 100%;
   z-index: 0;
@@ -143,58 +136,95 @@
   left: 0;
   opacity: 0.2;
 }
+
 .login_section {
   min-height: 750px;
 }
 
+.tournament_players {
+  background: #212133;
+}
+
+.wrap_tournament_players {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 100px 50px;
+  background-image: url(assets/start/players.png);
+  background-size: 300px;
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+
+.tournament_players p {
+  font-size: 14px;
+  color: #fff;
+  width: 500px;
+  padding-top: 20px;
+  line-height: 1.5;
+}
+
+.tournament_players .tournaments {
+  display: flex;
+  padding-top: 40px;
+}
+
+.tournament_players .item_tournament {
+  background: #060916;
+  padding: 16px 30px;
+  margin-right: 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.play_fantasy {
+  background-color: #161624;
+  background-image: url('assets/start/stickeroid.png');
+  background-repeat: no-repeat;
+  background-position: center left;
+  display: flex;
+  justify-content: center;
+  padding: 70px 0;
+}
+
+.play_fantasy a {
+  text-decoration: none;
+  color: #000;
+  background: var(--accent-color);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.play_fantasy a:hover {
+  background: rgb(240, 169, 62);
+  transition: all 0.3s;
+}
+
 @media (max-width: 1024px) {
-  .login_section{
+  .login_section {
     min-height: 590px;
   }
-
-  .login_page form {
-    padding: 90px 90px 45px 220px;
+  .guide .wrap_guide{
+    width: auto;
   }
-
-  .info_block {
-    left: -40px;
-    padding: 40px 390px 40px 40px;
+  .wrap_tournament_players{
+    width: auto;
   }
-
 }
 
 @media (max-width: 768px) {
-
-  .guide .step:not(:first-of-type),
-  .guide .step {
-    padding-bottom: 30px;
-  }
-
-  .guide .step h2 {
-    font-size: 24px;
-    margin-bottom: 16px;
-  }
-
-  .guide .step p {
-    font-size: 18px;
-  }
-
-}
-
-@media (max-width: 700px) {
-
   .start_content h1 {
     margin-top: 48px;
     margin-bottom: 48px;
     width: 235px;
     font-size: 48px;
   }
-
-  .start_content video{
+  .start_content video {
     display: none;
   }
-
-  .login_page{
+  .login_page {
     min-height: calc(100% - var(--header-height));
     background-image: url('assets/bg-login-min.png');
     background-color: #000;
@@ -202,25 +232,54 @@
     background-size: auto 45%;
     background-position-x: 57%;
   }
-
-  .start_content .front_layout{
+  .start_content .front_layout {
     width: 250px;
   }
-
-  .guide .step {
-    flex-wrap: wrap;
+  .login_page h2{
+    font-size: 18px;
   }
-
-  .guide .step > div {
-    flex-basis: 100%;
+  .guide{
+    background-size: cover;
+    background-position: right;
   }
-
-  .guide .step.align_right > div:nth-of-type(2) {
-    order: 0;
+  .guide .wrap_guide p {
+    width: auto;
   }
-
-  .guide .step:not(:first-of-type) {
-    padding-top: 30px;
+  .guide .wrap_guide{
+    padding: 40px 30px;
   }
+  .tournament_players{
+    padding-bottom: 40px;
+  }
+  .wrap_tournament_players{
+    padding: 40px 30px;
+    min-height: 610px;
+    background-position: center bottom;
+    background-size: 250px;
+  }
+  .tournament_players .tournaments{
+      justify-content: center;
+  }
+  .tournament_players .tournaments .item_tournament{
+    padding: 16px 20px;
+  }
+  .tournament_players .item_tournament img {
+    width: 40px;
+  }
+  .tournament_players p {
+    width: auto;
+  }
+  .play_fantasy a{
+    font-size: 16px;
+  }
+}
 
+@media (max-width: 320px){
+  .login_page h2{
+    font-size: 18px;
+  }
+  .wrap_tournament_players{
+    min-height: 630px;
+  }
+  
 }

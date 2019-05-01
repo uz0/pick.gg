@@ -16,17 +16,17 @@ import i18n from 'i18n';
 
 class NotificationSidebar extends Component {
 
-  constructor(){
+  constructor() {
     super();
     this.notificationService = new NotificationService({
       showNotificationSidebar: this.showNotificationSidebar,
       pushNotificationToSidebar: this.pushNotificationToState,
     });
-    
+
     this.state = {
       isShown: false,
       notifications: [],
-    }
+    };
   }
 
   pushNotificationToState = (notification) => {
@@ -36,7 +36,7 @@ class NotificationSidebar extends Component {
       notifications: [...this.state.notifications, notification],
     });
   }
-  
+
   pullNotificationFromState = (id) => {
     const notificationsList = this.state.notifications.filter(item => item.id !== id);
 
@@ -54,25 +54,25 @@ class NotificationSidebar extends Component {
   renderNotification = ({ id, link, type, message }) => {
     let icon = '';
 
-    switch(type){
-      case 'success':
-        icon = <SuccessIcon/>;
-        break;
-      case 'warning':
-        icon = <WarningIcon/>;
-        break;
-      case 'error':
-        icon = <ErrorIcon/>;
-        break;
-      case 'match':
-        icon = <MatchIcon/>;
-        break;
-      case 'winning':
-        icon = <TrophyIcon/>;
-        break;
-      default:
-        icon = <SuccessIcon/>;
-        break;
+    switch (type) {
+    case 'success':
+      icon = <SuccessIcon />;
+      break;
+    case 'warning':
+      icon = <WarningIcon />;
+      break;
+    case 'error':
+      icon = <ErrorIcon />;
+      break;
+    case 'match':
+      icon = <MatchIcon />;
+      break;
+    case 'winning':
+      icon = <TrophyIcon />;
+      break;
+    default:
+      icon = <SuccessIcon />;
+      break;
     }
 
     return <Notification
@@ -94,7 +94,7 @@ class NotificationSidebar extends Component {
         <div className={style.sidebar}>
           <div className={style.header}>
             <h4 className={style.title}>{i18n.t('notification_sidebar_header')}</h4>
-            
+
             <Button
               appearance="_icon-transparent"
               icon={<CloseIcon />}
@@ -108,8 +108,8 @@ class NotificationSidebar extends Component {
           </div>
         </div>
       </div>
-     }
-    </>
+      }
+    </>;
   }
 }
 export default NotificationSidebar;

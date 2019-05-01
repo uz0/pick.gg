@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
+import { NavLink } from 'react-router-dom';
 import style from './style.module.css';
 import i18n from "i18next";
 import config from 'config';
 
 import NotificationContainer from 'components/notification/notification-container';
+import Footer from 'components/footer';
 
 import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
 
-import tournamentsList from 'assets/faq/tournaments_list.png';
-import tournamentsFinished from 'assets/faq/tournament_finished.png';
-import championsCards from 'assets/faq/champions.png';
+import Lpl from 'assets/start/lpl.png';
+import Lolchamp from 'assets/start/lolchamp.png';
+import Lck from 'assets/start/lck.png';
 import { ReactComponent as GoogleIcon } from 'assets/google-icon.svg';
 import zed from 'assets/zed.mp4';
-
-import classnames from 'classnames';
-const cx = classnames.bind(style);
 
 class Start extends Component {
   constructor() {
@@ -25,12 +24,12 @@ class Start extends Component {
     this.notificationService = new NotificationService();
   }
 
-  componentDidMount(){
-    if (this.props.history.action === 'REPLACE'){
+  componentDidMount() {
+    if (this.props.history.action === 'REPLACE') {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
-        message: i18n.t('login_message_on_redirect')
+        message: i18n.t('login_message_on_redirect'),
       });
     }
   }
@@ -90,13 +89,7 @@ class Start extends Component {
                     icon={true}
                     render={renderProps => (
                       <button onClick={renderProps.onClick}>
-
                         <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
-
-                        {/* <svg width="250" className={style.back_button} height="80">
-                          <polygon points="240,30 250,80 0,80 0,10"
-                            fill="white" />
-                        </svg> */}
                       </button>
                     )}
                     clientId={config.google_client_id}
@@ -106,6 +99,7 @@ class Start extends Component {
                 </div>
               </div>
             </div>
+
             <video loop autoPlay>
               <source src={zed} />
             </video>
@@ -113,35 +107,66 @@ class Start extends Component {
         </section>
 
         <section className={style.guide}>
-          <div className={cx(style.step)}>
-            <div>
-              <h2>1. {i18n.t('guade_choose')}</h2>
-              <p>{i18n.t('guade_choose_content')}</p>
+          <div className={style.wrap_guide}>
+            <h2>What is fantasy league?</h2>
+
+            <p>Fantasy League is a game that where each of you forms teams made up of pro players to compete against each other, earning points for your team based on how each of your pro players performs in tournament matches. </p>
+
+            <h3>How to play?</h3>
+
+            <div className={style.step}>
+              <h4>1. Choose or create fantasy tournament</h4>
+
+              <p>Fantasy tournament is based on real world tournament event like LCL, LPL, LCS, etc.
+                You can choose tournament which you like the most. Or you can create your own tournament.</p>
             </div>
-            <div>
-              <img src={tournamentsList} alt="Tournaments list" />
+
+            <div className={style.step}>
+              <h4>2. {i18n.t('guade_create')}</h4>
+
+              <p>You have to choose 5 players in order to create your fantasy team.
+                Try to choose players which are the best in particular tournament. </p>
             </div>
-          </div>
-          <div className={cx(style.step, style.align_right)}>
-            <div>
-              <h2>2. {i18n.t('guade_create')}</h2>
-              <p>{i18n.t('guade_create_content')}</p>
-            </div>
-            <div>
-              <img src={championsCards} alt="User team" />
-            </div>
-          </div>
-          <div className={style.step}>
-            <div>
-              <h2>3. {i18n.t('guade_win')}</h2>
-              <p>{i18n.t('guade_win_content')}</p>
-            </div>
-            <div>
-              <img src={tournamentsFinished} alt="Tournament result" />
+
+            <div className={style.step}>
+              <h4>3. {i18n.t('guade_win')}</h4>
+              <p>After fantasy tournament is over, we’re calculating players results and finding a winner! So be the one and earn money!</p>
             </div>
           </div>
         </section>
 
+        <section className={style.tournament_players}>
+          <div className={style.wrap_tournament_players}>
+            <h2>tournaments & players</h2>
+
+            <p>Our Fantasy Tournaments are based on the most popular
+            League of Legeds tournaments such as LPL, LCK, LCS</p>
+
+            <p>You can choose betwen more than 200+ real players
+            to be the part of your fantasy team</p>
+
+            <div className={style.tournaments}>
+
+              <div className={style.item_tournament}>
+                <img src={Lpl} alt="lpl" />
+              </div>
+
+              <div className={style.item_tournament}>
+                <img src={Lck} alt="lck" />
+              </div>
+
+              <div className={style.item_tournament}>
+                <img src={Lolchamp} alt="lolchamp" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={style.play_fantasy}>
+          <NavLink to="/tournaments">PLAY FANTASY LEAGUE</NavLink>
+        </section>
+
+        <Footer />
       </div>
     );
   }

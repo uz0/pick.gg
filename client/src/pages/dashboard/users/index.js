@@ -90,10 +90,10 @@ class Users extends Component {
       isUserEditing: false,
       users,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('user_updated'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('user_updated'),
+    }),
     );
   }
 
