@@ -75,7 +75,7 @@ class GeneralStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: 'Name and entry fields can not be empty',
+        message: i18n.t('name_entry_empty'),
       });
 
       return;
@@ -145,7 +145,7 @@ class GeneralStep extends Component {
           <Button
             className={style.next}
             appearance={'_basic-accent'}
-            text='next'
+            text={i18n.t('next')}
             icon={<i className='material-icons'>arrow_forward</i>}
             onClick={this.nextStep}
           />

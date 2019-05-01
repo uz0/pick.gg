@@ -15,7 +15,7 @@
 
 .steps {
   height: 30px;
-  width: auto;
+  width: 100%;
   padding-left: 10px;
   margin-bottom: 12px;
   display: flex;
@@ -48,5 +48,7 @@
 }
 
 @media(max-width: 320px) { 
-
+  .steps{
+    width: 100%;
+  }
 }

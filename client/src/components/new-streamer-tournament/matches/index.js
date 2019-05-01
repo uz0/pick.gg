@@ -8,7 +8,7 @@ import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 
 import style from './style.module.css';
-
+import i18n from 'i18n';
 import uuid from 'uuid';
 
 class MatchesStep extends Component {
@@ -59,7 +59,7 @@ class MatchesStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: 'Match field can not be empty',
+        message: i18n.t('match_field'),
       });
 
       return;
@@ -69,7 +69,7 @@ class MatchesStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: 'Date field can not be empty',
+        message: i18n.t('date_field'),
       });
 
       return;
@@ -110,7 +110,7 @@ class MatchesStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: 'Match field can not be empty',
+        message: i18n.t('match_field'),
       });
 
       return;
@@ -120,7 +120,7 @@ class MatchesStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: 'Date field can not be empty',
+        message: i18n.t('date_field'),
       });
 
       return;
@@ -183,11 +183,11 @@ class MatchesStep extends Component {
     
     const isModalActive = isMatchEditing || isMatchCreating;
     const modalAction = isMatchCreating ? this.addMatch : this.updateMatch;
-    const modalActionText = isMatchCreating ? 'Create match' : 'Edit match';
+    const modalActionText = isMatchCreating ? i18n.t('create_match') : i18n.t('edit_match');
 
     return (
       <div className={style.matches}>
-        <h3>Tournament matches</h3>
+        <h3>{i18n.t('tournament_matches')}</h3>
         <div>
           {this.state.matches.map((item, index) => this.renderMatch(item, index))}
           <Button
@@ -198,7 +198,7 @@ class MatchesStep extends Component {
         </div>
 
         {isModalActive && <Modal
-          title={'Add match'}
+          title={i18n.t('add_match')}
           close={this.closeMatchCreatingModal}
           wrapClassName={style.create_player_modal}
           actions={[{
@@ -208,7 +208,7 @@ class MatchesStep extends Component {
           }]}
         >
           <Input
-            label='Match name'
+            label={i18n.t('match_name')}
             name='name'
             value={this.state.matchData.name}
             onChange={this.handleInputChange}
@@ -216,7 +216,7 @@ class MatchesStep extends Component {
 
           <Input
             type='time'
-            label='Start time'
+            label={i18n.t('start_time')}
             name='startTime'
             value={this.state.matchData.startTime}
             onChange={this.handleInputChange}
@@ -228,14 +228,14 @@ class MatchesStep extends Component {
           <Button
             className={style.prev}
             appearance={'_basic-accent'}
-            text='prev'
+            text={i18n.t('prev')}
             icon={<i className='material-icons'>arrow_back</i>}
             onClick={this.props.prevStep}
           />
           <Button
             className={style.next}
             appearance={'_basic-accent'}
-            text='Create tournament'
+            text={i18n.t('create_tournament')}
             onClick={this.submitTournament}
           />
         </div>

@@ -53,13 +53,11 @@
   pointer-events: none;
 }
 
-.rules_inputs .input input::-webkit-outer-spin-button,
-rules_inputs .input input::-webkit-inner-spin-.button {
+.rules_inputs .input input::-webkit-outer-spin-button, rules_inputs .input input::-webkit-inner-spin-.button {
   -webkit-appearance: none;
 }
 
-.rules_inputs .input input:valid + label,
-rules_inputs .input input:focus + .label { 
+.rules_inputs .input input:valid+label, rules_inputs .input input:focus+.label {
   transform: translate3d(-3px, -7px, 0);
   font-size: 10px;
   color: var(--accent-color);
@@ -82,25 +80,28 @@ rules_inputs .input input:focus + .label {
 .controls .prev {}
 
 @media screen and (max-width: 480px) {
-  .input_group input { 
+  .input_group input {
     width: 100%;
   }
-
   .tournament label {
     width: 100%;
   }
-
-  .tournament label > input {
+  .tournament label>input {
     width: 100%;
   }
-
-  .input_rules {
+  .rules_inputs input {
     flex-basis: 49%;
   }
 }
 
-@media(max-width: 320px) { 
+@media(max-width: 320px) {
   .input_group {
     align-items: center;
+  }
+  .input_group input {
+    width: 100%;
+  }
+  .rules_inputs .input {
+    flex-basis: 100%;
   }
 }
