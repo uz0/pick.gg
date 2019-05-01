@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import filter from 'lodash/filter';
 import groupBy from 'lodash/groupBy';
 
 import io from "socket.io-client";
@@ -76,8 +75,8 @@ class Tournaments extends Component {
   }
 
   // componentWillUnmount() {
-    // console.log('tournaments are unmounted');
-    // this.socket.disconnect();
+  // console.log('tournaments are unmounted');
+  // this.socket.disconnect();
   // }
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
@@ -111,19 +110,6 @@ class Tournaments extends Component {
   renderTournamentCard = () => {};
 
   render() {
-    let tournaments = this.state.fantasyTournaments;
-
-    if (this.state.filters.tournament) {
-      tournaments = filter(tournaments, fantasy => fantasy.tournament._id === this.state.filters.tournament);
-    }
-
-    if (this.state.filters.date) {
-      tournaments = filter(tournaments, fantasy => moment(fantasy.tournament.date).isAfter(moment(this.state.filters.date)));
-    }
-
-    if (this.state.filters.entry) {
-      tournaments = filter(tournaments, fantasy => fantasy.entry >= this.state.filters.entry);
-    }
 
     return <div className={style.tournaments}>
       <div className={style.content}>
@@ -135,7 +121,7 @@ class Tournaments extends Component {
               <div className={style.tournaments_cards}>
                 {item.map(element => <TournamentCard key={element._id} {...element} />)}
               </div>
-            </div>
+            </div>;
           })}
 
           {this.state.profile.user.isAdmin &&

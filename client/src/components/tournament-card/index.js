@@ -12,30 +12,30 @@ import lpl_thumb from '../../assets/tournaments-thumbnails/lpl-thumb.jpg';
 
 import moment from 'moment';
 
-const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users  }) => {
+const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users }) => {
   const tournamentPrize = users.length * entry;
   const tournamentDate = moment(tournament.date).format('DD MMM YYYY');
   const tournamentName = tournament.name.split(' ')[0];
 
   let thumb = thumb_default;
 
-  if(thumbnail){
+  if (thumbnail) {
     thumb = thumbnail;
   }
 
-  if(!thumbnail){
-    switch(tournamentName){
-      case 'LCK':
-        thumb = lck_thumb;
-        break;
-      case 'LCS':
-        thumb = lcs_thumb;
-        break;
-      case 'LPL':
-        thumb = lpl_thumb;
-        break;
-      default:
-        break;
+  if (!thumbnail) {
+    switch (tournamentName) {
+    case 'LCK':
+      thumb = lck_thumb;
+      break;
+    case 'LCS':
+      thumb = lcs_thumb;
+      break;
+    case 'LPL':
+      thumb = lpl_thumb;
+      break;
+    default:
+      break;
     }
   }
 

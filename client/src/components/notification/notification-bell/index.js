@@ -18,9 +18,9 @@ class NotificationBell extends Component {
     notificationCount: 0,
   }
 
-  incrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount + 1, });
+  incrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount + 1 });
 
-  decrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount - 1, });
+  decrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount - 1 });
 
   showNotificationSidebar = () => this.notificationService.showNotificationSidebar();
 

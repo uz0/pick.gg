@@ -152,10 +152,10 @@ class Tournaments extends Component {
       },
       tournaments,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('tournament_created'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('tournament_created'),
+    }),
     );
   }
 
@@ -184,10 +184,10 @@ class Tournaments extends Component {
       isLoading: false,
       tournaments,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('tournament_updated'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('tournament_updated'),
+    }),
     );
   }
 
@@ -233,10 +233,10 @@ class Tournaments extends Component {
       isTournamentDeleting: false,
       tournaments,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('tournament_deleted'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('tournament_deleted'),
+    }),
     );
   }
 
@@ -251,7 +251,7 @@ class Tournaments extends Component {
       type: 'success',
       shouldBeAddedToSidebar: false,
       message: i18n.t(match.message),
-    })
+    });
 
     this.setState({
       isLoading: false,

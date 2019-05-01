@@ -89,10 +89,10 @@ class FantasyTournaments extends Component {
       isLoading: false,
       tournaments,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('tournament_updated'),
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: i18n.t('tournament_updated'),
+    }),
     );
   }
 
@@ -128,10 +128,10 @@ class FantasyTournaments extends Component {
       isTournamentDeleting: false,
       tournaments,
     }, () => this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: `${i18n.t('tournament')} ${name} ${i18n.t('was_deleted')}`,
-      })
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: `${i18n.t('tournament')} ${name} ${i18n.t('was_deleted')}`,
+    }),
     );
   }
 

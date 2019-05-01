@@ -96,6 +96,18 @@ html {
 .desktop_hidden {
   display: none;
 }
+.is_loading{
+  min-width: 30px;
+  background: var(--header-color);
+  border-radius: 4px;
+  animation: loading 0.5s infinite;
+}
+
+@keyframes loading{
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  0% { opacity: 1; }
+}
 
 @media (max-width: 768px) {
   .mobile_hidden {

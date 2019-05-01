@@ -34,7 +34,7 @@ class TopMenuComponent extends Component {
     this.TransactionService = new TransactionService({
       onUpdate: () => this.updateProfile(),
     });
-    
+
     this.TournamentService = new TournamentService({
       onUpdate: () => this.updateProfile(),
     });
@@ -43,6 +43,7 @@ class TopMenuComponent extends Component {
       profile: {
         user: {},
       },
+      isLoading: true,
     };
   }
 
@@ -57,7 +58,7 @@ class TopMenuComponent extends Component {
 
   updateProfile = async () => {
     let profile = await this.userService.getMyProfile();
-    this.setState({ profile });
+    this.setState({ profile, isLoading: false });
   }
 
   // deposit = async(event) => {
@@ -73,7 +74,7 @@ class TopMenuComponent extends Component {
   componentDidMount = () => {
     this.socket = io();
 
-    this.socket.on("fantasyTournamentCreated", ({newTournamentPopulated}) => {
+    this.socket.on("fantasyTournamentCreated", ({ newTournamentPopulated }) => {
       this.notificationService.showSingleNotification({
         type: 'match',
         shouldBeAddedToSidebar: false,
@@ -85,11 +86,11 @@ class TopMenuComponent extends Component {
     this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
       const currentUser = this.state.profile.user.username;
 
-      if (!participants.includes(currentUser)){
+      if (!participants.includes(currentUser)) {
         return;
       }
 
-      if (winner === currentUser){
+      if (winner === currentUser) {
         const balance = this.state.profile.user.balance + prize;
 
         this.setState({
@@ -122,7 +123,7 @@ class TopMenuComponent extends Component {
     this.socket.on("matchUpdated", () => {
       const path = this.props.history.location.pathname;
 
-      if(path !== '/dashboard/tournaments'){
+      if (path !== '/dashboard/tournaments') {
         this.notificationService.showSingleNotification({
           type: 'match',
           shouldBeAddedToSidebar: true,
@@ -152,8 +153,8 @@ class TopMenuComponent extends Component {
     const Avatar = () => this.state.profile.user.photo ?
       <img className={style.avatar_circle} src={this.state.profile.user.photo} alt="userpic" /> :
       <AvatarPlaceholder />;
-    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : this.state.profile.user.username;
-    const BalancePlaceholder = () => `$${this.state.profile.user.balance}`;
+    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : <span className={cx({[style.is_loading]:this.state.isLoading})}>{this.state.profile.user.username}</span>;
+    const BalancePlaceholder = () => <span className={cx({[style.is_loading]:this.state.isLoading})}>${this.state.profile.user.balance}</span>;
     const UserPlaceholder = () => <Fragment>
       <Avatar />
       <span>{isMenuIcon}</span>

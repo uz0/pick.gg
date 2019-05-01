@@ -6,7 +6,6 @@ import UserService from 'services/userService';
 // import io from "socket.io-client";
 
 import Button from 'components/button';
-import Preloader from 'components/preloader';
 
 import style from './style.module.css';
 import i18n from 'i18n';
