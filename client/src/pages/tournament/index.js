@@ -489,7 +489,7 @@ class Tournament extends Component {
 
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
-    return <NavLink key={uuid()} to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })}>
+    return <div key={uuid()} to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -512,7 +512,7 @@ class Tournament extends Component {
           <i className="material-icons">info</i>
         </button>
       }
-    </NavLink>;
+    </div>;
   };
 
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
@@ -520,21 +520,23 @@ class Tournament extends Component {
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isPlayerChoosedByUser = _.find(champions, { _id: item.playerId }) ? true : false;
 
+
+
     return <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
         <span className={textClass}>{item.playerName}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.kill.width }}>
-        <span className={textClass}>{item.results[0].score}</span>
+        <span className={cx(textClass, {[style.grey_scores]: item.results[0].score === 0})}>{item.results[0].score}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.death.width }}>
-        <span className={textClass}>{item.results[1].score}</span>
+        <span className={cx(textClass, {[style.grey_scores]: item.results[1].score === 0})}>{item.results[1].score}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.assists.width }}>
-        <span className={textClass}>{item.results[2].score}</span>
+        <span className={cx(textClass, {[style.grey_scores]: item.results[2].score === 0})}>{item.results[2].score}</span>
       </div>
 
     </div>;

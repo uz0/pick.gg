@@ -399,11 +399,11 @@
 }
 
 .row_dark {
-  --bg-color: #1b1b21 !important;
+  background: #00000034 !important;
 }
 
 .row_dark.row_choosed {
-  --bg-color: var(--accent-color) !important;
+  background: var(--accent-color) !important;
   --text-color: #000 !important;
 }
 
@@ -470,6 +470,9 @@
 .info_users p{
   font-size: 18px;
   padding: 14px 10px;
+}
+.grey_scores{ 
+  color: #838383 !important;
 }
 
 @media (max-width: 1064px) {
