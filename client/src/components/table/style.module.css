@@ -99,7 +99,8 @@
   height: var(--height);
   line-height: var(--height);
   font-size: 16px;
-  color: var(--caption-color);
+  --text-color: var(--caption-color);
+  color: var(--text-color);
   font-weight: var(--font-weight-bold);
   white-space: nowrap;
   text-overflow: ellipsis;
