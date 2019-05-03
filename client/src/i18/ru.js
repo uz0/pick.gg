@@ -53,6 +53,7 @@ export default {translation: {
   scores: 'Результаты',
   save_changes: 'Сохранить изменения',
   start_with: 'Вход через',
+  go_to_tournaments: 'Турниры',
   setting_profile: 'Настройки профиля',
   team: 'Команда',
   transactions: 'Операции',

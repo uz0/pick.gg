@@ -65,6 +65,12 @@
   margin-left: 10px;
 }
 
+.start_btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
 .start_btns span {
   display: flex;
   align-items: center;
@@ -77,14 +83,14 @@
   right: center;
 }
 
-.start_content .start_btns {
-  display: flex;
-  flex-direction: column;
-  align-items: center
-}
-
 .start_btns a {
-  color: #fff;
+  padding: 8px 16px;
+  background-color: #fff;
+  border-radius: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
 }
 
 .login_page h2 {

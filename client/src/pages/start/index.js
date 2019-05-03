@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import style from './style.module.css';
 import i18n from "i18next";
 import config from 'config';
@@ -69,10 +69,12 @@ class Start extends Component {
   };
 
   componentWillMount() {
-    if (this.auth.isLoggedIn()) this.props.history.replace('/tournaments');
+    // if (this.auth.isLoggedIn()) this.props.history.replace('/');
   }
 
   render() {
+    const isUserAuthenticated = this.auth.isLoggedIn();
+
     return (
       <div className={style.login_page}>
 
@@ -85,17 +87,23 @@ class Start extends Component {
                 <h1>Fantasy league</h1>
 
                 <div className={style.start_btns}>
-                  <GoogleLogin
-                    icon={true}
-                    render={renderProps => (
-                      <button onClick={renderProps.onClick}>
-                        <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
-                      </button>
-                    )}
-                    clientId={config.google_client_id}
-                    onSuccess={this.onSuccessGoogleLogin}
-                    onFailure={this.onFailureGoogleLogin}
-                  />
+                  {isUserAuthenticated && <Link to="/tournaments">
+                      <span>{i18n.t('go_to_tournaments')}</span>
+                    </Link>
+                  }
+
+                  {!isUserAuthenticated && <GoogleLogin
+                      icon={true}
+                      render={renderProps => (
+                        <button onClick={renderProps.onClick}>
+                          <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
+                        </button>
+                      )}
+                      clientId={config.google_client_id}
+                      onSuccess={this.onSuccessGoogleLogin}
+                      onFailure={this.onFailureGoogleLogin}
+                    />
+                  }
                 </div>
               </div>
             </div>
@@ -163,7 +171,7 @@ class Start extends Component {
         </section>
 
         <section className={style.play_fantasy}>
-          <NavLink to="/tournaments">PLAY FANTASY LEAGUE</NavLink>
+          <Link to="/tournaments">PLAY FANTASY LEAGUE</Link>
         </section>
 
         <Footer />

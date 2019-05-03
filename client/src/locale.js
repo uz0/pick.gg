@@ -8,7 +8,7 @@ class Locale extends React.Component {
 
     localStorage.setItem('_pgg_locale', locale);
 
-    i18n.changeLanguage(locale, this.props.history.replace('/tournaments'));
+    i18n.changeLanguage(locale, this.props.history.replace('/'));
   }
 
   render(){
