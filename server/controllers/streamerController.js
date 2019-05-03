@@ -22,13 +22,29 @@ const StreamerController = () => {
     if (name.length > 20) {
       res.status(400).send({
         error: 'Name can not contain more than 20 characters',
-      })
+      });
+
+      return;
     }
 
     if (!position) {
       res.status(400).send({
         error: 'Position field is required',
+      });
+
+      return;
+    }
+
+    let summonerRequest = await riotFetch(`lol/summoner/v4/summoners/by-name/${name}`);
+    summonerRequest = await summonerRequest.json();
+
+    if(summonerRequest.status && summonerRequest.status.status_code === 404){
+      res.status(404).send({
+        status: 404,
+        name,
       })
+
+      return;
     }
 
     const player = await PlayerModel.create({
