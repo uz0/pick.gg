@@ -159,7 +159,19 @@ class PlayersStep extends Component {
     try {
       this.setState({ isChampionModalLoading: true });
 
-      await this.streamerService.createPlayer(payload);
+      let createPlayerRequest = await this.streamerService.createPlayer(payload);
+
+      if(createPlayerRequest.status === 404){
+        this.notificationService.showSingleNotification({
+          type: 'error',
+          shouldBeAddedToSidebar: false,
+          message: i18n.t('serverErrors.champion_not_found', { name: createPlayerRequest.name }),
+        });
+
+        this.setState({ isChampionModalLoading: false });
+
+        return;
+      }
 
       this.notificationService.showSingleNotification({
         type: 'success',

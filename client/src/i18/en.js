@@ -191,4 +191,8 @@ export default {translation: {
   add_match: 'Add match',
   edit_match: 'Edit match',
   name_entry_empty: 'Name and entry fields can not be empty',
+
+  serverErrors: {
+    champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
+  }
 }};

@@ -194,4 +194,8 @@ export default {translation: {
   add_match: 'Добавить матч',
   edit_match: 'Редактировать матч',
   name_entry_empty: 'Поля имени и цены не могут быть пустыми',
+
+  serverErrors: {
+    champion_not_found: "Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.",
+  }
 }};
