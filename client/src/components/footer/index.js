@@ -28,7 +28,7 @@ class Footer extends Component {
             </div>
 
             <div className={style.contact}>
-              <p>Contact us:</p>
+              <p>{i18n.t('contact_us')}:</p>
 
               <NavLink to="#">
                 <DiscordIcon />
