@@ -20,12 +20,12 @@ export default {translation: {
   notification_sidebar_header: 'Notifications',
   empty_field: 'Error empty field',
   equal_password: 'Passwords must be equal',
-  guade_choose: 'Choose fantasy tournament',
-  guade_choose_content: 'Choose fantasy tournament you would like to take part in.',
+  guade_choose: 'CHOOSE OR CREATE FANTASY TOURNAMENT',
+  guade_choose_content: 'Fantasy tournament is based on real world tournament event like LCL, LPL, LCS, etc. You can choose tournament which you like the most. Or you can create your own tournament.',
   guade_create: 'Create your dream team',
-  guade_create_content: 'Pick 5 players from the players list.',
+  guade_create_content: 'You have to choose 5 players in order to create your fantasy team. Try to choose players which are the best in particular tournament.',
   guade_win: 'WIN MONEY',
-  guade_win_content: 'Win a tournament and get your money',
+  guade_win_content: 'After fantasy tournament is over, we’re calculating players results and finding a winner! So be the one and earn money!',
   leaderboard: 'Leaderboard',
   log_out: 'Log out',
   login: 'Login',
@@ -192,7 +192,14 @@ export default {translation: {
   add_match: 'Add match',
   edit_match: 'Edit match',
   name_entry_empty: 'Name and entry fields can not be empty',
-
+  what_is_fantasy: 'What is fantasy league?',
+  fantasy_is: 'Fantasy League is a game that where each of you forms teams made up of pro players to compete against each other, earning points for your team based on how each of your pro players performs in tournament matches.',
+  how_to_play: 'How to play?',
+  tournaments_players: 'tournaments & players',
+  tournament_players_content_1: 'Our Fantasy Tournaments are based on the most popular League of Legeds tournaments such as LPL, LCK, LCS',
+  tournament_players_content_2: 'You can choose betwen more than 200+ real players to be the part of your fantasy team',
+  contact_us: 'Contact us',
+  
   serverErrors: {
     champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
   }

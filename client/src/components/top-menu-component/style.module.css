@@ -2,15 +2,14 @@ html {
   --header-height: 60px;
 }
 
-.top_menu {	
+.top_menu {
   display: flex;
   align-items: center;
   height: var(--header-height);
   background: var(--background-color);
 }
 
-.top_menu a,
-.top_menu .item {
+.top_menu a, .top_menu .item {
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -18,12 +17,12 @@ html {
   white-space: nowrap;
   color: #fff;
 }
-.top_menu a i,
-.top_menu .item i {
+
+.top_menu a i, .top_menu .item i {
   margin-right: 10px;
 }
 
- .menu_wrap {
+.menu_wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -39,7 +38,7 @@ html {
   margin-right: auto;
 }
 
- .top_menu h2 {
+.top_menu h2 {
   margin: 0;
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
@@ -48,29 +47,32 @@ html {
   font-size: 18px;
 }
 
-.links{
+.links {
   display: flex;
   align-items: center;
   margin-right: auto;
 }
-.links a{
+
+.links a {
   margin-left: 20px;
   color: rgb(252, 252, 252);
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
   font-size: 18px;
 }
-.links a:first-child{
+
+.links a:first-child {
   margin-left: 0;
   margin-right: 40px;
 }
 
- .top_menu .disabled{
+.top_menu .disabled {
   pointer-events: none;
   cursor: default;
   opacity: 0.3;
 }
-.top_menu .btn_logout{
+
+.top_menu .btn_logout {
   font-size: 16px;
   color: var(--header-color);
   text-shadow: 0px 2px 0px #000000;
@@ -81,14 +83,16 @@ html {
   align-items: center;
   padding: 5px 0;
 }
-.top_menu .btn_logout:hover{
+
+.top_menu .btn_logout:hover {
   color: var(--accent-color);
 }
-.top_menu .btn_logout i{
+
+.top_menu .btn_logout i {
   margin-right: 10px;
 }
 
-.avatar_circle{
+.avatar_circle {
   border-radius: 50%;
   object-fit: cover;
 }
@@ -96,17 +100,28 @@ html {
 .desktop_hidden {
   display: none;
 }
-.is_loading{
+
+.is_loading {
   min-width: 30px;
   background: var(--header-color);
   border-radius: 4px;
   animation: loading 0.5s infinite;
 }
 
-@keyframes loading{
-  0% { opacity: 1; }
-  50% { opacity: 0.8; }
-  0% { opacity: 1; }
+.balance {
+  min-width: 20px !important;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  0% {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {
@@ -122,17 +137,17 @@ html {
 }
 
 @media (max-width: 480px) {
-  .top_menu h2{
+  .top_menu h2 {
     font-size: 14px;
   }
-  .links a{
+  .links a {
     font-size: 12px;
     margin-left: 8px;
   }
   .mobile_hidden {
     display: none;
   }
-  .links a:first-child{
+  .links a:first-child {
     margin-right: 0px;
     font-size: 14px;
   }
