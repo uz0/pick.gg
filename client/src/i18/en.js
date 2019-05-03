@@ -197,4 +197,8 @@ export default {translation: {
   tournaments_players: 'tournaments & players',
   tournament_players_content_1: 'Our Fantasy Tournaments are based on the most popular League of Legeds tournaments such as LPL, LCK, LCS',
   tournament_players_content_2: 'You can choose betwen more than 200+ real players to be the part of your fantasy team',
+
+  serverErrors: {
+    champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
+  }
 }};
