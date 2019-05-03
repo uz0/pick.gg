@@ -88,21 +88,21 @@ class Start extends Component {
 
                 <div className={style.start_btns}>
                   {isUserAuthenticated && <Link to="/tournaments">
-                      <span>{i18n.t('go_to_tournaments')}</span>
-                    </Link>
+                    <span>{i18n.t('go_to_tournaments')}</span>
+                  </Link>
                   }
 
                   {!isUserAuthenticated && <GoogleLogin
-                      icon={true}
-                      render={renderProps => (
-                        <button onClick={renderProps.onClick}>
-                          <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
-                        </button>
-                      )}
-                      clientId={config.google_client_id}
-                      onSuccess={this.onSuccessGoogleLogin}
-                      onFailure={this.onFailureGoogleLogin}
-                    />
+                    icon={true}
+                    render={renderProps => (
+                      <button onClick={renderProps.onClick}>
+                        <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
+                      </button>
+                    )}
+                    clientId={config.google_client_id}
+                    onSuccess={this.onSuccessGoogleLogin}
+                    onFailure={this.onFailureGoogleLogin}
+                  />
                   }
                 </div>
               </div>
@@ -167,7 +167,18 @@ class Start extends Component {
         </section>
 
         <section className={style.play_fantasy}>
-          <Link to="/tournaments">PLAY FANTASY LEAGUE</Link>
+          {!isUserAuthenticated && <GoogleLogin
+            icon={true}
+            render={renderProps => (
+              <button onClick={renderProps.onClick}>
+                <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
+              </button>
+            )}
+            clientId={config.google_client_id}
+            onSuccess={this.onSuccessGoogleLogin}
+            onFailure={this.onFailureGoogleLogin}
+          />}
+          {isUserAuthenticated && <Link to="/tournaments">{i18n.t('play_fantasy')}</Link>}
         </section>
 
         <Footer />

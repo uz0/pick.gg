@@ -53,7 +53,7 @@ export default {translation: {
   scores: 'Результаты',
   save_changes: 'Сохранить изменения',
   start_with: 'Вход через',
-  go_to_tournaments: 'Турниры',
+  go_to_tournaments: 'Вход в турниры',
   setting_profile: 'Настройки профиля',
   team: 'Команда',
   transactions: 'Операции',
@@ -201,7 +201,8 @@ export default {translation: {
   tournaments_players: 'Турниры & игроки',
   tournament_players_content_1: 'Наши Фэнтезийные Турниры основаны на самых популярных турнирах League of Legeds, таких как LPL, LCK, LCS',
   tournament_players_content_2: 'Вы можете выбрать между более чем 200+ настоящими игроками, которые будут частью вашей команды фантазии',
-  contact_us: 'Связаться с нами:',
+  contact_us: 'Связаться с нами',
+  play_fantasy: 'ИГРАТЬ В FANTASY LEAGUE',
   
   serverErrors: {
     champion_not_found: "Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.",

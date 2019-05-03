@@ -208,14 +208,40 @@
   transition: all 0.3s;
 }
 
+.play_fantasy button {
+  background-color: #f1f1f1;
+  padding: 10px 16px;
+  color: #000;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.play_fantasy span {
+  display: flex;
+  align-items: center;
+}
+
+.play_fantasy .google_icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
 @media (max-width: 1024px) {
   .login_section {
     min-height: 590px;
   }
-  .guide .wrap_guide{
+  .guide .wrap_guide {
     width: auto;
   }
-  .wrap_tournament_players{
+  .wrap_tournament_players {
     width: auto;
   }
 }
@@ -241,32 +267,32 @@
   .start_content .front_layout {
     width: 250px;
   }
-  .login_page h2{
+  .login_page h2 {
     font-size: 18px;
   }
-  .guide{
+  .guide {
     background-size: cover;
     background-position: right;
   }
   .guide .wrap_guide p {
     width: auto;
   }
-  .guide .wrap_guide{
+  .guide .wrap_guide {
     padding: 40px 30px;
   }
-  .tournament_players{
+  .tournament_players {
     padding-bottom: 40px;
   }
-  .wrap_tournament_players{
+  .wrap_tournament_players {
     padding: 40px 30px;
     min-height: 610px;
     background-position: center bottom;
     background-size: 250px;
   }
-  .tournament_players .tournaments{
-      justify-content: center;
+  .tournament_players .tournaments {
+    justify-content: center;
   }
-  .tournament_players .tournaments .item_tournament{
+  .tournament_players .tournaments .item_tournament {
     padding: 16px 20px;
   }
   .tournament_players .item_tournament img {
@@ -275,17 +301,16 @@
   .tournament_players p {
     width: auto;
   }
-  .play_fantasy a{
+  .play_fantasy a {
     font-size: 16px;
   }
 }
 
-@media (max-width: 320px){
-  .login_page h2{
+@media (max-width: 320px) {
+  .login_page h2 {
     font-size: 18px;
   }
-  .wrap_tournament_players{
+  .wrap_tournament_players {
     min-height: 630px;
   }
-  
 }
