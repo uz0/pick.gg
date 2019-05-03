@@ -53,6 +53,7 @@ export default {translation: {
   scores: 'Scores',
   save_changes: 'Save changes',
   start_with: 'Start with',
+  go_to_tournaments: 'Go to tournaments',
   setting_profile: 'Profile settings',
   team: 'Team',
   transactions: 'Transactions',
