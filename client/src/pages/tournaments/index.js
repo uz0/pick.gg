@@ -49,11 +49,42 @@ class Tournaments extends Component {
     this.setState({ profile });
   }
 
+  streamSort = (items) => {
+    console.log(items)
+    let tournamentName = items[1].tournament.name;
+    let esportsTournaments = ['LPL', 'LCS', 'LCK'];
+    let streamTournament = [];
+    let otherTournaments = [];
+    let tournamentNameFirstWord = tournamentName.split(' ')[0];
+
+    console.log('firstword: ', tournamentNameFirstWord);
+
+    if (esportsTournaments.includes(tournamentNameFirstWord)) {
+      otherTournaments.push(items[1]);
+      console.log(otherTournaments)
+      return true;
+
+    }
+    // streamTournament.push(items[0]);
+    // console.log(streamTournament);
+    return false;
+  }
+
+
   async componentDidMount() {
     this.setState({ isLoading: true });
     const fantasyTournaments = await this.tournamentService.getFantasyTournaments();
+
     const groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
     const realTournaments = await this.tournamentService.getRealTournaments();
+
+    // const otherTournaments = this.newSort(fantasyTournaments);
+    // console.log(this.newSort());
+    console.log(groupedFantasyTournaments);
+
+    const test = this.streamSort(fantasyTournaments.tournaments);
+
+    console.log(test);
 
     this.setState({
       groupedFantasyTournaments,
@@ -106,14 +137,14 @@ class Tournaments extends Component {
     },
   });
 
-  renderTournamentGroupTitle = () => {};
-  renderTournamentCard = () => {};
+  renderTournamentGroupTitle = () => { };
+  renderTournamentCard = () => { };
 
   render() {
 
     return <div className={style.tournaments}>
       <div className={style.content}>
-        <div className={cx(style.section,{ [style.is_preloader_card]: this.state.isLoading })}>
+        <div className={cx(style.section, { [style.is_preloader_card]: this.state.isLoading })}>
 
           {this.state.groupedFantasyTournaments.map(item => {
             return <div key={item[0]._id} className={style.tournament_group}>
