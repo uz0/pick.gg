@@ -46,6 +46,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   pointer-events: none;
+  padding-right: 20px;
 }
 
 .wrapper .modal .header .close {
