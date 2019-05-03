@@ -116,42 +116,38 @@ class Start extends Component {
 
         <section className={style.guide}>
           <div className={style.wrap_guide}>
-            <h2>What is fantasy league?</h2>
+            <h2>{i18n.t('what_is_fantasy')}</h2>
 
-            <p>Fantasy League is a game that where each of you forms teams made up of pro players to compete against each other, earning points for your team based on how each of your pro players performs in tournament matches. </p>
+            <p>{i18n.t('fantasy_is')}</p>
 
-            <h3>How to play?</h3>
+            <h3>{i18n.t('how_to_play')}</h3>
 
             <div className={style.step}>
-              <h4>1. Choose or create fantasy tournament</h4>
+              <h4>1. {i18n.t('guade_choose')}</h4>
 
-              <p>Fantasy tournament is based on real world tournament event like LCL, LPL, LCS, etc.
-                You can choose tournament which you like the most. Or you can create your own tournament.</p>
+              <p>{i18n.t('guade_choose_content')}</p>
             </div>
 
             <div className={style.step}>
               <h4>2. {i18n.t('guade_create')}</h4>
 
-              <p>You have to choose 5 players in order to create your fantasy team.
-                Try to choose players which are the best in particular tournament. </p>
+              <p>{i18n.t('guade_create_content')}</p>
             </div>
 
             <div className={style.step}>
               <h4>3. {i18n.t('guade_win')}</h4>
-              <p>After fantasy tournament is over, we’re calculating players results and finding a winner! So be the one and earn money!</p>
+              <p>{i18n.t('guade_win_content')}</p>
             </div>
           </div>
         </section>
 
         <section className={style.tournament_players}>
           <div className={style.wrap_tournament_players}>
-            <h2>tournaments & players</h2>
+            <h2>{i18n.t('tournaments_players')}</h2>
 
-            <p>Our Fantasy Tournaments are based on the most popular
-            League of Legeds tournaments such as LPL, LCK, LCS</p>
+            <p>{i18n.t('tournament_players_content_1')}</p>
 
-            <p>You can choose betwen more than 200+ real players
-            to be the part of your fantasy team</p>
+            <p>{i18n.t('tournament_players_content_2')}</p>
 
             <div className={style.tournaments}>
 
