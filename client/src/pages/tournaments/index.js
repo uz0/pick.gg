@@ -49,10 +49,34 @@ class Tournaments extends Component {
     this.setState({ profile });
   }
 
+  isEscoreTournament = (tournamentName) => {
+    const escoreTournamentsNames = ['LPL', 'LCS', 'LCK'];
+    const tournamentNameFirstWord = tournamentName.split(' ')[0];
+
+    return escoreTournamentsNames.includes(tournamentNameFirstWord);
+  }
+
+  groupTournamentsByOrigin = (tournaments) => {
+    let escoreTournaments = [];
+    let streamerTournaments = [];
+    
+    tournaments.forEach(item => {
+      if(this.isEscoreTournament(item[0].tournament.name)){
+        escoreTournaments.push(item);
+      } else {
+        streamerTournaments.push(item);
+      }
+    });
+
+    return streamerTournaments.concat(escoreTournaments);
+  }
+
   async componentDidMount() {
     this.setState({ isLoading: true });
     const fantasyTournaments = await this.tournamentService.getFantasyTournaments();
-    const groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
+
+    let groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
+    groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments)
     const realTournaments = await this.tournamentService.getRealTournaments();
 
     this.setState({
