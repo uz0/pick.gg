@@ -52,14 +52,13 @@ const StreamerController = () => {
       return;
     }
 
-    // const player = await PlayerModel.create({
-    //   name,
-    //   photo,
-    //   position
-    // });
+    const player = await PlayerModel.create({
+      name,
+      photo,
+      position
+    });
 
-    // res.send({ player });
-    res.send({ success: true });
+    res.send({ player });
   });
 
   router.get('/players', async (req, res) => {
