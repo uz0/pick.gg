@@ -6,7 +6,7 @@ import FantasyTournament from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
 import MatchResultModel from '../models/match-result';
 import UserModel from '../models/user';
-import riotFetch from "../riotFetch";
+import riotFetch from '../riotFetch';
 
 let router = express.Router();
 
@@ -109,22 +109,65 @@ const StreamerController = () => {
 
   router.put('/matches/:id', async (req, res) => {
     const matchId = req.params.id;
-    const { startDate, completed, name, results } = req.body;
+    const { startDate, completed, lolMatchId, name, results } = req.body;
 
-    await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
+    let matchRequest = await riotFetch(`lol/match/v4/matches/${lolMatchId}`);
+
+    matchRequest = await matchRequest.json();
+
+    let lolMatchPlayers = [];
+
+    for(let i = 0; i < matchRequest.participantIdentities.length; i++){
+      const { kills, deaths, assists } = matchRequest.participants[i].stats;
+      let playerName = matchRequest.participantIdentities[i].player.summonerName;
+      let playerId = await PlayerModel.findOne({ name: playerName });
+
+      const player = {
+        _id: playerId._id,
+        name: playerName,
+        kills,
+        deaths,
+        assists,
+      }
+
+      lolMatchPlayers.push(player);
+    }
+
+    const match = await MatchModel.findOne({ _id: matchId });
+
+    let matchResult = await MatchResultModel.findOne({ _id: match.resultsId });
+
+    matchResult.playersResults.forEach(item => {
+      let playerId = item.playerId;
+      let lolPlayer = lolMatchPlayers.find(item => item._id == playerId);
+      
+      let lolPlayerScore = Object.values({
+        kills: lolPlayer.kills,
+        deaths: lolPlayer.deaths,
+        assists: lolPlayer.assists,
+      });
+
+      item.results.forEach((result, index) => {
+        result.score = lolPlayerScore[index];
+      })
+    })
+
+    await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: matchResult.playersResults });
     const match = await MatchModel.findByIdAndUpdate(matchId, {
       name,
       startDate,
       completed,
     }, {
-        new: true
-      });
+      new: true
+    });
 
-    io.emit('matchUpdated', { match });
+    // io.emit('matchUpdated', { match });
 
     res.json({
       success: 'success',
-      match
+      matchResult,
+      lolMatchPlayers,
+      lolMatchId,
     });
   });
 
