@@ -9,6 +9,8 @@ import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 import UserService from 'services/userService';
 
+import Select from '../filters/select';
+
 import moment from 'moment';
 import find from 'lodash/find';
 
@@ -31,6 +33,8 @@ class MatchModal extends Component {
       startTime: '',
       completed: false,
     },
+    matches: [],
+    selectMatches: [],
     results: [],
     editedResults: [],
     isLoading: false,
@@ -45,6 +49,17 @@ class MatchModal extends Component {
     const { user } = await this.userService.getMyProfile();
     const { matches } = await this.streamerService.getLastMatches(user.streamerAccountId);
 
+    let selectMatches = [];
+
+    matches.forEach((item, index) => {
+      selectMatches.push({
+        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')}`,
+        id: item.gameId,
+      })
+    })
+
+    console.log(matches);
+
     match.startTime = moment(match.startDate).format('HH:mm');
 
     const result = match.results && match.results.playersResults;
@@ -56,6 +71,8 @@ class MatchModal extends Component {
 
     this.setState({
       match,
+      matches,
+      selectMatches,
       results: resultsWithChampions,
       isLoading: false,
     });
@@ -67,6 +84,12 @@ class MatchModal extends Component {
     });
 
     return results;
+  }
+
+  handleMatchSelectChange = (event) => {
+    this.setState({
+      selectedMatchId: event.target.value,
+    })
   }
 
   handleInputChange = (event) => {
@@ -174,6 +197,7 @@ class MatchModal extends Component {
         name="startDate"
         value={formattedMatchDate}
         onChange={this.handleInputChange}
+        disabled
       />
 
       <Input
@@ -182,6 +206,16 @@ class MatchModal extends Component {
         name="startTime"
         value={match.startTime}
         onChange={this.handleInputChange}
+      />
+
+{/* label, values, name, placeholder, type, autofocus, value, action, className, option  */}
+
+      <Select
+        label='Your last 5 LoL matches'
+        options={this.state.selectMatches}
+        defaultOption=""
+        onChange={this.handleMatchSelectChange}
+        // option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
       />
 
       <label className={style.chebox}>

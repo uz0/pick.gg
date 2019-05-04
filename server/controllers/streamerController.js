@@ -66,7 +66,7 @@ const StreamerController = () => {
 
     let matchesList = await riotFetch(`lol/match/v4/matchlists/by-account/${accountId}`);
     matchesList = await matchesList.json();
-    matchesList = matchesList.matches.slice(0, 5);
+    matchesList = matchesList.matches.slice(0, 1);
 
     let matchesIds = matchesList.map(match => match.gameId);
     let detailedMatches = [];
