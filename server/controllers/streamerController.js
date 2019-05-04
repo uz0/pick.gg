@@ -35,25 +35,31 @@ const StreamerController = () => {
       return;
     }
 
-    let summonerRequest = await riotFetch(`lol/summoner/v4/summoners/by-name/${name}`);
-    summonerRequest = await summonerRequest.json();
+    const isPlayerExist = await PlayerModel.findOne({ name });
 
-    if(summonerRequest.status && summonerRequest.status.status_code === 404){
-      res.status(404).send({
-        status: 404,
-        name,
-      })
+    if (isPlayerExist) {
+      res.status(400).send({ name });
 
       return;
     }
 
-    const player = await PlayerModel.create({
-      name,
-      photo,
-      position
-    });
+    let summonerRequest = await riotFetch(`lol/summoner/v4/summoners/by-name/${name}`);
+    summonerRequest = await summonerRequest.json();
 
-    res.send({ player });
+    if(summonerRequest.status && summonerRequest.status.status_code === 404){
+      res.status(404).send({ name });
+
+      return;
+    }
+
+    // const player = await PlayerModel.create({
+    //   name,
+    //   photo,
+    //   position
+    // });
+
+    // res.send({ player });
+    res.send({ success: true });
   });
 
   router.get('/players', async (req, res) => {
