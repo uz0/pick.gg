@@ -206,5 +206,6 @@ export default {translation: {
   
   serverErrors: {
     champion_not_found: "Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.",
+    champion_already_exist: "Чемпион с именем {{name}} уже есть в базе игроков."
   }
 }};

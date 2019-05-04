@@ -15,8 +15,7 @@ export default class StreamerService extends BasicService {
         position
       }),
     });
-    const requestResult = await request.json();
-    return requestResult;
+    return request;
   }
 
   async createTournament({ name, entry, playersIds, matches, thumbnail, rulesValues, userId }) {

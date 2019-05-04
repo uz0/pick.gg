@@ -203,5 +203,6 @@ export default {translation: {
   
   serverErrors: {
     champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
+    champion_already_exist: "Сhampion with name {{name}} already exists."
   }
 }};
