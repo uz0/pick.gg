@@ -86,11 +86,7 @@ class MatchModal extends Component {
     return results;
   }
 
-  handleMatchSelectChange = (event) => {
-    this.setState({
-      selectedMatchId: event.target.value,
-    })
-  }
+  handleMatchSelectChange = (event) => this.setState({ selectedMatchId: event.target.value });
 
   handleInputChange = (event) => {
     let inputValue = event.target.value;
@@ -208,14 +204,11 @@ class MatchModal extends Component {
         onChange={this.handleInputChange}
       />
 
-{/* label, values, name, placeholder, type, autofocus, value, action, className, option  */}
-
       <Select
         label='Your last 5 LoL matches'
         options={this.state.selectMatches}
         defaultOption=""
         onChange={this.handleMatchSelectChange}
-        // option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
       />
 
       <label className={style.chebox}>
