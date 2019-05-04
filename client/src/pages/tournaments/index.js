@@ -130,14 +130,14 @@ class Tournaments extends Component {
     },
   });
 
-  renderTournamentGroupTitle = () => {};
-  renderTournamentCard = () => {};
+  renderTournamentGroupTitle = () => { };
+  renderTournamentCard = () => { };
 
   render() {
 
     return <div className={style.tournaments}>
       <div className={style.content}>
-        <div className={cx(style.section,{ [style.is_preloader_card]: this.state.isLoading })}>
+        <div className={cx(style.section, { [style.is_preloader_card]: this.state.isLoading })}>
 
           {this.state.groupedFantasyTournaments.map(item => {
             return <div key={item[0]._id} className={style.tournament_group}>
