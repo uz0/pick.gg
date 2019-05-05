@@ -192,6 +192,27 @@ const StreamerController = () => {
   router.post('/tournament', async (req, res) => {
     const { name, userId, entry, matches, thumbnail, playersIds, rulesValues } = req.body;
 
+    const user = await UserModel.findOne({ _id: userId }, 'balance');
+
+    if (user.balance - entry < 0) {
+      res.json({
+        success: false,
+        message: 'You have not money on your balance to create tournament',
+      });
+
+      return;
+    }
+
+    await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
+
+    await TransactionModel.create({
+      userId,
+      tournamentId: newTournament._id,
+      amount: entry,
+      origin: 'tournament deposit',
+      date: Date.now(),
+    });
+
     let createdMatchesIds = [];
 
     const generatePlayersResults = (players) => {
