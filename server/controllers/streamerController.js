@@ -2,6 +2,7 @@ import express from "express";
 import PlayerModel from "../models/player";
 
 import TournamentModel from '../models/tournament';
+import TransactionModel from '../models/transaction';
 import FantasyTournament from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
 import MatchResultModel from '../models/match-result';
