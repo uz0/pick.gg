@@ -208,7 +208,6 @@ const StreamerController = () => {
 
     await TransactionModel.create({
       userId,
-      tournamentId: newTournament._id,
       amount: entry,
       origin: 'tournament deposit',
       date: Date.now(),
