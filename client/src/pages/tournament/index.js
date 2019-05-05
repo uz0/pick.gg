@@ -394,9 +394,7 @@ class Tournament extends Component {
     this.setState({
       isMatchEditModalShown: true,
       editingMatchId: item._id,
-    })
-
-    console.log(item, 'item');
+    });
   }
 
   closeMatchEditing = () => {
@@ -519,8 +517,6 @@ class Tournament extends Component {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isPlayerChoosedByUser = _.find(champions, { _id: item.playerId }) ? true : false;
-
-
 
     return <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
