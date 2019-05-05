@@ -8,6 +8,8 @@ import MatchResultModel from '../models/match-result';
 import UserModel from '../models/user';
 import riotFetch from '../riotFetch';
 
+import moment from 'moment';
+
 let router = express.Router();
 
 const StreamerController = () => {
@@ -210,13 +212,16 @@ const StreamerController = () => {
     }
 
     for (let i = 0; i < matches.length; i++) {
+      const [ hours, minutes ] = matches[i].startTime.split(':');
+      let matchDate = moment().hours(hours).minutes(minutes);
+
       const matchMock = {
         tournament_id: '',
         resultsId: '',
         name: matches[i].name,
         completed: false,
-        startDate: new Date().toISOString(),
-        syncAt: new Date().toISOString(),
+        startDate: matchDate,
+        syncAt: matchDate,
         syncType: 'manual',
         origin: 'manual',
       };
