@@ -22,6 +22,35 @@
   margin-left: 10px;
 }
 
+.modal_match .select {
+  /* height: 40px; */
+  /* --input-padding: 10px;
+  height: 40px;
+  padding-left: var(--input-padding);
+  padding-right: var(--input-padding);
+  font-size: 15px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color); */
+}
+
+.modal_match .select select {
+  height: 40px;
+}
+
+.modal_match .select label {
+  --height: 20px;
+  height: var(--height);
+  line-height: var(--height);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--accent-color);
+}
+
 .chebox{
   display: flex;
   flex-direction: column;
