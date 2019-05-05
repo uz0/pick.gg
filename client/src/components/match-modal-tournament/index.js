@@ -50,7 +50,7 @@ class MatchModal extends Component {
     const { user } = await this.userService.getMyProfile();
     const { matches } = await this.streamerService.getLastMatches(user.streamerAccountId);
 
-    let selectMatches = [];
+    let selectMatches = [{ name: "", id: "" }];
 
     matches.forEach((item, index) => {
       selectMatches.push({
@@ -216,7 +216,7 @@ class MatchModal extends Component {
       />
 
       <Select
-        label='Your last 5 LoL matches'
+        label='Select math results from LoL match'
         options={this.state.selectMatches}
         defaultOption=""
         onChange={this.handleMatchSelectChange}
