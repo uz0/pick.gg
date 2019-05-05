@@ -51,8 +51,8 @@ export default class StreamerService extends BasicService {
     return match;
   }
 
-  async updateMatch({ matchId, results, startDate, name, completed }) {
-    await http(`/api/streamer/matches/${matchId}/result`, {
+  async updateMatch({ matchId, results, startDate, name, completed, lolMatchId }) {
+    let request = await http(`/api/streamer/matches/${matchId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -63,8 +63,12 @@ export default class StreamerService extends BasicService {
         startDate,
         completed,
         results,
+        lolMatchId
       }),
     });
+    request = await request.json();
+    
+    return request;
   }
 
   async getLastMatches(accountId) {

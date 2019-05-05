@@ -35,6 +35,7 @@ class MatchModal extends Component {
     },
     matches: [],
     selectMatches: [],
+    selectedMatchId: '',
     results: [],
     editedResults: [],
     isLoading: false,
@@ -57,8 +58,6 @@ class MatchModal extends Component {
         id: item.gameId,
       })
     })
-
-    console.log(matches);
 
     match.startTime = moment(match.startDate).format('HH:mm');
 
@@ -136,21 +135,33 @@ class MatchModal extends Component {
   editMatchSubmit = async () => {
     this.setState({ isLoading: true });
 
-    const { match, results } = this.state;
+    const { match, results, selectedMatchId } = this.state;
 
     const [ hours, minutes ] = match.startTime.split(':');
     const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
 
-    await this.streamerService.updateMatch({
+    let { updatedMatch } = await this.streamerService.updateMatch({
       name: match.name,
       matchId: match._id,
       startDate: matchDate,
       completed: match.completed,
+      lolMatchId: selectedMatchId,
       results,
     });
 
+    updatedMatch.startTime = moment(updatedMatch.startDate).format('HH:mm');
+
+    const result = updatedMatch.results && updatedMatch.results.playersResults;
+    let resultsWithChampions = null;
+
+    if (result){
+      resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
+    }
+
     this.setState({
       isLoading: false,
+      match: updatedMatch,
+      results: resultsWithChampions,
     }, () => this.notificationService.showSingleNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
