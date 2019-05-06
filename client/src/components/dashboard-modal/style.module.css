@@ -101,4 +101,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .wrapper .modal .content{
+    flex-direction: column;
+  }
 }

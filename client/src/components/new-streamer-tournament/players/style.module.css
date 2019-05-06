@@ -87,6 +87,7 @@
   margin-top: calc(var(--gap) * -1);
   margin-left: calc(var(--gap) * -1);
   margin-bottom: 12px;
+  justify-content: space-around;
 }
 
 .chosen_champions .champion {
@@ -221,6 +222,36 @@
   .input_rules {
     flex-basis: 49%;
   }
+  .players h3{
+    font-size: 16px;
+  }
+  .players .players_modal {
+    height: 100%;
+    flex-direction: column !important;
+    height: 100%;
+    margin-top: 0;
+  }
+  .players_modal .header{
+    flex-direction: row;
+  }
+  .players .wrapper .players_modal .content{
+    flex-direction: column !important;
+  }
+  .players_sidebar{
+    margin: 0;
+    margin-bottom: 10px;
+    display: 100%;
+  }
+  .players_list{
+    padding: 20px 0;
+    width: 100%;
+  }
+  .players_sidebar .add_players_to_tournament button{
+    font-size: 14px;
+  }
+  .players_sidebar .chosen_players > div{
+    font-size: 12px;
+  }
 }
 
 @media(max-width: 320px) { 
@@ -238,5 +269,8 @@
 
   .input_group {
     align-items: center;
+  }
+  .players h3{
+    font-size: 16px;
   }
 }
