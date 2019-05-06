@@ -151,4 +151,8 @@ html {
     margin-right: 0px;
     font-size: 14px;
   }
+  .top_menu .item{
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
 }
