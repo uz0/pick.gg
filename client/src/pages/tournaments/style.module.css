@@ -24,8 +24,9 @@
   justify-content: center;
   align-items: center;
   transition: all 0.2s;
-  position: fixed;
-  right: calc(100px + (var(--layout-padding) * 2));
+  position: sticky;
+  margin-left: auto;
+  /* right: calc(100px + (var(--layout-padding) * 2)); */
   bottom: 20px;
 }
 

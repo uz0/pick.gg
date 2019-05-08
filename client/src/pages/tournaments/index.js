@@ -148,7 +148,7 @@ class Tournaments extends Component {
             </div>;
           })}
 
-          {this.state.profile.user.isAdmin &&
+          {this.state.profile.user.isAdmin && !this.state.profile.user.isStreamer &&
             <button className={style.button} onClick={this.toggleNewTournamentModal}>
               <i className="material-icons">add</i>
             </button>}
