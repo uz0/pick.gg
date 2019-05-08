@@ -223,6 +223,16 @@ class TopMenuComponent extends Component {
               {`$${this.state.profile.user.balance}`}
             </div>
 
+            <NavLink to="/tournaments">
+            <i className="material-icons">whatshot</i>
+              {i18n.t('tournaments')}
+            </NavLink>
+
+            <NavLink to="/rating">
+              <i className="material-icons">assessment</i>
+              {i18n.t('rating')}
+            </NavLink>
+
             <NavLink to="/transactions">
               <i className="material-icons">attach_money</i>
               {i18n.t('transactions')}
