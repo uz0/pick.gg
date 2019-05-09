@@ -10,6 +10,7 @@ import UserModel from '../models/user';
 import riotFetch from '../riotFetch';
 
 import find from 'lodash/find';
+import difference from 'lodash/difference';
 
 import moment from 'moment';
 
@@ -121,6 +122,22 @@ const StreamerController = (io) => {
       let matchRequest = await riotFetch(`lol/match/v4/matches/${lolMatchId}`);
       matchRequest = await matchRequest.json();
 
+      const match = await MatchModel.findOne({ _id: matchId });
+      let matchResult = await MatchResultModel.findOne({ _id: match.resultsId }).populate('playersResults.player', 'name').lean().exec();
+
+      // Check if players in match and in lol match results are the same
+      const matchPlayersNames = matchResult.playersResults.map(item => item.player.name);
+      const lolMatchPlayersNames = matchRequest.participantIdentities.map(item => item.player.summonerName);
+      const playersDifference = difference(matchPlayersNames, lolMatchPlayersNames);
+
+      if(playersDifference.length > 0){
+        res.status(400).send({
+          error: 'serverErrors.players_are_not_same',
+        });
+
+        return;
+      }
+
       let lolMatchPlayers = [];
   
       for(let i = 0; i < matchRequest.participantIdentities.length; i++){
@@ -138,10 +155,6 @@ const StreamerController = (io) => {
   
         lolMatchPlayers.push(player);
       }
-  
-      const match = await MatchModel.findOne({ _id: matchId });
-  
-      let matchResult = await MatchResultModel.findOne({ _id: match.resultsId });
   
       matchResult.playersResults.forEach(item => {
         const playerId = item.playerId;

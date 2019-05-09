@@ -15,6 +15,8 @@ import find from 'lodash/find';
 
 import style from './style.module.css';
 
+import i18n from 'i18n';
+
 class MatchModal extends Component {
 
   constructor() {
@@ -141,7 +143,7 @@ class MatchModal extends Component {
     const [ hours, minutes ] = match.startTime.split(':');
     const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
 
-    let { updatedMatch } = await this.streamerService.updateMatch({
+    let request = await this.streamerService.updateMatch({
       name: match.name,
       matchId: match._id,
       startDate: matchDate,
@@ -150,9 +152,21 @@ class MatchModal extends Component {
       results,
     });
 
-    updatedMatch.startTime = moment(updatedMatch.startDate).format('HH:mm');
+    if(request.error) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t(request.error),
+      });
 
-    const result = updatedMatch.results && updatedMatch.results.playersResults;
+      this.setState({ isLoading: false });
+
+      return;
+    }
+
+    request.updatedMatch.startTime = moment(request.updatedMatch.startDate).format('HH:mm');
+
+    const result = request.updatedMatch.results && request.updatedMatch.results.playersResults;
     let resultsWithChampions = null;
 
     if (result){
@@ -163,7 +177,7 @@ class MatchModal extends Component {
 
     this.setState({
       isLoading: false,
-      match: updatedMatch,
+      match: request.updatedMatch,
       results: resultsWithChampions,
     }, () => this.notificationService.showSingleNotification({
       type: 'success',

@@ -212,5 +212,6 @@ export default {translation: {
   serverErrors: {
     champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
     champion_already_exist: "Сhampion with name {{name}} already exists.",
+    players_are_not_same: "Players in fantasy tournament and in LoL match are not the same",
   },
 }};
