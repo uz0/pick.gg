@@ -110,7 +110,7 @@ const StreamerController = (io) => {
         }
       })
 
-    res.json({ match });
+    res.send({ match });
   });
 
   router.put('/matches/:id', async (req, res) => {
