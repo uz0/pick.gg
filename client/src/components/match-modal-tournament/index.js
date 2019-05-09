@@ -174,7 +174,7 @@ class MatchModal extends Component {
 
   render() {
     const { results, match, isLoading } = this.state;
-
+    const modalTitle = `Edit match ${match.name}`;
     const modalActions = [{
       text: 'Update match',
       onClick: this.editMatchSubmit,
@@ -184,7 +184,7 @@ class MatchModal extends Component {
     const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
 
     return <Modal
-      title={"Edit match"}
+      title={modalTitle}
       wrapClassName={style.modal_match}
       close={this.props.closeMatchEditing}
       actions={modalActions}
