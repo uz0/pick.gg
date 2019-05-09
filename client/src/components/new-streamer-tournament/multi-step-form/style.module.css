@@ -15,10 +15,11 @@
 
 .steps {
   height: 30px;
-  width: 100%;
   padding-left: 10px;
+  padding-right: 10px;
   margin-bottom: 12px;
   display: flex;
+  align-self: flex-start;
   align-items: center;
   border-radius: 4px;
   background-color: var(--primary-color);
