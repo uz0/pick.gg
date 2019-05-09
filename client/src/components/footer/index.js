@@ -30,6 +30,7 @@ class Footer extends Component {
     localStorage.setItem('_pgg_locale', event.target.name);
 
     i18n.changeLanguage(event.target.name);
+    window.location.reload();
   }
 
   render() {
