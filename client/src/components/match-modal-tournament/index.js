@@ -4,7 +4,6 @@ import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
 
-import http from 'services/httpService';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 import UserService from 'services/userService';
@@ -53,11 +52,13 @@ class MatchModal extends Component {
     let selectMatches = [];
 
     matches.forEach((item, index) => {
+      const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName).join(', ');
+
       selectMatches.push({
-        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')}`,
+        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers}`,
         id: item.gameId,
-      })
-    })
+      });
+    });
 
     match.startTime = moment(match.startDate).format('HH:mm');
 
@@ -173,7 +174,7 @@ class MatchModal extends Component {
 
   render() {
     const { results, match, isLoading } = this.state;
-
+    const modalTitle = `Edit match ${match.name}`;
     const modalActions = [{
       text: 'Update match',
       onClick: this.editMatchSubmit,
@@ -183,7 +184,7 @@ class MatchModal extends Component {
     const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
 
     return <Modal
-      title={"Edit match"}
+      title={modalTitle}
       wrapClassName={style.modal_match}
       close={this.props.closeMatchEditing}
       actions={modalActions}

@@ -30,7 +30,7 @@ class MultiStepForm extends Component {
 
     this.setState({
       userId: user._id,
-    })
+    });
   }
 
   state = {
@@ -46,19 +46,19 @@ class MultiStepForm extends Component {
   }
 
   nextStep = (payload) => {
-    if(this.state.stepIndex === 3 ){
+    if (this.state.stepIndex === 3 ){
       return;
     }
 
     this.setState({
       ...payload,
-      stepIndex: this.state.stepIndex + 1
+      stepIndex: this.state.stepIndex + 1,
     }, () => console.log(this.state));
 
   }
 
   prevStep = () => {
-    if(this.state.stepIndex === 1){
+    if (this.state.stepIndex === 1){
       return;
     }
 
@@ -79,7 +79,7 @@ class MultiStepForm extends Component {
       matches: tournamentMatches,
       thumbnail,
       rulesValues,
-      userId
+      userId,
     };
 
     const { fantasyTournament } = await this.streamerService.createTournament(payload);
