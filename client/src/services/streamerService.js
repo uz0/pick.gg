@@ -39,6 +39,12 @@ export default class StreamerService extends BasicService {
     return requestResult;
   }
 
+  async finalizeTournament(tournamentId) {
+    const finalizeQuery = await http(`/api/streamer/tournament/${tournamentId}/finalize`);
+    const finalizeResult = await finalizeQuery.json();
+    return finalizeResult;
+  }
+
   async getAllChampions() {
     const championsQuery = await http('/api/streamer/players');
     const champions = await championsQuery.json();

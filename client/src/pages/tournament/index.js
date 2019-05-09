@@ -13,6 +13,7 @@ import io from "socket.io-client";
 import UserService from 'services/userService';
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
+import StreamerService from 'services/streamerService';
 import moment from 'moment';
 import find from 'lodash/find';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
@@ -88,6 +89,7 @@ class Tournament extends Component {
   constructor() {
     super();
     this.tournamentService = new TournamentService();
+    this.streamerService = new StreamerService();
     this.notificationService = new NotificationService();
     this.userService = new UserService();
   }
@@ -170,6 +172,37 @@ class Tournament extends Component {
 
     resolve();
   });
+
+  finalizeStreamerTournament = async () => {
+    const { fantasyTournament } = this.state;
+    const isAllMatchesCompleted = every(this.state.matches, { completed: true });
+
+    if(fantasyTournament.users.length === 0) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('notifications.finalization.no_participatns'),
+      });
+
+      return;
+    }
+
+    if(!isAllMatchesCompleted) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('notifications.finalization.uncompleted_matches'),
+      });
+
+      return;
+    }
+
+    try {
+      await this.streamerService.finalizeTournament(fantasyTournament._id);
+    } catch (error) {
+
+    }
+  }
 
   toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
 
@@ -312,7 +345,6 @@ class Tournament extends Component {
     set[`${item.rule._id}`] = item.score;
     return set;
   }, {});
-
 
   getRulesNames = () => {
     if (!this.state.fantasyTournament) {
@@ -554,6 +586,7 @@ class Tournament extends Component {
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     // const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
     const isJoinButtonShown = !currentUserParticipant && !winner;
+    const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
     // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
@@ -584,14 +617,25 @@ class Tournament extends Component {
           <span className={style.fantasy_status}>{tournamentStatus}</span>
         </div>
 
-        {isJoinButtonShown &&
-          <Button
-            text={i18n.t('join_tournament')}
-            appearance="_basic-accent"
-            onClick={this.toggleChampionModal}
-            className={cx(style.button)}
-          />
-        }
+        <div>
+          {isJoinButtonShown &&
+            <Button
+              text={i18n.t('join_tournament')}
+              appearance="_basic-accent"
+              onClick={this.toggleChampionModal}
+              className={cx(style.button)}
+            />
+          }
+
+          {isFinalizeButtonShown &&
+            <Button
+              text={i18n.t('finalize_tournament')}
+              appearance="_basic-accent"
+              onClick={this.finalizeStreamerTournament}
+              className={cx(style.button)}
+            />
+          }
+        </div>
       </div>
 
       {winner &&
@@ -740,6 +784,7 @@ class Tournament extends Component {
           matchId={this.state.editingMatchId}
           closeMatchEditing={this.closeMatchEditing}
           matchChampions={tournamentChampions}
+          onMatchUpdated={this.loadTournamentData}
         />
       }
     </div>;

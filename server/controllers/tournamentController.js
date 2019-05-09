@@ -105,7 +105,7 @@ const TournamentController = io => {
       .populate({ path: 'users.user', select: '_id username' })
       .populate('rules.rule')
       .populate({ path: 'winner', select: 'id username' })
-      .populate({ path: 'creator', select: 'id username' })
+      .populate({ path: 'creator', select: 'id username isStreamer' })
       .populate('tournament')
       .populate({
         path: 'tournament',

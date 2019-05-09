@@ -76,6 +76,7 @@ export default {translation: {
   he_got_prize: 'He got {{prize}} prize',
   match: 'Match',
   join_tournament: 'Join Tournament',
+  finalize_tournament: 'Finalize tournament',
   join_tournament_and: 'Join Tournament and choose your champions',
   wait_matches: 'Waiting for match results',
   free: 'Free',
@@ -200,7 +201,15 @@ export default {translation: {
   tournament_players_content_2: 'You can choose betwen more than 200+ real players to be the part of your fantasy team',
   contact_us: 'Contact us',
   play_fantasy: 'PLAY FANTASY LEAGUE',
-  
+
+  notifications: {
+    finalization: {
+      no_participatns: "You can't finalize tournaments without any participants.",
+      uncompleted_matches: "Finalization failed. All matches of the tournament must be completed."
+    },
+
+  },
+
   serverErrors: {
     champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
     champion_already_exist: "Сhampion with name {{name}} already exists."
