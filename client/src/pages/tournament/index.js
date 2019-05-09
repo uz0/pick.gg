@@ -626,15 +626,6 @@ class Tournament extends Component {
               className={cx(style.button)}
             />
           }
-
-          {isFinalizeButtonShown &&
-            <Button
-              text={i18n.t('finalize_tournament')}
-              appearance="_basic-accent"
-              onClick={this.finalizeStreamerTournament}
-              className={cx(style.button)}
-            />
-          }
         </div>
       </div>
 
@@ -699,7 +690,17 @@ class Tournament extends Component {
 
       <div className={style.section}>
         <div className={style.matches}>
-          <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
+          <div className={style.matches_title}>
+            <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
+            {isFinalizeButtonShown &&
+              <Button
+                text={i18n.t('finalize_tournament')}
+                appearance="_basic-accent"
+                onClick={this.finalizeStreamerTournament}
+                className={cx(style.button)}
+              />
+            }
+          </div>
 
           <Table
             noCaptions

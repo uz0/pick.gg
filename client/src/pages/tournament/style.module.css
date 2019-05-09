@@ -312,6 +312,12 @@
   text-overflow: ellipsis;
 }
 
+.tournament .section .matches .matches_title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
 .tournament .section .matches .match_button {
   position: relative;
   width: 60px;
