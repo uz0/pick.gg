@@ -158,6 +158,8 @@ class MatchModal extends Component {
       resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
     }
 
+    await this.props.onMatchUpdated();
+
     this.setState({
       isLoading: false,
       match: updatedMatch,

@@ -9,11 +9,13 @@ import MatchResultModel from '../models/match-result';
 import UserModel from '../models/user';
 import riotFetch from '../riotFetch';
 
+import find from 'lodash/find';
+
 import moment from 'moment';
 
 let router = express.Router();
 
-const StreamerController = () => {
+const StreamerController = (io) => {
   router.get('/', async (req, res) => {
     let players = await PlayerModel.find();
     res.json({ players });
@@ -290,6 +292,154 @@ const StreamerController = () => {
     });
 
     res.send({ fantasyTournament });
+  });
+
+  router.get('/tournament/:id/finalize', async (req, res) => {
+    const tournamentId = req.params.id;
+
+    const fantasyTournament = await FantasyTournament
+      .findById(tournamentId)
+      .populate({ path: 'users.players', select: '_id id name photo' })
+      .populate({ path: 'users.user', select: '_id username' })
+      .populate({ path: 'rules.rule' })
+      .populate({ path: 'winner', select: 'id username' })
+      .populate({ path: 'creator', select: 'id username' })
+      .populate('tournament')
+      .populate({
+        path: 'tournament',
+        populate: {
+          path: 'champions',
+        }
+      })
+      .populate({
+        path: 'tournament',
+        populate: {
+          path: 'matches',
+          populate: {
+            path: 'results'
+          }
+        }
+      });
+
+    if (fantasyTournament.winner) {
+      res.json({
+        success: false,
+        message: "Tournament is already finalized"
+      });
+
+      return;
+    }
+
+    if (fantasyTournament.users.length === 0) {
+      res.json({
+        success: false,
+        message: "You can't finalize tournament without participants"
+      });
+
+      return;
+    }
+
+    const realTournament = fantasyTournament.tournament;
+
+    const matches = realTournament.matches;
+    const areMatchesCompleted = matches.every(match => match.completed === true);
+
+    const rulesSet = fantasyTournament.rules.reduce((set, item) => {
+      set[item.rule._id] = item.score;
+      return set;
+    }, {});
+
+    let playersCountedResults = [];
+
+    const getUserPlayers = (userId) => {
+      const user = find(fantasyTournament.users, (item) => item.user._id === userId);
+      return user.players;
+    };
+
+    const getCountMatchPoints = (matchId, userId) => {
+      const userPlayers = getUserPlayers(userId);
+      const userPlayersIds = userPlayers.map(player => player._id);
+
+      const match = find(matches, { _id: matchId });
+      const results = match.results.playersResults;
+
+      let userPlayersWithResults = [];
+
+      for (let i = 0; i < results.length; i++) {
+        for (let j = 0; j < userPlayersIds.length; j++) {
+          if (`${results[i].playerId}` === `${userPlayersIds[j]}`) {
+            userPlayersWithResults.push(results[i]);
+          }
+        }
+      }
+
+      const userPlayersResults = userPlayersWithResults.reduce((arr, item) => {
+        arr.push(...item.results);
+        return arr;
+      }, []);
+
+      const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
+        if (rulesSet[item.rule]) {
+          sum += item.score * rulesSet[item.rule];
+        }
+        return sum;
+      }, 0);
+
+      return userPlayersResultsSum;
+    };
+
+    const getTotalUserScore = (userId) => {
+      const userMatchResults = fantasyTournament.tournament.matches.map(match => getCountMatchPoints(match._id, userId));
+      const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
+
+      return totalUserScore;
+    };
+
+    if (!areMatchesCompleted) {
+      res.json({
+        success: false,
+        message: "Not all matches of the tournament are completed"
+      });
+
+      return;
+    }
+
+    fantasyTournament.users.forEach(item => {
+      playersCountedResults.push({
+        user: item.user,
+        score: getTotalUserScore(item.user._id)
+      })
+    });
+
+    const tournamentWinner = playersCountedResults.sort((next, prev) => prev.score - next.score)[0];
+    const tournamentPrize = fantasyTournament.entry * fantasyTournament.users.length;
+
+    await FantasyTournament.updateOne({ _id: tournamentId }, {
+      winner: tournamentWinner.user._id,
+    });
+
+    await UserModel.findByIdAndUpdate({ _id: tournamentWinner.user._id }, { new: true, $inc: { balance: tournamentPrize } });
+    await TransactionModel.create({
+      userId: tournamentWinner.user._id,
+      tournamentId,
+      amount: tournamentPrize,
+      origin: 'tournament winning',
+      date: Date.now(),
+    });
+
+    const tournamentUserNames = fantasyTournament.users.map(item => item.user.username);
+
+    io.emit('fantasyTournamentFinalized', {
+      tournamentId,
+      participants: tournamentUserNames,
+      winner: tournamentWinner.user.username,
+      prize: tournamentPrize,
+    });
+
+    res.json({
+      message: "Finalization completed",
+      success: "success",
+    });
   });
 
   return router;
