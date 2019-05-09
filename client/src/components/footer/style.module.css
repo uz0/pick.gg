@@ -84,6 +84,16 @@ html {
   display: flex;
   align-items: center;
 }
+.change_lng input{
+  display: none;
+}
+.change_lng label{
+  font-size: 12px;
+  color: var(--header-color);
+  text-transform: uppercase;
+  margin-right: 10px;
+  cursor: pointer;
+}
 
 @media(max-width: 480px) {
   .footer_wrap {

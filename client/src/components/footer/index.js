@@ -12,7 +12,24 @@ class Footer extends Component {
       profile: {
         user: {},
       },
+      locale: '',
     };
+  }
+  async componentDidMount(){
+    const locale = localStorage.getItem('_pgg_locale');
+
+    this.setState({
+      locale,
+    });
+  }
+  changeLocale = (event) => {
+    this.setState({
+      locale: event.target.name,
+    });
+
+    localStorage.setItem('_pgg_locale', event.target.name);
+
+    i18n.changeLanguage(event.target.name);
   }
 
   render() {
@@ -36,11 +53,38 @@ class Footer extends Component {
             </div>
           </div>
 
-          <div className={style.change_lng}>
+          {/* <div className={style.change_lng}>
             <NavLink to="/ru">RU</NavLink>
 
             <NavLink to="/en">EN</NavLink>
-          </div>
+          </div> */}
+          <div  className={style.change_lng}>
+                    <div className={style.item}>
+                      <label>Ru
+                      <input
+                        name='ru'
+                        type='radio'
+                        value={this.state.locale}
+                        checked={this.state.locale === 'ru'}
+                        onChange={this.changeLocale}
+                      />
+                      </label>
+                      
+                    </div>
+                    <div className={style.item}>
+                      <label>En
+                      <input
+                        name='en'
+                        type='radio'
+                        value={this.state.locale}
+                        checked={this.state.locale === 'en'}
+                        onChange={this.changeLocale}
+                      />
+                      </label>
+                      
+                    </div>
+                  </div>
+               
 
         </div>
       </div>
