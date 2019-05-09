@@ -52,8 +52,10 @@ class MatchModal extends Component {
     let selectMatches = [];
 
     matches.forEach((item, index) => {
+      const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName).join(', ');
+
       selectMatches.push({
-        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')}`,
+        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers}`,
         id: item.gameId,
       });
     });
