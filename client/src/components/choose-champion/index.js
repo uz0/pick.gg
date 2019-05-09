@@ -25,8 +25,8 @@ class ChooseChampion extends Component {
     if (index === -1 && ids.length === 5) {
       return;
     }
-    if (ids.length === 5){
-      
+    if (ids.length === 5) {
+
     }
     if (index === -1) {
       ids.push(id);
@@ -67,6 +67,34 @@ class ChooseChampion extends Component {
     </div>;
   };
 
+  renderChampion = ({ _id, photo, name, position, stats }) => {
+    const championPhoto = photo ? photo : Avatar;
+
+    return <div
+      className={cx('item', { '_is-checked': this.state.ids.indexOf(_id) !== -1 })}
+      key={_id}
+      onClick={() => this.toggleChampion(_id)}
+    >
+      <div className={style.image}>
+        <img src={championPhoto} alt={i18n.t('champion_avatar')} />
+      </div>
+
+      <p className={style.name}>{name}</p>
+
+      {position &&
+        <div className={style.stats_item}>
+          <div className={style.statistic_item}>
+            Position: {position}
+          </div>
+        </div>
+      }
+
+      <div className={style.stats_item}>
+        {stats.map(element => this.renderStatisticItem(element))}
+      </div>
+    </div>
+  }
+
   render() {
     return <div className={style.wrapper}>
       <div className={style.modal}>
@@ -82,29 +110,7 @@ class ChooseChampion extends Component {
 
         <div className={style.content}>
           <div className={style.list}>
-            {this.props.champions.map(item => <div
-              className={cx('item', { '_is-checked': this.state.ids.indexOf(item._id) !== -1 })}
-              key={item._id}
-              onClick={() => this.toggleChampion(item._id)}
-            >
-              <div className={style.image}>
-                <img src={item.photo === null ? Avatar : item.photo} alt={i18n.t('champion_avatar')} />
-              </div>
-
-              <p className={style.name}>{item.name}</p>
-
-              {item.position &&
-                <div className={style.stats_item}>
-                  <div className={style.statistic_item}>
-                    Position: {item.position}
-                  </div>
-                </div>
-              }
-
-              <div className={style.stats_item}>
-                {item.stats.map(element => this.renderStatisticItem(element))}
-              </div>
-            </div>)}
+            {this.props.champions.map(item => this.renderChampion(item))}
           </div>
         </div>
 

@@ -108,14 +108,14 @@ class Profile extends Component {
                 </div>
 
                 {this.state.formData.isStreamer && <div>
-                    <label>{i18n.t('summonerName')}</label>
-                    <input
-                      type="text"
-                      name="summonerName"
-                      value={this.state.formData.summonerName}
-                      onChange={this.handleChange}
-                    />
-                  </div>
+                  <label>{i18n.t('summonerName')}</label>
+                  <input
+                    type="text"
+                    name="summonerName"
+                    value={this.state.formData.summonerName}
+                    onChange={this.handleChange}
+                  />
+                </div>
                 }
 
                 <div>

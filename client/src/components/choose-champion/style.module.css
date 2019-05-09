@@ -114,7 +114,7 @@
   --color: #000;
 }
 
-.wrapper .modal .content .list .item:not(._is-checked):hover .statistic_item{
+.wrapper .modal .content .list .item:not(._is-checked):hover .statistic_item {
   --color: #000;
 }
 
@@ -136,7 +136,7 @@
   border-radius: 4px;
 }
 
-.wrapper .modal .content .list .item .image img{
+.wrapper .modal .content .list .item .image img {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
@@ -156,12 +156,13 @@
   transition-property: color;
 }
 
-.wrapper .modal .content .list .item .statistic_item{
+.wrapper .modal .content .list .item .statistic_item {
   font-size: 11px;
   padding: 10px 5px 0;
   color: var(--color);
   font-weight: bold;
   white-space: nowrap;
+  transition: 0.3s ease;
 }
 
 .wrapper .modal .content .list .item .stats_item {
@@ -186,11 +187,11 @@
     width: 100px;
     height: 100px;
   }
-  .wrapper .modal .content .list .item{
+  .wrapper .modal .content .list .item {
     width: 160px;
     max-width: 160px;
   }
-  .wrapper .modal .content .list .item .statistic_item{
+  .wrapper .modal .content .list .item .statistic_item {
     font-size: 10px;
     padding: 6px 5px 0;
   }
@@ -255,7 +256,7 @@
     width: 80px;
     height: 80px;
   }
-  .wrapper .modal .content .list .item .statistic_item{
+  .wrapper .modal .content .list .item .statistic_item {
     font-size: 8px;
   }
 }

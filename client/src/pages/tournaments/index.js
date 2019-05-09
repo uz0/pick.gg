@@ -61,7 +61,7 @@ class Tournaments extends Component {
     let streamerTournaments = [];
     
     tournaments.forEach(item => {
-      if(this.isEscoreTournament(item[0].tournament.name)){
+      if (this.isEscoreTournament(item[0].tournament.name)){
         escoreTournaments.push(item);
       } else {
         streamerTournaments.push(item);
@@ -76,7 +76,7 @@ class Tournaments extends Component {
     const fantasyTournaments = await this.tournamentService.getFantasyTournaments();
 
     let groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
-    groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments)
+    groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments);
     const realTournaments = await this.tournamentService.getRealTournaments();
 
     this.setState({

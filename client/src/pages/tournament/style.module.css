@@ -280,7 +280,7 @@
 }
 
 .tournament .section .subtitle + .table {
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 .tournament .section .matches {
@@ -312,6 +312,12 @@
   text-overflow: ellipsis;
 }
 
+.tournament .section .matches .matches_title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
 .tournament .section .matches .match_button {
   position: relative;
   width: 60px;
@@ -336,6 +342,10 @@
 .tournament .section .leaders {
   width: 48%;
   margin-left: 4%;
+}
+
+.tournament .section .leaders .subtitle {
+  margin-bottom: 8px;
 }
 
 .tournament .section .leaders .table .leader_num_cell,
@@ -370,6 +380,11 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.tournament .section .leaders .table .active_summoner .leader_progress {
+  background-color: #fff;
+}
+
 .fantasy_status{
   color: var(--accent-color);
   font-weight: bold;

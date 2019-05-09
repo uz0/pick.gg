@@ -146,7 +146,6 @@ export default {translation: {
   champion_position: 'Champion position',
   was_deleted: 'was deleted',
   tournament_not_finalized: 'Tournament not finalized',
-  finalize_tournament: 'Finalize tournament',
   entry_sum: 'Entry sum',
   winner: 'Winner',
   rule_updated: 'Rule was successfully updated!',
@@ -205,13 +204,13 @@ export default {translation: {
   notifications: {
     finalization: {
       no_participatns: "You can't finalize tournaments without any participants.",
-      uncompleted_matches: "Finalization failed. All matches of the tournament must be completed."
+      uncompleted_matches: "Finalization failed. All matches of the tournament must be completed.",
     },
 
   },
 
   serverErrors: {
     champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
-    champion_already_exist: "Сhampion with name {{name}} already exists."
-  }
+    champion_already_exist: "Сhampion with name {{name}} already exists.",
+  },
 }};

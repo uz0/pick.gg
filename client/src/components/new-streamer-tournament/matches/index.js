@@ -24,21 +24,21 @@ class MatchesStep extends Component {
     matchData: {
       id: '',
       name: '',
-      startTime: ''
+      startTime: '',
     },
     isMatchCreating: false,
     isMatchEditing: false,
   }
 
   showMatchCreatingModal = () => this.setState({
-    isMatchCreating: true
+    isMatchCreating: true,
   });
 
   closeMatchCreatingModal = () => this.setState({
     matchData: {
       id: '',
       name: '',
-      startTime: ''
+      startTime: '',
     },
     isMatchCreating: false,
   });
@@ -82,7 +82,7 @@ class MatchesStep extends Component {
       matchData: {
         id: uuid(),
         name: '',
-        startTime: ''
+        startTime: '',
       },
       isMatchCreating: false,
     });
@@ -127,7 +127,7 @@ class MatchesStep extends Component {
     }
 
     matches.forEach(item => {
-      if(item.id === matchData.id) {
+      if (item.id === matchData.id) {
         item.name = matchData.name;
         item.startTime = matchData.startTime;
       }
@@ -138,7 +138,7 @@ class MatchesStep extends Component {
       matchData: {
         id: '',
         name: '',
-        startTime: ''
+        startTime: '',
       },
       isMatchEditing: false,
     });
@@ -147,7 +147,7 @@ class MatchesStep extends Component {
   submitTournament = () => {
     const { matches } = this.state;
 
-    if(this.state.matches.length === 0){
+    if (this.state.matches.length === 0){
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -174,7 +174,7 @@ class MatchesStep extends Component {
       <button className={style.edit} onClick={() => this.editMatch(match)}>
         <i className='material-icons'>edit</i>
       </button>
-    </div>
+    </div>;
   }
 
 
@@ -204,7 +204,7 @@ class MatchesStep extends Component {
           actions={[{
             text: modalActionText,
             onClick: modalAction,
-            isDanger: true
+            isDanger: true,
           }]}
         >
           <Input

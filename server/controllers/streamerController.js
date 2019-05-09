@@ -289,6 +289,7 @@ const StreamerController = (io) => {
       tournament: tournamentId,
       rules: fantasyTournamentRules,
       creator: userId,
+      winner: null,
     });
 
     res.send({ fantasyTournament });
