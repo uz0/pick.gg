@@ -51,7 +51,7 @@ class PlayersStep extends Component {
     championData: {
       name: '',
       photo: '',
-      position: ''
+      position: '',
     },
     isPlayerChoosing: false,
     isPlayerCreating: false,
@@ -84,7 +84,7 @@ class PlayersStep extends Component {
   nextStep = () => {
     const { playersAddedToTournament } = this.state;
 
-    if(playersAddedToTournament.length !== 10){
+    if (playersAddedToTournament.length !== 10){
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -96,7 +96,7 @@ class PlayersStep extends Component {
 
     const payload = {
       players: playersAddedToTournament,
-    }
+    };
 
     this.props.nextStep(payload);
   }
@@ -105,7 +105,7 @@ class PlayersStep extends Component {
     this.setState({
       playersAddedToTournament: this.state.chosenPlayers,
       isPlayerChoosing: false,
-    })
+    });
   }
 
   playerClickHandler = (player) => {
@@ -153,7 +153,7 @@ class PlayersStep extends Component {
     const payload = {
       name,
       photo,
-      position
+      position,
     };
 
     try {
@@ -162,7 +162,7 @@ class PlayersStep extends Component {
       let createPlayerRequest = await this.streamerService.createPlayer(payload);
       let createPlayerRequestData = await createPlayerRequest.json();
 
-      if(createPlayerRequest.status === 404){
+      if (createPlayerRequest.status === 404){
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
@@ -174,7 +174,7 @@ class PlayersStep extends Component {
         return;
       }
 
-      if(createPlayerRequest.status === 400){
+      if (createPlayerRequest.status === 400){
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
@@ -202,7 +202,7 @@ class PlayersStep extends Component {
         championData: {
           name: '',
           photo: '',
-          position: ''
+          position: '',
         },
         isChampionModalLoading: false,
       });
@@ -238,7 +238,7 @@ class PlayersStep extends Component {
       <div className={style.players}>
         <h3>Tournament players</h3>
         <div className={style.chosen_champions}>
-          {this.state.playersAddedToTournament.map((item, index) => this.renderChampion(item))}
+          {this.state.playersAddedToTournament.map(item => this.renderChampion(item))}
           <Button
             className={style.action_button}
             appearance={'_basic-accent'}
@@ -337,7 +337,7 @@ class PlayersStep extends Component {
           actions={[{
             text: i18n.t('add_player'),
             onClick: this.submitPlayerCreatingForm,
-            isDanger: true
+            isDanger: true,
           }]}
         >
 

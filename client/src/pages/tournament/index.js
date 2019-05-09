@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Button from 'components/button';
 import Modal from 'components/dashboard-modal';
@@ -177,7 +177,7 @@ class Tournament extends Component {
     const { fantasyTournament } = this.state;
     const isAllMatchesCompleted = every(this.state.matches, { completed: true });
 
-    if(fantasyTournament.users.length === 0) {
+    if (fantasyTournament.users.length === 0) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -187,7 +187,7 @@ class Tournament extends Component {
       return;
     }
 
-    if(!isAllMatchesCompleted) {
+    if (!isAllMatchesCompleted) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -211,7 +211,7 @@ class Tournament extends Component {
     document.execCommand('copy');
     this.setState({
       animate: true,
-    })
+    });
   }
 
   getTournamentStatus = () => {
@@ -539,8 +539,8 @@ class Tournament extends Component {
       </button>
 
       {isUserStreamerAndCreator && <button className={style.match_button} onClick={(event) => this.editMatchInit(event, item)}>
-          <i className="material-icons">info</i>
-        </button>
+        <i className="material-icons">info</i>
+      </button>
       }
     </div>;
   };

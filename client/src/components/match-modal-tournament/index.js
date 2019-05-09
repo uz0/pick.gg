@@ -4,7 +4,6 @@ import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
 
-import http from 'services/httpService';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 import UserService from 'services/userService';
@@ -56,8 +55,8 @@ class MatchModal extends Component {
       selectMatches.push({
         name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')}`,
         id: item.gameId,
-      })
-    })
+      });
+    });
 
     match.startTime = moment(match.startDate).format('HH:mm');
 

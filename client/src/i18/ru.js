@@ -76,7 +76,6 @@ export default {translation: {
   he_got_prize: 'Он получил {{prize}} приз.',
   match: 'Матч',
   join_tournament: 'Присоединиться к турниру',
-  finalize_tournament: 'Завершить турнир',
   join_tournament_and: 'Присоединяйся к турниру и выбирай своих чемпионов',
   wait_matches: 'Ожидаем результатов матчей',
   free: 'Free',
@@ -208,13 +207,13 @@ export default {translation: {
   notifications: {
     finalization: {
       no_participatns: "Вы не можете завершить турнир без участников.",
-      uncompleted_matches: "Для финализации турнира, все матчи должны быть завершены."
+      uncompleted_matches: "Для финализации турнира, все матчи должны быть завершены.",
     },
 
   },
 
   serverErrors: {
     champion_not_found: "Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.",
-    champion_already_exist: "Чемпион с именем {{name}} уже есть в базе игроков."
-  }
+    champion_already_exist: "Чемпион с именем {{name}} уже есть в базе игроков.",
+  },
 }};

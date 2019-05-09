@@ -71,7 +71,7 @@ class GeneralStep extends Component {
   nextStep = () => {
     const { name, entry, thumbnail, rules, rulesValues } = this.state;
 
-    if(name === '' || entry === ''){
+    if (name === '' || entry === ''){
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -87,7 +87,7 @@ class GeneralStep extends Component {
       rules,
       thumbnail,
       rulesValues,
-    }
+    };
 
     this.props.nextStep(payload);
   }
@@ -104,7 +104,7 @@ class GeneralStep extends Component {
       <label>
         {i18n.t(name)}
       </label>
-    </div>
+    </div>;
   }
 
   render() {
