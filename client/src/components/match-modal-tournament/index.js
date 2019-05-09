@@ -12,6 +12,7 @@ import Select from '../filters/select';
 
 import moment from 'moment';
 import find from 'lodash/find';
+import difference from 'lodash/difference';
 
 import style from './style.module.css';
 
@@ -50,14 +51,16 @@ class MatchModal extends Component {
     let { match } = await this.streamerService.getMatchInfo(matchId);
     const { user } = await this.userService.getMyProfile();
     const { matches } = await this.streamerService.getLastMatches(user.streamerAccountId);
+    const currentMatchPlayers = matchChampions.map(item => item.name);
 
     let selectMatches = [];
 
     matches.forEach((item, index) => {
-      const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName).join(', ');
+      const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName);
+      const playersDifference = difference(currentMatchPlayers, matchPlayers).length === 0 ? '✔' : '';
 
       selectMatches.push({
-        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers}`,
+        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers.join(', ')} ${playersDifference}`,
         id: item.gameId,
       });
     });
