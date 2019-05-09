@@ -224,7 +224,7 @@ class TopMenuComponent extends Component {
             </div>
 
             <NavLink to="/tournaments">
-            <i className="material-icons">whatshot</i>
+              <i className="material-icons">whatshot</i>
               {i18n.t('tournaments')}
             </NavLink>
 

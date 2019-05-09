@@ -12,7 +12,7 @@ export default class StreamerService extends BasicService {
       body: JSON.stringify({
         name,
         photo,
-        position
+        position,
       }),
     });
     return request;
@@ -69,7 +69,7 @@ export default class StreamerService extends BasicService {
         startDate,
         completed,
         results,
-        lolMatchId
+        lolMatchId,
       }),
     });
     request = await request.json();
