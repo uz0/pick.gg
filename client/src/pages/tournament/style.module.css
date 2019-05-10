@@ -267,7 +267,7 @@
   text-align: center;
   font-size: 15px;
   font-weight: var(--font-weight-bold);
-  color: #9696b0;
+  color: #eaeaee;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -281,7 +281,7 @@
 }
 
 .tournament .section .subtitle+.table {
-  margin-top: 24px;
+  margin-top: 14px;
 }
 
 .tournament .section .matches {
@@ -311,7 +311,7 @@
   font-size: 16px;
   color: #000;
   border-radius: 4px;
-  background-color: #9fa2be;
+  background-color: #e9e9e9;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -379,7 +379,7 @@
   padding-right: 8px;
   font-size: 15px;
   border-radius: 4px;
-  background-color: #9fa2be;
+  background-color: #e9e9e9;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -526,8 +526,8 @@
 }
 
 .tournament .tournament_section .main .info i:hover {
-  transform: scale(1.2);
-  text-shadow: 0 0 6px #ffd120;
+  transform: scale(1.1);
+  text-shadow: 0 0 4px #ffd120;
 }
 
 @keyframes star {
