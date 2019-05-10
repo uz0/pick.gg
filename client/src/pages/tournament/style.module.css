@@ -357,6 +357,18 @@
   flex-shrink: 0;
 }
 
+.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell .name_leader {
+  display: flex;
+}
+
+.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell .name_leader i {
+  font-size: 10px;
+  margin-left: 2px;
+  color: #ffd120;
+  text-shadow: 0 0 4px #ffd120;
+  cursor: default;
+}
+
 .tournament .section .leaders .summoner_arr {
   margin-top: 20px;
 }
@@ -528,15 +540,6 @@
 .tournament .tournament_section .main .info i:hover {
   transform: scale(1.1);
   text-shadow: 0 0 4px #ffd120;
-}
-
-@keyframes star {
-  0% {
-    text-shadow: 0 0 0 #ffd120;
-  }
-  50% {
-    text-shadow: 0 0 4px #ffd120;
-  }
 }
 
 @media (max-width: 1064px) {
