@@ -54,7 +54,7 @@ const matchInfoTableCaptions = {
 const leadersTableCaptions = {
   position: {
     text: i18n.t('position'),
-    width: 65,
+    width: 55,
   },
 
   name: {
@@ -450,14 +450,15 @@ class Tournament extends Component {
     const summonerArr = item.user.username === summonerName;
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
-    console.log(item)
+    const isStreamer = item.user.isStreamer;
+
     return <div className={cx(className, { 'active_summoner': summonerArr })} key={item.user._id}>
       <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
         <span className={textClass}>{index + 1}</span>
       </div>
 
       <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
-        <span className={textClass}>{item.user.username}</span>
+        <span className={cx(textClass, 'name_leader')}>{item.user.username}{isStreamer && <i title="Streamer" className="material-icons">star</i>}</span>
       </div>
 
       {totalScore > 0 &&
@@ -604,7 +605,7 @@ class Tournament extends Component {
     const matchInfo = this.state.matchInfo && this.state.matchInfo;
     const isStreamer = this.state.fantasyTournament && this.state.fantasyTournament.creator.isStreamer;
     const isMatchesUncompleted = every(this.state.matches, { completed: true });
-    
+
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
