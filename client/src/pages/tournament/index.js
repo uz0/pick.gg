@@ -550,21 +550,27 @@ class Tournament extends Component {
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isPlayerChoosedByUser = _.find(champions, { _id: item.playerId }) ? true : false;
 
+    const rules = this.state.fantasyTournament.rules;
+
+    const killsScore = item.results[0].score === 0 ? 0 : <span className={style.score_block}>{item.results[0].score} <span className={style.rule_color}>x{rules[0].score}</span></span>;
+    const deathScore = item.results[1].score === 0 ? 0 : <span className={style.score_block}>{item.results[1].score} <span className={style.rule_color}>x{rules[1].score}</span></span>;
+    const assistsScore = item.results[2].score === 0 ? 0 : <span className={style.score_block}>{item.results[2].score} <span className={style.rule_color}>x{rules[2].score}</span></span>;
+
     return <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
         <span className={textClass}>{item.playerName}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.kill.width }}>
-        <span className={cx(textClass, {[style.grey_scores]: item.results[0].score === 0})}>{item.results[0].score}</span>
+        <span className={cx(textClass, {[style.grey_scores]: item.results[0].score === 0})}>{killsScore}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.death.width }}>
-        <span className={cx(textClass, {[style.grey_scores]: item.results[1].score === 0})}>{item.results[1].score}</span>
+        <span className={cx(textClass, {[style.grey_scores]: item.results[1].score === 0})}>{deathScore}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.assists.width }}>
-        <span className={cx(textClass, {[style.grey_scores]: item.results[2].score === 0})}>{item.results[2].score}</span>
+        <span className={cx(textClass, {[style.grey_scores]: item.results[2].score === 0})}>{assistsScore}</span>
       </div>
 
     </div>;
