@@ -1,4 +1,3 @@
-import HomeController from "./homeController";
 import UsersController from "./usersController";
 import PingController from "./pingController";
 import AuthenticationController from "./authenticationController";
@@ -11,7 +10,6 @@ import StreamerController from "./streamerController";
 import AdminController from "./adminController";
 
 export {
-  HomeController,
   UsersController,
   PingController,
   AuthenticationController,

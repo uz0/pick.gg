@@ -9,7 +9,6 @@ import logger from "morgan";
 import bodyParser from "body-parser";
 
 import {
-  HomeController,
   UsersController,
   PingController,
   AuthenticationController,
@@ -49,8 +48,9 @@ app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
 app.use('/api/authentication', AuthenticationController(app));
 
+
+
 app.use('/api', AuthVerifyMiddleware(app));
-app.use("/api/home", HomeController(io));
 app.use("/api/ping", PingController());
 app.use("/api/users", UsersController());
 app.use("/api/rules", RuleController());
