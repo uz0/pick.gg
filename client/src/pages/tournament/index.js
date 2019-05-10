@@ -450,7 +450,7 @@ class Tournament extends Component {
     const summonerArr = item.user.username === summonerName;
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
-
+    console.log(item)
     return <div className={cx(className, { 'active_summoner': summonerArr })} key={item.user._id}>
       <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
         <span className={textClass}>{index + 1}</span>
@@ -512,7 +512,7 @@ class Tournament extends Component {
 
     const url = '';
     const urlMatch = url === '' ? '' : url;
-    
+
     const time = moment(item.startDate).format('HH:mm');
     const timeMatch = moment(item.startDate).format('MMM DD HH:mm');
     const timeNow = moment().format('MMM DD HH:mm');
@@ -562,15 +562,15 @@ class Tournament extends Component {
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.kill.width }}>
-        <span className={cx(textClass, {[style.grey_scores]: item.results[0].score === 0})}>{killsScore}</span>
+        <span className={cx(textClass, { [style.grey_scores]: item.results[0].score === 0 })}>{killsScore}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.death.width }}>
-        <span className={cx(textClass, {[style.grey_scores]: item.results[1].score === 0})}>{deathScore}</span>
+        <span className={cx(textClass, { [style.grey_scores]: item.results[1].score === 0 })}>{deathScore}</span>
       </div>
 
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.assists.width }}>
-        <span className={cx(textClass, {[style.grey_scores]: item.results[2].score === 0})}>{assistsScore}</span>
+        <span className={cx(textClass, { [style.grey_scores]: item.results[2].score === 0 })}>{assistsScore}</span>
       </div>
 
     </div>;
@@ -602,9 +602,9 @@ class Tournament extends Component {
     const summonerArr = topTen.filter(item => item.user.username === summonerName);
     const renderSummonerArr = summonerArr ? '' : summonerArr;
     const matchInfo = this.state.matchInfo && this.state.matchInfo;
-
+    const isStreamer = this.state.fantasyTournament && this.state.fantasyTournament.creator.isStreamer;
     const isMatchesUncompleted = every(this.state.matches, { completed: true });
-
+    
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
         <div className={style.main}>
@@ -613,8 +613,12 @@ class Tournament extends Component {
           <div className={style.info}>
             <span>{tournamentDate}</span>
 
-            <span>
-              {i18n.t('created_by')} <Link to={`/user/${tournamentCreatorLink}`}>{tournamentCreator}</Link>
+            <span className={style.creator_info}>
+              {i18n.t('created_by')}
+              <Link to={`/user/${tournamentCreatorLink}`}>
+                {tournamentCreator}
+              </Link>
+              {isStreamer && <i title="Streamer" className="material-icons">star</i>}
             </span>
 
             {status && <div className={style.status}>{status}</div>}

@@ -507,6 +507,38 @@
   font-size: 14px
 }
 
+.creator_info {
+  display: flex;
+}
+
+.tournament .tournament_section .main .info a {
+  margin-left: 4px;
+}
+
+.tournament .tournament_section .main .info i {
+  color: #ffd120;
+  font-size: 14px;
+  margin-left: 2px;
+  align-self: flex-start;
+  animation: star 1s infinity linear;
+  cursor: default;
+  transition: all 0.8s
+}
+
+.tournament .tournament_section .main .info i:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 6px #ffd120;
+}
+
+@keyframes star {
+  0% {
+    text-shadow: 0 0 0 #ffd120;
+  }
+  50% {
+    text-shadow: 0 0 4px #ffd120;
+  }
+}
+
 @media (max-width: 1064px) {
   .tournament .team .champion .image {
     --size: 110px;
