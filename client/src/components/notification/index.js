@@ -16,6 +16,7 @@ class Notification extends Component {
 
   componentDidMount() {
     setTimeout(() => this.setState({ isShown: true }), 100);
+    setTimeout(() => this.setState({ isShown: false }), 4000);
   }
 
   handleLinkRedirect = () => {
