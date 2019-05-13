@@ -77,7 +77,7 @@ class Rating extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
-    const currentUserRow = this.state.currentUser.user._id === item._id;
+    const currentUserRow = this.state.currentUser.user && this.state.currentUser.user._id === item._id;
 
     return <NavLink to={`/user/${item._id}`} className={cx(className, { [style.current_user]: currentUserRow })} key={item._id}>
       <div className={itemClass} style={{ '--width': ratingTableCaptions.place.width }}>

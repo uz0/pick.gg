@@ -3,6 +3,8 @@ import UserModel from "../models/user";
 import TransactionModel from "../models/transaction";
 import riotFetch from '../riotFetch';
 
+import isEmpty from 'lodash/isEmpty';
+
 let router = express.Router();
 
 const UsersController = () => {
@@ -12,6 +14,14 @@ const UsersController = () => {
   });
 
   router.get('/me', async (req, res) => {
+    if (isEmpty(req.decoded)) {
+      res.send({
+        user: null,
+      })
+
+      return;
+    }
+
     const userId = req.decoded._id;
     const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email summonerName streamerAccountId');
     res.json({ user });
@@ -113,7 +123,8 @@ const UsersController = () => {
 
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
-    let user = await UserModel.findOne({ _id: id });
+    const user = await UserModel.findOne({ _id: id });
+
     res.json({ user });
   });
 

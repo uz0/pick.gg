@@ -12,19 +12,19 @@ export default function AuthWrapper(AuthComponent) {
     }
 
     componentWillMount() {
-      if (!this.auth.isLoggedIn()) {
-        this.props.history.replace('/');
-      } else {
-        try {
-          const profile = this.auth.getProfile();
-          this.setState({
-            user: profile,
-          });
-        } catch (err) {
-          this.auth.logout();
-          this.props.history.replace('/');
-        }
-      }
+      // if (!this.auth.isLoggedIn()) {
+      //   this.props.history.replace('/');
+      // } else {
+      //   try {
+      //     const profile = this.auth.getProfile();
+      //     this.setState({
+      //       user: profile,
+      //     });
+      //   } catch (err) {
+      //     this.auth.logout();
+      //     this.props.history.replace('/');
+      //   }
+      // }
     }
 
     render() {
