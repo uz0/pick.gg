@@ -1,33 +1,16 @@
-import mongoose from "mongoose";
 import express from "express";
 import moment from "moment";
 import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
 import FantasyTournament from "../models/fantasy-tournament";
 import UserModel from "../models/user";
-import RuleModel from "../models/rule";
 import TransactionModel from "../models/transaction";
-import MatchResult from "../models/match-result";
-import MatchModel from "../models/match";
 
 import isEmpty from 'lodash/isEmpty';
 
 let router = express.Router();
 
-let list = [];
-
 const TournamentController = io => {
-  // io.on('connection', async socket => {
-  //   const tournaments = await TournamentModel
-  //     .find()
-  //     .populate('rules.rule')
-  //     .populate({ path: 'users.user', select: '_id username' })
-  //     .populate('users.players');
-
-  //   list = tournaments;
-  //   socket.emit('tournaments', { tournaments: list });
-  // });
-
   router.get('/real', async (req, res) => {
     const tournaments = await TournamentModel
       .find({
