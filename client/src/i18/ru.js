@@ -209,7 +209,9 @@ export default {translation: {
       no_participatns: "Вы не можете завершить турнир без участников.",
       uncompleted_matches: "Для финализации турнира, все матчи должны быть завершены.",
     },
-
+    errors: {
+      closed_window: "Пользователь закрыл окно входа",
+    }
   },
 
   serverErrors: {

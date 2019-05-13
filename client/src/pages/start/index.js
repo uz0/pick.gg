@@ -64,7 +64,7 @@ class Start extends Component {
     this.notificationService.showSingleNotification({
       type: 'error',
       shouldBeAddedToSidebar: false,
-      message: i18n.t(data.error),
+      message: i18n.t('notifications.errors.closed_window'),
     });
   };
 
