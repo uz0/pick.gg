@@ -3,27 +3,21 @@ import BasicService from './basicService';
 export default class TransactionService extends BasicService {
   deposit = async() => {
     return this.request('POST', '/api/transactions/deposit', {
-      "amount": 10,
-      "origin": "user deposit",
+      'amount': 10,
+      'origin': 'user deposit',
     });
   }
 
   withdraw = async() => {
     return this.request('POST', '/api/transactions/withdraw', {
-      "amount": 10,
-      "origin": "user withdraw",
+      'amount': 10,
+      'origin': 'user withdraw',
     });
   }
 
-  getUserBalance = async() => {
-    return this.request('GET', '/api/transactions/balance');
-  }
+  getUserBalance = () => this.request('GET', '/api/transactions/balance');
 
-  getTotalWinnings = async(id) => {
-    return this.request('GET', `/api/transactions/winnings/${id}`);
-  }
+  getTotalWinnings = id => this.request('GET', `/public/transactions/winnings/${id}`);
 
-  getTransactionsHistory = async() => {
-    return this.request('GET', '/api/transactions/history');
-  }
+  getTransactionsHistory = () => this.request('GET', '/api/transactions/history');
 }

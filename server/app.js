@@ -22,7 +22,8 @@ import {
   PublicRulesController,
   PublicUsersController,
   PublicPlayersController,
-  PublicTournamentController,
+  PublicTournamentsController,
+  PublicTransactionsController
 } from './controllers/public';
 
 import { AuthVerifyMiddleware, AdminVerifyMiddleware, StreamerVerifyMiddleware } from './middlewares';
@@ -54,6 +55,7 @@ app.use('/public/rules', PublicRulesController());
 app.use('/public/players', PublicPlayersController());
 app.use('/public/users', PublicUsersController());
 app.use('/public/tournaments', PublicTournamentsController());
+app.use('/public/transactions', PublicTransactionsController());
 
 app.use('/api/authentication', AuthenticationController(app));
 
