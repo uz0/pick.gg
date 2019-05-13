@@ -8,8 +8,10 @@ import TransactionController from "./transactionController";
 import SystemController from "./systemController";
 import StreamerController from "./streamerController";
 import AdminController from "./adminController";
+import PublicController from "./publicController";
 
 export {
+  PublicController,
   UsersController,
   PingController,
   AuthenticationController,

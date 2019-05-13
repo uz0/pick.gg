@@ -25,13 +25,13 @@ class Start extends Component {
   }
 
   componentDidMount() {
-    if (this.props.history.action === 'REPLACE') {
-      this.notificationService.showSingleNotification({
-        type: 'warning',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('login_message_on_redirect'),
-      });
-    }
+    // if (this.props.history.action === 'REPLACE') {
+    //   this.notificationService.showSingleNotification({
+    //     type: 'warning',
+    //     shouldBeAddedToSidebar: false,
+    //     message: i18n.t('login_message_on_redirect'),
+    //   });
+    // }
   }
 
   handleChange = event => {
@@ -50,8 +50,6 @@ class Start extends Component {
     if (authRequest.success) {
       this.props.history.replace('/tournaments');
     } else {
-      this.props.history.replace('/register');
-
       this.notificationService.showSingleNotification({
         type: 'success',
         shouldBeAddedToSidebar: false,

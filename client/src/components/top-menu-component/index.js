@@ -40,9 +40,7 @@ class TopMenuComponent extends Component {
     });
 
     this.state = {
-      profile: {
-        user: {},
-      },
+      profile: null,
       isLoading: true,
     };
   }
@@ -57,8 +55,11 @@ class TopMenuComponent extends Component {
   }
 
   updateProfile = async () => {
-    let profile = await this.userService.getMyProfile();
-    this.setState({ profile, isLoading: false });
+    const profile = await this.userService.getMyProfile();
+    this.setState({
+      profile,
+      isLoading: false
+    });
   }
 
   // deposit = async(event) => {
@@ -150,11 +151,13 @@ class TopMenuComponent extends Component {
   }
 
   render() {
-    const Avatar = () => this.state.profile.user.photo ?
-      <img className={style.avatar_circle} src={this.state.profile.user.photo} alt="userpic" /> :
+    const { profile } = this.state;
+    console.log(profile);
+    const Avatar = () => profile && profile.user && profile.user.photo ?
+      <img className={style.avatar_circle} src={profile.user.photo} alt="userpic" /> :
       <AvatarPlaceholder />;
-    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : <span className={cx({ [style.is_loading]: this.state.isLoading })}>{this.state.profile.user.username}</span>;
-    const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>${this.state.profile.user.balance}</span>;
+    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : <span className={cx({ [style.is_loading]: this.state.isLoading })}>{profile && profile.user && profile.user.username}</span>;
+    const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>${profile && profile.user && profile.user.balance}</span>;
     const UserPlaceholder = () => <Fragment>
       <Avatar />
       <span>{isMenuIcon}</span>
@@ -172,6 +175,8 @@ class TopMenuComponent extends Component {
             <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
+          {profile && profile.user && <Fragment>
+
           <DropDown className={style.mobile_hidden} placeholder={<BalancePlaceholder />}>
             <NavLink to="/transactions"><i className="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
 
@@ -182,7 +187,7 @@ class TopMenuComponent extends Component {
           <NotificationBell />
 
           <DropDown className={style.mobile_hidden} placeholder={<UserPlaceholder />}>
-            {this.state.profile.user.isAdmin &&
+            {profile && profile.user && profile.user.isAdmin &&
               <NavLink to="/dashboard/tournaments">
                 <i className="material-icons">dashboard</i>
                 {i18n.t('dashboard')}
@@ -194,7 +199,7 @@ class TopMenuComponent extends Component {
               {i18n.t('my_tournaments')}
             </NavLink>
 
-            <NavLink to={`/user/${this.props.user._id}`}>
+            <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
               <i className="material-icons">person</i>
               {i18n.t('public_profile')}
             </NavLink>
@@ -220,7 +225,7 @@ class TopMenuComponent extends Component {
           <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
             <div className={style.item}>
               <i className="material-icons">account_balance_wallet</i>
-              {`$${this.state.profile.user.balance}`}
+              {`$${profile && profile.user && profile.user.balance}`}
             </div>
 
             <NavLink to="/tournaments">
@@ -248,7 +253,7 @@ class TopMenuComponent extends Component {
               {i18n.t('my_tournaments')}
             </NavLink>
 
-            <NavLink to={`/user/${this.props.user._id}`}>
+            <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
               <i className="material-icons">person</i>
               {i18n.t('public_profile')}
             </NavLink>
@@ -270,10 +275,14 @@ class TopMenuComponent extends Component {
               )}
             />
           </DropDown>
+          </Fragment>
+          }
+        
         </div>
       </div>
     );
   }
 }
 
-export default AuthWrapper(TopMenuComponent);
+export default TopMenuComponent;
+// export default AuthWrapper(TopMenuComponent);

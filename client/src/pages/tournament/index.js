@@ -111,7 +111,7 @@ class Tournament extends Component {
 
     this.setState({
       currentUser: user,
-      username: user.username,
+      username: user && user.username,
     });
 
     this.socket = io();
@@ -205,6 +205,8 @@ class Tournament extends Component {
   }
 
   toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
+
+  redirectToLogin = () => this.props.history.push(`/?tournamentId=${this.state.fantasyTournament._id}`);
 
   copyInput = () => {
     document.querySelector('#copyUrl').select();
@@ -508,7 +510,7 @@ class Tournament extends Component {
     const matchPoints = points > 0 ? points : 0;
 
     const isMatchCompleted = item.completed;
-    const isUserStreamerAndCreator = this.state.currentUser.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
+    const isUserStreamerAndCreator = this.state.currentUser && this.state.currentUser.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
 
     const url = '';
     const urlMatch = url === '' ? '' : url;
@@ -586,7 +588,8 @@ class Tournament extends Component {
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     // const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
     const isJoinButtonShown = !currentUserParticipant && !winner;
-    const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
+    const joinButtonAction = !currentUserParticipant && !this.state.currentUser ? this.redirectToLogin : this.toggleChampionModal;
+    const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
     // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
@@ -622,7 +625,7 @@ class Tournament extends Component {
             <Button
               text={i18n.t('join_tournament')}
               appearance="_basic-accent"
-              onClick={this.toggleChampionModal}
+              onClick={joinButtonAction}
               className={cx(style.button)}
             />
           }

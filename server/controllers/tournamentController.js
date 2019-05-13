@@ -10,6 +10,8 @@ import TransactionModel from "../models/transaction";
 import MatchResult from "../models/match-result";
 import MatchModel from "../models/match";
 
+import isEmpty from 'lodash/isEmpty';
+
 let router = express.Router();
 
 let list = [];
@@ -64,6 +66,14 @@ const TournamentController = io => {
   });
 
   router.get('/my', async (req, res) => {
+    if(isEmpty(req.decoded)){
+      res.send({
+        tournaments: null,
+      })
+
+      return;
+    }
+
     const id = req.decoded._id;
     const tournaments = await FantasyTournament
       .find({'users.user': id}, '-users.players -rules')

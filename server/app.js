@@ -9,6 +9,7 @@ import logger from "morgan";
 import bodyParser from "body-parser";
 
 import {
+  PublicController,
   UsersController,
   PingController,
   AuthenticationController,
@@ -46,11 +47,11 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
+app.use('/public/api', PublicController());
+
 app.use('/api/authentication', AuthenticationController(app));
 
-
-
-app.use('/api', AuthVerifyMiddleware(app));
+// app.use('/api', AuthVerifyMiddleware(app));
 app.use("/api/ping", PingController());
 app.use("/api/users", UsersController());
 app.use("/api/rules", RuleController());
