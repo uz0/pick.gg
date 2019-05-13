@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
 const baseUrl = 'https://na1.api.riotgames.com/';
-const apiKey = 'RGAPI-dba40431-58c9-4a3c-8767-13ee98473cb9';
+const apiKey = 'RGAPI-c8e60b2d-e216-4e3e-ab96-a5b7d987db6a';
 
 export default (url) => fetch(`${baseUrl}${url}?api_key=${apiKey}`);
