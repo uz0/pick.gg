@@ -6,8 +6,11 @@ let router = express.Router();
 
 const PublicUsersController = () => {
   router.get('/', async (req, res) => {
-    const users = await UserModel.find();
-    res.json({ users });
+    const users = await UserModel.find().select('-password -balance -summonerName -isAdmin');
+
+    res.json({
+      users,
+    });
   });
 
   router.get('/rating', async (req, res) => {

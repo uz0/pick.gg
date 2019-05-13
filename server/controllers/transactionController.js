@@ -4,7 +4,6 @@ import UserModel from "../models/user";
 let router = express.Router();
 
 const TransactionController = () => {
-
   router.get('/', async (req, res) => {
     const transaction = await TransactionModel.find();
     res.send({
@@ -57,7 +56,6 @@ const TransactionController = () => {
   });
   
   router.post('/withdraw', async (req, res) => {
-
     const userId = req.decoded._id;
     const fields = {
       amount: -req.body.amount,
