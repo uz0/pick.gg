@@ -133,7 +133,6 @@ class TopMenuComponent extends Component {
       }
     });
 
-
     // this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
     //   const newBalance = this.state.profile.user.balance - entry;
 
@@ -152,7 +151,6 @@ class TopMenuComponent extends Component {
 
   render() {
     const { profile } = this.state;
-    console.log(profile);
     const Avatar = () => profile && profile.user && profile.user.photo ?
       <img className={style.avatar_circle} src={profile.user.photo} alt="userpic" /> :
       <AvatarPlaceholder />;
