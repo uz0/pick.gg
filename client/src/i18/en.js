@@ -208,6 +208,9 @@ export default {translation: {
     },
     errors: {
       closed_window: "User closed login window",
+    },
+    warnings: {
+      empty_summoner_name: 'Need enter summoner name in settings profile',
     }
   },
 
