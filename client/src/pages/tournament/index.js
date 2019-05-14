@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Button from 'components/button';
 import Modal from 'components/dashboard-modal';
+import DialogModal from 'components/dialog-window';
 import ChooseChampionModal from 'components/choose-champion';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
@@ -774,6 +775,12 @@ class Tournament extends Component {
         />
       </Modal>
       }
+
+      <DialogModal
+        text={i18n.t('unauthenticated_tournament_join')}
+        onClose={this.closeModalChoose}
+        onSubmit={this.submitForm}
+      />
 
       {this.state.isChooseChampionModalShown &&
         <ChooseChampionModal

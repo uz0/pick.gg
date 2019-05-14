@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import Input from '../input';
 import Select from '../select';
 import Button from '../button';
-import Modal from '../../components/modal';
+import DialogWindow from '../../components/dialog-window';
 import Preloader from '../../components/preloader';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 
@@ -207,10 +207,10 @@ class newTournament extends Component {
             <p>{i18n.t('create_new_tournament')}</p>
           </div> */}
 
-          {this.state.modalChoose && <Modal
-            textModal={i18n.t('really_want_create')}
-            closeModal={this.closeModalChoose}
-            submitClick={this.submitForm}
+          {this.state.modalChoose && <DialogWindow
+            text={i18n.t('really_want_create')}
+            onClose={this.closeModalChoose}
+            onSubmit={this.submitForm}
           />
           }
 

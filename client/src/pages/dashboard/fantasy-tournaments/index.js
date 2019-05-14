@@ -7,7 +7,7 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
-import ModalAsk from 'components/modal';
+import DialogWindow from 'components/dialog-window';
 import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
@@ -274,11 +274,10 @@ class FantasyTournaments extends Component {
             isFullScreen={true}
           />}
 
-          {isTournamentDeleting &&
-            <ModalAsk
-              textModal={i18n.t('want_delete_tournament')}
-              submitClick={this.deleteTournamentAccept}
-              closeModal={this.deleteTournamentDecline}
+          {isTournamentDeleting && <DialogWindow
+              text={i18n.t('want_delete_tournament')}
+              onSubmit={this.deleteTournamentAccept}
+              onClose={this.deleteTournamentDecline}
             />
           }
 

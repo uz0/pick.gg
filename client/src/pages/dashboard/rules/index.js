@@ -6,7 +6,7 @@ import AdminService from 'services/adminService';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
-import ModalAsk from 'components/modal';
+import DialogWindow from 'components/dialog-window';
 import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
@@ -261,10 +261,10 @@ class Rules extends Component {
             isFullScreen={true}
           />}
 
-          {confirmRuleDeleting && <ModalAsk
-            textModal={i18n.t('want_remove_rule')}
-            submitClick={this.deleteRule}
-            closeModal={this.closeConfirmRuleDeleting} />}
+          {confirmRuleDeleting && <DialogWindow
+            text={i18n.t('want_remove_rule')}
+            onSubmit={this.deleteRule}
+            onClose={this.closeConfirmRuleDeleting} />}
 
           <Input
             label={i18n.t('rule_name')}
