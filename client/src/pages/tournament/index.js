@@ -2,29 +2,32 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from 'components/button';
-import Modal from 'components/dashboard-modal';
-import ChooseChampionModal from 'components/choose-champion';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
+import Modal from 'components/dashboard-modal';
+import DialogWindow from 'components/dialog-window';
 import MatchModal from 'components/match-modal-tournament';
+import ChooseChampionModal from 'components/choose-champion';
 
-import io from "socket.io-client";
+import i18n from 'i18n';
+import io from 'socket.io-client';
+import moment from 'moment';
+import uuid from 'uuid';
+
+import find from 'lodash/find';
+import groupBy from 'lodash/groupBy';
+import cloneDeep from 'lodash/cloneDeep';
+import every from 'lodash/every';
 
 import UserService from 'services/userService';
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
-import moment from 'moment';
-import find from 'lodash/find';
+
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import Avatar from 'assets/avatar-placeholder.svg';
+
 import classnames from 'classnames/bind';
-import i18n from 'i18n';
-
-import _ from 'lodash';
-import uuid from 'uuid';
-import every from 'lodash/every';
-
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -102,6 +105,7 @@ class Tournament extends Component {
     isLoading: true,
     isChooseChampionModalShown: false,
     isMatchEditModalShown: false,
+    isSignInDialogShown: false,
     editingMatchId: '',
     username: '',
   };
@@ -111,7 +115,7 @@ class Tournament extends Component {
 
     this.setState({
       currentUser: user,
-      username: user.username,
+      username: user && user.username,
     });
 
     this.socket = io();
@@ -200,11 +204,15 @@ class Tournament extends Component {
     try {
       await this.streamerService.finalizeTournament(fantasyTournament._id);
     } catch (error) {
-
+      console.log(error);
     }
   }
 
   toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
+
+  toggleSignInDialog = () => this.setState({ isSignInDialogShown: !this.state.isSignInDialogShown });
+
+  redirectToLogin = () => this.props.history.replace(`/?tournamentId=${this.state.fantasyTournament._id}`);
 
   copyInput = () => {
     document.querySelector('#copyUrl').select();
@@ -390,11 +398,11 @@ class Tournament extends Component {
     const fantasyTournamentRules = this.state.fantasyTournament.rules.map(item => item.rule);
 
     const playersResults = item.results.playersResults;
-    const groupedMatchResults = Object.values(Object.freeze(_.groupBy(playersResults, 'playerId')));
+    const groupedMatchResults = Object.values(Object.freeze(groupBy(playersResults, 'playerId')));
     let matchResults = [];
 
     for (let i = 0; i < groupedMatchResults.length; i++) {
-      let matchResult = _.cloneDeep(groupedMatchResults[i][0]);
+      let matchResult = cloneDeep(groupedMatchResults[i][0]);
 
       for (let j = 1; j < groupedMatchResults[i].length; j++) {
         matchResult.results[0].score += groupedMatchResults[i][j].results[0].score;
@@ -406,10 +414,10 @@ class Tournament extends Component {
     }
 
     matchResults.forEach(match => {
-      match.playerName = _.find(fantasyTournamentChampions, { _id: match.playerId }).name;
+      match.playerName = find(fantasyTournamentChampions, { _id: match.playerId }).name;
 
       match.results.forEach(item => {
-        item.ruleName = _.find(fantasyTournamentRules, { _id: item.rule }).name;
+        item.ruleName = find(fantasyTournamentRules, { _id: item.rule }).name;
       });
     });
 
@@ -509,7 +517,7 @@ class Tournament extends Component {
     const matchPoints = points > 0 ? points : 0;
 
     const isMatchCompleted = item.completed;
-    const isUserStreamerAndCreator = this.state.currentUser.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
+    const isUserStreamerAndCreator = this.state.currentUser && this.state.currentUser.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
 
     const url = '';
     const urlMatch = url === '' ? '' : url;
@@ -549,7 +557,7 @@ class Tournament extends Component {
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    const isPlayerChoosedByUser = _.find(champions, { _id: item.playerId }) ? true : false;
+    const isPlayerChoosedByUser = find(champions, { _id: item.playerId }) ? true : false;
 
     const rules = this.state.fantasyTournament.rules;
 
@@ -593,7 +601,8 @@ class Tournament extends Component {
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     // const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
     const isJoinButtonShown = !currentUserParticipant && !winner;
-    const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
+    const joinButtonAction = !currentUserParticipant && !this.state.currentUser ? this.toggleSignInDialog : this.toggleChampionModal;
+    const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
     // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
@@ -633,7 +642,7 @@ class Tournament extends Component {
             <Button
               text={i18n.t('join_tournament')}
               appearance="_basic-accent"
-              onClick={this.toggleChampionModal}
+              onClick={joinButtonAction}
               className={cx(style.button)}
             />
           }
@@ -781,6 +790,13 @@ class Tournament extends Component {
           emptyMessage="There is no results yet"
         />
       </Modal>
+      }
+
+      {this.state.isSignInDialogShown && <DialogWindow
+          text={i18n.t('unauthenticated_tournament_join')}
+          onClose={this.toggleSignInDialog}
+          onSubmit={this.redirectToLogin}
+        />
       }
 
       {this.state.isChooseChampionModalShown &&

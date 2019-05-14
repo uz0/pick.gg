@@ -12,8 +12,10 @@ let notificationActions = {};
 class NotificationService {
   constructor(options) {
     if (options) {
-      notificationActions.showNotificationSidebar = options.showNotificationSidebar;
-      notificationActions.pushNotificationToSidebar = options.pushNotificationToSidebar;
+      if (options.showNotificationSidebar) {
+        notificationActions.showNotificationSidebar = options.showNotificationSidebar;
+        notificationActions.pushNotificationToSidebar = options.pushNotificationToSidebar;
+      }
 
       if (options.incrementNotificationCounter) {
         notificationActions.incrementNotificationCounter = options.incrementNotificationCounter;

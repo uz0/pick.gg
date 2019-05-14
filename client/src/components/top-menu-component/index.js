@@ -1,22 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
+
+import io from 'socket.io-client';
+import { GoogleLogout } from 'react-google-login';
+import config from 'config';
+
 import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 import TransactionService from 'services/transactionService';
 import TournamentService from 'services/tournamentService';
 
-import io from "socket.io-client";
-
-import config from 'config';
-import { GoogleLogout } from 'react-google-login';
-
-import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
-import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
 import NotificationBell from '../notification/notification-bell';
+import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
+
 import style from './style.module.css';
 import classnames from 'classnames/bind';
+
 import i18n from 'i18n';
 
 const cx = classnames.bind(style);
@@ -40,9 +41,7 @@ class TopMenuComponent extends Component {
     });
 
     this.state = {
-      profile: {
-        user: {},
-      },
+      profile: null,
       isLoading: true,
     };
   }
@@ -57,8 +56,11 @@ class TopMenuComponent extends Component {
   }
 
   updateProfile = async () => {
-    let profile = await this.userService.getMyProfile();
-    this.setState({ profile, isLoading: false });
+    const profile = await this.userService.getMyProfile();
+    this.setState({
+      profile,
+      isLoading: false
+    });
   }
 
   // deposit = async(event) => {
@@ -132,7 +134,6 @@ class TopMenuComponent extends Component {
       }
     });
 
-
     // this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
     //   const newBalance = this.state.profile.user.balance - entry;
 
@@ -150,8 +151,9 @@ class TopMenuComponent extends Component {
   }
 
   render() {
-    const Avatar = () => this.state.profile.user.photo ?
-      <img className={style.avatar_circle} src={this.state.profile.user.photo} alt="userpic" /> :
+    const { profile } = this.state;
+    const Avatar = () => profile && profile.user && profile.user.photo ?
+      <img className={style.avatar_circle} src={profile.user.photo} alt="userpic" /> :
       <AvatarPlaceholder />;
     const isStreamer = this.state.profile.user.isStreamer;
     const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : <span className={cx(style.content_username, { [style.is_loading]: this.state.isLoading })}>{this.state.profile.user.username}{isStreamer && <span className={style.stream_mode}>Streamer</span>}</span>;
@@ -173,6 +175,8 @@ class TopMenuComponent extends Component {
             <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
+          {profile && profile.user && <Fragment>
+
           <DropDown className={style.mobile_hidden} placeholder={<BalancePlaceholder />}>
             <NavLink to="/transactions"><i className="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
 
@@ -183,7 +187,7 @@ class TopMenuComponent extends Component {
           <NotificationBell />
 
           <DropDown className={style.mobile_hidden} placeholder={<UserPlaceholder />}>
-            {this.state.profile.user.isAdmin &&
+            {profile && profile.user && profile.user.isAdmin &&
               <NavLink to="/dashboard/tournaments">
                 <i className="material-icons">dashboard</i>
                 {i18n.t('dashboard')}
@@ -195,7 +199,7 @@ class TopMenuComponent extends Component {
               {i18n.t('my_tournaments')}
             </NavLink>
 
-            <NavLink to={`/user/${this.props.user._id}`}>
+            <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
               <i className="material-icons">person</i>
               {i18n.t('public_profile')}
             </NavLink>
@@ -206,11 +210,10 @@ class TopMenuComponent extends Component {
             </NavLink>
 
             <GoogleLogout
-              buttonText="Logout"
               clientId={config.google_client_id}
               onLogoutSuccess={this.handleLogout}
               render={renderProps => (
-                <button className={style.btn_logout} {...renderProps}>
+                <button className={style.btn_logout} onClick={renderProps.onClick}>
                   <i className="material-icons">exit_to_app</i>
                   {i18n.t('log_out')}
                 </button>
@@ -221,7 +224,7 @@ class TopMenuComponent extends Component {
           <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
             <div className={style.item}>
               <i className="material-icons">account_balance_wallet</i>
-              {`$${this.state.profile.user.balance}`}
+              {`$${profile && profile.user && profile.user.balance}`}
             </div>
 
             <NavLink to="/tournaments">
@@ -249,7 +252,7 @@ class TopMenuComponent extends Component {
               {i18n.t('my_tournaments')}
             </NavLink>
 
-            <NavLink to={`/user/${this.props.user._id}`}>
+            <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
               <i className="material-icons">person</i>
               {i18n.t('public_profile')}
             </NavLink>
@@ -271,10 +274,13 @@ class TopMenuComponent extends Component {
               )}
             />
           </DropDown>
+          </Fragment>
+          }
+        
         </div>
       </div>
     );
   }
 }
 
-export default AuthWrapper(TopMenuComponent);
+export default TopMenuComponent;

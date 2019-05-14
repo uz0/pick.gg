@@ -3,19 +3,19 @@ import BasicService from './basicService';
 
 export default class UserService extends BasicService {
   async getAllUsers() {
-    const usersQuery = await http('/api/users');
+    const usersQuery = await http('/public/users');
     const users = await usersQuery.json();
     return users;
   }
 
   async getUserDataById(id) {
-    const userQuery = await http(`/api/users/${id}`);
+    const userQuery = await http(`/public/users/${id}`);
     const user = await userQuery.json();
     return user;
   }
 
   async getUsersRating() {
-    const ratingQuery = await http(`/api/users/rating`);
+    const ratingQuery = await http(`/public/users/rating`);
     const rating = await ratingQuery.json();
     return rating;
   }
