@@ -75,6 +75,14 @@ const StreamerController = (io) => {
   router.get('/matches/last/:id', async (req, res) => {
     const accountId = req.params.id;
 
+    if(accountId === "null"){
+      res.json({
+        matches: [],
+      })
+
+      return;
+    }
+
     let matchesList = await riotFetch(`lol/match/v4/matchlists/by-account/${accountId}`);
     matchesList = await matchesList.json();
     matchesList = matchesList.matches.slice(0, 5);

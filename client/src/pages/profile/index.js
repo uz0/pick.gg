@@ -73,12 +73,23 @@ class Profile extends Component {
     i18n.changeLanguage(event.target.name);
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
     const { formData } = this.state;
 
-    this.userService.updateProfile(formData);
+    const updateRequest = await this.userService.updateProfile(formData);
+
+    if (!updateRequest.success) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: 'Такого юзера в лол не существует',
+      });
+
+      return;
+    }
+
     this.notificationService.showSingleNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
@@ -90,11 +101,7 @@ class Profile extends Component {
     return (
       <div className={style.home_page}>
         <main>
-          {/* <h1>{i18n.t('setting_profile')} – {this.state.formData.username}</h1> */}
-
           <div className={style.content}>
-            {/* <ProfileSidebar withData={false} /> */}
-
             <div className={cx(style.form_container, { [style.is_preloader_form]: this.state.isLoading })}>
               <form className={cx(style.form)} onSubmit={this.handleSubmit}>
                 <div>
@@ -176,18 +183,12 @@ class Profile extends Component {
 
                 <Button appearance={'_basic-accent'} text={i18n.t('save_changes')} />
               </form>
-
-              {/* <div className={style.password_recovery}>
-                <p>You can also change your password if needed</p>
-                <a href="/">Change password</a>
-              </div> */}
             </div>
           </div>
 
           {this.state.isLoading &&
             <Preloader />
           }
-
         </main>
       </div>
     );
