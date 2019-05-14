@@ -208,11 +208,10 @@ class TopMenuComponent extends Component {
             </NavLink>
 
             <GoogleLogout
-              buttonText="Logout"
               clientId={config.google_client_id}
               onLogoutSuccess={this.handleLogout}
               render={renderProps => (
-                <button className={style.btn_logout} {...renderProps}>
+                <button className={style.btn_logout} onClick={renderProps.onClick}>
                   <i className="material-icons">exit_to_app</i>
                   {i18n.t('log_out')}
                 </button>
