@@ -1,22 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
+
+import io from 'socket.io-client';
+import { GoogleLogout } from 'react-google-login';
+import config from 'config';
+
 import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 import TransactionService from 'services/transactionService';
 import TournamentService from 'services/tournamentService';
 
-import io from "socket.io-client";
-
-import config from 'config';
-import { GoogleLogout } from 'react-google-login';
-
-import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
-import AuthWrapper from '../authWrapper';
 import DropDown from '../dropdown';
 import NotificationBell from '../notification/notification-bell';
+import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
+
 import style from './style.module.css';
 import classnames from 'classnames/bind';
+
 import i18n from 'i18n';
 
 const cx = classnames.bind(style);
@@ -282,4 +283,3 @@ class TopMenuComponent extends Component {
 }
 
 export default TopMenuComponent;
-// export default AuthWrapper(TopMenuComponent);
