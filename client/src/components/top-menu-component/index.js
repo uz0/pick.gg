@@ -87,7 +87,7 @@ class TopMenuComponent extends Component {
 
     this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
       const currentUser = this.state.profile.user.username;
-
+      
       if (!participants.includes(currentUser)) {
         return;
       }
@@ -155,8 +155,9 @@ class TopMenuComponent extends Component {
     const Avatar = () => profile && profile.user && profile.user.photo ?
       <img className={style.avatar_circle} src={profile.user.photo} alt="userpic" /> :
       <AvatarPlaceholder />;
-    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : <span className={cx({ [style.is_loading]: this.state.isLoading })}>{profile && profile.user && profile.user.username}</span>;
-    const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>${profile && profile.user && profile.user.balance}</span>;
+    const isStreamer = this.state.profile.user.isStreamer;
+    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : <span className={cx(style.content_username, { [style.is_loading]: this.state.isLoading })}>{this.state.profile.user.username}{isStreamer && <span className={style.stream_mode}>Streamer</span>}</span>;
+    const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>${this.state.profile.user.balance}</span>;
     const UserPlaceholder = () => <Fragment>
       <Avatar />
       <span>{isMenuIcon}</span>

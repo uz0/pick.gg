@@ -1,6 +1,7 @@
 .home_page {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 20px;
 }
 
 .main_block {

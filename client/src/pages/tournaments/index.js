@@ -6,6 +6,7 @@ import io from "socket.io-client";
 
 import TournamentService from 'services/tournamentService';
 import UserService from 'services/userService';
+import NotificationService from 'services/notificationService';
 
 import NewTournamentModal from 'components/new-tournament';
 import NewStreamerTournamentModal from 'components/new-streamer-tournament';
@@ -13,6 +14,7 @@ import TournamentCard from 'components/tournament-card';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';
+import i18n from 'i18n';
 
 const cx = classnames.bind(style);
 
@@ -24,6 +26,7 @@ class Tournaments extends Component {
       onUpdate: () => this.updateProfile(),
     });
     this.tournamentService = new TournamentService();
+    this.notificationService = new NotificationService();
   }
 
   state = {
@@ -46,6 +49,7 @@ class Tournaments extends Component {
 
   updateProfile = async () => {
     let profile = await this.userService.getMyProfile();
+    console.log(profile.user.summonerName === '');
     this.setState({ profile });
   }
 
@@ -105,7 +109,20 @@ class Tournaments extends Component {
 
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
 
-  toggleNewStreamerTournamentModal = () => this.setState({ isStreamerTournamentModalShown: !this.state.isStreamerTournamentModalShown });
+  toggleNewStreamerTournamentModal = () => {
+    if(this.state.profile.user.summonerName === ''){
+      this.notificationService.showSingleNotification({
+        type: 'warning',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('notifications.warnings.empty_summoner_name'),
+        link: `profile`,
+      });
+    } else{
+      this.setState({ 
+        isStreamerTournamentModalShown: !this.state.isStreamerTournamentModalShown 
+      })};
+    }
+    
 
   tournamentsDefaultSorting = (prev, next) => moment(next.tournament.date).format('YYYYMMDD') - moment(prev.tournament.date).format('YYYYMMDD');
 
