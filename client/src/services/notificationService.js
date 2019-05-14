@@ -74,7 +74,6 @@ class NotificationService {
   }
 
   showNotificationSidebar() {
-    console.log(notificationActions, 'notificationActions');
     notificationActions.showNotificationSidebar();
   }
 
