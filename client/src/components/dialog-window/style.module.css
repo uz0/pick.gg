@@ -1,16 +1,17 @@
-.wrapper_modal{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.wrapper {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 5;
-  background: rgba(153, 153, 153, 0.7);
+  background-color: rgba(153, 153, 153, 0.7);
 }
-.modal{
+
+.dialog {
   min-width: 350px;
   display: flex;
   flex-direction: column;
@@ -21,17 +22,19 @@
   border-radius: 4px;
   padding: 20px;
 }
-.modal p{
+
+.dialog p {
   margin-top: 0;
   font-size: 16px;
 }
 
-.btns_modal{
+.controls {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
 }
-.btns_modal button{
-  margin-right: 5px;
+
+.controls button {
+  margin-right: 6px;
   font-size: 14px;
 }

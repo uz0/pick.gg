@@ -203,6 +203,7 @@ export default {translation: {
   tournament_players_content_2: 'Вы можете выбрать между более чем 200+ настоящими игроками, которые будут частью вашей команды фантазии',
   contact_us: 'Связаться с нами',
   play_fantasy: 'ИГРАТЬ В FANTASY LEAGUE',
+  unauthenticated_tournament_join: 'Вам необходимо зарегистрироваться чтобы принять участие в турнире',
 
   notifications: {
     finalization: {
