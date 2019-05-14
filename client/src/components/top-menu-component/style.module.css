@@ -124,20 +124,6 @@ html {
   }
 }
 
-.content_username {
-  display: flex;
-  flex-direction: column;
-}
-
-.stream_mode {
-  font-size: 9px !important;
-  border-radius: 2px;
-  left: 60px;
-  bottom: 0px;
-  min-width: 20px !important;
-  color: var(--accent-color);
-}
-
 @media (max-width: 768px) {
   .mobile_hidden {
     display: none;

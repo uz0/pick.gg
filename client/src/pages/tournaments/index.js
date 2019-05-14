@@ -49,7 +49,6 @@ class Tournaments extends Component {
 
   updateProfile = async () => {
     let profile = await this.userService.getMyProfile();
-    console.log(profile.user.summonerName === '');
     this.setState({ profile });
   }
 
