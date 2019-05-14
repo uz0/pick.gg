@@ -28,7 +28,7 @@ class GeneralStep extends Component {
   async componentDidMount() {
     this.setState({ isLoading: true });
 
-    const { rules } = await http('/api/rules').then(res => res.json());
+    const { rules } = await http('/public/rules').then(res => res.json());
 
     const rulesValues = rules.reduce((obj, rule) => {
       obj[rule._id] = 0;
