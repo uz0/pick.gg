@@ -207,7 +207,12 @@ export default {translation: {
       no_participatns: "You can't finalize tournaments without any participants.",
       uncompleted_matches: "Finalization failed. All matches of the tournament must be completed.",
     },
-
+    errors: {
+      closed_window: "User closed login window",
+    },
+    warnings: {
+      empty_summoner_name: 'You need enter summoner name in settings profile',
+    }
   },
 
   serverErrors: {
