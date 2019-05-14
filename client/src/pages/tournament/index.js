@@ -204,7 +204,7 @@ class Tournament extends Component {
     try {
       await this.streamerService.finalizeTournament(fantasyTournament._id);
     } catch (error) {
-
+      console.log(error);
     }
   }
 
