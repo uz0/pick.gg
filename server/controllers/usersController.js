@@ -23,7 +23,7 @@ const UsersController = () => {
     }
 
     const userId = req.decoded._id;
-    const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email summonerName streamerAccountId');
+    const user = await UserModel.findOne({ _id: userId }).select('-password');
     res.json({ user });
   });
 
@@ -38,6 +38,15 @@ const UsersController = () => {
       let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${summonerName}`);
       accountInfo = await accountInfo.json();
 
+      if (accountInfo.status && accountInfo.status.status_code === 404){
+        res.send({
+          success: false,
+          error: 'user_not_found',
+        });
+
+        return;
+      }
+
       streamerAccountId = accountInfo.accountId;
     }
 
@@ -51,7 +60,8 @@ const UsersController = () => {
     }
 
     const updatedUser = await UserModel
-      .findOneAndUpdate({ _id: userId }, fields);
+      .findOneAndUpdate({ _id: userId }, fields)
+      .select('-password');
 
     res.json({
       success: true,
