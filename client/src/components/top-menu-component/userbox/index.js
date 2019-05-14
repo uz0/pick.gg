@@ -1,18 +1,21 @@
 import React, { Fragment } from 'react';
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 
-const UserPlaceholder = ({ username, userpic, role }) => <Fragment>
+import classnames from 'classnames/bind';
+import style from './style.module.css';
+
+const cx = classnames.bind(style);
+
+const UserPlaceholder = ({ username, userpic, role, isLoading }) => <Fragment>
   {userpic
-    ? <img className={style.avatar_circle} src={userpic} alt="userpic" />
+    ? <img className={style.avatar} src={userpic} alt="userpic" />
     : <AvatarPlaceholder />
   }
 
-  <div>
-    {username && <span>{username}</span>}
-    {role && <span>{role}</span>}
+  <div className={cx(style.user_data, { [style.is_loading]: isLoading })}>
+    {username && <span className={style.name}>{username}</span>}
+    {role && <span className={style.role}>{role}</span>}
   </div>
-
-  <span>{isMenuIcon}</span>
-</Fragment>;
+</Fragment>
 
 export default UserPlaceholder;

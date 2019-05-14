@@ -11,9 +11,9 @@ import UserService from 'services/userService';
 import TransactionService from 'services/transactionService';
 import TournamentService from 'services/tournamentService';
 
-import DropDown from '../dropdown';
-import NotificationBell from '../notification/notification-bell';
-import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
+import DropDown from 'components/dropdown';
+import UserBox from './userbox';
+import NotificationBell from 'components/notification/notification-bell';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';
@@ -153,26 +153,14 @@ class TopMenuComponent extends Component {
   render() {
     const { profile } = this.state;
 
-    const isStreamer = this.state.profile && this.state.profile.user.isStreamer;
-
-    const isMenuIcon = window.innerWidth < 480
-      ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i>
-      : <span className={cx(style.content_username, { [style.is_loading]: this.state.isLoading })}>{this.state.profile && this.state.profile.user.username}{isStreamer && <span className={style.stream_mode}>Streamer</span>}</span>;
+    const isStreamer = profile && profile.user && profile.user.isStreamer;
+    const userpic = profile && profile.user.photo;
+    const username = profile && profile.user.username;
+    const role = isStreamer && 'Streamer';
 
     const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>
       ${this.state.profile.user.balance}
     </span>;
-
-    const UserPlaceholder = () => <Fragment>
-      {profile && profile.user.photo &&
-        <img className={style.avatar_circle} src={profile.user.photo} alt="userpic" />
-      }
-
-      {profile && !profile.user.photo &&
-        <AvatarPlaceholder />
-      }
-      <span>{isMenuIcon}</span>
-    </Fragment>;
 
     return (
       <div className={style.top_menu}>
@@ -197,7 +185,15 @@ class TopMenuComponent extends Component {
 
             <NotificationBell />
 
-            <DropDown className={style.mobile_hidden} placeholder={<UserPlaceholder />}>
+            <DropDown
+              className={style.mobile_hidden}
+              placeholder={<UserBox
+                userpic={userpic}
+                username={username}
+                role={role}
+                isLoading={this.state.isLoading}
+              />}
+            >
               {profile && profile.user && profile.user.isAdmin &&
                 <NavLink to="/dashboard/tournaments">
                   <i className="material-icons">dashboard</i>
