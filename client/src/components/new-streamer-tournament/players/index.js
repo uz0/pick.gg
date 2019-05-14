@@ -239,15 +239,16 @@ class PlayersStep extends Component {
         <h3>Tournament players</h3>
         <div className={style.chosen_champions}>
           {this.state.playersAddedToTournament.map(item => this.renderChampion(item))}
-          <Button
+        </div>
+
+        <Button
             className={style.action_button}
             appearance={'_basic-accent'}
             text={buttonText}
             icon={<i className="material-icons">{buttonIcon}</i>}
             onClick={this.showPlayerChoosingModal}
           />
-        </div>
-
+          
         <div className={style.controls}>
           {this.state.stepIndex !== 1 && <Button
             className={style.prev}

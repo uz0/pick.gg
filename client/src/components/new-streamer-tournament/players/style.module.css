@@ -11,8 +11,8 @@
 }
 
 .players .action_button {
-  margin-top: var(--gap);
-  margin-left: var(--gap);
+  width: 200px;
+  margin: 10px 0;
 }
 
 .players_modal {
@@ -23,6 +23,7 @@
 
 .players_modal > div {
   display: flex;
+  overflow: hidden !important;
 }
 
 .players_sidebar {
@@ -87,7 +88,7 @@
   margin-top: calc(var(--gap) * -1);
   margin-left: calc(var(--gap) * -1);
   margin-bottom: 12px;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 .chosen_champions .champion {
