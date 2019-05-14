@@ -1,67 +1,19 @@
 import express from "express";
-import UserModel from "../models/user";
-import TransactionModel from "../models/transaction";
-import riotFetch from '../riotFetch';
-
-import isEmpty from 'lodash/isEmpty';
+import UserModel from "../../models/user";
+import TransactionModel from "../../models/transaction";
 
 let router = express.Router();
 
-const UsersController = () => {
+const PublicUsersController = () => {
   router.get('/', async (req, res) => {
-    const users = await UserModel.find();
-    res.json({ users });
-  });
-
-  router.get('/me', async (req, res) => {
-    if (isEmpty(req.decoded)) {
-      res.send({
-        user: null,
-      })
-
-      return;
-    }
-
-    const userId = req.decoded._id;
-    const user = await UserModel.findOne({ _id: userId }, '_id username balance isAdmin isStreamer photo about email summonerName streamerAccountId');
-    res.json({ user });
-  });
-
-  router.post('/me', async (req, res) => {
-    const userId = req.decoded._id;
-
-    const { username, email, photo, about, summonerName } = req.body;
-
-    let streamerAccountId = '';
-
-    if (summonerName != ''){
-      let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${summonerName}`);
-      accountInfo = await accountInfo.json();
-
-      streamerAccountId = accountInfo.accountId;
-    }
-
-    const fields = {
-      email,
-      photo,
-      about,
-      username,
-      summonerName,
-      streamerAccountId
-    }
-
-    const updatedUser = await UserModel
-      .findOneAndUpdate({ _id: userId }, fields);
+    const users = await UserModel.find().select('-password -balance -summonerName -isAdmin');
 
     res.json({
-      success: true,
-      user: updatedUser,
+      users,
     });
   });
 
   router.get('/rating', async (req, res) => {
-
-    // let usersWithWinnings = [];
     const usersWithWinnings = await TransactionModel.aggregate([
       { 
         $match: { origin: 'tournament winning' },
@@ -131,4 +83,4 @@ const UsersController = () => {
   return router;
 }
 
-export default UsersController;
+export default PublicUsersController;

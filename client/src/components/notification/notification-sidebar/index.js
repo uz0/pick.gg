@@ -15,7 +15,6 @@ import style from './style.module.css';
 import i18n from 'i18n';
 
 class NotificationSidebar extends Component {
-
   constructor() {
     super();
     this.notificationService = new NotificationService({

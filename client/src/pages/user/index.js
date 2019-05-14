@@ -74,7 +74,7 @@ class User extends Component {
   loadData = async () => {
     const userId = this.props.match.params.id;
 
-    const { tournaments } = await this.tournamentService.getMyTournaments();
+    const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
     const { winnings } = await this.transactionService.getTotalWinnings(userId);
     const { user } = await this.userService.getUserDataById(userId);
     const userRating = await this.userService.getUsersRating();
@@ -122,7 +122,7 @@ class User extends Component {
 
                 <div className={style.statistics_masonry}>
                   <div className={style.item}>
-                    <div className={style.value}>{this.state.tournaments.length}</div>
+                    <div className={style.value}>{tournaments && tournaments.length}</div>
                     <div className={style.key}>{i18n.t('tournaments')}</div>
                   </div>
 
@@ -140,7 +140,7 @@ class User extends Component {
               <div>
                 <h2>{i18n.t('recent_tournaments')}</h2>
                 <div className={style.section}>
-                  <Table
+                  {tournaments && <Table
                     captions={tournamentsTableCaptions}
                     items={tournaments}
                     className={style.table}
@@ -148,6 +148,7 @@ class User extends Component {
                     isLoading={this.state.isLoading}
                     emptyMessage={i18n.t('there_is_no_tournaments_yet')}
                   />
+                  }
                 </div>
               </div>
             </div>

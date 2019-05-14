@@ -15,10 +15,10 @@ import Rating from './pages/rating';
 import './i18n';
 
 const App = ({ history }) => <Fragment>
-  <TopMenuComponent history={history} />
-
   <NotificationSidebar />
   <NotificationContainer />
+
+  <TopMenuComponent history={history} />
 
   <div className="container">
     <Switch>

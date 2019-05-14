@@ -24,12 +24,17 @@ class Start extends Component {
     this.notificationService = new NotificationService();
   }
 
-  componentDidMount() {
-    if (this.props.history.action === 'REPLACE') {
-      this.notificationService.showSingleNotification({
-        type: 'warning',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('login_message_on_redirect'),
+  state = {
+    isGoogleLoginAutoLoad: false,
+  }
+
+  componentWillMount() {
+    const [key, value] = this.props.history.location.search.split('=');
+  
+    if (key === '?tournamentId' && !this.auth.isLoggedIn()) {
+      this.setState({
+        isGoogleLoginAutoLoad: true,
+        tournamentId: value,
       });
     }
   }
@@ -47,17 +52,23 @@ class Start extends Component {
 
     const authRequest = await this.auth.oauthLogin(email, name, photo);
 
+    if(authRequest.success && this.state.tournamentId){
+      this.props.history.replace(`/tournaments/${this.state.tournamentId}`);
+
+      return;
+    }
+
     if (authRequest.success) {
       this.props.history.replace('/tournaments');
-    } else {
-      this.props.history.replace('/register');
 
-      this.notificationService.showSingleNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: authRequest.message,
-      });
+      return;
     }
+
+    this.notificationService.showSingleNotification({
+      type: 'success',
+      shouldBeAddedToSidebar: false,
+      message: authRequest.message,
+    });
   };
 
   onFailureGoogleLogin = async data => {
@@ -67,10 +78,6 @@ class Start extends Component {
       message: i18n.t('notifications.errors.closed_window'),
     });
   };
-
-  componentWillMount() {
-    // if (this.auth.isLoggedIn()) this.props.history.replace('/');
-  }
 
   render() {
     const isUserAuthenticated = this.auth.isLoggedIn();
@@ -93,6 +100,7 @@ class Start extends Component {
                   }
 
                   {!isUserAuthenticated && <GoogleLogin
+                    autoLoad={this.state.isGoogleLoginAutoLoad}
                     icon={true}
                     render={renderProps => (
                       <button onClick={renderProps.onClick}>

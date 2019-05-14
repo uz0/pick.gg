@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Button from 'components/button/index';
+import Button from 'components/button';
+import DialogWindow from 'components/dialog-window';
+
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 import Avatar from 'assets/avatar-placeholder.svg';
-import classnames from 'classnames/bind';
+
 import i18n from 'i18n';
-import style from './style.module.css';
-
-import Modal from 'components/modal';
-
 import uuid from 'uuid';
+
+import classnames from 'classnames/bind';
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -106,7 +107,11 @@ class ChooseChampion extends Component {
           </button>
         </header>
 
-        {this.state.isFreeTournamentModalShown && <Modal textModal={i18n.t('free_tournament')} submitClick={this.addPlayers} closeModal={this.toggleFreeTournamentModal} />}
+        {this.state.isFreeTournamentModalShown && <DialogWindow
+          text={i18n.t('free_tournament')}
+          onSubmit={this.addPlayers}
+          onClose={this.toggleFreeTournamentModal}
+        />}
 
         <div className={style.content}>
           <div className={style.list}>

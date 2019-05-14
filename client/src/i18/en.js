@@ -200,6 +200,7 @@ export default {translation: {
   tournament_players_content_2: 'You can choose betwen more than 200+ real players to be the part of your fantasy team',
   contact_us: 'Contact us',
   play_fantasy: 'PLAY FANTASY LEAGUE',
+  unauthenticated_tournament_join: 'You have to sign in to participate in the tournament',
 
   notifications: {
     finalization: {
