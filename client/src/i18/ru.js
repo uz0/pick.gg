@@ -213,7 +213,7 @@ export default {translation: {
       closed_window: "Пользователь закрыл окно входа",
     },
     warnings: {
-      empty_summoner_name: 'Нужно ввести ваше имя в LoL в настройках профиля',
+      empty_summoner_name: 'Вам нужно ввести ваше имя в LoL в настройках профиля',
     }
   },
 

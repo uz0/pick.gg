@@ -210,7 +210,7 @@ export default {translation: {
       closed_window: "User closed login window",
     },
     warnings: {
-      empty_summoner_name: 'Need enter summoner name in settings profile',
+      empty_summoner_name: 'You need enter summoner name in settings profile',
     }
   },
 
