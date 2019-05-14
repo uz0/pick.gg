@@ -2,30 +2,32 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from 'components/button';
-import Modal from 'components/dashboard-modal';
-import DialogModal from 'components/dialog-window';
-import ChooseChampionModal from 'components/choose-champion';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
+import Modal from 'components/dashboard-modal';
+import DialogModal from 'components/dialog-window';
 import MatchModal from 'components/match-modal-tournament';
+import ChooseChampionModal from 'components/choose-champion';
 
-import io from "socket.io-client";
+import i18n from 'i18n';
+import io from 'socket.io-client';
+import moment from 'moment';
+import uuid from 'uuid';
+
+import find from 'lodash/find';
+import groupBy from 'lodash/groupBy';
+import cloneDeep from 'lodash/cloneDeep';
+import every from 'lodash/every';
 
 import UserService from 'services/userService';
 import TournamentService from 'services/tournamentService';
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
-import moment from 'moment';
-import find from 'lodash/find';
+
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import Avatar from 'assets/avatar-placeholder.svg';
+
 import classnames from 'classnames/bind';
-import i18n from 'i18n';
-
-import _ from 'lodash';
-import uuid from 'uuid';
-import every from 'lodash/every';
-
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -393,11 +395,11 @@ class Tournament extends Component {
     const fantasyTournamentRules = this.state.fantasyTournament.rules.map(item => item.rule);
 
     const playersResults = item.results.playersResults;
-    const groupedMatchResults = Object.values(Object.freeze(_.groupBy(playersResults, 'playerId')));
+    const groupedMatchResults = Object.values(Object.freeze(groupBy(playersResults, 'playerId')));
     let matchResults = [];
 
     for (let i = 0; i < groupedMatchResults.length; i++) {
-      let matchResult = _.cloneDeep(groupedMatchResults[i][0]);
+      let matchResult = cloneDeep(groupedMatchResults[i][0]);
 
       for (let j = 1; j < groupedMatchResults[i].length; j++) {
         matchResult.results[0].score += groupedMatchResults[i][j].results[0].score;
@@ -409,10 +411,10 @@ class Tournament extends Component {
     }
 
     matchResults.forEach(match => {
-      match.playerName = _.find(fantasyTournamentChampions, { _id: match.playerId }).name;
+      match.playerName = find(fantasyTournamentChampions, { _id: match.playerId }).name;
 
       match.results.forEach(item => {
-        item.ruleName = _.find(fantasyTournamentRules, { _id: item.rule }).name;
+        item.ruleName = find(fantasyTournamentRules, { _id: item.rule }).name;
       });
     });
 
@@ -551,7 +553,7 @@ class Tournament extends Component {
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    const isPlayerChoosedByUser = _.find(champions, { _id: item.playerId }) ? true : false;
+    const isPlayerChoosedByUser = find(champions, { _id: item.playerId }) ? true : false;
 
     return <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
