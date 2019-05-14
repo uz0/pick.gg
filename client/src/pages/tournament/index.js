@@ -5,7 +5,7 @@ import Button from 'components/button';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
-import DialogModal from 'components/dialog-window';
+import DialogWindow from 'components/dialog-window';
 import MatchModal from 'components/match-modal-tournament';
 import ChooseChampionModal from 'components/choose-champion';
 
@@ -105,6 +105,7 @@ class Tournament extends Component {
     isLoading: true,
     isChooseChampionModalShown: false,
     isMatchEditModalShown: false,
+    isSignInDialogShown: false,
     editingMatchId: '',
     username: '',
   };
@@ -209,7 +210,9 @@ class Tournament extends Component {
 
   toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
 
-  redirectToLogin = () => this.props.history.push(`/?tournamentId=${this.state.fantasyTournament._id}`);
+  toggleSignInDialog = () => this.setState({ isSignInDialogShown: !this.state.isSignInDialogShown });
+
+  redirectToLogin = () => this.props.history.replace(`/?tournamentId=${this.state.fantasyTournament._id}`);
 
   copyInput = () => {
     document.querySelector('#copyUrl').select();
@@ -591,7 +594,7 @@ class Tournament extends Component {
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     // const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
     const isJoinButtonShown = !currentUserParticipant && !winner;
-    const joinButtonAction = !currentUserParticipant && !this.state.currentUser ? this.redirectToLogin : this.toggleChampionModal;
+    const joinButtonAction = !currentUserParticipant && !this.state.currentUser ? this.toggleSignInDialog : this.toggleChampionModal;
     const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
     // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
@@ -778,11 +781,12 @@ class Tournament extends Component {
       </Modal>
       }
 
-      <DialogModal
-        text={i18n.t('unauthenticated_tournament_join')}
-        onClose={this.closeModalChoose}
-        onSubmit={this.submitForm}
-      />
+      {this.state.isSignInDialogShown && <DialogWindow
+          text={i18n.t('unauthenticated_tournament_join')}
+          onClose={this.toggleSignInDialog}
+          onSubmit={this.redirectToLogin}
+        />
+      }
 
       {this.state.isChooseChampionModalShown &&
         <ChooseChampionModal
