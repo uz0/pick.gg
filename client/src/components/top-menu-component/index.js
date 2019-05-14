@@ -87,7 +87,7 @@ class TopMenuComponent extends Component {
 
     this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
       const currentUser = this.state.profile.user.username;
-      
+
       if (!participants.includes(currentUser)) {
         return;
       }
@@ -152,14 +152,25 @@ class TopMenuComponent extends Component {
 
   render() {
     const { profile } = this.state;
-    const Avatar = () => profile && profile.user && profile.user.photo ?
-      <img className={style.avatar_circle} src={profile.user.photo} alt="userpic" /> :
-      <AvatarPlaceholder />;
+
     const isStreamer = this.state.profile && this.state.profile.user.isStreamer;
-    const isMenuIcon = window.innerWidth < 480 ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i> : <span className={cx(style.content_username, { [style.is_loading]: this.state.isLoading })}>{this.state.profile && this.state.profile.user.username}{isStreamer && <span className={style.stream_mode}>Streamer</span>}</span>;
-    const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>${this.state.profile.user.balance}</span>;
+
+    const isMenuIcon = window.innerWidth < 480
+      ? <i className={cx('material-icons', style.icon_menu)}>expand_more</i>
+      : <span className={cx(style.content_username, { [style.is_loading]: this.state.isLoading })}>{this.state.profile && this.state.profile.user.username}{isStreamer && <span className={style.stream_mode}>Streamer</span>}</span>;
+
+    const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>
+      ${this.state.profile.user.balance}
+    </span>;
+
     const UserPlaceholder = () => <Fragment>
-      <Avatar />
+      {profile && profile.user.photo &&
+        <img className={style.avatar_circle} src={profile.user.photo} alt="userpic" />
+      }
+
+      {profile && !profile.user.photo &&
+        <AvatarPlaceholder />
+      }
       <span>{isMenuIcon}</span>
     </Fragment>;
 
@@ -177,106 +188,106 @@ class TopMenuComponent extends Component {
 
           {profile && profile.user && <Fragment>
 
-          <DropDown className={style.mobile_hidden} placeholder={<BalancePlaceholder />}>
-            <NavLink to="/transactions"><i className="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
+            <DropDown className={style.mobile_hidden} placeholder={<BalancePlaceholder />}>
+              <NavLink to="/transactions"><i className="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
 
-            <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i className="material-icons">add_circle</i>{i18n.t('deposit')}</a>
-            <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i className="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
-          </DropDown>
+              <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i className="material-icons">add_circle</i>{i18n.t('deposit')}</a>
+              <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i className="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
+            </DropDown>
 
-          <NotificationBell />
+            <NotificationBell />
 
-          <DropDown className={style.mobile_hidden} placeholder={<UserPlaceholder />}>
-            {profile && profile.user && profile.user.isAdmin &&
+            <DropDown className={style.mobile_hidden} placeholder={<UserPlaceholder />}>
+              {profile && profile.user && profile.user.isAdmin &&
+                <NavLink to="/dashboard/tournaments">
+                  <i className="material-icons">dashboard</i>
+                  {i18n.t('dashboard')}
+                </NavLink>
+              }
+
+              <NavLink to="/mytournaments">
+                <i className="material-icons">assignment</i>
+                {i18n.t('my_tournaments')}
+              </NavLink>
+
+              <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
+                <i className="material-icons">person</i>
+                {i18n.t('public_profile')}
+              </NavLink>
+
+              <NavLink to="/profile">
+                <i className="material-icons">settings</i>
+                {i18n.t('setting_profile')}
+              </NavLink>
+
+              <GoogleLogout
+                clientId={config.google_client_id}
+                onLogoutSuccess={this.handleLogout}
+                render={renderProps => (
+                  <button className={style.btn_logout} onClick={renderProps.onClick}>
+                    <i className="material-icons">exit_to_app</i>
+                    {i18n.t('log_out')}
+                  </button>
+                )}
+              />
+            </DropDown>
+
+            <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
+              <div className={style.item}>
+                <i className="material-icons">account_balance_wallet</i>
+                {`$${profile && profile.user && profile.user.balance}`}
+              </div>
+
+              <NavLink to="/tournaments">
+                <i className="material-icons">whatshot</i>
+                {i18n.t('tournaments')}
+              </NavLink>
+
+              <NavLink to="/rating">
+                <i className="material-icons">assessment</i>
+                {i18n.t('rating')}
+              </NavLink>
+
+              <NavLink to="/transactions">
+                <i className="material-icons">attach_money</i>
+                {i18n.t('transactions')}
+              </NavLink>
+
               <NavLink to="/dashboard/tournaments">
                 <i className="material-icons">dashboard</i>
                 {i18n.t('dashboard')}
               </NavLink>
-            }
 
-            <NavLink to="/mytournaments">
-              <i className="material-icons">assignment</i>
-              {i18n.t('my_tournaments')}
-            </NavLink>
+              <NavLink to="/mytournaments">
+                <i className="material-icons">assignment</i>
+                {i18n.t('my_tournaments')}
+              </NavLink>
 
-            <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
-              <i className="material-icons">person</i>
-              {i18n.t('public_profile')}
-            </NavLink>
+              <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
+                <i className="material-icons">person</i>
+                {i18n.t('public_profile')}
+              </NavLink>
 
-            <NavLink to="/profile">
-              <i className="material-icons">settings</i>
-              {i18n.t('setting_profile')}
-            </NavLink>
+              <NavLink to="/profile">
+                <i className="material-icons">settings</i>
+                {i18n.t('setting_profile')}
+              </NavLink>
 
-            <GoogleLogout
-              clientId={config.google_client_id}
-              onLogoutSuccess={this.handleLogout}
-              render={renderProps => (
-                <button className={style.btn_logout} onClick={renderProps.onClick}>
-                  <i className="material-icons">exit_to_app</i>
-                  {i18n.t('log_out')}
-                </button>
-              )}
-            />
-          </DropDown>
-
-          <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
-            <div className={style.item}>
-              <i className="material-icons">account_balance_wallet</i>
-              {`$${profile && profile.user && profile.user.balance}`}
-            </div>
-
-            <NavLink to="/tournaments">
-              <i className="material-icons">whatshot</i>
-              {i18n.t('tournaments')}
-            </NavLink>
-
-            <NavLink to="/rating">
-              <i className="material-icons">assessment</i>
-              {i18n.t('rating')}
-            </NavLink>
-
-            <NavLink to="/transactions">
-              <i className="material-icons">attach_money</i>
-              {i18n.t('transactions')}
-            </NavLink>
-
-            <NavLink to="/dashboard/tournaments">
-              <i className="material-icons">dashboard</i>
-              {i18n.t('dashboard')}
-            </NavLink>
-
-            <NavLink to="/mytournaments">
-              <i className="material-icons">assignment</i>
-              {i18n.t('my_tournaments')}
-            </NavLink>
-
-            <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
-              <i className="material-icons">person</i>
-              {i18n.t('public_profile')}
-            </NavLink>
-
-            <NavLink to="/profile">
-              <i className="material-icons">settings</i>
-              {i18n.t('setting_profile')}
-            </NavLink>
-
-            <GoogleLogout
-              buttonText="Logout"
-              clientId={config.google_client_id}
-              onLogoutSuccess={this.handleLogout}
-              render={renderProps => (
-                <button className={style.btn_logout} {...renderProps}>
-                  <i className="material-icons">exit_to_app</i>
-                  {i18n.t('log_out')}
-                </button>
-              )}
-            />
-          </DropDown>
+              <GoogleLogout
+                buttonText="Logout"
+                clientId={config.google_client_id}
+                onLogoutSuccess={this.handleLogout}
+                render={renderProps => (
+                  <button className={style.btn_logout} {...renderProps}>
+                    <i className="material-icons">exit_to_app</i>
+                    {i18n.t('log_out')}
+                  </button>
+                )}
+              />
+            </DropDown>
           </Fragment>
           }
-        
+
         </div>
       </div>
     );
