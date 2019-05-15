@@ -63,6 +63,7 @@ export default {translation: {
   tournament_list: 'Tournament(from list)',
   update_data: 'Your data has been updated.',
   username: 'Username',
+  userbox_role_streamer: 'Streamer',
   summonerName: 'Summoner name (LoL)',
   users: 'Users',
   user_not_participated: 'This user has not yet participated in tournaments',

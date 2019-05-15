@@ -156,7 +156,7 @@ class TopMenuComponent extends Component {
     const isStreamer = profile && profile.user && profile.user.isStreamer;
     const userpic = profile && profile.user.photo;
     const username = profile && profile.user.username;
-    const role = isStreamer && 'Streamer';
+    const role = isStreamer && 'userbox_role_streamer';
 
     const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>
       ${this.state.profile.user.balance}
