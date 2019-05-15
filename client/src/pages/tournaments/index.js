@@ -146,9 +146,6 @@ class Tournaments extends Component {
     },
   });
 
-  renderTournamentGroupTitle = () => { };
-  renderTournamentCard = () => { };
-
   render() {
     return <div className={style.tournaments}>
       <div className={style.content}>
