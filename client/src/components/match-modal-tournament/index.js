@@ -218,14 +218,14 @@ class MatchModal extends Component {
         onChange={this.handleInputChange}
       />
 
-      <Input
+      {/* <Input
         type="date"
         label="Start date"
         name="startDate"
         value={formattedMatchDate}
         onChange={this.handleInputChange}
         disabled
-      />
+      /> */}
 
       <Input
         type="time"
@@ -235,13 +235,13 @@ class MatchModal extends Component {
         onChange={this.handleInputChange}
       />
 
-      <Select
+      {/* <Select
         className={style.select}
         label='Select match results from LoL match'
         options={this.state.selectMatches}
         defaultOption="Choose match"
         onChange={this.handleMatchSelectChange}
-      />
+      /> */}
 
       <label className={style.chebox}>
         <p>Completed</p>
