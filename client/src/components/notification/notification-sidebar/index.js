@@ -12,6 +12,7 @@ import NotificationService from '../../../services/notificationService';
 
 import style from './style.module.css';
 import i18n from 'i18n';
+import uuid from 'uuid';
 
 class NotificationSidebar extends Component {
   constructor() {
@@ -74,7 +75,7 @@ class NotificationSidebar extends Component {
     }
 
     return <Notification
-      key={id}
+      key={uuid()}
       message={message}
       image={icon}
       link={link}

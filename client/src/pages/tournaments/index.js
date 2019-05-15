@@ -82,12 +82,6 @@ class Tournaments extends Component {
     groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments);
     const realTournaments = await this.tournamentService.getRealTournaments();
 
-    this.notificationService.showSingleNotification({
-      type: 'warning',
-      shouldBeAddedToSidebar: true,
-      message: i18n.t('notifications.warnings.empty_summoner_name'),
-    });
-
     this.setState({
       groupedFantasyTournaments,
       fantasyTournaments: fantasyTournaments.tournaments,
