@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import i18n from './i18n';
 
-class Locale extends React.Component {
+class Locale extends Component {
   componentDidMount(){
     const path = this.props.location.pathname;
     const locale = path === '/ru' ? 'ru' : 'en';
