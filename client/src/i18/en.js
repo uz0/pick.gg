@@ -18,6 +18,7 @@ export default {translation: {
   tournament_thumb: 'Tournament image link',
   earned: 'earned',
   notification_sidebar_header: 'Notifications',
+  notification_sidebar_empty: "There's no any notifications yet",
   empty_field: 'Error empty field',
   equal_password: 'Passwords must be equal',
   guade_choose: 'CHOOSE OR CREATE FANTASY TOURNAMENT',

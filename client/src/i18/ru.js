@@ -19,6 +19,7 @@ export default {translation: {
   earned: 'зачислено',
   empty_field: 'Ошибка пустое поле',
   notification_sidebar_header: 'Уведомления',
+  notification_sidebar_empty: 'Уведомления отсутствуют',
   equal_password: 'Пароли должны совпадать',
   guade_choose: 'Выбери или создай фэнтези турнир',
   guade_choose_content: 'Фэнтези турнир основан на турнирах реального мира, таких как LCL, LPL, LCS и т.д. Вы можете выбрать турнир, который вам нравится больше всего. Или вы можете создать свой собственный турнир.',
