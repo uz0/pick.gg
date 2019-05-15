@@ -161,7 +161,7 @@ class MatchesStep extends Component {
   }
 
   renderMatch = (match, index) => {
-    return <div className={style.match}>
+    return <div key={uuid()} className={style.match}>
       <div className={style.info_item}>
         {`${index + 1}. ${match.name}`}
       </div>
