@@ -109,18 +109,18 @@ class Tournaments extends Component {
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
 
   toggleNewStreamerTournamentModal = () => {
-    if(this.state.profile.user.summonerName === ''){
+    if (this.state.profile.user.summonerName === ''){
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
         message: i18n.t('notifications.warnings.empty_summoner_name'),
         link: `profile`,
       });
-    } else{
-      this.setState({ 
-        isStreamerTournamentModalShown: !this.state.isStreamerTournamentModalShown 
-      })};
-    }
+    } else {
+      this.setState({
+        isStreamerTournamentModalShown: !this.state.isStreamerTournamentModalShown,
+      });}
+  }
     
 
   tournamentsDefaultSorting = (prev, next) => moment(next.tournament.date).format('YYYYMMDD') - moment(prev.tournament.date).format('YYYYMMDD');

@@ -793,10 +793,10 @@ class Tournament extends Component {
       }
 
       {this.state.isSignInDialogShown && <DialogWindow
-          text={i18n.t('unauthenticated_tournament_join')}
-          onClose={this.toggleSignInDialog}
-          onSubmit={this.redirectToLogin}
-        />
+        text={i18n.t('unauthenticated_tournament_join')}
+        onClose={this.toggleSignInDialog}
+        onSubmit={this.redirectToLogin}
+      />
       }
 
       {this.state.isChooseChampionModalShown &&

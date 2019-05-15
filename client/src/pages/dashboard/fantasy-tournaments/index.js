@@ -275,10 +275,10 @@ class FantasyTournaments extends Component {
           />}
 
           {isTournamentDeleting && <DialogWindow
-              text={i18n.t('want_delete_tournament')}
-              onSubmit={this.deleteTournamentAccept}
-              onClose={this.deleteTournamentDecline}
-            />
+            text={i18n.t('want_delete_tournament')}
+            onSubmit={this.deleteTournamentAccept}
+            onClose={this.deleteTournamentDecline}
+          />
           }
 
           <Input

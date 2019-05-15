@@ -52,7 +52,7 @@ class Start extends Component {
 
     const authRequest = await this.auth.oauthLogin(email, name, photo);
 
-    if(authRequest.success && this.state.tournamentId){
+    if (authRequest.success && this.state.tournamentId){
       this.props.history.replace(`/tournaments/${this.state.tournamentId}`);
 
       return;
@@ -71,7 +71,7 @@ class Start extends Component {
     });
   };
 
-  onFailureGoogleLogin = async data => {
+  onFailureGoogleLogin = () => {
     this.notificationService.showSingleNotification({
       type: 'error',
       shouldBeAddedToSidebar: false,

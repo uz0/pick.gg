@@ -17,10 +17,10 @@ class Notification extends Component {
   componentDidMount() {
     setTimeout(() => this.setState({ isShown: true }), 100);
 
-    if(this.props.hideAfter){
+    if (this.props.hideAfter){
       setTimeout(() => {
-        if(this.notification){
-          this.setState({ isShown: false })
+        if (this.notification){
+          this.setState({ isShown: false });
         }
       }, this.props.hideAfter - 100);
     }

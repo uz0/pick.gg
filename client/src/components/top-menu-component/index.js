@@ -59,7 +59,7 @@ class TopMenuComponent extends Component {
     const profile = await this.userService.getMyProfile();
     this.setState({
       profile,
-      isLoading: false
+      isLoading: false,
     });
   }
 
