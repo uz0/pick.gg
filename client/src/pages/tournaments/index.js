@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 
-import io from "socket.io-client";
+import io from 'socket.io-client';
 
 import TournamentService from 'services/tournamentService';
 import UserService from 'services/userService';
@@ -81,6 +81,12 @@ class Tournaments extends Component {
     let groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
     groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments);
     const realTournaments = await this.tournamentService.getRealTournaments();
+
+    this.notificationService.showSingleNotification({
+      type: 'warning',
+      shouldBeAddedToSidebar: true,
+      message: i18n.t('notifications.warnings.empty_summoner_name'),
+    });
 
     this.setState({
       groupedFantasyTournaments,
