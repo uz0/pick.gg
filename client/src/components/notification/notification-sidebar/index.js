@@ -11,7 +11,6 @@ import { ReactComponent as ErrorIcon } from 'assets/error.svg';
 import NotificationService from '../../../services/notificationService';
 
 import style from './style.module.css';
-
 import i18n from 'i18n';
 
 class NotificationSidebar extends Component {
@@ -102,7 +101,9 @@ class NotificationSidebar extends Component {
             />
           </div>
           <div className={style.content}>
-            {notifications.length === 0 && <p className={style.notifications_empty}>Новых уведомлений нет</p>}
+            {notifications.length === 0 &&
+              <p className={style.notifications_empty}>{i18n.t('notification_sidebar_empty')}</p>
+            }
             {notifications.map(notification => this.renderNotification(notification))}
           </div>
         </div>
