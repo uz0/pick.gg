@@ -100,7 +100,8 @@ class Rating extends Component {
 
   renderTopUsers = ({ className, avatarClass, nameClass, winningsClass, item }) => {
     const Avatar = () => item.photo ? <img src={item.photo} alt="userpic" /> : <AvatarPlaceholder />;
-    return <NavLink to={`/user/${item._id}`} className={className}>
+
+    return <NavLink key={item._id} to={`/user/${item._id}`} className={className}>
       <div className={avatarClass}>
         <Avatar />
       </div>
