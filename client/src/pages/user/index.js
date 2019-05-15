@@ -64,7 +64,7 @@ class User extends Component {
     </NavLink>;
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.loadData();
 
     this.socket = io();
