@@ -62,6 +62,7 @@ class NotificationService {
         notificationActions.pushNotificationToSidebar({
           id,
           type,
+          link,
           message,
         });
       }
