@@ -18,6 +18,6 @@ const UserPlaceholder = ({ username, userpic, role, isLoading }) => <Fragment>
     {username && <span className={style.name}>{username}</span>}
     {role && <span className={style.role}>{i18n.t(role)}</span>}
   </div>
-</Fragment>
+</Fragment>;
 
 export default UserPlaceholder;

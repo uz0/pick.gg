@@ -214,7 +214,7 @@ export default {translation: {
     },
     warnings: {
       empty_summoner_name: 'You need enter summoner name in settings profile',
-    }
+    },
   },
 
   serverErrors: {

@@ -242,12 +242,12 @@ class PlayersStep extends Component {
         </div>
 
         <Button
-            className={style.action_button}
-            appearance={'_basic-accent'}
-            text={buttonText}
-            icon={<i className="material-icons">{buttonIcon}</i>}
-            onClick={this.showPlayerChoosingModal}
-          />
+          className={style.action_button}
+          appearance={'_basic-accent'}
+          text={buttonText}
+          icon={<i className="material-icons">{buttonIcon}</i>}
+          onClick={this.showPlayerChoosingModal}
+        />
           
         <div className={style.controls}>
           {this.state.stepIndex !== 1 && <Button

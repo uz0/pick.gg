@@ -10,7 +10,7 @@ const Footer = () => {
     localStorage.setItem('_pgg_locale', event.target.name);
     i18n.changeLanguage(event.target.name);
     window.location.reload();
-  }
+  };
 
   return <footer className={style.footer}>
     <div className={style.container}>
@@ -35,7 +35,7 @@ const Footer = () => {
         <button onClick={changeLocale} name='en'>EN</button>
       </div>
     </div>
-  </footer>
-}
+  </footer>;
+};
 
 export default Footer;

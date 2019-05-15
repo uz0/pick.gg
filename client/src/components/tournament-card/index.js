@@ -25,17 +25,17 @@ const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users 
 
   if (!thumbnail) {
     switch (tournamentName) {
-      case 'LCK':
-        thumb = lck_thumb;
-        break;
-      case 'LCS':
-        thumb = lcs_thumb;
-        break;
-      case 'LPL':
-        thumb = lpl_thumb;
-        break;
-      default:
-        break;
+    case 'LCK':
+      thumb = lck_thumb;
+      break;
+    case 'LCS':
+      thumb = lcs_thumb;
+      break;
+    case 'LPL':
+      thumb = lpl_thumb;
+      break;
+    default:
+      break;
     }
   }
 
@@ -76,7 +76,7 @@ const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users 
         <div>{tournamentDate}</div>
       </div>
     </div>
-  </Link>
+  </Link>;
 };
 
 export default TournamentCard;

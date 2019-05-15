@@ -155,7 +155,7 @@ class MatchModal extends Component {
       results,
     });
 
-    if(request.error) {
+    if (request.error) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,

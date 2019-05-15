@@ -217,7 +217,7 @@ export default {translation: {
     },
     warnings: {
       empty_summoner_name: 'Вам нужно ввести ваше имя в LoL в настройках профиля',
-    }
+    },
   },
 
   serverErrors: {

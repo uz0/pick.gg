@@ -23,6 +23,6 @@ const DialogWindow = ({ text, onSubmit, onClose }) => <div className={style.wrap
       />
     </div>
   </div>
-</div>
+</div>;
 
 export default DialogWindow;
