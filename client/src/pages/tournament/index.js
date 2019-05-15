@@ -74,12 +74,12 @@ const leadersTableCaptions = {
 const matchesTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 100 : 300,
+    width: window.innerWidth < 480 ? 100 : 250,
   },
 
   points: {
     text: i18n.t('points'),
-    width: window.innerWidth < 480 ? 75 : 100,
+    width: window.innerWidth < 480 ? 75 : 120,
   },
 
   date: {
