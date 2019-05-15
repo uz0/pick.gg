@@ -32,9 +32,15 @@ class Notification extends Component {
     }
 
     history.replace(this.props.link);
+
+    if(this.props.onLinkRedirect){
+      this.props.onLinkRedirect();
+    }
   }
 
-  close = () => {
+  close = (event) => {
+    event.stopPropagation();
+
     this.setState({ isShown: false }, () => setTimeout(() => {
       const notificationContainer = document.getElementById('notifications-wrapper');
       ReactDOM.unmountComponentAtNode(notificationContainer);

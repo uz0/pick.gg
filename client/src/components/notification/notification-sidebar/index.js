@@ -46,6 +46,11 @@ class NotificationSidebar extends Component {
     });
   }
 
+  pullNotificationAndCloseSidebar = (id) => {
+    this.pullNotificationFromState(id);
+    this.hideNotificationSidebar();
+  }
+
   showNotificationSidebar = () => this.setState({ isShown: true });
 
   hideNotificationSidebar = () => this.setState({ isShown: false });
@@ -82,6 +87,7 @@ class NotificationSidebar extends Component {
       wrapperStyle={style.wrapper_n}
       notificationStyle={style.notification}
       onClose={() => this.pullNotificationFromState(id)}
+      onLinkRedirect={() => this.pullNotificationAndCloseSidebar(id)}
     />;
   }
 
