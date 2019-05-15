@@ -134,19 +134,6 @@ class TopMenuComponent extends Component {
       }
     });
 
-    // this.socket.on("fantasyTournamentEntryPaid", ({ entry }) => {
-    //   const newBalance = this.state.profile.user.balance - entry;
-
-    //   this.setState({
-    //     profile: {
-    //       user: {
-    //         ...this.state.profile.user,
-    //         balance: newBalance,
-    //       }
-    //     }
-    //   })
-    // });
-
     this.updateProfile();
   }
 
