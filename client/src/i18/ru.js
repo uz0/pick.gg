@@ -63,6 +63,7 @@ export default {translation: {
   tournament_list: 'Турнир(из списка)',
   update_data: 'Ваши данные обновлены.',
   username: 'Логин',
+  userbox_role_streamer: 'Стример',
   summonerName: 'Ваше имя в LoL',
   users: 'Пользователи',
   user_not_participated: 'Этот пользователь еще не участвовал в турнирах',
