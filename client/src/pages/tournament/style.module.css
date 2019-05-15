@@ -435,7 +435,11 @@
 
 .row_dark.row_choosed {
   background: var(--accent-color) !important;
-  --text-color: #000 !important;
+  --text-color: #fff !important;
+}
+
+.row_dark.row_choosed span {
+  color: #fff !important;
 }
 
 .info_users {
