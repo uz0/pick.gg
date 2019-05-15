@@ -16,7 +16,14 @@ class Notification extends Component {
 
   componentDidMount() {
     setTimeout(() => this.setState({ isShown: true }), 100);
-    setTimeout(() => this.setState({ isShown: false }), 4000);
+
+    if(this.props.hideAfter){
+      setTimeout(() => {
+        if(this.notification){
+          this.setState({ isShown: false })
+        }
+      }, this.props.hideAfter - 100);
+    }
   }
 
   handleLinkRedirect = () => {
@@ -38,7 +45,7 @@ class Notification extends Component {
     const closeButtonAction = this.props.onClose ? this.props.onClose : this.close;
 
     return (
-      <div onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, { [style.clickable]: this.props.link }, this.props.wrapperStyle)}>
+      <div ref={notification => this.notification = notification} onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, { [style.clickable]: this.props.link }, this.props.wrapperStyle)}>
         <div className={cx(style.notification, { '_is-shown': this.state.isShown }, this.props.notificationStyle)}>
           <div className={style.image}>
             {this.props.image}

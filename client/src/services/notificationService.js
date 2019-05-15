@@ -54,6 +54,7 @@ class NotificationService {
         image={icon}
         link={link}
         message={message}
+        hideAfter={4000}
       />, target);
 
     setTimeout(() => {
@@ -65,7 +66,7 @@ class NotificationService {
         });
       }
       this.hideSingleNotification();
-    }, 5000);
+    }, 4000);
   }
 
   hideSingleNotification = () => {
@@ -82,7 +83,6 @@ class NotificationService {
   }
 
   decrementNotificationCounter() {
-    console.log(notificationActions);
     notificationActions.decrementNotificationCounter();
   }
 }
