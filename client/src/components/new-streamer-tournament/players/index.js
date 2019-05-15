@@ -84,7 +84,7 @@ class PlayersStep extends Component {
   nextStep = () => {
     const { playersAddedToTournament } = this.state;
 
-    if (playersAddedToTournament.length !== 10){
+    if (playersAddedToTournament.length !== 10) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -162,7 +162,7 @@ class PlayersStep extends Component {
       let createPlayerRequest = await this.streamerService.createPlayer(payload);
       let createPlayerRequestData = await createPlayerRequest.json();
 
-      if (createPlayerRequest.status === 404){
+      if (createPlayerRequest.status === 404) {
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
@@ -174,7 +174,7 @@ class PlayersStep extends Component {
         return;
       }
 
-      if (createPlayerRequest.status === 400){
+      if (createPlayerRequest.status === 400) {
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
@@ -223,7 +223,7 @@ class PlayersStep extends Component {
 
     {position &&
       <div className={style.position}>
-        Position: {position}
+        {position}
       </div>
     }
   </div>
@@ -248,7 +248,7 @@ class PlayersStep extends Component {
           icon={<i className="material-icons">{buttonIcon}</i>}
           onClick={this.showPlayerChoosingModal}
         />
-          
+
         <div className={style.controls}>
           {this.state.stepIndex !== 1 && <Button
             className={style.prev}
