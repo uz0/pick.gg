@@ -150,7 +150,6 @@ class Tournaments extends Component {
   renderTournamentCard = () => { };
 
   render() {
-
     return <div className={style.tournaments}>
       <div className={style.content}>
         <div className={cx(style.section, { [style.is_preloader_card]: this.state.isLoading })}>

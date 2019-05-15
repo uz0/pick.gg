@@ -25,54 +25,58 @@ const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users 
 
   if (!thumbnail) {
     switch (tournamentName) {
-    case 'LCK':
-      thumb = lck_thumb;
-      break;
-    case 'LCS':
-      thumb = lcs_thumb;
-      break;
-    case 'LPL':
-      thumb = lpl_thumb;
-      break;
-    default:
-      break;
+      case 'LCK':
+        thumb = lck_thumb;
+        break;
+      case 'LCS':
+        thumb = lcs_thumb;
+        break;
+      case 'LPL':
+        thumb = lpl_thumb;
+        break;
+      default:
+        break;
     }
   }
 
-  return (
-    <Link to={`/tournaments/${_id}`} className={style.card}>
-      <div className={style.thumbnail}>
-        <img src={thumb} alt={'tournament thumbnail'}/>
-      </div>
-      <div className={style.content}>
-        <h3>{name}</h3>
-        <div className={style.info}>
-          <div className={style.label}>Rules</div>
-          <div className={style.rules}>
-            K<span>x</span>{rules[0].score}
-            /D<span>x</span>{rules[1].score}
-            /A<span>x</span>{rules[2].score}
-          </div>
-        </div>
-        <div className={style.info}>
-          <i className="material-icons">people</i>
-          <div>{users.length}</div>
-        </div>
-        <div className={style.info}>
-          <i className="material-icons">attach_money</i>
-          <div>${entry}</div>
-        </div>
-        <div className={style.info}>
-          <TrophyIcon />
-          <div>${tournamentPrize}</div>
-        </div>
-        <div className={style.info}>
-          <i className="material-icons">access_alarms</i>
-          <div>{tournamentDate}</div>
+  return <Link key={_id} to={`/tournaments/${_id}`} className={style.card}>
+    <div className={style.thumbnail}>
+      <img src={thumb} alt={'tournament thumbnail'} />
+    </div>
+
+    <div className={style.content}>
+      <h3>{name}</h3>
+
+      <div className={style.info}>
+        <div className={style.label}>Rules</div>
+        <div className={style.rules}>
+          K<span>x</span>{rules[0].score}
+          /D<span>x</span>{rules[1].score}
+          /A<span>x</span>{rules[2].score}
         </div>
       </div>
-    </Link>
-  );
+
+      <div className={style.info}>
+        <i className="material-icons">people</i>
+        <div>{users.length}</div>
+      </div>
+
+      <div className={style.info}>
+        <i className="material-icons">attach_money</i>
+        <div>${entry}</div>
+      </div>
+
+      <div className={style.info}>
+        <TrophyIcon />
+        <div>${tournamentPrize}</div>
+      </div>
+
+      <div className={style.info}>
+        <i className="material-icons">access_alarms</i>
+        <div>{tournamentDate}</div>
+      </div>
+    </div>
+  </Link>
 };
 
 export default TournamentCard;
