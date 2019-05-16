@@ -49,14 +49,14 @@ const StreamerController = (io) => {
       return;
     }
 
-    let summonerRequest = await riotFetch(`lol/summoner/v4/summoners/by-name/${name}`);
-    summonerRequest = await summonerRequest.json();
+    // let summonerRequest = await riotFetch(`lol/summoner/v4/summoners/by-name/${name}`);
+    // summonerRequest = await summonerRequest.json();
 
-    if(summonerRequest.status && summonerRequest.status.status_code === 404){
-      res.status(404).send({ name });
+    // if(summonerRequest.status && summonerRequest.status.status_code === 404){
+    //   res.status(404).send({ name });
 
-      return;
-    }
+    //   return;
+    // }
 
     const player = await PlayerModel.create({
       name,

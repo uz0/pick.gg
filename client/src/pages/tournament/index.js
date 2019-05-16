@@ -734,7 +734,7 @@ class Tournament extends Component {
         <div className={style.team}>
           {champions.map(champion => <div className={style.champion} key={champion._id}>
             <div className={style.image}>
-              <img src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} />
+              <img onError={event => event.target.src = Avatar} src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} />
             </div>
 
             <span className={style.name}>{champion.name}</span>
