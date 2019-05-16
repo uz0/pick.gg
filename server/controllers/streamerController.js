@@ -192,7 +192,7 @@ const StreamerController = (io) => {
       new: true
     });
 
-    const updatedMatch = await MatchModel.findOne({ _id: matchId })
+    let updatedMatch = await MatchModel.findOne({ _id: matchId }, { lean: false })
       .populate({
         path: 'results',
         populate: {
@@ -203,9 +203,14 @@ const StreamerController = (io) => {
           path: 'playersResults.results.rule',
           select: 'name'
         }
-      })
+      });
 
-    // io.emit('matchUpdated', { updatedMatch });
+    const realTournamentId = await TournamentModel.findOne({ matches_ids: { $in: [updatedMatch._id] } }).lean().select('_id');
+    const fantasyTournamentId = await FantasyTournament.findOne({ tournament: realTournamentId._id }).lean().select('_id');
+
+    updatedMatch.tournament_id = fantasyTournamentId._id;
+
+    io.emit('matchUpdated', { updatedMatch });
 
     res.json({
       success: 'success',

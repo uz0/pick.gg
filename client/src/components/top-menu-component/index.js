@@ -54,7 +54,12 @@ class TopMenuComponent extends Component {
   }
 
   updateProfile = async () => {
-    const profile = await this.userService.getMyProfile();
+    let profile = await this.userService.getMyProfile();
+
+    if(profile.success === false){
+      profile = null;
+    }
+
     this.setState({
       profile,
       isLoading: false,
@@ -72,9 +77,11 @@ class TopMenuComponent extends Component {
   // }
 
   componentDidMount = () => {
+    this.updateProfile();
+
     this.socket = io();
 
-    this.socket.on("fantasyTournamentCreated", ({ newTournamentPopulated }) => {
+    this.socket.on('fantasyTournamentCreated', ({ newTournamentPopulated }) => {
       this.notificationService.showSingleNotification({
         type: 'match',
         shouldBeAddedToSidebar: false,
@@ -83,7 +90,7 @@ class TopMenuComponent extends Component {
       });
     });
 
-    this.socket.on("fantasyTournamentFinalized", ({ tournamentId, participants, winner, prize }) => {
+    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner, prize }) => {
       const currentUser = this.state.profile.user.username;
 
       if (!participants.includes(currentUser)) {
@@ -120,19 +127,18 @@ class TopMenuComponent extends Component {
       });
     });
 
-    this.socket.on("matchUpdated", () => {
-      const path = this.props.history.location.pathname;
-
-      if (path !== '/dashboard/tournaments') {
-        this.notificationService.showSingleNotification({
-          type: 'match',
-          shouldBeAddedToSidebar: true,
-          message: i18n.t('match_status_changed'),
-        });
+    this.socket.on('matchUpdated', ({ updatedMatch }) => {
+      if (!this.state.profile) {
+        return;
       }
-    });
 
-    this.updateProfile();
+      this.notificationService.showSingleNotification({
+        type: 'match',
+        link: `/tournaments/${updatedMatch.tournament_id}`,
+        shouldBeAddedToSidebar: true,
+        message: i18n.t('match_status_changed'),
+      });
+    });
   }
 
   render() {

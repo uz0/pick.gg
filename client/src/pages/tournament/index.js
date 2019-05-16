@@ -111,10 +111,14 @@ class Tournament extends Component {
   };
 
   async componentDidMount() {
-    const { user } = await this.userService.getMyProfile();
+    let user = await this.userService.getMyProfile();
+
+    if(user.success === false){
+      user = null;
+    }
 
     this.setState({
-      currentUser: user,
+      currentUser: user && user.user,
       username: user && user.username,
     });
 
@@ -155,7 +159,7 @@ class Tournament extends Component {
 
     const realTournament = tournament.tournament;
     const users = tournament.users;
-    const currentUserParticipant = find(tournament.users, item => item.user._id === this.state.currentUser._id);
+    const currentUserParticipant = find(tournament.users, item => item.user._id === this.state.currentUser && this.state.currentUser._id);
     const matches = realTournament.matches;
 
     users && users.forEach(item => {
@@ -248,7 +252,7 @@ class Tournament extends Component {
   }
 
   getFantasyTournamentStatus = () => {
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser && this.state.currentUser._id);
     const tournamentWinner = this.state.fantasyTournament && this.state.fantasyTournament.winner !== null;
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
 
@@ -511,7 +515,7 @@ class Tournament extends Component {
 
   renderMatchRow = ({ className, itemClass, textClass, item }) => {
     const { fantasyTournament } = this.state;
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser && this.state.currentUser._id);
 
     const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const matchPoints = points > 0 ? points : 0;
@@ -555,7 +559,7 @@ class Tournament extends Component {
   };
 
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser && this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isPlayerChoosedByUser = find(champions, { _id: item.playerId }) ? true : false;
 
@@ -586,7 +590,7 @@ class Tournament extends Component {
   };
 
   render() {
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser._id);
+    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => item.user._id === this.state.currentUser && this.state.currentUser._id);
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isTournamentNotFree = this.state.fantasyTournament && this.state.fantasyTournament.entry > 0;
     const prize = isTournamentNotFree ? this.getTournamentPrize() : i18n.t('free');
