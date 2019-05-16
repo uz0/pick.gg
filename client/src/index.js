@@ -14,6 +14,7 @@ import Locale from './locale';
 
 ReactDOM.render(
   <>
+    <YMInitializer accounts={[53679490]} />
     <Router basename='/' history={history}>
       <Switch>
         <Route exact path='/' component={Start} />
@@ -22,7 +23,6 @@ ReactDOM.render(
         <Route component={App} />
       </Switch>
     </Router>
-    <YMInitializer accounts={[53679490]} />
   </>,
   document.getElementById('root'),
 );

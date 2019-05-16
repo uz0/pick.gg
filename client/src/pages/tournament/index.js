@@ -13,6 +13,7 @@ import i18n from 'i18n';
 import io from 'socket.io-client';
 import moment from 'moment';
 import uuid from 'uuid';
+import ym from 'react-yandex-metrika';
 
 import find from 'lodash/find';
 import groupBy from 'lodash/groupBy';
@@ -230,6 +231,8 @@ class Tournament extends Component {
     this.setState({
       animate: true,
     });
+
+    ym('reachGoal', 'copied_invite_link');
   }
 
   getTournamentStatus = () => {
@@ -316,7 +319,6 @@ class Tournament extends Component {
   };
 
   getTotalUserScore = (fantasyTournament, userId) => {
-
     const matches = fantasyTournament.tournament.matches;
     const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
     const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
@@ -401,6 +403,8 @@ class Tournament extends Component {
     await this.tournamentService.participateInTournament(this.tournamentId, payload);
     await this.loadTournamentData();
 
+    ym('reachGoal', 'user_joined_tournament');
+
     this.notificationService.showSingleNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
@@ -443,6 +447,8 @@ class Tournament extends Component {
       matchInfo: matchResults,
       matchTitle: item.name,
     });
+
+    ym('reachGoal', 'opened_match_results');
   }
 
   editMatchInit = (event, item) => {
