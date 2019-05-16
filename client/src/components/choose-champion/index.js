@@ -77,7 +77,7 @@ class ChooseChampion extends Component {
       onClick={() => this.toggleChampion(_id)}
     >
       <div className={style.image}>
-        <img src={championPhoto} alt={i18n.t('champion_avatar')} />
+        <img onError={event => event.target.src = Avatar} src={championPhoto} alt={i18n.t('champion_avatar')} />
       </div>
 
       <p className={style.name}>{name}</p>
