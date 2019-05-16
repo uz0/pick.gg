@@ -96,6 +96,7 @@ class Tournament extends Component {
     this.streamerService = new StreamerService();
     this.notificationService = new NotificationService();
     this.userService = new UserService();
+    this.socket = io();
   }
 
   state = {
@@ -123,10 +124,7 @@ class Tournament extends Component {
       username: user && user.username,
     });
 
-    this.socket = io();
-
     this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
-
       if (this.state.currentUser.username !== user.username) {
         this.notificationService.showSingleNotification({
           type: 'match',
@@ -135,10 +133,18 @@ class Tournament extends Component {
         });
       }
 
+      this.loadTournamentData(false);
+    });
+
+    this.socket.on('fantasyTournamentFinalized', () => {
       this.loadTournamentData();
     });
 
     this.loadTournamentData();
+  }
+
+  componentWillUnmount(){
+    this.socket.close();
   }
 
   loadTournamentData = (withPreloader) => new Promise(async resolve => {

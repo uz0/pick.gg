@@ -49,20 +49,20 @@ class MatchModal extends Component {
 
     let { match } = await this.streamerService.getMatchInfo(matchId);
     const { user } = await this.userService.getMyProfile();
-    const { matches } = await this.streamerService.getLastMatches(user.streamerAccountId);
+    // const { matches } = await this.streamerService.getLastMatches(user.streamerAccountId);
     const currentMatchPlayers = matchChampions.map(item => item.name);
 
     let selectMatches = [];
 
-    matches.forEach((item, index) => {
-      const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName);
-      const playersDifference = difference(currentMatchPlayers, matchPlayers).length === 0 ? '✔' : '';
+    // matches.forEach((item, index) => {
+    //   const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName);
+    //   const playersDifference = difference(currentMatchPlayers, matchPlayers).length === 0 ? '✔' : '';
 
-      selectMatches.push({
-        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers.join(', ')} ${playersDifference}`,
-        id: item.gameId,
-      });
-    });
+    //   selectMatches.push({
+    //     name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers.join(', ')} ${playersDifference}`,
+    //     id: item.gameId,
+    //   });
+    // });
 
     match.startTime = moment(match.startDate).format('HH:mm');
 
@@ -75,7 +75,7 @@ class MatchModal extends Component {
 
     this.setState({
       match,
-      matches,
+      matches: [],
       selectMatches,
       results: resultsWithChampions,
       isLoading: false,
