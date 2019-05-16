@@ -127,19 +127,19 @@ class TopMenuComponent extends Component {
       });
     });
 
-    this.socket.on('matchUpdated', ({ updatedMatch }) => {
-      if (!this.state.profile) {
-        return;
-      }
+  //   this.socket.on('matchUpdated', ({ updatedMatch }) => {
+  //     if (!this.state.profile) {
+  //       return;
+  //     }
 
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        link: `/tournaments/${updatedMatch.tournament_id}`,
-        shouldBeAddedToSidebar: true,
-        message: i18n.t('match_status_changed'),
-      });
-    });
-  }
+  //     this.notificationService.showSingleNotification({
+  //       type: 'match',
+  //       link: `/tournaments/${updatedMatch.tournament_id}`,
+  //       shouldBeAddedToSidebar: true,
+  //       message: i18n.t('match_status_changed'),
+  //     });
+  //   });
+  // }
 
   render() {
     const { profile } = this.state;
