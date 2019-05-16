@@ -34,21 +34,21 @@ const UsersController = () => {
 
     let streamerAccountId = '';
 
-    if (summonerName != ''){
-      let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${summonerName}`);
-      accountInfo = await accountInfo.json();
+    // if (summonerName != ''){
+    //   let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${summonerName}`);
+    //   accountInfo = await accountInfo.json();
 
-      if (accountInfo.status && accountInfo.status.status_code === 404){
-        res.send({
-          success: false,
-          error: 'user_not_found',
-        });
+    //   if (accountInfo.status && accountInfo.status.status_code === 404){
+    //     res.send({
+    //       success: false,
+    //       error: 'user_not_found',
+    //     });
 
-        return;
-      }
+    //     return;
+    //   }
 
-      streamerAccountId = accountInfo.accountId;
-    }
+    //   streamerAccountId = accountInfo.accountId;
+    // }
 
     const fields = {
       email,
