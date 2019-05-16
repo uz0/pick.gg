@@ -18,21 +18,12 @@
   display: flex;
 }
 
-.modal_match .rules_inputs > div + div {
-  margin-left: 10px;
+.modal_match .rules_inputs > div {
+  max-width: 100px;
 }
 
-.modal_match .select {
-  /* height: 40px; */
-  /* --input-padding: 10px;
-  height: 40px;
-  padding-left: var(--input-padding);
-  padding-right: var(--input-padding);
-  font-size: 15px;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  background-color: var(--primary-color); */
+.modal_match .rules_inputs > div + div {
+  margin-left: 10px;
 }
 
 .modal_match .select select {
