@@ -197,7 +197,7 @@ class TopMenuComponent extends Component {
                 {i18n.t('my_tournaments')}
               </NavLink>
 
-              <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
+              <NavLink to={`/user/${profile.user && profile.user._id}`}>
                 <i className="material-icons">person</i>
                 {i18n.t('public_profile')}
               </NavLink>
