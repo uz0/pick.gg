@@ -19,6 +19,7 @@ import style from './style.module.css';
 import classnames from 'classnames/bind';
 
 import i18n from 'i18n';
+import ym from 'react-yandex-metrika';
 
 const cx = classnames.bind(style);
 
@@ -48,6 +49,8 @@ class TopMenuComponent extends Component {
     try {
       await this.authService.logout();
       this.props.history.push('/');
+
+      ym('reachGoal', 'user_logged_out');
     } catch (error) {
       console.log(error);
     }

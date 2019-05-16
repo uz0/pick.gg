@@ -4,11 +4,14 @@ import { ReactComponent as DiscordIcon } from 'assets/icon-discord.svg';
 
 import style from './style.module.css';
 import i18n from 'i18n';
+import ym from 'react-yandex-metrika';
 
 const Footer = () => {
   const changeLocale = (event) => {
     localStorage.setItem('_pgg_locale', event.target.name);
     i18n.changeLanguage(event.target.name);
+
+    ym('reachGoal', `choosed_${event.target.name}_locale`);
     window.location.reload();
   };
 

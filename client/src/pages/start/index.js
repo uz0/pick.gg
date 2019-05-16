@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 import { Link } from 'react-router-dom';
 import style from './style.module.css';
-import i18n from "i18next";
+
+import ym from 'react-yandex-metrika';
+import i18n from 'i18next';
 import config from 'config';
 
 import NotificationContainer from 'components/notification/notification-container';
@@ -54,12 +56,14 @@ class Start extends Component {
 
     if (authRequest.success && this.state.tournamentId){
       this.props.history.replace(`/tournaments/${this.state.tournamentId}`);
+      ym('reachGoal', 'user_signed_in');
 
       return;
     }
 
     if (authRequest.success) {
       this.props.history.replace('/tournaments');
+      ym('reachGoal', 'user_signed_in');
 
       return;
     }
