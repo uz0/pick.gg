@@ -136,8 +136,8 @@ class Tournament extends Component {
     this.loadTournamentData();
   }
 
-  loadTournamentData = () => new Promise(async resolve => {
-    if (!this.state.isLoading) {
+  loadTournamentData = (withPreloader) => new Promise(async resolve => {
+    if (!this.state.isLoading && withPreloader !== false) {
       this.setState({ isLoading: true });
     }
 
@@ -812,7 +812,7 @@ class Tournament extends Component {
           matchId={this.state.editingMatchId}
           closeMatchEditing={this.closeMatchEditing}
           matchChampions={tournamentChampions}
-          onMatchUpdated={this.loadTournamentData}
+          onMatchUpdated={() => this.loadTournamentData(false)}
         />
       }
     </div>;

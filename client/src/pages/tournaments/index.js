@@ -79,7 +79,7 @@ class Tournaments extends Component {
     const fantasyTournaments = await this.tournamentService.getFantasyTournaments();
 
     let groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
-    groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments);
+        groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments);
     const realTournaments = await this.tournamentService.getRealTournaments();
 
     this.setState({
@@ -90,7 +90,6 @@ class Tournaments extends Component {
     });
 
     this.socket.on("fantasyTournamentCreated", ({ newTournamentPopulated }) => {
-
       this.setState({
         fantasyTournaments: [
           ...this.state.fantasyTournaments,

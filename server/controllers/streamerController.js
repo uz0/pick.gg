@@ -313,6 +313,13 @@ const StreamerController = (io) => {
       winner: null,
     });
 
+    const newTournamentPopulated = await FantasyTournament.findOne({_id: fantasyTournament._id})
+      .populate('tournament', 'name date')
+      .populate({ path: 'users.players', select: 'id name' })
+      .populate({ path: 'users.user', select: '_id username' })
+  
+    io.emit('fantasyTournamentCreated', { newTournamentPopulated });
+
     res.send({ fantasyTournament });
   });
 
