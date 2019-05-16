@@ -139,7 +139,7 @@ class TopMenuComponent extends Component {
   //       message: i18n.t('match_status_changed'),
   //     });
   //   });
-  // }
+  }
 
   render() {
     const { profile } = this.state;
