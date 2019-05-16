@@ -2,7 +2,7 @@ import http from './httpService';
 import BasicService from './basicService';
 
 export default class StreamerService extends BasicService {
-  createPlayer = async({ name, photo, position }) => {
+  async createPlayer({ name, photo, position }) {
     const request = await http(`/api/streamer/players`, {
       method: 'POST',
       headers: {
@@ -19,24 +19,7 @@ export default class StreamerService extends BasicService {
   }
 
   async createTournament({ name, entry, playersIds, matches, thumbnail, rulesValues, userId }) {
-    const request = await http(`/api/streamer/tournament`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId,
-        name,
-        entry,
-        matches,
-        thumbnail,
-        playersIds,
-        rulesValues,
-      }),
-    });
-    const requestResult = await request.json();
-    return requestResult;
+    return this.request('POST', '/api/streamer/tournament', { name, entry, playersIds, matches, thumbnail, rulesValues, userId });
   }
 
   async finalizeTournament(tournamentId) {

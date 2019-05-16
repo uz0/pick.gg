@@ -9,7 +9,7 @@ import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 import TransactionService from 'services/transactionService';
-import TournamentService from 'services/tournamentService';
+import StreamerService from 'services/streamerService';
 
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';
@@ -31,12 +31,10 @@ class TopMenuComponent extends Component {
     this.userService = new UserService({
       onUpdate: () => this.updateProfile(),
     });
-
-    this.TransactionService = new TransactionService({
+    this.transactionService = new TransactionService({
       onUpdate: () => this.updateProfile(),
     });
-
-    this.TournamentService = new TournamentService({
+    this.streamerService = new StreamerService({
       onUpdate: () => this.updateProfile(),
     });
 
@@ -65,12 +63,12 @@ class TopMenuComponent extends Component {
 
   // deposit = async(event) => {
   //   event.preventDefault();
-  //   await this.TransactionService.deposit();
+  //   await this.transactionService.deposit();
   // }
 
   // withdraw = async(event) => {
   //   event.preventDefault();
-  //   await this.TransactionService.withdraw();
+  //   await this.transactionService.withdraw();
   // }
 
   componentDidMount = () => {
