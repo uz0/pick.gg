@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import TournamentService from '../../services/tournamentService';
-import TransactionService from '../../services/transactionService';
 import UserService from '../../services/userService';
 
 import io from "socket.io-client";
@@ -36,12 +35,10 @@ class User extends Component {
   constructor() {
     super();
     this.userService = new UserService();
-    this.transactionService = new TransactionService();
     this.tournamentService = new TournamentService();
     this.state = {
       tournaments: [],
       userData: {},
-      totalWinnings: 0,
       loading: true,
       zeroTournaments: true,
     };
@@ -75,16 +72,13 @@ class User extends Component {
     const userId = this.props.match.params.id;
 
     const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
-    const { winnings } = await this.transactionService.getTotalWinnings(userId);
     const { user } = await this.userService.getUserDataById(userId);
     const userRating = await this.userService.getUsersRating();
     const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1;
-    const totalWinnings = winnings.reduce((acc, current) => { return acc + current.amount; }, 0);
 
     this.setState({
       tournaments,
       userData: user,
-      totalWinnings,
       totalUsers: userRating.rating.length,
       userPlace,
       loading: false,
@@ -92,15 +86,7 @@ class User extends Component {
   }
 
   render() {
-
-    const {
-      totalWinnings,
-      tournaments,
-      loading,
-    } = this.state;
-
-    const winnings = totalWinnings === 0 ? i18n.t('newbie') : `$ ${totalWinnings}`;
-    const forTotal = totalWinnings === 0 ? '' : i18n.t('earned');
+    const { tournaments, loading } = this.state;
 
     return (
       <div className={style.home_page}>
@@ -124,11 +110,6 @@ class User extends Component {
                   <div className={style.item}>
                     <div className={style.value}>{tournaments && tournaments.length}</div>
                     <div className={style.key}>{i18n.t('tournaments')}</div>
-                  </div>
-
-                  <div className={style.item}>
-                    <div className={style.value}>{winnings}</div>
-                    <div className={style.key}>{forTotal}</div>
                   </div>
 
                   <div className={style.item}>

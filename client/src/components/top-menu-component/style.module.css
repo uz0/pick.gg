@@ -108,10 +108,6 @@ html {
   animation: loading 0.5s infinite;
 }
 
-.balance {
-  min-width: 20px !important;
-}
-
 @keyframes loading {
   0% {
     opacity: 1;
