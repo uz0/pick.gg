@@ -2,7 +2,6 @@ import express from "express";
 import TournamentModel from "../models/tournament";
 import FantasyTournamentModel from "../models/fantasy-tournament";
 import MatchModel from "../models/match";
-import TransactionModel from "../models/transaction";
 import MatchResultModel from "../models/match-result";
 import PlayerModel from "../models/player";
 import RuleModel from "../models/rule";
@@ -329,15 +328,6 @@ const AdminController = io => {
 
     await FantasyTournamentModel.updateOne({ _id: tournamentId }, {
       winner: tournamentWinner.user._id,
-    });
-
-    await UserModel.findByIdAndUpdate({ _id: tournamentWinner.user._id }, { new: true, $inc: { balance: tournamentPrize } });
-    await TransactionModel.create({
-      userId: tournamentWinner.user._id,
-      tournamentId,
-      amount: tournamentPrize,
-      origin: 'tournament winning',
-      date: Date.now(),
     });
 
     const tournamentUserNames = fantasyTournament.users.map(item => item.user.username);

@@ -4,7 +4,6 @@ import find from 'lodash/find';
 import TournamentModel from "../models/tournament";
 import FantasyTournament from "../models/fantasy-tournament";
 import UserModel from "../models/user";
-import TransactionModel from "../models/transaction";
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -178,14 +177,6 @@ const TournamentController = io => {
 
       await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
 
-      await TransactionModel.create({
-        userId,
-        tournamentId: newTournament._id,
-        amount: entry,
-        origin: 'tournament deposit',
-        date: Date.now(),
-      });
-
       const newTournamentPopulated = await FantasyTournament.findOne({_id: newTournament._id})
         .populate('tournament', 'name date')
         .populate({ path: 'users.players', select: 'id name' })
@@ -242,14 +233,6 @@ const TournamentController = io => {
         });
       } else {
         await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
-        await TransactionModel.create({
-          userId,
-          tournamentId: tournament._id,
-          amount: tournament.entry,
-          origin: 'tournament deposit',
-          date: Date.now(),
-        });
-
       }
     }
 

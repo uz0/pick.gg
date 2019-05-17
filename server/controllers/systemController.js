@@ -7,12 +7,10 @@ import TournamentModel from "../models/tournament";
 import FantasyTournament from "../models/fantasy-tournament";
 import UserModel from "../models/user";
 import RuleModel from "../models/rule";
-import TransactionModel from "../models/transaction";
 import MatchResult from "../models/match-result";
 import MatchModel from "../models/match";
 import PlayerModel from "../models/player";
 import fetch from 'node-fetch';
-import { URLSearchParams } from 'url';
 import config from "../config";
 
 import MockService from "../mockService";
@@ -516,17 +514,7 @@ const SystemController = () => {
       }
 
       const winnerSum = tournaments[i].entry * users.length;
-      await UserModel.findByIdAndUpdate({ _id: winner.user }, { new: true, $inc: { balance: winnerSum } });
       await FantasyTournament.findByIdAndUpdate({ _id: tournaments[i]._id }, { winner: winner.user });
-
-
-      await TransactionModel.create({
-        userId: winner.user._id,
-        tournamentId: tournaments[i]._id,
-        amount: winnerSum,
-        origin: 'tournament winning',
-        date: Date.now(),
-      });
     }
 
     const updateTournamentsNames = tournaments.map(tournament => tournament.name).join(', ');

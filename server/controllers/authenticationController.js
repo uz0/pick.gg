@@ -17,7 +17,6 @@ const AuthenticationController = (app) => {
         photo,
         email,
         password: '',
-        balance: 5000,
         isAdmin: false,
         isStreamer: false,
       });
@@ -115,7 +114,6 @@ const AuthenticationController = (app) => {
         username,
         email,
         password: hash,
-        balance: 5000,
         isAdmin: false,
       });
 

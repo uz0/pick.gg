@@ -2,7 +2,6 @@ import express from "express";
 import PlayerModel from "../models/player";
 
 import TournamentModel from '../models/tournament';
-import TransactionModel from '../models/transaction';
 import FantasyTournament from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
 import MatchResultModel from '../models/match-result';
@@ -221,26 +220,6 @@ const StreamerController = (io) => {
   router.post('/tournament', async (req, res) => {
     const { name, userId, entry, matches, thumbnail, playersIds, rulesValues } = req.body;
 
-    const user = await UserModel.findOne({ _id: userId }, 'balance');
-
-    if (user.balance - entry < 0) {
-      res.json({
-        success: false,
-        message: 'You have not money on your balance to create tournament',
-      });
-
-      return;
-    }
-
-    await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
-
-    await TransactionModel.create({
-      userId,
-      amount: entry,
-      origin: 'tournament deposit',
-      date: Date.now(),
-    });
-
     let createdMatchesIds = [];
 
     const generatePlayersResults = (players) => {
@@ -450,15 +429,6 @@ const StreamerController = (io) => {
 
     await FantasyTournament.updateOne({ _id: tournamentId }, {
       winner: tournamentWinner.user._id,
-    });
-
-    await UserModel.findByIdAndUpdate({ _id: tournamentWinner.user._id }, { new: true, $inc: { balance: tournamentPrize } });
-    await TransactionModel.create({
-      userId: tournamentWinner.user._id,
-      tournamentId,
-      amount: tournamentPrize,
-      origin: 'tournament winning',
-      date: Date.now(),
     });
 
     const tournamentUserNames = fantasyTournament.users.map(item => item.user.username);
