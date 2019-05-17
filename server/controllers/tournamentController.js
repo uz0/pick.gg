@@ -152,17 +152,6 @@ const TournamentController = io => {
       return;
     }
 
-    const user = await UserModel.findOne({ _id: userId }, 'balance');
-
-    if (user.balance - entry < 0) {
-      res.json({
-        success: false,
-        message: 'You have not money on your balance to create tournament',
-      });
-
-      return;
-    }
-
     try {
       
       const newTournament = await FantasyTournament.create({
@@ -174,8 +163,6 @@ const TournamentController = io => {
         creator: userId,
         winner: null,
       });
-
-      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
 
       const newTournamentPopulated = await FantasyTournament.findOne({_id: newTournament._id})
         .populate('tournament', 'name date')
@@ -223,17 +210,6 @@ const TournamentController = io => {
       });
 
       return;
-    }
-
-    if (`${tournament.creator}` !== `${userId}`) {
-      if(user.balance < tournament.entry){
-        res.json({
-          success: false,
-          message: "You have not enough money to take part in this tournament",
-        });
-      } else {
-        await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
-      }
     }
 
     tournamentUsers.push({
