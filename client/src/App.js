@@ -10,6 +10,7 @@ import Tournament from './pages/tournament';
 import Profile from './pages/profile';
 import User from './pages/user';
 import MyTournaments from './pages/mytournaments';
+import Trophies from './pages/trophies';
 import './i18n';
 
 const App = ({ history }) => <Fragment>
@@ -26,6 +27,7 @@ const App = ({ history }) => <Fragment>
       <Route exact path="/profile" component={Profile} />
       <Route exact path="/user/:id" component={User} />
       <Route exact path="/mytournaments" component={MyTournaments} />
+      <Route exact path="/trophies" component={Trophies} />
       <Redirect to="/"/>
     </Switch>
   </div>
