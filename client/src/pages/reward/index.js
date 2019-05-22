@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import io from 'socket.io-client';
 
-import TrophiesCard from 'components/card-trophies';
+import RewardCard from 'components/reward-card';
 
 import NotificationService from 'services/notificationService';
 
@@ -33,9 +33,9 @@ class Trophies extends Component {
 
   render() {
     return <div className={style.trophies}>
-      <TrophiesCard />
-      <TrophiesCard />
-      <TrophiesCard />
+      <RewardCard />
+      <RewardCard />
+      <RewardCard />
     </div>;
   }
 }
