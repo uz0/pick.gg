@@ -24,7 +24,7 @@ export default mongoose.model('User', new Schema({
     }
   },
 
-  balance: { type: Number },
+  rewards: [{ type : Schema.Types.ObjectId, ref: 'Reward' }],
   isAdmin : { type: Boolean },
   isStreamer : { type: Boolean },
   summonerName: { type: String },
