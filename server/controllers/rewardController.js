@@ -12,6 +12,13 @@ const RewardController = () => {
     res.send({ rewards });
   });
 
+  router.get('/user', async (req, res) => {
+    const userId = req.decoded._id;
+    const rewards = await UserModel.findById(userId).select('rewards -_id').populate('rewards');
+
+    res.send(rewards);
+  });
+
   router.post('/', async (req, res) => {
     const reward = await RewardModel.create({
       key: uuid(),
