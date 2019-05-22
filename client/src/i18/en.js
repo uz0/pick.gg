@@ -36,6 +36,7 @@ export default {translation: {
   matches_soon: 'Matches will appear soon',
   minimal_entry: 'Minimal entry',
   my_tournaments: 'My tournaments',
+  my_awards: 'My rewards',
   name: 'Name',
   not_yet_tournaments: 'There is no tournaments yet',
   not_satisfied: 'Not satisfied?',

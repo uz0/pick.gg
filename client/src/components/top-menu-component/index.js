@@ -158,6 +158,11 @@ class TopMenuComponent extends Component {
                 </NavLink>
               }
 
+              <NavLink to="/rewards">
+                <i className="material-icons">attach_money</i>
+                {i18n.t('my_awards')}
+              </NavLink>
+
               <NavLink to="/mytournaments">
                 <i className="material-icons">assignment</i>
                 {i18n.t('my_tournaments')}
