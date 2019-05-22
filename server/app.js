@@ -15,6 +15,7 @@ import {
   SystemController,
   AdminController,
   StreamerController,
+  RewardController,
 } from './controllers';
 
 import {
@@ -60,6 +61,7 @@ app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());
 app.use('/api/tournaments', TournamentController(io));
 app.use('/api/system', SystemController());
+app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 app.use('/api/streamer', StreamerVerifyMiddleware, StreamerController(io));
