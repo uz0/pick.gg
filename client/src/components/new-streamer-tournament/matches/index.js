@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Input from 'components/input';
 import Button from 'components/button';
-import Modal from '../../dashboard-modal';
+import Modal from 'components/dashboard-modal';
 
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
@@ -216,6 +216,7 @@ class MatchesStep extends Component {
             name='name'
             value={this.state.matchData.name}
             onChange={this.handleInputChange}
+            className={style.input_wrap}
           />
 
           <Input
