@@ -207,6 +207,12 @@ export default {translation: {
   play_fantasy: 'ИГРАТЬ В FANTASY LEAGUE',
   unauthenticated_tournament_join: 'Вам необходимо зарегистрироваться чтобы принять участие в турнире',
 
+  modal: {
+    step: 'Шаг',
+    of: 'из',
+    new_tournament: 'Новый турнир',
+  },
+
   notifications: {
     finalization: {
       no_participatns: "Вы не можете завершить турнир без участников.",
