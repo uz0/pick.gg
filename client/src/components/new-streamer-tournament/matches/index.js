@@ -147,7 +147,7 @@ class MatchesStep extends Component {
   submitTournament = () => {
     const { matches } = this.state;
 
-    if (this.state.matches.length === 0){
+    if (this.state.matches.length === 0) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -180,21 +180,25 @@ class MatchesStep extends Component {
 
   render() {
     const { isMatchEditing, isMatchCreating } = this.state;
-    
+
     const isModalActive = isMatchEditing || isMatchCreating;
     const modalAction = isMatchCreating ? this.addMatch : this.updateMatch;
     const modalActionText = isMatchCreating ? i18n.t('create_match') : i18n.t('edit_match');
 
     return (
       <div className={style.matches}>
-        <h3>{i18n.t('tournament_matches')}</h3>
-        <div>
-          {this.state.matches.map((item, index) => this.renderMatch(item, index))}
+        <div className={style.header_matches}>
+          <h3 className={style.header_step}>{i18n.t('modal.step')} 3 {i18n.t('of')} 3: {i18n.t('tournament_matches')}</h3>
           <Button
             appearance={'_circle-accent'}
             icon={<i className='material-icons'>add</i>}
             onClick={this.showMatchCreatingModal}
+            className={style.match_create}
           />
+        </div>
+
+        <div>
+          {this.state.matches.map((item, index) => this.renderMatch(item, index))}
         </div>
 
         {isModalActive && <Modal

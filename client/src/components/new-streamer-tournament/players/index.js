@@ -231,38 +231,41 @@ class PlayersStep extends Component {
   render() {
     const { playersAddedToTournament } = this.state;
 
-    const buttonText = playersAddedToTournament.length === 0 ? i18n.t('add_players') : i18n.t('edit_players');
+    // const buttonText = playersAddedToTournament.length === 0 ? i18n.t('add_players') : i18n.t('edit_players');
     const buttonIcon = playersAddedToTournament.length === 0 ? 'add' : 'edit';
 
     return (
       <div className={style.players}>
-        <h3>Tournament players</h3>
+        <div className={style.header_players}>
+          <h3 className={style.header_step}>{i18n.t('modal.step')} 2 {i18n.t('of')} 3: {i18n.t('tournament_players')}</h3>
+          <Button
+            className={style.action_button}
+            appearance={'_circle-accent'}
+            // text={buttonText}
+            icon={<i className="material-icons">{buttonIcon}</i>}
+            onClick={this.showPlayerChoosingModal}
+          />
+        </div>
+
         <div className={style.chosen_champions}>
           {this.state.playersAddedToTournament.map(item => this.renderChampion(item))}
         </div>
-
-        <Button
-          className={style.action_button}
-          appearance={'_basic-accent'}
-          text={buttonText}
-          icon={<i className="material-icons">{buttonIcon}</i>}
-          onClick={this.showPlayerChoosingModal}
-        />
 
         <div className={style.controls}>
           {this.state.stepIndex !== 1 && <Button
             className={style.prev}
             appearance={'_basic-accent'}
             text={i18n.t('prev')}
-            icon={<i className="material-icons">arrow_back</i>}
+            // icon={<i className="material-icons">arrow_back</i>}
             onClick={this.props.prevStep}
           />
           }
+
           {this.state.stepIndex !== 3 && <Button
             className={style.next}
             appearance={'_basic-accent'}
             text={i18n.t('next')}
-            icon={<i className="material-icons">arrow_forward</i>}
+            // icon={<i className="material-icons">arrow_forward</i>}
             onClick={this.nextStep}
           />
           }

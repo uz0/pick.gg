@@ -22,7 +22,7 @@ class MultiStepForm extends Component {
 
     this.notificationService = new NotificationService();
     this.streamerService = new StreamerService();
-    this.userService =  new UserService();
+    this.userService = new UserService();
   }
 
   async componentDidMount() {
@@ -46,7 +46,7 @@ class MultiStepForm extends Component {
   }
 
   nextStep = (payload) => {
-    if (this.state.stepIndex === 3 ){
+    if (this.state.stepIndex === 3) {
       return;
     }
 
@@ -58,7 +58,7 @@ class MultiStepForm extends Component {
   }
 
   prevStep = () => {
-    if (this.state.stepIndex === 1){
+    if (this.state.stepIndex === 1) {
       return;
     }
 
@@ -104,9 +104,9 @@ class MultiStepForm extends Component {
         <Preloader isFullScreen={false} />
       }
 
-      <div className={style.steps}>
+      {/* <div className={style.steps}>
         {`Step ${stepIndex} of 3`}
-      </div>
+      </div> */}
 
       <div className={style.content}>
         <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
