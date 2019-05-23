@@ -104,7 +104,7 @@
 
 @media (max-width: 480px) {
   .matches {
-    min-height: 470px;
+    min-height: 550px;
   }
   .match button i {
     font-size: 18px;
