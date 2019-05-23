@@ -105,6 +105,9 @@
   .rules_inputs input {
     flex-basis: 49%;
   }
+  .general {
+    min-height: 550px;
+  }
 }
 
 @media(max-width: 320px) {
