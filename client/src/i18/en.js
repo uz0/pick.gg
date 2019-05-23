@@ -204,6 +204,12 @@ export default {translation: {
   play_fantasy: 'PLAY FANTASY LEAGUE',
   unauthenticated_tournament_join: 'You have to sign in to participate in the tournament',
 
+  modal: {
+    step: 'Step',
+    of: 'of',
+    new_tournament: 'New tournament',
+  },
+
   notifications: {
     finalization: {
       no_participatns: "You can't finalize tournaments without any participants.",
