@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 export default {
-  secret: 'sarasa',
-  database: 'mongodb://admin:admin@ds121248.mlab.com:21248/react-app',
-  client_id: 'hyperloot',
-  client_secret: 'ef8bfd1fb62ecca4354ab6f4f1852cd986831b79b97e5e3478',
+  secret: process.env.SECRET,
+  database: process.env.DATABASE,
+  client_id: process.env.CLIENT_ID,
+  client_secret: process.env.CLIENT_SECRET,
 }
