@@ -13,7 +13,6 @@
   height: 34px;
   font-weight: normal;
   text-transform: none;
-  margin-bottom: 6px;
 }
 
 .header_matches {
@@ -103,6 +102,18 @@
 
 .controls .prev {}
 
-@media (max-width: 480px) {}
+@media (max-width: 480px) {
+  .matches {
+    min-height: 470px;
+  }
+  .match button i {
+    font-size: 18px;
+  }
+}
 
-@media (max-width: 320px) {}
+@media (max-width: 320px) {
+
+  .matches .header_step {
+    font-size: 14px;
+  }
+}
