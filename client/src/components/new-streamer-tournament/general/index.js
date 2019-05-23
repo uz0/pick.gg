@@ -71,7 +71,7 @@ class GeneralStep extends Component {
   nextStep = () => {
     const { name, entry, thumbnail, rules, rulesValues } = this.state;
 
-    if (name === '' || entry === ''){
+    if (name === '' || entry === '') {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -113,7 +113,7 @@ class GeneralStep extends Component {
         {this.state.isLoading &&
           <Preloader isFullScreen={false} />
         }
-
+        <h3 className={style.header_step}>{i18n.t('modal.step')} 1 {i18n.t('of')} 3: {i18n.t('modal.new_tournament')}</h3>
         <div className={style.input_group}>
           <Input
             label={i18n.t('tournaments_name')}
@@ -146,7 +146,7 @@ class GeneralStep extends Component {
             className={style.next}
             appearance={'_basic-accent'}
             text={i18n.t('next')}
-            icon={<i className='material-icons'>arrow_forward</i>}
+            // icon={<i className='material-icons'>arrow_forward</i>}
             onClick={this.nextStep}
           />
         </div>
