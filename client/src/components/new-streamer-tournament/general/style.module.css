@@ -117,4 +117,10 @@
   .rules_inputs .input {
     flex-basis: 100%;
   }
+  .general .header_step {
+    font-size: 14px;
+  }
+  .general {
+    min-height: 500px;
+  }
 }

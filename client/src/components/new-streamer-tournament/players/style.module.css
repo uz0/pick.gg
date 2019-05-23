@@ -7,6 +7,7 @@
 .header_players {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .players .header_step {
@@ -20,9 +21,10 @@
   text-transform: none;
 }
 
-.players .header_players i{
+.players .header_players i {
   font-size: 20px;
 }
+
 .players_modal {
   --container-width: 800px;
   position: relative;
@@ -256,6 +258,13 @@
   .players_sidebar .chosen_players>div {
     font-size: 12px;
   }
+  .chosen_champions{
+    margin-bottom: 20px;
+  }
+  .chosen_champions .champion{
+    max-width: 100%;
+    width: 120px;
+  }
 }
 
 @media(max-width: 320px) {
@@ -272,7 +281,13 @@
   .input_group {
     align-items: center;
   }
+  .players{
+    min-height: 470px;
+  }
   .players h3 {
     font-size: 16px;
+  }
+  .players .header_step {
+    font-size: 14px;
   }
 }
