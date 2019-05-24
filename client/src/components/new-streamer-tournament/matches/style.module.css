@@ -1,21 +1,38 @@
 .matches {
-  min-height: 400px;
+  min-height: 440px;
   display: flex;
   flex-direction: column;
 }
 
-.matches h3 {
-  color: #fff;
-  margin-bottom: 12px;
+.matches .header_step {
+  font-size: 18px;
+  color: #fafafa;
+  background-color: var(--primary-color);
+  padding: 6px 8px;
+  border-radius: 4px;
+  height: 34px;
+  font-weight: normal;
+  text-transform: none;
+}
+
+.header_matches {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header_matches .match_create i {
+  font-size: 20px;
 }
 
 .create_player_modal {
-  --width: 600px !important;
-  height: 440px;
+  --width: 440px !important;
+  height: 330px;
   margin: auto !important;
 }
 
-.create_player_modal .inputs > div:not(:last-of-type) {
+.create_player_modal .inputs>div:not(:last-of-type) {
   margin-bottom: 16px;
 }
 
@@ -35,7 +52,7 @@
 .match .info_item {
   max-width: 320px;
   margin-right: 12px;
-  overflow: hidden; 
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -85,6 +102,21 @@
 
 .controls .prev {}
 
-@media (max-width: 480px) {}
+.input_wrap{
+  margin-bottom: 12px;
+}
 
-@media (max-width: 320px) {}
+@media (max-width: 480px) {
+  .matches {
+    min-height: 550px;
+  }
+  .match button i {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 320px) {
+  .matches .header_step {
+    font-size: 14px;
+  }
+}

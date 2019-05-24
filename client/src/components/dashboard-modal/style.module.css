@@ -40,9 +40,10 @@
   overflow: hidden;
   min-width: 0;
   font-family: var(--font-family-title);
-  font-size: 30px;
-  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+  font-weight: var(--font-weight-normal);
   color: var(--caption-color);
+  color: #fafafa;
   white-space: nowrap;
   text-overflow: ellipsis;
   pointer-events: none;

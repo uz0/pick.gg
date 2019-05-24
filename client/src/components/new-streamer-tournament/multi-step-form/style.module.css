@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 440px;
+  min-height: 400px;
 }
 
 .step:not(.isActive) {
