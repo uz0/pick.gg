@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import history from '../../history';
 import Button from '../button';
 import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
+import soundfile from 'assets/alert.mp3'
 
 import style from './style.module.css';
 import classnames from 'classnames';
@@ -17,12 +18,17 @@ class Notification extends Component {
   componentDidMount() {
     setTimeout(() => this.setState({ isShown: true }), 100);
 
-    if (this.props.hideAfter){
+    if (this.props.type === 'match' || this.props.type === 'winning') {
+      let audio = new Audio(soundfile);
+      audio.play();
+    }
+
+    if (this.props.hideAfter) {
       setTimeout(() => {
-        if (this.notification){
+        if (this.notification) {
           this.setState({ isShown: false });
         }
-      }, this.props.hideAfter - 100);
+      }, this.props.hideAfter - 500);
     }
   }
 
@@ -33,7 +39,7 @@ class Notification extends Component {
 
     history.replace(this.props.link);
 
-    if(this.props.onLinkRedirect){
+    if (this.props.onLinkRedirect) {
       this.props.onLinkRedirect();
     }
   }
@@ -49,12 +55,16 @@ class Notification extends Component {
 
   render() {
     const closeButtonAction = this.props.onClose ? this.props.onClose : this.close;
+    const isGame = this.props.type === 'winning' || this.props.type === 'match';
 
     return (
       <div ref={notification => this.notification = notification} onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, { [style.clickable]: this.props.link }, this.props.wrapperStyle)}>
-        <div className={cx(style.notification, { '_is-shown': this.state.isShown }, this.props.notificationStyle)}>
-          <div className={style.image}>
-            {this.props.image}
+        <div className={cx(style.notification, { 'game': isGame }, { '_is-shown': this.state.isShown }, this.props.notificationStyle)}>
+          <div className={style.header}>
+            <div className={style.image}>
+              {this.props.image}
+            </div>
+            <span className={style.type}>{this.props.type}</span>
           </div>
 
           <p className={style.message}>{this.props.message}</p>

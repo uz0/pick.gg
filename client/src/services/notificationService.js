@@ -29,24 +29,34 @@ class NotificationService {
     let icon = '';
 
     switch (type) {
-    case 'success':
-      icon = <SuccessIcon />;
-      break;
-    case 'warning':
-      icon = <WarningIcon />;
-      break;
-    case 'error':
-      icon = <ErrorIcon />;
-      break;
-    case 'match':
-      icon = <MatchIcon />;
-      break;
-    case 'winning':
-      icon = <TrophyIcon />;
-      break;
-    default:
-      icon = <SuccessIcon />;
-      break;
+      case 'success':
+        icon = <SuccessIcon />;
+        break;
+      case 'warning':
+        icon = <WarningIcon />;
+        break;
+      case 'error':
+        icon = <ErrorIcon />;
+        break;
+      case 'match':
+        icon = <MatchIcon />;
+        break;
+      case 'winning':
+        icon = <TrophyIcon />;
+        break;
+      default:
+        icon = <SuccessIcon />;
+        break;
+    }
+
+    let time = '';
+
+    if (type === ('error' || 'warning' || 'success')) {
+      time = 4000;
+    }
+
+    if (type === ('winning' || 'match')) {
+      time = 20000;
     }
 
     ReactDOM.render(
@@ -54,7 +64,8 @@ class NotificationService {
         image={icon}
         link={link}
         message={message}
-        hideAfter={4000}
+        hideAfter={time}
+        type={type}
       />, target);
 
     setTimeout(() => {
