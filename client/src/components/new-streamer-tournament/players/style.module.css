@@ -180,13 +180,13 @@
 }
 
 .create_player_modal {
-  --width: 600px !important;
-  height: 440px;
+  --width: 400px !important;
+  height: 390px;
   margin: auto !important;
 }
 
 .create_player_modal .inputs>div:not(:last-of-type) {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .controls {
