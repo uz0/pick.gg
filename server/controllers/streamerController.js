@@ -1,5 +1,5 @@
-import express from "express";
-import PlayerModel from "../models/player";
+import express from 'express';
+import PlayerModel from '../models/player';
 
 import TournamentModel from '../models/tournament';
 import FantasyTournament from '../models/fantasy-tournament';
@@ -74,7 +74,7 @@ const StreamerController = (io) => {
   router.get('/matches/last/:id', async (req, res) => {
     const accountId = req.params.id;
 
-    if(accountId === "null"){
+    if(accountId === 'null'){
       res.json({
         matches: [],
       })
@@ -218,7 +218,7 @@ const StreamerController = (io) => {
   });
 
   router.post('/tournament', async (req, res) => {
-    const { name, userId, entry, matches, thumbnail, playersIds, rulesValues } = req.body;
+    const { name, userId, matches, thumbnail, playersIds, rulesValues } = req.body;
 
     let createdMatchesIds = [];
 
@@ -289,7 +289,6 @@ const StreamerController = (io) => {
 
     const fantasyTournament = await FantasyTournament.create({
       name,
-      entry,
       thumbnail,
       tournament: tournamentId,
       rules: fantasyTournamentRules,
@@ -337,7 +336,7 @@ const StreamerController = (io) => {
     if (fantasyTournament.winner) {
       res.json({
         success: false,
-        message: "Tournament is already finalized"
+        message: 'Tournament is already finalized'
       });
 
       return;
@@ -411,7 +410,7 @@ const StreamerController = (io) => {
     if (!areMatchesCompleted) {
       res.json({
         success: false,
-        message: "Not all matches of the tournament are completed"
+        message: 'Not all matches of the tournament are completed'
       });
 
       return;
@@ -425,7 +424,6 @@ const StreamerController = (io) => {
     });
 
     const tournamentWinner = playersCountedResults.sort((next, prev) => prev.score - next.score)[0];
-    const tournamentPrize = fantasyTournament.entry * fantasyTournament.users.length;
 
     await FantasyTournament.updateOne({ _id: tournamentId }, {
       winner: tournamentWinner.user._id,
@@ -437,12 +435,11 @@ const StreamerController = (io) => {
       tournamentId,
       participants: tournamentUserNames,
       winner: tournamentWinner.user.username,
-      prize: tournamentPrize,
     });
 
     res.json({
-      message: "Finalization completed",
-      success: "success",
+      message: 'Finalization completed',
+      success: 'success',
     });
   });
 
