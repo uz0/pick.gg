@@ -36,29 +36,10 @@ class PlayersStep extends Component {
     this.setState({ arePlayersLoading: true });
 
     const { players } = await this.streamerService.getAllChampions();
-    const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
-
-    const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
-
-    const withNumbersName = {};
-    Object.keys(groupedPlayers).filter(item => parseInt(item[0], 10)).forEach((key) => {
-      withNumbersName[key] = groupedPlayers[key];
-    }); //тут фильтрую от букв
-
-    const withoutNumbersName = {};
-    Object.keys(groupedPlayers).filter(item => !parseInt(item[0], 10)).forEach((key) => {
-      withoutNumbersName[key] = groupedPlayers[key];
-    }); //тут фильтрую от цифр
-
-    // Object.assign(withoutNumbersName, withNumbersName) //тут я объединяю
-    const test = { withoutNumbersName, ...withNumbersName };
-
-    console.log(withoutNumbersName)
-    console.log(test)
-
+    const groupedPlayers = this._sortPlayers(players);
 
     this.setState({
-      players: withoutNumbersName,
+      players: groupedPlayers,
       arePlayersLoading: false,
     });
   }
@@ -76,6 +57,16 @@ class PlayersStep extends Component {
     isPlayerCreating: false,
     isChampionModalLoading: false,
     arePlayersLoading: false,
+  }
+
+  _sortPlayers = (players) => {
+    const playersWithNumberNick = players.filter(player => /^\d+$/.test(player.name[0]));
+    const playersWithCharNick = players.filter(player => !/^\d+$/.test(player.name[0])).sort((prev, next) => prev.name.localeCompare(next.name));
+
+    return [
+      ...Object.entries(groupBy(playersWithCharNick, player => player.name[0].toUpperCase())),
+      ...Object.entries(groupBy(playersWithNumberNick, player => player.name[0])),
+    ];
   }
 
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
@@ -335,15 +326,15 @@ class PlayersStep extends Component {
               <Preloader isFullScreen={false} />
             }
 
-            {Object.keys(this.state.players).map((item, index) => <div key={item} className={style.group}>
-              <h3>{item}</h3>
+            {this.state.players.map(([key, players]) => <div key={key} className={style.group}>
+              <h3>{key}</h3>
               <div className={style.group_players}>
-                {Object.values(this.state.players)[index].map(element => <div
-                  key={element._id}
-                  onClick={() => this.playerClickHandler(element)}
-                  className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: element._id }) !== -1 })}
+                {players.map(player => <div
+                  key={player._id}
+                  onClick={() => this.playerClickHandler(player)}
+                  className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
                 >
-                  {element.name}
+                  {player.name}
                 </div>)
                 }
               </div>
