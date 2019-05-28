@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import groupBy from 'lodash/groupBy';
 import findIndex from 'lodash/findIndex';
+import concat from 'lodash/concat';
 
 import Input from 'components/input';
 import Button from 'components/button';
@@ -30,6 +31,7 @@ class PlayersStep extends Component {
     this.realTournaments = [];
   }
 
+
   async componentDidMount() {
     this.setState({ arePlayersLoading: true });
 
@@ -38,8 +40,25 @@ class PlayersStep extends Component {
 
     const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
 
+    const withNumbersName = {};
+    Object.keys(groupedPlayers).filter(item => parseInt(item[0], 10)).forEach((key) => {
+      withNumbersName[key] = groupedPlayers[key];
+    }); //тут фильтрую от букв
+
+    const withoutNumbersName = {};
+    Object.keys(groupedPlayers).filter(item => !parseInt(item[0], 10)).forEach((key) => {
+      withoutNumbersName[key] = groupedPlayers[key];
+    }); //тут фильтрую от цифр
+
+    // Object.assign(withoutNumbersName, withNumbersName) //тут я объединяю
+    const test = { withoutNumbersName, ...withNumbersName };
+
+    console.log(withoutNumbersName)
+    console.log(test)
+
+
     this.setState({
-      players: groupedPlayers,
+      players: withoutNumbersName,
       arePlayersLoading: false,
     });
   }
