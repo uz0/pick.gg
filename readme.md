@@ -30,7 +30,7 @@ Setup
 *It will run the client app on [http://localhost:3000](http://localhost:3000) (with HMR) and the server on [http://localhost:3001](http://localhost:3001)*
 
 ### Environment variables
-For establishing database you have to create .env file in the project root directory and add required variables.
+For establishing database connection you have to create .env file in the project root directory and add required variables.
 You can write to our team in [https://discordapp.com/channels/494396859587231744/531545521244864514](Discord) and we will give you required credentials.
 
 
