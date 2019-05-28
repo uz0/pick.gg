@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ReactComponent as TrophyIcon } from '../../assets/trophy-cup.svg';
 
 import style from './style.module.css';
 
@@ -12,8 +11,7 @@ import lpl_thumb from '../../assets/tournaments-thumbnails/lpl-thumb.jpg';
 
 import moment from 'moment';
 
-const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users }) => {
-  const tournamentPrize = users.length * entry;
+const TournamentCard = ({ _id, name, thumbnail, tournament, rules, users }) => {
   const tournamentDate = moment(tournament.date).format('DD MMM YYYY');
   const tournamentName = tournament.name.split(' ')[0];
 
@@ -59,16 +57,6 @@ const TournamentCard = ({ _id, entry, name, thumbnail, tournament, rules, users 
       <div className={style.info}>
         <i className="material-icons">people</i>
         <div>{users.length}</div>
-      </div>
-
-      <div className={style.info}>
-        <i className="material-icons">attach_money</i>
-        <div>${entry}</div>
-      </div>
-
-      <div className={style.info}>
-        <TrophyIcon />
-        <div>${tournamentPrize}</div>
       </div>
 
       <div className={style.info}>

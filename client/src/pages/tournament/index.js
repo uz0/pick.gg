@@ -289,10 +289,6 @@ class Tournament extends Component {
     }
   }
 
-  getTournamentPrize = () => this.state.fantasyTournament.users.length * this.state.fantasyTournament.entry;
-
-  getCountUsers = () => 3;
-
   getCountMatchPoints = (fantasyTournament, matchId, userId) => {
     const userPlayers = this.getUserPlayers(fantasyTournament, userId);
     const ruleSet = this.getRulesSet(fantasyTournament);
@@ -637,9 +633,6 @@ class Tournament extends Component {
     });    
     
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    const isTournamentNotFree = this.state.fantasyTournament && this.state.fantasyTournament.entry > 0;
-    const prize = isTournamentNotFree ? this.getTournamentPrize() : i18n.t('free');
-    const entry = isTournamentNotFree ? this.state.fantasyTournament.entry : i18n.t('free');
     const tournamentName = this.state.fantasyTournament && this.state.fantasyTournament.tournament.name;
     const fantasyTournamentName = this.state.fantasyTournament && this.state.fantasyTournament.name;
     const tournamentDate = this.state.fantasyTournament && moment(this.state.fantasyTournament.tournament.date).format('MMM DD, h:mm');
@@ -705,10 +698,6 @@ class Tournament extends Component {
           <div className={style.text}>
             <p>
               {i18n.t('tournament_over', { winner: winner.username })}
-
-              {isTournamentNotFree &&
-                <span> {i18n.t('he_got_prize', { prize: `$${prize}` })}</span>
-              }
             </p>
           </div>
         </div>
@@ -717,16 +706,6 @@ class Tournament extends Component {
       <h3 className={style.subtitle}>{i18n.t('information')}</h3>
 
       <div className={style.list}>
-        <div className={style.item}>
-          <label className={style.title}>{i18n.t('prize_pool')}</label>
-          <p className={style.value}>{isTournamentNotFree ? `$${prize}` : prize}</p>
-        </div>
-
-        <div className={style.item}>
-          <label className={style.title}>{i18n.t('entry_cost')}</label>
-          <p className={style.value}>{isTournamentNotFree ? `$${entry}` : entry}</p>
-        </div>
-
         <div className={style.item}>
           <label className={style.title}>{i18n.t('original_tournament')}</label>
           <p className={style.value}>{moment(tournamentDate).format('DD MMM')} – {tournamentName}</p>
