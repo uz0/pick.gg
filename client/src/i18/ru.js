@@ -208,6 +208,10 @@ export default {translation: {
   play_fantasy: 'ИГРАТЬ В FANTASY LEAGUE',
   unauthenticated_tournament_join: 'Вам необходимо зарегистрироваться чтобы принять участие в турнире',
 
+  new_tournament: {
+    empty_name: 'Пожалуйста, введите название турнира',
+  },
+
   notifications: {
     finalization: {
       no_participatns: "Вы не можете завершить турнир без участников.",
