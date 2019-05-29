@@ -6,12 +6,14 @@ import FantasyTournament from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
 import MatchResultModel from '../models/match-result';
 import UserModel from '../models/user';
+import RewardModel from '../models/reward';
 import riotFetch from '../riotFetch';
 
 import find from 'lodash/find';
 import difference from 'lodash/difference';
 
 import moment from 'moment';
+import uuid from 'uuid';
 
 let router = express.Router();
 
@@ -424,6 +426,12 @@ const StreamerController = (io) => {
     });
 
     const tournamentWinner = playersCountedResults.sort((next, prev) => prev.score - next.score)[0];
+    const winnerReward = await RewardModel.create({
+      key: uuid(),
+      description: `${fantasyTournament.name} reward`,
+    });
+
+    await UserModel.updateOne({ _id: tournamentWinner.user._id }, { $push: { rewards: winnerReward._id }});
 
     await FantasyTournament.updateOne({ _id: tournamentId }, {
       winner: tournamentWinner.user._id,
