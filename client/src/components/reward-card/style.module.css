@@ -17,8 +17,9 @@
   font-size: 16px;
 }
 
-.card .content img {
-  width: 100px;
+.card .content svg {
+  max-width: 65px;
+  margin-bottom: 20px;
 }
 
 .card .content .claim {
