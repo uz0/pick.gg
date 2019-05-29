@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import socketIO from 'socket.io';
-import jwt from 'jsonwebtoken';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 

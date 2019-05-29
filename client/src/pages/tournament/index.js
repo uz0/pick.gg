@@ -19,6 +19,7 @@ import find from 'lodash/find';
 import groupBy from 'lodash/groupBy';
 import cloneDeep from 'lodash/cloneDeep';
 import every from 'lodash/every';
+import findIndex from 'lodash/findIndex';
 
 import UserService from 'services/userService';
 import TournamentService from 'services/tournamentService';
@@ -115,7 +116,7 @@ class Tournament extends Component {
   async componentDidMount() {
     let user = await this.userService.getMyProfile();
 
-    if(user.success === false){
+    if (user.success === false) {
       user = null;
     }
 
@@ -143,7 +144,7 @@ class Tournament extends Component {
     this.loadTournamentData();
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.socket.close();
   }
 
@@ -167,7 +168,7 @@ class Tournament extends Component {
     const realTournament = tournament.tournament;
     const users = tournament.users;
     const currentUserParticipant = find(tournament.users, item => {
-      if(!this.state.currentUser){
+      if (!this.state.currentUser) {
         return;
       }
 
@@ -268,13 +269,13 @@ class Tournament extends Component {
 
   getFantasyTournamentStatus = () => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if(!this.state.currentUser){
+      if (!this.state.currentUser) {
         return;
       }
 
       return item.user._id === this.state.currentUser._id;
-    }); 
-    
+    });
+
     const tournamentWinner = this.state.fantasyTournament && this.state.fantasyTournament.winner !== null;
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
 
@@ -510,9 +511,10 @@ class Tournament extends Component {
 
   renderSummonerLeaderRow = ({ className, itemClass, textClass, item }) => {
     const { fantasyTournament } = this.state;
+    const summonerName = this.state.username;
     const users = this.state.users;
     const sortUsers = users.sort(this.leadersDefaultSorting);
-    const indexUser = sortUsers.findIndex(this.isUsername);
+    const indexUser = findIndex(sortUsers, item => item.user.username === summonerName);
 
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
@@ -537,12 +539,12 @@ class Tournament extends Component {
   renderMatchRow = ({ className, itemClass, textClass, item }) => {
     const { fantasyTournament } = this.state;
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if(!this.state.currentUser){
+      if (!this.state.currentUser) {
         return;
       }
 
       return item.user._id === this.state.currentUser._id;
-    }); 
+    });
 
     const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
     const matchPoints = points > 0 ? points : 0;
@@ -587,12 +589,12 @@ class Tournament extends Component {
 
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if(!this.state.currentUser){
+      if (!this.state.currentUser) {
         return;
       }
 
       return item.user._id === this.state.currentUser._id;
-    }); 
+    });
 
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isPlayerChoosedByUser = find(champions, { _id: item.playerId }) ? true : false;
@@ -625,13 +627,13 @@ class Tournament extends Component {
 
   render() {
     const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if(!this.state.currentUser){
+      if (!this.state.currentUser) {
         return;
       }
 
       return item.user._id === this.state.currentUser._id;
-    });    
-    
+    });
+
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const tournamentName = this.state.fantasyTournament && this.state.fantasyTournament.tournament.name;
     const fantasyTournamentName = this.state.fantasyTournament && this.state.fantasyTournament.name;
@@ -648,14 +650,20 @@ class Tournament extends Component {
     // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
-    const topTen = this.state.users.slice(0, 9);
+
+    const sortUsers = this.state.users.sort(this.leadersDefaultSorting);
+    const topTen = sortUsers.slice(0, 10);
     const countUsers = this.state.users.length;
+
     const summonerName = this.state.username;
     const summonerArr = topTen.filter(item => item.user.username === summonerName);
-    const renderSummonerArr = summonerArr ? '' : summonerArr;
+    const summonerFilter = this.state.users.filter(item => item.user.username === summonerName);
+    const renderSummonerArr = summonerArr.length === 0 ? summonerFilter : '';
+
     const matchInfo = this.state.matchInfo && this.state.matchInfo;
     const isStreamer = this.state.fantasyTournament && this.state.fantasyTournament.creator.isStreamer;
     const isMatchesUncompleted = every(this.state.matches, { completed: true });
+    const subtitleLeaders = isMatchesUncompleted ? i18n.t('leaderboard') + ': ' + this.state.users.length + ' champions' : 'Invite a friend';
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>
@@ -762,7 +770,7 @@ class Tournament extends Component {
         </div>
 
         <div className={style.leaders}>
-          <h3 className={style.subtitle}>{isMatchesUncompleted ? i18n.t('leaderboard') : 'Invite a friend'}</h3>
+          <h3 className={style.subtitle}>{subtitleLeaders}</h3>
           {!isMatchesUncompleted && <div className={cx(style.info_users, { [style.anim_teemo]: this.state.animate })}>
 
             <div className={style.copy_block}>
@@ -791,7 +799,7 @@ class Tournament extends Component {
           />}
           {renderSummonerArr && isMatchesUncompleted && <Table
             noCaptions
-            items={summonerArr}
+            items={summonerFilter}
             renderRow={this.renderSummonerLeaderRow}
             isLoading={this.state.isLoading}
             className={style.table}
