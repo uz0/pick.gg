@@ -230,7 +230,7 @@ class newTournament extends Component {
             <div>
               <div className={style.top_block}>
                 <Input
-                  label={i18n.t('tournaments_name')}
+                  label={i18n.t('tournament_name')}
                   value={this.state.name}
                   onInput={(event) => this.handleChange(event, 'name')}
                 />

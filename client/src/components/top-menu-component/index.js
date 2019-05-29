@@ -8,7 +8,6 @@ import config from 'config';
 import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
-import TransactionService from 'services/transactionService';
 import StreamerService from 'services/streamerService';
 
 import DropDown from 'components/dropdown';
@@ -30,9 +29,6 @@ class TopMenuComponent extends Component {
     this.authService = new AuthService();
     this.notificationService = new NotificationService();
     this.userService = new UserService({
-      onUpdate: () => this.updateProfile(),
-    });
-    this.transactionService = new TransactionService({
       onUpdate: () => this.updateProfile(),
     });
     this.streamerService = new StreamerService({
@@ -69,16 +65,6 @@ class TopMenuComponent extends Component {
     });
   }
 
-  // deposit = async(event) => {
-  //   event.preventDefault();
-  //   await this.transactionService.deposit();
-  // }
-
-  // withdraw = async(event) => {
-  //   event.preventDefault();
-  //   await this.transactionService.withdraw();
-  // }
-
   componentDidMount = () => {
     this.updateProfile();
 
@@ -101,17 +87,6 @@ class TopMenuComponent extends Component {
       }
 
       if (winner === currentUser) {
-        const balance = this.state.profile.user.balance + prize;
-
-        this.setState({
-          profile: {
-            user: {
-              ...this.state.profile.user,
-              balance,
-            },
-          },
-        });
-
         this.notificationService.showSingleNotification({
           type: 'winning',
           shouldBeAddedToSidebar: true,
@@ -152,10 +127,6 @@ class TopMenuComponent extends Component {
     const username = profile && profile.user && profile.user.username;
     const role = isStreamer && 'userbox_role_streamer';
 
-    const BalancePlaceholder = () => <span className={cx(style.balance, { [style.is_loading]: this.state.isLoading })}>
-      ${this.state.profile.user.balance}
-    </span>;
-
     return (
       <div className={style.top_menu}>
         <div className={style.menu_wrap}>
@@ -165,17 +136,9 @@ class TopMenuComponent extends Component {
             </NavLink>
 
             <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
-            <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
           {profile && profile.user && <Fragment>
-
-            <DropDown className={style.mobile_hidden} placeholder={<BalancePlaceholder />}>
-              <NavLink to="/transactions"><i className="material-icons">swap_horiz</i>{i18n.t('transactions')}</NavLink>
-
-              <a href="/" className={style.disabled} onClick={event => this.deposit(event)}><i className="material-icons">add_circle</i>{i18n.t('deposit')}</a>
-              <a href="/" className={style.disabled} onClick={event => this.withdraw(event)}><i className="material-icons">remove_circle</i>{i18n.t('withdraw')}</a>
-            </DropDown>
 
             <NotificationBell />
 
@@ -194,6 +157,11 @@ class TopMenuComponent extends Component {
                   {i18n.t('dashboard')}
                 </NavLink>
               }
+
+              <NavLink to="/rewards">
+                <i className="material-icons">attach_money</i>
+                {i18n.t('my_awards')}
+              </NavLink>
 
               <NavLink to="/mytournaments">
                 <i className="material-icons">assignment</i>
@@ -223,24 +191,9 @@ class TopMenuComponent extends Component {
             </DropDown>
 
             <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
-              <div className={style.item}>
-                <i className="material-icons">account_balance_wallet</i>
-                {`$${profile && profile.user && profile.user.balance}`}
-              </div>
-
               <NavLink to="/tournaments">
                 <i className="material-icons">whatshot</i>
                 {i18n.t('tournaments')}
-              </NavLink>
-
-              <NavLink to="/rating">
-                <i className="material-icons">assessment</i>
-                {i18n.t('rating')}
-              </NavLink>
-
-              <NavLink to="/transactions">
-                <i className="material-icons">attach_money</i>
-                {i18n.t('transactions')}
               </NavLink>
 
               <NavLink to="/dashboard/tournaments">

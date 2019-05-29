@@ -36,6 +36,7 @@ export default {translation: {
   matches_soon: 'Матчи скоро появятся',
   minimal_entry: 'Минимальная цена',
   my_tournaments: 'Мои турниры',
+  my_awards: 'Мои награды',
   name: 'Имя',
   not_yet_tournaments: 'Турниров еще нет',
   not_satisfied: 'Не устраивает?',
@@ -210,7 +211,10 @@ export default {translation: {
   modal: {
     step: 'Шаг',
     of: 'из',
-    new_tournament: 'Новый турнир',
+    new_tournament: 'Новый турнир'
+  },
+  new_tournament: {
+    empty_name: 'Пожалуйста, введите название турнира',
   },
 
   notifications: {

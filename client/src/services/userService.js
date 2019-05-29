@@ -14,10 +14,9 @@ export default class UserService extends BasicService {
     return user;
   }
 
-  async getUsersRating() {
-    const ratingQuery = await http(`/public/users/rating`);
-    const rating = await ratingQuery.json();
-    return rating;
+  async getUserRewards() {
+    const rewards = await http('/api/rewards/user').then(response => response.json());
+    return rewards;
   }
 
   updateProfile(payload) {

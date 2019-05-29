@@ -11,10 +11,10 @@ import {
   UsersController,
   AuthenticationController,
   TournamentController,
-  TransactionController,
   SystemController,
   AdminController,
   StreamerController,
+  RewardController,
 } from './controllers';
 
 import {
@@ -22,7 +22,6 @@ import {
   PublicUsersController,
   PublicPlayersController,
   PublicTournamentsController,
-  PublicTransactionsController
 } from './controllers/public';
 
 import { AuthVerifyMiddleware, AdminVerifyMiddleware, StreamerVerifyMiddleware } from './middlewares';
@@ -54,15 +53,14 @@ app.use('/public/rules', PublicRulesController());
 app.use('/public/players', PublicPlayersController());
 app.use('/public/users', PublicUsersController());
 app.use('/public/tournaments', PublicTournamentsController());
-app.use('/public/transactions', PublicTransactionsController());
 
 app.use('/api/authentication', AuthenticationController(app));
 
 app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());
 app.use('/api/tournaments', TournamentController(io));
-app.use('/api/transactions', TransactionController());
 app.use('/api/system', SystemController());
+app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 app.use('/api/streamer', StreamerVerifyMiddleware, StreamerController(io));

@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import classnames from 'classnames/bind';
-import AuthService from '../../services/authService';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
 class DropDown extends Component {
-
-  constructor(){
-    super();
-    this.Auth = new AuthService();
-    this.state = {
-      isActive: false,
-    };
-  }
+  state = {
+    isActive: false,
+  };
 
   componentDidMount() {
     window.addEventListener('click', event => {
@@ -38,7 +32,6 @@ class DropDown extends Component {
       </div>
     );
   }
-
 }
 
 export default DropDown;

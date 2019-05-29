@@ -166,14 +166,6 @@ const TournamentController = io => {
         winner: null,
       });
 
-      await TransactionModel.create({
-        userId,
-        tournamentId: newTournament._id,
-        amount: entry,
-        origin: 'tournament deposit',
-        date: Date.now(),
-      });
-
       const newTournamentPopulated = await FantasyTournament.findOne({_id: newTournament._id})
         .populate('tournament', 'name date')
         .populate({ path: 'users.players', select: 'id name' })

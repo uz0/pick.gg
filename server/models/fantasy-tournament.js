@@ -1,9 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 let schema = new Schema({
-  name        : { type: String, required: true },
-  entry       : { type: Number, required: true },
+  name: { type: String, required: true },
+  slots: Number,
+
   tournament  : { type: Schema.Types.ObjectId, ref: 'Tournament' },
 
   users       : [{

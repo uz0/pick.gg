@@ -37,7 +37,6 @@ class MultiStepForm extends Component {
     stepIndex: 1,
     name: '',
     thumbnail: '',
-    entry: '',
     players: [],
     matches: [],
     rules: [],
@@ -68,13 +67,12 @@ class MultiStepForm extends Component {
   createTournament = async (tournamentMatches) => {
     this.setState({ isLoading: true });
 
-    const { name, userId, thumbnail, entry, players, rulesValues } = this.state;
+    const { name, userId, thumbnail, players, rulesValues } = this.state;
 
     const playersIds = players.map(player => player._id);
 
     const payload = {
       name,
-      entry,
       playersIds,
       matches: tournamentMatches,
       thumbnail,

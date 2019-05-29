@@ -36,6 +36,7 @@ export default {translation: {
   matches_soon: 'Matches will appear soon',
   minimal_entry: 'Minimal entry',
   my_tournaments: 'My tournaments',
+  my_awards: 'My rewards',
   name: 'Name',
   not_yet_tournaments: 'There is no tournaments yet',
   not_satisfied: 'Not satisfied?',
@@ -207,7 +208,11 @@ export default {translation: {
   modal: {
     step: 'Step',
     of: 'of',
-    new_tournament: 'New tournament',
+    new_tournament: 'New tournament'
+  },
+
+  new_tournament: {
+    empty_name: 'Name field can not be empty',
   },
 
   notifications: {

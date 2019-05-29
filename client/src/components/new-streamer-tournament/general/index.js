@@ -19,7 +19,6 @@ class GeneralStep extends Component {
   state = {
     name: '',
     thumbnail: '',
-    entry: '',
     rules: [],
     rulesValues: {},
     isLoading: true,
@@ -69,13 +68,13 @@ class GeneralStep extends Component {
   }
 
   nextStep = () => {
-    const { name, entry, thumbnail, rules, rulesValues } = this.state;
+    const { name, thumbnail, rules, rulesValues } = this.state;
 
-    if (name === '' || entry === '') {
+    if (!name){
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: i18n.t('name_entry_empty'),
+        message: i18n.t('new_tournament.empty_name'),
       });
 
       return;
@@ -83,7 +82,6 @@ class GeneralStep extends Component {
 
     const payload = {
       name,
-      entry,
       rules,
       thumbnail,
       rulesValues,
@@ -95,8 +93,8 @@ class GeneralStep extends Component {
   renderRuleInput = ({ _id, name }) => {
     return <div key={_id} className={style.input}>
       <input
-        max="10"
-        type="number"
+        max='10'
+        type='number'
         name={_id}
         onChange={this.onRuleInputChange}
         value={this.state.rulesValues[_id]}
@@ -116,7 +114,7 @@ class GeneralStep extends Component {
         <h3 className={style.header_step}>{i18n.t('modal.step')} 1 {i18n.t('of')} 3: {i18n.t('modal.new_tournament')}</h3>
         <div className={style.input_group}>
           <Input
-            label={i18n.t('tournaments_name')}
+            label={i18n.t('tournament_name')}
             value={this.state.name}
             onInput={(event) => this.handleChange(event, 'name')}
           />
@@ -125,12 +123,6 @@ class GeneralStep extends Component {
             label={i18n.t('tournament_thumb')}
             value={this.state.thumbnail}
             onInput={(event) => this.handleChange(event, 'thumbnail')}
-          />
-
-          <Input
-            label={i18n.t('entry')}
-            value={this.state.entry}
-            onInput={(event) => this.handleChange(event, 'entry')}
           />
         </div>
 
