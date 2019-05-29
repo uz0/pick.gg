@@ -1,11 +1,13 @@
-import express from "express";
-import moment from "moment";
-import find from 'lodash/find';
-import TournamentModel from "../models/tournament";
-import FantasyTournament from "../models/fantasy-tournament";
-import UserModel from "../models/user";
-import TransactionModel from "../models/transaction";
+import express from 'express';
 
+import TournamentModel from '../models/tournament';
+import FantasyTournament from '../models/fantasy-tournament';
+import UserModel from '../models/user';
+import TransactionModel from '../models/transaction';
+
+import moment from 'moment';
+
+import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 
 let router = express.Router();
@@ -153,19 +155,7 @@ const TournamentController = io => {
       return;
     }
 
-    const user = await UserModel.findOne({ _id: userId }, 'balance');
-
-    if (user.balance - entry < 0) {
-      res.json({
-        success: false,
-        message: 'You have not money on your balance to create tournament',
-      });
-
-      return;
-    }
-
     try {
-      
       const newTournament = await FantasyTournament.create({
         tournament: tournamentId,
         name,
@@ -175,8 +165,6 @@ const TournamentController = io => {
         creator: userId,
         winner: null,
       });
-
-      await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: entry * -1 }});
 
       await TransactionModel.create({
         userId,
@@ -232,25 +220,6 @@ const TournamentController = io => {
       });
 
       return;
-    }
-
-    if (`${tournament.creator}` !== `${userId}`) {
-      if(user.balance < tournament.entry){
-        res.json({
-          success: false,
-          message: "You have not enough money to take part in this tournament",
-        });
-      } else {
-        await UserModel.findByIdAndUpdate({ _id: userId }, {new: true, $inc: { balance: tournament.entry * -1 }});
-        await TransactionModel.create({
-          userId,
-          tournamentId: tournament._id,
-          amount: tournament.entry,
-          origin: 'tournament deposit',
-          date: Date.now(),
-        });
-
-      }
     }
 
     tournamentUsers.push({
