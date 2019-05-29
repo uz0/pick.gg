@@ -29,14 +29,9 @@ Setup
 
 *It will run the client app on [http://localhost:3000](http://localhost:3000) (with HMR) and the server on [http://localhost:3001](http://localhost:3001)*
 
-### Login
-
-To Login in the app for the first time use the following credentials:
-
-- User: **admin** 
-- Password: **admin**
-
-then you can create you user under the Users tab in a DB hosted in mlab
+### Environment variables
+For establishing database connection you have to create .env file in the project root directory and add required variables.
+You can write to our team in [https://discordapp.com/channels/494396859587231744/531545521244864514](Discord) and we will give you required credentials.
 
 
 Debugging with VSCode
