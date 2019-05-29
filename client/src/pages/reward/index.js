@@ -7,7 +7,6 @@ import UserService from 'services/userService';
 import style from './style.module.css';
 
 class Rewards extends Component {
-
   constructor(){
     super();
     this.userService = new UserService();
@@ -35,9 +34,11 @@ class Rewards extends Component {
         You haven't received any rewards yet
       </p>}
 
-      {this.state.rewards.length > 0 && this.state.rewards.map(({ key, description }) => <RewardCard
+      {this.state.rewards.length > 0 && this.state.rewards.map(({ key, description, isClaimed }) => <RewardCard
         key={key}
+        rewardKey={key}
         description={description}
+        isClaimed={isClaimed}
       />)}
     </div>;
   }

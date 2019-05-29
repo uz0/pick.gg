@@ -8,6 +8,16 @@ export default mongoose.model('Reward', new Schema({
       unique: true,
     }
   },
-  description: { type: String, default: '' },
-  image: { type: String, default: '' },
+  isClaimed: {
+    type: Boolean,
+    default: false
+  },
+  description: {
+    type: String,
+    default: ''
+  },
+  image: {
+    type: String,
+    default: ''
+  },
 }));
