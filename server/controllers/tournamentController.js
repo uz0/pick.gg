@@ -3,7 +3,6 @@ import express from 'express';
 import TournamentModel from '../models/tournament';
 import FantasyTournament from '../models/fantasy-tournament';
 import UserModel from '../models/user';
-import TransactionModel from '../models/transaction';
 
 import moment from 'moment';
 
