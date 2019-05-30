@@ -204,6 +204,8 @@ export default {translation: {
   contact_us: 'Contact us',
   play_fantasy: 'PLAY FANTASY LEAGUE',
   unauthenticated_tournament_join: 'You have to sign in to participate in the tournament',
+  clear_button: 'Clear',
+  search: 'Find a player',
 
   modal: {
     step: 'Step',

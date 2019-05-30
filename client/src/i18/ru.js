@@ -207,6 +207,8 @@ export default {translation: {
   contact_us: 'Связаться с нами',
   play_fantasy: 'ИГРАТЬ В FANTASY LEAGUE',
   unauthenticated_tournament_join: 'Вам необходимо зарегистрироваться чтобы принять участие в турнире',
+  clear_button: 'Очистить',
+  search: 'Найти игрока',
 
   modal: {
     step: 'Шаг',

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import groupBy from 'lodash/groupBy';
 import findIndex from 'lodash/findIndex';
-import concat from 'lodash/concat';
 
 import Input from 'components/input';
 import Button from 'components/button';
@@ -40,12 +39,14 @@ class PlayersStep extends Component {
 
     this.setState({
       players: groupedPlayers,
+      playersNoGroup: players,
       arePlayersLoading: false,
     });
   }
 
   state = {
     players: [],
+    playersNoGroup: [],
     chosenPlayers: [],
     playersAddedToTournament: [],
     championData: {
@@ -57,6 +58,7 @@ class PlayersStep extends Component {
     isPlayerCreating: false,
     isChampionModalLoading: false,
     arePlayersLoading: false,
+    term: '',
   }
 
   _sortPlayers = (players) => {
@@ -66,8 +68,17 @@ class PlayersStep extends Component {
     return [
       ...Object.entries(groupBy(playersWithCharNick, player => player.name[0].toUpperCase())),
       ...Object.entries(groupBy(playersWithNumberNick, player => player.name[0])),
+
     ];
   }
+
+  search = (event) => {
+    this.setState({
+      term: event.target.value
+    })
+  }
+
+  searchingFor = (term) => x => x.name.toLowerCase().includes(term.toLowerCase()) || !term;
 
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
 
@@ -134,6 +145,8 @@ class PlayersStep extends Component {
 
     this.setState({ chosenPlayers });
   }
+
+  clearSearch = () => this.setState({ term: '' })
 
   submitPlayerCreatingForm = async (event) => {
     event.preventDefault();
@@ -239,9 +252,7 @@ class PlayersStep extends Component {
   </div>
 
   render() {
-    const { playersAddedToTournament } = this.state;
-
-    // const buttonText = playersAddedToTournament.length === 0 ? i18n.t('add_players') : i18n.t('edit_players');
+    const { playersAddedToTournament, term, playersNoGroup, players } = this.state;
     const buttonIcon = playersAddedToTournament.length === 0 ? 'add' : 'edit';
 
     return (
@@ -326,7 +337,35 @@ class PlayersStep extends Component {
               <Preloader isFullScreen={false} />
             }
 
-            {this.state.players.map(([key, players]) => <div key={key} className={style.group}>
+            <div className={style.search_block}>
+              <input
+                type="text"
+                placeholder={i18n.t('search')}
+                onChange={this.search}
+                value={term}
+                className={style.search} />
+
+              <Button
+                text={i18n.t('clear_button')}
+                appearance='_basic-default'
+                onClick={this.clearSearch}
+              />
+            </div>
+
+            {term.length > 0 &&
+              <div className={style.no_grouped}>
+                {playersNoGroup.filter(this.searchingFor(term)).map(player => <div
+                  key={player._id}
+                  onClick={() => this.playerClickHandler(player)}
+                  className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
+                >
+                  {player.name}
+                </div>)
+                }
+              </div>
+            }
+
+            {term === '' && players.map(([key, players]) => <div key={key} className={style.group}>
               <h3>{key}</h3>
               <div className={style.group_players}>
                 {players.map(player => <div

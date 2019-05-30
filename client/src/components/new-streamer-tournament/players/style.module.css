@@ -75,10 +75,37 @@
 .players_list {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
   width: 600px;
   height: calc(100vh - 200px);
   overflow-y: visible;
   overflow-x: hidden;
+}
+
+.players_list .search_block {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  left: 0;
+  top: 0;
+}
+
+.players_list .search {
+  border: none;
+  padding: 7px 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  background: transparent;
+  border-bottom: 1px solid #f1f1f1;
+  color: #fff;
+  width: 65%;
+  text-transform: uppercase;
+}
+
+.search_block ::-webkit-input-placeholder {
+  color: #fff;
 }
 
 .players_list .group {
@@ -153,12 +180,22 @@
   text-align: center;
 }
 
+.players_list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .players_list .group .group_players {
   display: flex;
   flex-wrap: wrap;
 }
 
-.players_list .group .group_players div {
+.no_grouped {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.players_list .group .group_players div, .no_grouped div {
   --height: 24px;
   height: var(--height);
   display: flex;
@@ -174,7 +211,7 @@
   cursor: pointer;
 }
 
-.players_list .group .group_players div.selected {
+.players_list .group .group_players div.selected, .no_grouped div.selected {
   color: #000;
   background-color: var(--accent-color);
 }
