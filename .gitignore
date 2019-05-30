@@ -3,3 +3,5 @@
 /client/node_modules
 /dist
 .env
+.vscode
+.idea
