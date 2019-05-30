@@ -75,6 +75,7 @@ const StreamerController = (io) => {
 
   router.get('/matches/last/:id', async (req, res) => {
     const accountId = req.params.id;
+    const MATCHES_NUMBER = 5;
 
     if(accountId === 'null'){
       res.json({
@@ -88,19 +89,19 @@ const StreamerController = (io) => {
     matchesList = await matchesList.json();
     matchesList = matchesList.matches.slice(0, 5);
 
-    let matchesIds = matchesList.map(match => match.gameId);
-    let detailedMatches = [];
-
-    for(let i = 0; i < matchesIds.length; i++){
-      let match = await riotFetch(`lol/match/v4/matches/${matchesIds[i]}`);
-      match = await match.json();
-
-      detailedMatches.push(match);
-    }
+    const matches = await Promise.all(
+      matchesList.matches
+        .slice(0, MATCHES_NUMBER)
+        .map(match =>
+          riotFetch(`lol/match/v4/matches/${match.gameId}`).then(result =>
+            result.json()
+          )
+        )
+    );
 
     res.json({
       success: 'true',
-      matches: detailedMatches,
+      matches,
     });
   });
 
