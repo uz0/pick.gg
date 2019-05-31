@@ -349,6 +349,7 @@ class PlayersStep extends Component {
                 text={i18n.t('clear_button')}
                 appearance='_basic-default'
                 onClick={this.clearSearch}
+                className={style.button_search}
               />
             </div>
 

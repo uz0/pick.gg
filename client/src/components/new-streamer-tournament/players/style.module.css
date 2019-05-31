@@ -90,6 +90,14 @@
   margin-bottom: 20px;
   left: 0;
   top: 0;
+  position: relative;
+}
+
+.players_list .search_block .button_search{
+  position: absolute;
+  font-size: 12px;
+  background: transparent;
+  right: 0;
 }
 
 .players_list .search {
@@ -100,7 +108,7 @@
   background: transparent;
   border-bottom: 1px solid #f1f1f1;
   color: #fff;
-  width: 65%;
+  width: 100%;
   text-transform: uppercase;
 }
 
