@@ -187,6 +187,8 @@ export default {translation: {
   chosen_players: 'Выбранный игрок',
   you_not_chosen: 'Вы еще не выбрали ни одного игрока',
   great: 'Великолепно!',
+  players_left_0: 'остался игрок',
+  players_left_1: 'осталось игрока',
   players_left: 'осталось игроков',
   add_players_to_tournament: 'Добавить игроков в турнир',
   cannot_find: 'Не можете найти своего игрока?',
