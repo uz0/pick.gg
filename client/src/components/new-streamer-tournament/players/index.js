@@ -306,7 +306,7 @@ class PlayersStep extends Component {
             }
 
             {this.state.chosenPlayers.length > 1 && this.state.chosenPlayers.length < 10 &&
-              <p className={style.attention}>{i18n.t('great')} {10 - this.state.chosenPlayers.length} {i18n.t('players_left')}</p>
+              <p className={style.attention}>{i18n.t('great')} {10 - this.state.chosenPlayers.length} {i18n.t('players_left', { count: 10 - this.state.chosenPlayers.length })}</p>
             }
 
             <div className={style.chosen_players}>
@@ -316,9 +316,10 @@ class PlayersStep extends Component {
             {this.state.chosenPlayers.length === 10 &&
               <div className={style.add_players_to_tournament}>
                 <Button
-                  text={i18n.t('add_players_to_tournament')}
+                  text={i18n.t('add_players')}
                   appearance='_basic-accent'
                   onClick={this.addPlayersToTournament}
+                  className={style.button_add_players}
                 />
               </div>
             }

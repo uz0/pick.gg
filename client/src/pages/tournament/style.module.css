@@ -254,7 +254,9 @@
 }
 
 .tournament .team .champion img {
-  height: inherit;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .tournament .team .champion .name {
