@@ -188,6 +188,7 @@ class Tournament extends Component {
       isLoading: false,
       fantasyTournament: tournament,
       isChooseChampionModalShown: false,
+      isMatchEditModalShown: false,
       matches,
       users,
     });
