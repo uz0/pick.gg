@@ -354,16 +354,24 @@
   margin-bottom: 8px;
 }
 
-.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell {
+.tournament .section .leaders .table .leader_num_cell,
+.tournament .section .leaders .table .leader_name_cell {
   flex-grow: 0;
   flex-shrink: 0;
 }
 
-.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell .name_leader {
+.tournament .section .leaders .table .leader_num_cell {
   display: flex;
 }
 
-.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell .name_leader i {
+.tournament .section .leaders .table .leader_name_cell .name_leader {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tournament .section .leaders .table .leader_num_cell,
+.tournament .section .leaders .table .leader_name_cell .name_leader i {
   font-size: 10px;
   margin-left: 2px;
   color: #ffd120;

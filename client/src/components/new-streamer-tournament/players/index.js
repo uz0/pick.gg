@@ -30,7 +30,6 @@ class PlayersStep extends Component {
     this.realTournaments = [];
   }
 
-
   async componentDidMount() {
     this.setState({ arePlayersLoading: true });
 
@@ -68,7 +67,6 @@ class PlayersStep extends Component {
     return [
       ...Object.entries(groupBy(playersWithCharNick, player => player.name[0].toUpperCase())),
       ...Object.entries(groupBy(playersWithNumberNick, player => player.name[0])),
-
     ];
   }
 
@@ -277,7 +275,6 @@ class PlayersStep extends Component {
             className={style.prev}
             appearance={'_basic-accent'}
             text={i18n.t('prev')}
-            // icon={<i className="material-icons">arrow_back</i>}
             onClick={this.props.prevStep}
           />
           }
@@ -286,7 +283,6 @@ class PlayersStep extends Component {
             className={style.next}
             appearance={'_basic-accent'}
             text={i18n.t('next')}
-            // icon={<i className="material-icons">arrow_forward</i>}
             onClick={this.nextStep}
           />
           }
@@ -324,8 +320,6 @@ class PlayersStep extends Component {
               </div>
             }
 
-            <h3>{i18n.t('cannot_find')}</h3>
-
             <Button
               text={i18n.t('create_new_player')}
               appearance='_basic-default'
@@ -340,11 +334,12 @@ class PlayersStep extends Component {
 
             <div className={style.search_block}>
               <input
-                type="text"
+                type='text'
                 placeholder={i18n.t('search')}
                 onChange={this.search}
                 value={term}
-                className={style.search} />
+                className={style.search}
+              />
 
               <Button
                 text={i18n.t('clear_button')}
@@ -363,6 +358,10 @@ class PlayersStep extends Component {
                 >
                   {player.name}
                 </div>)
+                }
+
+                {playersNoGroup.filter(this.searchingFor(term)).length === 0 && 
+                  <p className={style.attention}>Нет результатов</p>
                 }
               </div>
             }
