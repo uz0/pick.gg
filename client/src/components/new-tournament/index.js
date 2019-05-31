@@ -126,16 +126,6 @@ class newTournament extends Component {
       return;
     }
     
-    if (user.balance < entry) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: `Insufficient funds ${entry - user.balance}$`,
-      });
-
-      return;
-    }
-
     if (!tournament) {
       this.notificationService.showSingleNotification({
         type: 'error',

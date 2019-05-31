@@ -1,11 +1,12 @@
-import express from "express";
-import TournamentModel from "../models/tournament";
-import FantasyTournamentModel from "../models/fantasy-tournament";
-import MatchModel from "../models/match";
-import MatchResultModel from "../models/match-result";
-import PlayerModel from "../models/player";
-import RuleModel from "../models/rule";
-import UserModel from "../models/user";
+import express from 'express';
+
+import TournamentModel from '../models/tournament';
+import FantasyTournamentModel from '../models/fantasy-tournament';
+import MatchModel from '../models/match';
+import MatchResultModel from '../models/match-result';
+import PlayerModel from '../models/player';
+import RuleModel from '../models/rule';
+import UserModel from '../models/user';
 
 import find from 'lodash/find';
 

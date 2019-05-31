@@ -25,7 +25,6 @@ export default async (req, res) => {
       username,
       email,
       password: hash,
-      balance: 5000,
       isAdmin: false,
     });
     res.json({

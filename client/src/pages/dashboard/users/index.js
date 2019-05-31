@@ -23,11 +23,6 @@ const usersTableCaptions = {
     width: window.innerWidth < 480 ? 100 : 350,
   },
 
-  balance: {
-    text: i18n.t('balance'),
-    width: 80,
-  },
-
   isAdmin: {
     text: i18n.t('admin'),
     width: 80,
@@ -46,7 +41,6 @@ class Users extends Component {
     tournaments: [],
     userEditingData: {
       username: '',
-      balance: '',
       isAdmin: '',
       isStreamer: '',
     },
@@ -133,10 +127,6 @@ class Users extends Component {
         <span className={textClass}>{item.username}</span>
       </div>
 
-      <div className={itemClass} style={{ '--width': usersTableCaptions.balance.width }}>
-        <span className={textClass}>{item.balance}</span>
-      </div>
-
       <div className={itemClass} style={{ '--width': usersTableCaptions.isAdmin.width }}>
         <span className={textClass}>{isAdmin}</span>
       </div>
@@ -181,13 +171,6 @@ class Users extends Component {
             label={i18n.t('username')}
             name="username"
             value={userEditingData.username || ''}
-            onChange={this.handleInputChange}
-          />
-
-          <Input
-            label={i18n.t('balance')}
-            name="balance"
-            value={userEditingData.balance || ''}
             onChange={this.handleInputChange}
           />
 

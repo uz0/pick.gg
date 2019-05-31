@@ -2,8 +2,6 @@ import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 
 import FantasyTournament from "../models/fantasy-tournament";
-import UserModel from "../models/user";
-import TransactionModel from "../models/transaction";
 
 export default async (req, res) => {
   const tournaments = await FantasyTournament
@@ -79,16 +77,8 @@ export default async (req, res) => {
         };
       }
     }
-    const winnerSum = tournament.entry * users.length;
-    await UserModel.findByIdAndUpdate({ _id: winner.user }, { new: true, $inc: { balance: winnerSum } });
     await FantasyTournament.findByIdAndUpdate({ _id: tournament._id }, { winner: winner.user });
-    await TransactionModel.create({
-      userId: winner.user._id,
-      tournamentId: tournament._id,
-      amount: winnerSum,
-      origin: 'tournament winning',
-      date: Date.now(),
-    });
+
   }
   const updateTournamentsNames = tournaments.map(tournament => tournament.name).join(', ');
   const message = updateTournamentsNames.length > 0 ? updateTournamentsNames : 'All tournaments already finalized';

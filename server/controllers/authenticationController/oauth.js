@@ -13,7 +13,6 @@ export default (app) => async (req, res) => {
       photo,
       email,
       password: '',
-      balance: 5000,
       isAdmin: false,
       isStreamer: false,
     });
