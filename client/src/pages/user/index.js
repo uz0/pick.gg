@@ -73,14 +73,10 @@ class User extends Component {
 
     const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
     const { user } = await this.userService.getUserDataById(userId);
-    const userRating = await this.userService.getUsersRating();
-    const userPlace = userRating.rating.findIndex(x => x._id === userId) + 1;
 
     this.setState({
       tournaments,
       userData: user,
-      totalUsers: userRating.rating.length,
-      userPlace,
       loading: false,
     });
   }
@@ -112,10 +108,6 @@ class User extends Component {
                     <div className={style.key}>{i18n.t('tournaments')}</div>
                   </div>
 
-                  <div className={style.item}>
-                    <div className={style.value}>{this.state.userPlace} <span>{i18n.t('of')} {this.state.totalUsers}</span></div>
-                    <div className={style.key}>{i18n.t('place')}</div>
-                  </div>
                 </div>
               </div>
               <div>
