@@ -786,7 +786,7 @@ class Tournament extends Component {
                 <i className="material-icons">file_copy</i>
               </button>
             </div>
-            <p>Users: {countUsers}</p>
+            <p>{i18n.t('champions', { count: countUsers })}: {countUsers}</p>
           </div>}
           {isMatchesUncompleted && <Table
             noCaptions
