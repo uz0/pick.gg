@@ -561,7 +561,7 @@ class Tournament extends Component {
 
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
-    return <div key={uuid()} to={urlMatch} target="_blank" className={cx(className, { "disable_url": disableUrlStyle, "completed": isMatchCompleted })}>
+    return <div key={uuid()} to={urlMatch} target='_blank' className={cx(className, { 'disable_url': disableUrlStyle, 'completed': isMatchCompleted })}>
       <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
         <span className={textClass}>{item.name}</span>
       </div>
@@ -577,11 +577,11 @@ class Tournament extends Component {
       </div>
 
       <button className={style.match_button} onClick={(event) => this.openMatchResults(event, item)}>
-        <i className="material-icons">list</i>
+        <i className='material-icons'>list</i>
       </button>
 
       {isUserStreamerAndCreator && <button className={style.match_button} onClick={(event) => this.editMatchInit(event, item)}>
-        <i className="material-icons">info</i>
+        <i className='material-icons'>info</i>
       </button>
       }
     </div>;
