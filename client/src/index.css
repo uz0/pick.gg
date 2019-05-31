@@ -87,7 +87,7 @@ body {
 }
 
 :global(.container) {
-  min-height: calc(100% - var(--header-height));
+  min-height: calc(100% - var(--header-height) - 60px);
   background: url('assets/bg-login.jpg');
   background-color: rgb(1, 1, 3);
   background-repeat: no-repeat;

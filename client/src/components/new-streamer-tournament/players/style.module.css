@@ -78,7 +78,6 @@
   align-content: flex-start;
   align-items: flex-start;
   width: 600px;
-  height: calc(100vh - 200px);
   overflow-y: visible;
   overflow-x: hidden;
 }

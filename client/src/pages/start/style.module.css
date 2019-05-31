@@ -257,7 +257,7 @@
     display: none;
   }
   .login_page {
-    min-height: calc(100% - var(--header-height));
+    min-height: calc(100% - var(--header-height) - 60px);
     background-image: url('assets/bg-login-min.png');
     background-color: #000;
     background-repeat: no-repeat;
