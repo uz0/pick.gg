@@ -72,11 +72,12 @@ class PlayersStep extends Component {
 
   search = (event) => {
     this.setState({
-      term: event.target.value
-    })
+      term: event.target.value,
+    });
   }
 
-  searchingFor = (term) => x => x.name.toLowerCase().includes(term.toLowerCase()) || !term;
+  searchingFor = (term) => x => x.name.toLowerCase().startsWith(term.toLowerCase()) || !term;
+
 
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
 
@@ -252,7 +253,7 @@ class PlayersStep extends Component {
   render() {
     const { playersAddedToTournament, term, playersNoGroup, players } = this.state;
     const buttonIcon = playersAddedToTournament.length === 0 ? 'add' : 'edit';
-
+    const filteredPlayers = playersNoGroup.filter(this.searchingFor(term));
     return (
       <div className={style.players}>
         <div className={style.header_players}>
@@ -351,7 +352,7 @@ class PlayersStep extends Component {
 
             {term.length > 0 &&
               <div className={style.no_grouped}>
-                {playersNoGroup.filter(this.searchingFor(term)).map(player => <div
+                {filteredPlayers.map(player => <div
                   key={player._id}
                   onClick={() => this.playerClickHandler(player)}
                   className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
@@ -360,7 +361,7 @@ class PlayersStep extends Component {
                 </div>)
                 }
 
-                {playersNoGroup.filter(this.searchingFor(term)).length === 0 && 
+                {playersNoGroup.filter(this.searchingFor(term)).length === 0 &&
                   <p className={style.attention}>Нет результатов</p>
                 }
               </div>
