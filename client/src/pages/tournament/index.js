@@ -122,7 +122,7 @@ class Tournament extends Component {
 
     this.setState({
       currentUser: user && user.user,
-      username: user && user.username,
+      username: user && user.user.username,
     });
 
     this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
