@@ -14,6 +14,7 @@ export default {translation: {
   date_from: 'Date from',
   deposit: 'Deposit',
   email: 'Email',
+  lolApiKey: 'LoL Api Key',
   entry: 'Entry',
   tournament_thumb: 'Tournament image link',
   earned: 'earned',

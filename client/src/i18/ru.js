@@ -14,6 +14,7 @@ export default {translation: {
   dashboard: 'Панель управления',
   deposit: 'Депозит',
   email: 'Электронная почта',
+  lolApiKey: 'LoL Api Key',
   entry: 'Цена',
   tournament_thumb: 'Изображение турнира (ссылка)',
   earned: 'зачислено',
