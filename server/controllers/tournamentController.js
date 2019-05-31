@@ -91,7 +91,7 @@ const TournamentController = io => {
   });
 
   router.get('/:id', async (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
     const tournament = await FantasyTournament
       .findOne({ _id: id })
