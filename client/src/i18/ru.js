@@ -127,7 +127,10 @@ export default {translation: {
   menu: 'Меню',
   fantasy_tournaments: 'Фэнтези Турниры',
   tournament_rules: 'Правила турнира',
-  champions: 'Чемпионы',
+  champions_0: ' Чемпион',
+  champions_1: ' Чемпиона',
+  champions_4: ' Чемпионов',
+  champions: ' Чемпионы',
   user_updated: 'Пользователь был успешно обновлен!',
   yes: 'Да',
   no: 'Нет',
@@ -211,6 +214,7 @@ export default {translation: {
   unauthenticated_tournament_join: 'Вам необходимо зарегистрироваться чтобы принять участие в турнире',
   clear_button: 'Очистить',
   search: 'Найти игрока',
+  invite: 'Пригласить друга',
 
   modal: {
     step: 'Шаг',

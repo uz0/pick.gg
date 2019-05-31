@@ -663,7 +663,7 @@ class Tournament extends Component {
     const matchInfo = this.state.matchInfo && this.state.matchInfo;
     const isStreamer = this.state.fantasyTournament && this.state.fantasyTournament.creator.isStreamer;
     const isMatchesUncompleted = every(this.state.matches, { completed: true });
-    const subtitleLeaders = isMatchesUncompleted ? i18n.t('leaderboard') + ': ' + this.state.users.length + ' champions' : 'Invite a friend';
+    const subtitleLeaders = isMatchesUncompleted ? i18n.t('leaderboard') + ': ' + this.state.users.length + i18n.t('champions', { count: this.state.users.length }) : i18n.t('invite');
 
     return <div className={style.tournament}>
       <div className={style.tournament_section}>

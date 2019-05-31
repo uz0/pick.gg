@@ -128,6 +128,7 @@ export default {translation: {
   menu: 'Menu',
   fantasy_tournaments: 'Fantasy Tournaments',
   tournament_rules: 'Tournament rules',
+  champions_0: ' Champion',
   champions: 'Champions',
   user_updated: 'User was successfully updated!',
   yes: 'Yes',
@@ -206,11 +207,12 @@ export default {translation: {
   unauthenticated_tournament_join: 'You have to sign in to participate in the tournament',
   clear_button: 'Clear',
   search: 'Find a player',
+  invite: 'Invite a friend',
 
   modal: {
     step: 'Step',
     of: 'of',
-    new_tournament: 'New tournament'
+    new_tournament: 'New tournament',
   },
 
   new_tournament: {
