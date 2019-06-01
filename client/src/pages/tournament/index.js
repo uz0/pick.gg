@@ -137,6 +137,10 @@ class Tournament extends Component {
       this.loadTournamentData(false);
     });
 
+    this.socket.on('fantasyTournamentStarted', () => {
+      this.loadTournamentData();
+    });
+
     this.socket.on('fantasyTournamentFinalized', () => {
       this.loadTournamentData();
     });
@@ -196,6 +200,23 @@ class Tournament extends Component {
     resolve();
   });
 
+  startStreamerTournament = async () => {
+    const { fantasyTournament } = this.state;
+
+    if (fantasyTournament.users.length === 0){
+      await this.notificationService.showSingleNotification({
+        type: 'error',
+        message: i18n.t('notifications.errors.start_without_participants'),
+      });
+
+      return;
+    }
+
+    await this.streamerService.startTournament(fantasyTournament._id);
+
+    return;
+  }
+
   finalizeStreamerTournament = async () => {
     const { fantasyTournament } = this.state;
     const isAllMatchesCompleted = every(this.state.matches, { completed: true });
@@ -205,6 +226,16 @@ class Tournament extends Component {
         type: 'error',
         shouldBeAddedToSidebar: false,
         message: i18n.t('notifications.finalization.no_participatns'),
+      });
+
+      return;
+    }
+
+    if (!fantasyTournament.started) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('notifications.errors.finalize_not_started_tournament'),
       });
 
       return;
@@ -645,10 +676,12 @@ class Tournament extends Component {
     const tournamentStatus = this.getFantasyTournamentStatus();
     const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
     // const firstMatchDate = this.state.matches.length > 0 ? this.state.matches[0].startDate : '';
-    const isJoinButtonShown = !currentUserParticipant && !winner;
     const joinButtonAction = !currentUserParticipant && !this.state.currentUser ? this.toggleSignInDialog : this.toggleChampionModal;
     const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
-    // const isJoinButtonShown = !currentUserParticipant && !winner && moment().isBefore(firstMatchDate);
+    const isTournamentStarted = this.state.fantasyTournament && this.state.fantasyTournament.started;
+    const isTournamentFinished = this.state.fantasyTournament && this.state.fantasyTournament.winner;
+   
+    const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
 
@@ -689,7 +722,7 @@ class Tournament extends Component {
         </div>
 
         <div>
-          {isJoinButtonShown &&
+          {!isTournamentStarted && isJoinButtonShown &&
             <Button
               text={i18n.t('join_tournament')}
               appearance="_basic-accent"
@@ -749,10 +782,23 @@ class Tournament extends Component {
         <div className={style.matches}>
           <div className={style.matches_title}>
             <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
+            {!isTournamentStarted && !isTournamentFinished &&
+              <Button
+                text={i18n.t('start_tournament')}
+                appearance='_basic-accent'
+                onClick={this.startStreamerTournament}
+                className={cx(style.button)}
+              />
+            }
+
+            {isTournamentStarted &&
+              <p>{i18n.t('tournament_started')}</p>
+            }
+
             {isFinalizeButtonShown &&
               <Button
                 text={i18n.t('finalize_tournament')}
-                appearance="_basic-accent"
+                appearance='_basic-accent'
                 onClick={this.finalizeStreamerTournament}
                 className={cx(style.button)}
               />

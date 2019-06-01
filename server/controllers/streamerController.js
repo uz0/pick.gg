@@ -309,6 +309,17 @@ const StreamerController = (io) => {
     res.send({ fantasyTournament });
   });
 
+  router.get('/tournament/:id/start', async (req, res) => {
+    const tournamentId = req.params.id;
+    await FantasyTournament.update({_id: tournamentId}, { started: true });
+
+    io.emit('fantasyTournamentStarted');
+
+    res.send({
+      message: 'Tournament started!',
+    })
+  })
+
   router.get('/tournament/:id/finalize', async (req, res) => {
     const tournamentId = req.params.id;
 

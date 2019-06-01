@@ -152,6 +152,8 @@ export default {translation: {
   was_deleted: 'был удалён',
   tournament_not_finalized: 'Турнир не завершен',
   finalize_tournament: 'Завершить турнир',
+  start_tournament: 'Начать турнир',
+  tournament_started: 'Турнир начался!',
   entry_sum: 'Сумма входа',
   winner: 'Победитель',
   rule_updated: 'Правило было успешно обновлено!',
@@ -219,7 +221,7 @@ export default {translation: {
   modal: {
     step: 'Шаг',
     of: 'из',
-    new_tournament: 'Новый турнир'
+    new_tournament: 'Новый турнир',
   },
   new_tournament: {
     empty_name: 'Пожалуйста, введите название турнира',
@@ -232,6 +234,8 @@ export default {translation: {
     },
     errors: {
       closed_window: "Пользователь закрыл окно входа",
+      start_without_participants: "Нельзя начать турнир без участников",
+      finalize_not_started_tournament: "You can't finalize tournament which wasn't started",
     },
     warnings: {
       empty_summoner_name: 'Вам нужно ввести ваше имя в LoL в настройках профиля',

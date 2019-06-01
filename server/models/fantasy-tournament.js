@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 let schema = new Schema({
   name: { type: String, required: true },
   slots: Number,
+  started: { type: Boolean, default: false },
 
   tournament  : { type: Schema.Types.ObjectId, ref: 'Tournament' },
 

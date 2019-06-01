@@ -80,6 +80,8 @@ export default {translation: {
   match: 'Match',
   join_tournament: 'Join Tournament',
   finalize_tournament: 'Finalize tournament',
+  start_tournament: 'Start tournament',
+  tournament_started: 'Tournament has started!',
   join_tournament_and: 'Join Tournament and choose your champions',
   wait_matches: 'Waiting for match results',
   free: 'Free',
@@ -226,6 +228,8 @@ export default {translation: {
     },
     errors: {
       closed_window: "User closed login window",
+      start_without_participants: "You can't start tournament without participants",
+      finalize_not_started_tournament: "You can't finalize tournament which wasn't started",
     },
     warnings: {
       empty_summoner_name: 'You need enter summoner name in settings profile',

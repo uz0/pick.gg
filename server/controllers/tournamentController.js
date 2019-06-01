@@ -191,7 +191,16 @@ const TournamentController = io => {
     const userId = req.decoded._id;
 
     const tournament = await FantasyTournament.findOne({ _id: id });
-    const user = await UserModel.findOne({ _id: userId })
+    const user = await UserModel.findOne({ _id: userId });
+
+    if (tournament.started) {
+      res.json({
+        success: false,
+        message: 'The tournament is already started',
+      });
+
+      return;
+    }
 
     if (moment(tournament.date).isAfter(moment())) {
       res.json({

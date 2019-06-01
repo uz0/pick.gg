@@ -324,6 +324,26 @@
   margin-bottom: 12px;
 }
 
+.tournament .section .matches .matches_title p {
+  color: var(--accent-color);
+  margin-left: auto;
+  font-size: 16px;
+  font-weight: 700;
+  align-self: center;
+}
+
+.tournament .section .matches .matches_title button {
+  font-size: 12px;
+}
+
+.tournament .section .matches .matches_title button:first-of-type {
+  margin-left: auto;
+}
+
+.tournament .section .matches .matches_title button:not(:first-of-type) {
+  margin-left: 12px;
+}
+
 .tournament .section .matches .match_button {
   position: relative;
   width: 60px;
