@@ -5,7 +5,7 @@
 }
 
 main {
-  width: 550px;
+  width: 550px !important;
   margin: 0 auto;
 }
 

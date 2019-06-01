@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import groupBy from 'lodash/groupBy';
 import findIndex from 'lodash/findIndex';
-import concat from 'lodash/concat';
 
 import Input from 'components/input';
 import Button from 'components/button';
@@ -31,7 +30,6 @@ class PlayersStep extends Component {
     this.realTournaments = [];
   }
 
-
   async componentDidMount() {
     this.setState({ arePlayersLoading: true });
 
@@ -40,12 +38,14 @@ class PlayersStep extends Component {
 
     this.setState({
       players: groupedPlayers,
+      playersNoGroup: players,
       arePlayersLoading: false,
     });
   }
 
   state = {
     players: [],
+    playersNoGroup: [],
     chosenPlayers: [],
     playersAddedToTournament: [],
     championData: {
@@ -57,6 +57,7 @@ class PlayersStep extends Component {
     isPlayerCreating: false,
     isChampionModalLoading: false,
     arePlayersLoading: false,
+    term: '',
   }
 
   _sortPlayers = (players) => {
@@ -68,6 +69,15 @@ class PlayersStep extends Component {
       ...Object.entries(groupBy(playersWithNumberNick, player => player.name[0])),
     ];
   }
+
+  search = (event) => {
+    this.setState({
+      term: event.target.value,
+    });
+  }
+
+  searchingFor = (term) => x => x.name.toLowerCase().startsWith(term.toLowerCase()) || !term;
+
 
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
 
@@ -134,6 +144,8 @@ class PlayersStep extends Component {
 
     this.setState({ chosenPlayers });
   }
+
+  clearSearch = () => this.setState({ term: '' })
 
   submitPlayerCreatingForm = async (event) => {
     event.preventDefault();
@@ -239,11 +251,9 @@ class PlayersStep extends Component {
   </div>
 
   render() {
-    const { playersAddedToTournament } = this.state;
-
-    // const buttonText = playersAddedToTournament.length === 0 ? i18n.t('add_players') : i18n.t('edit_players');
+    const { playersAddedToTournament, term, playersNoGroup, players } = this.state;
     const buttonIcon = playersAddedToTournament.length === 0 ? 'add' : 'edit';
-
+    const filteredPlayers = playersNoGroup.filter(this.searchingFor(term));
     return (
       <div className={style.players}>
         <div className={style.header_players}>
@@ -266,7 +276,6 @@ class PlayersStep extends Component {
             className={style.prev}
             appearance={'_basic-accent'}
             text={i18n.t('prev')}
-            // icon={<i className="material-icons">arrow_back</i>}
             onClick={this.props.prevStep}
           />
           }
@@ -275,7 +284,6 @@ class PlayersStep extends Component {
             className={style.next}
             appearance={'_basic-accent'}
             text={i18n.t('next')}
-            // icon={<i className="material-icons">arrow_forward</i>}
             onClick={this.nextStep}
           />
           }
@@ -295,7 +303,7 @@ class PlayersStep extends Component {
             }
 
             {this.state.chosenPlayers.length > 1 && this.state.chosenPlayers.length < 10 &&
-              <p className={style.attention}>{i18n.t('great')} {10 - this.state.chosenPlayers.length} {i18n.t('players_left')}</p>
+              <p className={style.attention}>{i18n.t('great')} {10 - this.state.chosenPlayers.length} {i18n.t('players_left', { count: 10 - this.state.chosenPlayers.length })}</p>
             }
 
             <div className={style.chosen_players}>
@@ -305,14 +313,13 @@ class PlayersStep extends Component {
             {this.state.chosenPlayers.length === 10 &&
               <div className={style.add_players_to_tournament}>
                 <Button
-                  text={i18n.t('add_players_to_tournament')}
+                  text={i18n.t('add_players')}
                   appearance='_basic-accent'
                   onClick={this.addPlayersToTournament}
+                  className={style.button_add_players}
                 />
               </div>
             }
-
-            <h3>{i18n.t('cannot_find')}</h3>
 
             <Button
               text={i18n.t('create_new_player')}
@@ -326,7 +333,41 @@ class PlayersStep extends Component {
               <Preloader isFullScreen={false} />
             }
 
-            {this.state.players.map(([key, players]) => <div key={key} className={style.group}>
+            <div className={style.search_block}>
+              <input
+                type='text'
+                placeholder={i18n.t('search')}
+                onChange={this.search}
+                value={term}
+                className={style.search}
+              />
+
+              <Button
+                text={i18n.t('clear_button')}
+                appearance='_basic-default'
+                onClick={this.clearSearch}
+                className={style.button_search}
+              />
+            </div>
+
+            {term.length > 0 &&
+              <div className={style.no_grouped}>
+                {filteredPlayers.map(player => <div
+                  key={player._id}
+                  onClick={() => this.playerClickHandler(player)}
+                  className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
+                >
+                  {player.name}
+                </div>)
+                }
+
+                {playersNoGroup.filter(this.searchingFor(term)).length === 0 &&
+                  <p className={style.attention}>Нет результатов</p>
+                }
+              </div>
+            }
+
+            {term === '' && players.map(([key, players]) => <div key={key} className={style.group}>
               <h3>{key}</h3>
               <div className={style.group_players}>
                 {players.map(player => <div

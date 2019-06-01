@@ -43,7 +43,7 @@
 
 .header .type {
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 200;
 }
 
@@ -71,13 +71,11 @@
 }
 
 .wrapper_n .notification .message {
-  /* --height: 60px; */
-  height: var(--height);
   min-height: fit-content;
   display: flex;
   line-height: 1.5;
   align-items: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 200;
   padding: 8px 0 0;
 }
@@ -120,10 +118,10 @@
 
 @media (max-width: 768px) {
   .wrapper_n .notification {
-    --height: 50px;
     width: 100%;
     max-width: 400px;
     font-size: 13px;
+    right: 0;
   }
   .wrapper_n .notification .message {
     --height: 50px;

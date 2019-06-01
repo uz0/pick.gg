@@ -1,17 +1,7 @@
-import UsersController from './usersController';
-import AuthenticationController from './authenticationController';
-import TournamentController from './tournamentController';
-import SystemController from './systemController';
-import StreamerController from './streamerController';
-import AdminController from './adminController';
-import RewardController from './rewardController';
-
-export {
-  UsersController,
-  AuthenticationController,
-  TournamentController,
-  SystemController,
-  StreamerController,
-  RewardController,
-  AdminController,
-};
+export { default as UsersController } from "./usersController";
+export { default as AuthenticationController } from "./authenticationController";
+export { default as TournamentController } from "./tournamentController";
+export { default as SystemController } from "./systemController";
+export { default as RewardController } from "./rewardController";
+export { default as StreamerController } from "./streamerController";
+export { default as AdminController } from "./adminController";

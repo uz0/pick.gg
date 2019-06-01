@@ -60,7 +60,7 @@
 }
 
 .wrapper .modal .content {
-  padding: 20px;
+  padding: calc(var(--header-height) / 2 - 4px);
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;

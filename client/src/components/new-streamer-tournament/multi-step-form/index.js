@@ -102,10 +102,6 @@ class MultiStepForm extends Component {
         <Preloader isFullScreen={false} />
       }
 
-      {/* <div className={style.steps}>
-        {`Step ${stepIndex} of 3`}
-      </div> */}
-
       <div className={style.content}>
         <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
           <GeneralStep

@@ -177,17 +177,18 @@ class MatchModal extends Component {
       resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
     }
 
-    await this.props.onMatchUpdated();
-
-    this.setState({
-      isLoading: false,
-      match: request.updatedMatch,
-      results: resultsWithChampions,
-    }, () => this.notificationService.showSingleNotification({
+    this.notificationService.showSingleNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
       message: 'Match was successfully updated!',
-    }));
+    });
+    
+    this.props.onMatchUpdated();
+
+    this.setState({
+      match: request.updatedMatch,
+      results: resultsWithChampions,
+    });
   }
 
   render() {

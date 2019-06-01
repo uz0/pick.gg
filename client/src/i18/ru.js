@@ -128,7 +128,10 @@ export default {translation: {
   menu: 'Меню',
   fantasy_tournaments: 'Фэнтези Турниры',
   tournament_rules: 'Правила турнира',
-  champions: 'Чемпионы',
+  champions_0: ' Чемпион',
+  champions_1: ' Чемпиона',
+  champions_4: ' Чемпионов',
+  champions: ' Чемпионы',
   user_updated: 'Пользователь был успешно обновлен!',
   yes: 'Да',
   no: 'Нет',
@@ -150,6 +153,8 @@ export default {translation: {
   was_deleted: 'был удалён',
   tournament_not_finalized: 'Турнир не завершен',
   finalize_tournament: 'Завершить турнир',
+  start_tournament: 'Начать турнир',
+  tournament_started: 'Турнир начался!',
   entry_sum: 'Сумма входа',
   winner: 'Победитель',
   rule_updated: 'Правило было успешно обновлено!',
@@ -188,6 +193,8 @@ export default {translation: {
   chosen_players: 'Выбранный игрок',
   you_not_chosen: 'Вы еще не выбрали ни одного игрока',
   great: 'Великолепно!',
+  players_left_0: 'остался игрок',
+  players_left_1: 'осталось игрока',
   players_left: 'осталось игроков',
   add_players_to_tournament: 'Добавить игроков в турнир',
   cannot_find: 'Не можете найти своего игрока?',
@@ -208,11 +215,14 @@ export default {translation: {
   contact_us: 'Связаться с нами',
   play_fantasy: 'ИГРАТЬ В FANTASY LEAGUE',
   unauthenticated_tournament_join: 'Вам необходимо зарегистрироваться чтобы принять участие в турнире',
+  clear_button: 'Очистить',
+  search: 'Найти игрока',
+  invite: 'Пригласить друга',
 
   modal: {
     step: 'Шаг',
     of: 'из',
-    new_tournament: 'Новый турнир'
+    new_tournament: 'Новый турнир',
   },
   new_tournament: {
     empty_name: 'Пожалуйста, введите название турнира',
@@ -225,6 +235,8 @@ export default {translation: {
     },
     errors: {
       closed_window: "Пользователь закрыл окно входа",
+      start_without_participants: "Нельзя начать турнир без участников",
+      finalize_not_started_tournament: "You can't finalize tournament which wasn't started",
     },
     warnings: {
       empty_summoner_name: 'Вам нужно ввести ваше имя в LoL в настройках профиля',

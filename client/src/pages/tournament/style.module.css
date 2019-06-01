@@ -254,7 +254,9 @@
 }
 
 .tournament .team .champion img {
-  height: inherit;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .tournament .team .champion .name {
@@ -322,6 +324,26 @@
   margin-bottom: 12px;
 }
 
+.tournament .section .matches .matches_title p {
+  color: var(--accent-color);
+  margin-left: auto;
+  font-size: 16px;
+  font-weight: 700;
+  align-self: center;
+}
+
+.tournament .section .matches .matches_title button {
+  font-size: 12px;
+}
+
+.tournament .section .matches .matches_title button:first-of-type {
+  margin-left: auto;
+}
+
+.tournament .section .matches .matches_title button:not(:first-of-type) {
+  margin-left: 12px;
+}
+
 .tournament .section .matches .match_button {
   position: relative;
   width: 60px;
@@ -352,16 +374,24 @@
   margin-bottom: 8px;
 }
 
-.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell {
+.tournament .section .leaders .table .leader_num_cell,
+.tournament .section .leaders .table .leader_name_cell {
   flex-grow: 0;
   flex-shrink: 0;
 }
 
-.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell .name_leader {
+.tournament .section .leaders .table .leader_num_cell {
   display: flex;
 }
 
-.tournament .section .leaders .table .leader_num_cell, .tournament .section .leaders .table .leader_name_cell .name_leader i {
+.tournament .section .leaders .table .leader_name_cell .name_leader {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tournament .section .leaders .table .leader_num_cell,
+.tournament .section .leaders .table .leader_name_cell .name_leader i {
   font-size: 10px;
   margin-left: 2px;
   color: #ffd120;
