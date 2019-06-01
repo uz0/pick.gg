@@ -17,7 +17,7 @@ const RewardCard = ({ description, rewardKey, isClaimed }) => {
       type: 'success',
       message: 'Reward code is copied',
     });
-  }
+  };
 
   return <div className={cx(style.card, { 'is_claimed': isClaimed })}>
     <div className={style.content}>
