@@ -782,7 +782,7 @@ class Tournament extends Component {
         <div className={style.matches}>
           <div className={style.matches_title}>
             <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
-            {!isTournamentStarted && !isTournamentFinished &&
+            {isFinalizeButtonShown && !isTournamentFinished &&
               <Button
                 text={i18n.t('start_tournament')}
                 appearance='_basic-accent'
