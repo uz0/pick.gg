@@ -74,13 +74,8 @@ const StreamerController = (io) => {
   });
 
   router.get('/matches/last/:id', async (req, res) => {
-<<<<<<< HEAD
-    const userId = req.params.id;
-    const user = await UserModel.find({ _id: userId });
-=======
     const accountId = req.params.id;
     const MATCHES_NUMBER = 5;
->>>>>>> ff23e8cb4900f8873cd0c47bed6a59e8c9c5b753
 
     if(!user.lolApiKey){
       res.json({
