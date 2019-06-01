@@ -791,7 +791,7 @@ class Tournament extends Component {
               />
             }
 
-            {isTournamentStarted &&
+            {isTournamentStarted && !isTournamentFinished &&
               <p>{i18n.t('tournament_started')}</p>
             }
 
