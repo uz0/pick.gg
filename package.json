@@ -15,6 +15,7 @@
     "postinstall": "cd client && npm install && cd .. && npm run build"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
     "dotenv": "^8.0.0",
     "express": "^4.16.2",
@@ -22,6 +23,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.24.0",
     "mongoose": "^5.0.3",
+    "multer": "^1.4.1",
     "node-fetch": "^2.3.0",
     "node-sass": "^4.11.0",
     "normalize.css": "^8.0.1",
