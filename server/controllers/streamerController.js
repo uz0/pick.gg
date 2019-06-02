@@ -1,4 +1,9 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import cheerio from 'cheerio';
+import fs from 'fs';
+
 import PlayerModel from '../models/player';
 
 import TournamentModel from '../models/tournament';
@@ -17,6 +22,9 @@ import uuid from 'uuid';
 
 let router = express.Router();
 
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
+
 const StreamerController = (io) => {
   router.get('/', async (req, res) => {
     let players = await PlayerModel.find();
@@ -26,9 +34,12 @@ const StreamerController = (io) => {
   router.post('/players', async (req, res) => {
     const { name, photo, position } = req.body;
 
+    const isPlayerExist = await PlayerModel.findOne({ name });
+
     if (name.length > 20) {
       res.status(400).send({
         error: 'Name can not contain more than 20 characters',
+        type: 'name',
       });
 
       return;
@@ -36,16 +47,19 @@ const StreamerController = (io) => {
 
     if (!position) {
       res.status(400).send({
-        error: 'Position field is required',
+        error: 'serverErrors.position_is_empty',
+        type: 'position',
       });
 
       return;
     }
 
-    const isPlayerExist = await PlayerModel.findOne({ name });
-
     if (isPlayerExist) {
-      res.status(400).send({ name });
+      res.status(400).send({
+        error: 'serverErrors.champion_already_exist',
+        type: 'name',
+        name,
+      });
 
       return;
     }
@@ -59,13 +73,17 @@ const StreamerController = (io) => {
     //   return;
     // }
 
-    const player = await PlayerModel.create({
+    await PlayerModel.create({
       name,
       photo,
-      position
+      position,
     });
 
-    res.send({ player });
+    res.send({
+      name,
+      photo,
+      position,
+    });
   });
 
   router.get('/players', async (req, res) => {
@@ -77,7 +95,7 @@ const StreamerController = (io) => {
     const accountId = req.params.id;
     const MATCHES_NUMBER = 5;
 
-    if(!user.lolApiKey){
+    if (!user.lolApiKey) {
       res.json({
         matches: [],
       })
@@ -123,67 +141,51 @@ const StreamerController = (io) => {
     res.send({ match });
   });
 
-  router.put('/matches/:id', async (req, res) => {
+  router.post('/matches/:id', upload.single('resultFile'), async (req, res) => {
     const matchId = req.params.id;
-    const { startDate, completed, lolMatchId, name, results } = req.body;
 
-    // Match results update
-    if (lolMatchId !== '') {
-      let matchRequest = await riotFetch(`lol/match/v4/matches/${lolMatchId}`);
-      matchRequest = await matchRequest.json();
+    const { startDate, completed, name, results } = req.body;
 
-      const match = await MatchModel.findOne({ _id: matchId });
-      let matchResult = await MatchResultModel.findOne({ _id: match.resultsId }).populate('playersResults.player', 'name').lean().exec();
-
-      // Check if players in match and in lol match results are the same
-      const matchPlayersNames = matchResult.playersResults.map(item => item.player.name);
-      const lolMatchPlayersNames = matchRequest.participantIdentities.map(item => item.player.summonerName);
-      const playersDifference = difference(matchPlayersNames, lolMatchPlayersNames);
-
-      if(playersDifference.length > 0){
-        res.status(400).send({
-          error: 'serverErrors.players_are_not_same',
+    if (req.file) {
+      fs.readFile(req.file.buffer, 'utf8', async (data, err) => {
+        const $ = cheerio.load(data.path);
+        let parsedMatchResults = [];
+  
+        $('.classic.player').each((index, element) => {
+          const name = $('.champion-nameplate-name', element).find('a').text();
+          const [kills, deaths, assists] = $('.kda-kda', element).find('div').map((index, element) => +$(element).text()).get();
+  
+          parsedMatchResults.push({
+            name,
+            kda: [kills, deaths, assists],
+          });
         });
-
-        return;
-      }
-
-      let lolMatchPlayers = [];
   
-      for(let i = 0; i < matchRequest.participantIdentities.length; i++){
-        const { kills, deaths, assists } = matchRequest.participants[i].stats;
-        let playerName = matchRequest.participantIdentities[i].player.summonerName;
-        let playerId = await PlayerModel.findOne({ name: playerName });
+        const match = await MatchModel.findOne({ _id: matchId });
+        let matchResult = await MatchResultModel.findOne({ _id: match.resultsId }).populate('playersResults.player', 'name').lean().exec();
   
-        const player = {
-          _id: playerId._id,
-          name: playerName,
-          kills,
-          deaths,
-          assists,
+        // Check if players in match and in lol match results are the same
+        const matchPlayersNames = matchResult.playersResults.map(({ player }) => player.name);
+        const parsedPlayersNames = parsedMatchResults.map(({ name }) => name);
+        const playersDifference = difference(matchPlayersNames, parsedPlayersNames);
+  
+        if (playersDifference.length > 0) {
+          res.status(400).send({
+            error: 'serverErrors.players_are_not_same',
+          });
+  
+          return;
         }
   
-        lolMatchPlayers.push(player);
-      }
-  
-      matchResult.playersResults.forEach(item => {
-        const playerId = item.playerId;
-        const lolPlayer = lolMatchPlayers.find(item => item._id == playerId);
-        
-        const lolPlayerScore = Object.values({
-          kills: lolPlayer.kills,
-          deaths: lolPlayer.deaths,
-          assists: lolPlayer.assists,
+        matchResult.playersResults.forEach(item => {
+          const parsedResult = find(parsedMatchResults, { name: item.player.name });
+          item.results.forEach((result, index) => result.score = parsedResult.kda[index]);
         });
   
-        item.results.forEach((result, index) => {
-          result.score = lolPlayerScore[index];
-        })
-      })
-  
-      await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: matchResult.playersResults });
+        await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: matchResult.playersResults });
+      });
     } else {
-      await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: results });
+      await MatchResultModel.findOneAndUpdate({ matchId }, { playersResults: JSON.parse(results) });
     }
 
     await MatchModel.findByIdAndUpdate(matchId, {
@@ -214,9 +216,8 @@ const StreamerController = (io) => {
 
     io.emit('matchUpdated', { updatedMatch });
 
-    res.json({
-      success: 'success',
-      updatedMatch
+    res.send({
+      updatedMatch,
     });
   });
 
@@ -243,7 +244,7 @@ const StreamerController = (io) => {
     }
 
     for (let i = 0; i < matches.length; i++) {
-      const [ hours, minutes ] = matches[i].startTime.split(':');
+      const [hours, minutes] = matches[i].startTime.split(':');
       let matchDate = moment().hours(hours).minutes(minutes);
 
       const matchMock = {
@@ -299,11 +300,11 @@ const StreamerController = (io) => {
       winner: null,
     });
 
-    const newTournamentPopulated = await FantasyTournament.findOne({_id: fantasyTournament._id})
+    const newTournamentPopulated = await FantasyTournament.findOne({ _id: fantasyTournament._id })
       .populate('tournament', 'name date')
       .populate({ path: 'users.players', select: 'id name' })
       .populate({ path: 'users.user', select: '_id username' })
-  
+
     io.emit('fantasyTournamentCreated', { newTournamentPopulated });
 
     res.send({ fantasyTournament });
@@ -311,7 +312,7 @@ const StreamerController = (io) => {
 
   router.get('/tournament/:id/start', async (req, res) => {
     const tournamentId = req.params.id;
-    await FantasyTournament.update({_id: tournamentId}, { started: true });
+    await FantasyTournament.update({ _id: tournamentId }, { started: true });
 
     io.emit('fantasyTournamentStarted');
 
@@ -443,7 +444,7 @@ const StreamerController = (io) => {
       description: `${fantasyTournament.name} reward`,
     });
 
-    await UserModel.updateOne({ _id: tournamentWinner.user._id }, { $push: { rewards: winnerReward._id }});
+    await UserModel.updateOne({ _id: tournamentWinner.user._id }, { $push: { rewards: winnerReward._id } });
 
     await FantasyTournament.updateOne({ _id: tournamentId }, {
       winner: tournamentWinner.user._id,
