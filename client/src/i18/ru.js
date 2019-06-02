@@ -229,6 +229,10 @@ export default {translation: {
   },
 
   notifications: {
+    player: {
+      created: 'Вы создали игрока с именем {{name}}',
+    },
+
     finalization: {
       no_participatns: "Вы не можете завершить турнир без участников.",
       uncompleted_matches: "Для финализации турнира, все матчи должны быть завершены.",
@@ -247,5 +251,6 @@ export default {translation: {
     champion_not_found: "Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.",
     champion_already_exist: "Чемпион с именем {{name}} уже есть в базе игроков.",
     players_are_not_same: "Игроки в матче фентези турнира и в матче LoL не совпадают",
+    position_is_empty: "Укажите роль игрока (Мидер, саппорт, лесник и т.п.)",
   },
 }};
