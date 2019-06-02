@@ -46,25 +46,7 @@ class MatchModal extends Component {
     this.setState({ isLoading: true });
 
     const { matchId, matchChampions } = this.props;
-
-    const { user } = await this.userService.getMyProfile();
-    const currentMatchPlayers = matchChampions.map(item => item.name);
-
     let { match } = await this.streamerService.getMatchInfo(matchId);
-
-    const { matches } = await this.streamerService.getLastMatches(user._id);
-
-    let selectMatches = [];
-
-    matches.forEach((item, index) => {
-      const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName);
-      const playersDifference = difference(currentMatchPlayers, matchPlayers).length === 0 ? '✔' : '';
-
-      selectMatches.push({
-        name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers.join(', ')} ${playersDifference}`,
-        id: item.gameId,
-      });
-    });
 
     match.startTime = moment(match.startDate).format('HH:mm');
 
@@ -78,7 +60,6 @@ class MatchModal extends Component {
     this.setState({
       match,
       matches: [],
-      selectMatches,
       results: resultsWithChampions,
       isLoading: false,
     });
@@ -142,18 +123,23 @@ class MatchModal extends Component {
   editMatchSubmit = async () => {
     this.setState({ isLoading: true });
 
-    const { match, results, selectedMatchId } = this.state;
-
+    const { match, results } = this.state;
     const [ hours, minutes ] = match.startTime.split(':');
     const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
 
+    const matchResultsFile = this.results.files[0];
+    const formData = new FormData();
+
+    formData.append('resultFile', matchResultsFile);
+    formData.append('results', JSON.stringify(results));
+    formData.append('name', match.name);
+    formData.append('matchId', match._id);
+    formData.append('startDate', matchDate);
+    formData.append('completed', match.completed);
+
     let request = await this.streamerService.updateMatch({
-      name: match.name,
       matchId: match._id,
-      startDate: matchDate,
-      completed: match.completed,
-      lolMatchId: selectedMatchId,
-      results,
+      formData,
     });
 
     if (request.error) {
@@ -200,8 +186,6 @@ class MatchModal extends Component {
       isDanger: false,
     }];
 
-    const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
-
     return <Modal
       title={modalTitle}
       wrapClassName={style.modal_match}
@@ -214,42 +198,33 @@ class MatchModal extends Component {
       />}
 
       <Input
-        label="Match name"
-        name="name"
+        label='Match name'
+        name='name'
         value={match.name}
         onChange={this.handleInputChange}
       />
 
-      {/* <Input
-        type="date"
-        label="Start date"
-        name="startDate"
-        value={formattedMatchDate}
-        onChange={this.handleInputChange}
-        disabled
-      /> */}
-
       <Input
-        type="time"
-        label="Start time"
-        name="startTime"
+        type='time'
+        label='Start time'
+        name='startTime'
         value={match.startTime}
         onChange={this.handleInputChange}
       />
 
-      {/* <Select
-        className={style.select}
-        label='Select match results from LoL match'
-        options={this.state.selectMatches}
-        defaultOption="Choose match"
-        onChange={this.handleMatchSelectChange}
-      /> */}
+      <label className={style.chebox}>
+        <p>Results</p>
+        <input
+          ref={results => this.results = results}
+          type='file'
+        />
+      </label>
 
       <label className={style.chebox}>
         <p>Completed</p>
         <input
-          type="checkbox"
-          name="completed"
+          type='checkbox'
+          name='completed'
           className={style.css_checkbox}
           value={match.completed}
           checked={match.completed}
