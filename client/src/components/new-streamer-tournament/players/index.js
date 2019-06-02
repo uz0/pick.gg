@@ -78,7 +78,6 @@ class PlayersStep extends Component {
 
   searchingFor = (term) => x => x.name.toLowerCase().startsWith(term.toLowerCase()) || !term;
 
-
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
 
   closePlayerCreatingModal = () => this.setState({
@@ -181,14 +180,14 @@ class PlayersStep extends Component {
     try {
       this.setState({ isChampionModalLoading: true });
 
-      let createPlayerRequest = await this.streamerService.createPlayer(payload);
-      let createPlayerRequestData = await createPlayerRequest.json();
+      const createPlayerRequest = await this.streamerService.createPlayer(payload);
+      const { name, error, type } = await createPlayerRequest.json();
 
       if (createPlayerRequest.status === 404) {
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: i18n.t('serverErrors.champion_not_found', { name: createPlayerRequestData.name }),
+          message: i18n.t('serverErrors.champion_not_found', { name }),
         });
 
         this.setState({ isChampionModalLoading: false });
@@ -197,10 +196,12 @@ class PlayersStep extends Component {
       }
 
       if (createPlayerRequest.status === 400) {
+        const message = type === 'position' ? i18n.t(error) : i18n.t(error, { name });
+
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: i18n.t('serverErrors.champion_already_exist', { name: createPlayerRequestData.name }),
+          message,
         });
 
         this.setState({ isChampionModalLoading: false });
@@ -211,13 +212,11 @@ class PlayersStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'success',
         shouldBeAddedToSidebar: false,
-        message: `${i18n.t('you_created_player')} ${name}`,
+        message: i18n.t('notifications.player.created', {name}),
       });
 
       const { players } = await this.streamerService.getAllChampions();
-      const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
-
-      const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
+      const groupedPlayers = this._sortPlayers(players);
 
       this.setState({
         players: groupedPlayers,
@@ -361,7 +360,7 @@ class PlayersStep extends Component {
                 </div>)
                 }
 
-                {playersNoGroup.filter(this.searchingFor(term)).length === 0 &&
+                {playersNoGroup.length > 1 && playersNoGroup.filter(this.searchingFor(term)).length === 0 &&
                   <p className={style.attention}>Нет результатов</p>
                 }
               </div>
