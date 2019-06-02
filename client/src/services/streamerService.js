@@ -46,20 +46,10 @@ export default class StreamerService extends BasicService {
     return match;
   }
 
-  async updateMatch({ matchId, results, startDate, name, completed, lolMatchId }) {
+  async updateMatch({ matchId, formData }) {
     let request = await http(`/api/streamer/matches/${matchId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        startDate,
-        completed,
-        results,
-        lolMatchId,
-      }),
+      method: 'POST',
+      body: formData,
     });
     request = await request.json();
     
