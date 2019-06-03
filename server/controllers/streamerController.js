@@ -144,7 +144,12 @@ const StreamerController = (io) => {
   router.post('/matches/:id', upload.single('resultFile'), async (req, res) => {
     const matchId = req.params.id;
 
-    const { startDate, completed, name, results } = req.body;
+    const {
+      name,
+      results,
+      startDate,
+      completed,
+    } = req.body;
 
     if (req.file) {
       fs.readFile(req.file.buffer, 'utf8', async (data, err) => {
@@ -153,11 +158,11 @@ const StreamerController = (io) => {
   
         $('.classic.player').each((index, element) => {
           const name = $('.champion-nameplate-name', element).find('a').text();
-          const [kills, deaths, assists] = $('.kda-kda', element).find('div').map((index, element) => +$(element).text()).get();
+          const kda = $('.kda-kda', element).find('div').map((index, element) => +$(element).text()).get();
   
           parsedMatchResults.push({
             name,
-            kda: [kills, deaths, assists],
+            kda,
           });
         });
   

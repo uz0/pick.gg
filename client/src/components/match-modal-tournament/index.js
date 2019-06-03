@@ -55,7 +55,7 @@ class MatchModal extends Component {
     let resultsWithChampions = null;
 
     if (result) {
-      resultsWithChampions = this.mapResultsToChampions(result, matchChampions);
+      resultsWithChampions = this._mapResultsToChampions(result, matchChampions);
     }
 
     this.setState({
@@ -66,15 +66,13 @@ class MatchModal extends Component {
     });
   }
 
-  mapResultsToChampions = (results, champions) => {
+  _mapResultsToChampions = (results, champions) => {
     results.forEach(result => {
       result.playerName = find(champions, { _id: result.playerId }).name;
     });
 
     return results;
   }
-
-  handleMatchSelectChange = (event) => this.setState({ selectedMatchId: event.target.value });
 
   handleInputChange = (event) => {
     let inputValue = event.target.value;
@@ -172,7 +170,7 @@ class MatchModal extends Component {
     let resultsWithChampions = null;
 
     if (result) {
-      resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
+      resultsWithChampions = this._mapResultsToChampions(result, this.props.matchChampions);
     }
 
     this.notificationService.showSingleNotification({
