@@ -168,7 +168,7 @@ const StreamerController = (io) => {
         const matchPlayersNames = matchResult.playersResults.map(({ player }) => player.name);
         const parsedPlayersNames = parsedMatchResults.map(({ name }) => name);
         const playersDifference = difference(matchPlayersNames, parsedPlayersNames);
-  
+
         if (playersDifference.length > 0) {
           res.status(400).send({
             error: 'serverErrors.players_are_not_same',
