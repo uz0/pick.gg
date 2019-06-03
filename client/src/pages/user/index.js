@@ -38,6 +38,7 @@ class User extends Component {
     this.tournamentService = new TournamentService();
     this.state = {
       tournaments: [],
+      rewards: [],
       userData: {},
       loading: true,
       zeroTournaments: true,
@@ -73,16 +74,18 @@ class User extends Component {
 
     const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
     const { user } = await this.userService.getUserDataById(userId);
-
+    const rewards = user.rewards;
+    console.log(user);
     this.setState({
       tournaments,
+      rewards,
       userData: user,
       loading: false,
     });
   }
 
   render() {
-    const { tournaments, loading } = this.state;
+    const { tournaments, rewards, loading } = this.state;
 
     return (
       <div className={style.home_page}>
@@ -103,6 +106,10 @@ class User extends Component {
                 <h2>{i18n.t('scores')}</h2>
 
                 <div className={style.statistics_masonry}>
+                  <div className={style.item}>
+                    <div className={style.value}>{rewards && rewards.length}</div>
+                    <div className={style.key}>{i18n.t('rewards')}</div>
+                  </div>
                   <div className={style.item}>
                     <div className={style.value}>{tournaments && tournaments.length}</div>
                     <div className={style.key}>{i18n.t('tournaments')}</div>

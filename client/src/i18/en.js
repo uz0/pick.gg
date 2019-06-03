@@ -210,6 +210,7 @@ export default {translation: {
   clear_button: 'Clear',
   search: 'Find a player',
   invite: 'Invite a friend',
+  rewards: 'Rewards',
 
   modal: {
     step: 'Step',

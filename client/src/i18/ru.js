@@ -217,6 +217,7 @@ export default {translation: {
   clear_button: 'Очистить',
   search: 'Найти игрока',
   invite: 'Пригласить друга',
+  rewards: 'Награды',
 
   modal: {
     step: 'Шаг',
