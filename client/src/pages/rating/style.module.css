@@ -19,7 +19,9 @@ main h1 {
   text-align: center;
   text-transform: uppercase;
 }
-
+main{
+  width: 550px !important;
+}
 .content {
   margin: 0 auto;
 }
@@ -54,7 +56,7 @@ main h1 {
 }
 
 .is_preloader_table {
-  margin-top: 20px;
+  margin-top: 60px;
   background-image: url("assets/table-row.svg");
   height: 590px;
   background-size: 100%;
@@ -67,7 +69,7 @@ main h1 {
   background-image: url("assets/card-placeholder.svg");
   background-size: 185px;
   background-repeat: repeat-x;
-  height: 200px;
+  height: 185px;
   opacity: 1;
   animation: loading 0.5s infinite;
 }
@@ -87,6 +89,9 @@ main h1 {
 @media screen and (max-width: 480px) {
   .main_block {
     width: 90%;
+  }
+  main{
+    width: 90% !important;
   }
   .section {
     width: 100%;
@@ -113,9 +118,9 @@ main h1 {
   }
   .is_preloader_card {
     background-image: url("assets/card-placeholder-min.svg");
-    height: 150px;
+    height: 130px;
     width: 100%;
-    background-size: 100px;
+    background-size: 115px;
   }
   .is_preloader_table {
     background-image: url("assets/table-row-min.svg");
