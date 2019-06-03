@@ -39,7 +39,6 @@ class MatchModal extends Component {
     results: [],
     resultsFile: {},
     editedResults: [],
-    isResultsFillingManually: false,
     isResultsModalActive: false,
     isLoading: false,
   };
@@ -124,8 +123,6 @@ class MatchModal extends Component {
 
   toggleResultsModal = () => this.setState({ isResultsModalActive: !this.state.isResultsModalActive });
 
-  toggleResultsFillingMode = () => this.setState({ isResultsFillingManually: true });
-
   addResultFile = (resultsFile) => {
     this.setState({
       resultsFile,
@@ -194,7 +191,6 @@ class MatchModal extends Component {
       match,
       results,
       isLoading,
-      isResultsFillingManually,
     } = this.state;
 
     const modalTitle = `Edit match ${match.name}`;
@@ -258,12 +254,6 @@ class MatchModal extends Component {
           onClick={this.toggleResultsModal}
           appearance={'_basic-accent'}
         />
-
-        {/* <Button
-          text='Заполнить вручную'
-          onClick={this.toggleResultsFillingMode}
-          appearance={'_basic-accent'}
-        /> */}
       </div>
 
       {this.state.isResultsModalActive &&
@@ -274,7 +264,7 @@ class MatchModal extends Component {
         />
       }
 
-      {isResultsFillingManually && results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
+      {results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>
 
         <div className={style.rules_inputs}>
