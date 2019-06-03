@@ -178,7 +178,7 @@ class MatchModal extends Component {
     this.notificationService.showSingleNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
-      message: 'Match was successfully updated!',
+      message: i18n.t('match_modal.notification.match_updated', { name: request.name }),
     });
 
     this.props.onMatchUpdated();
@@ -196,10 +196,10 @@ class MatchModal extends Component {
       isLoading,
     } = this.state;
 
-    const modalTitle = `Edit match ${match.name}`;
-    const modalResultTitle = `Add results for ${match.name}`;
+    const modalTitle = i18n.t('match_modal.modal_title', { name: match.name });
+    const modalResultTitle = i18n.t('result_modal.title', { name: match.name });
     const modalActions = [{
-      text: 'Update match',
+      text: i18n.t('match_modal.action_button_text'),
       onClick: this.editMatchSubmit,
       isDanger: false,
     }];
@@ -216,22 +216,22 @@ class MatchModal extends Component {
       />}
 
       <Input
-        label='Match name'
+        label={i18n.t('match_modal.match_name')}
         name='name'
         value={match.name}
         onChange={this.handleInputChange}
       />
 
       <Input
+        label={i18n.t('match_modal.start_time')}
         type='time'
-        label='Start time'
         name='startTime'
         value={match.startTime}
         onChange={this.handleInputChange}
       />
 
       <label className={style.chebox}>
-        <p>Completed</p>
+        <p>{i18n.t('match_modal.completed')}</p>
         <input
           type='checkbox'
           name='completed'
@@ -243,16 +243,16 @@ class MatchModal extends Component {
       </label>
 
       <label className={style.chebox}>
-        <p>Results</p>
+        <p>{i18n.t('match_modal.results')}</p>
       </label>
 
       {this.state.resultsFile.name &&
-        <p className={style.file_upload_success}><i className='material-icons'>done</i>Results are choosed</p>
+        <p className={style.file_upload_success}><i className='material-icons'>done</i>{i18n.t('match_modal.results_choosed')}</p>
       }
 
       <div className={style.results_controls}>
         <Button
-          text='Загрузить файл'
+          text={i18n.t('match_modal.upload_file')}
           icon={<i className='material-icons'>attach_file</i>}
           onClick={this.toggleResultsModal}
           appearance={'_basic-accent'}
@@ -273,6 +273,8 @@ class MatchModal extends Component {
         <div className={style.rules_inputs}>
           {result.results.map((item, ruleIndex) =>
             <Input
+              type='number'
+              max='10'
               key={item._id}
               label={item.rule.name}
               placeholder={item.rule.name}
@@ -280,8 +282,6 @@ class MatchModal extends Component {
               name={item._id}
               onChange={(event) => this.onRulesInputChange(event, resultIndex, ruleIndex)}
               value={results[resultIndex].results[ruleIndex].score}
-              type="number"
-              max="10"
             />)}
         </div>
       </div>)}

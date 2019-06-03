@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import Modal from 'components/dashboard-modal';
 import NotificationService from 'services/notificationService';
 
+import i18n from 'i18n';
+
 import style from './style.module.css';
 
 class ResultModal extends Component {
   constructor() {
     super();
-    this.NotificationService = new NotificationService();
+    this.notificationService = new NotificationService();
   }
 
   state = {
@@ -34,16 +36,16 @@ class ResultModal extends Component {
     if (event.dataTransfer.files.length > 1) {
       this.notificationService.showSingleNotification({
         type: 'error',
-        message: "You can't upload multiple files",
+        message: i18n.t('result_modal.error.multiple_files_upload'),
       });
 
       return;
     }
 
-    if (file.type != 'text/html') {
+    if (file.type !== 'text/html') {
       this.notificationService.showSingleNotification({
         type: 'error',
-        message: "You can upload only HTML files",
+        message: i18n.t('result_modal.error.format_error'),
       });
 
       return;
@@ -63,7 +65,7 @@ class ResultModal extends Component {
     if (this.results.files.length > 1) {
       this.notificationService.showSingleNotification({
         type: 'error',
-        message: "You can't upload multiple files",
+        message: i18n.t('result_modal.error.multiple_files_upload'),
       });
 
       return;
@@ -79,7 +81,7 @@ class ResultModal extends Component {
     if (!this.state.fileName) {
       this.notificationService.showSingleNotification({
         type: 'error',
-        message: "You should choose file first",
+        message: i18n.t('result_modal.error.choose_file_first'),
       });
 
       return;
@@ -95,7 +97,7 @@ class ResultModal extends Component {
     } = this.props;
 
     const modalResultActions = [{
-      text: 'Add results',
+      text: i18n.t('result_modal.action_button_text'),
       onClick: this.addResultFile,
       isDanger: false,
     }];
@@ -114,7 +116,7 @@ class ResultModal extends Component {
         >
 
           {!this.state.fileName &&
-            <p>You can drag and drop file</p>
+            <p>{i18n.t('result_modal.drag_and_drop_file')}</p>
           }
 
           {this.state.fileName &&
@@ -122,14 +124,14 @@ class ResultModal extends Component {
           }
 
           <div className={style.clickZone}>
-            or click here
+            {i18n.t('result_modal.upload_file_button_text')}
           </div>
 
           <input
+            type='file'
             className={style.fileInput}
             ref={results => this.results = results}
             onChange={this.handleOnFileChoosed}
-            type='file'
           />
         </div>
       </Modal>

@@ -224,6 +224,33 @@ export default {translation: {
     of: 'из',
     new_tournament: 'Новый турнир',
   },
+
+  match_modal: {
+    modal_title: 'Редактировать матч {{name}}',
+    match_name: 'Название матча',
+    start_time: 'Время начала матча',
+    completed: 'Матч завершён',
+    results: 'Результаты',
+    results_choosed: 'Результаты выбраны',
+    upload_file: 'Загрузить результаты',
+    action_button_text: 'Обновить матч',
+    notification: {
+      match_updated: 'Матч {{name}} успешно обновлен',
+    },
+  },
+
+  result_modal: {
+    title: 'Add results for {{name}}',
+    action_button_text: 'Добавить результаты',
+    drag_and_drop_file: 'Перетащите файл сюда',
+    upload_file_button_text: 'или нажмите здесь',
+    error: {
+      multiple_files_upload: 'Вы не можете загружать несколько файлов',
+      choose_file_first: 'Пожалуйста, выберите файл с результатами',
+      format_error: 'Вы можете загружать только HTML файлы',
+    },
+  },
+
   new_tournament: {
     empty_name: 'Пожалуйста, введите название турнира',
   },

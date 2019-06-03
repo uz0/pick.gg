@@ -218,6 +218,32 @@ export default {translation: {
     new_tournament: 'New tournament',
   },
 
+  match_modal: {
+    modal_title: 'Edit match {{name}}',
+    match_name: 'Match name',
+    start_time: 'Start time',
+    completed: 'Completed',
+    results: 'Results',
+    results_choosed: 'Results are choosed',
+    upload_file: 'Upload result',
+    action_button_text: 'Update match',
+    notification: {
+      match_updated: 'Match {{name}} was successfully updated',
+    },
+  },
+
+  result_modal: {
+    title: 'Add results for {{name}}',
+    action_button_text: 'Add results',
+    drag_and_drop_file: 'You can drag and drop file',
+    upload_file_button_text: 'or click here',
+    error: {
+      multiple_files_upload: "You can't upload multiple files",
+      choose_file_first: "You should choose file first",
+      format_error: "You can upload only HTML files",
+    },
+  },
+
   new_tournament: {
     empty_name: 'Name field can not be empty',
   },
