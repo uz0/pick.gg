@@ -11,6 +11,7 @@ import Profile from './pages/profile';
 import User from './pages/user';
 import MyTournaments from './pages/mytournaments';
 import Rewards from './pages/reward';
+import Rating from './pages/rating';
 import './i18n';
 
 const App = ({ history }) => <Fragment>
@@ -28,7 +29,8 @@ const App = ({ history }) => <Fragment>
       <Route exact path="/user/:id" component={User} />
       <Route exact path="/mytournaments" component={MyTournaments} />
       <Route exact path="/rewards" component={Rewards} />
-      <Redirect to="/"/>
+      <Route exact path="/rating" component={Rating} />
+      <Redirect to="/" />
     </Switch>
   </div>
 

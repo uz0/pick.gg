@@ -55,7 +55,7 @@ class TopMenuComponent extends Component {
   updateProfile = async () => {
     let profile = await this.userService.getMyProfile();
 
-    if(profile.success === false){
+    if (profile.success === false) {
       profile = null;
     }
 
@@ -105,18 +105,18 @@ class TopMenuComponent extends Component {
       });
     });
 
-  //   this.socket.on('matchUpdated', ({ updatedMatch }) => {
-  //     if (!this.state.profile) {
-  //       return;
-  //     }
+    //   this.socket.on('matchUpdated', ({ updatedMatch }) => {
+    //     if (!this.state.profile) {
+    //       return;
+    //     }
 
-  //     this.notificationService.showSingleNotification({
-  //       type: 'match',
-  //       link: `/tournaments/${updatedMatch.tournament_id}`,
-  //       shouldBeAddedToSidebar: true,
-  //       message: i18n.t('match_status_changed'),
-  //     });
-  //   });
+    //     this.notificationService.showSingleNotification({
+    //       type: 'match',
+    //       link: `/tournaments/${updatedMatch.tournament_id}`,
+    //       shouldBeAddedToSidebar: true,
+    //       message: i18n.t('match_status_changed'),
+    //     });
+    //   });
   }
 
   render() {
@@ -136,6 +136,7 @@ class TopMenuComponent extends Component {
             </NavLink>
 
             <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
+            <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
           {profile && profile.user && <Fragment>
