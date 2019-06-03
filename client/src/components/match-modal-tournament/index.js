@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Modal from 'components/dashboard-modal';
+import ResultModal from './result-modal';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
 import Button from 'components/button';
@@ -9,11 +10,8 @@ import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 import UserService from 'services/userService';
 
-import Select from '../filters/select';
-
 import moment from 'moment';
 import find from 'lodash/find';
-import difference from 'lodash/difference';
 
 import style from './style.module.css';
 
@@ -39,17 +37,15 @@ class MatchModal extends Component {
     selectMatches: [],
     selectedMatchId: '',
     results: [],
+    resultsFile: {},
     editedResults: [],
+    isResultsFillingManually: false,
     isResultsModalActive: false,
     isLoading: false,
   };
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-
-    const dropZone = this.dropZone;
-    dropZone.addEventListener('dragover', this.handleDragOver);
-    dropZone.addEventListener('drop', this.handleDrop);
 
     const { matchId, matchChampions } = this.props;
     let { match } = await this.streamerService.getMatchInfo(matchId);
@@ -59,7 +55,7 @@ class MatchModal extends Component {
     const result = match.results && match.results.playersResults;
     let resultsWithChampions = null;
 
-    if (result){
+    if (result) {
       resultsWithChampions = this.mapResultsToChampions(result, matchChampions);
     }
 
@@ -84,11 +80,11 @@ class MatchModal extends Component {
   handleInputChange = (event) => {
     let inputValue = event.target.value;
 
-    if (event.target.name === 'date'){
+    if (event.target.name === 'date') {
       inputValue = moment(event.target.value).format();
     }
 
-    if (event.target.type === 'checkbox'){
+    if (event.target.type === 'checkbox') {
       inputValue = event.target.checked;
     }
 
@@ -128,36 +124,25 @@ class MatchModal extends Component {
 
   toggleResultsModal = () => this.setState({ isResultsModalActive: !this.state.isResultsModalActive });
 
-  handleDragOver = (event) => {
-    event.preventDefault();
-  }
+  toggleResultsFillingMode = () => this.setState({ isResultsFillingManually: true });
 
-  handleDrop = (event) => {
-    event.preventDefault();
-
-    if(event.dataTransfer.files.length > 1){
-      this.notificationService.showSingleNotification({
-        type: 'success',
-        
-      })
-    }
-
-    const file = event.dataTransfer.files[0];
-
-    console.log(event.dataTransfer.files);
+  addResultFile = (resultsFile) => {
+    this.setState({
+      resultsFile,
+      isResultsModalActive: false,
+    });
   }
 
   editMatchSubmit = async () => {
     this.setState({ isLoading: true });
 
     const { match, results } = this.state;
-    const [ hours, minutes ] = match.startTime.split(':');
+    const [hours, minutes] = match.startTime.split(':');
     const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
 
-    const matchResultsFile = this.results.files[0];
     const formData = new FormData();
 
-    formData.append('resultFile', matchResultsFile);
+    formData.append('resultFile', this.state.resultsFile);
     formData.append('results', JSON.stringify(results));
     formData.append('name', match.name);
     formData.append('matchId', match._id);
@@ -186,7 +171,7 @@ class MatchModal extends Component {
     const result = request.updatedMatch.results && request.updatedMatch.results.playersResults;
     let resultsWithChampions = null;
 
-    if (result){
+    if (result) {
       resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
     }
 
@@ -195,7 +180,7 @@ class MatchModal extends Component {
       shouldBeAddedToSidebar: false,
       message: 'Match was successfully updated!',
     });
-    
+
     this.props.onMatchUpdated();
 
     this.setState({
@@ -205,16 +190,17 @@ class MatchModal extends Component {
   }
 
   render() {
-    const { results, match, isLoading } = this.state;
+    const {
+      match,
+      results,
+      isLoading,
+      isResultsFillingManually,
+    } = this.state;
+
     const modalTitle = `Edit match ${match.name}`;
-    const modalResultsTitle = `Add results for ${match.name}`;
+    const modalResultTitle = `Add results for ${match.name}`;
     const modalActions = [{
       text: 'Update match',
-      onClick: this.editMatchSubmit,
-      isDanger: false,
-    }];
-    const modalResultsActions = [{
-      text: 'Add results',
       onClick: this.editMatchSubmit,
       isDanger: false,
     }];
@@ -261,39 +247,34 @@ class MatchModal extends Component {
         <p>Results</p>
       </label>
 
-      <label>Match results</label>
-      <div>
-        <Button
-          text='Заполнить вручную'
-          onClick={() => {}}
-          appearance={'_basic-accent'} 
-        />
+      {this.state.resultsFile.name &&
+        <p className={style.file_upload_success}><i className='material-icons'>done</i>Results are choosed</p>
+      }
+
+      <div className={style.results_controls}>
         <Button
           text='Загрузить файл'
-          onClick={() => {}}
-          appearance={'_basic-accent'} 
+          icon={<i className='material-icons'>attach_file</i>}
+          onClick={this.toggleResultsModal}
+          appearance={'_basic-accent'}
         />
+
+        {/* <Button
+          text='Заполнить вручную'
+          onClick={this.toggleResultsFillingMode}
+          appearance={'_basic-accent'}
+        /> */}
       </div>
 
-      <Modal
-        title={modalResultsTitle}
-        wrapClassName={style.modal_file}
-        close={this.toggleResultsModal}
-        actions={modalResultsActions}
-      >
-        <div
-          ref={dropZone => this.dropZone = dropZone}
-          className={style.dropzone}
-        >
-          <p>Drop here</p>
-        </div>
-        <input
-          ref={results => this.results = results}
-          type='file'
+      {this.state.isResultsModalActive &&
+        <ResultModal
+          title={modalResultTitle}
+          onFileUploaded={this.addResultFile}
+          onClose={this.toggleResultsModal}
         />
-      </Modal>
+      }
 
-      {results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
+      {isResultsFillingManually && results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>
 
         <div className={style.rules_inputs}>

@@ -1,0 +1,44 @@
+.result_modal {
+  max-width: 480px;
+  height: 280px;
+  margin: auto !important;
+}
+
+.result_modal .dropzone {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 60px;
+  border-radius: 8px;
+  border: 2px dashed #58587f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 14px;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.result_modal .dropzone:hover {
+  background-color: #1c1c46;
+}
+
+.result_modal .dropzone p {
+  margin-left: 12px;
+}
+
+.result_modal .dropzone .clickZone {
+  height: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a2a52;
+}
+
+.result_modal .dropzone .fileInput {
+  display: none;
+}
