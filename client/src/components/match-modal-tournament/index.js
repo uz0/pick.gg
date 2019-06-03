@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
+import Button from 'components/button';
 
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
@@ -39,11 +40,16 @@ class MatchModal extends Component {
     selectedMatchId: '',
     results: [],
     editedResults: [],
+    isResultsModalActive: false,
     isLoading: false,
   };
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
+
+    const dropZone = this.dropZone;
+    dropZone.addEventListener('dragover', this.handleDragOver);
+    dropZone.addEventListener('drop', this.handleDrop);
 
     const { matchId, matchChampions } = this.props;
     let { match } = await this.streamerService.getMatchInfo(matchId);
@@ -120,6 +126,27 @@ class MatchModal extends Component {
     });
   }
 
+  toggleResultsModal = () => this.setState({ isResultsModalActive: !this.state.isResultsModalActive });
+
+  handleDragOver = (event) => {
+    event.preventDefault();
+  }
+
+  handleDrop = (event) => {
+    event.preventDefault();
+
+    if(event.dataTransfer.files.length > 1){
+      this.notificationService.showSingleNotification({
+        type: 'success',
+        
+      })
+    }
+
+    const file = event.dataTransfer.files[0];
+
+    console.log(event.dataTransfer.files);
+  }
+
   editMatchSubmit = async () => {
     this.setState({ isLoading: true });
 
@@ -180,8 +207,14 @@ class MatchModal extends Component {
   render() {
     const { results, match, isLoading } = this.state;
     const modalTitle = `Edit match ${match.name}`;
+    const modalResultsTitle = `Add results for ${match.name}`;
     const modalActions = [{
       text: 'Update match',
+      onClick: this.editMatchSubmit,
+      isDanger: false,
+    }];
+    const modalResultsActions = [{
+      text: 'Add results',
       onClick: this.editMatchSubmit,
       isDanger: false,
     }];
@@ -213,14 +246,6 @@ class MatchModal extends Component {
       />
 
       <label className={style.chebox}>
-        <p>Results</p>
-        <input
-          ref={results => this.results = results}
-          type='file'
-        />
-      </label>
-
-      <label className={style.chebox}>
         <p>Completed</p>
         <input
           type='checkbox'
@@ -232,7 +257,41 @@ class MatchModal extends Component {
         />
       </label>
 
-      {!results && <div>There's no any results yet</div>}
+      <label className={style.chebox}>
+        <p>Results</p>
+      </label>
+
+      <label>Match results</label>
+      <div>
+        <Button
+          text='Заполнить вручную'
+          onClick={() => {}}
+          appearance={'_basic-accent'} 
+        />
+        <Button
+          text='Загрузить файл'
+          onClick={() => {}}
+          appearance={'_basic-accent'} 
+        />
+      </div>
+
+      <Modal
+        title={modalResultsTitle}
+        wrapClassName={style.modal_file}
+        close={this.toggleResultsModal}
+        actions={modalResultsActions}
+      >
+        <div
+          ref={dropZone => this.dropZone = dropZone}
+          className={style.dropzone}
+        >
+          <p>Drop here</p>
+        </div>
+        <input
+          ref={results => this.results = results}
+          type='file'
+        />
+      </Modal>
 
       {results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>

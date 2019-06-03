@@ -43,6 +43,21 @@
   color: var(--accent-color);
 }
 
+.modal_file {
+  max-width: 600px;
+  height: 300px;
+  margin: auto !important;
+}
+
+.modal_file .dropzone {
+  width: 100%;
+  height: 60px;
+  border-radius: 8px;
+  border: 2px dashed red;
+  display: flex;
+  align-items: center;
+}
+
 .chebox{
   display: flex;
   flex-direction: column;
