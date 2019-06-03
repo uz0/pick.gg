@@ -158,7 +158,10 @@ class MatchModal extends Component {
         message: i18n.t(request.error),
       });
 
-      this.setState({ isLoading: false });
+      this.setState({
+        isLoading: false,
+        resultsFile: {},
+      });
 
       return;
     }
