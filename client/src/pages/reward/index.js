@@ -5,6 +5,7 @@ import Preloader from 'components/preloader';
 import UserService from 'services/userService';
 
 import style from './style.module.css';
+import i18n from 'i18next';
 
 class Rewards extends Component {
   constructor(){
@@ -31,7 +32,7 @@ class Rewards extends Component {
       {this.state.isLoading && <Preloader />}
 
       {this.state.rewards.length === 0 && <p className={style.no_rewards}>
-        You haven't received any rewards yet
+        {i18n.t('no_rewards')}
       </p>}
 
       {this.state.rewards.length > 0 && this.state.rewards.map(({ key, description, isClaimed }) => <RewardCard

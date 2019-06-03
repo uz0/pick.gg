@@ -211,6 +211,7 @@ export default {translation: {
   search: 'Find a player',
   invite: 'Invite a friend',
   rewards: 'Rewards',
+  no_rewards: "You haven't received any rewards yet",
 
   modal: {
     step: 'Step',
