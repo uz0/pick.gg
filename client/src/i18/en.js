@@ -212,6 +212,7 @@ export default {translation: {
   invite: 'Invite a friend',
   rewards: 'Rewards',
   no_rewards: "You haven't received any rewards yet",
+  no_players: 'No players',
 
   modal: {
     step: 'Step',

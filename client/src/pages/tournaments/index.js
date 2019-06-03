@@ -62,9 +62,9 @@ class Tournaments extends Component {
   groupTournamentsByOrigin = (tournaments) => {
     let escoreTournaments = [];
     let streamerTournaments = [];
-    
+
     tournaments.forEach(item => {
-      if (this.isEscoreTournament(item[0].tournament.name)){
+      if (this.isEscoreTournament(item[0].tournament.name)) {
         escoreTournaments.push(item);
       } else {
         streamerTournaments.push(item);
@@ -79,7 +79,7 @@ class Tournaments extends Component {
     const fantasyTournaments = await this.tournamentService.getFantasyTournaments();
 
     let groupedFantasyTournaments = Object.values(groupBy(fantasyTournaments.tournaments, 'tournament.name'));
-        groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments);
+    groupedFantasyTournaments = this.groupTournamentsByOrigin(groupedFantasyTournaments);
     const realTournaments = await this.tournamentService.getRealTournaments();
 
     this.setState({
@@ -108,7 +108,7 @@ class Tournaments extends Component {
   toggleNewTournamentModal = () => this.setState({ isAddTournamentModalShown: !this.state.isAddTournamentModalShown });
 
   toggleNewStreamerTournamentModal = () => {
-    if (this.state.profile.user.summonerName === ''){
+    if (this.state.profile.user.summonerName === '') {
       this.notificationService.showSingleNotification({
         type: 'warning',
         shouldBeAddedToSidebar: false,
@@ -118,9 +118,10 @@ class Tournaments extends Component {
     } else {
       this.setState({
         isStreamerTournamentModalShown: !this.state.isStreamerTournamentModalShown,
-      });}
+      });
+    }
   }
-    
+
 
   tournamentsDefaultSorting = (prev, next) => moment(next.tournament.date).format('YYYYMMDD') - moment(prev.tournament.date).format('YYYYMMDD');
 

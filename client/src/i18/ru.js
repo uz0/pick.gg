@@ -219,6 +219,7 @@ export default {translation: {
   invite: 'Пригласить друга',
   rewards: 'Награды',
   no_rewards: "Вы еще не получили никаких наград",
+  no_players: 'Нет игроков',
 
   modal: {
     step: 'Шаг',
