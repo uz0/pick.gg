@@ -3,11 +3,10 @@
   width: var(--avatar-size);
   position: absolute;
   top: calc(-1 * var(--avatar-size) / 2);
-  left: calc((var(--sidebar-size) - var(--avatar-size)) / 2);
+  left: calc((var(--sidebar-size) - var(--avatar-size)) / 4);
 }
 
-.avatar svg,
-.avatar img {
+.avatar svg, .avatar img {
   width: var(--avatar-size);
   height: var(--avatar-size);
   border: 5px solid var(--background-color);
@@ -15,20 +14,21 @@
   box-shadow: 0px 1px 1px #000000;
   object-fit: cover;
 }
-@media screen and (max-width: 768px){
-  .avatar{
+
+@media screen and (max-width: 768px) {
+  .avatar {
     --avatar-size: 100px;
   }
 }
 
-@media screen and (max-width: 480px){
-  .avatar{
+@media screen and (max-width: 480px) {
+  .avatar {
     --avatar-size: 120px;
   }
 }
 
-@media screen and (max-width: 320px){
-  .avatar{
+@media screen and (max-width: 320px) {
+  .avatar {
     --avatar-size: 120px;
   }
 }

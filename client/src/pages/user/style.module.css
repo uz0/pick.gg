@@ -5,7 +5,7 @@
 }
 
 main {
-  width: 70%;
+  width: 80% !important;
   margin: 0 auto;
   padding-top: 30px;
 }
@@ -27,16 +27,18 @@ main {
   line-height: 40px;
   font-size: 32px;
   color: var(--header-color);
-  text-shadow: 0px 1px 1px #000000;  
+  text-shadow: 0px 1px 1px #000000;
 }
 
 .content .user_statistics {
   flex-grow: 1;
   padding-top: 15px;
+  width: 100%;
 }
 
 .content .user_statistics .statistics_masonry {
   margin-bottom: 40px;
+  width: 100%;
 }
 
 .statistics_masonry {
@@ -57,7 +59,7 @@ main {
   justify-content: center;
 }
 
-.statistics_masonry .item:not(:last-of-type){
+.statistics_masonry .item:not(:last-of-type) {
   box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
 }
 
@@ -78,15 +80,17 @@ main {
   font-weight: var(--font-weight-regular);
 }
 
-.zero_info{
+.zero_info {
   color: #9494ae;
   font-size: 20px;
 }
+
 @media (max-width: 1440px) {
   main {
     width: 80%;
-  }  
+  }
 }
+
 @media screen and (max-width: 768px) {
   .card_tournament p {
     font-size: 12px;
@@ -109,14 +113,15 @@ main {
     font-size: 16px
   }
 }
-@media screen and (max-width:480px){
-  .content{
+
+@media screen and (max-width:480px) {
+  .content {
     flex-direction: column;
   }
   .content aside {
     margin-right: 0px;
   }
-  .user_statistics .statistics_masonry{
+  .user_statistics .statistics_masonry {
     margin-bottom: 0;
   }
   .content .user_statistics .statistics_masonry {
@@ -124,7 +129,8 @@ main {
     --height: 94px;
   }
 }
-@media screen and (max-width: 320px){
+
+@media screen and (max-width: 320px) {
   .statistics_masonry .item .value {
     font-size: 16px
   }
@@ -134,7 +140,7 @@ main {
   .tournaments_block {
     margin-bottom: 20px;
   }
-  .user_statistics h2{
+  .user_statistics h2 {
     margin: 0;
     padding: 10px 0 5px 0;
     font-size: 24px;

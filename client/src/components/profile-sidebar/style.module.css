@@ -1,5 +1,5 @@
 .sidebar {
-  --sidebar-size: 270px;
+  --sidebar-size: 500px;
   position: relative;
   align-self: flex-start;
   width: var(--sidebar-size);
@@ -13,26 +13,26 @@
 .content {
   display: flex;
   flex-direction: column;
-  padding-top: calc(var(--sidebar-size) / 4);
+  padding-top: calc(var(--sidebar-size) / 7);
 }
 
-.content .nickname{
+.content .nickname {
   text-overflow: ellipsis;
   overflow: hidden;
   padding: 0 10px;
 }
 
-.content > a {
+.content>a {
   color: #fff;
   text-decoration: underline;
   text-align: center;
 }
 
-.content > a:hover {
+.content>a:hover {
   color: var(--accent-color);
 }
 
-.content > div {
+.content>div {
   text-align: center;
   color: var(--header-color);
   font-family: var(--font-family-title);
@@ -40,40 +40,40 @@
   line-height: 2;
   text-align: center;
   font-weight: bold;
-  text-shadow: 0px 1px 1px #000000;  
+  text-shadow: 0px 1px 1px #000000;
 }
 
-.content > p {
+.content>p {
   font-size: 18px;
   color: var(--header-color);
   margin: 10px 0 0 0;
   padding: 0 15px 20px 15px;
 }
-@media screen and (max-width: 768px){
-  .sidebar{
+
+@media screen and (max-width: 768px) {
+  .sidebar {
     --sidebar-size: 200px;
     min-height: 140px;
   }
-  .content{
+  .content {
     padding-top: calc(var(--sidebar-size) / 3);
     width: 200px;
   }
 }
 
-@media screen and (max-width: 480px){
-  .content{
+@media screen and (max-width: 480px) {
+  .content {
     width: 100%;
   }
-  .content p{
+  .content p {
     font-size: 16px;
   }
-  .sidebar{
+  .sidebar {
     --sidebar-size: 100%;
     align-self: center;
   }
-  .content{
+  .content {
     --sidebar-size: 100%;
     padding-top: calc(var(--sidebar-size) / 5);
   }
 }
-

@@ -1,13 +1,14 @@
 .table .empty {
-  --height: 20px;
+  --height: 24px;
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
   font-weight: var(--font-weight-bold);
-  font-size: 16px;
+  font-size: 20px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align-last: left;
 }
 
 .table .captions {
