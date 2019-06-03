@@ -25,11 +25,6 @@ const tournamentsTableCaptions = {
     text: i18n.t('users'),
     width: window.innerWidth < 480 ? 75 : 100,
   },
-
-  entry: {
-    text: i18n.t('entry'),
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
 };
 
 class App extends Component {
@@ -54,7 +49,6 @@ class App extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const formattedDate = moment(item.tournament.date).format('MMM DD');
-    const entry = item.entry === 0 ? 'Free' : item.entry;
 
     return <NavLink to={`/tournaments/${item._id}`} className={className}>
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
@@ -68,37 +62,31 @@ class App extends Component {
       <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
         <span className={textClass}>{item.users.length}</span>
       </div>
-
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
-        <span className={textClass}>{entry}</span>
-      </div>
     </NavLink>;
   }
 
   render() {
+
     let tournaments = this.state.tournaments;
+
     return (
-      <div className={style.home_page}>
-        <div className={style.main_block}>
-          <h2>{i18n.t('my_tournaments')}</h2>
-
-          <div className={style.section}>
-            <Table
-              captions={tournamentsTableCaptions}
-              items={tournaments}
-              className={style.table}
-              renderRow={this.renderRow}
-              isLoading={this.state.isLoading}
-              emptyMessage={i18n.t('not_yet_tournaments')}
-            />
-          </div>
-
-          {this.state.isLoading &&
-            <Preloader
-              isFullScreen={true}
-            />
-          }
+      <div className={style.my_tournaments}>
+        <div className={style.section}>
+          <Table
+            captions={tournamentsTableCaptions}
+            items={tournaments}
+            className={style.table}
+            renderRow={this.renderRow}
+            isLoading={this.state.isLoading}
+            emptyMessage={i18n.t('not_yet_tournaments')}
+          />
         </div>
+
+        {this.state.isLoading &&
+          <Preloader
+            isFullScreen={true}
+          />
+        }
       </div>
     );
   }
