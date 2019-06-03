@@ -232,13 +232,17 @@ class PlayersStep extends Component {
       console.log(error);
     }
   }
+  
+  onError = (item) => {
+    item.target.src = Avatar;
+  };
 
   renderChampion = ({ _id, name, photo, position }) => <div
     className={style.champion}
     key={_id}
   >
     <div className={style.image}>
-      <img src={photo ? photo : Avatar} alt={i18n.t('champion_avatar')} />
+      <img src={photo ? photo : Avatar} onError={this.onError} alt={i18n.t('champion_avatar')} />
     </div>
 
     <p className={style.name}>{name}</p>
