@@ -27,6 +27,9 @@
 
 .result_modal .dropzone p {
   margin-left: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .result_modal .dropzone .clickZone {
@@ -34,6 +37,7 @@
   padding-left: 16px;
   padding-right: 16px;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   background-color: #2a2a52;
