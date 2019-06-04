@@ -54,6 +54,10 @@ const matchInfoTableCaptions = {
     text: 'Assists',
     width: window.innerWidth < 480 ? 50 : 75,
   },
+  total: {
+    text: 'Total',
+    width: window.innerWidth < 480 ? 50 : 75,
+  },
 };
 
 const leadersTableCaptions = {
@@ -203,7 +207,7 @@ class Tournament extends Component {
   startStreamerTournament = async () => {
     const { fantasyTournament } = this.state;
 
-    if (fantasyTournament.users.length === 0){
+    if (fantasyTournament.users.length === 0) {
       await this.notificationService.showSingleNotification({
         type: 'error',
         message: i18n.t('notifications.errors.start_without_participants'),
@@ -636,6 +640,7 @@ class Tournament extends Component {
     const killsScore = item.results[0].score === 0 ? 0 : <span className={style.score_block}>{item.results[0].score} <span className={style.rule_color}>x{rules[0].score}</span></span>;
     const deathScore = item.results[1].score === 0 ? 0 : <span className={style.score_block}>{item.results[1].score} <span className={style.rule_color}>x{rules[1].score}</span></span>;
     const assistsScore = item.results[2].score === 0 ? 0 : <span className={style.score_block}>{item.results[2].score} <span className={style.rule_color}>x{rules[2].score}</span></span>;
+    const totalScore = (item.results[0].score * rules[0].score) + (item.results[1].score * rules[1].score) + (item.results[2].score * rules[2].score);
 
     return <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
       <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
@@ -654,6 +659,9 @@ class Tournament extends Component {
         <span className={cx(textClass, { [style.grey_scores]: item.results[2].score === 0 })}>{assistsScore}</span>
       </div>
 
+      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.total.width }}>
+        <span className={cx(textClass)}>{totalScore}</span>
+      </div>
     </div>;
   };
 
@@ -680,7 +688,7 @@ class Tournament extends Component {
     const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
     const isTournamentStarted = this.state.fantasyTournament && this.state.fantasyTournament.started;
     const isTournamentFinished = this.state.fantasyTournament && this.state.fantasyTournament.winner;
-   
+
     const isJoinButtonShown = !currentUserParticipant && !winner;
     const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
     const rules = this.getRulesNames();
@@ -693,7 +701,7 @@ class Tournament extends Component {
     const summonerArr = topTen.filter(item => item.user.username === summonerName);
     const summonerFilter = this.state.users.filter(item => item.user.username === summonerName);
     const renderSummonerArr = summonerArr.length === 0 ? summonerFilter : '';
-
+    
     const matchInfo = this.state.matchInfo && this.state.matchInfo;
     const isStreamer = this.state.fantasyTournament && this.state.fantasyTournament.creator.isStreamer;
     const isMatchesUncompleted = every(this.state.matches, { completed: true });
