@@ -70,7 +70,7 @@
   margin-left: 10px;
 }
 
-.tournament .tournament_section .main .info span::after {
+.tournament .tournament_section .main .info span:first-child::after {
   content: "";
   position: absolute;
   right: 0;
@@ -166,7 +166,7 @@
   display: flex;
   width: 100%;
   margin-top: 16px;
-  padding: 20px 12px;
+  padding: 20px 16px;
   border-radius: 4px;
   background-color: var(--background-color);
 }
@@ -209,7 +209,7 @@
   --height: 20px;
   overflow: hidden;
   height: var(--height);
-  margin-top: 4px;
+  margin-top: 6px;
   line-height: var(--height);
   font-size: 15px;
   font-weight: var(--font-weight-bold);

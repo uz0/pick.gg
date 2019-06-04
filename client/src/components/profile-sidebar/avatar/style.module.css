@@ -15,9 +15,16 @@
   object-fit: cover;
 }
 
+@media screen and (max-width: 1014px) {
+  .avatar {
+    left: calc((var(--sidebar-size) - var(--avatar-size)) / 4.5);
+  }
+}
+
 @media screen and (max-width: 768px) {
   .avatar {
     --avatar-size: 100px;
+    left: calc((var(--sidebar-size) - var(--avatar-size)) / 2);
   }
 }
 

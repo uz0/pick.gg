@@ -1,17 +1,12 @@
-.home_page {
+.user_page {
   display: flex;
-  justify-content: space-between;
-  padding-bottom: 40px;
-}
-
-main {
-  width: 80% !important;
-  margin: 0 auto;
-  padding-top: 30px;
+  justify-content: center;
+  padding: 10px 0;
 }
 
 .content {
   display: flex;
+  width: 1000px;
 }
 
 .content aside {
@@ -28,6 +23,8 @@ main {
   font-size: 32px;
   color: var(--header-color);
   text-shadow: 0px 1px 1px #000000;
+  white-space: nowrap;
+
 }
 
 .content .user_statistics {
@@ -85,9 +82,9 @@ main {
   font-size: 20px;
 }
 
-@media (max-width: 1440px) {
-  main {
-    width: 80%;
+@media (max-width: 1024px) {
+  .content {
+    width: 760px;
   }
 }
 
@@ -101,6 +98,9 @@ main {
   }
   .header_tournaments p {
     padding: 0 10px;
+  }
+  .content {
+    width: 90%;
   }
   .content aside {
     margin-top: 60px;
@@ -117,9 +117,20 @@ main {
 @media screen and (max-width:480px) {
   .content {
     flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 30px;
   }
   .content aside {
     margin-right: 0px;
+  }
+  .content h2{
+    font-size: 27px;
+  }
+  .content .user_statistics {
+    padding-top: 0;
+  }
+  .content .user_statistics > div {
+    padding-top: 24px;
   }
   .user_statistics .statistics_masonry {
     margin-bottom: 0;
