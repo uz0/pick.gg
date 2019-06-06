@@ -64,20 +64,21 @@ class MatchModal extends Component {
   }
 
   handleInputChange = (event) => {
+    const { name, type, checked } = event.target;
     let inputValue = event.target.value;
 
-    if (event.target.name === 'date'){
-      inputValue = moment(event.target.value).format();
+    if (name === 'date'){
+      inputValue = moment(inputValue).format();
     }
 
-    if (event.target.type === 'checkbox'){
-      inputValue = event.target.checked;
+    if (type === 'checkbox'){
+      inputValue = checked;
     }
 
     this.setState({
       match: {
         ...this.state.match,
-        [event.target.name]: inputValue,
+        [name]: inputValue,
       },
     });
   };
