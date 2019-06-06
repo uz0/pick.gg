@@ -215,15 +215,15 @@ class MatchModal extends Component {
 
       <Input
         label={i18n.t('match_modal.match_name')}
-        name='name'
+        name="name"
         value={match.name}
         onChange={this.handleInputChange}
       />
 
       <Input
         label={i18n.t('match_modal.start_time')}
-        type='time'
-        name='startTime'
+        type="time"
+        name="startTime"
         value={match.startTime}
         onChange={this.handleInputChange}
       />
@@ -231,8 +231,8 @@ class MatchModal extends Component {
       <label className={style.chebox}>
         <p>{i18n.t('match_modal.completed')}</p>
         <input
-          type='checkbox'
-          name='completed'
+          type="checkbox"
+          name="completed"
           className={style.css_checkbox}
           value={match.completed}
           checked={match.completed}
@@ -245,15 +245,15 @@ class MatchModal extends Component {
       </label>
 
       {this.state.resultsFile.name &&
-        <p className={style.file_upload_success}><i className='material-icons'>done</i>{i18n.t('match_modal.results_choosed')}</p>
+        <p className={style.file_upload_success}><i className="material-icons">done</i>{i18n.t('match_modal.results_choosed')}</p>
       }
 
       <div className={style.results_controls}>
         <Button
           text={i18n.t('match_modal.upload_file')}
-          icon={<i className='material-icons'>attach_file</i>}
+          icon={<i className="material-icons">attach_file</i>}
           onClick={this.toggleResultsModal}
-          appearance={'_basic-accent'}
+          appearance="_basic-accent"
         />
       </div>
 
@@ -271,8 +271,8 @@ class MatchModal extends Component {
         <div className={style.rules_inputs}>
           {result.results.map((item, ruleIndex) =>
             <Input
-              type='number'
-              max='10'
+              type="number"
+              max="10"
               key={item._id}
               label={item.rule.name}
               placeholder={item.rule.name}
