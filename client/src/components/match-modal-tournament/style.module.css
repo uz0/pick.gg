@@ -1,5 +1,6 @@
 .modal_match {
   position: relative;
+  margin: auto !important;
 }
 
 .modal_match .results_controls {
@@ -61,6 +62,12 @@
   font-size: 15px;
   font-weight: 400;
   color: var(--accent-color);
+}
+
+.result_modal {
+  max-width: 480px;
+  height: 280px;
+  margin: auto !important;
 }
 
 .chebox{

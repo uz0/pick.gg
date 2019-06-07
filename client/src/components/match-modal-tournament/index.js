@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Modal from 'components/dashboard-modal';
-import ResultModal from './result-modal';
+import ResultUploader from './result-uploader';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
 import Button from 'components/button';
@@ -261,11 +261,15 @@ class MatchModal extends Component {
       </div>
 
       {this.state.isResultsModalActive &&
-        <ResultModal
+        <Modal
           title={modalResultTitle}
-          onFileUploaded={this.addResultFile}
-          onClose={this.toggleResultsModal}
-        />
+          wrapClassName={style.result_modal}
+          close={this.toggleResultsModal}
+        >
+          <ResultUploader
+            onFileUploaded={this.addResultFile}
+          />
+        </Modal>
       }
 
       {results.map((result, index) =>
