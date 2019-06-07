@@ -132,9 +132,9 @@ class MatchModal extends Component {
     this.setState({ isLoading: true });
 
     const { match, results } = this.state;
-    const [hours, minutes] = match.startTime.split(':');
-    const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
+    const [ hours, minutes ] = match.startTime.split(':');
 
+    const matchDate = moment.utc(match.startDate).hours(hours).minutes(minutes).format();
     const formData = new FormData();
 
     formData.append('resultFile', this.state.resultsFile);
@@ -245,7 +245,10 @@ class MatchModal extends Component {
       </label>
 
       {this.state.resultsFile.name &&
-        <p className={style.file_upload_success}><i className="material-icons">done</i>{i18n.t('match_modal.results_choosed')}</p>
+        <p className={style.file_upload_success}>
+          <i className="material-icons">done</i>
+          {i18n.t('match_modal.results_choosed')}
+        </p>
       }
 
       <div className={style.results_controls}>
@@ -265,7 +268,7 @@ class MatchModal extends Component {
         />
       }
 
-      {results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
+      {results.map((result, index) => <div key={result._id} className={style.match_results}>
         <div className={style.player}>{result.playerName}</div>
 
         <div className={style.rules_inputs}>
@@ -278,8 +281,8 @@ class MatchModal extends Component {
               placeholder={item.rule.name}
               className={style.rule_input}
               name={item._id}
-              onChange={(event) => this.onRulesInputChange(event, resultIndex, ruleIndex)}
-              value={results[resultIndex].results[ruleIndex].score}
+              onChange={(event) => this.onRulesInputChange(event, index, ruleIndex)}
+              value={results[index].results[ruleIndex].score}
             />)}
         </div>
       </div>)}
