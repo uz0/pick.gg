@@ -159,7 +159,7 @@ const StreamerController = (io) => {
         $('.classic.player').each((index, element) => {
           const name = $('.champion-nameplate-name', element).find('a').text();
           const kda = $('.kda-kda', element).find('div').map((index, element) => +$(element).text()).get();
-  
+
           parsedMatchResults.push({
             name,
             kda,
@@ -167,8 +167,12 @@ const StreamerController = (io) => {
         });
   
         const match = await MatchModel.findOne({ _id: matchId });
-        let matchResult = await MatchResultModel.findOne({ _id: match.resultsId }).populate('playersResults.player', 'name').lean().exec();
-  
+        let matchResult = await MatchResultModel
+                                  .findOne({ _id: match.resultsId })
+                                  .populate('playersResults.player', 'name')
+                                  .lean()
+                                  .exec();
+
         // Check if players in match and in lol match results are the same
         const matchPlayersNames = matchResult.playersResults.map(({ player }) => player.name);
         const parsedPlayersNames = parsedMatchResults.map(({ name }) => name);
@@ -178,10 +182,10 @@ const StreamerController = (io) => {
           res.status(400).send({
             error: 'serverErrors.players_are_not_same',
           });
-  
+
           return;
         }
-  
+
         matchResult.playersResults.forEach(item => {
           const parsedResult = find(parsedMatchResults, { name: item.player.name });
           item.results.forEach((result, index) => result.score = parsedResult.kda[index]);
@@ -214,8 +218,15 @@ const StreamerController = (io) => {
         }
       });
 
-    const realTournamentId = await TournamentModel.findOne({ matches_ids: { $in: [updatedMatch._id] } }).lean().select('_id');
-    const fantasyTournamentId = await FantasyTournament.findOne({ tournament: realTournamentId._id }).lean().select('_id');
+    const realTournamentId = await TournamentModel
+                                    .findOne({ matches_ids: { $in: [updatedMatch._id] } })
+                                    .lean()
+                                    .select('_id');
+
+    const fantasyTournamentId = await FantasyTournament
+                                        .findOne({ tournament: realTournamentId._id })
+                                        .lean()
+                                        .select('_id');
 
     updatedMatch.tournament_id = fantasyTournamentId._id;
 
