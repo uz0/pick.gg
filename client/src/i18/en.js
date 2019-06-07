@@ -268,5 +268,7 @@ export default {translation: {
     champion_already_exist: "Сhampion with name {{name}} already exists.",
     players_are_not_same: "Players in fantasy tournament and in LoL match are not the same",
     position_is_empty: "Position field is required",
+
+    results_file_format_error: 'This file is broken and can not be used for results synchronization',
   },
 }};

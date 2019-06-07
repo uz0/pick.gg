@@ -279,5 +279,7 @@ export default {translation: {
     champion_already_exist: "Чемпион с именем {{name}} уже есть в базе игроков.",
     players_are_not_same: "Игроки в матче фентези турнира и в матче LoL не совпадают",
     position_is_empty: "Укажите роль игрока (Мидер, саппорт, лесник и т.п.)",
+
+    results_file_format_error: 'Упс. Данный файл не подойдёт для синхронизации результатов',
   },
 }};

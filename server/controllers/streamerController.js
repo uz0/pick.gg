@@ -143,7 +143,7 @@ const StreamerController = (io) => {
 
   router.post('/matches/:id', upload.single('resultFile'), async (req, res) => {
     const matchId = req.params.id;
-
+    
     const {
       name,
       results,
@@ -154,11 +154,23 @@ const StreamerController = (io) => {
     if (req.file) {
       fs.readFile(req.file.buffer, 'utf8', async (data, err) => {
         const $ = cheerio.load(data.path);
+        const PLAYER_CONTAINER = '.classic.player';
+        const PLAYER_NAME = '.champion-nameplate-name';
+        const PLAYER_KDA = '.kda-kda';
+
         let parsedMatchResults = [];
+
+        if($(PLAYER_CONTAINER).length < 10){
+          res.status(400).send({
+            error: 'serverErrors.results_file_format_error',
+          });
+
+          return;
+        }
   
-        $('.classic.player').each((index, element) => {
-          const name = $('.champion-nameplate-name', element).find('a').text();
-          const kda = $('.kda-kda', element).find('div').map((index, element) => +$(element).text()).get();
+        $(PLAYER_CONTAINER).each((index, element) => {
+          const name = $(PLAYER_NAME, element).find('a').text();
+          const kda = $(PLAYER_KDA, element).find('div').map((index, element) => +$(element).text()).get();
 
           parsedMatchResults.push({
             name,
