@@ -248,14 +248,14 @@ const StreamerController = (io) => {
       return results;
     }
 
-    for (let i = 0; i < matches.length; i++) {
-      const [hours, minutes] = matches[i].startTime.split(':');
-      let matchDate = moment().hours(hours).minutes(minutes);
+    for(const match of matches){
+      const [ hours, minutes ] = match.startTime.split(':');
+      const matchDate = moment().hours(hours).minutes(minutes);
 
       const matchMock = {
         tournament_id: '',
         resultsId: '',
-        name: matches[i].name,
+        name: match.name,
         completed: false,
         startDate: matchDate,
         syncAt: matchDate,
@@ -263,20 +263,20 @@ const StreamerController = (io) => {
         origin: 'manual',
       };
 
-      const match = await MatchModel.create(matchMock);
-      const matchId = match._id;
+      const newMatch = await MatchModel.create(matchMock);
+      const newMatchId = newMatch._id;
 
       const matchResultMock = {
-        matchId,
+        matchId: newMatchId,
         playersResults: generatePlayersResults(playersIds),
       };
 
       const matchResult = await MatchResultModel.create(matchResultMock);
       const matchResultId = matchResult._id;
 
-      await MatchModel.update({ _id: matchId }, { resultsId: matchResultId });
+      await MatchModel.update({ _id: newMatchId }, { resultsId: matchResultId });
 
-      createdMatchesIds.push(matchId);
+      createdMatchesIds.push(newMatchId);    
     }
 
     const tournament = await TournamentModel.create({
