@@ -49,8 +49,6 @@ class Profile extends Component {
     this.setState({ isLoading: true });
     const userData = await this.userService.getMyProfile();
 
-    console.log(userData, 'userData');
-
     const locale = localStorage.getItem('_pgg_locale');
 
     this.setState({
