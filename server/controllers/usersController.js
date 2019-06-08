@@ -29,7 +29,7 @@ const UsersController = () => {
   router.post('/me', async (req, res) => {
     const userId = req.decoded._id;
 
-    const { username, email, photo, about, summonerName } = req.body;
+    const { username, email, lolApiKey, photo, about, summonerName } = req.body;
 
     let streamerAccountId = '';
 
@@ -54,6 +54,7 @@ const UsersController = () => {
       photo,
       about,
       username,
+      lolApiKey,
       summonerName,
       streamerAccountId
     }

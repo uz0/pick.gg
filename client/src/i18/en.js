@@ -14,6 +14,7 @@ export default {translation: {
   date_from: 'Date from',
   deposit: 'Deposit',
   email: 'Email',
+  lolApiKey: 'LoL Api Key',
   entry: 'Entry',
   tournament_thumb: 'Tournament image link',
   earned: 'earned',
@@ -220,6 +221,32 @@ export default {translation: {
     new_tournament: 'New tournament',
   },
 
+  match_modal: {
+    modal_title: 'Edit match {{name}}',
+    match_name: 'Match name',
+    start_time: 'Start time',
+    completed: 'Completed',
+    results: 'Results',
+    results_choosed: 'Results are choosed',
+    upload_file: 'Upload result',
+    action_button_text: 'Update match',
+    notification: {
+      match_updated: 'Match {{name}} was successfully updated',
+    },
+  },
+
+  result_modal: {
+    title: 'Add results for {{name}}',
+    action_button_text: 'Add results',
+    drag_and_drop_file: 'You can drag and drop file',
+    upload_file_button_text: 'or click here',
+    error: {
+      multiple_files_upload: "You can't upload multiple files",
+      choose_file_first: "You should choose file first",
+      format_error: "You can upload only HTML files",
+    },
+  },
+
   new_tournament: {
     empty_name: 'Name field can not be empty',
   },
@@ -243,5 +270,8 @@ export default {translation: {
     champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
     champion_already_exist: "Сhampion with name {{name}} already exists.",
     players_are_not_same: "Players in fantasy tournament and in LoL match are not the same",
+    position_is_empty: "Position field is required",
+
+    results_file_format_error: 'This file is broken and can not be used for results synchronization',
   },
 }};

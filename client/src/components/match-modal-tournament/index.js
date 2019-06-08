@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 
 import Modal from 'components/dashboard-modal';
+import ResultUploader from './result-uploader';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
+import Button from 'components/button';
 
 import NotificationService from 'services/notificationService';
 import StreamerService from 'services/streamerService';
 import UserService from 'services/userService';
 
-import Select from '../filters/select';
-
 import moment from 'moment';
 import find from 'lodash/find';
-import difference from 'lodash/difference';
 
 import style from './style.module.css';
 
@@ -38,7 +37,9 @@ class MatchModal extends Component {
     selectMatches: [],
     selectedMatchId: '',
     results: [],
+    resultsFile: {},
     editedResults: [],
+    isResultsModalActive: false,
     isLoading: false,
   };
 
@@ -46,43 +47,26 @@ class MatchModal extends Component {
     this.setState({ isLoading: true });
 
     const { matchId, matchChampions } = this.props;
-
     let { match } = await this.streamerService.getMatchInfo(matchId);
-    const { user } = await this.userService.getMyProfile();
-    // const { matches } = await this.streamerService.getLastMatches(user.streamerAccountId);
-    const currentMatchPlayers = matchChampions.map(item => item.name);
-
-    let selectMatches = [];
-
-    // matches.forEach((item, index) => {
-    //   const matchPlayers = item.participantIdentities.map(participant => participant.player.summonerName);
-    //   const playersDifference = difference(currentMatchPlayers, matchPlayers).length === 0 ? '✔' : '';
-
-    //   selectMatches.push({
-    //     name: `Match #${index + 1} started ${moment(item.gameCreation).format('YYYY-MM-DD')} ${matchPlayers.join(', ')} ${playersDifference}`,
-    //     id: item.gameId,
-    //   });
-    // });
 
     match.startTime = moment(match.startDate).format('HH:mm');
 
     const result = match.results && match.results.playersResults;
     let resultsWithChampions = null;
 
-    if (result){
-      resultsWithChampions = this.mapResultsToChampions(result, matchChampions);
+    if (result) {
+      resultsWithChampions = this._mapResultsToChampions(result, matchChampions);
     }
 
     this.setState({
       match,
       matches: [],
-      selectMatches,
       results: resultsWithChampions,
       isLoading: false,
     });
   }
 
-  mapResultsToChampions = (results, champions) => {
+  _mapResultsToChampions = (results, champions) => {
     results.forEach(result => {
       result.playerName = find(champions, { _id: result.playerId }).name;
     });
@@ -90,16 +74,14 @@ class MatchModal extends Component {
     return results;
   }
 
-  handleMatchSelectChange = (event) => this.setState({ selectedMatchId: event.target.value });
-
   handleInputChange = (event) => {
     let inputValue = event.target.value;
 
-    if (event.target.name === 'date'){
+    if (event.target.name === 'date') {
       inputValue = moment(event.target.value).format();
     }
 
-    if (event.target.type === 'checkbox'){
+    if (event.target.type === 'checkbox') {
       inputValue = event.target.checked;
     }
 
@@ -137,21 +119,34 @@ class MatchModal extends Component {
     });
   }
 
+  toggleResultsModal = () => this.setState({ isResultsModalActive: !this.state.isResultsModalActive });
+
+  addResultFile = (resultsFile) => {
+    this.setState({
+      resultsFile,
+      isResultsModalActive: false,
+    });
+  }
+
   editMatchSubmit = async () => {
     this.setState({ isLoading: true });
 
-    const { match, results, selectedMatchId } = this.state;
+    const { match, results } = this.state;
+    const [hours, minutes] = match.startTime.split(':');
 
-    const [ hours, minutes ] = match.startTime.split(':');
-    const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
+    const matchDate = moment.utc(match.startDate).hours(hours).minutes(minutes).format();
+    const formData = new FormData();
+
+    formData.append('resultFile', this.state.resultsFile);
+    formData.append('results', JSON.stringify(results));
+    formData.append('name', match.name);
+    formData.append('matchId', match._id);
+    formData.append('startDate', matchDate);
+    formData.append('completed', match.completed);
 
     let request = await this.streamerService.updateMatch({
-      name: match.name,
       matchId: match._id,
-      startDate: matchDate,
-      completed: match.completed,
-      lolMatchId: selectedMatchId,
-      results,
+      formData,
     });
 
     if (request.error) {
@@ -161,7 +156,10 @@ class MatchModal extends Component {
         message: i18n.t(request.error),
       });
 
-      this.setState({ isLoading: false });
+      this.setState({
+        isLoading: false,
+        resultsFile: {},
+      });
 
       return;
     }
@@ -171,16 +169,16 @@ class MatchModal extends Component {
     const result = request.updatedMatch.results && request.updatedMatch.results.playersResults;
     let resultsWithChampions = null;
 
-    if (result){
-      resultsWithChampions = this.mapResultsToChampions(result, this.props.matchChampions);
+    if (result) {
+      resultsWithChampions = this._mapResultsToChampions(result, this.props.matchChampions);
     }
 
     this.notificationService.showSingleNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
-      message: 'Match was successfully updated!',
+      message: i18n.t('match_modal.notification.match_updated', { name: request.name }),
     });
-    
+
     this.props.onMatchUpdated();
 
     this.setState({
@@ -190,15 +188,19 @@ class MatchModal extends Component {
   }
 
   render() {
-    const { results, match, isLoading } = this.state;
-    const modalTitle = `Edit match ${match.name}`;
+    const {
+      match,
+      results,
+      isLoading,
+    } = this.state;
+
+    const modalTitle = i18n.t('match_modal.modal_title', { name: match.name });
+    const modalResultTitle = i18n.t('result_modal.title', { name: match.name });
     const modalActions = [{
-      text: 'Update match',
+      text: i18n.t('match_modal.action_button_text'),
       onClick: this.editMatchSubmit,
       isDanger: false,
     }];
-
-    const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
 
     return <Modal
       title={modalTitle}
@@ -212,39 +214,22 @@ class MatchModal extends Component {
       />}
 
       <Input
-        label="Match name"
+        label={i18n.t('match_modal.match_name')}
         name="name"
         value={match.name}
         onChange={this.handleInputChange}
       />
 
-      {/* <Input
-        type="date"
-        label="Start date"
-        name="startDate"
-        value={formattedMatchDate}
-        onChange={this.handleInputChange}
-        disabled
-      /> */}
-
       <Input
+        label={i18n.t('match_modal.start_time')}
         type="time"
-        label="Start time"
         name="startTime"
         value={match.startTime}
         onChange={this.handleInputChange}
       />
 
-      {/* <Select
-        className={style.select}
-        label='Select match results from LoL match'
-        options={this.state.selectMatches}
-        defaultOption="Choose match"
-        onChange={this.handleMatchSelectChange}
-      /> */}
-
       <label className={style.chebox}>
-        <p>Completed</p>
+        <p>{i18n.t('match_modal.completed')}</p>
         <input
           type="checkbox"
           name="completed"
@@ -255,26 +240,58 @@ class MatchModal extends Component {
         />
       </label>
 
-      {!results && <div>There's no any results yet</div>}
+      <label className={style.chebox}>
+        <p>{i18n.t('match_modal.results')}</p>
+      </label>
 
-      {results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
-        <div className={style.player}>{result.playerName}</div>
+      {this.state.resultsFile.name &&
+        <p className={style.file_upload_success}>
+          <i className="material-icons">done</i>
+          {i18n.t('match_modal.results_choosed')}
+        </p>
+      }
 
-        <div className={style.rules_inputs}>
-          {result.results.map((item, ruleIndex) =>
-            <Input
-              key={item._id}
-              label={item.rule.name}
-              placeholder={item.rule.name}
-              className={style.rule_input}
-              name={item._id}
-              onChange={(event) => this.onRulesInputChange(event, resultIndex, ruleIndex)}
-              value={results[resultIndex].results[ruleIndex].score}
-              type="number"
-              max="10"
-            />)}
+      <div className={style.results_controls}>
+        <Button
+          text={i18n.t('match_modal.upload_file')}
+          icon={<i className="material-icons">attach_file</i>}
+          onClick={this.toggleResultsModal}
+          appearance="_basic-accent"
+        />
+      </div>
+
+      {this.state.isResultsModalActive &&
+        <Modal
+          title={modalResultTitle}
+          wrapClassName={style.result_modal}
+          close={this.toggleResultsModal}
+        >
+          <ResultUploader
+            onFileUploaded={this.addResultFile}
+          />
+        </Modal>
+      }
+
+      {results.map((result, index) =>
+        <div key={result._id} className={style.match_results}>
+          <div className={style.player}>{result.playerName}</div>
+
+          <div className={style.rules_inputs}>
+            {result.results.map((item, ruleIndex) =>
+              <Input
+                type="number"
+                max="10"
+                key={item._id}
+                label={item.rule.name}
+                placeholder={item.rule.name}
+                className={style.rule_input}
+                name={item._id}
+                onChange={(event) => this.onRulesInputChange(event, index, ruleIndex)}
+                value={results[index].results[ruleIndex].score}
+              />)}
+          </div>
         </div>
-      </div>)}
+      )}
     </Modal>;
   }
 }

@@ -78,7 +78,6 @@ class PlayersStep extends Component {
 
   searchingFor = (term) => x => x.name.toLowerCase().startsWith(term.toLowerCase()) || !term;
 
-
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
 
   closePlayerCreatingModal = () => this.setState({
@@ -181,14 +180,14 @@ class PlayersStep extends Component {
     try {
       this.setState({ isChampionModalLoading: true });
 
-      let createPlayerRequest = await this.streamerService.createPlayer(payload);
-      let createPlayerRequestData = await createPlayerRequest.json();
+      const createPlayerRequest = await this.streamerService.createPlayer(payload);
+      const { name, error, type } = await createPlayerRequest.json();
 
       if (createPlayerRequest.status === 404) {
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: i18n.t('serverErrors.champion_not_found', { name: createPlayerRequestData.name }),
+          message: i18n.t('serverErrors.champion_not_found', { name }),
         });
 
         this.setState({ isChampionModalLoading: false });
@@ -197,10 +196,12 @@ class PlayersStep extends Component {
       }
 
       if (createPlayerRequest.status === 400) {
+        const message = type === 'position' ? i18n.t(error) : i18n.t(error, { name });
+
         this.notificationService.showSingleNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: i18n.t('serverErrors.champion_already_exist', { name: createPlayerRequestData.name }),
+          message,
         });
 
         this.setState({ isChampionModalLoading: false });
@@ -211,13 +212,11 @@ class PlayersStep extends Component {
       this.notificationService.showSingleNotification({
         type: 'success',
         shouldBeAddedToSidebar: false,
-        message: `${i18n.t('you_created_player')} ${name}`,
+        message: i18n.t('notifications.player.created', { name }),
       });
 
       const { players } = await this.streamerService.getAllChampions();
-      const playersSortedByAlphabet = players.sort((prev, next) => prev.name.localeCompare(next.name));
-
-      const groupedPlayers = groupBy(playersSortedByAlphabet, player => player.name[0].toUpperCase());
+      const groupedPlayers = this._sortPlayers(players);
 
       this.setState({
         players: groupedPlayers,
@@ -258,6 +257,9 @@ class PlayersStep extends Component {
     const { playersAddedToTournament, term, playersNoGroup, players } = this.state;
     const buttonIcon = playersAddedToTournament.length === 0 ? 'add' : 'edit';
     const filteredPlayers = playersNoGroup.filter(this.searchingFor(term));
+    const isTherePlayersWithNoGroup = playersNoGroup.length > 1;
+    const isSearchHasResults = playersNoGroup.filter(this.searchingFor(term)).length > 0;
+
     return (
       <div className={style.players}>
         <div className={style.header_players}>
@@ -265,7 +267,6 @@ class PlayersStep extends Component {
           <Button
             className={style.action_button}
             appearance={'_circle-accent'}
-            // text={buttonText}
             icon={<i className="material-icons">{buttonIcon}</i>}
             onClick={this.showPlayerChoosingModal}
           />
@@ -304,10 +305,6 @@ class PlayersStep extends Component {
 
             {this.state.chosenPlayers.length === 0 &&
               <p className={style.attention}>{i18n.t('you_not_chosen')}</p>
-            }
-
-            {this.state.chosenPlayers.length > 1 && this.state.chosenPlayers.length < 10 &&
-              <p className={style.attention}>{i18n.t('great')} {10 - this.state.chosenPlayers.length} {i18n.t('players_left', { count: 10 - this.state.chosenPlayers.length })}</p>
             }
 
             <div className={style.chosen_players}>
@@ -365,25 +362,26 @@ class PlayersStep extends Component {
                 </div>)
                 }
 
-                {playersNoGroup.filter(this.searchingFor(term)).length === 0 &&
+                {isTherePlayersWithNoGroup && !isSearchHasResults &&
                   <p className={style.attention}>Нет результатов</p>
                 }
               </div>
             }
 
-            {term === '' && players.map(([key, players]) => <div key={key} className={style.group}>
-              <h3>{key}</h3>
-              <div className={style.group_players}>
-                {players.map(player => <div
-                  key={player._id}
-                  onClick={() => this.playerClickHandler(player)}
-                  className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
-                >
-                  {player.name}
-                </div>)
-                }
-              </div>
-            </div>)}
+            {term.length < 1 && players.map(([key, players]) =>
+              <div key={key} className={style.group}>
+                <h3>{key}</h3>
+                <div className={style.group_players}>
+                  {players.map(player => <div
+                    key={player._id}
+                    onClick={() => this.playerClickHandler(player)}
+                    className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
+                  >
+                    {player.name}
+                  </div>)
+                  }
+                </div>
+              </div>)}
           </div>
 
         </Modal>

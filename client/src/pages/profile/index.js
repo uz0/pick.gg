@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
-// import io from "socket.io-client";
+// import io from 'socket.io-client';
 
 import Button from 'components/button';
 import Preloader from 'components/preloader';
@@ -29,6 +29,7 @@ class Profile extends Component {
         photo: '',
         summonerName: '',
         isStreamer: '',
+        lolApiKey: '',
       },
       locale: '',
       isLoading: true,
@@ -47,6 +48,7 @@ class Profile extends Component {
   async componentDidMount() {
     this.setState({ isLoading: true });
     const userData = await this.userService.getMyProfile();
+
     const locale = localStorage.getItem('_pgg_locale');
 
     this.setState({
@@ -57,6 +59,7 @@ class Profile extends Component {
         about: userData.user.about,
         summonerName: userData.user.summonerName,
         isStreamer: userData.user.isStreamer,
+        lolApiKey: userData.user.lolApiKey,
       },
       locale,
       isLoading: false,
@@ -107,40 +110,52 @@ class Profile extends Component {
                 <div>
                   <label>{i18n.t('username')}</label>
                   <input
-                    type="text"
-                    name="username"
+                    type='text'
+                    name='username'
                     value={this.state.formData.username}
                     onChange={this.handleChange}
                   />
                 </div>
 
-                {this.state.formData.isStreamer && <div>
-                  <label>{i18n.t('summonerName')}</label>
-                  <input
-                    type="text"
-                    name="summonerName"
-                    value={this.state.formData.summonerName}
-                    onChange={this.handleChange}
-                  />
-                </div>
+                {this.state.formData.isStreamer && <>
+                  <div>
+                    <label>{i18n.t('summonerName')}</label>
+                    <input
+                      type='text'
+                      name='summonerName'
+                      value={this.state.formData.summonerName}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <label>{i18n.t('lolApiKey')}</label>
+                    <input
+                      type='text'
+                      name='lolApiKey'
+                      value={this.state.formData.lolApiKey}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </>
                 }
 
                 <div>
                   <label>{i18n.t('email')}</label>
                   <input
-                    type="text"
-                    name="email"
+                    type='text'
+                    name='email'
                     value={this.state.formData.email}
                     onChange={this.handleChange}
                     disabled
                   />
                 </div>
 
+
                 <div>
                   <label>Photo</label>
                   <input
-                    type="text"
-                    name="photo"
+                    type='text'
+                    name='photo'
                     value={this.state.formData.photo}
                     onChange={this.handleChange}
                   />
@@ -149,7 +164,7 @@ class Profile extends Component {
                 <div>
                   <label>{i18n.t('about')}</label>
                   <textarea
-                    name="about"
+                    name='about'
                     value={this.state.formData.about}
                     onChange={this.handleChange}
                   />
