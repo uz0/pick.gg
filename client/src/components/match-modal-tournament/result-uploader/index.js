@@ -89,9 +89,7 @@ class ResultUploader extends Component {
         className={style.dropzone}
         onDrop={this.handleDrop}
       >
-        {fileName ?
-          <p>{fileName}</p> : <p>{i18n.t('result_modal.drag_and_drop_file')}</p>
-        }
+        <p>{fileName || i18n.t('result_modal.drag_and_drop_file')}</p>
 
         <div
           className={style.clickZone}
