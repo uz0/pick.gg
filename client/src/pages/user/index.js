@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import TournamentService from '../../services/tournamentService';
 import UserService from '../../services/userService';
 
-import io from "socket.io-client";
+import io from 'socket.io-client';
 
 import { NavLink } from 'react-router-dom';
 
@@ -47,19 +47,21 @@ class User extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const entry = item.entry === 0 ? 'Free' : item.entry;
-    return <NavLink to={`/tournaments/${item._id}`} className={className} key={item._id}>
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
-        <span className={textClass}>{item.name}</span>
-      </div>
+    return (
+      <NavLink key={item._id} to={`/tournaments/${item._id}`} className={className}>
+        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
+          <span className={textClass}>{item.name}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
-        <span className={textClass}>{item.users.length}</span>
-      </div>
+        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
+          <span className={textClass}>{item.users.length}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
-        <span className={textClass}>{entry}$</span>
-      </div>
-    </NavLink>;
+        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
+          <span className={textClass}>{entry}$</span>
+        </div>
+      </NavLink>
+    );
   }
 
   componentDidMount() {
@@ -74,7 +76,7 @@ class User extends Component {
 
     const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
     const { user } = await this.userService.getUserDataById(userId);
-    const rewards = user.rewards;
+    const { rewards } = user;
     console.log(user);
     this.setState({
       tournaments,
@@ -90,14 +92,14 @@ class User extends Component {
     return (
       <div className={style.user_page}>
         {loading && <Preloader
-          isFullScreen={true}
+          isFullScreen
         />}
         <div className={style.content}>
           <ProfileSidebar
+            withData
             source={this.state.userData.photo}
-            withData={true}
             nickname={this.state.userData.username}
-            description={this.state.userData.about} />
+            description={this.state.userData.about}/>
 
           <div className={style.user_statistics}>
             <div>

@@ -12,7 +12,13 @@
     "test": "npm run test:client && npm run test:server",
     "test:client": "jest --testPathPattern=\"client/.*__tests__/.*(test.js)\"",
     "test:server": "jest --testPathPattern=\"server/.*__tests__/.*(test.js)\"",
-    "postinstall": "cd client && npm install && cd .. && npm run build"
+    "postinstall": "cd client && npm install && cd .. && npm run build",
+    "lint:client": "cd client && npm run pre-commit"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all lint:*"
+    }
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
@@ -40,6 +46,7 @@
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.2.0",
     "expect-puppeteer": "^4.1.1",
+    "husky": "^2.4.0",
     "jest": "^23.6.0",
     "jest-puppeteer": "^4.1.1",
     "morgan": "^1.9.0",
