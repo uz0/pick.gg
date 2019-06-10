@@ -8,6 +8,7 @@
 }
 
 /* type */
+
 .button[appearance^="_icon"] {
   --height: 32px;
   justify-content: center;
@@ -35,8 +36,6 @@
   border-radius: 50%;
 }
 
-/*********/
-
 /* theme */
 
 .button[appearance$="accent"]:not(:hover) {
@@ -45,9 +44,16 @@
 }
 
 /* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+
 .button[appearance$="accent"]:hover {
   text-transform: uppercase;
   --background-color: #ed9a1b;
+}
+
+.button[appearance$="accent"]:active {
+  --background-color: #f3ab3f;
+  animation: pulse 0.5s;
+  box-shadow: 0 0 0 0.5em rgba(155, 20, 20, 0);
 }
 
 .button[appearance$="primary"]:not(:hover) {
@@ -58,16 +64,17 @@
 .button[appearance$="default"]:not(:hover) {
   text-transform: uppercase;
   color: #fff;
-  --background-color:rgba(255, 255, 255, 0.1);
+  --background-color: rgba(255, 255, 255, 0.1);
 }
 
 .button[appearance$="default"]:hover {
   text-transform: uppercase;
   color: #fff;
-  --background-color:rgba(255, 255, 255, 0.25);
+  --background-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+
 .button[appearance$="primary"]:hover {
   --background-color: #FFA51B;
   --color: #000;
@@ -79,6 +86,7 @@
 }
 
 /* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+
 .button[appearance$="transparent"]:hover {
   --background-color: transparent;
   --color: var(--accent-color);
@@ -90,11 +98,20 @@
 }
 
 /* Ховер временный, пока Поляша не выкатит состояния для кнопок */
+
 .button[appearance$="danger"]:hover {
   --background-color: #ff2020;
   --color: #fff;
 }
 
+.button[appearance$="start"] {
+  background-color: #1c1c3e;
+  color: rgb(255, 193, 78);
+}
+
+.button[appearance$="start"]:hover {
+  background-color: #101027;
+}
 
 /*********/
 
@@ -111,13 +128,12 @@
   height: var(--icon-size, 16px);
 }
 
-.button svg polygon,
-.button svg path {
+.button svg polygon, .button svg path {
   fill: var(--color);
   transition-property: fill;
 }
 
-.button svg + span {
+.button svg+span {
   margin-left: 12px;
 }
 
@@ -130,11 +146,19 @@
   text-overflow: ellipsis;
   transition-property: color;
 }
-._is-danger{
+
+._is-danger {
   background: rgba(255, 255, 255, 0.1);
   margin-left: 10px;
   color: #fff;
 }
-._is-danger:hover{
+
+._is-danger:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--background-color, --accent-color);
+  }
 }
