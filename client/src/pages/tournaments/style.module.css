@@ -16,23 +16,15 @@
 }
 
 .tournaments .section .button {
-  background-color: var(--accent-color);
   width: 54px;
   height: 54px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.2s;
   position: sticky;
   margin-left: auto;
-  /* right: calc(100px + (var(--layout-padding) * 2)); */
   bottom: 20px;
-}
-
-.tournaments .content .button:hover{
-  transition: all 0.2s;
-  background-color: rgb(235, 163, 55);
 }
 
 .tournaments .content .sidebar .button i{
