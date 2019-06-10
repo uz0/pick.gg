@@ -11,6 +11,7 @@ import NotificationService from 'services/notificationService';
 import NewTournamentModal from 'components/new-tournament';
 import NewStreamerTournamentModal from 'components/new-streamer-tournament';
 import TournamentCard from 'components/tournament-card';
+import Button from 'components/button';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';
@@ -161,14 +162,21 @@ class Tournaments extends Component {
           })}
 
           {this.state.profile && this.state.profile.user && this.state.profile.user.isAdmin && !this.state.profile.user.isStreamer &&
-            <button className={style.button} onClick={this.toggleNewTournamentModal}>
-              <i className="material-icons">add</i>
-            </button>}
+            <Button
+              className={cx(style.button, style.pulse)}
+              icon={<i className="material-icons">add</i>}
+              onClick={this.toggleNewStreamerTournamentModal}
+            />
+          }
 
           {this.state.profile && this.state.profile.user && this.state.profile.user.isStreamer &&
-            <button className={style.button} onClick={this.toggleNewStreamerTournamentModal}>
-              <i className="material-icons">add</i>
-            </button>}
+            <Button
+              appearance="_icon-accent"
+              className={cx(style.button, "pulse")}
+              icon={<i className="material-icons">add</i>}
+              onClick={this.toggleNewStreamerTournamentModal}
+            />
+          }
         </div>
       </div>
 
