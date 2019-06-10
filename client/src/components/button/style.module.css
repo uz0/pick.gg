@@ -173,5 +173,6 @@
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 var(--background-color, --accent-color, #fff);
+    transform: scale(0.95);
   }
 }
