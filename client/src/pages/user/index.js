@@ -91,15 +91,14 @@ class User extends Component {
 
     return (
       <div className={style.user_page}>
-        {loading && <Preloader
-          isFullScreen
-        />}
+        {loading && <Preloader isFullScreen/>}
         <div className={style.content}>
           <ProfileSidebar
             withData
             source={this.state.userData.photo}
             nickname={this.state.userData.username}
-            description={this.state.userData.about}/>
+            description={this.state.userData.about}
+          />
 
           <div className={style.user_statistics}>
             <div>
@@ -120,15 +119,16 @@ class User extends Component {
             <div>
               <h2>{i18n.t('recent_tournaments')}</h2>
               <div className={style.section}>
-                {tournaments && <Table
-                  captions={tournamentsTableCaptions}
-                  items={tournaments}
-                  className={style.table}
-                  renderRow={this.renderRow}
-                  isLoading={this.state.isLoading}
-                  emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-                />
-                }
+                {tournaments && (
+                  <Table
+                    captions={tournamentsTableCaptions}
+                    items={tournaments}
+                    className={style.table}
+                    renderRow={this.renderRow}
+                    isLoading={this.state.isLoading}
+                    emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+                  />
+                )}
               </div>
             </div>
           </div>
