@@ -26,6 +26,7 @@ class TopMenuComponent extends Component {
   constructor() {
     super();
 
+    this.socket = io();
     this.authService = new AuthService();
     this.notificationService = new NotificationService();
     this.userService = new UserService({
@@ -67,8 +68,6 @@ class TopMenuComponent extends Component {
 
   componentDidMount = () => {
     this.updateProfile();
-
-    this.socket = io();
 
     this.socket.on('fantasyTournamentCreated', ({ newTournamentPopulated }) => {
       this.notificationService.showSingleNotification({
@@ -117,6 +116,10 @@ class TopMenuComponent extends Component {
     //       message: i18n.t('match_status_changed'),
     //     });
     //   });
+  }
+
+  componentWillUnmount() {
+    this.socket.close();
   }
 
   render() {

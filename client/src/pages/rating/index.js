@@ -40,6 +40,7 @@ const ratingTableCaptions = {
 class Rating extends Component {
   constructor() {
     super();
+    this.socket = io();
     this.userService = new UserService();
     this.state = {
       playersList: [],
@@ -47,25 +48,19 @@ class Rating extends Component {
     };
   }
 
-  // preloader = () =>
-  //   this.setState({
-  //     loader: false,
-  //   })
-
   componentDidMount = async () => {
     this.loadData();
-
-    this.socket = io();
     this.socket.on('fantasyTournamentFinalized', () => this.loadData());
+  }
 
-    // this.preloader();
+  componentWillUnmount = () => {
+    this.socket.close();
   }
 
   loadData = async () => {
     const rating = await this.userService.getUserRewards();
     const allUsers = await this.userService.getAllUsers();
     const currentUser = await this.userService.getMyProfile();
-    console.log(allUsers);
     allUsers.users.forEach((item, index) => item.place = index + 1);
 
     this.setState({

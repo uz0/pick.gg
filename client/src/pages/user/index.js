@@ -34,6 +34,7 @@ const tournamentsTableCaptions = {
 class User extends Component {
   constructor() {
     super();
+    this.socket = io();
     this.userService = new UserService();
     this.tournamentService = new TournamentService();
     this.state = {
@@ -66,9 +67,11 @@ class User extends Component {
 
   componentDidMount() {
     this.loadData();
-
-    this.socket = io();
     this.socket.on('fantasyTournamentFinalized', () => this.loadData());
+  }
+
+  componentWillUnmount(){
+    this.socket.close();
   }
 
   loadData = async () => {
