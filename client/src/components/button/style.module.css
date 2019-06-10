@@ -36,14 +36,24 @@
   border-radius: 50%;
 }
 
+.button[appearance^="_google"] {
+  width: auto;
+  background-color: #f1f1f1;
+  padding: 10px 16px;
+  color: #000;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 20px;
+  opacity: 0.9;
+  transition: 0.3s;
+}
+
 /* theme */
 
 .button[appearance$="accent"]:not(:hover) {
   text-transform: uppercase;
   --background-color: var(--accent-color);
 }
-
-/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
 
 .button[appearance$="accent"]:hover {
   text-transform: uppercase;
@@ -73,8 +83,6 @@
   --background-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
-
 .button[appearance$="primary"]:hover {
   --background-color: #FFA51B;
   --color: #000;
@@ -84,8 +92,6 @@
   --background-color: transparent;
   --color: #9FA2BE;
 }
-
-/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
 
 .button[appearance$="transparent"]:hover {
   --background-color: transparent;
@@ -97,7 +103,6 @@
   --color: #fff;
 }
 
-/* Ховер временный, пока Поляша не выкатит состояния для кнопок */
 
 .button[appearance$="danger"]:hover {
   --background-color: #ff2020;
@@ -111,6 +116,12 @@
 
 .button[appearance$="start"]:hover {
   background-color: #101027;
+}
+
+.button[appearance^="_google"]:hover {
+  opacity: 1;
+  animation: pulse 1s;
+  box-shadow: 0 0 0 1em rgba(155, 20, 20, 0);
 }
 
 /*********/
@@ -157,8 +168,10 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Animation */
+
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 var(--background-color, --accent-color);
+    box-shadow: 0 0 0 0 var(--background-color, --accent-color, #fff);
   }
 }
