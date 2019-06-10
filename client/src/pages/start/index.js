@@ -7,6 +7,7 @@ import ym from 'react-yandex-metrika';
 import i18n from 'i18next';
 import config from 'config';
 
+import Button from 'components/button';
 import NotificationContainer from 'components/notification/notification-container';
 import Footer from 'components/footer';
 
@@ -32,7 +33,7 @@ class Start extends Component {
 
   componentWillMount() {
     const [key, value] = this.props.history.location.search.split('=');
-  
+
     if (key === '?tournamentId' && !this.auth.isLoggedIn()) {
       this.setState({
         isGoogleLoginAutoLoad: true,
@@ -54,7 +55,7 @@ class Start extends Component {
 
     const authRequest = await this.auth.oauthLogin(email, name, photo);
 
-    if (authRequest.success && this.state.tournamentId){
+    if (authRequest.success && this.state.tournamentId) {
       this.props.history.replace(`/tournaments/${this.state.tournamentId}`);
       ym('reachGoal', 'user_signed_in');
 
@@ -107,9 +108,11 @@ class Start extends Component {
                     autoLoad={this.state.isGoogleLoginAutoLoad}
                     icon={true}
                     render={renderProps => (
-                      <button onClick={renderProps.onClick}>
-                        <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
-                      </button>
+                      <Button
+                        appearance={'_google'}
+                        text={<span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>}
+                        onClick={renderProps.onClick}
+                      />
                     )}
                     clientId={config.google_client_id}
                     onSuccess={this.onSuccessGoogleLogin}
@@ -182,9 +185,11 @@ class Start extends Component {
           {!isUserAuthenticated && <GoogleLogin
             icon={true}
             render={renderProps => (
-              <button onClick={renderProps.onClick}>
-                <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
-              </button>
+              <Button
+                appearance={'_google'}
+                text={<span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>}
+                onClick={renderProps.onClick}
+              />
             )}
             clientId={config.google_client_id}
             onSuccess={this.onSuccessGoogleLogin}
