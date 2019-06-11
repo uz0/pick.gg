@@ -12,10 +12,10 @@ import config from 'config';
 import NotificationContainer from 'components/notification/notification-container';
 import Footer from 'components/footer';
 
-import AuthService from 'services/authService';
 import NotificationService from 'services/notificationService';
 
-import { actions as testActions } from 'store';
+import { actions as storeActions } from 'store';
+import { http, isLogged } from 'helpers';
 
 import Lpl from 'assets/start/lpl.png';
 import Lolchamp from 'assets/start/lolchamp.png';
@@ -24,58 +24,51 @@ import { ReactComponent as GoogleIcon } from 'assets/google-icon.svg';
 import zed from 'assets/zed.mp4';
 
 class Start extends Component {
-  constructor() {
-    super();
-    this.auth = new AuthService();
+  constructor(properties) {
+    super(properties);
+    this.tournamentId = new URLSearchParams(properties.location.search).get('tournamentId');
     this.notificationService = new NotificationService();
-  }
-
-  state = {
-    isGoogleLoginAutoLoad: false,
-  }
-
-  componentWillMount() {
-    const [key, value] = this.props.history.location.search.split('=');
-
-    if (key === '?tournamentId' && !this.auth.isLoggedIn()) {
-      this.setState({
-        isGoogleLoginAutoLoad: true,
-        tournamentId: value,
-      });
-    }
-  }
-
-  handleChange = event => {
-    event.preventDefault();
-    this.setState({ [event.target.name]: event.target.value });
   }
 
   onSuccessGoogleLogin = async data => {
     const profile = data.getBasicProfile();
-    const email = profile.getEmail();
-    const name = profile.getName();
-    const photo = profile.getImageUrl();
 
-    const authRequest = await this.auth.oauthLogin(email, name, photo);
+    const body = {
+      email: profile.getEmail(),
+      name: profile.getName(),
+      photo: profile.getImageUrl(),
+    };
 
-    if (authRequest.success && this.state.tournamentId) {
-      this.props.history.replace(`/tournaments/${this.state.tournamentId}`);
-      ym('reachGoal', 'user_signed_in');
+    let response = await http('/api/authentication/oauth', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+
+    response = await response.json();
+
+    if (!response.success) {
+      this.notificationService.showSingleNotification({
+        type: 'error',
+        shouldBeAddedToSidebar: false,
+        message: response.message,
+      });
 
       return;
     }
 
-    if (authRequest.success) {
-      this.props.history.replace('/tournaments');
-      ym('reachGoal', 'user_signed_in');
-
-      return;
+    if (response.user) {
+      this.props.setCurrentUser(response.user);
     }
+
+    localStorage.setItem('JWS_TOKEN', response.token);
+    ym('reachGoal', 'user_signed_in');
+    const url = this.tournamentId ? `/tournaments/${this.tournamentId}` : '/tournaments';
+    this.props.history.push(url);
 
     this.notificationService.showSingleNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
-      message: authRequest.message,
+      message: response.message,
     });
   };
 
@@ -87,12 +80,8 @@ class Start extends Component {
     });
   };
 
-  componentDidMount() {
-    this.props.test('asdsadsad');
-  }
-
   render() {
-    const isUserAuthenticated = this.auth.isLoggedIn();
+    const isUserAuthenticated = isLogged();
 
     return (
       <div className={style.login_page}>
@@ -115,7 +104,7 @@ class Start extends Component {
                   {!isUserAuthenticated &&
                     <GoogleLogin
                       icon
-                      autoLoad={this.state.isGoogleLoginAutoLoad}
+                      autoLoad={Boolean(this.tournamentId)}
                       render={renderProperties => (
                         <button type="button" onClick={renderProperties.onClick}>
                           <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
@@ -216,10 +205,12 @@ class Start extends Component {
 
 export default compose(
   connect(
-    null,
+    state => ({
+      currentUser: state.currentUser,
+    }),
 
     {
-      test: testActions.test,
+      setCurrentUser: storeActions.setCurrentUser,
     },
   ),
 )(Start);

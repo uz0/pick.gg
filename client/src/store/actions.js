@@ -1,12 +1,7 @@
 import { createAction } from 'redux-starter-kit';
 
-const types = {
-  test: 'test',
-};
-
-const test = createAction(types.test);
+const setCurrentUser = createAction('setCurrentUser');
 
 export default {
-  test,
-  types,
+  setCurrentUser,
 };

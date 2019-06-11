@@ -22,7 +22,7 @@ const AuthenticationController = (app) => {
       });
     }
 
-    user = await UserModel.findOne({ email });
+    user = await UserModel.findOne({ email }, { password: 0 });
 
     const payload = {
       _id: user._id,
@@ -38,6 +38,7 @@ const AuthenticationController = (app) => {
     res.json({
       success: true,
       message: "Enjoy your token!",
+      user,
       token,
     });
   });
