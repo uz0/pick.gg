@@ -95,7 +95,6 @@ class newTournament extends Component {
     this.setState({ modalChoose: false });
 
     const {
-      user,
       name,
       entry,
       thumbnail,

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import io from 'socket.io-client';
@@ -15,12 +15,9 @@ import UserBox from './userbox';
 import NotificationBell from 'components/notification/notification-bell';
 
 import style from './style.module.css';
-import classnames from 'classnames/bind';
 
 import i18n from 'i18n';
 import ym from 'react-yandex-metrika';
-
-const cx = classnames.bind(style);
 
 class TopMenuComponent extends Component {
   constructor() {
@@ -104,7 +101,7 @@ class TopMenuComponent extends Component {
       });
     });
 
-    //   this.socket.on('matchUpdated', ({ updatedMatch }) => {
+    //   This.socket.on('matchUpdated', ({ updatedMatch }) => {
     //     if (!this.state.profile) {
     //       return;
     //     }
@@ -134,7 +131,7 @@ class TopMenuComponent extends Component {
       <div className={style.top_menu}>
         <div className={style.menu_wrap}>
           <div className={style.links}>
-            <NavLink to="/">
+            <NavLink to="/home">
               <h2 className={style.logo}>Pick.gg</h2>
             </NavLink>
 
@@ -142,9 +139,9 @@ class TopMenuComponent extends Component {
             <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
-          {profile && profile.user && <Fragment>
+          {profile && profile.user && <>
 
-            <NotificationBell />
+            <NotificationBell/>
 
             <DropDown
               className={style.mobile_hidden}
@@ -153,7 +150,7 @@ class TopMenuComponent extends Component {
                 username={username}
                 role={role}
                 isLoading={this.state.isLoading}
-              />}
+                           />}
             >
               {profile && profile.user && profile.user.isAdmin &&
                 <NavLink to="/dashboard/tournaments">
@@ -184,13 +181,13 @@ class TopMenuComponent extends Component {
 
               <GoogleLogout
                 clientId={config.google_client_id}
-                onLogoutSuccess={this.handleLogout}
-                render={renderProps => (
-                  <button className={style.btn_logout} onClick={renderProps.onClick}>
+                render={renderProperties => (
+                  <button className={style.btn_logout} onClick={renderProperties.onClick}>
                     <i className="material-icons">exit_to_app</i>
                     {i18n.t('log_out')}
                   </button>
                 )}
+                onLogoutSuccess={this.handleLogout}
               />
             </DropDown>
 
@@ -223,16 +220,16 @@ class TopMenuComponent extends Component {
               <GoogleLogout
                 buttonText="Logout"
                 clientId={config.google_client_id}
-                onLogoutSuccess={this.handleLogout}
-                render={renderProps => (
-                  <button className={style.btn_logout} {...renderProps}>
+                render={renderProperties => (
+                  <button className={style.btn_logout} {...renderProperties}>
                     <i className="material-icons">exit_to_app</i>
                     {i18n.t('log_out')}
                   </button>
                 )}
+                onLogoutSuccess={this.handleLogout}
               />
             </DropDown>
-          </Fragment>
+                                      </>
           }
 
         </div>

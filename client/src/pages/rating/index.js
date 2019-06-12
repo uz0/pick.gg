@@ -58,7 +58,7 @@ class Rating extends Component {
   }
 
   loadData = async () => {
-    const rating = await this.userService.getUserRewards();
+    // const rating = await this.userService.getUserRewards();
     const allUsers = await this.userService.getAllUsers();
     const currentUser = await this.userService.getMyProfile();
     allUsers.users.forEach((item, index) => item.place = index + 1);
