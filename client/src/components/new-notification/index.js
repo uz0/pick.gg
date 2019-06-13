@@ -4,9 +4,14 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import classnames from 'classnames/bind';
 import Button from 'components/button';
-import { ReactComponent as BattleIcon } from 'assets/battle.svg';
-import { ReactComponent as ErrorIcon } from 'assets/error.svg';
+import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+import { ReactComponent as MatchIcon } from 'assets/battle.svg';
+import { ReactComponent as WarningIcon } from 'assets/warning.svg';
 import { ReactComponent as SuccessIcon } from 'assets/success.svg';
+import { ReactComponent as ErrorIcon } from 'assets/error.svg';
+import { ReactComponent as BattleIcon } from 'assets/battle.svg';
+import sound from 'assets/alert.mp3';
+import i18n from 'i18next';
 import actions from './actions';
 import style from './style.module.css';
 
@@ -28,6 +33,11 @@ class Notification extends Component {
       isShown: true,
       isInDom: true,
     });
+
+    if (this.props.type === 'match' || this.props.type === 'winning') {
+      const audio = new Audio(sound);
+      audio.play();
+    }
 
     this.timeout = setTimeout(() => this.close(), 5000);
   };
@@ -62,22 +72,31 @@ class Notification extends Component {
   }
 
   render() {
-    const type = 'success';
-    const isMatch = type === 'match';
-    const isError = type === 'error';
-    const isSuccess = type === 'success';
+    const isMatch = this.props.type === 'match';
+    const isError = this.props.type === 'error';
+    const isSuccess = this.props.type === 'success';
+    const isWarning = this.props.type === 'warning';
+    const isWinning = this.props.type === 'winning';
     let title = '';
 
     if (isMatch) {
-      title = 'Match';
+      title = i18n.t('match');
     }
 
     if (isError) {
-      title = 'Error';
+      title = i18n.t('error');
     }
 
     if (isSuccess) {
-      title = 'Success';
+      title = i18n.t('success');
+    }
+
+    if (isWarning) {
+      title = i18n.t('warning');
+    }
+
+    if (isWinning ) {
+      title = i18n.t('winning');
     }
 
     return this.state.isInDom && <Portal>
@@ -101,6 +120,14 @@ class Notification extends Component {
               <i><SuccessIcon /></i>
             }
 
+            {isWarning &&
+              <i><WarningIcon /></i>
+            }
+
+            {isWinning &&
+              <i><TrophyIcon /></i>
+            }
+
             <h3 className={style.title}>{title}</h3>
 
             <Button
@@ -122,7 +149,7 @@ export default compose(
   connect(
     state => ({
       isShown: state.notification.isShown,
-      type: state.notification.type,
+      type: state.notification.type || 'success',
       message: state.notification.message,
     }),
 
