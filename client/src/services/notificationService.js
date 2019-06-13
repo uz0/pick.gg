@@ -68,17 +68,17 @@ class NotificationService {
         type={type}
       />, target);
 
-    setTimeout(() => {
-      if (shouldBeAddedToSidebar) {
-        notificationActions.pushNotificationToSidebar({
-          id,
-          type,
-          link,
-          message,
-        });
-      }
-      this.hideSingleNotification();
-    }, 4000);
+    // setTimeout(() => {
+    //   if (shouldBeAddedToSidebar) {
+    //     notificationActions.pushNotificationToSidebar({
+    //       id,
+    //       type,
+    //       link,
+    //       message,
+    //     });
+    //   }
+    //   this.hideSingleNotification();
+    // }, 4000);
   }
 
   hideSingleNotification = () => {

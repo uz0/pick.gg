@@ -14,6 +14,7 @@ import Footer from 'components/footer';
 
 import NotificationService from 'services/notificationService';
 
+import { actions as notificationActions } from 'components/new-notification';
 import { actions as storeActions } from 'store';
 import { http, isLogged } from 'helpers';
 
@@ -47,7 +48,7 @@ class Start extends Component {
     response = await response.json();
 
     if (!response.success) {
-      this.notificationService.showSingleNotification({
+      this.props.showNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
         message: response.message,
@@ -65,7 +66,7 @@ class Start extends Component {
     const url = this.tournamentId ? `/tournaments/${this.tournamentId}` : '/tournaments';
     this.props.history.push(url);
 
-    this.notificationService.showSingleNotification({
+    this.props.showNotification({
       type: 'success',
       shouldBeAddedToSidebar: false,
       message: response.message,
@@ -73,7 +74,7 @@ class Start extends Component {
   };
 
   onFailureGoogleLogin = () => {
-    this.notificationService.showSingleNotification({
+    this.props.showNotification({
       type: 'error',
       shouldBeAddedToSidebar: false,
       message: i18n.t('notifications.errors.closed_window'),
@@ -211,6 +212,7 @@ export default compose(
 
     {
       setCurrentUser: storeActions.setCurrentUser,
+      showNotification: notificationActions.showNotification,
     },
   ),
 )(Start);

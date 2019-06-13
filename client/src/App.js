@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import TopMenuComponent from './components/top-menu-component';
 import Footer from './components/footer';
+import NewNotification from 'components/new-notification';
 import NotificationContainer from './components/notification/notification-container';
 import NotificationSidebar from './components/notification/notification-sidebar';
 import Dashboard from './pages/dashboard';
@@ -15,7 +16,7 @@ import Rating from './pages/rating';
 import './i18n';
 
 const App = ({ history }) => (
-  <>
+  <Fragment>
     <NotificationSidebar/>
     <NotificationContainer/>
 
@@ -36,7 +37,9 @@ const App = ({ history }) => (
     </div>
 
     <Footer/>
-  </>
+
+    <NewNotification />
+  </Fragment>
 );
 
 export default App;
