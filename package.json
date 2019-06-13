@@ -15,11 +15,6 @@
     "postinstall": "cd client && npm install && cd .. && npm run build",
     "lint:client": "cd client && npm run pre-commit"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm-run-all lint:*"
-    }
-  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
