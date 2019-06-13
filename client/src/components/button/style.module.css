@@ -120,8 +120,10 @@
 
 .button[appearance^="_google"]:hover {
   opacity: 1;
+  box-shadow: 0 0 0 1.5em rgba(155, 20, 20, 0);
+}
+.button[appearance^="_google"]:active{
   animation: pulse 1s;
-  box-shadow: 0 0 0 1em rgba(155, 20, 20, 0);
 }
 
 /*********/

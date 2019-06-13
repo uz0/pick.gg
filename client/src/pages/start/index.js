@@ -86,7 +86,7 @@ class Start extends Component {
 
   render() {
     const isUserAuthenticated = this.auth.isLoggedIn();
-
+    const textGoogle = <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>;
     return (
       <div className={style.login_page}>
 
@@ -110,7 +110,7 @@ class Start extends Component {
                     render={renderProps => (
                       <Button
                         appearance={'_google'}
-                        text={<span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>}
+                        text={textGoogle}
                         onClick={renderProps.onClick}
                       />
                     )}
@@ -187,7 +187,7 @@ class Start extends Component {
             render={renderProps => (
               <Button
                 appearance={'_google'}
-                text={<span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>}
+                text={textGoogle}
                 onClick={renderProps.onClick}
               />
             )}
