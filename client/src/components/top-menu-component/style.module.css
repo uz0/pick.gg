@@ -59,6 +59,15 @@ html {
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
   font-size: 18px;
+  transition: 0.3s;
+}
+
+.links a:hover {
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+.links a:active {
+  transform: scale(0.95);
 }
 
 .links a:first-child {
