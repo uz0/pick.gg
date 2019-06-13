@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router';
 import Button from '../button';
+import { history } from 'index';
 import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
 import soundfile from 'assets/alert.mp3';
 
@@ -37,7 +37,7 @@ class Notification extends Component {
       return;
     }
 
-    this.props.history.replace(this.props.link);
+    history.replace(this.props.link);
 
     if (this.props.onLinkRedirect) {
       this.props.onLinkRedirect();
@@ -81,4 +81,4 @@ class Notification extends Component {
   }
 }
 
-export default withRouter(Notification);
+export default Notification;

@@ -1,4 +1,5 @@
 import express from "express";
+import omit from 'lodash/omit';
 import UserModel from "../models/user";
 import jwt from "jsonwebtoken";
 import passwordHash from "password-hash";
@@ -23,6 +24,7 @@ const AuthenticationController = (app) => {
     }
 
     user = await UserModel.findOne({ email }, { password: 0 });
+    user = omit(user, 'password');
 
     const payload = {
       _id: user._id,

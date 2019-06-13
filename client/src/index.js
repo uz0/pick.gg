@@ -13,7 +13,7 @@ import App from './App';
 import Start from './start';
 import Home from './pages/home';
 
-const history = createBrowserHistory();
+export const history = createBrowserHistory();
 
 ReactDOM.render(
   <Provider store={store}>
