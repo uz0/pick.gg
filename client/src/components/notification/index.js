@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import history from '../../history';
 import Button from '../button';
+import { history } from 'index';
 import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
-import soundfile from 'assets/alert.mp3'
+import soundfile from 'assets/alert.mp3';
 
 import style from './style.module.css';
 import classnames from 'classnames';
@@ -19,7 +19,7 @@ class Notification extends Component {
     setTimeout(() => this.setState({ isShown: true }), 100);
 
     if (this.props.type === 'match' || this.props.type === 'winning') {
-      let audio = new Audio(soundfile);
+      const audio = new Audio(soundfile);
       audio.play();
     }
 
@@ -44,11 +44,11 @@ class Notification extends Component {
     }
   }
 
-  close = (event) => {
+  close = event => {
     event.stopPropagation();
 
     this.setState({ isShown: false }, () => setTimeout(() => {
-      const notificationContainer = document.getElementById('notifications-wrapper');
+      const notificationContainer = document.querySelector('#notifications-wrapper');
       ReactDOM.unmountComponentAtNode(notificationContainer);
     }, 100));
   }
@@ -58,8 +58,8 @@ class Notification extends Component {
     const isGame = this.props.type === 'winning' || this.props.type === 'match';
 
     return (
-      <div ref={notification => this.notification = notification} onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, { [style.clickable]: this.props.link }, this.props.wrapperStyle)}>
-        <div className={cx(style.notification, { 'game': isGame }, { '_is-shown': this.state.isShown }, this.props.notificationStyle)}>
+      <div ref={notification => this.notification = notification} className={cx(style.wrapper_n, { [style.clickable]: this.props.link }, this.props.wrapperStyle)} onClick={this.handleLinkRedirect}>
+        <div className={cx(style.notification, { game: isGame }, { '_is-shown': this.state.isShown }, this.props.notificationStyle)}>
           <div className={style.header}>
             <div className={style.image}>
               {this.props.image}
@@ -71,8 +71,8 @@ class Notification extends Component {
 
           <Button
             className={style.close_button}
-            appearance={'_icon-transparent'}
-            icon={<CloseIcon />}
+            appearance="_icon-transparent"
+            icon={<CloseIcon/>}
             onClick={closeButtonAction}
           />
         </div>
