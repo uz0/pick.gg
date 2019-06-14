@@ -12,11 +12,11 @@ const cx = classnames.bind(style);
 
 class Notification extends Component {
   state = {
-    isShown: false,
+    isClose: false,
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState({ isShown: true }), 100);
+    setTimeout(() => this.setState({ isClose: true }), 100);
 
     if (this.props.type === 'match' || this.props.type === 'winning') {
       let audio = new Audio(soundfile);
@@ -26,9 +26,9 @@ class Notification extends Component {
     if (this.props.hideAfter) {
       setTimeout(() => {
         if (this.notification) {
-          this.setState({ isShown: false });
+          this.setState({ isClose: false });
         }
-      }, this.props.hideAfter - 500);
+      }, this.props.hideAfter - 1000);
     }
   }
 
@@ -47,7 +47,7 @@ class Notification extends Component {
   close = (event) => {
     event.stopPropagation();
 
-    this.setState({ isShown: false }, () => setTimeout(() => {
+    this.setState({ isClose: false }, () => setTimeout(() => {
       const notificationContainer = document.getElementById('notifications-wrapper');
       ReactDOM.unmountComponentAtNode(notificationContainer);
     }, 100));
@@ -59,7 +59,7 @@ class Notification extends Component {
 
     return (
       <div ref={notification => this.notification = notification} onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, { [style.clickable]: this.props.link }, this.props.wrapperStyle)}>
-        <div className={cx(style.notification, { 'game': isGame }, { '_is-shown': this.state.isShown }, this.props.notificationStyle)}>
+        <div className={cx(style.notification, { 'game': isGame }, { '_is-close': this.state.isClose }, this.props.notificationStyle)}>
           <div className={style.header}>
             <div className={style.image}>
               {this.props.image}
