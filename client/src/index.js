@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { YMInitializer } from 'react-yandex-metrika';
+import Notification from 'components/notification';
 import store, { actions as storeActions } from 'store';
 import { isLogged, http } from 'helpers';
 
@@ -34,6 +35,7 @@ const render = async () => {
       </Router>
 
       <YMInitializer accounts={[53679490]}/>
+      <Notification />
     </Provider>,
 
     document.querySelector('#root'),

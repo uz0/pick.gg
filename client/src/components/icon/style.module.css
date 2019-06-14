@@ -1,0 +1,18 @@
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  pointer-events: none;
+}
+
+.icon svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.icon svg path {
+  fill: var(--icon-color);
+  transition-property: fill;
+}

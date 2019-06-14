@@ -12,7 +12,7 @@ import StreamerService from 'services/streamerService';
 
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';
-import NotificationBell from 'components/notification/notification-bell';
+import NotificationBell from 'components/old-notification/notification-bell';
 
 import style from './style.module.css';
 
