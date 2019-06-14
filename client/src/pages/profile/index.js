@@ -196,7 +196,10 @@ class Profile extends Component {
                   </div>
                 </div>
 
-                <Button appearance={'_basic-accent'} text={i18n.t('save_changes')} />
+                <Button
+                  appearance={'_basic-accent'}
+                  text={i18n.t('save_changes')}
+                />
               </form>
             </div>
           </div>

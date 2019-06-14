@@ -148,6 +148,9 @@ class Tournaments extends Component {
   });
 
   render() {
+
+    const isStreamer = this.state.profile.user.isStreamer;
+
     return <div className={style.tournaments}>
       <div className={style.content}>
         <div className={cx(style.section, { [style.is_preloader_card]: this.state.isLoading })}>
@@ -161,15 +164,7 @@ class Tournaments extends Component {
             </div>;
           })}
 
-          {this.state.profile && this.state.profile.user && this.state.profile.user.isAdmin && !this.state.profile.user.isStreamer &&
-            <Button
-              className={cx(style.button, style.pulse)}
-              icon={<i className="material-icons">add</i>}
-              onClick={this.toggleNewStreamerTournamentModal}
-            />
-          }
-
-          {this.state.profile && this.state.profile.user && this.state.profile.user.isStreamer &&
+          {this.state.profile && this.state.profile.user && isStreamer &&
             <Button
               appearance="_icon-accent"
               className={cx(style.button, "pulse")}
