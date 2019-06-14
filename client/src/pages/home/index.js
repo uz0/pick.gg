@@ -9,12 +9,12 @@ import ym from 'react-yandex-metrika';
 import i18n from 'i18next';
 import config from 'config';
 
-import NotificationContainer from 'components/notification/notification-container';
+import NotificationContainer from 'components/old-notification/notification-container';
 import Footer from 'components/footer';
 
 import NotificationService from 'services/notificationService';
 
-import { actions as notificationActions } from 'components/new-notification';
+import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
 import { http, isLogged } from 'helpers';
 

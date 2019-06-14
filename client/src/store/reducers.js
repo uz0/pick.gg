@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { createReducer } from 'redux-starter-kit';
-import { reducers as notificationReducers } from 'components/new-notification';
+import { reducers as notificationReducers } from 'components/notification';
 
 import actions from './actions';
 
