@@ -9,9 +9,14 @@ import moment from 'moment';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 
+import get from './get'
+import {validator as validateCreate, handler as create} from './create'
+
 let router = express.Router();
 
 const TournamentController = io => {
+  router.get('/', get);
+
   router.get('/real', async (req, res) => {
     const tournaments = await TournamentModel
       .find({
@@ -37,17 +42,6 @@ const TournamentController = io => {
     })
 
   })
-
-  router.get('/', async (req, res) => {
-    const tournaments = await FantasyTournament
-      .find({})
-      .populate('tournament', 'name date')
-      .populate({ path: 'users.players', select: 'id name' })
-      .populate({ path: 'users.user', select: '_id username' })
-      .sort({date: -1})
-
-    res.json({ tournaments });
-  });
 
   router.get('/my', async (req, res) => {
     if(isEmpty(req.decoded)){
@@ -120,70 +114,7 @@ const TournamentController = io => {
     res.json({ tournament });
   });
 
-  router.post('/', async (req, res) => {
-    const {
-      tournamentId,
-      name,
-      thumbnail,
-      entry,
-      rules,
-    } = req.body;
-
-    const userId = req.decoded._id;
-
-    let message = '';
-
-    if (!tournamentId) {
-      message = 'Enter tournament';
-    }
-
-    if (!name) {
-      message = 'Enter name';
-    }
-
-    if (!entry) {
-      message = 'Enter entry price';
-    }
-
-    if (message) {
-      res.json({
-        success: false,
-        message,
-      });
-
-      return;
-    }
-
-    try {
-      const newTournament = await FantasyTournament.create({
-        tournament: tournamentId,
-        name,
-        entry,
-        thumbnail,
-        rules,
-        creator: userId,
-        winner: null,
-      });
-
-      const newTournamentPopulated = await FantasyTournament.findOne({_id: newTournament._id})
-        .populate('tournament', 'name date')
-        .populate({ path: 'users.players', select: 'id name' })
-        .populate({ path: 'users.user', select: '_id username' })
-      
-      io.emit('fantasyTournamentCreated', {newTournamentPopulated});
-
-      res.json({
-        success: true,
-        newTournament,
-      });
-
-    } catch (error) {
-      res.json({
-        success: false,
-        error,
-      });
-    }
-  });
+  router.post('/',validateCreate, create);
 
   router.post('/:id/setup', async (req, res) => {
     const id = req.params.id;
