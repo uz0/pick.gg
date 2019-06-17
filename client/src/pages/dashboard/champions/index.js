@@ -50,16 +50,16 @@ class Champions extends Component {
 
   delChampion = () => this.setState({ isChampionDelete: true })
 
-  editChampionInit = (playerId) => {
+  editChampionInit = playerId => {
     const player = this.state.players.filter(player => player._id === playerId)[0];
 
-    this.setState({
+    this.setState(prevState => ({
       isChampionEditing: true,
       championData: {
-        ...this.state.championData,
+        ...prevState.championData,
         ...player,
       },
-    });
+    }));
   }
 
   editChampionSubmit = async () => {
@@ -176,13 +176,13 @@ class Champions extends Component {
     championData: {},
   });
 
-  handleInputChange = (event) => {
-    this.setState({
+  handleInputChange = event => {
+    this.setState(prevState => ({
       championData: {
-        ...this.state.championData,
+        ...prevState.championData,
         [event.target.name]: event.target.value,
       },
-    });
+    }));
   };
 
   async componentDidMount() {
@@ -199,11 +199,13 @@ class Champions extends Component {
   renderRow = ({ className, itemClass, textClass, item }) => {
     const playerId = item._id;
 
-    return <div onClick={() => this.editChampionInit(playerId)} className={cx(className, style.tournament_row)} key={item._id}>
-      <div className={itemClass} style={{ '--width': championsTableCaptions.name.width }}>
-        <span className={textClass}>{item.name}</span>
+    return (
+      <div key={item._id} className={cx(className, style.tournament_row)} onClick={() => this.editChampionInit(playerId)}>
+        <div className={itemClass} style={{ '--width': championsTableCaptions.name.width }}>
+          <span className={textClass}>{item.name}</span>
+        </div>
       </div>
-    </div>;
+    );
   }
 
   render() {
@@ -218,7 +220,7 @@ class Champions extends Component {
 
     const modalTitle = isChampionEditing ? `${i18n.t('editing')} ${championData.name}` : i18n.t('add_new_champion');
     const isChampionModalActive = isChampionEditing || isChampionCreating;
-    let modalActions = [];
+    const modalActions = [];
 
     if (!isChampionEditing) {
       modalActions.push(
@@ -233,62 +235,66 @@ class Champions extends Component {
       );
     }
 
-    return <div className={style.champions}>
+    return (
+      <div className={style.champions}>
 
-      <div className={style.champions_controls}>
-        <Button
-          appearance="_basic-accent"
-          text={i18n.t('add_champion')}
-          onClick={this.addChampionInit}
-          className={style.button}
+        <div className={style.champions_controls}>
+          <Button
+            appearance="_basic-accent"
+            text={i18n.t('add_champion')}
+            className={style.button}
+            onClick={this.addChampionInit}
+          />
+        </div>
+
+        <Table
+          captions={championsTableCaptions}
+          items={players}
+          className={style.table}
+          renderRow={this.renderRow}
+          isLoading={isLoading}
+          emptyMessage={i18n.t('no_champions')}
         />
+
+        {isChampionModalActive && (
+          <Modal
+            title={modalTitle}
+            close={this.resetChampion}
+            actions={modalActions}
+          >
+
+            {isLoading && <Preloader/>}
+
+            {isChampionDelete && (
+              <DialogWindow
+                text={i18n.t('want_remove_champion')}
+                onSubmit={this.deleteChampion}
+                onClose={this.closeDeleteChampion}
+              />
+            )}
+
+            <Input
+              label={i18n.t('champion_name')}
+              name="name"
+              value={championData.name || ''}
+              onChange={this.handleInputChange}
+            />
+            <Input
+              label={i18n.t('champion_photo')}
+              name="photo"
+              value={championData.photo || ''}
+              onChange={this.handleInputChange}
+            />
+            <Input
+              label={i18n.t('champion_position')}
+              name="position"
+              value={championData.position || ''}
+              onChange={this.handleInputChange}
+            />
+          </Modal>
+        )}
       </div>
-
-      <Table
-        captions={championsTableCaptions}
-        items={players}
-        className={style.table}
-        renderRow={this.renderRow}
-        isLoading={isLoading}
-        emptyMessage={i18n.t('no_champions')}
-      />
-
-      {isChampionModalActive &&
-        <Modal
-          title={modalTitle}
-          close={this.resetChampion}
-          actions={modalActions}
-        >
-
-          {isLoading && <Preloader />}
-
-          {isChampionDelete && <DialogWindow
-            text={i18n.t('want_remove_champion')}
-            onSubmit={this.deleteChampion}
-            onClose={this.closeDeleteChampion}
-          />}
-
-          <Input
-            label={i18n.t('champion_name')}
-            name="name"
-            value={championData.name || ''}
-            onChange={this.handleInputChange}
-          />
-          <Input
-            label={i18n.t('champion_photo')}
-            name="photo"
-            value={championData.photo || ''}
-            onChange={this.handleInputChange}
-          />
-          <Input
-            label={i18n.t('champion_position')}
-            name="position"
-            value={championData.position || ''}
-            onChange={this.handleInputChange}
-          />
-        </Modal>
-      }
-    </div>;
+    );
   }
 }
 
