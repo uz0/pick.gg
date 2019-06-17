@@ -123,7 +123,6 @@ class Tournaments extends Component {
     }
   }
 
-
   tournamentsDefaultSorting = (prev, next) => moment(next.tournament.date).format('YYYYMMDD') - moment(prev.tournament.date).format('YYYYMMDD');
 
   onTournamentFilterChange = event => this.setState({
@@ -148,8 +147,8 @@ class Tournaments extends Component {
   });
 
   render() {
-
     const isStreamer = this.state.profile.user.isStreamer;
+    const isStreamerButton = this.state.profile && this.state.profile.user && isStreamer;
 
     return <div className={style.tournaments}>
       <div className={style.content}>
@@ -164,7 +163,7 @@ class Tournaments extends Component {
             </div>;
           })}
 
-          {this.state.profile && this.state.profile.user && isStreamer &&
+          {isStreamerButton &&
             <Button
               appearance="_icon-accent"
               className={cx(style.button, "pulse")}

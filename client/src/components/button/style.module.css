@@ -37,9 +37,10 @@
 }
 
 .button[appearance^="_google"] {
+  --height: 40px;
   width: auto;
   background-color: #f1f1f1;
-  padding: 10px 16px;
+  padding: 0 12px;
   color: #000;
   text-transform: uppercase;
   font-weight: bold;
@@ -63,7 +64,7 @@
 .button[appearance$="accent"]:active {
   --background-color: #f3ab3f;
   animation: pulse 0.5s;
-  box-shadow: 0 0 0 0.5em rgba(155, 20, 20, 0);
+  box-shadow: 0 0 0 8px rgba(155, 20, 20, 0);
 }
 
 .button[appearance$="primary"]:not(:hover) {
@@ -120,10 +121,10 @@
 
 .button[appearance^="_google"]:hover {
   opacity: 1;
-  box-shadow: 0 0 0 1.5em rgba(155, 20, 20, 0);
 }
 .button[appearance^="_google"]:active{
   animation: pulse 1s;
+  box-shadow: 0 0 0 22px rgba(155, 20, 20, 0);
 }
 
 /*********/
@@ -146,7 +147,7 @@
   transition-property: fill;
 }
 
-.button svg+span {
+.button svg + span {
   margin-left: 12px;
 }
 
