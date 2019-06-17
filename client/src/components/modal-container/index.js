@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
@@ -11,25 +11,29 @@ const modals = {
 
 class ModalContainer extends Component {
   render() {
-    return <Portal>
-      {this.props.modal_ids.map(id => {
-        const Modal = modals[id];
+    return (
+      <Portal>
+        {this.props.modalIds.map(id => {
+          const Modal = modals[id];
 
-        return <Modal
-          key={id}
-          options={this.props.modal_list[id]}
-          close={() => this.props.toggleModal({ id })}
-        />;
-      })}
-    </Portal>;
+          return (
+            <Modal
+              key={id}
+              options={this.props.modalList[id]}
+              close={() => this.props.toggleModal({ id })}
+            />
+          );
+        })}
+      </Portal>
+    );
   }
 }
 
 export default compose(
   connect(
     state => ({
-      modal_ids: state.modal.ids,
-      modal_list: state.modal.list,
+      modalIds: state.modal.ids,
+      modalList: state.modal.list,
     }),
 
     {
