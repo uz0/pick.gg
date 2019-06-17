@@ -1,5 +1,8 @@
-.footer {
+html {
   --footer-height: 60px;
+}
+
+.footer {
   height: var(--footer-height);
   display: flex;
   align-items: center;
