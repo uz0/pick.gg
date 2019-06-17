@@ -3,9 +3,11 @@ import Button from 'components/button';
 import style from './style.module.css';
 
 class Modal extends Component {
+  preventClose = event => event.stopPropagation();
+
   render() {
-    return <div className={style.wrapper}>
-      <div className={style.modal}>
+    return <div className={style.wrapper} onClick={this.props.close}>
+      <div className={style.modal} onClick={this.preventClose}>
         <div className={style.header}>
           <h2 className={style.title}>{this.props.title}</h2>
 

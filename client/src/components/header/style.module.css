@@ -1,7 +1,3 @@
-html {
-  --header-height: 60px;
-}
-
 .top_menu {
   display: flex;
   align-items: center;

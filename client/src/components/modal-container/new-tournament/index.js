@@ -6,6 +6,7 @@ class NewTournament extends Component {
   render() {
     return <Modal
       title="New Tournament"
+      close={this.props.close}
     >
       content
     </Modal>;

@@ -5,15 +5,22 @@ import { connect } from 'react-redux';
 import NewTournament from './new-tournament';
 import modalActions from './actions';
 
-export { default as actions } from './actions';
-export { default as reducers } from './reducers';
+const modals = {
+  'new-tournament-modal': NewTournament,
+};
 
 class ModalContainer extends Component {
   render() {
     return <Portal>
-      {this.props.modal_ids.map(id => <Fragment key={id}>
-        {id === 'new-tournament-modal' && <NewTournament options={this.props.modal_list[id]} close={() => this.props.closeModal(id)} />}
-      </Fragment>)}
+      {this.props.modal_ids.map(id => {
+        const Modal = modals[id];
+
+        return <Modal
+          key={id}
+          options={this.props.modal_list[id]}
+          close={() => this.props.toggleModal({ id })}
+        />;
+      })}
     </Portal>;
   }
 }
@@ -26,7 +33,10 @@ export default compose(
     }),
 
     {
-      closeModal: modalActions.closeModal,
+      toggleModal: modalActions.toggleModal,
     },
   ),
 )(ModalContainer);
+
+export { default as actions } from './actions';
+export { default as reducers } from './reducers';

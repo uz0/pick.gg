@@ -12,7 +12,7 @@ class Tournaments extends Component {
     return <div className={style.tournaments}>
       <Button
         appearance="_icon-accent"
-        icon="material-icons-add"
+        icon="plus"
         className={style.button}
         onClick={this.openNewTournamentModal}
       />

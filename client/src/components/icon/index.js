@@ -2,21 +2,20 @@ import React from 'react';
 import classnames from 'classnames/bind';
 import style from './style.module.css';
 
-import { ReactComponent as CloseIcon } from 'assets/notification-close.svg';
+import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
+import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
 
 const cx = classnames.bind(style);
 
 const Icon = ({ name, className }) => {
-  const isMaterial = name.match('material-icons-');
-  const materialName = name.replace('material-icons-', '');
+  const SvgIcon = ({
+    close: CloseIcon,
+    plus: PlusIcon,
+  })[name];
 
-  return <i className={cx('icon', className, {'material-icons': isMaterial})}>
-    {isMaterial &&
-      materialName
-    }
-
-    {name === 'close' &&
-      <CloseIcon />
+  return <i className={cx('icon', className)}>
+    {SvgIcon &&
+      <SvgIcon />
     }
   </i>;
 };

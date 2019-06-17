@@ -24,16 +24,4 @@ export default createReducer(initialState, {
       }
     }
   },
-
-  [actions.closeModal]: (state, action) => {
-    const index = state.ids.indexOf(action.payload);
-
-    if (index !== -1) {
-      state.ids.splice(index, 1);
-    }
-
-    if (state.list[action.payload]) {
-      delete state.list[action.payload];
-    }
-  },
 });
