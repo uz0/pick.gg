@@ -4,6 +4,7 @@
   align-items: center;
   width: var(--icon-size);
   height: var(--icon-size);
+  color: var(--icon-color);
   pointer-events: none;
 }
 

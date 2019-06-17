@@ -61,6 +61,8 @@
   --caption-color: #e3e3e6;
   --header-color: #eeeeee;
 
+  --header-height: 60px;
+  --footer-height: 60px;
   --layout-padding: 20px;
   --container-width: calc(1024px + (var(--layout-padding) * 2));
 }
