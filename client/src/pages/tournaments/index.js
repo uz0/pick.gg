@@ -9,14 +9,18 @@ class Tournaments extends Component {
   openNewTournamentModal = () => this.props.toggleModal({ id: 'new-tournament-modal' });
 
   render() {
-    return <div className={style.tournaments}>
-      <Button
-        appearance="_icon-accent"
-        icon="plus"
-        className={style.button}
-        onClick={this.openNewTournamentModal}
-      />
-    </div>;
+    return (
+      <div className="container">
+        <div className={style.tournaments}>
+          <Button
+            appearance="_icon-accent"
+            icon="plus"
+            className={style.button}
+            onClick={this.openNewTournamentModal}
+          />
+        </div>
+      </div>
+    );
   }
 }
 

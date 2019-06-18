@@ -66,27 +66,26 @@ class App extends Component {
   }
 
   render() {
-
     let tournaments = this.state.tournaments;
 
     return (
-      <div className={style.my_tournaments}>
-        <div className={style.section}>
-          <Table
-            captions={tournamentsTableCaptions}
-            items={tournaments}
-            className={style.table}
-            renderRow={this.renderRow}
-            isLoading={this.state.isLoading}
-            emptyMessage={i18n.t('not_yet_tournaments')}
-          />
-        </div>
+      <div className="container">
+        <div className={style.my_tournaments}>
+          <div className={style.section}>
+            <Table
+              captions={tournamentsTableCaptions}
+              items={tournaments}
+              className={style.table}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+              emptyMessage={i18n.t('not_yet_tournaments')}
+            />
+          </div>
 
-        {this.state.isLoading &&
-          <Preloader
-            isFullScreen={true}
-          />
-        }
+          {this.state.isLoading &&
+            <Preloader isFullScreen={true}/>
+          }
+        </div>
       </div>
     );
   }
