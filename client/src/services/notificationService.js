@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Notification from '../components/notification';
+import Notification from '../components/old-notification';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import { ReactComponent as MatchIcon } from 'assets/battle.svg';
 import { ReactComponent as WarningIcon } from 'assets/warning.svg';

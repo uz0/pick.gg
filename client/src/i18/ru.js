@@ -1,4 +1,8 @@
 export default {translation: {
+  error: 'Ошибка',
+  success: 'Успех',
+  warning: 'Предупреждение',
+  winning: 'Победа',
   about: 'Обо мне',
   add_player: 'Добавить игрока',
   add_players: 'Добавить игроков',

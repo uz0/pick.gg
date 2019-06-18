@@ -1,84 +1,124 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import history from '../../history';
-import Button from '../button';
-import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
-import soundfile from 'assets/alert.mp3'
-
+import { Portal } from 'react-portal';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import classnames from 'classnames/bind';
+import Button from 'components/button';
+import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
+import { ReactComponent as WarningIcon } from 'assets/warning.svg';
+import { ReactComponent as SuccessIcon } from 'assets/success.svg';
+import { ReactComponent as ErrorIcon } from 'assets/error.svg';
+import { ReactComponent as BattleIcon } from 'assets/battle.svg';
+import sound from 'assets/alert.mp3';
+import i18n from 'i18next';
+import actions from './actions';
 import style from './style.module.css';
-import classnames from 'classnames';
+
+export { default as actions } from './actions';
+export { default as reducers } from './reducers';
 
 const cx = classnames.bind(style);
 
 class Notification extends Component {
+  timeout = null;
+
   state = {
-    isClose: false,
-  }
+    isShown: false,
+    isInDom: false,
+  };
 
-  componentDidMount() {
-    setTimeout(() => this.setState({ isClose: true }), 100);
+  open = () => {
+    this.setState({
+      isShown: true,
+      isInDom: true,
+    });
 
-    if (this.props.type === 'match' || this.props.type === 'winning') {
-      let audio = new Audio(soundfile);
+    if (['match', 'winning'].includes(this.props.type)) {
+      const audio = new Audio(sound);
       audio.play();
     }
 
-    if (this.props.hideAfter) {
-      setTimeout(() => {
-        if (this.notification) {
-          this.setState({ isClose: false });
-        }
-      }, this.props.hideAfter - 1000);
+    this.timeout = setTimeout(() => this.close(), 5000);
+  };
+
+  forceOpen = () => {
+    clearTimeout(this.timeout);
+
+    this.setState({
+      isShown: false,
+      isInDom: false,
+    }, this.open);
+  };
+
+  hideAfterAnimation = () => setTimeout(() => {
+    this.setState({ isInDom: false });
+    this.props.close();
+  }, 100);
+
+  close = () => {
+    clearTimeout(this.timeout);
+    this.setState({ isShown: false }, this.hideAfterAnimation);
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isShown && nextProps.isShown) {
+      this.open();
     }
-  }
 
-  handleLinkRedirect = () => {
-    if (!this.props.link) {
-      return;
+    if (this.props.isShown && nextProps.isShown) {
+      this.forceOpen();
     }
-
-    history.replace(this.props.link);
-
-    if (this.props.onLinkRedirect) {
-      this.props.onLinkRedirect();
-    }
-  }
-
-  close = (event) => {
-    event.stopPropagation();
-
-    this.setState({ isClose: false }, () => setTimeout(() => {
-      const notificationContainer = document.getElementById('notifications-wrapper');
-      ReactDOM.unmountComponentAtNode(notificationContainer);
-    }, 100));
   }
 
   render() {
-    const closeButtonAction = this.props.onClose ? this.props.onClose : this.close;
-    const isGame = this.props.type === 'winning' || this.props.type === 'match';
+    const NotificationIcon = ({
+      error: ErrorIcon,
+      match: BattleIcon,
+      success: SuccessIcon,
+      warning: WarningIcon,
+      winning: TrophyIcon,
+    })[this.props.type];
 
-    return (
-      <div ref={notification => this.notification = notification} onClick={this.handleLinkRedirect} className={cx(style.wrapper_n, { [style.clickable]: this.props.link }, this.props.wrapperStyle)}>
-        <div className={cx(style.notification, { 'game': isGame }, { '_is-close': this.state.isClose }, this.props.notificationStyle)}>
+    const isMatch = this.props.type === 'match';
+    const title = ['match', 'winning', 'error', 'success', 'warning'].includes(this.props.type) ? i18n.t(this.props.type) : '';
+
+    return this.state.isInDom && <Portal>
+      <div className={style.wrapper}>
+        <div
+          className={cx('notification', {
+            '_is-shown': this.state.isShown,
+            '_is-match': isMatch,
+          })}
+        >
           <div className={style.header}>
-            <div className={style.image}>
-              {this.props.image}
-            </div>
-            <span className={style.type}>{this.props.type}</span>
+            <i><NotificationIcon /></i>
+            <h3 className={style.title}>{title}</h3>
+
+            <Button
+              className={style.close}
+              appearance="_icon-transparent"
+              icon="close"
+              onClick={this.close}
+            />
           </div>
 
           <p className={style.message}>{this.props.message}</p>
-
-          <Button
-            className={style.close_button}
-            appearance={'_icon-transparent'}
-            icon={<CloseIcon />}
-            onClick={closeButtonAction}
-          />
         </div>
       </div>
-    );
+    </Portal>;
   }
 }
 
-export default Notification;
+export default compose(
+  connect(
+    state => ({
+      isShown: state.notification.isShown,
+      type: state.notification.type || 'success',
+      message: state.notification.message,
+    }),
+
+    {
+      close: actions.closeNotification,
+    },
+  ),
+)(Notification);

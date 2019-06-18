@@ -17,6 +17,6 @@ describe('Index page', () => {
   });
 
   it('should display googl auth button', async () => {
-    await page.waitForSelector(loginWithGoogleButtonSelector, {visible: true});
+    await page.waitForSelector(loginWithGoogleButtonSelector, { visible: true });
   });
 });

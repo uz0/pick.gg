@@ -1,4 +1,8 @@
 export default {translation: {
+  error: 'Error',
+  success: 'Success',
+  warning: 'Warning',
+  winning: 'Winning',
   about: 'About',
   add_player: 'Add player',
   add_players: 'Add Players',
