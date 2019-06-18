@@ -47,7 +47,7 @@ class Users extends Component {
   };
 
   editUserInit = userId => {
-    const user = this.state.users.filter(user => user._id === userId)[0];
+    const [user] = this.state.users.filter(({ _id }) => _id === userId);
 
     this.setState({
       isUserEditing: true,
