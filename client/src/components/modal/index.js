@@ -1,28 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
+import classnames from 'classnames/bind';
 import Button from 'components/button';
 import style from './style.module.css';
 
-class Modal extends Component {
-  preventClose = event => event.stopPropagation();
+const cx = classnames.bind(style);
 
-  render() {
-    return <div className={style.wrapper} onClick={this.props.close}>
-      <div className={style.modal} onClick={this.preventClose}>
-        <div className={style.header}>
-          <h2 className={style.title}>{this.props.title}</h2>
+const Modal = ({
+  title,
+  close,
+  className,
+  children,
+}) => (
+  <div className={style.wrapper}>
+    <div className={style.modal}>
+      <div className={style.header}>
+        <h2 className={style.title}>{title}</h2>
 
-          <Button
-            appearance="_icon-transparent"
-            icon="close"
-            className={style.close}
-            onClick={this.props.close}
-          />
-        </div>
-
-        <div className={style.content}>{this.props.children}</div>
+        <Button
+          appearance="_icon-transparent"
+          icon="close"
+          className={style.close}
+          onClick={close}
+        />
       </div>
-    </div>;
-  }
-}
+
+      <div className={cx('content', className)}>{children}</div>
+    </div>
+  </div>
+);
 
 export default Modal;
