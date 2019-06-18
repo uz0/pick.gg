@@ -17,6 +17,7 @@
   margin-top: 130px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: auto;
   background-color: var(--background-color);
   border-radius: 6px;
 }
@@ -30,6 +31,7 @@
   height: var(--header-height);
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
+  border-bottom: 1px solid #323243;
 }
 
 .wrapper .modal .header .title {
@@ -49,4 +51,13 @@
   --icon-size: 14px;
   flex-shrink: 0;
   margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.wrapper .modal .content {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  padding-bottom: var(--layout-padding);
 }
