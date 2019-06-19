@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import store, { actions as storeActions } from 'store';
 import { isLogged, http } from 'helpers';
@@ -5,7 +6,7 @@ import { isLogged, http } from 'helpers';
 import 'typeface-roboto';
 import './index.css';
 
-import routes from './routes';
+import Routes from './routes';
 
 const init = async () => {
   if (isLogged()) {
@@ -15,7 +16,7 @@ const init = async () => {
   }
 
   ReactDOM.render(
-    routes(),
+    <Routes/>,
     document.querySelector('#root'),
   );
 };
