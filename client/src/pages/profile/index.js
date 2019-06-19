@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import NotificationService from 'services/notificationService';
 import UserService from 'services/userService';
 
-// import io from 'socket.io-client';
+// Import io from 'socket.io-client';
 
 import Button from 'components/button';
 import Preloader from 'components/preloader';
@@ -36,11 +36,11 @@ class Profile extends Component {
     };
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     event.preventDefault();
-    let formData = this.state.formData;
-    let name = event.target.name;
-    let value = event.target.value;
+    const formData = this.state.formData;
+    const name = event.target.name;
+    const value = event.target.value;
     formData[name] = value;
     this.setState({ formData });
   }
@@ -66,7 +66,7 @@ class Profile extends Component {
     });
   }
 
-  changeLocale = (event) => {
+  changeLocale = event => {
     this.setState({
       locale: event.target.name,
     });
@@ -76,7 +76,7 @@ class Profile extends Component {
     i18n.changeLanguage(event.target.name);
   }
 
-  handleSubmit = async (event) => {
+  handleSubmit = async event => {
     event.preventDefault();
 
     const { formData } = this.state;
@@ -113,14 +113,15 @@ class Profile extends Component {
                   <div>
                     <label>{i18n.t('username')}</label>
                     <input
-                      type='text'
-                      name='username'
+                      type="text"
+                      name="username"
                       value={this.state.formData.username}
                       onChange={this.handleChange}
                     />
                   </div>
 
-                  {this.state.formData.isStreamer && <>
+                  {this.state.formData.isStreamer && (
+<>
                     <div>
                       <label>{i18n.t('summonerName')}</label>
                       <input
@@ -140,25 +141,25 @@ class Profile extends Component {
                       />
                     </div>
                   </>
+)
                   }
 
                   <div>
                     <label>{i18n.t('email')}</label>
                     <input
+                      disabled
                       type='text'
                       name='email'
                       value={this.state.formData.email}
                       onChange={this.handleChange}
-                      disabled
                     />
                   </div>
-
 
                   <div>
                     <label>Photo</label>
                     <input
-                      type='text'
-                      name='photo'
+                      type="text"
+                      name="photo"
                       value={this.state.formData.photo}
                       onChange={this.handleChange}
                     />
@@ -167,7 +168,7 @@ class Profile extends Component {
                   <div>
                     <label>{i18n.t('about')}</label>
                     <textarea
-                      name='about'
+                      name="about"
                       value={this.state.formData.about}
                       onChange={this.handleChange}
                     />
@@ -176,20 +177,20 @@ class Profile extends Component {
                   <div className={style.localization}>
                     <label>{i18n.t('settings_locale')}</label>
                     <div>
-                    {
-                      LOCALES.map(locale => (
-                        <div className={style.item}>
-                          <label>{locale.toUpperCase()}</label>
-                          <input
-                            type="radio"
-                            name={locale}
-                            value={this.state.locale}
-                            checked={this.state.locale === locale}
-                            onChange={this.changeLocale}
-                          />
-                        </div>
-                      ))
-                    }
+                      {
+                        LOCALES.map(locale => (
+                          <div key={locale} className={style.item}>
+                            <label>{locale.toUpperCase()}</label>
+                            <input
+                              type="radio"
+                              name={locale}
+                              value={this.state.locale}
+                              checked={this.state.locale === locale}
+                              onChange={this.changeLocale}
+                            />
+                          </div>
+                        ))
+                      }
                     </div>
                   </div>
 
@@ -202,7 +203,7 @@ class Profile extends Component {
             </div>
 
             {this.state.isLoading &&
-              <Preloader />
+              <Preloader/>
             }
           </main>
         </div>
