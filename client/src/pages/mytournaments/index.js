@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   render() {
-    let tournaments = this.state.tournaments;
+    const { tournaments } = this.state;
 
     return (
       <div className="container">
