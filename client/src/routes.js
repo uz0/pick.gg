@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Start from './start';
 import Layout from './layout';
@@ -32,7 +32,6 @@ export default () => (
             <Route exact path="/mytournaments" component={MyTournaments}/>
             <Route exact path="/rewards" component={Rewards}/>
             <Route exact path="/rating" component={Rating}/>
-            <Redirect to="/"/>
           </Switch>
         </Layout>
       </>
