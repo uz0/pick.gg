@@ -768,7 +768,7 @@ class Tournament extends Component {
           {isFinalizeButtonShown && !isTournamentFinished && !isTournamentStarted && isUserStreamerAndCreator &&
             <Button
               text={i18n.t('start_tournament')}
-              appearance='_basic-accent'
+              appearance='_basic-start'
               onClick={this.startStreamerTournament}
               className={cx(style.start_button)}
             />
@@ -777,7 +777,7 @@ class Tournament extends Component {
           {isFinalizeButtonShown && isTournamentStarted && isUserStreamerAndCreator &&
             <Button
               text={i18n.t('finalize_tournament')}
-              appearance='_basic-accent'
+              appearance='_basic-start'
               onClick={this.finalizeStreamerTournament}
               className={cx(style.start_button)}
             />
