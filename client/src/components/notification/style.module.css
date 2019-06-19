@@ -103,3 +103,16 @@
   font-size: 14px;
   color: #fff;
 }
+
+@media (max-width: 768px) {
+  .wrapper > .notification {
+    position: absolute;
+    right: 0;
+    top: 60px;
+    width: 100%;
+    padding: 16px var(--layout-padding);
+    background-color: var(--notification-background-color);
+    border-radius: 4px;
+    pointer-events: auto;
+  }
+}

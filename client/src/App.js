@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import TopMenuComponent from './components/top-menu-component';
+import Header from './components/header';
 import Footer from './components/footer';
 import NotificationContainer from './components/old-notification/notification-container';
 import NotificationSidebar from './components/old-notification/notification-sidebar';
@@ -19,7 +19,7 @@ const App = ({ history }) => (
     <NotificationSidebar/>
     <NotificationContainer/>
 
-    <TopMenuComponent history={history}/>
+    <Header history={history}/>
 
     <div className="container">
       <Switch>
