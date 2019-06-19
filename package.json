@@ -15,11 +15,6 @@
     "postinstall": "cd client && npm i && cd ../server && npm i && npm run build",
     "lint:client": "cd client && npm run pre-commit"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm-run-all lint:*"
-    }
-  },
   "dependencies": {
     "dotenv": "^8.0.0"
   },
