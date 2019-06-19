@@ -111,34 +111,36 @@ class Rating extends Component {
     const sliceUsers = this.state.playersList.slice(3);
 
     return (
-      <div className={style.home_page}>
+      <div className="container">
+        <div className={style.home_page}>
 
-        <main className={style.main_block}>
-          <h1>{i18n.t('best_players')}</h1>
+          <main className={style.main_block}>
+            <h1>{i18n.t('best_players')}</h1>
 
-          <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoading })}>
-            <Card
-              defaultSorting={this.tournamentsDefaultSorting}
-              items={topUsers}
-              className={style.card}
-              renderCard={this.renderTopUsers}
-            />
-          </div>
+            <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoading })}>
+              <Card
+                defaultSorting={this.tournamentsDefaultSorting}
+                items={topUsers}
+                className={style.card}
+                renderCard={this.renderTopUsers}
+              />
+            </div>
 
-          <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoading })}>
+            <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoading })}>
 
-            <Table
-              captions={ratingTableCaptions}
-              defaultSorting={this.tournamentsDefaultSorting}
-              items={sliceUsers}
-              className={style.card}
-              renderRow={this.renderRow}
-              isLoading={this.state.isLoading}
-            />
-          </div>
+              <Table
+                captions={ratingTableCaptions}
+                defaultSorting={this.tournamentsDefaultSorting}
+                items={sliceUsers}
+                className={style.card}
+                renderRow={this.renderRow}
+                isLoading={this.state.isLoading}
+              />
+            </div>
 
-        </main>
-      </div >
+          </main>
+        </div>
+      </div>
     );
   }
 }

@@ -93,50 +93,51 @@ class User extends Component {
     const { tournaments, rewards, loading } = this.state;
 
     return (
-      <div className={style.user_page}>
-        {loading && <Preloader isFullScreen/>}
-        <div className={style.content}>
-          <ProfileSidebar
-            withData
-            source={this.state.userData.photo}
-            nickname={this.state.userData.username}
-            description={this.state.userData.about}
-          />
+      <div className="container">
+        <div className={style.user_page}>
+          {loading && <Preloader isFullScreen/>}
+          <div className={style.content}>
+            <ProfileSidebar
+              withData
+              source={this.state.userData.photo}
+              nickname={this.state.userData.username}
+              description={this.state.userData.about}
+            />
 
-          <div className={style.user_statistics}>
-            <div>
-              <h2>{i18n.t('scores')}</h2>
+            <div className={style.user_statistics}>
+              <div>
+                <h2>{i18n.t('scores')}</h2>
 
-              <div className={style.statistics_masonry}>
-                <div className={style.item}>
-                  <div className={style.value}>{rewards && rewards.length}</div>
-                  <div className={style.key}>{i18n.t('rewards')}</div>
+                <div className={style.statistics_masonry}>
+                  <div className={style.item}>
+                    <div className={style.value}>{rewards && rewards.length}</div>
+                    <div className={style.key}>{i18n.t('rewards')}</div>
+                  </div>
+                  <div className={style.item}>
+                    <div className={style.value}>{tournaments && tournaments.length}</div>
+                    <div className={style.key}>{i18n.t('tournaments')}</div>
+                  </div>
+
                 </div>
-                <div className={style.item}>
-                  <div className={style.value}>{tournaments && tournaments.length}</div>
-                  <div className={style.key}>{i18n.t('tournaments')}</div>
-                </div>
-
               </div>
-            </div>
-            <div>
-              <h2>{i18n.t('recent_tournaments')}</h2>
-              <div className={style.section}>
-                {tournaments && (
-                  <Table
-                    captions={tournamentsTableCaptions}
-                    items={tournaments}
-                    className={style.table}
-                    renderRow={this.renderRow}
-                    isLoading={this.state.isLoading}
-                    emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-                  />
-                )}
+              <div>
+                <h2>{i18n.t('recent_tournaments')}</h2>
+                <div className={style.section}>
+                  {tournaments && (
+                    <Table
+                      captions={tournamentsTableCaptions}
+                      items={tournaments}
+                      className={style.table}
+                      renderRow={this.renderRow}
+                      isLoading={this.state.isLoading}
+                      emptyMessage={i18n.t('there_is_no_tournaments_yet')}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     );
   }
