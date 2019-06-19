@@ -88,7 +88,7 @@ class Start extends Component {
       <div className="container">
         <div className={style.login_page}>
 
-          <NotificationContainer />
+          <NotificationContainer/>
 
           <section className={style.login_section}>
             <div className={style.start_content}>
@@ -97,13 +97,11 @@ class Start extends Component {
                   <h1>Fantasy league</h1>
 
                   <div className={style.start_btns}>
-                    {isUserAuthenticated &&
+                    {isUserAuthenticated ? (
                       <Link to="/tournaments">
                         <span>{i18n.t('go_to_tournaments')}</span>
                       </Link>
-                    }
-
-                    {!isUserAuthenticated &&
+                    ) : (
                       <GoogleLogin
                         icon
                         autoLoad={Boolean(this.tournamentId)}
@@ -116,13 +114,13 @@ class Start extends Component {
                         onSuccess={this.onSuccessGoogleLogin}
                         onFailure={this.onFailureGoogleLogin}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               </div>
 
               <video loop autoPlay>
-                <source src={zed} />
+                <source src={zed}/>
               </video>
             </div>
           </section>
@@ -165,41 +163,39 @@ class Start extends Component {
               <div className={style.tournaments}>
 
                 <div className={style.item_tournament}>
-                  <img src={Lpl} alt="lpl" />
+                  <img src={Lpl} alt="lpl"/>
                 </div>
 
                 <div className={style.item_tournament}>
-                  <img src={Lck} alt="lck" />
+                  <img src={Lck} alt="lck"/>
                 </div>
 
                 <div className={style.item_tournament}>
-                  <img src={Lolchamp} alt="lolchamp" />
+                  <img src={Lolchamp} alt="lolchamp"/>
                 </div>
               </div>
             </div>
           </section>
 
           <section className={style.play_fantasy}>
-            {!isUserAuthenticated &&
+            {isUserAuthenticated ? (
               <GoogleLogin
                 icon
                 render={renderProperties => (
                   <button type="button" onClick={renderProperties.onClick}>
-                    <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
+                    <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
                   </button>
                 )}
                 clientId={config.google_client_id}
                 onSuccess={this.onSuccessGoogleLogin}
                 onFailure={this.onFailureGoogleLogin}
               />
-            }
-
-            {isUserAuthenticated &&
+            ) : (
               <Link to="/tournaments">{i18n.t('play_fantasy')}</Link>
-            }
+            )}
           </section>
 
-          <Footer />
+          <Footer/>
         </div>
       </div>
     );

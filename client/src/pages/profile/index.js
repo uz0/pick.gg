@@ -101,6 +101,8 @@ class Profile extends Component {
   }
 
   render() {
+    const LOCALES = ['en', 'ru'];
+
     return (
       <div className="container">
         <div className={style.home_page}>
@@ -174,30 +176,27 @@ class Profile extends Component {
                   <div className={style.localization}>
                     <label>{i18n.t('settings_locale')}</label>
                     <div>
-                      <div className={style.item}>
-                        <label>Ru</label>
-                        <input
-                          name='ru'
-                          type='radio'
-                          value={this.state.locale}
-                          checked={this.state.locale === 'ru'}
-                          onChange={this.changeLocale}
-                        />
-                      </div>
-                      <div className={style.item}>
-                        <label>En</label>
-                        <input
-                          name='en'
-                          type='radio'
-                          value={this.state.locale}
-                          checked={this.state.locale === 'en'}
-                          onChange={this.changeLocale}
-                        />
-                      </div>
+                    {
+                      LOCALES.map(locale => (
+                        <div className={style.item}>
+                          <label>{locale.toUpperCase()}</label>
+                          <input
+                            type="radio"
+                            name={locale}
+                            value={this.state.locale}
+                            checked={this.state.locale === locale}
+                            onChange={this.changeLocale}
+                          />
+                        </div>
+                      ))
+                    }
                     </div>
                   </div>
 
-                  <Button appearance={'_basic-accent'} text={i18n.t('save_changes')} />
+                  <Button
+                    appearance="_basic-accent"
+                    text={i18n.t('save_changes')}
+                  />
                 </form>
               </div>
             </div>

@@ -33,20 +33,20 @@ class Rewards extends Component {
         <div className={style.rewards}>
           {this.state.isLoading && <Preloader/>}
 
-          {this.state.rewards.length === 0 && (
+          {this.state.rewards.length === 0 ? (
             <p className={style.no_rewards}>
               {i18n.t('no_rewards')}
             </p>
+          ) : (
+            this.state.rewards.map(({ key, description, isClaimed }) => (
+              <RewardCard
+                key={key}
+                rewardKey={key}
+                description={description}
+                isClaimed={isClaimed}
+              />
+            ))
           )}
-
-          {this.state.rewards.length > 0 && this.state.rewards.map(({ key, description, isClaimed }) => (
-            <RewardCard
-              key={key}
-              rewardKey={key}
-              description={description}
-              isClaimed={isClaimed}
-            />
-          ))}
         </div>
       </div>
     );
