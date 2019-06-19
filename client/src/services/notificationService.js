@@ -49,13 +49,9 @@ class NotificationService {
         break;
     }
 
-    let time = '';
+    let time = 4000;
 
-    if (type === ('error' || 'warning' || 'success')) {
-      time = 4000;
-    }
-
-    if (type === ('winning' || 'match')) {
+    if (type === "match" || type === "winning") {
       time = 20000;
     }
 
@@ -78,7 +74,7 @@ class NotificationService {
         });
       }
       this.hideSingleNotification();
-    }, 4000);
+    }, time);
   }
 
   hideSingleNotification = () => {
