@@ -12,7 +12,7 @@
     "test": "npm-run-all test:*",
     "test:client": "jest --testPathPattern=\"client/.*__tests__/.*(test.js)\"",
     "test:server": "jest --testPathPattern=\"server/.*__tests__/.*(test.js)\"",
-    "postinstall": "cd client && npm i && cd ../sever && npm i && npm run build",
+    "postinstall": "cd client && npm i && cd ../server && npm i && cd .. && npm run build",
     "lint:client": "cd client && npm run pre-commit"
   },
   "husky": {
