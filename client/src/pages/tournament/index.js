@@ -108,7 +108,6 @@ class Tournament extends Component {
     fantasyTournament: null,
     matches: [],
     users: [],
-    rulesNames: [],
     isLoading: true,
     isChooseChampionModalShown: false,
     isMatchEditModalShown: false,
@@ -174,7 +173,7 @@ class Tournament extends Component {
     }
 
     const realTournament = tournament.tournament;
-    const users = tournament.users;
+    const { users } = tournament;
     const currentUserParticipant = find(tournament.users, item => {
       if (!this.state.currentUser) {
         return;
@@ -182,7 +181,7 @@ class Tournament extends Component {
 
       return item.user._id === this.state.currentUser._id;
     });
-    const matches = realTournament.matches;
+    const { matches } = realTournament;
 
     users && users.forEach(item => {
       item.totalResults = this.getTotalUserScore(tournament, item.user._id);
@@ -260,9 +259,9 @@ class Tournament extends Component {
     }
   }
 
-  toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
+  toggleChampionModal = () => this.setState(prevState => ({ isChooseChampionModalShown: !prevState.isChooseChampionModalShown }));
 
-  toggleSignInDialog = () => this.setState({ isSignInDialogShown: !this.state.isSignInDialogShown });
+  toggleSignInDialog = () => this.setState(prevState => ({ isSignInDialogShown: !prevState.isSignInDialogShown }));
 
   redirectToLogin = () => this.props.history.replace(`/?tournamentId=${this.state.fantasyTournament._id}`);
 
@@ -334,9 +333,12 @@ class Tournament extends Component {
   };
 
   getTotalUserScore = (fantasyTournament, userId) => {
-    const matches = fantasyTournament.tournament.matches;
+    const { matches } = fantasyTournament.tournament;
     const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
-    const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
+    const totalUserScore = userMatchResults.reduce((sum, score) => {
+      sum += score;
+      return sum;
+    });
 
     return totalUserScore;
   };
@@ -394,7 +396,7 @@ class Tournament extends Component {
       return;
     }
 
-    const rules = this.state.fantasyTournament.rules;
+    const { rules } = this.state.fantasyTournament;
     let str = '';
 
     rules.forEach(rule => {
@@ -434,7 +436,7 @@ class Tournament extends Component {
     const fantasyTournamentChampions = this.state.fantasyTournament.tournament.champions;
     const fantasyTournamentRules = this.state.fantasyTournament.rules.map(item => item.rule);
 
-    const playersResults = item.results.playersResults;
+    const { playersResults } = item.results;
     const groupedMatchResults = Object.values(Object.freeze(groupBy(playersResults, 'playerId')));
     const matchResults = [];
 
@@ -497,10 +499,10 @@ class Tournament extends Component {
     const summonerArr = item.user.username === summonerName;
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
-    const isStreamer = item.user.isStreamer;
+    const { isStreamer } = item.user;
 
     return (
-      <div key={item.user._id} className={cx(className, { active_summoner: summonerArr })}>
+      <div key={item.user._id} className={cx(className, { activeSummoner: summonerArr })}>
         {/* <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
         <span className={textClass}></span>
       </div> */}
@@ -525,9 +527,8 @@ class Tournament extends Component {
   }
 
   renderSummonerLeaderRow = ({ className, itemClass, textClass, item }) => {
-    const { fantasyTournament } = this.state;
+    const { fantasyTournament, users } = this.state;
     const summonerName = this.state.username;
-    const users = this.state.users;
     const sortUsers = users.sort(this.leadersDefaultSorting);
     const indexUser = findIndex(sortUsers, item => item.user.username === summonerName);
 
@@ -578,7 +579,7 @@ class Tournament extends Component {
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
     return (
-      <div key={uuid()} to={urlMatch} target="_blank" className={cx(className, { disable_url: disableUrlStyle, completed: isMatchCompleted })}>
+      <div key={uuid()} to={urlMatch} target="_blank" className={cx(className, { disabledUrl: disableUrlStyle, completed: isMatchCompleted })}>
         <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
           <span className={textClass}>{item.name}</span>
         </div>
@@ -589,12 +590,12 @@ class Tournament extends Component {
           }
         </div>
 
-        <button className={style.match_button} onClick={event => this.openMatchResults(event, item)}>
+        <button type="button" className={style.match_button} onClick={event => this.openMatchResults(event, item)}>
           <i className="material-icons">list</i>
         </button>
 
         {isUserStreamerAndCreator && (
-          <button className={style.match_button} onClick={event => this.editMatchInit(event, item)}>
+          <button type="button" className={style.match_button} onClick={event => this.editMatchInit(event, item)}>
             <i className="material-icons">info</i>
           </button>
         )
@@ -615,7 +616,7 @@ class Tournament extends Component {
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
     const isPlayerChoosedByUser = Boolean(find(champions, { _id: item.playerId }));
 
-    const rules = this.state.fantasyTournament.rules;
+    const { rules } = this.state.fantasyTournament;
 
     const killsScore = item.results[0].score === 0 ? 0 : <span className={style.score_block}>{item.results[0].score} <span className={style.rule_color}>x{rules[0].score}</span></span>;
     const deathScore = item.results[1].score === 0 ? 0 : <span className={style.score_block}>{item.results[1].score} <span className={style.rule_color}>x{rules[1].score}</span></span>;
@@ -747,7 +748,11 @@ class Tournament extends Component {
             {champions.map(champion => (
               <div key={champion._id} className={style.champion}>
                 <div className={style.image}>
-                  <img src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} onError={event => event.target.src = Avatar}/>
+                  <img src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} onError={event => {
+                    event.target.src = Avatar;
+                  }
+                  }
+                  />
                 </div>
 
                 <span className={style.name}>{champion.name}</span>
@@ -810,6 +815,7 @@ class Tournament extends Component {
                   defaultValue={window.location.href}
                 />
                 <button
+                  type="button"
                   className={style.copy_button}
                   onClick={this.copyInput}
                 >

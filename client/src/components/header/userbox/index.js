@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 
 import classnames from 'classnames/bind';

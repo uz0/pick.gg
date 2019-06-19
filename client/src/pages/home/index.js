@@ -110,7 +110,7 @@ class Start extends Component {
                             <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
                           </button>
                         )}
-                        clientId={config.google_client_id}
+                        clientId={config.googleClientId}
                         onSuccess={this.onSuccessGoogleLogin}
                         onFailure={this.onFailureGoogleLogin}
                       />
@@ -186,7 +186,7 @@ class Start extends Component {
                     <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
                   </button>
                 )}
-                clientId={config.google_client_id}
+                clientId={config.googleClientId}
                 onSuccess={this.onSuccessGoogleLogin}
                 onFailure={this.onFailureGoogleLogin}
               />

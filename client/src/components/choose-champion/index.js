@@ -20,15 +20,11 @@ class ChooseChampion extends Component {
   };
 
   toggleChampion = id => {
-    const ids = [...this.state.ids];
+    const { ids } = [...this.state];
     const index = ids.indexOf(id);
 
     if (index === -1 && ids.length === 5) {
       return;
-    }
-
-    if (ids.length === 5) {
-
     }
 
     if (index === -1) {
@@ -40,7 +36,7 @@ class ChooseChampion extends Component {
     this.setState({ ids });
   };
 
-  toggleFreeTournamentModal = () => this.setState({ isFreeTournamentModalShown: !this.state.isFreeTournamentModalShown });
+  toggleFreeTournamentModal = () => this.setState(prevState => ({ isFreeTournamentModalShown: !prevState.isFreeTournamentModalShown }));
 
   addPlayers = () => {
     this.props.action(this.state.ids);
@@ -82,7 +78,11 @@ class ChooseChampion extends Component {
         onClick={() => this.toggleChampion(_id)}
       >
         <div className={style.image}>
-          <img src={championPhoto} alt={i18n.t('champion_avatar')} onError={event => event.target.src = Avatar}/>
+          <img src={championPhoto} alt={i18n.t('champion_avatar')} onError={event => {
+            event.target.src = Avatar;
+          }
+          }
+          />
         </div>
 
         <p className={style.name}>{name}</p>
@@ -109,7 +109,7 @@ class ChooseChampion extends Component {
           <header className={style.header}>
             <h3 className={style.title}>{i18n.t('choose_your_champion')}</h3>
 
-            <button className={style.close} onClick={this.props.onClose}>
+            <button type="button" className={style.close} onClick={this.props.onClose}>
               <CloseIcon/>
             </button>
           </header>

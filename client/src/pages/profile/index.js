@@ -38,9 +38,8 @@ class Profile extends Component {
 
   handleChange = event => {
     event.preventDefault();
-    const formData = this.state.formData;
-    const name = event.target.name;
-    const value = event.target.value;
+    const { formData } = this.state;
+    const { name, value } = event.target;
     formData[name] = value;
     this.setState({ formData });
   }

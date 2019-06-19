@@ -75,7 +75,7 @@ class TopMenuComponent extends Component {
       });
     });
 
-    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner, prize }) => {
+    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner }) => {
       const currentUser = this.state.profile.user.username;
 
       if (!participants.includes(currentUser)) {
@@ -183,9 +183,9 @@ class TopMenuComponent extends Component {
                 </NavLink>
 
                 <GoogleLogout
-                  clientId={config.google_client_id}
+                  clientId={config.googleClientId}
                   render={renderProperties => (
-                    <button className={style.btn_logout} onClick={renderProperties.onClick}>
+                    <button type="button" className={style.btn_logout} onClick={renderProperties.onClick}>
                       <i className="material-icons">exit_to_app</i>
                       {i18n.t('log_out')}
                     </button>
@@ -222,9 +222,9 @@ class TopMenuComponent extends Component {
 
                 <GoogleLogout
                   buttonText="Logout"
-                  clientId={config.google_client_id}
+                  clientId={config.googleClientId}
                   render={renderProperties => (
-                    <button className={style.btn_logout} {...renderProperties}>
+                    <button type="button" className={style.btn_logout} {...renderProperties}>
                       <i className="material-icons">exit_to_app</i>
                       {i18n.t('log_out')}
                     </button>

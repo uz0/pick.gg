@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 import style from './style.module.css';
 
-import thumb_default from '../../assets/tournament_thumbnail.jpg';
+import thumbDefault from '../../assets/tournament_thumbnail.jpg';
 
-import lck_thumb from '../../assets/tournaments-thumbnails/lck-thumb.jpg';
-import lcs_thumb from '../../assets/tournaments-thumbnails/lcs-thumb.jpg';
-import lpl_thumb from '../../assets/tournaments-thumbnails/lpl-thumb.jpg';
+import lckThumb from '../../assets/tournaments-thumbnails/lck-thumb.jpg';
+import lcsThumb from '../../assets/tournaments-thumbnails/lcs-thumb.jpg';
+import lplThumb from '../../assets/tournaments-thumbnails/lpl-thumb.jpg';
 
 import moment from 'moment';
 import i18n from 'i18next';
@@ -16,7 +16,7 @@ const TournamentCard = ({ _id, name, thumbnail, tournament, rules, users }) => {
   const tournamentDate = moment(tournament.date).format('DD MMM YYYY');
   const tournamentName = tournament.name.split(' ')[0];
 
-  let thumb = thumb_default;
+  let thumb = thumbDefault;
 
   if (thumbnail) {
     thumb = thumbnail;
@@ -25,13 +25,13 @@ const TournamentCard = ({ _id, name, thumbnail, tournament, rules, users }) => {
   if (!thumbnail) {
     switch (tournamentName) {
       case 'LCK':
-        thumb = lck_thumb;
+        thumb = lckThumb;
         break;
       case 'LCS':
-        thumb = lcs_thumb;
+        thumb = lcsThumb;
         break;
       case 'LPL':
-        thumb = lpl_thumb;
+        thumb = lplThumb;
         break;
       default:
         break;
@@ -41,7 +41,7 @@ const TournamentCard = ({ _id, name, thumbnail, tournament, rules, users }) => {
   const usersLength = users.length === 0 ? i18n.t('no_players') : users.length;
 
   const onError = item => {
-    item.target.src = thumb_default;
+    item.target.src = thumbDefault;
   };
 
   return (
