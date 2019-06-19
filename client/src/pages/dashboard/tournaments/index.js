@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import TournamentService from 'services/tournamentService';
-import NotificationService from 'services/notificationService';
-import AdminService from 'services/adminService';
+import TournamentService from 'services/tournament-service';
+import NotificationService from 'services/notification-service';
+import AdminService from 'services/admin-service';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';

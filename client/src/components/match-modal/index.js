@@ -4,9 +4,9 @@ import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
 import Preloader from 'components/preloader';
 
-import http from 'services/httpService';
-import NotificationService from 'services/notificationService';
-import AdminService from 'services/adminService';
+import http from 'services/http-service';
+import NotificationService from 'services/notification-service';
+import AdminService from 'services/admin-service';
 
 import moment from 'moment';
 import find from 'lodash/find';

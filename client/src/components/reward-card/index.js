@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReactComponent as Trophy } from 'assets/trophy.svg';
-import NotificationService from 'services/notificationService';
+import NotificationService from 'services/notification-service';
 
 import classnames from 'classnames';
 import style from './style.module.css';

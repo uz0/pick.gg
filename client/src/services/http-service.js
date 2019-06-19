@@ -1,4 +1,4 @@
-import AuthService from '../services/authService';
+import AuthService from '../services/auth-service';
 
 const authService = new AuthService();
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://pick.gg';

@@ -1,4 +1,4 @@
-import http from './httpService';
+import http from './http-service';
 
 export default class ChampionService {
   getAllChampions = async () => {

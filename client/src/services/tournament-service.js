@@ -1,6 +1,6 @@
-import http from './httpService';
+import http from './http-service';
 import moment from 'moment';
-import BasicService from './basicService';
+import BasicService from './basic-service';
 
 export default class TournamentService extends BasicService {
   participateInTournament = async (tournamentId, players) => {

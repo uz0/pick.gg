@@ -21,10 +21,10 @@ import cloneDeep from 'lodash/cloneDeep';
 import every from 'lodash/every';
 import findIndex from 'lodash/findIndex';
 
-import UserService from 'services/userService';
-import TournamentService from 'services/tournamentService';
-import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
+import UserService from 'services/user-service';
+import TournamentService from 'services/tournament-service';
+import NotificationService from 'services/notification-service';
+import StreamerService from 'services/streamer-service';
 
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import Avatar from 'assets/avatar-placeholder.svg';

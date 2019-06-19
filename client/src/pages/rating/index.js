@@ -8,7 +8,7 @@ import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.s
 import Table from 'components/table';
 import Card from 'components/card-user';
 
-import UserService from 'services/userService';
+import UserService from 'services/user-service';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';

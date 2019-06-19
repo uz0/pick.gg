@@ -5,10 +5,10 @@ import io from 'socket.io-client';
 import { GoogleLogout } from 'react-google-login';
 import config from 'config';
 
-import AuthService from 'services/authService';
-import NotificationService from 'services/notificationService';
-import UserService from 'services/userService';
-import StreamerService from 'services/streamerService';
+import AuthService from 'services/auth-service';
+import NotificationService from 'services/notification-service';
+import UserService from 'services/user-service';
+import StreamerService from 'services/streamer-service';
 
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';

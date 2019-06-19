@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import NotificationService from 'services/notificationService';
-import UserService from 'services/userService';
+import NotificationService from 'services/notification-service';
+import UserService from 'services/user-service';
 
 // Import io from 'socket.io-client';
 

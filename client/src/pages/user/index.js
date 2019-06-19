@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import TournamentService from '../../services/tournamentService';
-import UserService from '../../services/userService';
+import TournamentService from '../../services/tournament-service';
+import UserService from '../../services/user-service';
 
 import io from 'socket.io-client';
 

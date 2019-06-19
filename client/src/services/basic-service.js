@@ -1,4 +1,4 @@
-import http from './httpService';
+import http from './http-service';
 
 const updateHandlers = [];
 

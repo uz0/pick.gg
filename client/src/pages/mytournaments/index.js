@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import TournamentService from 'services/tournamentService';
+import TournamentService from 'services/tournament-service';
 
 import Table from 'components/table';
 import Preloader from 'components/preloader';

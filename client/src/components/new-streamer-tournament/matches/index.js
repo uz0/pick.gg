@@ -4,8 +4,8 @@ import Input from 'components/input';
 import Button from 'components/button';
 import Modal from 'components/dashboard-modal';
 
-import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
+import NotificationService from 'services/notification-service';
+import StreamerService from 'services/streamer-service';
 
 import style from './style.module.css';
 import i18n from 'i18n';

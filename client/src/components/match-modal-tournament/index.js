@@ -6,9 +6,9 @@ import Input from 'components/input';
 import Preloader from 'components/preloader';
 import Button from 'components/button';
 
-import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
-import UserService from 'services/userService';
+import NotificationService from 'services/notification-service';
+import StreamerService from 'services/streamer-service';
+import UserService from 'services/user-service';
 
 import moment from 'moment';
 import find from 'lodash/find';

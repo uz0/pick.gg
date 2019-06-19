@@ -10,8 +10,8 @@ import Modal from 'components/dashboard-modal';
 
 import Avatar from 'assets/avatar-placeholder.svg';
 
-import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
+import NotificationService from 'services/notification-service';
+import StreamerService from 'services/streamer-service';
 
 import classnames from 'classnames';
 import style from './style.module.css';

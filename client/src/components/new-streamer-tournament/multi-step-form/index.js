@@ -7,9 +7,9 @@ import PlayersStep from '../players';
 import MatchesStep from '../matches';
 import Preloader from 'components/preloader';
 
-import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
-import UserService from 'services/userService';
+import NotificationService from 'services/notification-service';
+import StreamerService from 'services/streamer-service';
+import UserService from 'services/user-service';
 
 import classnames from 'classnames';
 import style from './style.module.css';

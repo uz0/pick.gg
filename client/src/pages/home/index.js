@@ -12,7 +12,7 @@ import config from 'config';
 import NotificationContainer from 'components/old-notification/notification-container';
 import Footer from 'components/footer';
 
-import NotificationService from 'services/notificationService';
+import NotificationService from 'services/notification-service';
 
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';

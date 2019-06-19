@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FileDrop from 'react-file-drop';
 import Button from 'components/button';
 
-import NotificationService from 'services/notificationService';
+import NotificationService from 'services/notification-service';
 
 import i18n from 'i18n';
 

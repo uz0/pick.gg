@@ -4,8 +4,8 @@ import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 
-import http from 'services/httpService';
-import NotificationService from 'services/notificationService';
+import http from 'services/http-service';
+import NotificationService from 'services/notification-service';
 
 import style from './style.module.css';
 import i18n from 'i18n';

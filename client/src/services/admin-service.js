@@ -1,5 +1,5 @@
-import http from './httpService';
-import BasicService from './basicService';
+import http from './http-service';
+import BasicService from './basic-service';
 
 export default class AdminService extends BasicService {
   syncDataWithEscore = async () => {

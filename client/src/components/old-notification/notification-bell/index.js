@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import NotificationService from 'services/notificationService';
+import NotificationService from 'services/notification-service';
 
 import style from './style.module.css';
 
