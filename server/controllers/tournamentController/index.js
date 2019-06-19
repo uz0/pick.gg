@@ -1,8 +1,8 @@
 import express from 'express';
 
-import TournamentModel from '../models/tournament';
-import FantasyTournament from '../models/fantasy-tournament';
-import UserModel from '../models/user';
+import TournamentModel from '../../models/tournament';
+import FantasyTournament from '../../models/fantasy-tournament';
+import UserModel from '../../models/user';
 
 import moment from 'moment';
 
@@ -114,7 +114,7 @@ const TournamentController = io => {
     res.json({ tournament });
   });
 
-  router.post('/',validateCreate, create);
+  router.post('/', validateCreate, create);
 
   router.post('/:id/setup', async (req, res) => {
     const id = req.params.id;
