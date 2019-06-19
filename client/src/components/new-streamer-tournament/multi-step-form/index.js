@@ -44,7 +44,7 @@ class MultiStepForm extends Component {
     isLoading: false,
   }
 
-  nextStep = (payload) => {
+  nextStep = payload => {
     if (this.state.stepIndex === 3) {
       return;
     }
@@ -53,7 +53,6 @@ class MultiStepForm extends Component {
       ...payload,
       stepIndex: this.state.stepIndex + 1,
     }, () => console.log(this.state));
-
   }
 
   prevStep = () => {
@@ -64,7 +63,7 @@ class MultiStepForm extends Component {
     this.setState({ stepIndex: this.state.stepIndex - 1 });
   }
 
-  createTournament = async (tournamentMatches) => {
+  createTournament = async tournamentMatches => {
     this.setState({ isLoading: true });
 
     const { name, userId, thumbnail, players, rulesValues } = this.state;
@@ -96,34 +95,36 @@ class MultiStepForm extends Component {
   render() {
     const { stepIndex } = this.state;
 
-    return <div className={style.form}>
+    return (
+      <div className={style.form}>
 
-      {this.state.isLoading &&
-        <Preloader isFullScreen={false} />
-      }
+        {this.state.isLoading &&
+          <Preloader isFullScreen={false}/>
+        }
 
-      <div className={style.content}>
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
-          <GeneralStep
-            nextStep={this.nextStep}
-          />
-        </div>
+        <div className={style.content}>
+          <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+            <GeneralStep
+              nextStep={this.nextStep}
+            />
+          </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
-          <PlayersStep
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-          />
-        </div>
+          <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
+            <PlayersStep
+              nextStep={this.nextStep}
+              prevStep={this.prevStep}
+            />
+          </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
-          <MatchesStep
-            prevStep={this.prevStep}
-            createTournament={this.createTournament}
-          />
+          <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
+            <MatchesStep
+              prevStep={this.prevStep}
+              createTournament={this.createTournament}
+            />
+          </div>
         </div>
       </div>
-    </div>;
+    );
   }
 }
 

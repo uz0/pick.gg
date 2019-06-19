@@ -11,14 +11,14 @@ class DropDown extends Component {
 
   componentDidMount() {
     window.addEventListener('click', event => {
-      if (this.state.isActive && event.target !== this.userbox){
+      if (this.state.isActive && event.target !== this.userbox) {
         this.toggleDropDown();
       }
     });
   }
-  
+
   toggleDropDown = () => this.setState({ isActive: !this.state.isActive })
-  
+
   render() {
     return (
       <div className={cx(style.dropdown, { active: this.state.isActive }, this.props.className)} onClick={this.toggleDropDown}>

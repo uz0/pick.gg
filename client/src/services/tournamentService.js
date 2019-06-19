@@ -3,64 +3,63 @@ import moment from 'moment';
 import BasicService from './basicService';
 
 export default class TournamentService extends BasicService {
-  participateInTournament = async(tournamentId, players) => {
+  participateInTournament = async (tournamentId, players) => {
     return this.request('POST', `/api/tournaments/${tournamentId}/setup`, players);
   }
 
-  createNewTournament = (payload) => {
+  createNewTournament = payload => {
     return this.request('POST', '/api/tournaments', payload);
   }
 
-  getRealTournaments = async() => {
+  getRealTournaments = async () => {
     const tournamentsQuery = await http('/public/tournaments/real');
     const tournaments = await tournamentsQuery.json();
     return tournaments;
   }
 
-  getFantasyTournaments = async() => {
+  getFantasyTournaments = async () => {
     const tournamentsQuery = await http('/public/tournaments/fantasy');
     const tournaments = await tournamentsQuery.json();
     return tournaments;
   }
 
-  getAllTournaments = async() => {
+  getAllTournaments = async () => {
     const tournamentsQuery = await http('/public/tournaments');
     const tournaments = await tournamentsQuery.json();
     return tournaments;
   }
 
-  getMyTournaments = async() => {
+  getMyTournaments = async () => {
     const tournamentsQuery = await http('/api/tournaments/my');
     const tournaments = await tournamentsQuery.json();
     return tournaments;
   }
 
-  getUserTournamentsById = async(id) => {
+  getUserTournamentsById = async id => {
     const tournamentsQuery = await http(`/public/tournaments/user/${id}`);
     const tournaments = await tournamentsQuery.json();
     return tournaments;
   }
 
-  getTournamentById = async(id) => {
+  getTournamentById = async id => {
     const tournamentQuery = await http(`/public/tournaments/${id}`);
     const tournament = await tournamentQuery.json();
     return tournament;
   }
 
-  filterTournamentsByEntry = async(entryValue) => {
+  filterTournamentsByEntry = async entryValue => {
     const tournamentsQuery = await http('/public/tournaments/fantasy');
     const tournaments = await tournamentsQuery.json();
     return tournaments.tournaments.filter(item => item.entry >= entryValue);
   }
 
-  filterTournamentsByDate = async(filterDate) => {
+  filterTournamentsByDate = async filterDate => {
     const tournaments = await this.getAllTournaments();
     return tournaments.tournaments.filter(item => moment(item.date).isAfter(filterDate));
   }
 
-  filterTournamentsBySelect = async(filterSelect) => {
+  filterTournamentsBySelect = async filterSelect => {
     const { tournaments } = await this.getFantasyTournaments();
     return tournaments.filter(item => item.tournament.name === filterSelect);
   }
-
 }

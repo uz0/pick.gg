@@ -70,7 +70,7 @@ class User extends Component {
     this.socket.on('fantasyTournamentFinalized', () => this.loadData());
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.socket.close();
   }
 

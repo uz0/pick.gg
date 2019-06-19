@@ -125,8 +125,8 @@ class Profile extends Component {
                       <div>
                         <label>{i18n.t('summonerName')}</label>
                         <input
-                          type='text'
-                          name='summonerName'
+                          type="text"
+                          name="summonerName"
                           value={this.state.formData.summonerName}
                           onChange={this.handleChange}
                         />
@@ -134,8 +134,8 @@ class Profile extends Component {
                       <div>
                         <label>{i18n.t('lolApiKey')}</label>
                         <input
-                          type='text'
-                          name='lolApiKey'
+                          type="text"
+                          name="lolApiKey"
                           value={this.state.formData.lolApiKey}
                           onChange={this.handleChange}
                         />
@@ -148,8 +148,8 @@ class Profile extends Component {
                     <label>{i18n.t('email')}</label>
                     <input
                       disabled
-                      type='text'
-                      name='email'
+                      type="text"
+                      name="email"
                       value={this.state.formData.email}
                       onChange={this.handleChange}
                     />
@@ -203,7 +203,7 @@ class Profile extends Component {
             </div>
 
             {this.state.isLoading &&
-              <Preloader />
+              <Preloader/>
             }
           </main>
         </div>

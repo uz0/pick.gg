@@ -1,4 +1,4 @@
-export default {translation: {
+export default { translation: {
   error: 'Ошибка',
   success: 'Успех',
   warning: 'Предупреждение',
@@ -117,7 +117,7 @@ export default {translation: {
   tournament_deleted: 'Турнир был удален',
   player_from_list: 'Пожалуйста, выберите игрока из списка',
   player_alreadt: 'Этот игрок уже принимает участие в турнире',
-  no_any_matches: "Матчей нет",
+  no_any_matches: 'Матчей нет',
   create_tournament: 'Создать турнир',
   delete_tournament: 'Удалить турнир',
   update_tournament: 'Обновить турнир',
@@ -149,7 +149,7 @@ export default {translation: {
   editing: 'Редактирование',
   delete_champion: 'Удалить чемпиона',
   update_champion: 'Обновить чемпиона',
-  no_champion: "Чемпионов нет",
+  no_champion: 'Чемпионов нет',
   want_remove_champion: 'Вы действительно хотите удалить чемпиона?',
   champion_name: 'Имя чемпиона',
   champion_photo: 'Аватар чемпиона',
@@ -170,7 +170,7 @@ export default {translation: {
   delete_tule: 'Удалить правило',
   update_rule: 'Обновить правило',
   add_rule: 'Добавить правило',
-  no_rules: "Нет правил",
+  no_rules: 'Нет правил',
   want_remove_rule: 'Вы действительно хотите удалить правило?',
   rule_name: 'Название правила',
   finalize_all: 'Завершить все турниры',
@@ -223,7 +223,7 @@ export default {translation: {
   search: 'Найти игрока',
   invite: 'Пригласить друга',
   rewards: 'Награды',
-  no_rewards: "Вы еще не получили никаких наград",
+  no_rewards: 'Вы еще не получили никаких наград',
   no_players: 'Нет игроков',
 
   modal: {
@@ -268,13 +268,13 @@ export default {translation: {
     },
 
     finalization: {
-      no_participatns: "Вы не можете завершить турнир без участников.",
-      uncompleted_matches: "Для финализации турнира, все матчи должны быть завершены.",
+      no_participatns: 'Вы не можете завершить турнир без участников.',
+      uncompleted_matches: 'Для финализации турнира, все матчи должны быть завершены.',
     },
     errors: {
-      closed_window: "Пользователь закрыл окно входа",
-      start_without_participants: "Нельзя начать турнир без участников",
-      finalize_not_started_tournament: "You can't finalize tournament which wasn't started",
+      closed_window: 'Пользователь закрыл окно входа',
+      start_without_participants: 'Нельзя начать турнир без участников',
+      finalize_not_started_tournament: 'You can\'t finalize tournament which wasn\'t started',
     },
     warnings: {
       empty_summoner_name: 'Вам нужно ввести ваше имя в LoL в настройках профиля',
@@ -282,11 +282,11 @@ export default {translation: {
   },
 
   serverErrors: {
-    champion_not_found: "Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.",
-    champion_already_exist: "Чемпион с именем {{name}} уже есть в базе игроков.",
-    players_are_not_same: "Игроки в матче фентези турнира и в матче LoL не совпадают",
-    position_is_empty: "Укажите роль игрока (Мидер, саппорт, лесник и т.п.)",
+    champion_not_found: 'Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.',
+    champion_already_exist: 'Чемпион с именем {{name}} уже есть в базе игроков.',
+    players_are_not_same: 'Игроки в матче фентези турнира и в матче LoL не совпадают',
+    position_is_empty: 'Укажите роль игрока (Мидер, саппорт, лесник и т.п.)',
 
     results_file_format_error: 'Упс. Данный файл не подойдёт для синхронизации результатов',
   },
-}};
+} };

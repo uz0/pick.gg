@@ -107,7 +107,7 @@ class Start extends Component {
                         autoLoad={Boolean(this.tournamentId)}
                         render={renderProperties => (
                           <button type="button" onClick={renderProperties.onClick}>
-                            <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
+                            <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
                           </button>
                         )}
                         clientId={config.google_client_id}

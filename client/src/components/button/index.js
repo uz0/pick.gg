@@ -10,23 +10,25 @@ const Button = ({ text, type, onClick, icon, className, disabled, appearance }) 
   const isComponentIcon = icon && isIconString;
   const isPropIcon = icon && !isIconString;
 
-  return <button
-    className={cx('button', className)}
-    appearance={appearance}
-    type={type}
-    disabled={disabled}
-    onClick={onClick}
-  >
-    {isComponentIcon &&
-      <Icon name={icon} />
-    }
+  return (
+    <button
+      className={cx('button', className)}
+      appearance={appearance}
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {isComponentIcon &&
+        <Icon name={icon}/>
+      }
 
-    {isPropIcon &&
+      {isPropIcon &&
       icon
-    }
+      }
 
-    {text && <span>{text}</span>}
-  </button>;
+      {text && <span>{text}</span>}
+    </button>
+  );
 };
 
 export default Button;

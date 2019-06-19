@@ -3,18 +3,17 @@ import http from './httpService';
 const updateHandlers = [];
 
 export default class BasicService {
-
   constructor(options) {
     if (options && options.onUpdate) {
-      updateHandlers.push({name: this.constructor.name, callback: options.onUpdate});
+      updateHandlers.push({ name: this.constructor.name, callback: options.onUpdate });
     }
   }
 
-  onUpdate = (callback) => {
-    updateHandlers.push({name: this.constructor.name, callback});
+  onUpdate = callback => {
+    updateHandlers.push({ name: this.constructor.name, callback });
   }
 
-  update = (data) => {
+  update = data => {
     updateHandlers.forEach(handler => {
       if (handler.name === this.constructor.name) {
         handler.callback(data);
@@ -22,8 +21,8 @@ export default class BasicService {
     });
   }
 
-  request = async(method, uri, body) => {
-    let result = await http(uri, {
+  request = async (method, uri, body) => {
+    const result = await http(uri, {
       method,
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +30,7 @@ export default class BasicService {
       body: JSON.stringify(body),
     });
 
-    let parsed = await result.json();
+    const parsed = await result.json();
 
     if (method === 'POST' || method === 'PUT') {
       this.update(parsed);

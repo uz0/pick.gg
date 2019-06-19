@@ -5,7 +5,7 @@ import NotificationService from 'services/notificationService';
 import style from './style.module.css';
 
 class NotificationBell extends Component {
-  constructor(){
+  constructor() {
     super();
     this.notificationService = new NotificationService({
       incrementNotificationCounter: this.incrementNotificationCounter,

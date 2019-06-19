@@ -47,7 +47,7 @@ class MatchModal extends Component {
     this.setState({ isLoading: true });
 
     const { matchId, matchChampions } = this.props;
-    let { match } = await this.streamerService.getMatchInfo(matchId);
+    const { match } = await this.streamerService.getMatchInfo(matchId);
 
     match.startTime = moment(match.startDate).format('HH:mm');
 
@@ -74,7 +74,7 @@ class MatchModal extends Component {
     return results;
   }
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     let inputValue = event.target.value;
 
     if (event.target.name === 'date') {
@@ -94,7 +94,7 @@ class MatchModal extends Component {
   };
 
   onRulesInputChange = (event, resultIndex, ruleIndex) => {
-    let { results, editedResults } = this.state;
+    const { results, editedResults } = this.state;
     const result = results[resultIndex].results[ruleIndex];
 
     results.forEach(item => {
@@ -121,7 +121,7 @@ class MatchModal extends Component {
 
   toggleResultsModal = () => this.setState({ isResultsModalActive: !this.state.isResultsModalActive });
 
-  addResultFile = (resultsFile) => {
+  addResultFile = resultsFile => {
     this.setState({
       resultsFile,
       isResultsModalActive: false,
@@ -144,7 +144,7 @@ class MatchModal extends Component {
     formData.append('startDate', matchDate);
     formData.append('completed', match.completed);
 
-    let request = await this.streamerService.updateMatch({
+    const request = await this.streamerService.updateMatch({
       matchId: match._id,
       formData,
     });
@@ -202,97 +202,102 @@ class MatchModal extends Component {
       isDanger: false,
     }];
 
-    return <Modal
-      title={modalTitle}
-      wrapClassName={style.modal_match}
-      close={this.props.closeMatchEditing}
-      actions={modalActions}
-    >
+    return (
+      <Modal
+        title={modalTitle}
+        wrapClassName={style.modal_match}
+        close={this.props.closeMatchEditing}
+        actions={modalActions}
+      >
 
-      {isLoading && <Preloader
-        isFullScreen={false}
-      />}
+        {isLoading && (
+          <Preloader
+            isFullScreen={false}
+          />
+        )}
 
-      <Input
-        label={i18n.t('match_modal.match_name')}
-        name="name"
-        value={match.name}
-        onChange={this.handleInputChange}
-      />
-
-      <Input
-        label={i18n.t('match_modal.start_time')}
-        type="time"
-        name="startTime"
-        value={match.startTime}
-        onChange={this.handleInputChange}
-      />
-
-      <label className={style.chebox}>
-        <p>{i18n.t('match_modal.completed')}</p>
-        <input
-          type="checkbox"
-          name="completed"
-          className={style.css_checkbox}
-          value={match.completed}
-          checked={match.completed}
+        <Input
+          label={i18n.t('match_modal.match_name')}
+          name="name"
+          value={match.name}
           onChange={this.handleInputChange}
         />
-      </label>
 
-      <label className={style.chebox}>
-        <p>{i18n.t('match_modal.results')}</p>
-      </label>
-
-      {this.state.resultsFile.name &&
-        <p className={style.file_upload_success}>
-          <i className="material-icons">done</i>
-          {i18n.t('match_modal.results_choosed')}
-        </p>
-      }
-
-      <div className={style.results_controls}>
-        <Button
-          text={i18n.t('match_modal.upload_file')}
-          icon={<i className="material-icons">attach_file</i>}
-          onClick={this.toggleResultsModal}
-          appearance="_basic-accent"
+        <Input
+          label={i18n.t('match_modal.start_time')}
+          type="time"
+          name="startTime"
+          value={match.startTime}
+          onChange={this.handleInputChange}
         />
-      </div>
 
-      {this.state.isResultsModalActive &&
-        <Modal
-          title={modalResultTitle}
-          wrapClassName={style.result_modal}
-          close={this.toggleResultsModal}
-        >
-          <ResultUploader
-            onFileUploaded={this.addResultFile}
+        <label className={style.chebox}>
+          <p>{i18n.t('match_modal.completed')}</p>
+          <input
+            type="checkbox"
+            name="completed"
+            className={style.css_checkbox}
+            value={match.completed}
+            checked={match.completed}
+            onChange={this.handleInputChange}
           />
-        </Modal>
-      }
+        </label>
 
-      {results.map((result, index) =>
-        <div key={result._id} className={style.match_results}>
-          <div className={style.player}>{result.playerName}</div>
+        <label className={style.chebox}>
+          <p>{i18n.t('match_modal.results')}</p>
+        </label>
 
-          <div className={style.rules_inputs}>
-            {result.results.map((item, ruleIndex) =>
-              <Input
-                type="number"
-                max="10"
-                key={item._id}
-                label={item.rule.name}
-                placeholder={item.rule.name}
-                className={style.rule_input}
-                name={item._id}
-                onChange={(event) => this.onRulesInputChange(event, index, ruleIndex)}
-                value={results[index].results[ruleIndex].score}
-              />)}
-          </div>
+        {this.state.resultsFile.name && (
+          <p className={style.file_upload_success}>
+            <i className="material-icons">done</i>
+            {i18n.t('match_modal.results_choosed')}
+          </p>
+        )}
+
+        <div className={style.results_controls}>
+          <Button
+            text={i18n.t('match_modal.upload_file')}
+            icon={<i className="material-icons">attach_file</i>}
+            appearance="_basic-accent"
+            onClick={this.toggleResultsModal}
+          />
         </div>
-      )}
-    </Modal>;
+
+        {this.state.isResultsModalActive && (
+          <Modal
+            title={modalResultTitle}
+            wrapClassName={style.result_modal}
+            close={this.toggleResultsModal}
+          >
+            <ResultUploader
+              onFileUploaded={this.addResultFile}
+            />
+          </Modal>
+        )}
+
+        {results.map((result, index) => (
+          <div key={result._id} className={style.match_results}>
+            <div className={style.player}>{result.playerName}</div>
+
+            <div className={style.rules_inputs}>
+              {result.results.map((item, ruleIndex) => (
+                <Input
+                  key={item._id}
+                  type="number"
+                  max="10"
+                  label={item.rule.name}
+                  placeholder={item.rule.name}
+                  className={style.rule_input}
+                  name={item._id}
+                  value={results[index].results[ruleIndex].score}
+                  onChange={event => this.onRulesInputChange(event, index, ruleIndex)}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </Modal>
+    );
   }
 }
 

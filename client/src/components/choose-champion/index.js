@@ -20,15 +20,17 @@ class ChooseChampion extends Component {
   };
 
   toggleChampion = id => {
-    let ids = [...this.state.ids];
+    const ids = [...this.state.ids];
     const index = ids.indexOf(id);
 
     if (index === -1 && ids.length === 5) {
       return;
     }
+
     if (ids.length === 5) {
 
     }
+
     if (index === -1) {
       ids.push(id);
     } else {
@@ -63,73 +65,81 @@ class ChooseChampion extends Component {
       categoryText = 'A';
     }
 
-    return <div key={uuid()} className={style.statistic_item}>
-      {categoryText}: {value}
-    </div>;
+    return (
+      <div key={uuid()} className={style.statistic_item}>
+        {categoryText}: {value}
+      </div>
+    );
   };
 
   renderChampion = ({ _id, photo, name, position, stats }) => {
     const championPhoto = photo ? photo : Avatar;
 
-    return <div
-      className={cx('item', { '_is-checked': this.state.ids.indexOf(_id) !== -1 })}
-      key={_id}
-      onClick={() => this.toggleChampion(_id)}
-    >
-      <div className={style.image}>
-        <img onError={event => event.target.src = Avatar} src={championPhoto} alt={i18n.t('champion_avatar')} />
-      </div>
-
-      <p className={style.name}>{name}</p>
-
-      {position &&
-        <div className={style.stats_item}>
-          <div className={style.statistic_item}>
-            Position: {position}
-          </div>
+    return (
+      <div
+        key={_id}
+        className={cx('item', { '_is-checked': this.state.ids.includes(_id) })}
+        onClick={() => this.toggleChampion(_id)}
+      >
+        <div className={style.image}>
+          <img src={championPhoto} alt={i18n.t('champion_avatar')} onError={event => event.target.src = Avatar}/>
         </div>
-      }
 
-      <div className={style.stats_item}>
-        {stats.map(element => this.renderStatisticItem(element))}
+        <p className={style.name}>{name}</p>
+
+        {position && (
+          <div className={style.stats_item}>
+            <div className={style.statistic_item}>
+            Position: {position}
+            </div>
+          </div>
+        )}
+
+        <div className={style.stats_item}>
+          {stats.map(element => this.renderStatisticItem(element))}
+        </div>
       </div>
-    </div>;
+    );
   }
 
   render() {
-    return <div className={style.wrapper}>
-      <div className={style.modal}>
-        <header className={style.header}>
-          <h3 className={style.title}>{i18n.t('choose_your_champion')}</h3>
+    return (
+      <div className={style.wrapper}>
+        <div className={style.modal}>
+          <header className={style.header}>
+            <h3 className={style.title}>{i18n.t('choose_your_champion')}</h3>
 
-          <button className={style.close} onClick={this.props.onClose}>
-            <CloseIcon />
-          </button>
-        </header>
+            <button className={style.close} onClick={this.props.onClose}>
+              <CloseIcon/>
+            </button>
+          </header>
 
-        {this.state.isFreeTournamentModalShown && <DialogWindow
-          text={i18n.t('free_tournament')}
-          onSubmit={this.addPlayers}
-          onClose={this.toggleFreeTournamentModal}
-        />}
+          {this.state.isFreeTournamentModalShown && (
+            <DialogWindow
+              text={i18n.t('free_tournament')}
+              onSubmit={this.addPlayers}
+              onClose={this.toggleFreeTournamentModal}
+            />
+          )}
 
-        <div className={style.content}>
-          <div className={style.list}>
-            {this.props.champions.map(item => this.renderChampion(item))}
+          <div className={style.content}>
+            <div className={style.list}>
+              {this.props.champions.map(item => this.renderChampion(item))}
+            </div>
           </div>
-        </div>
 
-        <footer className={style.footer}>
-          <Button
-            appearance="_basic-accent"
-            text={i18n.t('add_players')}
-            className={style.button}
-            disabled={this.state.ids.length < 5}
-            onClick={this.toggleFreeTournamentModal}
-          />
-        </footer>
+          <footer className={style.footer}>
+            <Button
+              appearance="_basic-accent"
+              text={i18n.t('add_players')}
+              className={style.button}
+              disabled={this.state.ids.length < 5}
+              onClick={this.toggleFreeTournamentModal}
+            />
+          </footer>
+        </div>
       </div>
-    </div>;
+    );
   }
 }
 export default ChooseChampion;

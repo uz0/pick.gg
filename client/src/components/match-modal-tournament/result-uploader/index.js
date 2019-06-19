@@ -48,7 +48,7 @@ class ResultUploader extends Component {
     });
   }
 
-  handleOnFileChoosed = (event) => {
+  handleOnFileChoosed = event => {
     event.preventDefault();
 
     const file = this.results.files[0];
@@ -84,35 +84,37 @@ class ResultUploader extends Component {
   render() {
     const { fileName } = this.state;
 
-    return <div className={style.container}>
-      <FileDrop
-        className={style.dropzone}
-        onDrop={this.handleDrop}
-      >
-        <p>{fileName || i18n.t('result_modal.drag_and_drop_file')}</p>
-
-        <div
-          className={style.clickZone}
-          onClick={() => this.results.click()}
+    return (
+      <div className={style.container}>
+        <FileDrop
+          className={style.dropzone}
+          onDrop={this.handleDrop}
         >
-          {i18n.t('result_modal.upload_file_button_text')}
-        </div>
+          <p>{fileName || i18n.t('result_modal.drag_and_drop_file')}</p>
 
-        <input
-          type="file"
-          className={style.fileInput}
-          ref={results => this.results = results}
-          onChange={this.handleOnFileChoosed}
+          <div
+            className={style.clickZone}
+            onClick={() => this.results.click()}
+          >
+            {i18n.t('result_modal.upload_file_button_text')}
+          </div>
+
+          <input
+            ref={results => this.results = results}
+            type="file"
+            className={style.fileInput}
+            onChange={this.handleOnFileChoosed}
+          />
+        </FileDrop>
+
+        <Button
+          className={style.button}
+          appearance="_basic-accent"
+          text={i18n.t('result_modal.action_button_text')}
+          onClick={this.addResultFile}
         />
-      </FileDrop>
-
-      <Button
-        className={style.button}
-        appearance="_basic-accent"
-        text={i18n.t('result_modal.action_button_text')}
-        onClick={this.addResultFile}
-      />
-    </div>
+      </div>
+    );
   }
 }
 

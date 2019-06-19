@@ -3,10 +3,10 @@ import BasicService from './basicService';
 
 export default class StreamerService extends BasicService {
   async createPlayer({ name, photo, position }) {
-    const request = await http(`/api/streamer/players`, {
+    const request = await http('/api/streamer/players', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -52,7 +52,7 @@ export default class StreamerService extends BasicService {
       body: formData,
     });
     request = await request.json();
-    
+
     return request;
   }
 

@@ -82,30 +82,32 @@ class Notification extends Component {
     const isMatch = this.props.type === 'match';
     const title = ['match', 'winning', 'error', 'success', 'warning'].includes(this.props.type) ? i18n.t(this.props.type) : '';
 
-    return this.state.isInDom && <Portal>
-      <div className={style.wrapper}>
-        <div
-          className={cx('notification', {
-            '_is-shown': this.state.isShown,
-            '_is-match': isMatch,
-          })}
-        >
-          <div className={style.header}>
-            <i><NotificationIcon /></i>
-            <h3 className={style.title}>{title}</h3>
+    return this.state.isInDom && (
+      <Portal>
+        <div className={style.wrapper}>
+          <div
+            className={cx('notification', {
+              '_is-shown': this.state.isShown,
+              '_is-match': isMatch,
+            })}
+          >
+            <div className={style.header}>
+              <i><NotificationIcon/></i>
+              <h3 className={style.title}>{title}</h3>
 
-            <Button
-              className={style.close}
-              appearance="_icon-transparent"
-              icon="close"
-              onClick={this.close}
-            />
+              <Button
+                className={style.close}
+                appearance="_icon-transparent"
+                icon="close"
+                onClick={this.close}
+              />
+            </div>
+
+            <p className={style.message}>{this.props.message}</p>
           </div>
-
-          <p className={style.message}>{this.props.message}</p>
         </div>
-      </div>
-    </Portal>;
+      </Portal>
+    );
   }
 }
 

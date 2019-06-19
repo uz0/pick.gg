@@ -64,7 +64,7 @@ class newTournament extends Component {
   closeModalChoose = () => this.setState({ modalChoose: false })
 
   onRulesInputChange = event => {
-    let formattedInputValue = parseInt(event.target.value, 10);
+    const formattedInputValue = parseInt(event.target.value, 10);
     let value = 0;
 
     if (formattedInputValue <= 10 && formattedInputValue >= 0) {
@@ -105,26 +105,26 @@ class newTournament extends Component {
 
     let tournamentId = '';
 
-    if (!name){
+    if (!name) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: "Tournament name field shouldn't be empty",
+        message: 'Tournament name field shouldn\'t be empty',
       });
 
       return;
     }
 
-    if (!entry){
+    if (!entry) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
-        message: "Entry field shouldn't be empty",
+        message: 'Entry field shouldn\'t be empty',
       });
 
       return;
     }
-    
+
     if (!tournament) {
       this.notificationService.showSingleNotification({
         type: 'error',
@@ -138,7 +138,7 @@ class newTournament extends Component {
     this.props.onClose();
 
     tournamentId = filteredTournaments.find(item => item.name === tournament)._id;
-    
+
     const normalizedRules = Object.keys(rulesValues).map(item => ({
       rule: item,
       score: rulesValues[item],
@@ -163,28 +163,30 @@ class newTournament extends Component {
     this.props.history.push(`/tournaments/${newTournament._id}`);
   }
 
-  nameRules = ( name ) => {
+  nameRules = name => {
     let rulesText = '';
 
-    if (name === 'kills'){
+    if (name === 'kills') {
       rulesText = i18n.t('kills');
     }
 
-    if (name === 'assists'){
+    if (name === 'assists') {
       rulesText = i18n.t('assists');
     }
 
-    if (name === 'deaths'){
+    if (name === 'deaths') {
       rulesText = i18n.t('deaths');
     }
 
-    return <div className={style.statistic_item}>
-      {rulesText}
-    </div>;
+    return (
+      <div className={style.statistic_item}>
+        {rulesText}
+      </div>
+    );
   }
 
   render() {
-    let { onClose } = this.props;
+    const { onClose } = this.props;
     const areRulesLoading = this.state.rules.length === 0;
 
     return (
@@ -196,23 +198,30 @@ class newTournament extends Component {
             <p>{i18n.t('create_new_tournament')}</p>
           </div> */}
 
-          {this.state.modalChoose && <DialogWindow
-            text={i18n.t('really_want_create')}
-            onClose={this.closeModalChoose}
-            onSubmit={this.submitForm}
-          />
+          {this.state.modalChoose && (
+            <DialogWindow
+              text={i18n.t('really_want_create')}
+              onClose={this.closeModalChoose}
+              onSubmit={this.submitForm}
+            />
+          )
           }
 
-          <form onSubmit={(event) => { event.preventDefault(); this.showModal(); }}>
+          <form onSubmit={event => {
+            event.preventDefault(); this.showModal();
+          }}
+          >
 
-            {areRulesLoading && <Preloader
-              isFullScreen={true}
-            />}
+            {areRulesLoading && (
+              <Preloader
+                isFullScreen
+              />
+            )}
 
             <Button
               className={style.close_button}
-              appearance={'_icon-transparent'}
-              icon={<CloseIcon />}
+              appearance="_icon-transparent"
+              icon={<CloseIcon/>}
               onClick={onClose}
             />
 
@@ -221,53 +230,54 @@ class newTournament extends Component {
                 <Input
                   label={i18n.t('tournament_name')}
                   value={this.state.name}
-                  onInput={(event) => this.handleChange(event, 'name')}
+                  onInput={event => this.handleChange(event, 'name')}
                 />
 
                 <Select
                   action={this.onChange}
                   name="tournament"
                   values={this.state.filteredTournaments}
-                  option={item => `${moment(item.date).format("DD MMM YYYY")} - ${item.name}`}
+                  option={item => `${moment(item.date).format('DD MMM YYYY')} - ${item.name}`}
                   label={i18n.t('tournament_list')}
                 />
 
                 <Input
                   label={i18n.t('tournament_thumb')}
                   value={this.state.thumbnail}
-                  onInput={(event) => this.handleChange(event, 'thumbnail')}
+                  onInput={event => this.handleChange(event, 'thumbnail')}
                 />
 
                 <Input
                   label={i18n.t('entry')}
                   value={this.state.entry}
-                  onInput={(event) => this.handleChange(event, 'entry')}
+                  onInput={event => this.handleChange(event, 'entry')}
                 />
               </div>
-              
+
               <p>{i18n.t('rules')}</p>
-              
+
               <div className={style.rules_inputs}>
-                {this.state.rules.map(item =>
-                  <div className={style.input_rules} key={item._id}>
+                {this.state.rules.map(item => (
+                  <div key={item._id} className={style.input_rules}>
                     <input
+                      key={item._id}
+                      required
                       name={item._id}
-                      onChange={this.onRulesInputChange}
                       value={this.state.rulesValues[item._id]}
                       defaultValue={this.state.rulesValues[item._id]}
-                      key={item._id}
                       type="number"
-                      required
                       max="10"
+                      onChange={this.onRulesInputChange}
                     />
                     <label>{this.nameRules(item.name)}</label>
-                  </div>)}
+                  </div>
+                ))}
               </div>
-              
+
               <div className={style.bottom_btn}>
                 <Button
-                  appearance={'_basic-accent'}
-                  type={'submit'}
+                  appearance="_basic-accent"
+                  type="submit"
                   text={i18n.t('create')}
                 />
               </div>

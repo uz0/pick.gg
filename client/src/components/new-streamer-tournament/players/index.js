@@ -60,7 +60,7 @@ class PlayersStep extends Component {
     term: '',
   }
 
-  _sortPlayers = (players) => {
+  _sortPlayers = players => {
     const playersWithNumberNick = players.filter(player => /^\d+$/.test(player.name[0]));
     const playersWithCharNick = players.filter(player => !/^\d+$/.test(player.name[0])).sort((prev, next) => prev.name.localeCompare(next.name));
 
@@ -70,13 +70,13 @@ class PlayersStep extends Component {
     ];
   }
 
-  search = (event) => {
+  search = event => {
     this.setState({
       term: event.target.value,
     });
   }
 
-  searchingFor = (term) => x => x.name.toLowerCase().startsWith(term.toLowerCase()) || !term;
+  searchingFor = term => x => x.name.toLowerCase().startsWith(term.toLowerCase()) || !term;
 
   showPlayerCreatingModal = () => this.setState({ isPlayerCreating: true });
 
@@ -91,7 +91,7 @@ class PlayersStep extends Component {
     isPlayerChoosing: false,
   });
 
-  handleChampionInputChange = (event) => {
+  handleChampionInputChange = event => {
     this.setState({
       championData: {
         ...this.state.championData,
@@ -127,8 +127,8 @@ class PlayersStep extends Component {
     });
   }
 
-  playerClickHandler = (player) => {
-    let { chosenPlayers } = this.state;
+  playerClickHandler = player => {
+    const { chosenPlayers } = this.state;
     const index = findIndex(chosenPlayers, { _id: player._id });
 
     if (index === -1 && chosenPlayers.length === 10) {
@@ -146,7 +146,7 @@ class PlayersStep extends Component {
 
   clearSearch = () => this.setState({ term: '' })
 
-  submitPlayerCreatingForm = async (event) => {
+  submitPlayerCreatingForm = async event => {
     event.preventDefault();
 
     const { name, photo, position } = this.state.championData;
@@ -231,27 +231,29 @@ class PlayersStep extends Component {
       console.log(error);
     }
   }
-  
-  onError = (item) => {
+
+  onError = item => {
     item.target.src = Avatar;
   };
 
-  renderChampion = ({ _id, name, photo, position }) => <div
-    className={style.champion}
-    key={_id}
-  >
-    <div className={style.image}>
-      <img src={photo ? photo : Avatar} onError={this.onError} alt={i18n.t('champion_avatar')} />
-    </div>
-
-    <p className={style.name}>{name}</p>
-
-    {position &&
-      <div className={style.position}>
-        {position}
+  renderChampion = ({ _id, name, photo, position }) => (
+    <div
+      key={_id}
+      className={style.champion}
+    >
+      <div className={style.image}>
+        <img src={photo ? photo : Avatar} alt={i18n.t('champion_avatar')} onError={this.onError}/>
       </div>
-    }
-  </div>
+
+      <p className={style.name}>{name}</p>
+
+      {position && (
+        <div className={style.position}>
+          {position}
+        </div>
+      )}
+    </div>
+  )
 
   render() {
     const { playersAddedToTournament, term, playersNoGroup, players } = this.state;
@@ -266,7 +268,7 @@ class PlayersStep extends Component {
           <h3 className={style.header_step}>{i18n.t('modal.step')} 2 {i18n.t('of')} 3: {i18n.t('tournament_players')}</h3>
           <Button
             className={style.action_button}
-            appearance={'_circle-accent'}
+            appearance="_circle-accent"
             icon={<i className="material-icons">{buttonIcon}</i>}
             onClick={this.showPlayerChoosingModal}
           />
@@ -277,152 +279,165 @@ class PlayersStep extends Component {
         </div>
 
         <div className={style.controls}>
-          {this.state.stepIndex !== 1 && <Button
-            className={style.prev}
-            appearance={'_basic-accent'}
-            text={i18n.t('prev')}
-            onClick={this.props.prevStep}
-          />
+          {this.state.stepIndex !== 1 && (
+            <Button
+              className={style.prev}
+              appearance="_basic-accent"
+              text={i18n.t('prev')}
+              onClick={this.props.prevStep}
+            />
+          )
           }
 
-          {this.state.stepIndex !== 3 && <Button
-            className={style.next}
-            appearance={'_basic-accent'}
-            text={i18n.t('next')}
-            onClick={this.nextStep}
-          />
+          {this.state.stepIndex !== 3 && (
+            <Button
+              className={style.next}
+              appearance="_basic-accent"
+              text={i18n.t('next')}
+              onClick={this.nextStep}
+            />
+          )
           }
         </div>
 
-        {this.state.isPlayerChoosing && <Modal
-          title={i18n.t('choose_10')}
-          close={this.closePlayerChoosingModal}
-          wrapClassName={style.players_modal}
-        >
+        {this.state.isPlayerChoosing && (
+          <Modal
+            title={i18n.t('choose_10')}
+            close={this.closePlayerChoosingModal}
+            wrapClassName={style.players_modal}
+          >
 
-          <div className={style.players_sidebar}>
-            <h3>{i18n.t('chosen_players')}</h3>
+            <div className={style.players_sidebar}>
+              <h3>{i18n.t('chosen_players')}</h3>
 
-            {this.state.chosenPlayers.length === 0 &&
-              <p className={style.attention}>{i18n.t('you_not_chosen')}</p>
-            }
+              {this.state.chosenPlayers.length === 0 &&
+                <p className={style.attention}>{i18n.t('you_not_chosen')}</p>
+              }
 
-            <div className={style.chosen_players}>
-              {this.state.chosenPlayers.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
-            </div>
-
-            {this.state.chosenPlayers.length === 10 &&
-              <div className={style.add_players_to_tournament}>
-                <Button
-                  text={i18n.t('add_players')}
-                  appearance='_basic-accent'
-                  onClick={this.addPlayersToTournament}
-                  className={style.button_add_players}
-                />
+              <div className={style.chosen_players}>
+                {this.state.chosenPlayers.map((item, index) => <div>{`${index + 1}. ${item.name}`}</div>)}
               </div>
-            }
 
-            <Button
-              text={i18n.t('create_new_player')}
-              appearance='_basic-default'
-              onClick={this.showPlayerCreatingModal}
-            />
-          </div>
-
-          <div className={style.players_list}>
-            {this.state.arePlayersLoading &&
-              <Preloader isFullScreen={false} />
-            }
-
-            <div className={style.search_block}>
-              <input
-                type='text'
-                placeholder={i18n.t('search')}
-                onChange={this.search}
-                value={term}
-                className={style.search}
-              />
+              {this.state.chosenPlayers.length === 10 && (
+                <div className={style.add_players_to_tournament}>
+                  <Button
+                    text={i18n.t('add_players')}
+                    appearance="_basic-accent"
+                    className={style.button_add_players}
+                    onClick={this.addPlayersToTournament}
+                  />
+                </div>
+              )}
 
               <Button
-                text={i18n.t('clear_button')}
-                appearance='_basic-default'
-                onClick={this.clearSearch}
-                className={style.button_search}
+                text={i18n.t('create_new_player')}
+                appearance="_basic-default"
+                onClick={this.showPlayerCreatingModal}
               />
             </div>
 
-            {term.length > 0 &&
-              <div className={style.no_grouped}>
-                {filteredPlayers.map(player => <div
-                  key={player._id}
-                  onClick={() => this.playerClickHandler(player)}
-                  className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
-                >
-                  {player.name}
-                </div>)
-                }
+            <div className={style.players_list}>
+              {this.state.arePlayersLoading &&
+                <Preloader isFullScreen={false}/>
+              }
 
-                {isTherePlayersWithNoGroup && !isSearchHasResults &&
-                  <p className={style.attention}>Нет результатов</p>
-                }
+              <div className={style.search_block}>
+                <input
+                  type="text"
+                  placeholder={i18n.t('search')}
+                  value={term}
+                  className={style.search}
+                  onChange={this.search}
+                />
+
+                <Button
+                  text={i18n.t('clear_button')}
+                  appearance="_basic-default"
+                  className={style.button_search}
+                  onClick={this.clearSearch}
+                />
               </div>
-            }
 
-            {term.length < 1 && players.map(([key, players]) =>
-              <div key={key} className={style.group}>
-                <h3>{key}</h3>
-                <div className={style.group_players}>
-                  {players.map(player => <div
-                    key={player._id}
-                    onClick={() => this.playerClickHandler(player)}
-                    className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
-                  >
-                    {player.name}
-                  </div>)
+              {term.length > 0 && (
+                <div className={style.no_grouped}>
+                  {filteredPlayers.map(player => (
+                    <div
+                      key={player._id}
+                      className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
+                      onClick={() => this.playerClickHandler(player)}
+                    >
+                      {player.name}
+                    </div>
+                  ))
+                  }
+
+                  {isTherePlayersWithNoGroup && !isSearchHasResults &&
+                    <p className={style.attention}>Нет результатов</p>
                   }
                 </div>
-              </div>)}
-          </div>
+              )}
 
-        </Modal>
+              {term.length < 1 && players.map(([key, players]) => (
+                <div key={key} className={style.group}>
+                  <h3>{key}</h3>
+                  <div className={style.group_players}>
+                    {players.map(player => (
+                      <div
+                        key={player._id}
+                        className={cx(style.player, { [style.selected]: findIndex(this.state.chosenPlayers, { _id: player._id }) !== -1 })}
+                        onClick={() => this.playerClickHandler(player)}
+                      >
+                        {player.name}
+                      </div>
+                    ))
+                    }
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </Modal>
+        )
         }
 
-        {this.state.isPlayerCreating && <Modal
-          title={i18n.t('create_new_player')}
-          wrapClassName={style.create_player_modal}
-          close={this.closePlayerCreatingModal}
-          actions={[{
-            text: i18n.t('add_player'),
-            onClick: this.submitPlayerCreatingForm,
-            isDanger: true,
-          }]}
-        >
+        {this.state.isPlayerCreating && (
+          <Modal
+            title={i18n.t('create_new_player')}
+            wrapClassName={style.create_player_modal}
+            close={this.closePlayerCreatingModal}
+            actions={[{
+              text: i18n.t('add_player'),
+              onClick: this.submitPlayerCreatingForm,
+              isDanger: true,
+            }]}
+          >
 
-          {this.state.isChampionModalLoading &&
-            <Preloader isFullScreen={false} />
-          }
+            {this.state.isChampionModalLoading &&
+              <Preloader isFullScreen={false}/>
+            }
 
-          <div className={style.inputs}>
-            <Input
-              label={i18n.t('champion_name')}
-              name="name"
-              value={this.state.championData.name || ''}
-              onChange={this.handleChampionInputChange}
-            />
-            <Input
-              label={i18n.t('champion_photo')}
-              name="photo"
-              value={this.state.championData.photo || ''}
-              onChange={this.handleChampionInputChange}
-            />
-            <Input
-              label={i18n.t('champion_position')}
-              name="position"
-              value={this.state.championData.position || ''}
-              onChange={this.handleChampionInputChange}
-            />
-          </div>
-        </Modal>
+            <div className={style.inputs}>
+              <Input
+                label={i18n.t('champion_name')}
+                name="name"
+                value={this.state.championData.name || ''}
+                onChange={this.handleChampionInputChange}
+              />
+              <Input
+                label={i18n.t('champion_photo')}
+                name="photo"
+                value={this.state.championData.photo || ''}
+                onChange={this.handleChampionInputChange}
+              />
+              <Input
+                label={i18n.t('champion_position')}
+                name="position"
+                value={this.state.championData.position || ''}
+                onChange={this.handleChampionInputChange}
+              />
+            </div>
+          </Modal>
+        )
         }
       </div>
     );

@@ -13,11 +13,13 @@ const Icon = ({ name, className }) => {
     plus: PlusIcon,
   })[name];
 
-  return <i className={cx('icon', className)}>
-    {SvgIcon &&
-      <SvgIcon />
-    }
-  </i>;
+  return (
+    <i className={cx('icon', className)}>
+      {SvgIcon &&
+        <SvgIcon/>
+      }
+    </i>
+  );
 };
 
 export default Icon;

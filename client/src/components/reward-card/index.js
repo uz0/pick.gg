@@ -9,8 +9,8 @@ const cx = classnames.bind(style);
 
 const RewardCard = ({ description, rewardKey, isClaimed }) => {
   const notificationService = new NotificationService();
-  
-  const copyRewardCode = async (rewardKey) => {
+
+  const copyRewardCode = async rewardKey => {
     await navigator.clipboard.writeText(rewardKey);
 
     notificationService.showSingleNotification({
@@ -19,16 +19,18 @@ const RewardCard = ({ description, rewardKey, isClaimed }) => {
     });
   };
 
-  return <div className={cx(style.card, { 'is_claimed': isClaimed })}>
-    <div className={style.content}>
-      <Trophy className={style.reward}/>
-      <h3 className={style.name}>{description}</h3>
+  return (
+    <div className={cx(style.card, { is_claimed: isClaimed })}>
+      <div className={style.content}>
+        <Trophy className={style.reward}/>
+        <h3 className={style.name}>{description}</h3>
 
-      <button className={style.claim} onClick={(e) => copyRewardCode(rewardKey)}>
-        {rewardKey}
-      </button>
+        <button className={style.claim} onClick={e => copyRewardCode(rewardKey)}>
+          {rewardKey}
+        </button>
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default RewardCard;

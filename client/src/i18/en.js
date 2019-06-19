@@ -1,4 +1,4 @@
-export default {translation: {
+export default { translation: {
   error: 'Error',
   success: 'Success',
   warning: 'Warning',
@@ -23,7 +23,7 @@ export default {translation: {
   tournament_thumb: 'Tournament image link',
   earned: 'earned',
   notification_sidebar_header: 'Notifications',
-  notification_sidebar_empty: "There's no any notifications yet",
+  notification_sidebar_empty: 'There\'s no any notifications yet',
   empty_field: 'Error empty field',
   equal_password: 'Passwords must be equal',
   guade_choose: 'CHOOSE OR CREATE FANTASY TOURNAMENT',
@@ -107,7 +107,7 @@ export default {translation: {
   entry_cost: 'Entry Cost',
   original_tournament: 'Original Tournament',
   my_team: 'My Team',
-  youve_been_registered_for_the_tournament: "You've been registered for the tournament",
+  youve_been_registered_for_the_tournament: 'You\'ve been registered for the tournament',
   free_tournament: 'Do you want to start with such a team?',
   balance: 'Balance',
   admin: 'Admin',
@@ -120,7 +120,7 @@ export default {translation: {
   tournament_deleted: 'Tournament was deleted',
   player_from_list: 'Please, choose player from list',
   player_alreadt: 'This player is already taking part in the tournament',
-  no_any_matches: "There's no any matches yet",
+  no_any_matches: 'There\'s no any matches yet',
   create_tournament: 'Create tournament',
   delete_tournament: 'Delete tournament',
   update_tournament: 'Update tournament',
@@ -150,7 +150,7 @@ export default {translation: {
   editing: 'Editing',
   delete_champion: 'Delete champion',
   update_champion: 'Update champion',
-  no_champion: "There's no champions yet",
+  no_champion: 'There\'s no champions yet',
   want_remove_champion: 'Do you really want to remove the champion?',
   champion_name: 'Champion name',
   champion_photo: 'Champion photo',
@@ -168,7 +168,7 @@ export default {translation: {
   delete_tule: 'Delete rule',
   update_rule: 'Update rule',
   add_rule: 'Add rule',
-  no_rules: "There's no rules yet",
+  no_rules: 'There\'s no rules yet',
   want_remove_rule: 'Do you really want to remove the rule?',
   rule_name: 'Rule name',
   finalize_all: 'Finalize all tournaments',
@@ -183,14 +183,14 @@ export default {translation: {
   tournament_must_have: 'Tournament must have 10 players',
   fields_required: 'Fields name and position are required',
   name_contain: 'Name can not contain more than 20 characters',
-  you_created_player: "You've created player with name",
+  you_created_player: 'You\'ve created player with name',
   edit_players: 'Edit players',
   edit: 'Edit',
   prev: 'Prev',
   next: 'Next',
   choose_10: 'Choose 10 players',
   chosen_players: 'Chosen players',
-  you_not_chosen: "You haven't chosen any players yet",
+  you_not_chosen: 'You haven\'t chosen any players yet',
   great: 'Great!',
   players_left: 'players left',
   add_players_to_tournament: 'Add players to tournament',
@@ -216,7 +216,7 @@ export default {translation: {
   search: 'Find a player',
   invite: 'Invite a friend',
   rewards: 'Rewards',
-  no_rewards: "You haven't received any rewards yet",
+  no_rewards: 'You haven\'t received any rewards yet',
   no_players: 'No players',
 
   modal: {
@@ -245,9 +245,9 @@ export default {translation: {
     drag_and_drop_file: 'You can drag and drop file',
     upload_file_button_text: 'or click here',
     error: {
-      multiple_files_upload: "You can't upload multiple files",
-      choose_file_first: "You should choose file first",
-      format_error: "You can upload only HTML files",
+      multiple_files_upload: 'You can\'t upload multiple files',
+      choose_file_first: 'You should choose file first',
+      format_error: 'You can upload only HTML files',
     },
   },
 
@@ -257,13 +257,13 @@ export default {translation: {
 
   notifications: {
     finalization: {
-      no_participatns: "You can't finalize tournaments without any participants.",
-      uncompleted_matches: "Finalization failed. All matches of the tournament must be completed.",
+      no_participatns: 'You can\'t finalize tournaments without any participants.',
+      uncompleted_matches: 'Finalization failed. All matches of the tournament must be completed.',
     },
     errors: {
-      closed_window: "User closed login window",
-      start_without_participants: "You can't start tournament without participants",
-      finalize_not_started_tournament: "You can't finalize tournament which wasn't started",
+      closed_window: 'User closed login window',
+      start_without_participants: 'You can\'t start tournament without participants',
+      finalize_not_started_tournament: 'You can\'t finalize tournament which wasn\'t started',
     },
     warnings: {
       empty_summoner_name: 'You need enter summoner name in settings profile',
@@ -271,11 +271,11 @@ export default {translation: {
   },
 
   serverErrors: {
-    champion_not_found: "Champion with name {{name}} doesn't exist. Please, check name you've entered and try again.",
-    champion_already_exist: "Сhampion with name {{name}} already exists.",
-    players_are_not_same: "Players in fantasy tournament and in LoL match are not the same",
-    position_is_empty: "Position field is required",
+    champion_not_found: 'Champion with name {{name}} doesn\'t exist. Please, check name you\'ve entered and try again.',
+    champion_already_exist: 'Сhampion with name {{name}} already exists.',
+    players_are_not_same: 'Players in fantasy tournament and in LoL match are not the same',
+    position_is_empty: 'Position field is required',
 
     results_file_format_error: 'This file is broken and can not be used for results synchronization',
   },
-}};
+} };

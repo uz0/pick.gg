@@ -43,7 +43,7 @@ class MatchesStep extends Component {
     isMatchCreating: false,
   });
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     this.setState({
       matchData: {
         ...this.state.matchData,
@@ -53,7 +53,7 @@ class MatchesStep extends Component {
   };
 
   addMatch = () => {
-    let { matches, matchData } = this.state;
+    const { matches, matchData } = this.state;
 
     if (matchData.name.length === 0) {
       this.notificationService.showSingleNotification({
@@ -88,13 +88,13 @@ class MatchesStep extends Component {
     });
   }
 
-  removeMatch = (matchId) => {
+  removeMatch = matchId => {
     const matches = this.state.matches.filter(item => item.id !== matchId);
 
     this.setState({ matches });
   }
 
-  editMatch = (match) => {
+  editMatch = match => {
     this.setState({
       matchData: {
         ...match,
@@ -104,7 +104,7 @@ class MatchesStep extends Component {
   }
 
   updateMatch = () => {
-    let { matches, matchData } = this.state;
+    const { matches, matchData } = this.state;
 
     if (matchData.name.length === 0) {
       this.notificationService.showSingleNotification({
@@ -161,22 +161,23 @@ class MatchesStep extends Component {
   }
 
   renderMatch = (match, index) => {
-    return <div key={uuid()} className={style.match}>
-      <div className={style.info_item}>
-        {`${index + 1}. ${match.name}`}
+    return (
+      <div key={uuid()} className={style.match}>
+        <div className={style.info_item}>
+          {`${index + 1}. ${match.name}`}
+        </div>
+        <div className={style.info_item}>
+          {match.startTime}
+        </div>
+        <button className={style.delete} onClick={() => this.removeMatch(match.id)}>
+          <i className="material-icons">delete_forever</i>
+        </button>
+        <button className={style.edit} onClick={() => this.editMatch(match)}>
+          <i className="material-icons">edit</i>
+        </button>
       </div>
-      <div className={style.info_item}>
-        {match.startTime}
-      </div>
-      <button className={style.delete} onClick={() => this.removeMatch(match.id)}>
-        <i className='material-icons'>delete_forever</i>
-      </button>
-      <button className={style.edit} onClick={() => this.editMatch(match)}>
-        <i className='material-icons'>edit</i>
-      </button>
-    </div>;
+    );
   }
-
 
   render() {
     const { isMatchEditing, isMatchCreating } = this.state;
@@ -190,10 +191,10 @@ class MatchesStep extends Component {
         <div className={style.header_matches}>
           <h3 className={style.header_step}>{i18n.t('modal.step')} 3 {i18n.t('of')} 3: {i18n.t('tournament_matches')}</h3>
           <Button
-            appearance={'_circle-accent'}
-            icon={<i className='material-icons'>add</i>}
-            onClick={this.showMatchCreatingModal}
+            appearance="_circle-accent"
+            icon={<i className="material-icons">add</i>}
             className={style.match_create}
+            onClick={this.showMatchCreatingModal}
           />
         </div>
 
@@ -201,45 +202,47 @@ class MatchesStep extends Component {
           {this.state.matches.map((item, index) => this.renderMatch(item, index))}
         </div>
 
-        {isModalActive && <Modal
-          title={i18n.t('add_match')}
-          close={this.closeMatchCreatingModal}
-          wrapClassName={style.create_player_modal}
-          actions={[{
-            text: modalActionText,
-            onClick: modalAction,
-            isDanger: true,
-          }]}
-        >
-          <Input
-            label={i18n.t('match_name')}
-            name='name'
-            value={this.state.matchData.name}
-            onChange={this.handleInputChange}
-            className={style.input_wrap}
-          />
+        {isModalActive && (
+          <Modal
+            title={i18n.t('add_match')}
+            close={this.closeMatchCreatingModal}
+            wrapClassName={style.create_player_modal}
+            actions={[{
+              text: modalActionText,
+              onClick: modalAction,
+              isDanger: true,
+            }]}
+          >
+            <Input
+              label={i18n.t('match_name')}
+              name="name"
+              value={this.state.matchData.name}
+              className={style.input_wrap}
+              onChange={this.handleInputChange}
+            />
 
-          <Input
-            type='time'
-            label={i18n.t('start_time')}
-            name='startTime'
-            value={this.state.matchData.startTime}
-            onChange={this.handleInputChange}
-          />
-        </Modal>
+            <Input
+              type="time"
+              label={i18n.t('start_time')}
+              name="startTime"
+              value={this.state.matchData.startTime}
+              onChange={this.handleInputChange}
+            />
+          </Modal>
+        )
         }
 
         <div className={style.controls}>
           <Button
             className={style.prev}
-            appearance={'_basic-accent'}
+            appearance="_basic-accent"
             text={i18n.t('prev')}
-            // icon={<i className='material-icons'>arrow_back</i>}
+            // Icon={<i className='material-icons'>arrow_back</i>}
             onClick={this.props.prevStep}
           />
           <Button
             className={style.next}
-            appearance={'_basic-accent'}
+            appearance="_basic-accent"
             text={i18n.t('create_tournament')}
             onClick={this.submitTournament}
           />

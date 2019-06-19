@@ -12,7 +12,7 @@ export default function AuthWrapper(AuthComponent) {
     }
 
     componentWillMount() {
-      // if (!this.auth.isLoggedIn()) {
+      // If (!this.auth.isLoggedIn()) {
       //   this.props.history.replace('/');
       // } else {
       //   try {
@@ -29,7 +29,7 @@ export default function AuthWrapper(AuthComponent) {
 
     render() {
       if (this.state.user) {
-        return <AuthComponent history={this.props.history} user={this.state.user} />;
+        return <AuthComponent history={this.props.history} user={this.state.user}/>;
       // eslint-disable-next-line no-else-return
       } else {
         return null;
