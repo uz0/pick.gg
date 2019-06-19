@@ -33,9 +33,6 @@ class MatchModal extends Component {
       startTime: '',
       completed: false,
     },
-    matches: [],
-    selectMatches: [],
-    selectedMatchId: '',
     results: [],
     resultsFile: {},
     editedResults: [],
@@ -60,7 +57,6 @@ class MatchModal extends Component {
 
     this.setState({
       match,
-      matches: [],
       results: resultsWithChampions,
       isLoading: false,
     });
@@ -87,7 +83,6 @@ class MatchModal extends Component {
 
     this.setState({
       match: {
-        ...this.state.match,
         [event.target.name]: inputValue,
       },
     });
@@ -119,7 +114,7 @@ class MatchModal extends Component {
     });
   }
 
-  toggleResultsModal = () => this.setState({ isResultsModalActive: !this.state.isResultsModalActive });
+  toggleResultsModal = () => this.setState(prevState => ({ isResultsModalActive: !prevState.isResultsModalActive }));
 
   addResultFile = resultsFile => {
     this.setState({

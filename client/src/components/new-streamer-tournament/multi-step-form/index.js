@@ -38,8 +38,6 @@ class MultiStepForm extends Component {
     name: '',
     thumbnail: '',
     players: [],
-    matches: [],
-    rules: [],
     rulesValues: {},
     isLoading: false,
   }
@@ -49,10 +47,10 @@ class MultiStepForm extends Component {
       return;
     }
 
-    this.setState({
+    this.setState(prevState => ({
       ...payload,
-      stepIndex: this.state.stepIndex + 1,
-    }, () => console.log(this.state));
+      stepIndex: prevState.stepIndex + 1,
+    }));
   }
 
   prevStep = () => {
@@ -60,7 +58,7 @@ class MultiStepForm extends Component {
       return;
     }
 
-    this.setState({ stepIndex: this.state.stepIndex - 1 });
+    this.setState(prevState => ({ stepIndex: prevState.stepIndex - 1 }));
   }
 
   createTournament = async tournamentMatches => {

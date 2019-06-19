@@ -20,12 +20,12 @@ const RewardCard = ({ description, rewardKey, isClaimed }) => {
   };
 
   return (
-    <div className={cx(style.card, { is_claimed: isClaimed })}>
+    <div className={cx(style.card, { isClaimed })}>
       <div className={style.content}>
         <Trophy className={style.reward}/>
         <h3 className={style.name}>{description}</h3>
 
-        <button className={style.claim} onClick={e => copyRewardCode(rewardKey)}>
+        <button type="button" className={style.claim} onClick={() => copyRewardCode(rewardKey)}>
           {rewardKey}
         </button>
       </div>

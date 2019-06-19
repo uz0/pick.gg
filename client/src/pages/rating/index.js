@@ -61,7 +61,9 @@ class Rating extends Component {
     // Const rating = await this.userService.getUserRewards();
     const allUsers = await this.userService.getAllUsers();
     const currentUser = await this.userService.getMyProfile();
-    allUsers.users.forEach((item, index) => item.place = index + 1);
+    allUsers.users.forEach((item, index) => {
+      item.place = index + 1;
+    });
 
     this.setState({
       currentUser,

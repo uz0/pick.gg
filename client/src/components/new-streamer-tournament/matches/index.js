@@ -46,7 +46,6 @@ class MatchesStep extends Component {
   handleInputChange = event => {
     this.setState({
       matchData: {
-        ...this.state.matchData,
         [event.target.name]: event.target.value,
       },
     });
@@ -89,10 +88,8 @@ class MatchesStep extends Component {
   }
 
   removeMatch = matchId => {
-    const matches = this.state.matches.filter(item => item.id !== matchId);
-
-    this.setState({ matches });
-  }
+    this.setState(prevState => ({ matches: prevState.matches.filter(item => item.id !== matchId) }));
+  };
 
   editMatch = match => {
     this.setState({
@@ -169,10 +166,10 @@ class MatchesStep extends Component {
         <div className={style.info_item}>
           {match.startTime}
         </div>
-        <button className={style.delete} onClick={() => this.removeMatch(match.id)}>
+        <button type="button" className={style.delete} onClick={() => this.removeMatch(match.id)}>
           <i className="material-icons">delete_forever</i>
         </button>
-        <button className={style.edit} onClick={() => this.editMatch(match)}>
+        <button type="button" className={style.edit} onClick={() => this.editMatch(match)}>
           <i className="material-icons">edit</i>
         </button>
       </div>
