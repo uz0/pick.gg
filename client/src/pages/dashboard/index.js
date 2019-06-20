@@ -29,7 +29,7 @@ class Dashboard extends Component {
             <div className={style.section}>
               <Switch>
                 <Route path="/dashboard/tournaments" component={Tournaments}/>
-                <Route to="/dashboard/rewards" component={Rewards}/>
+                <Route path="/dashboard/rewards" component={Rewards}/>
                 <Route path="/dashboard/users" component={Users}/>
               </Switch>
             </div>
