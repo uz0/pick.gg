@@ -25,13 +25,13 @@ class Dashboard extends Component {
                 </nav>
               </div>
 
-              <div className={style.section}>
-                <Switch>
-                  <Route path="/dashboard/tournaments" component={Tournaments} />
-                  <Route to="/dashboard/rewards" component={Rewards} />
-                  <Route path="/dashboard/users" component={Users} />
-                </Switch>
-              </div>
+            </div>
+            <div className={style.section}>
+              <Switch>
+                <Route path="/dashboard/tournaments" component={Tournaments}/>
+                <Route to="/dashboard/rewards" component={Rewards}/>
+                <Route path="/dashboard/users" component={Users}/>
+              </Switch>
             </div>
           </div>
         </div>
