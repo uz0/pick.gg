@@ -11,9 +11,9 @@ const AdminController = () => {
   router.get('/reward', getRewards);
 
   router.post('/reward', validateCreate, createHandler);
-  
+
   router.patch('/reward/:id', validateUpdate, updateHandler);
-  
+
   router.delete('/reward/:id', validateDelete, deleteHandler);
 
   return router;
