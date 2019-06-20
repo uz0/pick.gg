@@ -14,23 +14,25 @@ class Dashboard extends Component {
         <div className={style.dashboard}>
           <h1 className={style.title}>{i18n.t('dashboard')}</h1>
 
-        <div className={style.content}>
-          <div className={style.sidebar}>
-            <div className={style.menu}>
-              <h4>{i18n.t('menu')}</h4>
-              <nav>
-                <NavLink to="/dashboard/tournaments">{i18n.t('tournaments')}</NavLink>
-                <NavLink to="/dashboard/rewards">{i18n.t('rewards')}</NavLink>
-                <NavLink to="/dashboard/users">{i18n.t('users')}</NavLink>
-              </nav>
-            </div>
+          <div className={style.content}>
+            <div className={style.sidebar}>
+              <div className={style.menu}>
+                <h4>{i18n.t('menu')}</h4>
+                <nav>
+                  <NavLink to="/dashboard/tournaments">{i18n.t('tournaments')}</NavLink>
+                  <NavLink to="/dashboard/rewards">{i18n.t('rewards')}</NavLink>
+                  <NavLink to="/dashboard/users">{i18n.t('users')}</NavLink>
+                </nav>
+              </div>
 
-          <div className={style.section}>
-            <Switch>
-              <Route path="/dashboard/tournaments" component={Tournaments}/>
-              <Route to="/dashboard/rewards" component={Rewards}/>
-              <Route path="/dashboard/users" component={Users}/>
-            </Switch>
+              <div className={style.section}>
+                <Switch>
+                  <Route path="/dashboard/tournaments" component={Tournaments} />
+                  <Route to="/dashboard/rewards" component={Rewards} />
+                  <Route path="/dashboard/users" component={Users} />
+                </Switch>
+              </div>
+            </div>
           </div>
         </div>
       </div>
