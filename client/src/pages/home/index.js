@@ -12,7 +12,7 @@ import config from 'config';
 import NotificationContainer from 'components/old-notification/notification-container';
 import Footer from 'components/footer';
 
-import NotificationService from 'services/notificationService';
+import NotificationService from 'services/notification-service';
 
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
@@ -107,10 +107,10 @@ class Start extends Component {
                         autoLoad={Boolean(this.tournamentId)}
                         render={renderProperties => (
                           <button type="button" onClick={renderProperties.onClick}>
-                            <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon} /></span>
+                            <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
                           </button>
                         )}
-                        clientId={config.google_client_id}
+                        clientId={config.googleClientId}
                         onSuccess={this.onSuccessGoogleLogin}
                         onFailure={this.onFailureGoogleLogin}
                       />
@@ -186,7 +186,7 @@ class Start extends Component {
                     <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
                   </button>
                 )}
-                clientId={config.google_client_id}
+                clientId={config.googleClientId}
                 onSuccess={this.onSuccessGoogleLogin}
                 onFailure={this.onFailureGoogleLogin}
               />

@@ -4,8 +4,8 @@ import Input from 'components/input';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 
-import http from 'services/httpService';
-import NotificationService from 'services/notificationService';
+import http from 'services/http-service';
+import NotificationService from 'services/notification-service';
 
 import style from './style.module.css';
 import i18n from 'i18n';
@@ -70,7 +70,7 @@ class GeneralStep extends Component {
   nextStep = () => {
     const { name, thumbnail, rules, rulesValues } = this.state;
 
-    if (!name){
+    if (!name) {
       this.notificationService.showSingleNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -91,38 +91,40 @@ class GeneralStep extends Component {
   }
 
   renderRuleInput = ({ _id, name }) => {
-    return <div key={_id} className={style.input}>
-      <input
-        max='10'
-        type='number'
-        name={_id}
-        onChange={this.onRuleInputChange}
-        value={this.state.rulesValues[_id]}
-      />
-      <label>
-        {i18n.t(name)}
-      </label>
-    </div>;
+    return (
+      <div key={_id} className={style.input}>
+        <input
+          max="10"
+          type="number"
+          name={_id}
+          value={this.state.rulesValues[_id]}
+          onChange={this.onRuleInputChange}
+        />
+        <label>
+          {i18n.t(name)}
+        </label>
+      </div>
+    );
   }
 
   render() {
     return (
       <div className={style.general}>
         {this.state.isLoading &&
-          <Preloader isFullScreen={false} />
+          <Preloader isFullScreen={false}/>
         }
         <h3 className={style.header_step}>{i18n.t('modal.step')} 1 {i18n.t('of')} 3: {i18n.t('modal.new_tournament')}</h3>
         <div className={style.input_group}>
           <Input
             label={i18n.t('tournament_name')}
             value={this.state.name}
-            onInput={(event) => this.handleChange(event, 'name')}
+            onInput={event => this.handleChange(event, 'name')}
           />
 
           <Input
             label={i18n.t('tournament_thumb')}
             value={this.state.thumbnail}
-            onInput={(event) => this.handleChange(event, 'thumbnail')}
+            onInput={event => this.handleChange(event, 'thumbnail')}
           />
         </div>
 
@@ -136,9 +138,9 @@ class GeneralStep extends Component {
         <div className={style.controls}>
           <Button
             className={style.next}
-            appearance={'_basic-accent'}
+            appearance="_basic-accent"
             text={i18n.t('next')}
-            // icon={<i className='material-icons'>arrow_forward</i>}
+            // Icon={<i className='material-icons'>arrow_forward</i>}
             onClick={this.nextStep}
           />
         </div>

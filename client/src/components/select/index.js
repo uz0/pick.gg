@@ -7,6 +7,7 @@ const Select = ({ label, values, name, placeholder, type, autofocus, value, acti
       <p className={style.labelComponent}>{label}</p>
 
       <select
+        required
         name={name}
         placeholder={placeholder}
         className={className}
@@ -14,17 +15,17 @@ const Select = ({ label, values, name, placeholder, type, autofocus, value, acti
         autoFocus={autofocus}
         value={value}
         onChange={action}
-        required
       >
-        <option hidden disabled selected value />
+        <option hidden disabled selected value/>
 
-        {values && values.map(item =>
+        {values && values.map(item => (
           <option
             key={item.id}
             value={item.name}
           >
             {option(item) || item.title}
-          </option>)
+          </option>
+        ))
         }
       </select>
     </label>

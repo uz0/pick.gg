@@ -7,9 +7,9 @@ import PlayersStep from '../players';
 import MatchesStep from '../matches';
 import Preloader from 'components/preloader';
 
-import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
-import UserService from 'services/userService';
+import NotificationService from 'services/notification-service';
+import StreamerService from 'services/streamer-service';
+import UserService from 'services/user-service';
 
 import classnames from 'classnames';
 import style from './style.module.css';
@@ -38,22 +38,19 @@ class MultiStepForm extends Component {
     name: '',
     thumbnail: '',
     players: [],
-    matches: [],
-    rules: [],
     rulesValues: {},
     isLoading: false,
   }
 
-  nextStep = (payload) => {
+  nextStep = payload => {
     if (this.state.stepIndex === 3) {
       return;
     }
 
-    this.setState({
+    this.setState(prevState => ({
       ...payload,
-      stepIndex: this.state.stepIndex + 1,
-    }, () => console.log(this.state));
-
+      stepIndex: prevState.stepIndex + 1,
+    }));
   }
 
   prevStep = () => {
@@ -61,10 +58,10 @@ class MultiStepForm extends Component {
       return;
     }
 
-    this.setState({ stepIndex: this.state.stepIndex - 1 });
+    this.setState(prevState => ({ stepIndex: prevState.stepIndex - 1 }));
   }
 
-  createTournament = async (tournamentMatches) => {
+  createTournament = async tournamentMatches => {
     this.setState({ isLoading: true });
 
     const { name, userId, thumbnail, players, rulesValues } = this.state;
@@ -96,34 +93,36 @@ class MultiStepForm extends Component {
   render() {
     const { stepIndex } = this.state;
 
-    return <div className={style.form}>
+    return (
+      <div className={style.form}>
 
-      {this.state.isLoading &&
-        <Preloader isFullScreen={false} />
-      }
+        {this.state.isLoading &&
+          <Preloader isFullScreen={false}/>
+        }
 
-      <div className={style.content}>
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
-          <GeneralStep
-            nextStep={this.nextStep}
-          />
-        </div>
+        <div className={style.content}>
+          <div className={cx(style.step, { [style.isActive]: stepIndex === 1 })}>
+            <GeneralStep
+              nextStep={this.nextStep}
+            />
+          </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
-          <PlayersStep
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-          />
-        </div>
+          <div className={cx(style.step, { [style.isActive]: stepIndex === 2 })}>
+            <PlayersStep
+              nextStep={this.nextStep}
+              prevStep={this.prevStep}
+            />
+          </div>
 
-        <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
-          <MatchesStep
-            prevStep={this.prevStep}
-            createTournament={this.createTournament}
-          />
+          <div className={cx(style.step, { [style.isActive]: stepIndex === 3 })}>
+            <MatchesStep
+              prevStep={this.prevStep}
+              createTournament={this.createTournament}
+            />
+          </div>
         </div>
       </div>
-    </div>;
+    );
   }
 }
 

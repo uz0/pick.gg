@@ -1,15 +1,15 @@
-import http from './httpService';
-import BasicService from './basicService';
+import http from './http-service';
+import BasicService from './basic-service';
 
 export default class AdminService extends BasicService {
-  syncDataWithEscore = async() => {
-    const syncQuery = await http(`/api/system/sync`);
+  syncDataWithEscore = async () => {
+    const syncQuery = await http('/api/system/sync');
     const syncResult = await syncQuery.json();
     return syncResult;
   }
 
-  createRealTournament = async(tournamentData) => {
-    const tournamentQuery = await http(`/api/admin/tournaments/real`, {
+  createRealTournament = async tournamentData => {
+    const tournamentQuery = await http('/api/admin/tournaments/real', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -23,7 +23,7 @@ export default class AdminService extends BasicService {
     return tournament;
   }
 
-  updateRealTournament = async(tournamentId, tournamentData) => {
+  updateRealTournament = async (tournamentId, tournamentData) => {
     await http(`/api/admin/tournaments/real/${tournamentId}`, {
       method: 'PUT',
       headers: {
@@ -36,31 +36,31 @@ export default class AdminService extends BasicService {
     });
   }
 
-  deleteRealTournament = async (tournamentId) => {
+  deleteRealTournament = async tournamentId => {
     await http(`/api/admin/tournaments/real/${tournamentId}`, {
       method: 'DELETE',
     });
   }
 
-  deleteFantasyTournament = async (tournamentId) => {
+  deleteFantasyTournament = async tournamentId => {
     await http(`/api/admin/tournaments/fantasy/${tournamentId}`, {
       method: 'DELETE',
     });
   }
 
-  finalizeFantasyTournament = async (tournamentId) => {
+  finalizeFantasyTournament = async tournamentId => {
     const finalizeQuery = await http(`/api/admin/tournaments/fantasy/${tournamentId}/finalize`);
     const finalizeResult = await finalizeQuery.json();
     return finalizeResult;
   }
 
   finalizeAllFantasyTournaments = async () => {
-    const finalizeQuery = await http(`/api/system/finalize`);
+    const finalizeQuery = await http('/api/system/finalize');
     const finalizeResult = await finalizeQuery.json();
     return finalizeResult;
   }
-  
-  createMatch = async(tournamentId) => {
+
+  createMatch = async tournamentId => {
     const matchQuery = await http('/api/admin/matches', {
       method: 'POST',
       headers: {
@@ -75,13 +75,13 @@ export default class AdminService extends BasicService {
     return match;
   };
 
-  deleteMatch = async(matchId) => {
+  deleteMatch = async matchId => {
     await http(`/api/admin/matches/${matchId}`, {
       method: 'DELETE',
     });
   }
 
-  updateMatch = async({ matchId, results, startDate, name, completed }) => {
+  updateMatch = async ({ matchId, results, startDate, name, completed }) => {
     return this.request('PUT', `/api/admin/matches/${matchId}`, {
       name,
       startDate,
@@ -90,7 +90,7 @@ export default class AdminService extends BasicService {
     });
   }
 
-  // updateMatch = async({ matchId, results, startDate, name, completed }) => {
+  // UpdateMatch = async({ matchId, results, startDate, name, completed }) => {
   //   await http(`/api/admin/matches/${matchId}`, {
   //     method: 'PUT',
   //     headers: {
@@ -106,13 +106,13 @@ export default class AdminService extends BasicService {
   //   });
   // }
 
-  getMatchResult = async(matchId) => {
+  getMatchResult = async matchId => {
     const matchResultQuery = await http(`/api/admin/results/${matchId}`);
     const matchResult = await matchResultQuery.json();
     return matchResult;
   };
 
-  addPlayerToRealTournament = async(tournamentId, player) => {
+  addPlayerToRealTournament = async (tournamentId, player) => {
     const playersQuery = await http('/api/admin/tournaments/real/players', {
       method: 'PUT',
       headers: {
@@ -128,7 +128,7 @@ export default class AdminService extends BasicService {
     return players;
   }
 
-  removePlayerFromRealTournament = async(tournamentId, playerId) => {
+  removePlayerFromRealTournament = async (tournamentId, playerId) => {
     const playersQuery = await http('/api/admin/tournaments/real/players', {
       method: 'DELETE',
       headers: {
@@ -144,37 +144,37 @@ export default class AdminService extends BasicService {
     return players;
   }
 
-  getRealTournaments = async() => {
+  getRealTournaments = async () => {
     const tournamentsQuery = await http('/api/admin/tournaments/real');
     const tournaments = await tournamentsQuery.json();
     return tournaments;
   }
 
-  getRealTournamentById = async(tournamentId) => {
+  getRealTournamentById = async tournamentId => {
     const tournamentQuery = await http(`/api/admin/tournaments/real/${tournamentId}`);
     const tournament = await tournamentQuery.json();
     return tournament;
   }
 
-  getFantasyTournaments = async() => {
+  getFantasyTournaments = async () => {
     const tournamentsQuery = await http('/api/admin/tournaments/fantasy');
     const tournaments = await tournamentsQuery.json();
     return tournaments;
   }
 
-  getAllChampions = async() => {
+  getAllChampions = async () => {
     const championsQuery = await http('/api/admin/players');
     const champions = await championsQuery.json();
     return champions;
   }
 
-  getAllUsers = async() => {
+  getAllUsers = async () => {
     const usersQuery = await http('/api/admin/users');
     const users = await usersQuery.json();
     return users;
   }
 
-  getAllRules = async() => {
+  getAllRules = async () => {
     const rulesQuery = await http('/api/admin/rules');
     const rules = await rulesQuery.json();
     return rules;

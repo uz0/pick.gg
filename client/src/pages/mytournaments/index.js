@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import TournamentService from 'services/tournamentService';
+import TournamentService from 'services/tournament-service';
 
 import Table from 'components/table';
 import Preloader from 'components/preloader';
@@ -39,7 +39,7 @@ class App extends Component {
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    let tournaments = await this.tournamentService.getMyTournaments();
+    const tournaments = await this.tournamentService.getMyTournaments();
 
     this.setState({
       tournaments: tournaments.tournaments,
@@ -50,19 +50,21 @@ class App extends Component {
   renderRow = ({ className, itemClass, textClass, item }) => {
     const formattedDate = moment(item.tournament.date).format('MMM DD');
 
-    return <NavLink to={`/tournaments/${item._id}`} className={className}>
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
-        <span className={textClass}>{item.name}</span>
-      </div>
+    return (
+      <NavLink to={`/tournaments/${item._id}`} className={className}>
+        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
+          <span className={textClass}>{item.name}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
-        <span className={textClass}>{formattedDate}</span>
-      </div>
+        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.date.width }}>
+          <span className={textClass}>{formattedDate}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
-        <span className={textClass}>{item.users.length}</span>
-      </div>
-    </NavLink>;
+        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
+          <span className={textClass}>{item.users.length}</span>
+        </div>
+      </NavLink>
+    );
   }
 
   render() {
@@ -83,7 +85,7 @@ class App extends Component {
           </div>
 
           {this.state.isLoading &&
-            <Preloader isFullScreen={true}/>
+            <Preloader isFullScreen/>
           }
         </div>
       </div>
