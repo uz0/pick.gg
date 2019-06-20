@@ -8,7 +8,6 @@ import moment from 'moment';
 import style from './style.module.css';
 
 class MatchInfo extends Component {
-
   render() {
     const { results, match, isLoading } = this.state;
 
@@ -24,81 +23,88 @@ class MatchInfo extends Component {
 
     const formattedMatchDate = moment(match.startDate).format('YYYY-MM-DD');
 
-    return <Modal
-      title={"Edit match"}
-      wrapClassName={style.modal_match}
-      close={this.props.matchEditingCompleted}
-      actions={modalActions}
-    >
+    return (
+      <Modal
+        title="Edit match"
+        wrapClassName={style.modal_match}
+        close={this.props.matchEditingCompleted}
+        actions={modalActions}
+      >
 
-      {isLoading && <Preloader
-        isFullScreen={true}
-      />}
+        {isLoading && (
+          <Preloader
+            isFullScreen
+          />
+        )}
 
-      <Input
-        label="Match ID"
-        name="id"
-        value={match._id}
-        onChange={this.handleInputChange}
-        disabled
-      />
-
-      <Input
-        label="Match name"
-        name="name"
-        value={match.name}
-        onChange={this.handleInputChange}
-      />
-
-      <Input
-        type="date"
-        label="Start date"
-        name="startDate"
-        value={formattedMatchDate}
-        onChange={this.handleInputChange}
-      />
-
-      <Input
-        type="time"
-        label="Start time"
-        name="startTime"
-        value={match.startTime}
-        onChange={this.handleInputChange}
-      />
-
-      <label className={style.chebox}>
-        <p>Completed</p>
-        <input
-          type="checkbox"
-          name="completed"
-          className={style.css_checkbox}
-          value={match.completed}
-          checked={match.completed}
+        <Input
+          disabled
+          label="Match ID"
+          name="id"
+          value={match._id}
           onChange={this.handleInputChange}
         />
-      </label>
 
-      {!results && <div>There's no any results yet</div>}
+        <Input
+          label="Match name"
+          name="name"
+          value={match.name}
+          onChange={this.handleInputChange}
+        />
 
-      {results && results.map((result, resultIndex) => <div key={`id${resultIndex}`} className={style.match_results}>
-        <div className={style.player}>{result.playerName}</div>
+        <Input
+          type="date"
+          label="Start date"
+          name="startDate"
+          value={formattedMatchDate}
+          onChange={this.handleInputChange}
+        />
 
-        <div className={style.rules_inputs}>
-          {result.results.map((item, ruleIndex) =>
-            <Input
-              key={item._id}
-              label={item.rule.name}
-              placeholder={item.rule.name}
-              className={style.rule_input}
-              name={item._id}
-              onChange={(event) => this.onRulesInputChange(event, resultIndex, ruleIndex)}
-              value={results[resultIndex].results[ruleIndex].score}
-              type="number"
-              max="10"
-            />)}
-        </div>
-      </div>)}
-    </Modal>;
+        <Input
+          type="time"
+          label="Start time"
+          name="startTime"
+          value={match.startTime}
+          onChange={this.handleInputChange}
+        />
+
+        <label className={style.chebox}>
+          <p>Completed</p>
+          <input
+            type="checkbox"
+            name="completed"
+            className={style.css_checkbox}
+            value={match.completed}
+            checked={match.completed}
+            onChange={this.handleInputChange}
+          />
+        </label>
+
+        {!results && <div>There's no any results yet</div>}
+
+        {results && results.map((result, resultIndex) => (
+          <div key={`id${resultIndex}`} className={style.match_results}>
+            <div className={style.player}>{result.playerName}</div>
+
+            <div className={style.rules_inputs}>
+              {result.results.map((item, ruleIndex) => (
+                <Input
+                  key={item._id}
+                  label={item.rule.name}
+                  placeholder={item.rule.name}
+                  className={style.rule_input}
+                  name={item._id}
+                  value={results[resultIndex].results[ruleIndex].score}
+                  type="number"
+                  max="10"
+                  onChange={event => this.onRulesInputChange(event, resultIndex, ruleIndex)}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </Modal>
+    );
   }
 }
 

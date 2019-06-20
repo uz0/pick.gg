@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import NotificationService from 'services/notificationService';
-import UserService from 'services/userService';
+import NotificationService from 'services/notification-service';
+import UserService from 'services/user-service';
 
 // Import io from 'socket.io-client';
 
@@ -38,9 +38,8 @@ class Profile extends Component {
 
   handleChange = event => {
     event.preventDefault();
-    const formData = this.state.formData;
-    const name = event.target.name;
-    const value = event.target.value;
+    const { formData } = this.state;
+    const { name, value } = event.target;
     formData[name] = value;
     this.setState({ formData });
   }
@@ -125,8 +124,8 @@ class Profile extends Component {
                       <div>
                         <label>{i18n.t('summonerName')}</label>
                         <input
-                          type='text'
-                          name='summonerName'
+                          type="text"
+                          name="summonerName"
                           value={this.state.formData.summonerName}
                           onChange={this.handleChange}
                         />
@@ -134,8 +133,8 @@ class Profile extends Component {
                       <div>
                         <label>{i18n.t('lolApiKey')}</label>
                         <input
-                          type='text'
-                          name='lolApiKey'
+                          type="text"
+                          name="lolApiKey"
                           value={this.state.formData.lolApiKey}
                           onChange={this.handleChange}
                         />
@@ -148,8 +147,8 @@ class Profile extends Component {
                     <label>{i18n.t('email')}</label>
                     <input
                       disabled
-                      type='text'
-                      name='email'
+                      type="text"
+                      name="email"
                       value={this.state.formData.email}
                       onChange={this.handleChange}
                     />
@@ -203,7 +202,7 @@ class Profile extends Component {
             </div>
 
             {this.state.isLoading &&
-              <Preloader />
+              <Preloader/>
             }
           </main>
         </div>

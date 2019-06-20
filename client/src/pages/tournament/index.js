@@ -21,10 +21,10 @@ import cloneDeep from 'lodash/cloneDeep';
 import every from 'lodash/every';
 import findIndex from 'lodash/findIndex';
 
-import UserService from 'services/userService';
-import TournamentService from 'services/tournamentService';
-import NotificationService from 'services/notificationService';
-import StreamerService from 'services/streamerService';
+import UserService from 'services/user-service';
+import TournamentService from 'services/tournament-service';
+import NotificationService from 'services/notification-service';
+import StreamerService from 'services/streamer-service';
 
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import Avatar from 'assets/avatar-placeholder.svg';
@@ -108,7 +108,6 @@ class Tournament extends Component {
     fantasyTournament: null,
     matches: [],
     users: [],
-    rulesNames: [],
     isLoading: true,
     isChooseChampionModalShown: false,
     isMatchEditModalShown: false,
@@ -156,7 +155,7 @@ class Tournament extends Component {
     this.socket.close();
   }
 
-  loadTournamentData = (withPreloader) => new Promise(async resolve => {
+  loadTournamentData = withPreloader => new Promise(async resolve => {
     if (!this.state.isLoading && withPreloader !== false) {
       this.setState({ isLoading: true });
     }
@@ -174,7 +173,7 @@ class Tournament extends Component {
     }
 
     const realTournament = tournament.tournament;
-    const users = tournament.users;
+    const { users } = tournament;
     const currentUserParticipant = find(tournament.users, item => {
       if (!this.state.currentUser) {
         return;
@@ -182,7 +181,7 @@ class Tournament extends Component {
 
       return item.user._id === this.state.currentUser._id;
     });
-    const matches = realTournament.matches;
+    const { matches } = realTournament;
 
     users && users.forEach(item => {
       item.totalResults = this.getTotalUserScore(tournament, item.user._id);
@@ -217,8 +216,6 @@ class Tournament extends Component {
     }
 
     await this.streamerService.startTournament(fantasyTournament._id);
-
-    return;
   }
 
   finalizeStreamerTournament = async () => {
@@ -262,9 +259,9 @@ class Tournament extends Component {
     }
   }
 
-  toggleChampionModal = () => this.setState({ isChooseChampionModalShown: !this.state.isChooseChampionModalShown });
+  toggleChampionModal = () => this.setState(prevState => ({ isChooseChampionModalShown: !prevState.isChooseChampionModalShown }));
 
-  toggleSignInDialog = () => this.setState({ isSignInDialogShown: !this.state.isSignInDialogShown });
+  toggleSignInDialog = () => this.setState(prevState => ({ isSignInDialogShown: !prevState.isSignInDialogShown }));
 
   redirectToLogin = () => this.props.history.replace(`/?tournamentId=${this.state.fantasyTournament._id}`);
 
@@ -293,9 +290,11 @@ class Tournament extends Component {
     if (tournamentWinner) {
       return i18n.t('is_over');
     }
+
     if (champions.length > 0) {
       return i18n.t('wait_matches');
     }
+
     if (champions.length === 0) {
       return i18n.t('join_tournament_and');
     }
@@ -326,6 +325,7 @@ class Tournament extends Component {
       if (rulesIds.includes(item.rule)) {
         sum += item.score * ruleSet[item.rule];
       }
+
       return sum;
     }, 0);
 
@@ -333,15 +333,18 @@ class Tournament extends Component {
   };
 
   getTotalUserScore = (fantasyTournament, userId) => {
-    const matches = fantasyTournament.tournament.matches;
+    const { matches } = fantasyTournament.tournament;
     const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
-    const totalUserScore = userMatchResults.reduce((sum, score) => sum += score);
+    const totalUserScore = userMatchResults.reduce((sum, score) => {
+      sum += score;
+      return sum;
+    });
 
     return totalUserScore;
   };
 
   getUserPlayers = (fantasyTournament, userId) => {
-    const user = find(fantasyTournament.users, (item) => item.user._id === userId);
+    const user = find(fantasyTournament.users, item => item.user._id === userId);
 
     return user.players;
   };
@@ -363,6 +366,7 @@ class Tournament extends Component {
       if (rulesIds.includes(item.rule)) {
         sum += item.score * ruleSet[item.rule];
       }
+
       return sum;
     }, 0);
 
@@ -382,7 +386,7 @@ class Tournament extends Component {
     return next.totalResults - prev.totalResults;
   };
 
-  getRulesSet = (fantasyTournament) => fantasyTournament.rules.reduce((set, item) => {
+  getRulesSet = fantasyTournament => fantasyTournament.rules.reduce((set, item) => {
     set[`${item.rule._id}`] = item.score;
     return set;
   }, {});
@@ -392,7 +396,7 @@ class Tournament extends Component {
       return;
     }
 
-    const rules = this.state.fantasyTournament.rules;
+    const { rules } = this.state.fantasyTournament;
     let str = '';
 
     rules.forEach(rule => {
@@ -432,17 +436,17 @@ class Tournament extends Component {
     const fantasyTournamentChampions = this.state.fantasyTournament.tournament.champions;
     const fantasyTournamentRules = this.state.fantasyTournament.rules.map(item => item.rule);
 
-    const playersResults = item.results.playersResults;
+    const { playersResults } = item.results;
     const groupedMatchResults = Object.values(Object.freeze(groupBy(playersResults, 'playerId')));
-    let matchResults = [];
+    const matchResults = [];
 
-    for (let i = 0; i < groupedMatchResults.length; i++) {
-      let matchResult = cloneDeep(groupedMatchResults[i][0]);
+    for (const element of groupedMatchResults) {
+      const matchResult = cloneDeep(element[0]);
 
-      for (let j = 1; j < groupedMatchResults[i].length; j++) {
-        matchResult.results[0].score += groupedMatchResults[i][j].results[0].score;
-        matchResult.results[1].score += groupedMatchResults[i][j].results[1].score;
-        matchResult.results[2].score += groupedMatchResults[i][j].results[2].score;
+      for (let j = 1; j < element.length; j++) {
+        matchResult.results[0].score += element[j].results[0].score;
+        matchResult.results[1].score += element[j].results[1].score;
+        matchResult.results[2].score += element[j].results[2].score;
       }
 
       matchResults.push(matchResult);
@@ -495,56 +499,59 @@ class Tournament extends Component {
     const summonerArr = item.user.username === summonerName;
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
-    const isStreamer = item.user.isStreamer;
+    const { isStreamer } = item.user;
 
-    return <div className={cx(className, { 'active_summoner': summonerArr })} key={item.user._id}>
-      {/* <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
+    return (
+      <div key={item.user._id} className={cx(className, { activeSummoner: summonerArr })}>
+        {/* <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
         <span className={textClass}></span>
       </div> */}
 
-      <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
-        <span className={cx(textClass, 'name_leader')}>{index + 1}. {item.user.username}{isStreamer && <i title="Streamer" className="material-icons">star</i>}</span>
-      </div>
-
-      {totalScore > 0 &&
-        <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
-          <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+        <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
+          <span className={cx(textClass, 'name_leader')}>{index + 1}. {item.user.username}{isStreamer && <i title="Streamer" className="material-icons">star</i>}</span>
         </div>
-      }
-    </div>;
+
+        {totalScore > 0 && (
+          <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
+            <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+          </div>
+        )}
+      </div>
+    );
   };
 
-  isUsername = (item) => {
+  isUsername = item => {
     const summonerName = this.state.username;
 
     return item.user.username === summonerName;
   }
 
   renderSummonerLeaderRow = ({ className, itemClass, textClass, item }) => {
-    const { fantasyTournament } = this.state;
+    const { fantasyTournament, users } = this.state;
     const summonerName = this.state.username;
-    const users = this.state.users;
     const sortUsers = users.sort(this.leadersDefaultSorting);
     const indexUser = findIndex(sortUsers, item => item.user.username === summonerName);
 
     const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
     const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
 
-    return <div className={cx(className, 'summoner_arr')} key={item.user._id}>
-      <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
-        <span className={textClass}>{indexUser + 1}</span>
-      </div>
-
-      <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
-        <span className={textClass}>{item.user.username}</span>
-      </div>
-
-      {totalScore > 0 &&
-        <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
-          <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+    return (
+      <div key={item.user._id} className={cx(className, 'summoner_arr')}>
+        <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
+          <span className={textClass}>{indexUser + 1}</span>
         </div>
-      }
-    </div>;
+
+        <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
+          <span className={textClass}>{item.user.username}</span>
+        </div>
+
+        {totalScore > 0 && (
+          <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
+            <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   renderMatchRow = ({ className, itemClass, textClass, item }) => {
@@ -571,26 +578,30 @@ class Tournament extends Component {
 
     const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
 
-    return <div key={uuid()} to={urlMatch} target='_blank' className={cx(className, { 'disable_url': disableUrlStyle, 'completed': isMatchCompleted })}>
-      <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
-        <span className={textClass}>{item.name}</span>
-      </div>
+    return (
+      <div key={uuid()} to={urlMatch} target="_blank" className={cx(className, { disabledUrl: disableUrlStyle, completed: isMatchCompleted })}>
+        <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
+          <span className={textClass}>{item.name}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
-        {isMatchCompleted && currentUserParticipant &&
-          <div className={style.match_points}>{`+${matchPoints}`}</div>
+        <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
+          {isMatchCompleted && currentUserParticipant &&
+            <div className={style.match_points}>{`+${matchPoints}`}</div>
+          }
+        </div>
+
+        <button type="button" className={style.match_button} onClick={event => this.openMatchResults(event, item)}>
+          <i className="material-icons">list</i>
+        </button>
+
+        {isUserStreamerAndCreator && (
+          <button type="button" className={style.match_button} onClick={event => this.editMatchInit(event, item)}>
+            <i className="material-icons">info</i>
+          </button>
+        )
         }
       </div>
-
-      <button className={style.match_button} onClick={(event) => this.openMatchResults(event, item)}>
-        <i className='material-icons'>list</i>
-      </button>
-
-      {isUserStreamerAndCreator && <button className={style.match_button} onClick={(event) => this.editMatchInit(event, item)}>
-        <i className='material-icons'>info</i>
-      </button>
-      }
-    </div>;
+    );
   };
 
   renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
@@ -603,36 +614,38 @@ class Tournament extends Component {
     });
 
     const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    const isPlayerChoosedByUser = find(champions, { _id: item.playerId }) ? true : false;
+    const isPlayerChoosedByUser = Boolean(find(champions, { _id: item.playerId }));
 
-    const rules = this.state.fantasyTournament.rules;
+    const { rules } = this.state.fantasyTournament;
 
     const killsScore = item.results[0].score === 0 ? 0 : <span className={style.score_block}>{item.results[0].score} <span className={style.rule_color}>x{rules[0].score}</span></span>;
     const deathScore = item.results[1].score === 0 ? 0 : <span className={style.score_block}>{item.results[1].score} <span className={style.rule_color}>x{rules[1].score}</span></span>;
     const assistsScore = item.results[2].score === 0 ? 0 : <span className={style.score_block}>{item.results[2].score} <span className={style.rule_color}>x{rules[2].score}</span></span>;
     const totalScore = (item.results[0].score * rules[0].score) + (item.results[1].score * rules[1].score) + (item.results[2].score * rules[2].score);
 
-    return <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
-      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
-        <span className={textClass}>{item.playerName}</span>
-      </div>
+    return (
+      <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
+        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
+          <span className={textClass}>{item.playerName}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.kill.width }}>
-        <span className={cx(textClass, { [style.grey_scores]: item.results[0].score === 0 })}>{killsScore}</span>
-      </div>
+        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.kill.width }}>
+          <span className={cx(textClass, { [style.grey_scores]: item.results[0].score === 0 })}>{killsScore}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.death.width }}>
-        <span className={cx(textClass, { [style.grey_scores]: item.results[1].score === 0 })}>{deathScore}</span>
-      </div>
+        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.death.width }}>
+          <span className={cx(textClass, { [style.grey_scores]: item.results[1].score === 0 })}>{deathScore}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.assists.width }}>
-        <span className={cx(textClass, { [style.grey_scores]: item.results[2].score === 0 })}>{assistsScore}</span>
-      </div>
+        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.assists.width }}>
+          <span className={cx(textClass, { [style.grey_scores]: item.results[2].score === 0 })}>{assistsScore}</span>
+        </div>
 
-      <div className={itemClass} style={{ '--width': matchInfoTableCaptions.total.width }}>
-        <span className={cx(textClass)}>{totalScore}</span>
+        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.total.width }}>
+          <span className={cx(textClass)}>{totalScore}</span>
+        </div>
       </div>
-    </div>;
+    );
   };
 
   render() {
@@ -676,229 +689,244 @@ class Tournament extends Component {
     const getMatchFinished = this.state.matches.filter(i => i.completed === true).length;
     const getUsersLength = this.state.users && this.state.users.length;
 
-    return <div className={style.tournament}>
-      <div className={style.tournament_section}>
-        <div className={style.main}>
-          <h2 className={style.title}>{fantasyTournamentName}</h2>
+    return (
+      <div className={style.tournament}>
+        <div className={style.tournament_section}>
+          <div className={style.main}>
+            <h2 className={style.title}>{fantasyTournamentName}</h2>
 
-          <div className={style.info}>
-            <span>{tournamentDate}</span>
+            <div className={style.info}>
+              <span>{tournamentDate}</span>
 
-            <span className={style.creator_info}>
-              {i18n.t('created_by')}
-              <Link to={`/user/${tournamentCreatorLink}`}>
-                {tournamentCreator}
-              </Link>
-              {isStreamer && <i title="Streamer" className="material-icons">star</i>}
+              <span className={style.creator_info}>
+                {i18n.t('created_by')}
+                <Link to={`/user/${tournamentCreatorLink}`}>
+                  {tournamentCreator}
+                </Link>
+                {isStreamer && <i title="Streamer" className="material-icons">star</i>}
+              </span>
+            </div>
+
+            <span className={style.fantasy_status}>
+              {isTournamentStarted && !isTournamentFinished &&
+                <p className={style.start_tournament}>{i18n.t('tournament_started')}</p>
+              }
             </span>
           </div>
 
-          <span className={style.fantasy_status}>
-            {isTournamentStarted && !isTournamentFinished &&
-              <p className={style.start_tournament}>{i18n.t('tournament_started')}</p>
-            }
-          </span>
-        </div>
+          <div className={style.button_block}>
+            {!isTournamentStarted && isJoinButtonShown && (
+              <Button
+                text={i18n.t('join_tournament')}
+                appearance="_basic-accent"
+                className={cx(style.button)}
+                onClick={joinButtonAction}
+              />
+            )}
 
-        <div className={style.button_block}>
-          {!isTournamentStarted && isJoinButtonShown &&
-            <Button
-              text={i18n.t('join_tournament')}
-              appearance="_basic-accent"
-              onClick={joinButtonAction}
-              className={cx(style.button)}
-            />
-          }
-
-        </div>
-      </div>
-
-      {winner &&
-        <div className={style.winner}>
-          <TrophyIcon />
-
-          <div className={style.text}>
-            <p>
-              {i18n.t('tournament_over', { winner: winner.username })}
-            </p>
           </div>
         </div>
-      }
 
-      {currentUserParticipant &&
-        <h3 className={cx(style.subtitle, style.my_team_title)}>{i18n.t('my_team')}</h3>
-      }
+        {winner && (
+          <div className={style.winner}>
+            <TrophyIcon/>
 
-      {currentUserParticipant && champions.length > 0 &&
-        <div className={style.team}>
-          {champions.map(champion => <div className={style.champion} key={champion._id}>
-            <div className={style.image}>
-              <img onError={event => event.target.src = Avatar} src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} />
-            </div>
-
-            <span className={style.name}>{champion.name}</span>
-
-            {champion.championScore !== null &&
-              <div className={style.scores}>Score: {champion.championScore}</div>
-            }
-          </div>)}
-        </div>
-      }
-      <div className={style.info_wrap}>
-        <div className={style.info_block}>
-          <h3 className={style.subtitle}>{i18n.t('information')}</h3>
-
-          <div className={style.list}>
-            <div className={style.item}>
-              <label className={style.title}>{i18n.t('rules')}</label>
-              <p className={style.value}>{rules}</p>
-            </div>
-
-            <div className={style.item}>
-              <label className={style.title}>{i18n.t('matches')}</label>
-              <p className={style.value}>{getMatchFinished} {i18n.t('of')} {getMatchLenght}</p>
-            </div>
-
-            <div className={style.item}>
-              <label className={style.title}>{i18n.t('champions')}</label>
-              <p className={style.value}>{getUsersLength}</p>
+            <div className={style.text}>
+              <p>
+                {i18n.t('tournament_over', { winner: winner.username })}
+              </p>
             </div>
           </div>
+        )}
 
-          {isFinalizeButtonShown && !isTournamentFinished && !isTournamentStarted && isUserStreamerAndCreator &&
-            <Button
-              text={i18n.t('start_tournament')}
-              appearance='_basic-start'
-              onClick={this.startStreamerTournament}
-              className={cx(style.start_button)}
-            />
-          }
+        {currentUserParticipant &&
+          <h3 className={cx(style.subtitle, style.my_team_title)}>{i18n.t('my_team')}</h3>
+        }
 
-          {isFinalizeButtonShown && isTournamentStarted && isUserStreamerAndCreator &&
-            <Button
-              text={i18n.t('finalize_tournament')}
-              appearance='_basic-start'
-              onClick={this.finalizeStreamerTournament}
-              className={cx(style.start_button)}
-            />
-          }
+        {currentUserParticipant && champions.length > 0 && (
+          <div className={style.team}>
+            {champions.map(champion => (
+              <div key={champion._id} className={style.champion}>
+                <div className={style.image}>
+                  <img src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} onError={event => {
+                    event.target.src = Avatar;
+                  }
+                  }
+                  />
+                </div>
+
+                <span className={style.name}>{champion.name}</span>
+
+                {champion.championScore !== null &&
+                  <div className={style.scores}>Score: {champion.championScore}</div>
+                }
+              </div>
+            ))}
+          </div>
+        )}
+        <div className={style.info_wrap}>
+          <div className={style.info_block}>
+            <h3 className={style.subtitle}>{i18n.t('information')}</h3>
+
+            <div className={style.list}>
+              <div className={style.item}>
+                <label className={style.title}>{i18n.t('rules')}</label>
+                <p className={style.value}>{rules}</p>
+              </div>
+
+              <div className={style.item}>
+                <label className={style.title}>{i18n.t('matches')}</label>
+                <p className={style.value}>{getMatchFinished} {i18n.t('of')} {getMatchLenght}</p>
+              </div>
+
+              <div className={style.item}>
+                <label className={style.title}>{i18n.t('champions')}</label>
+                <p className={style.value}>{getUsersLength}</p>
+              </div>
+            </div>
+
+            {isFinalizeButtonShown && !isTournamentFinished && !isTournamentStarted && isUserStreamerAndCreator && (
+              <Button
+                text={i18n.t('start_tournament')}
+                appearance="_basic-start"
+                className={cx(style.start_button)}
+                onClick={this.startStreamerTournament}
+              />
+            )}
+
+            {isFinalizeButtonShown && isTournamentStarted && isUserStreamerAndCreator && (
+              <Button
+                text={i18n.t('finalize_tournament')}
+                appearance="_basic-start"
+                className={cx(style.start_button)}
+                onClick={this.finalizeStreamerTournament}
+              />
+            )}
+          </div>
+
+          {!isTournamentStarted && (
+            <div className={cx(style.info_users, { [style.anim_teemo]: this.state.animate })}>
+              <h3 className={style.subtitle}>{i18n.t('invite')}</h3>
+
+              <div className={style.copy_block}>
+                <input
+                  id="copyUrl"
+                  className={style.input_href}
+                  defaultValue={window.location.href}
+                />
+                <button
+                  type="button"
+                  className={style.copy_button}
+                  onClick={this.copyInput}
+                >
+                  <i className="material-icons">file_copy</i>
+                </button>
+              </div>
+            </div>
+          )}
+
         </div>
 
+        <div className={style.block_results}>
 
-        {!isTournamentStarted && <div className={cx(style.info_users, { [style.anim_teemo]: this.state.animate })}>
-          <h3 className={style.subtitle}>{i18n.t('invite')}</h3>
+          <div className={style.matches}>
+            <div className={style.matches_title}>
+              <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
+            </div>
 
-          <div className={style.copy_block}>
-            <input
-              id="copyUrl"
-              className={style.input_href}
-              defaultValue={window.location.href} />
-            <button
-              className={style.copy_button}
-              onClick={this.copyInput}
+            <Table
+              noCaptions
+              captions={matchesTableCaptions}
+              items={this.state.matches}
+              renderRow={this.renderMatchRow}
+              isLoading={this.state.isLoading}
+              className={style.table}
+              emptyMessage="There is no matches yet"
+            />
+          </div>
+
+          <div className={style.leaders}>
+            <h3 className={style.subtitle}>{i18n.t('leaderboard')}</h3>
+
+            <Table
+              noCaptions
+              captions={leadersTableCaptions}
+              items={topTen}
+              renderRow={this.renderLeaderRow}
+              isLoading={this.state.isLoading}
+              defaultSorting={this.leadersDefaultSorting}
+              className={style.table}
+              emptyMessage="There is no participants yet"
+            />
+
+            {renderSummonerArr && (
+              <Table
+                noCaptions
+                items={summonerFilter}
+                renderRow={this.renderSummonerLeaderRow}
+                isLoading={this.state.isLoading}
+                className={style.table}
+              />
+            )}
+          </div>
+
+        </div>
+
+        {
+          this.state.isLoading && (
+            <Preloader
+              isFullScreen
+            />
+          )}
+
+        {
+          this.state.isMatchInfoActive && (
+            <Modal
+              title={this.state.matchTitle}
+              close={this.closeMatchInfo}
+              wrapClassName={style.match_info_modal}
             >
-              <i className="material-icons">file_copy</i>
-            </button>
-          </div>
-        </div>}
+              <Table
+                captions={matchInfoTableCaptions}
+                items={matchInfo}
+                renderRow={this.renderMatchInfoRow}
+                className={style.table}
+                emptyMessage="There is no results yet"
+              />
+            </Modal>
+          )
+        }
 
+        {
+          this.state.isSignInDialogShown && (
+            <DialogWindow
+              text={i18n.t('unauthenticated_tournament_join')}
+              onClose={this.toggleSignInDialog}
+              onSubmit={this.redirectToLogin}
+            />
+          )
+        }
+
+        {
+          this.state.isChooseChampionModalShown && (
+            <ChooseChampionModal
+              champions={tournamentChampions}
+              action={this.addPlayers}
+              onClose={this.toggleChampionModal}
+            />
+          )}
+
+        {
+          this.state.isMatchEditModalShown && (
+            <MatchModal
+              matchId={this.state.editingMatchId}
+              closeMatchEditing={this.closeMatchEditing}
+              matchChampions={tournamentChampions}
+              onMatchUpdated={() => this.loadTournamentData(false)}
+            />
+          )}
       </div>
-
-      <div className={style.block_results}>
-
-        <div className={style.matches}>
-          <div className={style.matches_title}>
-            <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
-          </div>
-
-          <Table
-            noCaptions
-            captions={matchesTableCaptions}
-            items={this.state.matches}
-            renderRow={this.renderMatchRow}
-            isLoading={this.state.isLoading}
-            className={style.table}
-            emptyMessage="There is no matches yet"
-          />
-        </div>
-
-        <div className={style.leaders}>
-          <h3 className={style.subtitle}>{i18n.t('leaderboard')}</h3>
-
-          <Table
-            noCaptions
-            captions={leadersTableCaptions}
-            items={topTen}
-            renderRow={this.renderLeaderRow}
-            isLoading={this.state.isLoading}
-            defaultSorting={this.leadersDefaultSorting}
-            className={style.table}
-            emptyMessage="There is no participants yet"
-          />
-
-          {renderSummonerArr && <Table
-            noCaptions
-            items={summonerFilter}
-            renderRow={this.renderSummonerLeaderRow}
-            isLoading={this.state.isLoading}
-            className={style.table}
-          />}
-        </div>
-
-
-      </div>
-
-
-      {
-        this.state.isLoading &&
-        <Preloader
-          isFullScreen={true}
-        />
-      }
-
-      {
-        this.state.isMatchInfoActive && <Modal
-          title={this.state.matchTitle}
-          close={this.closeMatchInfo}
-          wrapClassName={style.match_info_modal}
-        >
-          <Table
-            captions={matchInfoTableCaptions}
-            items={matchInfo}
-            renderRow={this.renderMatchInfoRow}
-            className={style.table}
-            emptyMessage="There is no results yet"
-          />
-        </Modal>
-      }
-
-      {
-        this.state.isSignInDialogShown && <DialogWindow
-          text={i18n.t('unauthenticated_tournament_join')}
-          onClose={this.toggleSignInDialog}
-          onSubmit={this.redirectToLogin}
-        />
-      }
-
-      {
-        this.state.isChooseChampionModalShown &&
-        <ChooseChampionModal
-          champions={tournamentChampions}
-          onClose={this.toggleChampionModal}
-          action={this.addPlayers}
-        />
-      }
-
-      {
-        this.state.isMatchEditModalShown &&
-        <MatchModal
-          matchId={this.state.editingMatchId}
-          closeMatchEditing={this.closeMatchEditing}
-          matchChampions={tournamentChampions}
-          onMatchUpdated={() => this.loadTournamentData(false)}
-        />
-      }
-    </div>;
+    );
   }
 }
 

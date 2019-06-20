@@ -5,10 +5,10 @@ import io from 'socket.io-client';
 import { GoogleLogout } from 'react-google-login';
 import config from 'config';
 
-import AuthService from 'services/authService';
-import NotificationService from 'services/notificationService';
-import UserService from 'services/userService';
-import StreamerService from 'services/streamerService';
+import AuthService from 'services/auth-service';
+import NotificationService from 'services/notification-service';
+import UserService from 'services/user-service';
+import StreamerService from 'services/streamer-service';
 
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';
@@ -75,7 +75,7 @@ class TopMenuComponent extends Component {
       });
     });
 
-    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner, prize }) => {
+    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner }) => {
       const currentUser = this.state.profile.user.username;
 
       if (!participants.includes(currentUser)) {
@@ -139,97 +139,101 @@ class TopMenuComponent extends Component {
             <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
           </div>
 
-          {profile && profile.user && <>
+          {profile && profile.user && (
+            <>
 
-            <NotificationBell/>
+              <NotificationBell/>
 
-            <DropDown
-              className={style.mobile_hidden}
-              placeholder={<UserBox
-                userpic={userpic}
-                username={username}
-                role={role}
-                isLoading={this.state.isLoading}
-                           />}
-            >
-              {profile && profile.user && profile.user.isAdmin &&
+              <DropDown
+                className={style.mobile_hidden}
+                placeholder={(
+                  <UserBox
+                    userpic={userpic}
+                    username={username}
+                    role={role}
+                    isLoading={this.state.isLoading}
+                  />
+                )}
+              >
+                {profile && profile.user && profile.user.isAdmin && (
+                  <NavLink to="/dashboard/tournaments">
+                    <i className="material-icons">dashboard</i>
+                    {i18n.t('dashboard')}
+                  </NavLink>
+                )}
+
+                <NavLink to="/rewards">
+                  <i className="material-icons">attach_money</i>
+                  {i18n.t('my_awards')}
+                </NavLink>
+
+                <NavLink to="/mytournaments">
+                  <i className="material-icons">assignment</i>
+                  {i18n.t('my_tournaments')}
+                </NavLink>
+
+                <NavLink to={`/user/${profile.user && profile.user._id}`}>
+                  <i className="material-icons">person</i>
+                  {i18n.t('public_profile')}
+                </NavLink>
+
+                <NavLink to="/profile">
+                  <i className="material-icons">settings</i>
+                  {i18n.t('setting_profile')}
+                </NavLink>
+
+                <GoogleLogout
+                  clientId={config.googleClientId}
+                  render={renderProperties => (
+                    <button type="button" className={style.btn_logout} onClick={renderProperties.onClick}>
+                      <i className="material-icons">exit_to_app</i>
+                      {i18n.t('log_out')}
+                    </button>
+                  )}
+                  onLogoutSuccess={this.handleLogout}
+                />
+              </DropDown>
+
+              <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
+                <NavLink to="/tournaments">
+                  <i className="material-icons">whatshot</i>
+                  {i18n.t('tournaments')}
+                </NavLink>
+
                 <NavLink to="/dashboard/tournaments">
                   <i className="material-icons">dashboard</i>
                   {i18n.t('dashboard')}
                 </NavLink>
-              }
 
-              <NavLink to="/rewards">
-                <i className="material-icons">attach_money</i>
-                {i18n.t('my_awards')}
-              </NavLink>
+                <NavLink to="/mytournaments">
+                  <i className="material-icons">assignment</i>
+                  {i18n.t('my_tournaments')}
+                </NavLink>
 
-              <NavLink to="/mytournaments">
-                <i className="material-icons">assignment</i>
-                {i18n.t('my_tournaments')}
-              </NavLink>
+                <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
+                  <i className="material-icons">person</i>
+                  {i18n.t('public_profile')}
+                </NavLink>
 
-              <NavLink to={`/user/${profile.user && profile.user._id}`}>
-                <i className="material-icons">person</i>
-                {i18n.t('public_profile')}
-              </NavLink>
+                <NavLink to="/profile">
+                  <i className="material-icons">settings</i>
+                  {i18n.t('setting_profile')}
+                </NavLink>
 
-              <NavLink to="/profile">
-                <i className="material-icons">settings</i>
-                {i18n.t('setting_profile')}
-              </NavLink>
-
-              <GoogleLogout
-                clientId={config.google_client_id}
-                render={renderProperties => (
-                  <button className={style.btn_logout} onClick={renderProperties.onClick}>
-                    <i className="material-icons">exit_to_app</i>
-                    {i18n.t('log_out')}
-                  </button>
-                )}
-                onLogoutSuccess={this.handleLogout}
-              />
-            </DropDown>
-
-            <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
-              <NavLink to="/tournaments">
-                <i className="material-icons">whatshot</i>
-                {i18n.t('tournaments')}
-              </NavLink>
-
-              <NavLink to="/dashboard/tournaments">
-                <i className="material-icons">dashboard</i>
-                {i18n.t('dashboard')}
-              </NavLink>
-
-              <NavLink to="/mytournaments">
-                <i className="material-icons">assignment</i>
-                {i18n.t('my_tournaments')}
-              </NavLink>
-
-              <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
-                <i className="material-icons">person</i>
-                {i18n.t('public_profile')}
-              </NavLink>
-
-              <NavLink to="/profile">
-                <i className="material-icons">settings</i>
-                {i18n.t('setting_profile')}
-              </NavLink>
-
-              <GoogleLogout
-                buttonText="Logout"
-                clientId={config.google_client_id}
-                render={renderProperties => (
-                  <button className={style.btn_logout} {...renderProperties}>
-                    <i className="material-icons">exit_to_app</i>
-                    {i18n.t('log_out')}
-                  </button>
-                )}
-                onLogoutSuccess={this.handleLogout}
-              />
-            </DropDown>
-                                      </>
+                <GoogleLogout
+                  buttonText="Logout"
+                  clientId={config.googleClientId}
+                  render={renderProperties => (
+                    <button type="button" className={style.btn_logout} {...renderProperties}>
+                      <i className="material-icons">exit_to_app</i>
+                      {i18n.t('log_out')}
+                    </button>
+                  )}
+                  onLogoutSuccess={this.handleLogout}
+                />
+              </DropDown>
+            </>
+          )
           }
 
         </div>

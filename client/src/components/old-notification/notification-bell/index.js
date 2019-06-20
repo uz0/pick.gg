@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import NotificationService from 'services/notificationService';
+import NotificationService from 'services/notification-service';
 
 import style from './style.module.css';
 
 class NotificationBell extends Component {
-  constructor(){
+  constructor() {
     super();
     this.notificationService = new NotificationService({
       incrementNotificationCounter: this.incrementNotificationCounter,
@@ -14,13 +14,12 @@ class NotificationBell extends Component {
   }
 
   state = {
-    isActive: false,
     notificationCount: 0,
   }
 
-  incrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount + 1 });
+  incrementNotificationCounter = () => this.setState(prevState => ({ notificationCount: prevState.notificationCount + 1 }));
 
-  decrementNotificationCounter = () => this.setState({ notificationCount: this.state.notificationCount - 1 });
+  decrementNotificationCounter = () => this.setState(prevState => ({ notificationCount: prevState.notificationCount - 1 }));
 
   showNotificationSidebar = () => this.notificationService.showNotificationSidebar();
 
