@@ -1,57 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import classnames from 'classnames/bind';
+import Icon from 'components/icon';
+import thumb from 'assets/tournament_thumbnail.jpg';
 import style from './style.module.css';
 
-import thumbDefault from '../../assets/tournament_thumbnail.jpg';
+const cx = classnames.bind(style);
 
-import moment from 'moment';
-import i18n from 'i18next';
-
-const TournamentCard = ({ _id, name, thumbnail, tournament, rules, users }) => {
-  const tournamentDate = moment(tournament.date).format('DD MMM YYYY');
-
-  let thumb = thumbDefault;
-
-  if (thumbnail) {
-    thumb = thumbnail;
-  }
-
-  const usersLength = users.length === 0 ? i18n.t('no_players') : users.length;
-
-  const onError = item => {
-    item.target.src = thumbDefault;
-  };
-
+const TournamentCard = ({ name, date, people, className }) => {
   return (
-    <Link key={_id} to={`/tournaments/${_id}`} className={style.card}>
-      <div className={style.thumbnail}>
-        <img src={thumb} alt="tournament thumbnail" onError={onError}/>
+    <div className={cx('card', className)}>
+      <div className={style.image}>
+        <img src={thumb} alt="Tournament"/>
       </div>
 
       <div className={style.content}>
-        <h3>{name}</h3>
+        <h4 className={style.name}>{name}</h4>
 
-        <div className={style.info}>
-          <div className={style.label}>Rules</div>
-          <div className={style.rules}>
-          K<span>x</span>{rules[0].score}
-          /D<span>x</span>{rules[1].score}
-          /A<span>x</span>{rules[2].score}
+        {false && (
+          <div className={style.info}>
+            <span className={style.name}>Rules</span>
+            <p className={style.value}>k1 d0</p>
           </div>
+        )}
+
+        <div className={style.info}>
+          <Icon name="people"/>
+          <p className={style.value}>{people}</p>
         </div>
 
         <div className={style.info}>
-          <i className="material-icons">people</i>
-          <div>{usersLength}</div>
-        </div>
-
-        <div className={style.info}>
-          <i className="material-icons">access_alarms</i>
-          <div>{tournamentDate}</div>
+          <Icon name="alarm"/>
+          <p className={style.value}>{date}</p>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
