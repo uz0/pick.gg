@@ -25,7 +25,11 @@ const RewardCard = ({ description, rewardKey, isClaimed }) => {
         <Trophy className={style.reward}/>
         <h3 className={style.name}>{description}</h3>
 
-        <button type="button" className={style.claim} onClick={() => copyRewardCode(rewardKey)}>
+        <button
+          type="button"
+          className={style.claim}
+          onClick={() => copyRewardCode(rewardKey)}
+        >
           {rewardKey}
         </button>
       </div>
