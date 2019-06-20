@@ -5,37 +5,16 @@ import style from './style.module.css';
 
 import thumbDefault from '../../assets/tournament_thumbnail.jpg';
 
-import lckThumb from '../../assets/tournaments-thumbnails/lck-thumb.jpg';
-import lcsThumb from '../../assets/tournaments-thumbnails/lcs-thumb.jpg';
-import lplThumb from '../../assets/tournaments-thumbnails/lpl-thumb.jpg';
-
 import moment from 'moment';
 import i18n from 'i18next';
 
 const TournamentCard = ({ _id, name, thumbnail, tournament, rules, users }) => {
   const tournamentDate = moment(tournament.date).format('DD MMM YYYY');
-  const tournamentName = tournament.name.split(' ')[0];
 
   let thumb = thumbDefault;
 
   if (thumbnail) {
     thumb = thumbnail;
-  }
-
-  if (!thumbnail) {
-    switch (tournamentName) {
-      case 'LCK':
-        thumb = lckThumb;
-        break;
-      case 'LCS':
-        thumb = lcsThumb;
-        break;
-      case 'LPL':
-        thumb = lplThumb;
-        break;
-      default:
-        break;
-    }
   }
 
   const usersLength = users.length === 0 ? i18n.t('no_players') : users.length;
