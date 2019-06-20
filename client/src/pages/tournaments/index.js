@@ -84,9 +84,6 @@ export default compose(
     },
   ),
 )(Tournaments);
-<<<<<<< HEAD
-=======
 
 export { default as actions } from './actions';
 export { default as reducers } from './reducers';
->>>>>>> dff0c9b3a34dfde02d8bee47c470b86ff4265c96
