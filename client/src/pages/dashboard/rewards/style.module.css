@@ -1,0 +1,10 @@
+.rewards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 32px;
+  row-gap: 32px;
+}
+
+.rewards > div {
+  cursor: pointer;
+}
