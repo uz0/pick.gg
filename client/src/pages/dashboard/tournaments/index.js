@@ -354,144 +354,146 @@ class Tournaments extends Component {
     }
 
     return (
-      <div className={style.tournaments}>
+      <div className="container">
+        <div className={style.tournaments}>
 
-        <div className={style.tournaments_controls}>
-          <Button
-            appearance="_basic-accent"
-            text={i18n.t('create_new_tournament')}
-            className={style.button}
-            onClick={this.createTournamentInit}
+          <div className={style.tournaments_controls}>
+            <Button
+              appearance="_basic-accent"
+              text={i18n.t('create_new_tournament')}
+              className={style.button}
+              onClick={this.createTournamentInit}
+            />
+          </div>
+
+          <Table
+            captions={tournamentsTableCaptions}
+            items={tournaments}
+            className={style.table}
+            renderRow={this.renderRow}
+            isLoading={isLoading}
+            emptyMessage={i18n.t('there_is_no_tournaments_yet')}
           />
-        </div>
 
-        <Table
-          captions={tournamentsTableCaptions}
-          items={tournaments}
-          className={style.table}
-          renderRow={this.renderRow}
-          isLoading={isLoading}
-          emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-        />
+          {isTournamentModalActive && (
+            <Modal
+              title={modalTitle}
+              close={this.resetTournament}
+              actions={modalActions}
+            >
 
-        {isTournamentModalActive && (
-          <Modal
-            title={modalTitle}
-            close={this.resetTournament}
-            actions={modalActions}
-          >
+              {isLoading && (
+                <Preloader
+                  isFullScreen
+                />
+              )}
 
-            {isLoading && (
-              <Preloader
-                isFullScreen
-              />
-            )}
+              {isTournamentDeleting && (
+                <DialogWindow
+                  text={i18n.t('want_delete_tournament')}
+                  onSubmit={this.deleteTournamentAccept}
+                  onClose={this.deleteTournamentDecline}
+                />
+              )}
 
-            {isTournamentDeleting && (
-              <DialogWindow
-                text={i18n.t('want_delete_tournament')}
-                onSubmit={this.deleteTournamentAccept}
-                onClose={this.deleteTournamentDecline}
-              />
-            )}
+              <div className={style.section}>
+                <Input
+                  label={i18n.t('tournament_name')}
+                  name="name"
+                  placeholder="Choose name"
+                  className={style.tournament_input}
+                  value={tournamentEditingData.name || ''}
+                  onChange={this.handleInputChange}
+                />
+                <Input
+                  name="date"
+                  label={i18n.t('tournament_date')}
+                  placeholder="Choose date"
+                  type="date"
+                  className={style.tournament_input}
+                  value={editedTournamentDate || ''}
+                  onChange={this.handleInputChange}
+                />
+              </div>
 
-            <div className={style.section}>
-              <Input
-                label={i18n.t('tournament_name')}
-                name="name"
-                placeholder="Choose name"
-                className={style.tournament_input}
-                value={tournamentEditingData.name || ''}
-                onChange={this.handleInputChange}
-              />
-              <Input
-                name="date"
-                label={i18n.t('tournament_date')}
-                placeholder="Choose date"
-                type="date"
-                className={style.tournament_input}
-                value={editedTournamentDate || ''}
-                onChange={this.handleInputChange}
-              />
-            </div>
-
-            {isTournamentEditing && (
-              <div className={cx(style.section, style.champions_section)}>
-                <div className={style.title}>{i18n.t('tournament_players')}</div>
-                <div className={style.champions}>
-                  {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => (
-                    <div key={champion._id} className={style.champion}>
-                      {champion.name}
+              {isTournamentEditing && (
+                <div className={cx(style.section, style.champions_section)}>
+                  <div className={style.title}>{i18n.t('tournament_players')}</div>
+                  <div className={style.champions}>
+                    {tournamentEditingData.champions && tournamentEditingData.champions.map(champion => (
+                      <div key={champion._id} className={style.champion}>
+                        {champion.name}
+                        <Button
+                          icon={<CloseIcon/>}
+                          appearance="_icon-transparent"
+                          onClick={() => this.removeChampionFromTournament(champion._id)}
+                        />
+                      </div>
+                    ))}
+                    <div className={style.champion_add}>
+                      <Select
+                        options={players}
+                        className={style.select}
+                        defaultOption={i18n.t('select_player')}
+                        onChange={this.selectChampion}
+                      />
                       <Button
-                        icon={<CloseIcon/>}
-                        appearance="_icon-transparent"
-                        onClick={() => this.removeChampionFromTournament(champion._id)}
+                        appearance="_basic-accent"
+                        text={i18n.t('add')}
+                        className={style.button}
+                        onClick={this.addChampionToTournament}
                       />
                     </div>
-                  ))}
-                  <div className={style.champion_add}>
-                    <Select
-                      options={players}
-                      className={style.select}
-                      defaultOption={i18n.t('select_player')}
-                      onChange={this.selectChampion}
-                    />
-                    <Button
-                      appearance="_basic-accent"
-                      text={i18n.t('add')}
-                      className={style.button}
-                      onClick={this.addChampionToTournament}
-                    />
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {isTournamentEditing && (
-              <div className={cx(style.section, style.matches_section)}>
-                <div className={style.title}>{i18n.t('tournament_matches')}</div>
+              {isTournamentEditing && (
+                <div className={cx(style.section, style.matches_section)}>
+                  <div className={style.title}>{i18n.t('tournament_matches')}</div>
 
-                <Button
-                  appearance="_basic-accent"
-                  text={i18n.t('create_match')}
-                  className={style.button}
-                  onClick={this.createMatch}
-                />
+                  <Button
+                    appearance="_basic-accent"
+                    text={i18n.t('create_match')}
+                    className={style.button}
+                    onClick={this.createMatch}
+                  />
 
-                {isTournamentHasMatches && tournamentEditingData.matches.map(match => (
-                  <div
-                    key={match._id}
-                    className={style.match}
-                  >
+                  {isTournamentHasMatches && tournamentEditingData.matches.map(match => (
                     <div
-                      className={style.match_inner}
-                      onClick={() => this.matchEditingInit(match._id)}
+                      key={match._id}
+                      className={style.match}
                     >
-                      {match.name}
+                      <div
+                        className={style.match_inner}
+                        onClick={() => this.matchEditingInit(match._id)}
+                      >
+                        {match.name}
+                      </div>
+                      <Button
+                        appearance="_basic-danger"
+                        text="X"
+                        className={style.button}
+                        onClick={() => this.deleteMatch(match._id)}
+                      />
                     </div>
-                    <Button
-                      appearance="_basic-danger"
-                      text="X"
-                      className={style.button}
-                      onClick={() => this.deleteMatch(match._id)}
-                    />
-                  </div>
-                ),
-                )}
-              </div>
-            )}
+                  ),
+                  )}
+                </div>
+              )}
 
-          </Modal>
-        )}
+            </Modal>
+          )}
 
-        {isMatchModalActive && (
-          <MatchModal
-            matchId={this.state.editingMatchId}
-            matchEditingCompleted={this.matchEditingCompleted}
-            matchChampions={tournamentEditingData.champions}
-          />
-        )}
+          {isMatchModalActive && (
+            <MatchModal
+              matchId={this.state.editingMatchId}
+              matchEditingCompleted={this.matchEditingCompleted}
+              matchChampions={tournamentEditingData.champions}
+            />
+          )}
 
+        </div>
       </div>
     );
   }

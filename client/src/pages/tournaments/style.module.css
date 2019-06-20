@@ -1,9 +1,79 @@
 .tournaments {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.tournaments .list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: var(--container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.tournaments .list._is-loading {
+  min-height: 400px;
+  background-position: var(--layout-padding) 0;
+  background-image: url('assets/card-tournament.svg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  animation: loading 1s infinite;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.5;
+  }
+  0% {
+    opacity: 0.75;
+  }
+}
+
+.tournaments .list .item {
+  max-width: 100%;
+  text-decoration: none;
+}
+
+.tournaments .list .item:not(:hover) {
+  --transform: 0;
+}
+
+.tournaments .list .item:hover {
+  --transform: -8px;
+}
+
+.tournaments .list .item:nth-of-type(n+2) {
+  margin-top: 30px;
+}
+
+.tournaments .list .item .name {
+  --height: 30px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 26px;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tournaments .list .item .card {
+  margin-top: 12px;
+  transform: translateY(var(--transform));
+  transition-property: transform;
 }
 
 .tournaments > .button {
   --height: 50px;
-  position: absolute;
+  position: fixed;
   right: var(--layout-padding);
   bottom: calc(var(--footer-height) + var(--layout-padding));
   border-radius: calc(var(--height) / 2);

@@ -1,32 +1,32 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-let schema = new Schema({
-  id: { type: String },
-  name: { type: String, required: true },
-  date: { type: Date, required: true },
-  champions_ids: [String],
-  matches_ids: [String],
-  syncType: { type: String, enum: ['auto', 'manual'] },
-  origin: { type: String, enum: ['escore', 'manual'] },
+const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
+
+const schema = new Schema({
+  id: { type: String, unique: true},
+  name: String,
+  description: String,
+  url: String, 
+  imageUrl: String,
+  createdAt: Date,
+  startAt: Date,
+  rewards: [{ rewardId: String, rewardPositionId: String }], // во время создания турнира, юзер может указать ID наград (выбрать их из своего инвентаря), после победы, эти награды передаются победителям... каким?
+  price: {type: Number, min: 0},
+  rules: {
+    type: Map,
+    of: Number
+  }, 
+  isReady: {type: Boolean, default: false},
+  winner: refTo('User'),
+  creatorId: refTo('User'),
+  summoners: [refTo('User')],
+  applicants: [refTo('User')], 
+  viewers: [{ userId: String, summoners: [String] }], 
 },
 {
   toObject: { virtuals: true },
 }
 );
-
-schema.virtual('champions', {
-  ref: 'Player',
-  localField: 'champions_ids',
-  foreignField: '_id',
-  justOne: false,
-});
-
-schema.virtual('matches', {
-  ref: 'Match',
-  localField: 'matches_ids',
-  foreignField: '_id',
-  justOne: false,
-});
 
 export default mongoose.model('Tournament', schema);

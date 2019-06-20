@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Button from '../button';
-import { history } from 'index';
 import { ReactComponent as CloseIcon } from '../../assets/notification-close.svg';
 import soundfile from 'assets/alert.mp3';
 
@@ -36,8 +35,6 @@ class Notification extends Component {
     if (!this.props.link) {
       return;
     }
-
-    history.replace(this.props.link);
 
     if (this.props.onLinkRedirect) {
       this.props.onLinkRedirect();

@@ -10,8 +10,9 @@ import i18n from 'i18n';
 class Dashboard extends Component {
   render() {
     return (
-      <div className={style.dashboard}>
-        <h1 className={style.title}>{i18n.t('dashboard')}</h1>
+      <div className="container">
+        <div className={style.dashboard}>
+          <h1 className={style.title}>{i18n.t('dashboard')}</h1>
 
         <div className={style.content}>
           <div className={style.sidebar}>
@@ -23,7 +24,6 @@ class Dashboard extends Component {
                 <NavLink to="/dashboard/users">{i18n.t('users')}</NavLink>
               </nav>
             </div>
-          </div>
 
           <div className={style.section}>
             <Switch>

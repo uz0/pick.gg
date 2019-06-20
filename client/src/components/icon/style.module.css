@@ -13,7 +13,8 @@
   height: var(--icon-size);
 }
 
-.icon svg path {
+.icon svg path,
+.icon svg polygon {
   fill: var(--icon-color);
   transition-property: fill;
 }
