@@ -1,26 +1,21 @@
 import React from 'react';
 import { ReactComponent as Trophy } from 'assets/trophy.svg';
-import NotificationService from 'services/notification-service';
 
 import classnames from 'classnames';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const RewardCard = ({ description, rewardKey, isClaimed }) => {
-  const notificationService = new NotificationService();
-
+const RewardCard = ({ description, rewardKey, isClaimed, onClick }) => {
   const copyRewardCode = async rewardKey => {
     await navigator.clipboard.writeText(rewardKey);
-
-    notificationService.showSingleNotification({
-      type: 'success',
-      message: 'Reward code is copied',
-    });
   };
 
   return (
-    <div className={cx(style.card, { isClaimed })}>
+    <div
+      className={cx(style.card, { isClaimed })}
+      onClick={onClick}
+    >
       <div className={style.content}>
         <Trophy className={style.reward}/>
         <h3 className={style.name}>{description}</h3>

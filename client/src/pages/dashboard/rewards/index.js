@@ -13,7 +13,15 @@ class Rewards extends Component {
     isLoading: false,
   };
 
-  openRewardModal = () => this.props.toggleModal({ id: 'reward-modal' });
+  openRewardModal = (isEditing, reward) => this.props.toggleModal({
+    id: 'reward-modal',
+    options: {
+      isEditing,
+      reward: {
+        ...reward,
+      },
+    },
+  });
 
   loadRewards = async () => {
     this.setState({ isLoading: true });
@@ -38,6 +46,7 @@ class Rewards extends Component {
             rewardKey={key}
             description={description}
             isClaimed={isClaimed}
+            onClick={() => this.openRewardModal(true, { _id, key, description, isClaimed })}
           />
         ))}
       </div>
