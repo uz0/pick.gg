@@ -1,102 +1,95 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Form, Field, withFormik } from 'formik';
 import findIndex from 'lodash/findIndex';
-import Modal from 'components/modal';
-import { Formik, Form } from 'formik';
-import Input from 'components/form/input';
 import * as Yup from 'yup';
 import uuid from 'uuid';
+
+import { FormInput } from 'components/form/input';
+import Modal from 'components/modal';
+
 import style from './style.module.css';
+import { withHandlers, compose } from 'recompose';
 
-const formSchema = Yup.object().shape({
-  name: Yup.string()
-    .required('Required'),
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required('Required'),
 
-  startTime: Yup.string()
-    .required('Required'),
+  startTime: Yup.string().required('Required'),
 });
 
-class ChoosePlayers extends Component {
-  submit = values => {
-    const matches = [...this.props.options.formProps.values.matches];
+const ChoosePlayers = props => {
+  console.log('in third', props);
+  return (
+    <Modal
+      title="Add match"
+      close={props.close}
+      className={style.modal_content}
+      wrapClassName={style.wrapper}
+      actions={[
+        {
+          text: 'Create',
+          type: 'button',
+          appearance: '_basic-accent',
+          onClick: props.handleAdd,
+          disabled: !props.isValid,
+        },
+      ]}
+    >
+      <Form>
+        <Field
+          component={FormInput}
+          label="Match name"
+          name="name"
+          className={style.field}
+        />
 
-    if (this.props.options.editUid) {
-      const index = findIndex(matches, { uid: this.props.options.editUid });
-      matches[index] = { ...values };
+        <Field
+          component={FormInput}
+          label="Start time"
+          name="startTime"
+          type="time"
+          className={style.field}
+        />
+      </Form>
+    </Modal>
+  );
+};
 
-      this.props.options.onAdd({
-        data: matches,
-        formProps: this.props.options.formProps,
-      });
+const enhance = compose(
+  withFormik({
+    validationSchema,
+    mapPropsToValues: ({ options }) => {
+      const { matches, editUid } = options;
+      const matchIndex = editUid && findIndex(matches, { uid: editUid });
 
-      this.props.close();
-      return;
-    }
+      return options.editUid ?
+        {
+          name: matches[matchIndex].name,
+          startTime: matches[matchIndex].startTime,
+        } :
+        {};
+    },
+  }),
+  withHandlers({
+    handleAdd: props => () => {
+      const { options, close, values } = props;
+      const matches = [...options.matches];
 
-    this.props.options.onAdd({
-      data: [...matches, { uid: uuid(), ...values }],
-      formProps: this.props.options.formProps,
-    });
+      console.log(matches);
+      if (options.editUid) {
+        const index = findIndex(matches, { uid: options.editUid });
+        matches[index] = { ...values };
 
-    this.props.close();
-  };
+        options.onAdd(matches);
 
-  render() {
-    const matchIndex = this.props.options.editUid && findIndex(this.props.options.formProps.values.matches, { uid: this.props.options.editUid });
+        close();
+        return;
+      }
 
-    const initialValues = this.props.options.editUid ? {
-      name: this.props.options.formProps.values.matches[matchIndex].name,
-      startTime: this.props.options.formProps.values.matches[matchIndex].startTime,
-    } : {};
+      options.onAdd([...matches, { uid: uuid(), ...values }]);
 
-    return (
-      <Formik
-        initialValues={initialValues}
-        validationSchema={formSchema}
-        onSubmit={this.submit}
-      >
-        {props => {
-          const button = {
-            text: 'Create',
-            appearance: '_basic-accent',
-            onClick: props.submitForm,
-          };
+      close();
+    },
+  })
+);
 
-          if (!props.isValid) {
-            button.disabled = true;
-          }
-
-          const actions = [button];
-
-          return (
-            <Modal
-              title="Add match"
-              close={this.props.close}
-              className={style.modal_content}
-              wrapClassName={style.wrapper}
-              actions={actions}
-            >
-              <Form>
-                <Input
-                  label="Match name"
-                  name="name"
-                  formProps={props}
-                  className={style.field}
-                />
-
-                <Input
-                  label="Start time"
-                  name="startTime"
-                  type="time"
-                  formProps={props}
-                  className={style.field}
-                />
-              </Form>
-            </Modal>
-          );
-        }}
-      </Formik>
-    );
-  }
-}
-
-export default ChoosePlayers;
+export default enhance(ChoosePlayers);

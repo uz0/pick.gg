@@ -1,10 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classnames from 'classnames/bind';
 import groupBy from 'lodash/groupBy';
+import partition from 'lodash/partition';
+import flatten from 'lodash/flatten';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
+import withStateHandlers from 'recompose/withStateHandlers';
+import withHandlers from 'recompose/withHandlers';
+import compose from 'recompose/compose';
+
 import Modal from 'components/modal';
+
 import style from './style.module.css';
+import withProps from 'recompose/withProps';
 
 const cx = classnames.bind(style);
 
@@ -26,149 +34,147 @@ const _players = [
   { _id: 'dfdfdsdsfdsfffwee', name: '669', position: 'Top' },
 ];
 
-class ChoosePlayers extends Component {
-  state = {
-    selectedPlayers: this.props.options.formProps.values.players.length === 10 ? this.props.options.formProps.values.players : [],
-    filter: '',
-  };
+const enhance = compose(
+  withStateHandlers(
+    ({ options }) => ({
+      selectedPlayers: options.values.length > 0 ? options.values : [],
+      filter: '',
+    }),
+    {
+      clearFilter: state => () => ({ ...state, filter: '' }),
+      handleFilterInput: state => e => ({ ...state, filter: e.target.value }),
+      toggleSelectPlayer: state => id => {
+        const { selectedPlayers } = state;
+        console.log(state);
+        if (selectedPlayers.length >= 10) {
+          return state;
+        }
 
-  choose = () => {
-    this.props.options.onChoose({
-      ids: this.state.selectedPlayers,
-      formProps: this.props.options.formProps,
-    });
-
-    this.props.close();
-  };
-
-  getSortedKeys = keys => {
-    const numbers = filter(keys, key => !isNaN(parseInt(key, 10)));
-    const letters = filter(keys, key => isNaN(parseInt(key, 10)));
-    return [...letters, ...numbers];
-  };
-
-  onFilterInput = event => this.setState({ filter: event.target.value });
-
-  clear = () => this.setState({ filter: '' });
-
-  toggleSelectPlayer = id => () => {
-    this.setState(prevState => {
-      const playerIndex = prevState.selectedPlayers.indexOf(id);
-      const players = [...prevState.selectedPlayers];
-
-      if (playerIndex !== -1) {
-        players.splice(playerIndex, 1);
-      }
-
-      if (playerIndex === -1) {
-        players.push(id);
-      }
-
-      if (players.length > 10) {
-        return;
-      }
-
-      return { selectedPlayers: players };
-    });
-  };
-
-  render() {
-    const players = filter(_players, player => player.name.toLowerCase().startsWith(this.state.filter.toLowerCase()));
-    const group = groupBy(players, player => player.name[0]);
-    const sortedKeys = this.getSortedKeys(Object.keys(group));
-    const isSelectedPlayersShown = this.state.selectedPlayers.length > 0;
-    const isFiltering = this.state.filter.length > 0;
-
-    const actions = [];
-
-    if (this.state.selectedPlayers.length === 10) {
-      actions.push({ text: 'Choose', appearance: '_basic-accent', onClick: this.choose });
+        return {
+          ...state,
+          selectedPlayers: selectedPlayers.includes(id) ?
+            selectedPlayers.filter(nextId => nextId !== id) :
+            [...selectedPlayers, id],
+        };
+      },
     }
+  ),
+  withHandlers({
+    choose: props => () => {
+      props.options.onChoose(props.selectedPlayers);
 
-    return (
-      <Modal
-        title="Choose tournament players"
-        close={this.props.close}
-        className={style.modal_content}
-        wrapClassName={style.wrapper}
-        actions={actions}
-      >
-        <div className={style.sidebar}>
-          <h3 className={style.title}>Choosen players</h3>
+      props.close();
+    },
+  }),
+  withProps(({ choose }) => ({
+    getSortedKeys: keys =>
+      flatten(partition(keys, key => isNaN(parseInt(key, 10)))),
+    actions: [
+      {
+        text: 'Choose',
+        appearance: '_basic-accent',
+        onClick: choose,
+      },
+    ],
+  }))
+);
 
-          {!isSelectedPlayersShown &&
-            <p className={style.empty}>You haven`t chosen any players yet</p>
-          }
+export default enhance(props => {
+  const players = filter(_players, player =>
+    player.name.toLowerCase().startsWith(props.filter.toLowerCase())
+  );
+  const group = groupBy(players, player => player.name[0]);
+  const isSelectedPlayersShown = props.selectedPlayers.length > 0;
+  console.log(isSelectedPlayersShown);
+  const isFiltering = props.filter.length > 0;
+  console.log(props);
+  return (
+    <Modal
+      title="Choose tournament players"
+      close={props.close}
+      className={style.modal_content}
+      wrapClassName={style.wrapper}
+      actions={props.actions}
+    >
+      <div className={style.sidebar}>
+        <h3 className={style.title}>Choosen players</h3>
 
-          {isSelectedPlayersShown &&
-          this.state.selectedPlayers.map((id, index) => {
+        {isSelectedPlayersShown ? (
+          props.selectedPlayers.map((id, index) => {
             const player = find(_players, { _id: id });
-            return <p key={player._id} className={style.player}>{index + 1}. {player.name}</p>;
+            return (
+              <p key={player._id} className={style.player}>
+                {index + 1}. {player.name}
+              </p>
+            );
           })
-          }
+        ) : (
+          <p className={style.empty}>You haven`t chosen any players yet</p>
+        )}
+      </div>
+
+      <div className={style.content}>
+        <div className={style.search_container}>
+          <input
+            className={style.field}
+            placeholder="Find a player"
+            value={props.filter}
+            onInput={props.handleFilterInput}
+          />
+
+          <button
+            className={style.clear}
+            type="button"
+            onClick={props.clearFilter}
+          >
+            Clear
+          </button>
         </div>
 
-        <div className={style.content}>
-          <div className={style.search_container}>
-            <input
-              className={style.field}
-              placeholder="Find a player"
-              value={this.state.filter}
-              onInput={this.onFilterInput}
-            />
-
-            <button className={style.clear} type="button" onClick={this.clear}>Clear</button>
-          </div>
-
-          <div className={style.players}>
-            {!isFiltering &&
-            sortedKeys.map(key => (
+        <div className={style.players}>
+          {isFiltering ? (
+            <div className={style.section}>
+              <div className={style.list}>
+                {players.map(player => (
+                  <button
+                    key={player._id}
+                    className={cx('item', {
+                      '_is-selected': props.selectedPlayers.includes(player._id),
+                    })}
+                    type="button"
+                    onClick={() => props.toggleSelectPlayer(player._id)}
+                  >
+                    {player.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            props.getSortedKeys(Object.keys(group)).map(key => (
               <div key={key} className={style.section}>
                 <h3 className={style.letter}>{key}</h3>
 
                 <div className={style.list}>
-                  {group[key].map(player => {
-                    const isSelected = this.state.selectedPlayers.includes(player._id);
-
-                    return (
-                      <button
-                        key={player._id}
-                        className={cx('item', { '_is-selected': isSelected })}
-                        type="button"
-                        onClick={this.toggleSelectPlayer(player._id)}
-                      >{player.name}
-                      </button>
-                    );
-                  })}
+                  {group[key].map(player => (
+                    <button
+                      key={player._id}
+                      className={cx('item', {
+                        '_is-selected': props.selectedPlayers.includes(
+                          player._id
+                        ),
+                      })}
+                      type="button"
+                      onClick={() => props.toggleSelectPlayer(player._id)}
+                    >
+                      {player.name}
+                    </button>
+                  ))}
                 </div>
               </div>
             ))
-            }
-
-            {isFiltering && (
-              <div className={style.section}>
-                <div className={style.list}>
-                  {players.map(player => {
-                    const isSelected = this.state.selectedPlayers.includes(player._id);
-
-                    return (
-                      <button
-                        key={player._id}
-                        className={cx('item', { '_is-selected': isSelected })}
-                        type="button"
-                        onClick={this.toggleSelectPlayer(player._id)}
-                      >{player.name}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
+          )}
         </div>
-      </Modal>
-    );
-  }
-}
-
-export default ChoosePlayers;
+      </div>
+    </Modal>
+  );
+});
