@@ -1,34 +1,19 @@
 import mongoose from 'mongoose';
-let Schema = mongoose.Schema;
+import { regions } from '../../common/constants';
+const Schema = mongoose.Schema;
 
 export default mongoose.model('User', new Schema({
-  username: {
+  username: { type: String, unique: true, required: true },
+  email: {
     type: String,
     unique: true,
-    required: true
+    required: true,
+    partialFilterExpression: {email: {$type: 'string'}}
   },
-  password: {
-    type: String
-  },
-  about: {
-    type: String
-  },
-  photo: {
-    type: String
-  },
-  email: {
-    type: String, trim: true, index: {
-      unique: true,
-      partialFilterExpression: {email: {$type: 'string'}}
-    }
-  },
-  rewards: [{ type : Schema.Types.ObjectId, ref: 'Reward' }],
-  isAdmin : { type: Boolean },
-  isStreamer : { type: Boolean },
-  lolApiKey: {
-    type: String,
-    default: '',
-  },
-  summonerName: { type: String },
-  streamerAccountId: { type: String },
+  summonerName: { type: String, unique: true },
+  imageUrl: { type: String },
+  about: { type: String },
+  role: { type: String, enum: ['user', 'admin', 'streamer'], default: 'user' },
+  regionId: { type: String, enum: [...regions] },
+  preferredPosition: { type: String, enum: ['adc', 'mid', 'top', 'jungle', 'supp'] },
 }));
