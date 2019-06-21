@@ -8,7 +8,7 @@ export default mongoose.model('User', new Schema({
     type: String,
     unique: true,
     required: true,
-    partialFilterExpression: {email: {$type: 'string'}}
+    partialFilterExpression: { email: { $type: 'string' } }
   },
   summonerName: { type: String, unique: true },
   imageUrl: { type: String },
@@ -16,4 +16,8 @@ export default mongoose.model('User', new Schema({
   role: { type: String, enum: ['user', 'admin', 'streamer'], default: 'user' },
   regionId: { type: String, enum: [...regions] },
   preferredPosition: { type: String, enum: ['adc', 'mid', 'top', 'jungle', 'supp'] },
-}));
+},
+  {
+    toObject: { virtuals: true },
+  }
+));
