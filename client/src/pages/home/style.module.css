@@ -44,25 +44,10 @@
   text-align: center;
 }
 
-.start_content button {
-  background-color: #f1f1f1;
-  padding: 10px 16px;
-  color: #000;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  position: relative;
-  transition: all 0.3s;
-}
-
 .start_content .google_icon {
   width: 20px;
   height: 20px;
-  margin-left: 10px;
+  margin-left: 6px;
 }
 
 .start_btns {
@@ -86,11 +71,17 @@
 .start_btns a {
   padding: 8px 16px;
   background-color: #fff;
-  border-radius: 16px;
+  border-radius: 20px;
   font-weight: 700;
   text-decoration: none;
   text-transform: uppercase;
   color: #000;
+  opacity: 0.9;
+  transition: 0.3s;
+}
+
+.start_btns a:hover{
+  opacity: 1;
 }
 
 .login_page h2 {

@@ -10,16 +10,18 @@ const Input = ({
   type = 'text',
   placeholder,
   onChange,
-}) => <div className={cx('container', className)}>
-  {label &&
-    <label className={style.label}>{label}</label>
-  }
+}) => (
+  <div className={cx('container', className)}>
+    {label &&
+      <label className={style.label}>{label}</label>
+    }
 
-  <input
-    type={type}
-    placeholder={placeholder}
-    onChange={onChange}
-  />
-</div>;
+    <input
+      type={type}
+      placeholder={placeholder}
+      onChange={onChange}
+    />
+  </div>
+);
 
 export default Input;

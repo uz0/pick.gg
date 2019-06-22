@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { createReducer } from 'redux-starter-kit';
 import { reducers as notificationReducers } from 'components/notification';
 import { reducers as modalReducers } from 'components/modal-container';
+import { reducers as tournamentsReducers } from 'pages/tournaments';
 
 import actions from './actions';
 
@@ -13,4 +14,5 @@ export default combineReducers({
   currentUser: currentUserReducer,
   notification: notificationReducers,
   modal: modalReducers,
+  tournaments: tournamentsReducers,
 });

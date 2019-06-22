@@ -35,8 +35,8 @@ const Footer = () => {
         </div>
 
         <div className={style.lang_settings}>
-          <button name="ru" onClick={changeLocale}>RU</button>
-          <button name="en" onClick={changeLocale}>EN</button>
+          <button type="button" name="ru" onClick={changeLocale}>RU</button>
+          <button type="button" name="en" onClick={changeLocale}>EN</button>
         </div>
       </div>
     </footer>

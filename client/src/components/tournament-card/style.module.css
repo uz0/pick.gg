@@ -1,90 +1,79 @@
 .card {
   width: 320px;
   border-radius: 6px;
-  text-decoration: none;
   background-color: var(--background-color);
   border-bottom: 3px solid #1b1b3c;
-  transition: 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-}
-
-.card .thumbnail {
+.card .image {
   height: 170px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   overflow: hidden;
 }
 
-.card .thumbnail img {
+.card .image img {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
 .card .content {
-  display: flex;
-  flex-direction: column;
   padding: 16px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #fff;
 }
 
-.card .content h3 {
-  height: 18px;
-  line-height: 1;
-  white-space: nowrap;
+.card .content .name {
+  --height: 24px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  height: var(--height);
+  line-height: var(--height);
   font-size: 18px;
-  margin-bottom: 16px;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card .content .name + .info {
+  margin-top: 12px;
 }
 
 .card .content .info {
-  --margin: 8px;
-  font-size: 14px;
   display: flex;
   align-items: center;
-}
-
-.card .content .info + .info {
-  margin-top: 4px;
-}
-
-.card .content .info .label {
-  margin-right: var(--margin);
-  color: var(--accent-color);
-}
-
-.card .content .info .rules {
-
-}
-
-.card .content .info .rules span {
-  text-transform: lowercase;
-  font-size: 10px;
+  height: 24px;
 }
 
 .card .content .info i {
+  --icon-size: 20px;
+  --icon-color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.card .content .info .name {
+  --height: 20px;
+  flex-shrink: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 14px;
+  font-weight: 600;
   color: var(--accent-color);
-  margin-right: var(--margin);
+  text-transform: uppercase;
 }
 
-.card .content .info svg {
-  width: 24px;
-  height: 24px;
-  margin-right: var(--margin);
+.card .content .info .value {
+  --height: 20px;
+  height: var(--height);
+  margin-left: 8px;
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
 }
 
-.card .content .info svg path {
-  fill: var(--accent-color);
-}
-
-@media(max-width: 320px){
-  .card{
+@media (max-width: 320px){
+  .card {
     width: 280px;
   }
 }

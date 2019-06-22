@@ -3,13 +3,12 @@ import Avatar from './avatar';
 import style from './style.module.css';
 
 class ProfileSidebar extends Component {
-
   render() {
-    let { withData, nickname, description, source } = this.props;
+    const { withData, nickname, description, source } = this.props;
     return (
       <aside className={style.sidebar}>
-        <Avatar source={source} />
-        
+        <Avatar source={source}/>
+
         <div className={style.content}>
           { !withData && <a href="/">Change avatar</a> }
           { nickname && <div className={style.nickname}>{nickname}</div> }
@@ -18,7 +17,6 @@ class ProfileSidebar extends Component {
       </aside>
     );
   }
-  
 }
 
 export default ProfileSidebar;
