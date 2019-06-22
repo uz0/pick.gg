@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import compose from 'recompose/compose';
-import { Link } from 'react-router-dom';
+import withHandlers from 'recompose/withHandlers';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
@@ -18,8 +19,6 @@ class Tournaments extends Component {
     isLoading: false,
   };
 
-  openNewTournamentModal = () => this.props.toggleModal({ id: 'new-tournament-modal' });
-
   loadTournaments = async () => {
     this.setState({ isLoading: true });
     const response = await http('api/tournaments');
@@ -28,7 +27,7 @@ class Tournaments extends Component {
     this.setState({ isLoading: false });
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
     if (!this.props.isLoaded) {
       this.loadTournaments();
     }
@@ -63,7 +62,7 @@ class Tournaments extends Component {
           appearance="_icon-accent"
           icon="plus"
           className={style.button}
-          onClick={this.openNewTournamentModal}
+          onClick={this.props.openNewTournamentModal}
         />
       </div>
     );
@@ -83,10 +82,10 @@ export default compose(
       toggleModal: modalActions.toggleModal,
     },
   ),
+  withHandlers({
+    openNewTournamentModal: props => () => props.toggleModal({ id: 'new-tournament-modal' }),
+  })
 )(Tournaments);
-<<<<<<< HEAD
-=======
 
 export { default as actions } from './actions';
 export { default as reducers } from './reducers';
->>>>>>> dff0c9b3a34dfde02d8bee47c470b86ff4265c96
