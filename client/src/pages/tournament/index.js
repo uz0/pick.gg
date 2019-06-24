@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import find from 'lodash/find';
+import moment from 'moment';
+import get from 'lodash/get';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
@@ -18,13 +19,8 @@ const cx = classnames.bind(style);
 
 class Tournament extends Component {
   loadTournament = async () => {
-    // const response = await http(`/api/tournaments/${this.props.match.params.id}`);
-    // const tournament = await response.json();
-    // console.log(tournament)
-
-    const response = await http('/api/tournaments');
-    const { tournaments } = await response.json();
-    const tournament = find(tournaments, { _id: this.props.match.params.id });
+    const response = await http(`/api/tournaments/${this.props.match.params.id}`);
+    const { tournament } = await response.json();
 
     if (tournament) {
       this.props.addTournament(tournament);
@@ -38,56 +34,61 @@ class Tournament extends Component {
   }
 
   render() {
-    return <div className={cx('tournament', 'container')}>
-      <div className={style.inner_container}>
-        <div className={style.tournament_section}>
-          <div className={style.main}>
-            <h2 className={style.title}>name</h2>
+    const name = get(this.props, 'tournament.name');
+    const date = moment(get(this.props, 'tournament.date', '')).format('MMM DD, h:mm');
 
-            <div className={style.info}>
-              <p className={style.text}>Jun 17, 7:46</p>
+    return (
+      <div className={cx('tournament', 'container')}>
+        <div className={style.inner_container}>
+          <div className={style.tournament_section}>
+            <div className={style.main}>
+              <h2 className={style.title}>{name}</h2>
 
-              <p className={style.text}>
-                Created By <Link to="/">efim1382 <Icon name="star" /></Link>
-              </p>
+              <div className={style.info}>
+                <p className={style.text}>{date}</p>
+
+                <p className={style.text}>
+                Created By <Link to="/">efim1382 <Icon name="star"/></Link>
+                </p>
+              </div>
+
+              <p className={style.tournament_status}>tournament_started</p>
             </div>
 
-            <p className={style.tournament_status}>tournament_started</p>
+            <Button
+              text={i18n.t('join_tournament')}
+              appearance="_basic-accent"
+              className={style.button}
+            />
           </div>
 
-          <Button
-            text={i18n.t('join_tournament')}
-            appearance="_basic-accent"
-            className={style.button}
-          />
-        </div>
+          <h3 className={style.subtitle}>Information</h3>
 
-        <h3 className={style.subtitle}>Information</h3>
+          <div className={style.list}>
+            <div className={style.item}>
+              <label className={style.title}>Tournament</label>
+              <p className={style.value}>16 jun</p>
+            </div>
 
-        <div className={style.list}>
-          <div className={style.item}>
-            <label className={style.title}>Tournament</label>
-            <p className={style.value}>16 jun</p>
+            <div className={style.item}>
+              <label className={style.title}>Tournament</label>
+              <p className={style.value}>16 jun</p>
+            </div>
+
+            <div className={style.item}>
+              <label className={style.title}>Tournament</label>
+              <p className={style.value}>16 jun</p>
+            </div>
           </div>
 
-          <div className={style.item}>
-            <label className={style.title}>Tournament</label>
-            <p className={style.value}>16 jun</p>
+          <div className={style.widgets}>
+            <TournamentMatches id={this.props.match.params.id}/>
+            <TournamentSummoners id={this.props.match.params.id}/>
+            <TournamentViewers id={this.props.match.params.id}/>
           </div>
-
-          <div className={style.item}>
-            <label className={style.title}>Tournament</label>
-            <p className={style.value}>16 jun</p>
-          </div>
-        </div>
-
-        <div className={style.widgets}>
-          <TournamentMatches id={this.props.match.params.id} />
-          <TournamentSummoners id={this.props.match.params.id} />
-          <TournamentViewers id={this.props.match.params.id} />
         </div>
       </div>
-    </div>;
+    );
   }
 }
 

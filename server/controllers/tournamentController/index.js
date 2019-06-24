@@ -9,13 +9,15 @@ import moment from 'moment';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 
-import get from './get'
+import get from './get';
+import detail from './detail';
 import {validator as validateCreate, handler as create} from './create'
 
 let router = express.Router();
 
 const TournamentController = io => {
   router.get('/', get);
+  router.get('/:id', detail);
 
   router.get('/real', async (req, res) => {
     const tournaments = await TournamentModel
@@ -82,36 +84,6 @@ const TournamentController = io => {
       .populate('rules.rule')
 
     res.json({ tournaments });
-  });
-
-  router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-
-    const tournament = await FantasyTournament
-      .findOne({ _id: id })
-      .populate({ path: 'users.players', select: '_id id name photo' })
-      .populate({ path: 'users.user', select: '_id username isStreamer' })
-      .populate('rules.rule')
-      .populate({ path: 'winner', select: 'id username' })
-      .populate({ path: 'creator', select: 'id username isStreamer' })
-      .populate('tournament')
-      .populate({
-        path: 'tournament',
-        populate: {
-          path: 'champions',
-        }
-      })
-      .populate({
-        path: 'tournament',
-        populate: {
-          path: 'matches',
-          populate: {
-            path: 'results'
-          }
-        }
-      });
-
-    res.json({ tournament });
   });
 
   router.post('/', validateCreate, create);
