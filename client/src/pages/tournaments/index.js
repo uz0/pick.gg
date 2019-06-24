@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 import { connect } from 'react-redux';
@@ -21,7 +21,7 @@ class Tournaments extends Component {
 
   loadTournaments = async () => {
     this.setState({ isLoading: true });
-    const response = await http('api/tournaments');
+    const response = await http('/api/tournaments');
     const { tournaments } = await response.json();
     this.props.loadTournaments(tournaments);
     this.setState({ isLoading: false });
