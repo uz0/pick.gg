@@ -1,27 +1,15 @@
-import pick from 'lodash/pick';
-import difference from 'lodash/difference';
-
-import { withValidationHandler } from '../../helpers';
-import { check, validationResult } from 'express-validator/check';
-
 import RewardModel from '../../../models/reward';
 
-const rewardPropsValidator = (value, { req }) => {
-  const requestFields = Object.keys(req.body);
-  const rewardModelFields = ['key', 'isClaimed', 'description', 'image'];
-  
-  const diff = difference(requestFields, rewardModelFields);
+import pick from 'lodash/pick';
 
-  if(diff.length){
-    throw new Error(`Reward shouldn't contain ${diff.join(', ')} fields`);
-  }
+import { body } from 'express-validator/check';
+import { isRequestHasCorrectFields } from '../../validators';
 
-  return true;
-}
+import { withValidationHandler } from '../../helpers';
 
 const validator = [
-  check('body')
-    .custom(rewardPropsValidator)
+  body()
+    .custom(value => isRequestHasCorrectFields(value, RewardModel))
 ];
 
 const handler = withValidationHandler(async (req, res) => {

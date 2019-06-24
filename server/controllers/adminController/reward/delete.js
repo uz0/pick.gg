@@ -1,21 +1,13 @@
 import RewardModel from '../../../models/reward';
 import { withValidationHandler } from '../../helpers';
 
+import { isEntityExists } from '../../validators';
+
 import { check, validationResult } from 'express-validator/check';
-
-const rewardExistenceValidator = async (value, { req }) => {
-  const reward = await RewardModel.findById(req.params.id);
-
-  if(!reward){
-    throw new Error(`Reward with such id doesn't exist`);
-  }
-
-  return true;
-}
 
 const validator = [
   check('body')
-    .custom(rewardExistenceValidator)
+    .custom(value => isEntityExists(value, RewardModel))
 ];
 
 const handler = withValidationHandler(async (req, res) => {
