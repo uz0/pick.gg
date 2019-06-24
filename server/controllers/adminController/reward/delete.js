@@ -1,4 +1,5 @@
 import RewardModel from '../../../models/reward';
+import { withValidationHandler } from '../../helpers';
 
 import { check, validationResult } from 'express-validator/check';
 
@@ -16,15 +17,6 @@ const validator = [
   check('body')
     .custom(rewardExistenceValidator)
 ];
-
-const withValidationHandler = handler => (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  return handler(req, res);
-};
 
 const handler = withValidationHandler(async (req, res) => {
   try {

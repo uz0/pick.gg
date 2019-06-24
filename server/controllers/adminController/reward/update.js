@@ -1,6 +1,7 @@
 import pick from 'lodash/pick';
 import difference from 'lodash/difference';
 
+import { withValidationHandler } from '../../helpers';
 import { check, validationResult } from 'express-validator/check';
 
 import RewardModel from '../../../models/reward';
@@ -22,15 +23,6 @@ const validator = [
   check('body')
     .custom(rewardPropsValidator)
 ];
-
-const withValidationHandler = handler => (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  return handler(req, res);
-};
 
 const handler = withValidationHandler(async (req, res) => {
   try {
