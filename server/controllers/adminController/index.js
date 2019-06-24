@@ -8,6 +8,7 @@ import {validator as validateRewardDelete, handler as deleteRewardHandler} from 
 import getUsers from './user/get';
 import {validator as validateUserCreate, handler as createUserHandler} from './user/create';
 import {validator as validateUserDelete, handler as deleteUserHandler} from './user/delete';
+import {validator as validateUserUpdate, handler as updateUserHandler} from './user/update';
 
 let router = express.Router();
 
@@ -21,10 +22,12 @@ const AdminController = () => {
   router.delete('/reward/:id', validateRewardDelete, deleteRewardHandler);
 
   router.post('/user', validateUserCreate, createUserHandler);
-  
-  router.delete('/user/:id', validateUserDelete, deleteUserHandler);
 
   router.get('/user', getUsers);
+
+  router.delete('/user/:id', validateUserDelete, deleteUserHandler);
+
+  router.patch('/user/:id', validateUserUpdate, updateUserHandler);
 
   return router;
 };
