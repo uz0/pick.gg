@@ -6,11 +6,11 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const RewardCard = ({ description, rewardKey, isClaimed, onClick }) => {
-  const copyRewardCode = async rewardKey => {
-    await navigator.clipboard.writeText(rewardKey);
-  };
+const copyRewardCode = () => async rewardKey => {
+  await navigator.clipboard.writeText(rewardKey);
+};
 
+const RewardCard = ({ description, rewardKey, isClaimed, onClick }) => {
   return (
     <div
       className={cx(style.card, { isClaimed })}
@@ -23,7 +23,7 @@ const RewardCard = ({ description, rewardKey, isClaimed, onClick }) => {
         <button
           type="button"
           className={style.claim}
-          onClick={() => copyRewardCode(rewardKey)}
+          onClick={copyRewardCode(rewardKey)}
         >
           {rewardKey}
         </button>

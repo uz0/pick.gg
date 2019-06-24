@@ -13,7 +13,7 @@ class Rewards extends Component {
     isLoading: false,
   };
 
-  openRewardModal = (isEditing, reward) => this.props.toggleModal({
+  openRewardModal = () => (isEditing, reward) => this.props.toggleModal({
     id: 'reward-modal',
     options: {
       isEditing,
@@ -25,7 +25,7 @@ class Rewards extends Component {
 
   loadRewards = async () => {
     this.setState({ isLoading: true });
-    const response = await http(`${document.location.origin}/api/admin/reward`);
+    const response = await http('/api/admin/reward');
     const { rewards } = await response.json();
     this.props.loadRewards(rewards);
     this.setState({ isLoading: false });
@@ -46,7 +46,7 @@ class Rewards extends Component {
             rewardKey={key}
             description={description}
             isClaimed={isClaimed}
-            onClick={() => this.openRewardModal(true, { _id, key, description, isClaimed })}
+            onClick={this.openRewardModal(true, { _id, key, description, isClaimed })}
           />
         ))}
       </div>

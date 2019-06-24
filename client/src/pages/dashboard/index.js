@@ -16,14 +16,9 @@ class Dashboard extends Component {
 
           <div className={style.content}>
             <div className={style.navigation}>
-              <div className={style.menu}>
-                <nav>
-                  <NavLink to="/dashboard/tournaments">{i18n.t('tournaments')}</NavLink>
-                  <NavLink to="/dashboard/rewards">{i18n.t('rewards')}</NavLink>
-                  <NavLink to="/dashboard/users">{i18n.t('users')}</NavLink>
-                </nav>
-              </div>
-
+              <NavLink to="/dashboard/tournaments">{i18n.t('tournaments')}</NavLink>
+              <NavLink to="/dashboard/rewards">{i18n.t('rewards')}</NavLink>
+              <NavLink to="/dashboard/users">{i18n.t('users')}</NavLink>
             </div>
             <div className={style.section}>
               <Switch>
