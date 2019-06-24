@@ -6,7 +6,7 @@ export default class AuthService {
   }
 
   oauthLogin = async (email, name, photo) => {
-    let response = await fetch('/api/authentication/oauth', {
+    const response = await fetch('/api/authentication/oauth', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -22,7 +22,7 @@ export default class AuthService {
     const result = await response.json();
 
     this.setToken(result.token); // Setting the token in localStorage
-    
+
     return result;
   }
 
@@ -39,14 +39,14 @@ export default class AuthService {
   isLoggedIn() {
     // Checks if there is a saved token and it's still valid
     const token = this.getToken(); // GEtting token from localstorage
-    return !!token && !this.isTokenExpired(token); // handwaiving here
+    return Boolean(token) && !this.isTokenExpired(token); // Handwaiving here
   }
 
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
       return decoded.exp < Date.now() / 1000; // Checking if token is expired
-    } catch (err) {
+    } catch (error) {
       return false;
     }
   }

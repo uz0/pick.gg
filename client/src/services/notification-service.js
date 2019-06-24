@@ -7,7 +7,7 @@ import { ReactComponent as WarningIcon } from 'assets/warning.svg';
 import { ReactComponent as SuccessIcon } from 'assets/success.svg';
 import { ReactComponent as ErrorIcon } from 'assets/error.svg';
 
-let notificationActions = {};
+const notificationActions = {};
 
 class NotificationService {
   constructor(options) {
@@ -25,33 +25,33 @@ class NotificationService {
   }
 
   showSingleNotification = ({ id, shouldBeAddedToSidebar, link, type, message }) => {
-    const target = document.getElementById('notifications-wrapper');
+    const target = document.querySelector('#notifications-wrapper');
     let icon = '';
 
     switch (type) {
       case 'success':
-        icon = <SuccessIcon />;
+        icon = <SuccessIcon/>;
         break;
       case 'warning':
-        icon = <WarningIcon />;
+        icon = <WarningIcon/>;
         break;
       case 'error':
-        icon = <ErrorIcon />;
+        icon = <ErrorIcon/>;
         break;
       case 'match':
-        icon = <MatchIcon />;
+        icon = <MatchIcon/>;
         break;
       case 'winning':
-        icon = <TrophyIcon />;
+        icon = <TrophyIcon/>;
         break;
       default:
-        icon = <SuccessIcon />;
+        icon = <SuccessIcon/>;
         break;
     }
 
     let time = 4000;
 
-    if (type === "match" || type === "winning") {
+    if (type === 'match' || type === 'winning') {
       time = 20000;
     }
 
@@ -73,12 +73,13 @@ class NotificationService {
           message,
         });
       }
+
       this.hideSingleNotification();
     }, time);
   }
 
   hideSingleNotification = () => {
-    const target = document.getElementById('notifications-wrapper');
+    const target = document.querySelector('#notifications-wrapper');
     ReactDOM.unmountComponentAtNode(target);
   }
 

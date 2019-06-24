@@ -10,15 +10,16 @@ const Card = ({
   defaultSorting,
   className,
 }) => {
-  let list = items;
+  const list = items;
 
   if (defaultSorting) {
     list.sort(defaultSorting);
   }
 
-  return <div className={cx('card_block', className)}>
+  return (
+    <div className={cx('card_block', className)}>
 
-    {list.length > 0 &&
+      {list.length > 0 &&
       list.map((item, index) => renderCard({
         item,
         index,
@@ -27,9 +28,10 @@ const Card = ({
         avatarClass: style.avatar,
         winningsClass: style.winnings,
       }))
-    }
+      }
 
-  </div>;
+    </div>
+  );
 };
 
 export default Card;

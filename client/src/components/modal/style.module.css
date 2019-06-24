@@ -55,9 +55,28 @@
 
 .wrapper .modal .content {
   -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
+  min-height: 0;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
-  padding-bottom: var(--layout-padding);
+}
+
+.wrapper .modal .actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.wrapper .modal .actions .button {
+  --height: 36px;
+  font-size: 14px;
+}
+
+.wrapper .modal .actions .button:nth-of-type(1) {
+  margin-left: auto;
 }

@@ -40,12 +40,12 @@
   background-image: linear-gradient(120deg,#3eb4f8,#3e6ef8);
 }
 
-.card:global(.is_claimed) .content .claim {
+.card:global(.isClaimed) .content .claim {
   background-image: none;
   background-color: #1e1e42;
   pointer-events: none;
 }
 
-.card:global(.is_claimed) .content .claim:hover {
+.card:global(.isClaimed) .content .claim:hover {
   background-image: none;
 }

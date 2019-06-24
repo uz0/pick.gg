@@ -629,11 +629,11 @@
   margin-top: 20px;
 }
 
-.block_results .leaders .active_summoner {
+.block_results .leaders .activeSummoner {
   background: var(--accent-color);
 }
 
-.block_results .leaders .active_summoner span {
+.block_results .leaders .activeSummoner span {
   color: #000;
 }
 
@@ -652,7 +652,7 @@
   text-overflow: ellipsis;
 }
 
-.block_results .leaders .table .active_summoner .leader_progress {
+.block_results .leaders .table .activeSummoner .leader_progress {
   background-color: #fff;
 }
 

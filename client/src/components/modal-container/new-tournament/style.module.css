@@ -1,7 +1,190 @@
 .modal_content {
-  padding-top: var(--layout-padding);
+  /*height: 400px;*/
+  padding-top: 10px;
 }
 
-.modal_content .field:nth-of-type(n+2) {
+.modal_content .header {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.modal_content .header .step_title {
+  --height: 20px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: #fff;
+  text-transform: none;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal_content .header .choose {
+  --height: 40px;
+  flex-shrink: 0;
+  margin-left: 16px;
+  border-radius: calc(var(--height) / 2);
+}
+
+.modal_content .form {
   margin-top: 12px;
+}
+
+.modal_content .form .main_info .field:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
+.modal_content .form .main_info .subtitle {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal_content .form .main_info .rules_list {
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 4px;
+}
+
+.modal_content .form .main_info .rules_list .rule {
+  position: relative;
+}
+
+.modal_content .form .main_info .rules_list .rule label {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-size: 10px;
+}
+
+.modal_content .form .main_info .rules_list .rule input {
+  margin-top: 0;
+  padding-top: 10px;
+}
+
+.modal_content .form .main_info .rules_list .rule input::-webkit-outer-spin-button,
+.modal_content .form .main_info .rules_list .rule input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.modal_content .form .main_players {
+  display: grid;
+  grid-gap: 6px;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.modal_content .form .main_players .player {
+  min-width: 0;
+  padding: 12px;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+}
+
+.modal_content .form .main_players .player .image {
+  --size: 48px;
+  width: var(--size);
+  height: var(--size);
+  margin-left: auto;
+  margin-right: auto;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.modal_content .form .main_players .player .name {
+  --height: 16px;
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 12px;
+  color: #e2e2e2;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal_content .form .main_players .player .position {
+  --height: 16px;
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  margin-top: 2px;
+  line-height: var(--height);
+  font-size: 10px;
+  color: #e2e2e2;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal_content .form .matches {
+  padding-top: var(--layout-padding);
+  padding-bottom: var(--layout-padding);
+}
+
+.modal_content .form .matches .match {
+  --match-height: 40px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--match-height);
+  background-color: #2f2f5b;
+  border-radius: 6px;
+  padding-left: 12px;
+}
+
+.modal_content .form .matches .match:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
+.modal_content .form .matches .match .name {
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  font-size: 15px;
+  color: #909095;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal_content .form .matches .match .delete {
+  --height: var(--match-height);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.modal_content .form .matches .match .edit {
+  --height: var(--match-height);
+  --background-color: #3f51b5;
+  --color: #fff;
+  flex-shrink: 0;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+
+.prev_slide {
+  margin-left: 0 !important;
+  margin-right: auto;
+}
+
+.next_slide {
+  margin-right: 0 !important;
+  margin-left: auto;
 }
