@@ -3,12 +3,14 @@ import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import NewTournament from './new-tournament';
-import Reward from './reward';
+import ChoosePlayers from './choose-players';
+import AddMatch from './add-match';
 import modalActions from './actions';
 
 const modals = {
   'new-tournament-modal': NewTournament,
-  'reward-modal': Reward,
+  'choose-players-modal': ChoosePlayers,
+  'add-match-modal': AddMatch,
 };
 
 class ModalContainer extends Component {
