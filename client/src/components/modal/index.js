@@ -9,10 +9,11 @@ const Modal = ({
   title,
   close,
   className,
+  wrapClassName,
   children,
 }) => (
   <div className={style.wrapper}>
-    <div className={style.modal}>
+    <div className={cx('modal', wrapClassName)}>
       <div className={style.header}>
         <h2 className={style.title}>{title}</h2>
 

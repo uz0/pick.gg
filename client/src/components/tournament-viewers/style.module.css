@@ -1,0 +1,19 @@
+.viewers {}
+
+.viewers .subtitle {
+  --height: 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  color: var(--caption-color);
+  font-size: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.viewers .subtitle + .table {
+  margin-top: 16px;
+}
