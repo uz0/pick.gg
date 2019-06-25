@@ -4,7 +4,7 @@
   height: var(--height);
   line-height: var(--height);
   font-weight: var(--font-weight-bold);
-  font-size: 20px;
+  font-size: 18px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;

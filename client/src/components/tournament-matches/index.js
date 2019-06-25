@@ -27,50 +27,54 @@ class Matches extends Component {
     this.props.toggleModal({ id: 'match-results-modal' });
   };
 
-  renderRow = ({ className, itemClass, textClass, index, item }) => {
+  renderRow = ({ className, itemClass, textClass, item }) => {
     const nameStyle = { '--width': tableCaptions.name.width };
     const pointsStyle = { '--width': tableCaptions.points.width };
 
-    return <div className={className} key={item}>
-      <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>ФИНАЛ</span>
+    return (
+      <div key={item} className={className}>
+        <div className={itemClass} style={nameStyle}>
+          <span className={textClass}>ФИНАЛ</span>
+        </div>
+
+        <div className={itemClass} style={pointsStyle}>
+          <span className={style.points}>+123</span>
+        </div>
+
+        <div className={cx(itemClass, 'date')}>
+          <span className={textClass}>07:22</span>
+        </div>
+
+        <button className={style.button} type="button" onClick={this.openMatchDetails}>
+          <Icon name="list"/>
+        </button>
+
+        <button className={style.button} type="button">
+          <Icon name="info"/>
+        </button>
       </div>
-
-      <div className={itemClass} style={pointsStyle}>
-        <span className={style.points}>+123</span>
-      </div>
-
-      <div className={cx(itemClass, 'date')}>
-        <span className={textClass}>07:22</span>
-      </div>
-
-      <button className={style.button} onClick={this.openMatchDetails}>
-        <Icon name="list" />
-      </button>
-
-      <button className={style.button}>
-        <Icon name="info" />
-      </button>
-    </div>;
+    );
   };
 
   componentWillMount() {
   }
 
   render() {
-    return <div className={style.matches}>
-      <h3 className={style.subtitle}>Matches</h3>
+    return (
+      <div className={style.matches}>
+        <h3 className={style.subtitle}>Matches</h3>
 
-      <Table
-        noCaptions
-        captions={tableCaptions}
-        items={[1,2,3,4,5]}
-        renderRow={this.renderRow}
-        isLoading={false}
-        className={style.table}
-        emptyMessage="There is no matches yet"
-      />
-    </div>;
+        <Table
+          noCaptions
+          captions={tableCaptions}
+          items={this.props.tournament.matches_ids}
+          renderRow={this.renderRow}
+          isLoading={false}
+          className={style.table}
+          emptyMessage="There is no matches yet"
+        />
+      </div>
+    );
   }
 }
 

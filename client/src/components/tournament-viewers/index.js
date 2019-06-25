@@ -22,34 +22,38 @@ class Viewers extends Component {
     const numberStyle = { '--width': tableCaptions.number.width };
     const nameStyle = { '--width': tableCaptions.name.width };
 
-    return <div className={className} key={item}>
-      <div className={itemClass} style={numberStyle}>
-        <span className={textClass}>{index + 1}</span>
-      </div>
+    return (
+      <div key={item} className={className}>
+        <div className={itemClass} style={numberStyle}>
+          <span className={textClass}>{index + 1}</span>
+        </div>
 
-      <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>Marquis de eLife</span>
+        <div className={itemClass} style={nameStyle}>
+          <span className={textClass}>Marquis de eLife</span>
+        </div>
       </div>
-    </div>;
+    );
   };
 
   componentWillMount() {
   }
 
   render() {
-    return <div className={style.viewers}>
-      <h3 className={style.subtitle}>Viewers</h3>
+    return (
+      <div className={style.viewers}>
+        <h3 className={style.subtitle}>Viewers</h3>
 
-      <Table
-        noCaptions
-        captions={tableCaptions}
-        items={[1,2,3,4,5]}
-        renderRow={this.renderRow}
-        isLoading={false}
-        className={style.table}
-        emptyMessage="There is no viewers yet"
-      />
-    </div>;
+        <Table
+          noCaptions
+          captions={tableCaptions}
+          items={this.props.tournament.viewers}
+          renderRow={this.renderRow}
+          isLoading={false}
+          className={style.table}
+          emptyMessage="There is no viewers yet"
+        />
+      </div>
+    );
   }
 }
 

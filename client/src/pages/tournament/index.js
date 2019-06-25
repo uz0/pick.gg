@@ -81,11 +81,13 @@ class Tournament extends Component {
             </div>
           </div>
 
-          <div className={style.widgets}>
-            <TournamentMatches id={this.props.match.params.id}/>
-            <TournamentSummoners id={this.props.match.params.id}/>
-            <TournamentViewers id={this.props.match.params.id}/>
-          </div>
+          {this.props.tournament && (
+            <div className={style.widgets}>
+              <TournamentMatches id={this.props.match.params.id}/>
+              <TournamentSummoners id={this.props.match.params.id}/>
+              <TournamentViewers id={this.props.match.params.id}/>
+            </div>
+          )}
         </div>
       </div>
     );
