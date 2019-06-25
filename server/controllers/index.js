@@ -4,4 +4,4 @@ export { default as TournamentController } from "./tournamentController";
 export { default as SystemController } from "./systemController";
 export { default as RewardController } from "./rewardController";
 export { default as StreamerController } from "./streamerController";
-export { default as AdminController } from "./adminController";
+export { default as AdminController } from "./adminController/index";
