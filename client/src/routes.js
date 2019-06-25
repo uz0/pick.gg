@@ -24,7 +24,7 @@ export default () => (
         <Route exact path="/home" component={Home}/>
         <Layout>
           <Switch>
-            <Route exact path="/dashboard" component={Dashboard}/>
+            <Route path="/dashboard" component={Dashboard}/>
             <Route exact path="/tournaments" component={Tournaments}/>
             <Route exact path="/tournaments/:id" component={Tournament}/>
             <Route exact path="/profile" component={Profile}/>

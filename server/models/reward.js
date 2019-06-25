@@ -1,23 +1,12 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
+
 export default mongoose.model('Reward', new Schema({
-  key: {
-    type: String,
-    index: {
-      unique: true,
-    }
-  },
-  isClaimed: {
-    type: Boolean,
-    default: false
-  },
-  description: {
-    type: String,
-    default: ''
-  },
-  image: {
-    type: String,
-    default: ''
-  },
+  userId: refTo('User'),
+  key: { type: String, unique: true },
+  isClaimed: { type: Boolean, default: false },
+  description: { type: String },
+  image: { type: String },
 }));

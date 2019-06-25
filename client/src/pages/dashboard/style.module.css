@@ -24,38 +24,15 @@
 
 .dashboard .content {
   width: var(--container-width);
+  margin-top: 32px;
+}
+
+.dashboard .content .navigation {
   display: flex;
-  margin-top: 50px;
+
 }
 
-.dashboard .content .sidebar {
-  width: 300px;
-  padding: 16px;
-  align-self: flex-start;
-  border-radius: 4px;
-  background-color: var(--background-color);
-}
-
-.dashboard .content .sidebar .menu h4 {
-  --height: 24px;
-  overflow: hidden;
-  height: var(--height);
-  margin: 0;
-  line-height: var(--height);
-  font-family: var(--font-family-title);
-  color: var(--header-color);
-  font-size: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.dashboard .content .sidebar .menu nav {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-}
-
-.dashboard .content .sidebar .menu nav a {
+.dashboard .content .navigation a {
   --height: 40px;
   --link-padding: 10px;
   height: var(--height);
@@ -69,26 +46,25 @@
   border-radius: 4px;
 }
 
-.dashboard .content .sidebar .menu nav a:not(:hover) {
+.dashboard .content .navigation a:not(:hover) {
   color: var(--caption-color);
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.75);
 }
 
-.dashboard .content .sidebar .menu nav a:global(.active),
-.dashboard .content .sidebar .menu nav a:hover {
+.dashboard .content .navigation a:global(.active),
+.dashboard .content .navigation a:hover {
   color: var(--primary-color);
   background: var(--accent-color);
 }
 
-.dashboard .content .sidebar .menu nav a + a {
-  margin-top: 12px;
+.dashboard .content .navigation a + a {
+  margin-left: 12px;
 }
 
 .dashboard .content .section {
   flex-grow: 1;
   min-width: 0;
-  margin-left: 30px;
-  padding: 0 16px;
+  margin-top: 32px;
 }
 
 @media screen and (max-width: 480px){
