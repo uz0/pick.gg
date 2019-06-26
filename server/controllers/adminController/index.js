@@ -1,6 +1,8 @@
 import express from 'express';
 
 import getRewards from './reward/get';
+
+import {validator as validateGetUserRewards, handler as getUserRewardsHandler} from './reward/getUserRewards';
 import {validator as validateRewardCreate, handler as createRewardHandler} from './reward/create';
 import {validator as validateRewardUpdate, handler as updateRewardHandler} from './reward/update';
 import {validator as validateRewardDelete, handler as deleteRewardHandler} from './reward/delete';
@@ -14,6 +16,8 @@ let router = express.Router();
 
 const AdminController = () => {
   router.get('/reward', getRewards);
+
+  router.get('/reward/user/:userId', validateGetUserRewards, getUserRewardsHandler);
 
   router.post('/reward', validateRewardCreate, createRewardHandler);
 
