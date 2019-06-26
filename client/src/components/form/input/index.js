@@ -28,10 +28,11 @@ const Input = ({
 
 export const FormInput = ({ field, form, ...props }) => (
   <Input
-    error={form.errors[props.name]}
-    isTouched={form.touched[props.name]}
-    {...field}
+    error={form.errors[field.name]}
+    isTouched={form.touched[field.name]}
+
     {...props}
+    {...field}
   />
 );
 
