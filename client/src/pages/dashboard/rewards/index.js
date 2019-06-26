@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import RewardCard from 'components/reward-card';
+import Button from 'components/button';
+import Preloader from 'components/preloader';
 import { http } from 'helpers';
 import { actions as modalActions } from 'components/modal-container';
 import actions from './actions';
@@ -13,7 +15,7 @@ class Rewards extends Component {
     isLoading: false,
   };
 
-  openRewardModal = () => (isEditing, reward) => this.props.toggleModal({
+  openRewardModal = (isEditing, reward) => this.props.toggleModal({
     id: 'reward-modal',
     options: {
       isEditing,
@@ -39,17 +41,29 @@ class Rewards extends Component {
 
   render() {
     return (
-      <div className={style.rewards}>
-        {this.props.rewardsList.map(({ _id, key, description, isClaimed }) => (
-          <RewardCard
-            key={_id}
-            rewardKey={key}
-            description={description}
-            isClaimed={isClaimed}
-            onClick={this.openRewardModal(true, { _id, key, description, isClaimed })}
+      <>
+        <div className={style.controls}>
+          <Button
+            text="Создать награду"
+            appearance="_basic-accent"
+            onClick={() => this.openRewardModal(false, {})}
           />
-        ))}
-      </div>
+        </div>
+        <div className={style.rewards}>
+          {this.state.isLoading &&
+            <Preloader/>
+          }
+          {this.props.rewardsList.map(({ _id, key, description, image, isClaimed }) => (
+            <RewardCard
+              key={_id}
+              rewardKey={key}
+              description={description}
+              isClaimed={isClaimed}
+              onClick={() => this.openRewardModal(true, { _id, key, description, image, isClaimed })}
+            />
+          ))}
+        </div>
+      </>
     );
   }
 }
