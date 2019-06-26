@@ -3,10 +3,10 @@ import { withValidationHandler } from '../../helpers';
 
 import { isEntityExists } from '../../validators';
 
-import { check, validationResult } from 'express-validator/check';
+import { param } from 'express-validator/check';
 
 const validator = [
-  check('body')
+  param('id')
     .custom(value => isEntityExists(value, RewardModel))
 ];
 
