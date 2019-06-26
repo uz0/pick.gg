@@ -47,8 +47,10 @@ class JoinTournamentPlayers extends Component {
   });
 
   render() {
+    const isDisabled = this.state.ids.length < 5;
+
     const actions = [
-      { text: 'Add Players', appearance: '_basic-accent', onClick: this.join },
+      { text: 'Add Players', appearance: '_basic-accent', onClick: this.join, disabled: isDisabled },
     ];
 
     return (
