@@ -16,4 +16,24 @@ export default createReducer(initialState, {
 
     state.isLoaded = true;
   },
+
+  [actions.createReward]: (state, action) => {
+    state.list.push(action.payload);
+  },
+
+  [actions.updateReward]: (state, action) => {
+    state.list = state.list.map(reward => {
+      if (reward._id === action.payload._id) {
+        return {
+          ...action.payload,
+        };
+      }
+
+      return reward;
+    });
+  },
+
+  [actions.deleteReward]: (state, action) => {
+    state.list = state.list.filter(reward => reward._id !== action.payload);
+  },
 });
