@@ -42,7 +42,6 @@ class Users extends Component {
       isStreamer: '',
     },
     users: [],
-    isUserEditing: false,
     isLoading: false,
   };
 
@@ -50,7 +49,6 @@ class Users extends Component {
     const user = this.state.users.find(({ _id }) => _id === userId);
 
     this.setState({
-      isUserEditing: true,
       userEditingData: {
         ...user,
       },
@@ -77,7 +75,6 @@ class Users extends Component {
 
     this.setState({
       isLoading: false,
-      isUserEditing: false,
       users,
     }, () => this.notificationService.showSingleNotification({
       type: 'success',
@@ -88,7 +85,6 @@ class Users extends Component {
   }
 
   resetUser = () => this.setState({
-    isUserEditing: false,
     userEditingData: {},
   });
 
@@ -132,14 +128,11 @@ class Users extends Component {
   render() {
     const {
       users,
-      userEditingData,
-      isUserEditing,
       isLoading,
     } = this.state;
 
     return (
       <div className={style.users}>
-
         <Table
           captions={usersTableCaptions}
           items={users}
@@ -148,54 +141,6 @@ class Users extends Component {
           isLoading={isLoading}
           emptyMessage={i18n.t('there_is_no_tournaments_yet')}
         />
-
-        {isUserEditing && (
-          <Modal
-            title={`Editing ${userEditingData.username}`}
-            actions={[{
-              text: i18n.t('update_user'),
-              onClick: this.editUserSubmit,
-              isDanger: false,
-            }]}
-            close={this.resetUser}
-          >
-
-            {isLoading && (
-              <Preloader
-                isFullScreen
-              />
-            )}
-
-            <Input
-              label={i18n.t('username')}
-              name="username"
-              value={userEditingData.username || ''}
-              onChange={this.handleInputChange}
-            />
-
-            <label className={style.checkbox}>
-              <p>{i18n.t('admin')}</p>
-              <input
-                className={style.input}
-                name="isAdmin"
-                type="checkbox"
-                defaultChecked={userEditingData.isAdmin}
-                onChange={this.handleInputChange}
-              />
-            </label>
-
-            <label className={style.checkbox}>
-              <p>{i18n.t('streamer')}</p>
-              <input
-                className={style.input}
-                name="isStreamer"
-                type="checkbox"
-                defaultChecked={userEditingData.isStreamer}
-                onChange={this.handleInputChange}
-              />
-            </label>
-          </Modal>
-        )}
       </div>
     );
   }
