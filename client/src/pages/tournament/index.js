@@ -13,6 +13,7 @@ import TournamentMatches from 'components/tournament-matches';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import { actions as modalActions } from 'components/modal-container';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -26,6 +27,8 @@ class Tournament extends Component {
       this.props.addTournament(tournament);
     }
   };
+
+  joinTournament = () => this.props.toggleModal({ id: 'join-tournament-players' });
 
   componentWillMount() {
     if (!this.props.tournament) {
@@ -59,6 +62,7 @@ class Tournament extends Component {
               text={i18n.t('join_tournament')}
               appearance="_basic-accent"
               className={style.button}
+              onClick={this.joinTournament}
             />
           </div>
 
@@ -102,6 +106,7 @@ export default compose(
 
     {
       addTournament: tournamentsActions.addTournament,
+      toggleModal: modalActions.toggleModal,
     },
   ),
 )(Tournament);

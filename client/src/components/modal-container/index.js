@@ -6,6 +6,7 @@ import NewTournament from './new-tournament';
 import MatchResults from './match-results';
 import ChoosePlayers from './choose-players';
 import AddMatch from './add-match';
+import JoinTournamentPlayers from './join-tournament-players';
 import modalActions from './actions';
 
 const modals = {
@@ -13,6 +14,7 @@ const modals = {
   'match-results-modal': MatchResults,
   'choose-players-modal': ChoosePlayers,
   'add-match-modal': AddMatch,
+  'join-tournament-players': JoinTournamentPlayers,
 };
 
 class ModalContainer extends Component {
