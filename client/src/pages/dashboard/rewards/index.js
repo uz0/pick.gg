@@ -50,9 +50,6 @@ class Rewards extends Component {
           />
         </div>
         <div className={style.rewards}>
-          {this.state.isLoading &&
-            <Preloader/>
-          }
           {this.props.rewardsList.map(({ _id, key, description, image, isClaimed }) => (
             <RewardCard
               key={_id}
@@ -63,6 +60,9 @@ class Rewards extends Component {
             />
           ))}
         </div>
+        {this.state.isLoading &&
+          <Preloader/>
+        }
       </>
     );
   }
