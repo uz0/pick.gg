@@ -28,7 +28,7 @@ class Tournament extends Component {
     }
   };
 
-  joinTournament = () => this.props.toggleModal({ id: 'join-tournament-players' });
+  joinTournament = () => this.props.toggleModal({ id: 'join-tournament-players-modal' });
 
   componentWillMount() {
     if (!this.props.tournament) {

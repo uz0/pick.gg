@@ -1,0 +1,31 @@
+.wrapper {
+}
+
+.wrapper .content {
+  padding-top: var(--layout-padding);
+}
+
+.wrapper .content .field:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
+.wrapper .content .field + .player {
+  margin-top: 40px;
+}
+
+.wrapper .content .player {
+  display: grid;
+  grid-gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.wrapper .content .player + .player {
+  margin-top: 20px;
+}
+
+.wrapper .content .player .name {
+  grid-column: 1 / -1;
+}
+
+.wrapper .content .player .kda {
+}

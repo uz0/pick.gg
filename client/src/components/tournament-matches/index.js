@@ -23,9 +23,9 @@ const tableCaptions = {
 const cx = classnames.bind(style);
 
 class Matches extends Component {
-  openMatchDetails = () => {
-    this.props.toggleModal({ id: 'match-results-modal' });
-  };
+  openMatchDetails = () => this.props.toggleModal({ id: 'match-results-modal' });
+
+  openEditMatch = () => this.props.toggleModal({ id: 'edit-match-modal' });
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const nameStyle = { '--width': tableCaptions.name.width };
@@ -49,7 +49,7 @@ class Matches extends Component {
           <Icon name="list"/>
         </button>
 
-        <button className={style.button} type="button">
+        <button className={style.button} type="button" onClick={this.openEditMatch}>
           <Icon name="info"/>
         </button>
       </div>

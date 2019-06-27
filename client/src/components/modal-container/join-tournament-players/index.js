@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'components/modal';
-import DetaulfAvatar from 'assets/avatar-placeholder.svg';
+import DetaultAvatar from 'assets/avatar-placeholder.svg';
 import classnames from 'classnames/bind';
 import style from './style.module.css';
 
@@ -72,7 +72,7 @@ class JoinTournamentPlayers extends Component {
               onClick={this.togglePlayer(player._id)}
             >
               <div className={style.image}>
-                <img src={DetaulfAvatar} alt="Player"/>
+                <img src={DetaultAvatar} alt="Player"/>
               </div>
 
               <p className={style.name}>Kellin</p>
