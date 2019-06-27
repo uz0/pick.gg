@@ -5,7 +5,7 @@ import RewardCard from 'components/reward-card';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import { http } from 'helpers';
-import { actions as modalActions } from 'components/modal-container';
+import modalActions from 'components/modal-container/actions';
 import actions from './actions';
 
 import style from './style.module.css';
@@ -15,13 +15,11 @@ class Rewards extends Component {
     isLoading: false,
   };
 
-  openRewardModal = (isEditing, reward) => this.props.toggleModal({
+  openRewardModal = (isEditing = false, reward = {}) => this.props.toggleModal({
     id: 'reward-modal',
     options: {
       isEditing,
-      reward: {
-        ...reward,
-      },
+      reward,
     },
   });
 
@@ -46,19 +44,26 @@ class Rewards extends Component {
           <Button
             text="Создать награду"
             appearance="_basic-accent"
-            onClick={() => this.openRewardModal(false, {})}
+            onClick={this.openRewardModal}
           />
         </div>
         <div className={style.rewards}>
-          {this.props.rewardsList.map(({ _id, key, description, image, isClaimed }) => (
-            <RewardCard
-              key={_id}
-              rewardKey={key}
-              description={description}
-              isClaimed={isClaimed}
-              onClick={() => this.openRewardModal(true, { _id, key, description, image, isClaimed })}
-            />
-          ))}
+
+          {this.props.rewardsIds.map(id => {
+            const reward = this.props.rewardsList[id];
+
+            const { _id, key, description, image, isClaimed } = reward;
+
+            return (
+              <RewardCard
+                key={_id}
+                rewardKey={key}
+                description={description}
+                isClaimed={isClaimed}
+                onClick={() => this.openRewardModal(true, { _id, key, description, image, isClaimed })}
+              />
+            );
+          })}
         </div>
         {this.state.isLoading &&
           <Preloader/>
