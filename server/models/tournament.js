@@ -19,7 +19,7 @@ const schema = new Schema({
   }, 
   isReady: {type: Boolean, default: false},
   winner: refTo('User'),
-  creatorId: refTo('User'),
+  creator: refTo('User'),
   summoners: [refTo('User')],
   applicants: [refTo('User')], 
   viewers: [{ userId: String, summoners: [String] }], 
