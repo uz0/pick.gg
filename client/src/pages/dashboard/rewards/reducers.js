@@ -3,7 +3,7 @@ import actions from './actions';
 
 const initialState = {
   ids: [],
-  list: [],
+  list: {},
   isLoaded: false,
 };
 
@@ -11,29 +11,26 @@ export default createReducer(initialState, {
   [actions.loadRewards]: (state, action) => {
     action.payload.forEach(reward => {
       state.ids.push(reward._id);
-      state.list.push(reward);
+      state.list[reward._id] = reward;
     });
 
     state.isLoaded = true;
   },
 
   [actions.createReward]: (state, action) => {
-    state.list.push(action.payload);
+    state.ids.push(action.payload._id);
+    state.list[action.payload._id] = action.payload.reward;
   },
 
   [actions.updateReward]: (state, action) => {
-    state.list = state.list.map(reward => {
-      if (reward._id === action.payload._id) {
-        return {
-          ...action.payload,
-        };
-      }
-
-      return reward;
-    });
+    state.list[action.payload._id] = {
+      ...state.list[action.payload._id],
+      ...action.payload,
+    };
   },
 
   [actions.deleteReward]: (state, action) => {
-    state.list = state.list.filter(reward => reward._id !== action.payload);
+    state.ids = state.ids.filter(reward => reward !== action.payload);
+    delete state.list[action.payload];
   },
 });
