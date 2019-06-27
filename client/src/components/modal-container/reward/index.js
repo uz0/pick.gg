@@ -18,27 +18,22 @@ const validationSchema = Yup.object().shape({
 });
 
 const Reward = props => {
-  const modalTitle = props.options.isEditing ? 'Edit reward' : 'Add new reward';
-  const { reward } = props.options;
+  const modalTitle = props.isEditing ? 'Edit reward' : 'Add new reward';
 
-  const deleteReward = async reward => {
-    const { _id } = reward;
-
-    console.log(reward, 'reward');
-
+  const deleteReward = async rewardId => {
     try {
-      await http(`/api/admin/reward/${_id}`, {
+      await http(`/api/admin/reward/${rewardId}`, {
         method: 'DELETE',
       });
 
       props.close();
 
-      props.deleteReward(_id);
+      props.deleteReward(rewardId);
 
       props.showNotification({
         type: 'success',
         shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.success.entity_is_deleted', { name: reward.description }),
+        message: i18n.t('notifications.success.entity_is_deleted', { name: rewardId }),
       });
     } catch (error) {
       console.log(error);
@@ -84,7 +79,7 @@ const Reward = props => {
         <Button
           text="Delete"
           appearance="_basic-danger"
-          onClick={() => deleteReward(reward)}
+          onClick={() => deleteReward(props.options.reward._id)}
         />
       </Form>
     </Modal>
@@ -105,8 +100,8 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: ({ options }) => {
-      const { key, isClaimed, description, image } = options.reward;
-      return { key, isClaimed, description, image };
+      const { _id, key, isClaimed, description, image } = options.reward;
+      return { _id, key, isClaimed, description, image };
     },
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
@@ -168,7 +163,7 @@ const enhance = compose(
           message: i18n.t('notifications.success.entity_is_created', { name: values.description }),
         });
 
-        formikBag.props.updateReward(request);
+        formikBag.props.createReward(request);
       }
     },
   }),
