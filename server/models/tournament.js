@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Match from './match'
 const Schema = mongoose.Schema;
 
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
@@ -27,11 +26,12 @@ const schema = new Schema({
 },
 {
   toObject: { virtuals: true },
+  toJSON: {virtuals: true}
 }
 );
 
 schema.virtual('matches', {
-  ref: 'MatchResult',
+  ref: 'Match',
   localField: '_id',
   foreignField: 'tournament_id'
 });
