@@ -1,0 +1,17 @@
+.wrapper {
+  display: block;
+  width: 100%;
+}
+
+.caption {
+  --height: 20px;
+  margin-top: 4px;
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
