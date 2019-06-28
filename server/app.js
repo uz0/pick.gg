@@ -9,13 +9,14 @@ import bodyParser from 'body-parser';
 
 import {
   UsersController,
-  AuthenticationController,
   TournamentController,
   SystemController,
   AdminController,
   StreamerController,
   RewardController,
 } from './controllers';
+
+import AuthenticationController from './controllers/authenticationController';
 
 import {
   PublicRulesController,
@@ -49,12 +50,12 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
+app.use('/authentication', AuthenticationController(app));
+
 app.use('/public/rules', PublicRulesController());
 app.use('/public/players', PublicPlayersController());
 app.use('/public/users', PublicUsersController());
 app.use('/public/tournaments', PublicTournamentsController());
-
-app.use('/api/authentication', AuthenticationController(app));
 
 app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());
