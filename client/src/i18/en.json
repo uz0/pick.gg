@@ -1,5 +1,10 @@
 {
   "translation": {
+    "player": "Player",
+    "kills": "Kills",
+    "deaths": "Deaths",
+    "assists": "Assists",
+    "number": "Number",
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
@@ -72,6 +77,7 @@
     "username": "Username",
     "userbox_role_streamer": "Streamer",
     "summonerName": "Summoner name (LoL)",
+    "suggest_yourself": "Suggest yourself",
     "users": "Users",
     "user_not_participated": "This user has not yet participated in tournaments",
     "withdraw": "Withdraw",

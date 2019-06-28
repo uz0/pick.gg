@@ -12,6 +12,7 @@ import Icon from 'components/icon';
 import TournamentMatches from 'components/tournament-matches';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
+import TournamentApplicants from 'components/tournament-applicants';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import { actions as modalActions } from 'components/modal-container';
 import style from './style.module.css';
@@ -29,6 +30,12 @@ class Tournament extends Component {
   };
 
   joinTournament = () => this.props.toggleModal({ id: 'join-tournament-players-modal' });
+
+  attendTournament = async () => {
+    const response = await http(`/api/tournaments/${this.props.match.params.id}/attend`, { method: 'PATCH' });
+    const tournament = await response.json();
+    this.props.updateTournament(tournament);
+  };
 
   componentWillMount() {
     if (!this.props.tournament) {
@@ -58,12 +65,21 @@ class Tournament extends Component {
               <p className={style.tournament_status}>tournament_started</p>
             </div>
 
-            <Button
-              text={i18n.t('join_tournament')}
-              appearance="_basic-accent"
-              className={style.button}
-              onClick={this.joinTournament}
-            />
+            <div className={style.actions}>
+              <Button
+                text={i18n.t('join_tournament')}
+                appearance="_basic-accent"
+                className={style.button}
+                onClick={this.joinTournament}
+              />
+
+              <Button
+                text={i18n.t('suggest_yourself')}
+                appearance="_basic-accent"
+                className={style.button}
+                onClick={this.attendTournament}
+              />
+            </div>
           </div>
 
           <h3 className={style.subtitle}>Information</h3>
@@ -87,9 +103,10 @@ class Tournament extends Component {
 
           {this.props.tournament && (
             <div className={style.widgets}>
-              <TournamentMatches id={this.props.match.params.id}/>
+              <TournamentApplicants id={this.props.match.params.id}/>
               <TournamentSummoners id={this.props.match.params.id}/>
               <TournamentViewers id={this.props.match.params.id}/>
+              <TournamentMatches id={this.props.match.params.id}/>
             </div>
           )}
         </div>
@@ -106,6 +123,7 @@ export default compose(
 
     {
       addTournament: tournamentsActions.addTournament,
+      updateTournament: tournamentsActions.updateTournament,
       toggleModal: modalActions.toggleModal,
     },
   ),

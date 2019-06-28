@@ -10,7 +10,7 @@ const initialState = {
 export default createReducer(initialState, {
   [actions.loadTournaments]: (state, action) => {
     action.payload.forEach(tournament => {
-      if (state.ids.indexOf(tournament._id) === -1) {
+      if (!state.ids.includes(tournament._id)) {
         state.ids.push(tournament._id);
         state.list[tournament._id] = tournament;
       }
@@ -20,9 +20,16 @@ export default createReducer(initialState, {
   },
 
   [actions.addTournament]: (state, action) => {
-    if (state.ids.indexOf(action.payload._id) === -1) {
+    if (!state.ids.includes(action.payload._id)) {
       state.ids.push(action.payload._id);
       state.list[action.payload._id] = action.payload;
     }
+  },
+
+  [actions.updateTournament]: (state, action) => {
+    state.list[action.payload._id] = {
+      ...state.list[action.payload._id],
+      ...action.payload,
+    };
   },
 });

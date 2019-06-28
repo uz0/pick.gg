@@ -38,7 +38,7 @@ export const handler = withValidationHandler(async (req, res) => {
 
     const modifiedTournament = await Tournament.findByIdAndUpdate(id, {
         $push: { applicants: userId }
-    });
+    }, {new: true});
 
     await modifiedTournament.save();
     
