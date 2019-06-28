@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import i18n from 'i18n';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 
 export default getCaptions => WrappedComponent => {
   class Wrapped extends Component {
     render() {
-      // IsMobile will be passed from store
-      const captions = getCaptions({ t: i18n.t.bind(this), isMobile: false });
+      const captions = getCaptions({ t: i18n.t.bind(this), isMobile: this.props.isMobile });
 
       return <WrappedComponent captions={captions} {...this.props}/>;
     }
   }
 
-  return Wrapped;
+  return compose(
+    connect(
+      state => ({
+        isMobile: state.device === 'touch',
+      }),
+    ),
+  )(Wrapped);
 };

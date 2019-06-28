@@ -11,8 +11,13 @@ const currentUserReducer = createReducer(null, {
   [actions.setCurrentUser]: (state, action) => action.payload,
 });
 
+const deviceReducer = createReducer(null, {
+  [actions.setDevice]: (state, action) => action.payload,
+});
+
 export default combineReducers({
   currentUser: currentUserReducer,
+  device: deviceReducer,
   notification: notificationReducers,
   modal: modalReducers,
   tournaments: tournamentsReducers,
