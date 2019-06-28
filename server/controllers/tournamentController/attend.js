@@ -1,4 +1,4 @@
-import { param, body } from 'express-validator/check';
+import { param, body, check } from 'express-validator/check';
 
 import Tournament from '../../models/tournament';
 import User from '../../models/user';
@@ -16,10 +16,9 @@ export const validator = [
                     !isReady || Promise.reject("Can't attend ready tournament")
             )
     ),
-    body('userId')
-        .isMongoId()
-        .custom(id => isEntityExists(id, User))
-        .custom(async (userId, { req }) => {
+    check('userId')
+        .custom(async (_, { req }) => {
+            const { _id: userId } = req.decoded;
             const { id } = req.params;
             const { applicants, summoners } = await Tournament.findById(id).exec();
 
@@ -35,7 +34,7 @@ export const validator = [
 
 export const handler = withValidationHandler(async (req, res) => {
     const { id } = req.params;
-    const { userId } = req.body;
+    const { _id: userId } = req.decoded;
 
     const modifiedTournament = await Tournament.findByIdAndUpdate(id, {
         $push: { applicants: userId }
