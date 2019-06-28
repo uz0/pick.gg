@@ -11,6 +11,7 @@ import style from './style.module.css';
 import { actions as notificationActions } from 'components/notification';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 
+import Select from 'components/form/select';
 import i18n from 'i18n';
 
 const validationSchema = Yup.object().shape({
@@ -51,6 +52,13 @@ const Reward = props => {
           component={FormInput}
           label="Key"
           name="key"
+          className={style.field}
+        />
+
+        <Field
+          component={Select}
+          label="User"
+          name="userId"
           className={style.field}
         />
 
@@ -100,12 +108,19 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: ({ options }) => {
-      const { _id, key, isClaimed, description, image } = options.reward;
-      return { _id, key, isClaimed, description, image };
+      const { _id, key, userId, isClaimed, description, image } = options.reward;
+      return { _id, key, userId, isClaimed, description, image };
     },
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
       const defaultState = formikBag.props.options.reward;
+
+      const normalizeUserField = (obj) => {
+        if(obj.hasOwnProperty('userId')){
+          obj.userId = obj.userId.value;
+        }
+        return obj;
+      }
 
       const editRewardRequest = async body => {
         try {
@@ -141,7 +156,7 @@ const enhance = compose(
 
       if (isEditing) {
         const changedFields = getChangedFormFields(defaultState, values);
-        const editRequest = await editRewardRequest(changedFields);
+        const editRequest = await editRewardRequest(normalizeUserField(changedFields));
 
         formikBag.props.close();
 
@@ -153,7 +168,7 @@ const enhance = compose(
 
         formikBag.props.updateReward(editRequest);
       } else {
-        const request = await createRewardRequest(values);
+        const request = await createRewardRequest(normalizeUserField(values));
 
         formikBag.props.close();
 
