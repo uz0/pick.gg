@@ -11,7 +11,7 @@ import style from './style.module.css';
 import { actions as notificationActions } from 'components/notification';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 
-import Select from 'components/form/select';
+import Select from 'components/form/user-select';
 import i18n from 'i18n';
 
 const validationSchema = Yup.object().shape({
