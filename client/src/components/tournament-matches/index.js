@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import i18n from 'i18n';
 import Table from 'components/table';
 import Icon from 'components/icon';
 import classnames from 'classnames/bind';
+import { withCaptions } from 'hoc';
 import { actions as modalActions } from 'components/modal-container';
 import style from './style.module.css';
 
-const tableCaptions = {
-  name: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 100 : 150,
+const tableCaptions = ({ t, isMobile }) => ({
+  number: {
+    text: t('name'),
+    width: isMobile ? 100 : 150,
   },
 
-  points: {
-    text: i18n.t('points'),
-    width: window.innerWidth < 480 ? 75 : 120,
+  name: {
+    text: t('points'),
+    width: isMobile ? 75 : 120,
   },
-};
+});
 
 const cx = classnames.bind(style);
 
@@ -27,9 +27,9 @@ class Matches extends Component {
 
   openEditMatch = () => this.props.toggleModal({ id: 'edit-match-modal' });
 
-  renderRow = ({ className, itemClass, textClass, item }) => {
-    const nameStyle = { '--width': tableCaptions.name.width };
-    const pointsStyle = { '--width': tableCaptions.points.width };
+  renderRow = ({ className, itemClass, textClass, item, captions }) => {
+    const nameStyle = { '--width': captions.name.width };
+    const pointsStyle = { '--width': captions.points.width };
 
     return (
       <div key={item} className={className}>
@@ -56,9 +56,6 @@ class Matches extends Component {
     );
   };
 
-  componentWillMount() {
-  }
-
   render() {
     return (
       <div className={style.matches}>
@@ -69,7 +66,6 @@ class Matches extends Component {
           captions={tableCaptions}
           items={this.props.tournament.matches}
           renderRow={this.renderRow}
-          isLoading={false}
           className={style.table}
           emptyMessage="There is no matches yet"
         />
@@ -79,6 +75,8 @@ class Matches extends Component {
 }
 
 export default compose(
+  withCaptions(tableCaptions),
+
   connect(
     (state, props) => ({
       tournament: state.tournaments.list[props.id],
