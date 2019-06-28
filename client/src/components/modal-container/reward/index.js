@@ -18,6 +18,15 @@ const validationSchema = Yup.object().shape({
   key: Yup.string().required('Key field is required!'),
 });
 
+const normalizeUserField = obj => {
+  if (obj.userId) {
+    return {
+      ...obj,
+      userId: obj.userId.value,
+    };
+  }
+};
+
 const Reward = props => {
   const modalTitle = props.isEditing ? 'Edit reward' : 'Add new reward';
 
@@ -114,13 +123,6 @@ const enhance = compose(
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
       const defaultState = formikBag.props.options.reward;
-
-      const normalizeUserField = (obj) => {
-        if(obj.hasOwnProperty('userId')){
-          obj.userId = obj.userId.value;
-        }
-        return obj;
-      }
 
       const editRewardRequest = async body => {
         try {
