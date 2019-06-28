@@ -17,6 +17,7 @@ const handler = withValidationHandler(async (req, res) => {
     const reward = await RewardModel.findOneAndUpdate({ _id: req.params.id },
       pick(req.body, [
         'key',
+        'userId',
         'isClaimed',
         'description',
         'image',

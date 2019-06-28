@@ -1,7 +1,13 @@
 import { createAction } from 'redux-starter-kit';
 
 const loadRewards = createAction('loadRewards');
+const updateReward = createAction('updateReward');
+const createReward = createAction('createReward');
+const deleteReward = createAction('deleteReward');
 
 export default {
   loadRewards,
+  updateReward,
+  createReward,
+  deleteReward,
 };
