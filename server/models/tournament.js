@@ -19,14 +19,21 @@ const schema = new Schema({
   }, 
   isReady: {type: Boolean, default: false},
   winner: refTo('User'),
-  creatorId: refTo('User'),
+  creator: refTo('User'),
   summoners: [refTo('User')],
   applicants: [refTo('User')], 
   viewers: [{ userId: String, summoners: [String] }], 
 },
 {
   toObject: { virtuals: true },
+  toJSON: {virtuals: true}
 }
 );
+
+schema.virtual('matches', {
+  ref: 'Match',
+  localField: '_id',
+  foreignField: 'tournament_id'
+});
 
 export default mongoose.model('Tournament', schema);

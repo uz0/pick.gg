@@ -9,15 +9,15 @@ import moment from 'moment';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 
-import get from './get';
-import detail from './detail';
+import get from './get'
 import {validator as validateCreate, handler as create} from './create'
+import {validator as validateAttend, handler as attend} from './attend'
+import {validator as validateById, handler as getById} from './getById';
 
 let router = express.Router();
 
 const TournamentController = io => {
   router.get('/', get);
-  router.get('/:id', detail);
 
   router.get('/real', async (req, res) => {
     const tournaments = await TournamentModel
@@ -85,6 +85,10 @@ const TournamentController = io => {
 
     res.json({ tournaments });
   });
+
+  router.get('/:id',validateById, getById);
+
+  router.patch('/:id/attend',validateAttend, attend)
 
   router.post('/', validateCreate, create);
 

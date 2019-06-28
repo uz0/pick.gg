@@ -21,7 +21,7 @@ const cx = classnames.bind(style);
 class Tournament extends Component {
   loadTournament = async () => {
     const response = await http(`/api/tournaments/${this.props.match.params.id}`);
-    const { tournament } = await response.json();
+    const tournament = await response.json();
 
     if (tournament) {
       this.props.addTournament(tournament);
