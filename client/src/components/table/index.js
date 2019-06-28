@@ -38,6 +38,7 @@ const Table = ({
       list.map((item, index) => renderRow({
         item,
         index,
+        captions,
         className: style.row,
         itemClass: style.item,
         textClass: style.text,
