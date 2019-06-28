@@ -157,29 +157,23 @@ const enhance = compose(
       if (isEditing) {
         const changedFields = getChangedFormFields(defaultState, values);
         const editRequest = await editRewardRequest(normalizeUserField(changedFields));
-
         formikBag.props.close();
-
         formikBag.props.showNotification({
           type: 'success',
           shouldBeAddedToSidebar: false,
           message: i18n.t('notifications.success.entity_is_edited', { name: values.description }),
         });
-
         formikBag.props.updateReward(editRequest);
-      } else {
-        const request = await createRewardRequest(normalizeUserField(values));
-
-        formikBag.props.close();
-
-        formikBag.props.showNotification({
-          type: 'success',
-          shouldBeAddedToSidebar: false,
-          message: i18n.t('notifications.success.entity_is_created', { name: values.description }),
-        });
-
-        formikBag.props.createReward(request);
       }
+
+      const request = await createRewardRequest(normalizeUserField(values));
+      formikBag.props.close();
+      formikBag.props.showNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('notifications.success.entity_is_created', { name: values.description }),
+      });
+      formikBag.props.createReward(request);
     },
   }),
 );
