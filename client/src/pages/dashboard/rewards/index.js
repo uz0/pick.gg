@@ -44,7 +44,7 @@ class Rewards extends Component {
           <Button
             text="Создать награду"
             appearance="_basic-accent"
-            onClick={this.openRewardModal}
+            onClick={() => this.openRewardModal()}
           />
         </div>
         <div className={style.rewards}>
@@ -66,7 +66,7 @@ class Rewards extends Component {
           })}
         </div>
         {this.state.isLoading &&
-          <Preloader/>
+          <Preloader />
         }
       </>
     );
