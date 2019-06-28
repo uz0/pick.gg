@@ -7,6 +7,7 @@ import Preloader from 'components/preloader';
 import { http } from 'helpers';
 import modalActions from 'components/modal-container/actions';
 import actions from './actions';
+import i18n from 'i18n';
 
 import style from './style.module.css';
 
@@ -42,7 +43,7 @@ class Rewards extends Component {
       <>
         <div className={style.controls}>
           <Button
-            text="Создать награду"
+            text={i18n.t('create_reward')}
             appearance="_basic-accent"
             onClick={() => this.openRewardModal()}
           />
@@ -66,7 +67,7 @@ class Rewards extends Component {
           })}
         </div>
         {this.state.isLoading &&
-          <Preloader />
+          <Preloader/>
         }
       </>
     );
