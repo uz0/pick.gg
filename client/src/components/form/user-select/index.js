@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { http } from 'helpers';
+import debounce from 'lodash/debounce';
 
 import AsyncSelect from 'react-select/async';
 import classnames from 'classnames';
@@ -30,14 +31,18 @@ export default class Select extends Component {
     value: _id,
   }));
 
-  usersRequest = async inputValue => {
-    const usersRequest = await http(`/api/admin/user/name/${inputValue}`);
-    const { users } = await usersRequest.json();
+  getSuggestions = debounce(async inputValue => {
+    if (!inputValue) {
+      return;
+    }
+
+    const usersSuggestions = await http(`/api/admin/user/name/${inputValue}`);
+    const { users } = await usersSuggestions.json();
 
     return this.normalizeUsers(users);
-  };
+  }, 300);
 
-  handleChange = ({ label, value }) => {
+  debouncedOnChange = ({ label, value }) => {
     this.props.form.setFieldValue('userId', { label, value });
   };
 
@@ -49,8 +54,8 @@ export default class Select extends Component {
           {...this.props}
           {...this.props.field}
           defaultOptions
-          loadOptions={this.usersRequest}
-          onChange={this.handleChange}
+          loadOptions={this.getSuggestions}
+          onChange={this.debouncedOnChange}
           onInputChange={this.handleInputChange}
         />
       </div>
