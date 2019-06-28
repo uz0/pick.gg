@@ -67,7 +67,7 @@ class Matches extends Component {
         <Table
           noCaptions
           captions={tableCaptions}
-          items={this.props.tournament.matches_ids}
+          items={this.props.tournament.matches}
           renderRow={this.renderRow}
           isLoading={false}
           className={style.table}

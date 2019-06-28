@@ -23,13 +23,13 @@ class Applicants extends Component {
     const nameStyle = { '--width': tableCaptions.name.width };
 
     return (
-      <div key={item} className={className}>
+      <div key={item._id} className={className}>
         <div className={itemClass} style={numberStyle}>
           <span className={textClass}>{index + 1}</span>
         </div>
 
         <div className={itemClass} style={nameStyle}>
-          <span className={textClass}>Marquis de eLife</span>
+          <span className={textClass}>{item.username}</span>
         </div>
       </div>
     );
