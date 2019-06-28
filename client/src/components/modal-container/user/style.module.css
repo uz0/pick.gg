@@ -1,0 +1,27 @@
+.footer_button {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 0;
+}
+
+.field {
+  margin-top: 8px;
+}
+
+.footer_button .submit {
+  background-color: rgb(144, 212, 99);
+  color: #fff;
+  margin-left: 8px;
+  border-radius: 4px;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.footer_button .delete {
+  text-transform: uppercase;
+}
+
+.field>input[type="checkbox"]{
+  height: 20px;
+}

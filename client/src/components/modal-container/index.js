@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import NewTournament from './new-tournament';
 import ChoosePlayers from './choose-players';
 import AddMatch from './add-match';
+import UserModal from './user';
 import modalActions from './actions';
 
 const modals = {
   'new-tournament-modal': NewTournament,
   'choose-players-modal': ChoosePlayers,
   'add-match-modal': AddMatch,
+  'user-modal': UserModal,
 };
 
 class ModalContainer extends Component {
