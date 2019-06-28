@@ -11,7 +11,8 @@ import isEmpty from 'lodash/isEmpty';
 
 import get from './get'
 import {validator as validateCreate, handler as create} from './create'
-import {handler as getById, validator as validateById} from './getById';
+import {validator as validateAttend, handler as attend} from './attend'
+import {validator as validateById, handler as getById} from './getById';
 
 let router = express.Router();
 
@@ -86,6 +87,8 @@ const TournamentController = io => {
   });
 
   router.get('/:id',validateById, getById);
+
+  router.patch('/:id/attend',validateAttend, attend)
 
   router.post('/', validateCreate, create);
 
