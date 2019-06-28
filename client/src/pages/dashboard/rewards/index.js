@@ -52,7 +52,7 @@ class Rewards extends Component {
           {this.props.rewardsIds.map(id => {
             const reward = this.props.rewardsList[id];
 
-            const { _id, key, description, image, isClaimed } = reward;
+            const { _id, userId, key, description, image, isClaimed } = reward;
 
             return (
               <RewardCard
@@ -60,7 +60,7 @@ class Rewards extends Component {
                 rewardKey={key}
                 description={description}
                 isClaimed={isClaimed}
-                onClick={() => this.openRewardModal(true, { _id, key, description, image, isClaimed })}
+                onClick={() => this.openRewardModal(true, { _id, key, userId, description, image, isClaimed })}
               />
             );
           })}
