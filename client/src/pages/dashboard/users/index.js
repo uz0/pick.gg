@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import http from 'services/http-service';
 import NotificationService from 'services/notification-service';
-import AdminService from 'services/admin-service';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
@@ -32,7 +31,6 @@ class Users extends Component {
   constructor(props) {
     super(props);
     this.notificationService = new NotificationService();
-    this.adminService = new AdminService();
   }
 
   state = {
@@ -71,8 +69,6 @@ class Users extends Component {
       }),
     });
 
-    const { users } = await this.adminService.getAllUsers();
-
     this.setState({
       isLoading: false,
       users,
@@ -100,10 +96,8 @@ class Users extends Component {
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    const { users } = await this.adminService.getAllUsers();
 
     this.setState({
-      users,
       isLoading: false,
     });
   }
