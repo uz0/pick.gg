@@ -5,7 +5,6 @@ import Button from 'components/button';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
-import DialogWindow from 'components/dialog-window';
 import MatchModal from 'components/match-modal-tournament';
 import ChooseChampionModal from 'components/choose-champion';
 
@@ -758,16 +757,6 @@ class Tournament extends Component {
                 emptyMessage="There is no results yet"
               />
             </Modal>
-          )
-        }
-
-        {
-          this.state.isSignInDialogShown && (
-            <DialogWindow
-              text={i18n.t('unauthenticated_tournament_join')}
-              onClose={this.toggleSignInDialog}
-              onSubmit={this.redirectToLogin}
-            />
           )
         }
 
