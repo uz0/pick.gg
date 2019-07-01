@@ -10,7 +10,6 @@ import MatchModal from 'components/match-modal-tournament';
 import ChooseChampionModal from 'components/choose-champion';
 
 import i18n from 'i18n';
-import io from 'socket.io-client';
 import moment from 'moment';
 import uuid from 'uuid';
 import ym from 'react-yandex-metrika';
@@ -103,87 +102,12 @@ class Tournament extends Component {
   };
 
   async componentDidMount() {
-    let user = await this.userService.getMyProfile();
-
-    if (user.success === false) {
-      user = null;
-    }
-
-    this.setState({
-      currentUser: user && user.user,
-      username: user && user.user.username,
-    });
-
-    this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
-      if (this.state.currentUser.username !== user.username) {
-
-      }
-
-      this.loadTournamentData(false);
-    });
-
-    this.socket.on('fantasyTournamentStarted', () => {
-      this.loadTournamentData();
-    });
-
-    this.socket.on('fantasyTournamentFinalized', () => {
-      this.loadTournamentData();
-    });
-
     this.loadTournamentData();
   }
 
   componentWillUnmount() {
     this.socket.close();
   }
-
-  loadTournamentData = withPreloader => new Promise(async resolve => {
-    if (!this.state.isLoading && withPreloader !== false) {
-      this.setState({ isLoading: true });
-    }
-
-    this.tournamentId = this.props.match.params.id;
-
-    if (!this.tournamentId) {
-      return;
-    }
-
-    const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
-
-    if (!tournament) {
-      return;
-    }
-
-    const realTournament = tournament.tournament;
-    const { users } = tournament;
-    const currentUserParticipant = find(tournament.users, item => {
-      if (!this.state.currentUser) {
-        return;
-      }
-
-      return item.user._id === this.state.currentUser._id;
-    });
-    const { matches } = realTournament;
-
-    users && users.forEach(item => {
-      item.totalResults = this.getTotalUserScore(tournament, item.user._id);
-    });
-
-    currentUserParticipant && currentUserParticipant.players.forEach(item => {
-      item.championScore = this.getUserPlayerScore(tournament, item._id);
-    });
-
-    this.setState({
-      isLoading: false,
-      fantasyTournament: tournament,
-      isChooseChampionModalShown: false,
-      isMatchEditModalShown: false,
-      matches,
-      users,
-    });
-
-    resolve();
-  });
 
   startStreamerTournament = async () => {
     const { fantasyTournament } = this.state;

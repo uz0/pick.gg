@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 
-import TournamentService from '../../services/tournament-service';
-import UserService from '../../services/user-service';
-
-import io from 'socket.io-client';
-
 import { NavLink } from 'react-router-dom';
 
 import ProfileSidebar from '../../components/profile-sidebar';
@@ -32,19 +27,12 @@ const tournamentsTableCaptions = {
 };
 
 class User extends Component {
-  constructor() {
-    super();
-    this.socket = io();
-    this.userService = new UserService();
-    this.tournamentService = new TournamentService();
-    this.state = {
-      tournaments: [],
-      rewards: [],
-      userData: {},
-      loading: true,
-      zeroTournaments: true,
-    };
-  }
+  state = {
+    tournaments: [],
+    rewards: [],
+    userData: {},
+    loading: true,
+  };
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const entry = item.entry === 0 ? 'Free' : item.entry;
@@ -63,29 +51,6 @@ class User extends Component {
         </div>
       </NavLink>
     );
-  }
-
-  componentDidMount() {
-    this.loadData();
-  }
-
-  componentWillUnmount() {
-    this.socket.close();
-  }
-
-  loadData = async () => {
-    const userId = this.props.match.params.id;
-
-    const { tournaments } = await this.tournamentService.getUserTournamentsById(userId);
-    const { user } = await this.userService.getUserDataById(userId);
-    const { rewards } = user;
-    console.log(user);
-    this.setState({
-      tournaments,
-      rewards,
-      userData: user,
-      loading: false,
-    });
   }
 
   render() {

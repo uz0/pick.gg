@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import i18n from 'i18n';
 
-import io from 'socket.io-client';
-
 import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import Table from 'components/table';
 import Card from 'components/card-user';
-
-import UserService from 'services/user-service';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';
@@ -38,38 +34,10 @@ const ratingTableCaptions = {
 };
 
 class Rating extends Component {
-  constructor() {
-    super();
-    this.socket = io();
-    this.userService = new UserService();
-    this.state = {
-      playersList: [],
-      isLoading: true,
-    };
-  }
-
-  componentDidMount = async () => {
-    this.loadData();
-  }
-
-  componentWillUnmount = () => {
-    this.socket.close();
-  }
-
-  loadData = async () => {
-    // Const rating = await this.userService.getUserRewards();
-    const allUsers = await this.userService.getAllUsers();
-    const currentUser = await this.userService.getMyProfile();
-    allUsers.users.forEach((item, index) => {
-      item.place = index + 1;
-    });
-
-    this.setState({
-      currentUser,
-      playersList: allUsers.users,
-      isLoading: false,
-    });
-  }
+  state = {
+    playersList: [],
+    isLoading: true,
+  };
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const Avatar = () => item.photo ? <img src={item.photo} alt="userpic"/> : <AvatarPlaceholder/>;

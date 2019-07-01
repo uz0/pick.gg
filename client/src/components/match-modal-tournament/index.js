@@ -6,9 +6,6 @@ import Input from 'components/input';
 import Preloader from 'components/preloader';
 import Button from 'components/button';
 
-import StreamerService from 'services/streamer-service';
-import UserService from 'services/user-service';
-
 import moment from 'moment';
 import find from 'lodash/find';
 
@@ -17,12 +14,6 @@ import style from './style.module.css';
 import i18n from 'i18n';
 
 class MatchModal extends Component {
-  constructor() {
-    super();
-    this.streamerService = new StreamerService();
-    this.userService = new UserService();
-  }
-
   state = {
     match: {
       _id: '',
