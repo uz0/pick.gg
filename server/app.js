@@ -11,7 +11,6 @@ import {
   UsersController,
   TournamentController,
   AdminController,
-  StreamerController,
   RewardController,
 } from './controllers';
 
@@ -19,7 +18,6 @@ import AuthenticationController from './controllers/authenticationController';
 
 import {
   PublicUsersController,
-  PublicPlayersController,
   PublicTournamentsController,
 } from './controllers/public';
 
@@ -50,7 +48,6 @@ app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 app.use('/authentication', AuthenticationController(app));
 
-app.use('/public/players', PublicPlayersController());
 app.use('/public/users', PublicUsersController());
 app.use('/public/tournaments', PublicTournamentsController());
 
@@ -60,7 +57,6 @@ app.use('/api/tournaments', TournamentController(io));
 app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
-app.use('/api/streamer', StreamerVerifyMiddleware, StreamerController(io));
 
 // express will serve up index.html if it doesn't recognize the route
 app.get('/*', (req, res) => {
