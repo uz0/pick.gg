@@ -33,7 +33,7 @@ const schema = new Schema({
 schema.virtual('matches', {
   ref: 'Match',
   localField: '_id',
-  foreignField: 'tournament_id'
+  foreignField: 'tournamentId'
 });
 
 export default mongoose.model('Tournament', schema);
