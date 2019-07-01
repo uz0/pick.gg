@@ -5,7 +5,6 @@ import FantasyTournamentModel from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
 import MatchResultModel from '../models/match-result';
 import PlayerModel from '../models/player';
-import RuleModel from '../models/rule';
 import UserModel from '../models/user';
 
 import find from 'lodash/find';
@@ -16,7 +15,6 @@ const AdminController = io => {
   router.put('/tournaments/real/players', async (req, res) => {
     const { tournamentId, player } = req.body;
 
-    const rules = await RuleModel.find();
     const tournament = await TournamentModel.findByIdAndUpdate(tournamentId, {
       $push: {
         champions_ids: player
@@ -346,37 +344,8 @@ const AdminController = io => {
     });
   });
 
-  router.get('/rules', async (req, res) => {
-    const rules = await RuleModel.find();
-    res.json({ rules });
-  });
-
-  router.post('/rules', async (req, res) => {
-    const ruleData = req.body.rule;
-    const rule = await RuleModel.create(ruleData);
-
-    res.json({ rule });
-  });
-
-  router.put('/rules/:id', async (req, res) => {
-    const ruleId = req.params.id;
-    const ruleData = req.body.rule;
-
-    const rule = await RuleModel.findByIdAndUpdate(ruleId, ruleData);
-    res.json({ rule });
-  });
-
-  router.delete('/rules/:id', async (req, res) => {
-    const ruleId = req.params.id;
-    const rule = await RuleModel.findByIdAndRemove(ruleId);
-
-    res.json({ rule });
-  });
-
   router.post('/matches', async (req, res) => {
     const { tournamentId } = req.body;
-
-    const rules = await RuleModel.find();
 
     const tournament = await TournamentModel
       .findById(tournamentId)

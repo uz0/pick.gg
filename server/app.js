@@ -18,7 +18,6 @@ import {
 import AuthenticationController from './controllers/authenticationController';
 
 import {
-  PublicRulesController,
   PublicUsersController,
   PublicPlayersController,
   PublicTournamentsController,
@@ -51,7 +50,6 @@ app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 app.use('/authentication', AuthenticationController(app));
 
-app.use('/public/rules', PublicRulesController());
 app.use('/public/players', PublicPlayersController());
 app.use('/public/users', PublicUsersController());
 app.use('/public/tournaments', PublicTournamentsController());
