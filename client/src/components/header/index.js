@@ -65,54 +65,6 @@ class TopMenuComponent extends Component {
 
   componentDidMount = () => {
     this.updateProfile();
-
-    this.socket.on('fantasyTournamentCreated', ({ newTournamentPopulated }) => {
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        shouldBeAddedToSidebar: false,
-        link: `tournaments/${newTournamentPopulated._id}`,
-        message: `New fantasy tournament with name ${newTournamentPopulated.name} was created`,
-      });
-    });
-
-    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner }) => {
-      const currentUser = this.state.profile.user.username;
-
-      if (!participants.includes(currentUser)) {
-        return;
-      }
-
-      if (winner === currentUser) {
-        this.notificationService.showSingleNotification({
-          type: 'winning',
-          shouldBeAddedToSidebar: true,
-          link: `tournaments/${tournamentId}`,
-          message: i18n.t('fantasy_tournament_is_over_winner'),
-        });
-
-        return;
-      }
-
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        shouldBeAddedToSidebar: true,
-        link: `tournaments/${tournamentId}`,
-        message: i18n.t('fantasy_tournament_is_over'),
-      });
-    });
-
-    //   This.socket.on('matchUpdated', ({ updatedMatch }) => {
-    //     if (!this.state.profile) {
-    //       return;
-    //     }
-
-    //     this.notificationService.showSingleNotification({
-    //       type: 'match',
-    //       link: `/tournaments/${updatedMatch.tournament_id}`,
-    //       shouldBeAddedToSidebar: true,
-    //       message: i18n.t('match_status_changed'),
-    //     });
-    //   });
   }
 
   componentWillUnmount() {

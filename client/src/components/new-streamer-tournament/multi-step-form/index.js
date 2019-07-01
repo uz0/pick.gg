@@ -68,26 +68,7 @@ class MultiStepForm extends Component {
 
     const playersIds = players.map(player => player._id);
 
-    const payload = {
-      name,
-      playersIds,
-      matches: tournamentMatches,
-      thumbnail,
-      rulesValues,
-      userId,
-    };
-
-    const { fantasyTournament } = await this.streamerService.createTournament(payload);
-
-    this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: `Tournament with name ${fantasyTournament.name} has been created`,
-    });
-
     this.setState({ isLoading: false });
-
-    this.props.history.replace(`/tournaments/${fantasyTournament._id}`);
   }
 
   render() {

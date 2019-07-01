@@ -42,24 +42,6 @@ export default class AdminService extends BasicService {
     });
   }
 
-  deleteFantasyTournament = async tournamentId => {
-    await http(`/api/admin/tournaments/fantasy/${tournamentId}`, {
-      method: 'DELETE',
-    });
-  }
-
-  finalizeFantasyTournament = async tournamentId => {
-    const finalizeQuery = await http(`/api/admin/tournaments/fantasy/${tournamentId}/finalize`);
-    const finalizeResult = await finalizeQuery.json();
-    return finalizeResult;
-  }
-
-  finalizeAllFantasyTournaments = async () => {
-    const finalizeQuery = await http('/api/system/finalize');
-    const finalizeResult = await finalizeQuery.json();
-    return finalizeResult;
-  }
-
   createMatch = async tournamentId => {
     const matchQuery = await http('/api/admin/matches', {
       method: 'POST',
@@ -154,12 +136,6 @@ export default class AdminService extends BasicService {
     const tournamentQuery = await http(`/api/admin/tournaments/real/${tournamentId}`);
     const tournament = await tournamentQuery.json();
     return tournament;
-  }
-
-  getFantasyTournaments = async () => {
-    const tournamentsQuery = await http('/api/admin/tournaments/fantasy');
-    const tournaments = await tournamentsQuery.json();
-    return tournaments;
   }
 
   getAllChampions = async () => {

@@ -50,7 +50,6 @@ class Rating extends Component {
 
   componentDidMount = async () => {
     this.loadData();
-    this.socket.on('fantasyTournamentFinalized', () => this.loadData());
   }
 
   componentWillUnmount = () => {
