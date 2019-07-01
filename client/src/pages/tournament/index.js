@@ -115,8 +115,6 @@ class Tournament extends Component {
     if (fantasyTournament.users.length === 0) {
       return;
     }
-
-    await this.streamerService.startTournament(fantasyTournament._id);
   }
 
   finalizeStreamerTournament = async () => {
@@ -133,12 +131,6 @@ class Tournament extends Component {
 
     if (!isAllMatchesCompleted) {
       return;
-    }
-
-    try {
-      await this.streamerService.finalizeTournament(fantasyTournament._id);
-    } catch (error) {
-      console.log(error);
     }
   }
 
