@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import io from 'socket.io-client';
 import { GoogleLogout } from 'react-google-login';
 import config from 'config';
-
-import NotificationService from 'services/notification-service';
-import UserService from 'services/user-service';
-import StreamerService from 'services/streamer-service';
 
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';
@@ -19,23 +14,10 @@ import i18n from 'i18n';
 import ym from 'react-yandex-metrika';
 
 class TopMenuComponent extends Component {
-  constructor() {
-    super();
-
-    this.socket = io();
-    this.notificationService = new NotificationService();
-    this.userService = new UserService({
-      onUpdate: () => this.updateProfile(),
-    });
-    this.streamerService = new StreamerService({
-      onUpdate: () => this.updateProfile(),
-    });
-
-    this.state = {
-      profile: null,
-      isLoading: true,
-    };
-  }
+  state = {
+    profile: null,
+    isLoading: true,
+  };
 
   handleLogout = async () => {
     try {

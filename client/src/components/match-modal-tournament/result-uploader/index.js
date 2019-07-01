@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 import FileDrop from 'react-file-drop';
 import Button from 'components/button';
 
-import NotificationService from 'services/notification-service';
-
 import i18n from 'i18n';
 
 import style from './style.module.css';
 
 class ResultUploader extends Component {
-  constructor() {
-    super();
-    this.notificationService = new NotificationService();
-  }
-
   state = {
     fileName: '',
     file: {},
@@ -25,20 +18,10 @@ class ResultUploader extends Component {
     const file = files[0];
 
     if (files.length > 1) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        message: i18n.t('result_modal.error.multiple_files_upload'),
-      });
-
       return;
     }
 
     if (file.type !== 'text/html') {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        message: i18n.t('result_modal.error.format_error'),
-      });
-
       return;
     }
 
@@ -54,11 +37,6 @@ class ResultUploader extends Component {
     const file = this.results.files[0];
 
     if (this.results.files.length > 1) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        message: i18n.t('result_modal.error.multiple_files_upload'),
-      });
-
       return;
     }
 
@@ -70,11 +48,6 @@ class ResultUploader extends Component {
 
   addResultFile = () => {
     if (!this.state.fileName) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        message: i18n.t('result_modal.error.choose_file_first'),
-      });
-
       return;
     }
 

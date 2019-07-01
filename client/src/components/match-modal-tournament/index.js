@@ -6,7 +6,6 @@ import Input from 'components/input';
 import Preloader from 'components/preloader';
 import Button from 'components/button';
 
-import NotificationService from 'services/notification-service';
 import StreamerService from 'services/streamer-service';
 import UserService from 'services/user-service';
 
@@ -20,7 +19,6 @@ import i18n from 'i18n';
 class MatchModal extends Component {
   constructor() {
     super();
-    this.notificationService = new NotificationService();
     this.streamerService = new StreamerService();
     this.userService = new UserService();
   }
@@ -145,12 +143,6 @@ class MatchModal extends Component {
     });
 
     if (request.error) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t(request.error),
-      });
-
       this.setState({
         isLoading: false,
         resultsFile: {},
@@ -167,12 +159,6 @@ class MatchModal extends Component {
     if (result) {
       resultsWithChampions = this._mapResultsToChampions(result, this.props.matchChampions);
     }
-
-    this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: i18n.t('match_modal.notification.match_updated', { name: request.name }),
-    });
 
     this.props.onMatchUpdated();
 

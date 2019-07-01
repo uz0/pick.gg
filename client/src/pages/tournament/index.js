@@ -21,11 +21,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import every from 'lodash/every';
 import findIndex from 'lodash/findIndex';
 
-import UserService from 'services/user-service';
-import TournamentService from 'services/tournament-service';
-import NotificationService from 'services/notification-service';
-import StreamerService from 'services/streamer-service';
-
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import Avatar from 'assets/avatar-placeholder.svg';
 
@@ -95,15 +90,6 @@ const matchesTableCaptions = {
 };
 
 class Tournament extends Component {
-  constructor() {
-    super();
-    this.tournamentService = new TournamentService();
-    this.streamerService = new StreamerService();
-    this.notificationService = new NotificationService();
-    this.userService = new UserService();
-    this.socket = io();
-  }
-
   state = {
     fantasyTournament: null,
     matches: [],
@@ -130,11 +116,7 @@ class Tournament extends Component {
 
     this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
       if (this.state.currentUser.username !== user.username) {
-        this.notificationService.showSingleNotification({
-          type: 'match',
-          shouldBeAddedToSidebar: false,
-          message: `${user.username} has been registered to the tournament`,
-        });
+
       }
 
       this.loadTournamentData(false);
@@ -207,11 +189,6 @@ class Tournament extends Component {
     const { fantasyTournament } = this.state;
 
     if (fantasyTournament.users.length === 0) {
-      await this.notificationService.showSingleNotification({
-        type: 'error',
-        message: i18n.t('notifications.errors.start_without_participants'),
-      });
-
       return;
     }
 
@@ -223,32 +200,14 @@ class Tournament extends Component {
     const isAllMatchesCompleted = every(this.state.matches, { completed: true });
 
     if (fantasyTournament.users.length === 0) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.finalization.no_participatns'),
-      });
-
       return;
     }
 
     if (!fantasyTournament.started) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.errors.finalize_not_started_tournament'),
-      });
-
       return;
     }
 
     if (!isAllMatchesCompleted) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.finalization.uncompleted_matches'),
-      });
-
       return;
     }
 
@@ -422,12 +381,6 @@ class Tournament extends Component {
     await this.loadTournamentData();
 
     ym('reachGoal', 'user_joined_tournament');
-
-    this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: i18n.t('youve_been_registered_for_the_tournament'),
-    });
   };
 
   openMatchResults = (event, item) => {

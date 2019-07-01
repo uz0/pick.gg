@@ -5,7 +5,6 @@ import Input from 'components/input';
 import Preloader from 'components/preloader';
 
 import http from 'services/http-service';
-import NotificationService from 'services/notification-service';
 
 import moment from 'moment';
 import find from 'lodash/find';
@@ -13,11 +12,6 @@ import find from 'lodash/find';
 import style from './style.module.css';
 
 class MatchModal extends Component {
-  constructor() {
-    super();
-    this.notificationService = new NotificationService();
-  }
-
   state = {
     match: {
       _id: '',
@@ -116,11 +110,7 @@ class MatchModal extends Component {
 
     this.setState({
       isLoading: false,
-    }, () => this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: 'Match was successfully updated!',
-    }));
+    });
   }
 
   render() {

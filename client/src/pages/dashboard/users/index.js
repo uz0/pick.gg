@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import http from 'services/http-service';
-import NotificationService from 'services/notification-service';
 
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
@@ -28,11 +27,6 @@ const usersTableCaptions = {
 };
 
 class Users extends Component {
-  constructor(props) {
-    super(props);
-    this.notificationService = new NotificationService();
-  }
-
   state = {
     userEditingData: {
       username: '',
@@ -71,13 +65,7 @@ class Users extends Component {
 
     this.setState({
       isLoading: false,
-      users,
-    }, () => this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: i18n.t('user_updated'),
-    }),
-    );
+    });
   }
 
   resetUser = () => this.setState({

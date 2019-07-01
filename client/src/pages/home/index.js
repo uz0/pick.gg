@@ -12,8 +12,6 @@ import config from 'config';
 import NotificationContainer from 'components/old-notification/notification-container';
 import Footer from 'components/footer';
 
-import NotificationService from 'services/notification-service';
-
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
 import { http, isLogged } from 'helpers';
@@ -28,7 +26,6 @@ class Start extends Component {
   constructor(properties) {
     super(properties);
     this.tournamentId = new URLSearchParams(properties.location.search).get('tournamentId');
-    this.notificationService = new NotificationService();
   }
 
   onSuccessGoogleLogin = async data => {
