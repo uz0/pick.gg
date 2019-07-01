@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import http from 'helpers/http';
 import Table from 'components/table';
 
 import i18n from 'i18n';

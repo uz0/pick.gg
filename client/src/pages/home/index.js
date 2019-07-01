@@ -9,7 +9,6 @@ import ym from 'react-yandex-metrika';
 import i18n from 'i18next';
 import config from 'config';
 
-import NotificationContainer from 'components/old-notification/notification-container';
 import Footer from 'components/footer';
 
 import { actions as notificationActions } from 'components/notification';
@@ -87,8 +86,6 @@ class Start extends Component {
     return (
       <div className="container">
         <div className={style.login_page}>
-
-          <NotificationContainer/>
 
           <section className={style.login_section}>
             <div className={style.start_content}>

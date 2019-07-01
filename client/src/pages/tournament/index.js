@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
-import Modal from 'components/dashboard-modal';
-import MatchModal from 'components/match-modal-tournament';
-import ChooseChampionModal from 'components/choose-champion';
 
 import i18n from 'i18n';
 import moment from 'moment';
@@ -739,43 +736,6 @@ class Tournament extends Component {
           this.state.isLoading && (
             <Preloader
               isFullScreen
-            />
-          )}
-
-        {
-          this.state.isMatchInfoActive && (
-            <Modal
-              title={this.state.matchTitle}
-              close={this.closeMatchInfo}
-              wrapClassName={style.match_info_modal}
-            >
-              <Table
-                captions={matchInfoTableCaptions}
-                items={matchInfo}
-                renderRow={this.renderMatchInfoRow}
-                className={style.table}
-                emptyMessage="There is no results yet"
-              />
-            </Modal>
-          )
-        }
-
-        {
-          this.state.isChooseChampionModalShown && (
-            <ChooseChampionModal
-              champions={tournamentChampions}
-              action={this.addPlayers}
-              onClose={this.toggleChampionModal}
-            />
-          )}
-
-        {
-          this.state.isMatchEditModalShown && (
-            <MatchModal
-              matchId={this.state.editingMatchId}
-              closeMatchEditing={this.closeMatchEditing}
-              matchChampions={tournamentChampions}
-              onMatchUpdated={() => this.loadTournamentData(false)}
             />
           )}
       </div>

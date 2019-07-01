@@ -6,7 +6,6 @@ import config from 'config';
 
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';
-import NotificationBell from 'components/old-notification/notification-bell';
 
 import style from './style.module.css';
 
@@ -65,9 +64,6 @@ class TopMenuComponent extends Component {
 
           {profile && profile.user && (
             <>
-
-              <NotificationBell/>
-
               <DropDown
                 className={style.mobile_hidden}
                 placeholder={(
