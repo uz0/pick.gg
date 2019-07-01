@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import http from 'services/http-service';
-
 import Table from 'components/table';
 import Modal from 'components/dashboard-modal';
 import Input from 'components/input';
