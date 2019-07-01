@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import TournamentService from 'services/tournament-service';
-
 import Table from 'components/table';
 import Preloader from 'components/preloader';
 
@@ -28,23 +26,15 @@ const tournamentsTableCaptions = {
 };
 
 class App extends Component {
-  constructor() {
-    super();
-    this.tournamentService = new TournamentService();
-    this.state = {
-      tournaments: [],
-      isLoading: false,
-    };
-  }
+  state = {
+    tournaments: [],
+    isLoading: false,
+  };
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    const tournaments = await this.tournamentService.getMyTournaments();
 
-    this.setState({
-      tournaments: tournaments.tournaments,
-      isLoading: false,
-    });
+    this.setState({ isLoading: false });
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {

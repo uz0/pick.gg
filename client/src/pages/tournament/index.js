@@ -289,11 +289,6 @@ class Tournament extends Component {
   addPlayers = async ids => {
     this.setState({ isLoading: true });
 
-    const payload = {
-      players: ids,
-    };
-
-    await this.tournamentService.participateInTournament(this.tournamentId, payload);
     await this.loadTournamentData();
 
     ym('reachGoal', 'user_joined_tournament');
