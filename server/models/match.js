@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
 
 let schema = new Schema({
+  tournamentId: refTo('Tournament'),
   name: String,
-  tournamentId: String,
   playersResults: [{
     userId: refTo('User'),
     results: [{
