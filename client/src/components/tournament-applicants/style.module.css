@@ -1,12 +1,18 @@
 .applicants {}
 
-.applicants .subtitle {
-  --height: 28px;
-  flex-shrink: 0;
+.applicants .header {
+  --matches-header-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.applicants .header .subtitle {
+  flex-grow: 1;
   overflow: hidden;
+  min-width: 0;
   max-width: 100%;
-  height: var(--height);
-  line-height: var(--height);
+  height: var(--matches-header-height);
+  line-height: var(--matches-header-height);
   font-family: var(--font-family-title);
   color: var(--caption-color);
   font-size: 24px;
@@ -14,6 +20,31 @@
   text-overflow: ellipsis;
 }
 
-.applicants .subtitle + .table {
+.applicants .header .button {
+  flex-shrink: 0;
+  height: var(--matches-header-height);
+  margin-left: 10px;
+  line-height: var(--matches-header-height);
+  font-size: 15px;
+  color: var(--color);
+  font-weight: 600;
+  background-color: transparent;
+  transition-property: color;
+}
+
+.applicants .header .button:not(:hover) {
+  --color: var(--accent-color);
+}
+
+.applicants .header .button:hover {
+  --color: #e88c00;
+}
+
+.applicants .header + .table {
   margin-top: 16px;
+}
+
+.applicants .action {
+  --height: var(--row-height);
+  flex-shrink: 0;
 }

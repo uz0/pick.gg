@@ -19,9 +19,16 @@ export const isPropertyValueUnique = async (property, model) => {
 };
 
 export const isEntityExists = async (_id, model) => {
-  const entity = await model.findById(_id);
+  let isRequestSucces = false;
+
+  try {
+    const entity = await model.findById(_id);
+    isRequestSucces = true;
+  } catch(erorr){
+
+  }
   
-  if(!entity){
+  if(!isRequestSucces){
     throw new Error(`Entity with _id: ${_id} doesn't exist`);
   }
 

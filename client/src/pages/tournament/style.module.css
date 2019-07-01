@@ -192,3 +192,7 @@
   width: 100%;
   margin-top: 40px;
 }
+
+.tournament .inner_container .widgets > * {
+  min-width: 0;
+}

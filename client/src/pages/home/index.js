@@ -40,7 +40,10 @@ class Start extends Component {
       photo: profile.getImageUrl(),
     };
 
-    let response = await http('/api/authentication/oauth', {
+    let response = await http('/authentication/oauth', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
       method: 'POST',
       body: JSON.stringify(body),
     });

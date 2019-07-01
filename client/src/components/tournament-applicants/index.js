@@ -1,6 +1,7 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import Button from 'components/button';
 import Table from 'components/table';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
@@ -30,6 +31,9 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>{item.username}</span>
       </div>
+
+      <Button appearance="_icon-transparent" icon="plus" className={style.action} />
+      <Button appearance="_icon-transparent" icon="close" className={style.action} />
     </div>
   );
 };
@@ -39,7 +43,10 @@ const Applicants = ({
   captions,
 }) => (
   <div className={style.applicants}>
-    <h3 className={style.subtitle}>Applicants</h3>
+    <div className={style.header}>
+      <h3 className={style.subtitle}>Applicants</h3>
+      <button className={style.button}>Stop</button>
+    </div>
 
     <Table
       noCaptions

@@ -24,7 +24,6 @@ const cx = classnames.bind(style);
 
 class Matches extends Component {
   openMatchDetails = () => this.props.toggleModal({ id: 'match-results-modal' });
-
   openEditMatch = () => this.props.toggleModal({ id: 'edit-match-modal' });
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
@@ -59,7 +58,10 @@ class Matches extends Component {
   render() {
     return (
       <div className={style.matches}>
-        <h3 className={style.subtitle}>Matches</h3>
+        <div className={style.header}>
+          <h3 className={style.subtitle}>Matches</h3>
+          <button className={style.button}>Add</button>
+        </div>
 
         <Table
           noCaptions

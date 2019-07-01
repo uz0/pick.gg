@@ -6,17 +6,21 @@ import NewTournament from './new-tournament';
 import MatchResults from './match-results';
 import ChoosePlayers from './choose-players';
 import AddMatch from './add-match';
+import EditTournament from './edit-tournament';
 import JoinTournamentPlayers from './join-tournament-players';
 import EditMatch from './edit-match';
+import Reward from './reward';
 import modalActions from './actions';
 
 const modals = {
   'new-tournament-modal': NewTournament,
   'match-results-modal': MatchResults,
   'choose-players-modal': ChoosePlayers,
+  'reward-modal': Reward,
   'add-match-modal': AddMatch,
   'join-tournament-players-modal': JoinTournamentPlayers,
   'edit-match-modal': EditMatch,
+  'edit-tournament-modal': EditTournament,
 };
 
 class ModalContainer extends Component {

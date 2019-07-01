@@ -12,6 +12,7 @@
     "amount": "Сумма",
     "best_players": "Рейтинг лучших игроков",
     "create_new_tournament": "Создать турнир",
+    "create_reward": "Создать награду",
     "sync_data": "Синхронизация",
     "create": "Создать",
     "choose_champion": "Выбери пять чемпионов",
@@ -270,7 +271,11 @@
       "player": {
         "created": "Вы создали игрока с именем {{name}}"
       },
-  
+      "success": {
+        "entity_is_created": "Новый {{ name }} создан успешно",
+        "entity_is_edited": "{{ name }} отредактирован",
+        "entity_is_deleted": "{{ name }} удалён"
+      },
       "finalization": {
         "no_participatns": "Вы не можете завершить турнир без участников.",
         "uncompleted_matches": "Для финализации турнира, все матчи должны быть завершены."

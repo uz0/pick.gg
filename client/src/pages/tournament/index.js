@@ -29,6 +29,14 @@ class Tournament extends Component {
     }
   };
 
+  editTournament = () => this.props.toggleModal({
+    id: 'edit-tournament-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
   joinTournament = () => this.props.toggleModal({ id: 'join-tournament-players-modal' });
 
   attendTournament = async () => {
@@ -45,6 +53,8 @@ class Tournament extends Component {
 
   render() {
     const name = get(this.props, 'tournament.name');
+    const description = get(this.props, 'tournament.description');
+    const price = get(this.props, 'tournament.price');
     const date = moment(get(this.props, 'tournament.date', '')).format('MMM DD, h:mm');
 
     return (
@@ -67,6 +77,13 @@ class Tournament extends Component {
 
             <div className={style.actions}>
               <Button
+                text={i18n.t('edit')}
+                appearance="_basic-accent"
+                className={style.button}
+                onClick={this.editTournament}
+              />
+
+              <Button
                 text={i18n.t('join_tournament')}
                 appearance="_basic-accent"
                 className={style.button}
@@ -85,20 +102,19 @@ class Tournament extends Component {
           <h3 className={style.subtitle}>Information</h3>
 
           <div className={style.list}>
-            <div className={style.item}>
-              <label className={style.title}>Tournament</label>
-              <p className={style.value}>16 jun</p>
-            </div>
+            {description &&
+              <div className={style.item}>
+                <label className={style.title}>Description</label>
+                <p className={style.value}>{description}</p>
+              </div>
+            }
 
-            <div className={style.item}>
-              <label className={style.title}>Tournament</label>
-              <p className={style.value}>16 jun</p>
-            </div>
-
-            <div className={style.item}>
-              <label className={style.title}>Tournament</label>
-              <p className={style.value}>16 jun</p>
-            </div>
+            {price &&
+              <div className={style.item}>
+                <label className={style.title}>Price</label>
+                <p className={style.value}>{price} $</p>
+              </div>
+            }
           </div>
 
           {this.props.tournament && (

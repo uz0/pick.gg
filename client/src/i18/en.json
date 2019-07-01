@@ -15,6 +15,7 @@
     "amount": "Amount",
     "best_players": "Best Players rankings",
     "create_new_tournament": "Create a new tournament",
+    "create_reward": "Create reward",
     "sync_data": "Sync data",
     "create": "Create",
     "choose_champion": "Choose your 5 champions",
@@ -266,6 +267,11 @@
       "finalization": {
         "no_participatns": "You can\"t finalize tournaments without any participants.",
         "uncompleted_matches": "Finalization failed. All matches of the tournament must be completed."
+      },
+      "success": {
+        "entity_is_created": "New {{ name }} was created",
+        "entity_is_edited": "{{ name }} was edited",
+        "entity_is_deleted": "{{ name }} was deleted"
       },
       "errors": {
         "closed_window": "User closed login window",
