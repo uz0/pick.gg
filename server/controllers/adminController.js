@@ -1,10 +1,8 @@
 import express from 'express';
 
 import TournamentModel from '../models/tournament';
-import FantasyTournamentModel from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
 import MatchResultModel from '../models/match-result';
-import PlayerModel from '../models/player';
 import UserModel from '../models/user';
 
 import find from 'lodash/find';
@@ -153,7 +151,6 @@ const AdminController = io => {
   });
 
   router.get('/tournaments/fantasy', async (req, res) => {
-    const tournaments = await FantasyTournamentModel
       .find()
       .populate({
         path: 'creator',
@@ -178,7 +175,6 @@ const AdminController = io => {
       score: rule.score,
     }));
 
-    await FantasyTournamentModel.findByIdAndUpdate(tournamentId,
       {
         name: tournament.name,
         thumbnail: tournament.thumbnail,
@@ -198,7 +194,6 @@ const AdminController = io => {
   router.delete('/tournaments/fantasy/:id', async (req, res) => {
     const tournamentId = req.params.id;
 
-    await FantasyTournamentModel.deleteOne({ _id: tournamentId });
 
     res.json({
       success: "success"
@@ -208,7 +203,6 @@ const AdminController = io => {
   router.get('/tournaments/fantasy/:id/finalize', async (req, res) => {
     const tournamentId = req.params.id;
 
-    const fantasyTournament = await FantasyTournamentModel
       .findById(tournamentId)
       .populate({ path: 'users.players', select: '_id id name photo' })
       .populate({ path: 'users.user', select: '_id username' })
@@ -325,18 +319,10 @@ const AdminController = io => {
     const tournamentWinner = playersCountedResults.sort((next, prev) => prev.score - next.score)[0];
     const tournamentPrize = fantasyTournament.entry * fantasyTournament.users.length;
 
-    await FantasyTournamentModel.updateOne({ _id: tournamentId }, {
       winner: tournamentWinner.user._id,
     });
 
     const tournamentUserNames = fantasyTournament.users.map(item => item.user.username);
-
-    io.emit('fantasyTournamentFinalized', {
-      tournamentId,
-      participants: tournamentUserNames,
-      winner: tournamentWinner.user.username,
-      prize: tournamentPrize,
-    });
 
     res.json({
       message: "Finalization completed",
@@ -478,45 +464,6 @@ const AdminController = io => {
     const matchResult = await MatchResultModel.findOneAndUpdate({ match_id: matchId }, { playersResults: results });
 
     res.json({ matchResult });
-  });
-
-
-  router.get('/players', async (req, res) => {
-    const players = await PlayerModel.find();
-    res.json({ players });
-  });
-
-  router.post('/players', async (req, res) => {
-    const playerData = req.body.player;
-
-    const player = await PlayerModel.create(playerData);
-    res.json({ player });
-  });
-
-  router.get('/players/:id', async (req, res) => {
-    const playerId = req.params.id;
-    const player = await PlayerModel.findById(playerId);
-    res.json({ player });
-  });
-
-  router.put('/players/:id', async (req, res) => {
-    const playerId = req.params.id;
-    const playerData = req.body.player;
-
-    const player = await PlayerModel.findByIdAndUpdate(playerId, playerData);
-
-    res.json({ player });
-  });
-
-  router.delete('/players/:id', async (req, res) => {
-    const playerId = req.params.id;
-    const player = await PlayerModel.findByIdAndRemove(playerId);
-
-    await MatchResultModel.updateMany({'playersResults.playerId': playerId }, {
-      $pull: { playersResults: { playerId: playerId } }
-    });
-
-    res.json({ player });
   });
 
   router.get('/users', async (req, res) => {

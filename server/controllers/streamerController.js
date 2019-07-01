@@ -4,8 +4,6 @@ import multer from 'multer';
 import cheerio from 'cheerio';
 import fs from 'fs';
 
-import PlayerModel from '../models/player';
-
 import TournamentModel from '../models/tournament';
 import FantasyTournament from '../models/fantasy-tournament';
 import MatchModel from '../models/match';
@@ -26,71 +24,6 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
 const StreamerController = (io) => {
-  router.get('/', async (req, res) => {
-    let players = await PlayerModel.find();
-    res.json({ players });
-  });
-
-  router.post('/players', async (req, res) => {
-    const { name, photo, position } = req.body;
-
-    const isPlayerExist = await PlayerModel.findOne({ name });
-
-    if (name.length > 20) {
-      res.status(400).send({
-        error: 'Name can not contain more than 20 characters',
-        type: 'name',
-      });
-
-      return;
-    }
-
-    if (!position) {
-      res.status(400).send({
-        error: 'serverErrors.position_is_empty',
-        type: 'position',
-      });
-
-      return;
-    }
-
-    if (isPlayerExist) {
-      res.status(400).send({
-        error: 'serverErrors.champion_already_exist',
-        type: 'name',
-        name,
-      });
-
-      return;
-    }
-
-    // let summonerRequest = await riotFetch(`lol/summoner/v4/summoners/by-name/${name}`);
-    // summonerRequest = await summonerRequest.json();
-
-    // if(summonerRequest.status && summonerRequest.status.status_code === 404){
-    //   res.status(404).send({ name });
-
-    //   return;
-    // }
-
-    await PlayerModel.create({
-      name,
-      photo,
-      position,
-    });
-
-    res.send({
-      name,
-      photo,
-      position,
-    });
-  });
-
-  router.get('/players', async (req, res) => {
-    const players = await PlayerModel.find();
-    res.json({ players });
-  });
-
   router.get('/matches/last/:id', async (req, res) => {
     const accountId = req.params.id;
     const MATCHES_NUMBER = 5;
