@@ -5,7 +5,6 @@ import io from 'socket.io-client';
 import { GoogleLogout } from 'react-google-login';
 import config from 'config';
 
-import AuthService from 'services/auth-service';
 import NotificationService from 'services/notification-service';
 import UserService from 'services/user-service';
 import StreamerService from 'services/streamer-service';
@@ -24,7 +23,6 @@ class TopMenuComponent extends Component {
     super();
 
     this.socket = io();
-    this.authService = new AuthService();
     this.notificationService = new NotificationService();
     this.userService = new UserService({
       onUpdate: () => this.updateProfile(),
@@ -41,7 +39,6 @@ class TopMenuComponent extends Component {
 
   handleLogout = async () => {
     try {
-      await this.authService.logout();
       this.props.history.push('/');
 
       ym('reachGoal', 'user_logged_out');
@@ -51,14 +48,7 @@ class TopMenuComponent extends Component {
   }
 
   updateProfile = async () => {
-    let profile = await this.userService.getMyProfile();
-
-    if (profile.success === false) {
-      profile = null;
-    }
-
     this.setState({
-      profile,
       isLoading: false,
     });
   }
