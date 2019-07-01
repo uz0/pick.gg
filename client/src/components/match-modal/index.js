@@ -6,7 +6,6 @@ import Preloader from 'components/preloader';
 
 import http from 'services/http-service';
 import NotificationService from 'services/notification-service';
-import AdminService from 'services/admin-service';
 
 import moment from 'moment';
 import find from 'lodash/find';
@@ -17,7 +16,6 @@ class MatchModal extends Component {
   constructor() {
     super();
     this.notificationService = new NotificationService();
-    this.adminService = new AdminService();
   }
 
   state = {
@@ -115,14 +113,6 @@ class MatchModal extends Component {
 
     const [hours, minutes] = match.startTime.split(':');
     const matchDate = moment(match.startDate).hours(hours).minutes(minutes);
-
-    await this.adminService.updateMatch({
-      name: match.name,
-      matchId: match._id,
-      startDate: matchDate,
-      completed: match.completed,
-      results,
-    });
 
     this.setState({
       isLoading: false,
