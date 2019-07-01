@@ -3,7 +3,7 @@ import defaults from 'lodash/defaults';
 import { check } from 'express-validator/check';
 import { withValidationHandler } from '../../helpers';
 import { isPropertyValueUnique } from '../../validators';
-import { regions } from '../../../../common/constants';
+import { REGIONS } from '../../../../common/constants';
 
 import UserModel from '../../../models/user';
 
@@ -29,7 +29,7 @@ const validator = [
     check('summonerName')
     .custom(value => isPropertyValueUnique({ summonerName: value }, UserModel)),
   check('regionId')
-    .isIn(regions)
+    .isIn(REGIONS)
     .withMessage("Invalid region"),
   check('role')
     .isIn(['user', 'admin', 'streamer'])

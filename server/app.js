@@ -10,7 +10,6 @@ import bodyParser from 'body-parser';
 import {
   UsersController,
   TournamentController,
-  SystemController,
   AdminController,
   StreamerController,
   RewardController,
@@ -60,7 +59,6 @@ app.use('/public/tournaments', PublicTournamentsController());
 app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());
 app.use('/api/tournaments', TournamentController(io));
-app.use('/api/system', SystemController());
 app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));

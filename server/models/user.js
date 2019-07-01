@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { regions } from '../../common/constants';
+import { REGIONS } from '../../common/constants';
 const Schema = mongoose.Schema;
 
 export default mongoose.model('User', new Schema({
@@ -17,7 +17,7 @@ export default mongoose.model('User', new Schema({
   canProvideTournaments: { type: Boolean, default: false },
   twitchAccount: { type: String, default: '' },
   summonerName: { type: String, default: '' },
-  regionId: { type: String, enum: [...regions] },
+  regionId: { type: String, enum: [...REGIONS] },
   preferredPosition: { type: String, enum: ['adc', 'mid', 'top', 'jungle', 'support'] },
 },
   {
