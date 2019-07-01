@@ -21,7 +21,7 @@ import {
   PublicTournamentsController,
 } from './controllers/public';
 
-import { AuthVerifyMiddleware, AdminVerifyMiddleware, StreamerVerifyMiddleware } from './middlewares';
+import { AuthVerifyMiddleware, AdminVerifyMiddleware } from './middlewares';
 import config from './config';
 
 const app = express();
