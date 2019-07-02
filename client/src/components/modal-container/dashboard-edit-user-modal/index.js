@@ -5,12 +5,21 @@ import { compose } from 'recompose';
 import Modal from 'components/modal';
 import { Form, withFormik, Field } from 'formik';
 import { FormInput } from 'components/form/input';
+import Select from 'components/form/user-select';
 import Button from 'components/button';
 import * as Yup from 'yup';
 import style from './style.module.css';
 import notificationActions from 'components/notification/actions';
 import actions from 'pages/dashboard/users/actions';
 import i18n from 'i18n';
+
+const POSITIONS = [
+  { value: 'adc', label: 'ADC'},
+  { value: 'mid', label: 'Mid'},
+  { value: 'top', label: 'Top'},
+  { value: 'jungle', label: 'Jungle'},
+  { value: 'support', label: 'Support'}
+];
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -62,11 +71,28 @@ const User = props => {
         />
 
         <Field
-          component={FormInput}
-          label={i18n.t('role')}
-          name="role"
+          component={Select}
+          label={i18n.t('Position')}
+          name="preferredPosition"
           className={style.field}
         />
+        <div className={style.wrap_checkbox}>
+          <Field
+            component={FormInput}
+            label={i18n.t('Admin')}
+            type="checkbox"
+            name="isAdmin"
+            className={style.field}
+          />
+          <Field
+            component={FormInput}
+            label={i18n.t('canProvideTournaments')}
+            type="checkbox"
+            name="canProvideTournaments"
+            className={style.field}
+          />
+        </div>
+
 
         <div className={style.footer_button}>
           <Button
@@ -75,12 +101,11 @@ const User = props => {
             className={style.delete}
             onClick={() => deleteUser(props.options.user._id)}
           />
-          <Button
-            text={i18n.t('button.submit')}
-            appearance="_basic-accent"
+          <button
             type="submit"
             className={style.submit}
-          />
+          >{i18n.t('button.submit')}
+          </button>
         </div>
       </Form>
     </Modal>
@@ -99,10 +124,11 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: ({ options }) => {
-      const { _id, username, summonerName, role } = options.user;
-      return { _id, username, summonerName, role };
+      const { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin } = options.user;
+      return { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin };
     },
     handleSubmit: async (values, formikBag) => {
+
       const { isEditing } = formikBag.props.options;
       const defaultState = formikBag.props.options.user;
 

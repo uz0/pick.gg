@@ -18,10 +18,8 @@
   font-weight: bold;
 }
 
-.footer_button .delete {
-  text-transform: uppercase;
+.field>input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
 }
 
-.field>input[type="checkbox"]{
-  height: 20px;
-}
