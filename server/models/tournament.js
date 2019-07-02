@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
@@ -33,7 +33,7 @@ const schema = new Schema({
 schema.virtual('matches', {
   ref: 'Match',
   localField: '_id',
-  foreignField: 'tournament_id'
+  foreignField: 'tournamentId'
 });
 
 export default mongoose.model('Tournament', schema);

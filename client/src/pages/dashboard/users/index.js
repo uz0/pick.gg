@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 
-import http from 'services/http-service';
-import NotificationService from 'services/notification-service';
-import AdminService from 'services/admin-service';
-
+import http from 'helpers/http';
 import Table from 'components/table';
-import Modal from 'components/dashboard-modal';
-import Input from 'components/input';
-import Preloader from 'components/preloader';
 
 import i18n from 'i18n';
 
@@ -29,12 +23,6 @@ const usersTableCaptions = {
 };
 
 class Users extends Component {
-  constructor(props) {
-    super(props);
-    this.notificationService = new NotificationService();
-    this.adminService = new AdminService();
-  }
-
   state = {
     userEditingData: {
       username: '',
@@ -71,17 +59,9 @@ class Users extends Component {
       }),
     });
 
-    const { users } = await this.adminService.getAllUsers();
-
     this.setState({
       isLoading: false,
-      users,
-    }, () => this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: i18n.t('user_updated'),
-    }),
-    );
+    });
   }
 
   resetUser = () => this.setState({
@@ -100,10 +80,8 @@ class Users extends Component {
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    const { users } = await this.adminService.getAllUsers();
 
     this.setState({
-      users,
       isLoading: false,
     });
   }

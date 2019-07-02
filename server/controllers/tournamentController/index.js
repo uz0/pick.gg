@@ -1,13 +1,9 @@
 import express from 'express';
 
 import TournamentModel from '../../models/tournament';
-import FantasyTournament from '../../models/fantasy-tournament';
 import UserModel from '../../models/user';
 
 import moment from 'moment';
-
-import find from 'lodash/find';
-import isEmpty from 'lodash/isEmpty';
 
 import get from './get'
 import {validator as validateCreate, handler as create} from './create'
@@ -31,36 +27,6 @@ const TournamentController = io => {
       tournaments,
     });
   })
-
-  router.get('/fantasy', async (req, res) => {
-    const tournaments = await FantasyTournament.find({})
-      .populate('tournament', 'name date')
-      .populate({ path: 'users.players', select: 'id name' })
-      .populate({ path: 'users.user', select: '_id username' })
-      .sort({date: -1})
-
-    res.send({
-      tournaments,
-    })
-
-  })
-
-  router.get('/my', async (req, res) => {
-    if(isEmpty(req.decoded)){
-      res.send({
-        tournaments: null,
-      })
-
-      return;
-    }
-
-    const id = req.decoded._id;
-    const tournaments = await FantasyTournament
-      .find({'users.user': id}, '-users.players -rules')
-      .populate('tournament', 'name date')
-
-    res.json({ tournaments });
-  });
 
   router.get('/user/:id', async (req, res) => {
     const id = req.params.id;
@@ -91,62 +57,6 @@ const TournamentController = io => {
   router.patch('/:id/attend',validateAttend, attend)
 
   router.post('/', validateCreate, create);
-
-  router.post('/:id/setup', async (req, res) => {
-    const id = req.params.id;
-    const players = req.body.players;
-    const userId = req.decoded._id;
-
-    const tournament = await FantasyTournament.findOne({ _id: id });
-    const user = await UserModel.findOne({ _id: userId });
-
-    if (tournament.started) {
-      res.json({
-        success: false,
-        message: 'The tournament is already started',
-      });
-
-      return;
-    }
-
-    if (moment(tournament.date).isAfter(moment())) {
-      res.json({
-        success: false,
-        message: 'The tournament is already underway or has been completed',
-      });
-
-      return;
-    }
-
-    let tournamentUsers = tournament.users;
-
-    if (find(tournamentUsers, user => `${user.user}` === userId)) {
-      res.json({
-        success: false,
-        message: "You're already taking part in this championship",
-      });
-
-      return;
-    }
-
-    tournamentUsers.push({
-      userId,
-      players,
-      user: userId,
-    });
-
-    const newTournament = await FantasyTournament
-      .findOneAndUpdate({ _id: id }, { users: tournamentUsers }, { new: true })
-      .populate({ path: 'users.user', select: '_id username' })
-      .populate({ path: 'users.players' })
-
-    io.emit('tournamentParticipantsUpdate', { user });
-
-    res.json({
-      success: true,
-      tournament: newTournament,
-    });
-  });
 
   return router;
 }

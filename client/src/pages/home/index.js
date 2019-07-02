@@ -9,10 +9,7 @@ import ym from 'react-yandex-metrika';
 import i18n from 'i18next';
 import config from 'config';
 
-import NotificationContainer from 'components/old-notification/notification-container';
 import Footer from 'components/footer';
-
-import NotificationService from 'services/notification-service';
 
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
@@ -28,7 +25,6 @@ class Start extends Component {
   constructor(properties) {
     super(properties);
     this.tournamentId = new URLSearchParams(properties.location.search).get('tournamentId');
-    this.notificationService = new NotificationService();
   }
 
   onSuccessGoogleLogin = async data => {
@@ -90,8 +86,6 @@ class Start extends Component {
     return (
       <div className="container">
         <div className={style.login_page}>
-
-          <NotificationContainer/>
 
           <section className={style.login_section}>
             <div className={style.start_content}>

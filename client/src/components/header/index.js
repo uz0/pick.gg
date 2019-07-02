@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import io from 'socket.io-client';
 import { GoogleLogout } from 'react-google-login';
 import config from 'config';
 
-import AuthService from 'services/auth-service';
-import NotificationService from 'services/notification-service';
-import UserService from 'services/user-service';
-import StreamerService from 'services/streamer-service';
-
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';
-import NotificationBell from 'components/old-notification/notification-bell';
 
 import style from './style.module.css';
 
@@ -20,28 +13,13 @@ import i18n from 'i18n';
 import ym from 'react-yandex-metrika';
 
 class TopMenuComponent extends Component {
-  constructor() {
-    super();
-
-    this.socket = io();
-    this.authService = new AuthService();
-    this.notificationService = new NotificationService();
-    this.userService = new UserService({
-      onUpdate: () => this.updateProfile(),
-    });
-    this.streamerService = new StreamerService({
-      onUpdate: () => this.updateProfile(),
-    });
-
-    this.state = {
-      profile: null,
-      isLoading: true,
-    };
-  }
+  state = {
+    profile: null,
+    isLoading: true,
+  };
 
   handleLogout = async () => {
     try {
-      await this.authService.logout();
       this.props.history.push('/');
 
       ym('reachGoal', 'user_logged_out');
@@ -51,68 +29,13 @@ class TopMenuComponent extends Component {
   }
 
   updateProfile = async () => {
-    let profile = await this.userService.getMyProfile();
-
-    if (profile.success === false) {
-      profile = null;
-    }
-
     this.setState({
-      profile,
       isLoading: false,
     });
   }
 
   componentDidMount = () => {
     this.updateProfile();
-
-    this.socket.on('fantasyTournamentCreated', ({ newTournamentPopulated }) => {
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        shouldBeAddedToSidebar: false,
-        link: `tournaments/${newTournamentPopulated._id}`,
-        message: `New fantasy tournament with name ${newTournamentPopulated.name} was created`,
-      });
-    });
-
-    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner }) => {
-      const currentUser = this.state.profile.user.username;
-
-      if (!participants.includes(currentUser)) {
-        return;
-      }
-
-      if (winner === currentUser) {
-        this.notificationService.showSingleNotification({
-          type: 'winning',
-          shouldBeAddedToSidebar: true,
-          link: `tournaments/${tournamentId}`,
-          message: i18n.t('fantasy_tournament_is_over_winner'),
-        });
-
-        return;
-      }
-
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        shouldBeAddedToSidebar: true,
-        link: `tournaments/${tournamentId}`,
-        message: i18n.t('fantasy_tournament_is_over'),
-      });
-    });
-
-    //   This.socket.on('matchUpdated', ({ updatedMatch }) => {
-    //     if (!this.state.profile) {
-    //       return;
-    //     }
-
-    //     this.notificationService.showSingleNotification({
-    //       type: 'match',
-    //       link: `/tournaments/${updatedMatch.tournament_id}`,
-    //       shouldBeAddedToSidebar: true,
-    //       message: i18n.t('match_status_changed'),
-    //     });
-    //   });
   }
 
   componentWillUnmount() {
@@ -141,9 +64,6 @@ class TopMenuComponent extends Component {
 
           {profile && profile.user && (
             <>
-
-              <NotificationBell/>
-
               <DropDown
                 className={style.mobile_hidden}
                 placeholder={(
