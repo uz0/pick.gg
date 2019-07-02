@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
+const refTo = schemaName => ({
+  type: Schema.Types.ObjectId,
+  ref: schemaName,
+  default: null
+});
 
 export default mongoose.model('Reward', new Schema({
   userId: refTo('User'),

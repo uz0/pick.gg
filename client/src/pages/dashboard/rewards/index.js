@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import RewardCard from 'components/reward-card';
+import Button from 'components/button';
+import Preloader from 'components/preloader';
 import { http } from 'helpers';
-import { actions as modalActions } from 'components/modal-container';
+import modalActions from 'components/modal-container/actions';
 import actions from './actions';
+import i18n from 'i18n';
 
 import style from './style.module.css';
 
@@ -13,13 +16,11 @@ class Rewards extends Component {
     isLoading: false,
   };
 
-  openRewardModal = () => (isEditing, reward) => this.props.toggleModal({
+  openRewardModal = (isEditing = false, reward = {}) => this.props.toggleModal({
     id: 'reward-modal',
     options: {
       isEditing,
-      reward: {
-        ...reward,
-      },
+      reward,
     },
   });
 
@@ -39,17 +40,36 @@ class Rewards extends Component {
 
   render() {
     return (
-      <div className={style.rewards}>
-        {this.props.rewardsList.map(({ _id, key, description, isClaimed }) => (
-          <RewardCard
-            key={_id}
-            rewardKey={key}
-            description={description}
-            isClaimed={isClaimed}
-            onClick={this.openRewardModal(true, { _id, key, description, isClaimed })}
+      <>
+        <div className={style.controls}>
+          <Button
+            text={i18n.t('create_reward')}
+            appearance="_basic-accent"
+            onClick={() => this.openRewardModal()}
           />
-        ))}
-      </div>
+        </div>
+        <div className={style.rewards}>
+
+          {this.props.rewardsIds.map(id => {
+            const reward = this.props.rewardsList[id];
+
+            const { _id, userId, key, description, image, isClaimed } = reward;
+
+            return (
+              <RewardCard
+                key={_id}
+                rewardKey={key}
+                description={description}
+                isClaimed={isClaimed}
+                onClick={() => this.openRewardModal(true, { _id, key, userId, description, image, isClaimed })}
+              />
+            );
+          })}
+        </div>
+        {this.state.isLoading &&
+          <Preloader/>
+        }
+      </>
     );
   }
 }

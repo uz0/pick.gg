@@ -9,22 +9,19 @@ import bodyParser from 'body-parser';
 
 import {
   UsersController,
-  AuthenticationController,
   TournamentController,
-  SystemController,
   AdminController,
-  StreamerController,
   RewardController,
 } from './controllers';
 
+import AuthenticationController from './controllers/authenticationController';
+
 import {
-  PublicRulesController,
   PublicUsersController,
-  PublicPlayersController,
   PublicTournamentsController,
 } from './controllers/public';
 
-import { AuthVerifyMiddleware, AdminVerifyMiddleware, StreamerVerifyMiddleware } from './middlewares';
+import { AuthVerifyMiddleware, AdminVerifyMiddleware } from './middlewares';
 import config from './config';
 
 const app = express();
@@ -49,21 +46,17 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
-app.use('/public/rules', PublicRulesController());
-app.use('/public/players', PublicPlayersController());
+app.use('/authentication', AuthenticationController(app));
+
 app.use('/public/users', PublicUsersController());
 app.use('/public/tournaments', PublicTournamentsController());
-
-app.use('/api/authentication', AuthenticationController(app));
 
 app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());
 app.use('/api/tournaments', TournamentController(io));
-app.use('/api/system', SystemController());
 app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
-app.use('/api/streamer', StreamerVerifyMiddleware, StreamerController(io));
 
 // express will serve up index.html if it doesn't recognize the route
 app.get('/*', (req, res) => {

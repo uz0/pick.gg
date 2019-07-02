@@ -1,5 +1,5 @@
 export default (initialFields, newFields) => {
-  const changedFields = {};
+  let changedFields = {};
 
   for (const field in initialFields) {
     if (field === '_id') {
