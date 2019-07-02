@@ -1,9 +1,9 @@
+import { param } from 'express-validator/check';
+
 import UserModel from '../../models/user';
 
 import { withValidationHandler } from '../helpers';
-import { param } from 'express-validator/check';
 import { isEntityExists } from '../validators';
-
 
 const validator = [
   param('id')

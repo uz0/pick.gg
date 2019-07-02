@@ -45,3 +45,11 @@ export const isRequestHasCorrectFields = (requestFields, model) => {
 
   return true;
 }
+
+export const isUserHasToken = (value, req) => {
+  if(req.decoded){
+    return true;
+  }
+
+  throw new Error(`You are not authorized`);
+}

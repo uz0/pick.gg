@@ -1,31 +1,23 @@
-import UserModel from '../../models/user';
-
+import { body } from 'express-validator/check';
 import pick from 'lodash/pick';
 
-import { body } from 'express-validator/check';
-import { isRequestHasCorrectFields, isEntityExists } from '../validators';
+import UserModel from '../../models/user';
+
+import { isRequestHasCorrectFields, isUserHasToken } from '../validators';
 
 import { withValidationHandler } from '../helpers';
 
-const isUserCanEditProfile = (value, req) => {
-  if(req.decoded){
-    return true;
-  }
-
-  throw new Error(`You are not authorized`);
-}
-
 const validator = [
   body()
-    .custom((value, { req }) => isUserCanEditProfile(value, req))
+    .custom((value, { req }) => isUserHasToken(value, req))
     .custom(value => isRequestHasCorrectFields(value, UserModel))
 ];
 
 const handler = withValidationHandler(async (req, res) => {
-  const userId = req.decoded._id;
+  const { _id } = req.decoded;
 
   try {
-    const user = await UserModel.findOneAndUpdate({ _id: userId },
+    const user = await UserModel.findOneAndUpdate({ _id },
       pick(req.body, [
         'username',
         'imageUrl',

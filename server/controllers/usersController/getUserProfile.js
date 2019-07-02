@@ -1,15 +1,9 @@
+import { check } from 'express-validator/check';
+
 import UserModel from '../../models/user';
 
 import { withValidationHandler } from '../helpers';
-import { check } from 'express-validator/check';
-
-const isUserHasToken = (value, req) => {
-  if(req.decoded){
-    return true;
-  }
-
-  throw new Error(`You are not authorized`);
-}
+import { isUserHasToken } from '../validators';
 
 const validator = [
   check()
@@ -17,10 +11,10 @@ const validator = [
 ];
 
 const handler = withValidationHandler(async (req, res) => {
-  const userId = req.decoded._id;
+  const { _id } = req.decoded;
 
   try {
-    const user = await UserModel.findOne({ _id: userId })
+    const user = await UserModel.findOne({ _id })
       .select('-password');
 
     res.status(200).json(user);
