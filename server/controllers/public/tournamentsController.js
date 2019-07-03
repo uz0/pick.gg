@@ -1,12 +1,11 @@
 import express from "express";
 import TournamentModel from "../../models/tournament";
-import FantasyTournament from "../../models/fantasy-tournament";
 
 let router = express.Router();
 
 const PublicTournamentsController = io => {
   router.get('/', async (req, res) => {
-    const tournaments = await FantasyTournament
+    const tournaments = await TournamentModel
       .find({})
       .populate('tournament', 'name date')
       .populate({ path: 'users.players', select: 'id name' })
@@ -30,7 +29,7 @@ const PublicTournamentsController = io => {
   })
 
   router.get('/fantasy', async (req, res) => {
-    const tournaments = await FantasyTournament.find({})
+    const tournaments = await TournamentModel.find({})
       .populate('tournament', 'name date')
       .populate({ path: 'users.players', select: 'id name' })
       .populate({ path: 'users.user', select: '_id username' })
@@ -45,7 +44,7 @@ const PublicTournamentsController = io => {
   router.get('/:id', async (req, res) => {
     const id = req.params.id;
 
-    const tournament = await FantasyTournament
+    const tournament = await TournamentModel
       .findOne({ _id: id })
       .populate({ path: 'users.players', select: '_id id name photo' })
       .populate({ path: 'users.user', select: '_id username' })

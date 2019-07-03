@@ -1,0 +1,12 @@
+.caption {
+  --height: 20px;
+    overflow: hidden;
+    display: block;
+    height: var(--height);
+    line-height: var(--height);
+    font-size: 15px;
+    color: var(--accent-color);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}

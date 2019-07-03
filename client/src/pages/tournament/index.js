@@ -4,13 +4,8 @@ import { Link } from 'react-router-dom';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import Table from 'components/table';
-import Modal from 'components/dashboard-modal';
-import DialogWindow from 'components/dialog-window';
-import MatchModal from 'components/match-modal-tournament';
-import ChooseChampionModal from 'components/choose-champion';
 
 import i18n from 'i18n';
-import io from 'socket.io-client';
 import moment from 'moment';
 import uuid from 'uuid';
 import ym from 'react-yandex-metrika';
@@ -20,11 +15,6 @@ import groupBy from 'lodash/groupBy';
 import cloneDeep from 'lodash/cloneDeep';
 import every from 'lodash/every';
 import findIndex from 'lodash/findIndex';
-
-import UserService from 'services/user-service';
-import TournamentService from 'services/tournament-service';
-import NotificationService from 'services/notification-service';
-import StreamerService from 'services/streamer-service';
 
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import Avatar from 'assets/avatar-placeholder.svg';
@@ -95,15 +85,6 @@ const matchesTableCaptions = {
 };
 
 class Tournament extends Component {
-  constructor() {
-    super();
-    this.tournamentService = new TournamentService();
-    this.streamerService = new StreamerService();
-    this.notificationService = new NotificationService();
-    this.userService = new UserService();
-    this.socket = io();
-  }
-
   state = {
     fantasyTournament: null,
     matches: [],
@@ -117,37 +98,6 @@ class Tournament extends Component {
   };
 
   async componentDidMount() {
-    let user = await this.userService.getMyProfile();
-
-    if (user.success === false) {
-      user = null;
-    }
-
-    this.setState({
-      currentUser: user && user.user,
-      username: user && user.user.username,
-    });
-
-    this.socket.on('tournamentParticipantsUpdate', ({ user }) => {
-      if (this.state.currentUser.username !== user.username) {
-        this.notificationService.showSingleNotification({
-          type: 'match',
-          shouldBeAddedToSidebar: false,
-          message: `${user.username} has been registered to the tournament`,
-        });
-      }
-
-      this.loadTournamentData(false);
-    });
-
-    this.socket.on('fantasyTournamentStarted', () => {
-      this.loadTournamentData();
-    });
-
-    this.socket.on('fantasyTournamentFinalized', () => {
-      this.loadTournamentData();
-    });
-
     this.loadTournamentData();
   }
 
@@ -155,67 +105,12 @@ class Tournament extends Component {
     this.socket.close();
   }
 
-  loadTournamentData = withPreloader => new Promise(async resolve => {
-    if (!this.state.isLoading && withPreloader !== false) {
-      this.setState({ isLoading: true });
-    }
-
-    this.tournamentId = this.props.match.params.id;
-
-    if (!this.tournamentId) {
-      return;
-    }
-
-    const { tournament } = await this.tournamentService.getTournamentById(this.tournamentId);
-
-    if (!tournament) {
-      return;
-    }
-
-    const realTournament = tournament.tournament;
-    const { users } = tournament;
-    const currentUserParticipant = find(tournament.users, item => {
-      if (!this.state.currentUser) {
-        return;
-      }
-
-      return item.user._id === this.state.currentUser._id;
-    });
-    const { matches } = realTournament;
-
-    users && users.forEach(item => {
-      item.totalResults = this.getTotalUserScore(tournament, item.user._id);
-    });
-
-    currentUserParticipant && currentUserParticipant.players.forEach(item => {
-      item.championScore = this.getUserPlayerScore(tournament, item._id);
-    });
-
-    this.setState({
-      isLoading: false,
-      fantasyTournament: tournament,
-      isChooseChampionModalShown: false,
-      isMatchEditModalShown: false,
-      matches,
-      users,
-    });
-
-    resolve();
-  });
-
   startStreamerTournament = async () => {
     const { fantasyTournament } = this.state;
 
     if (fantasyTournament.users.length === 0) {
-      await this.notificationService.showSingleNotification({
-        type: 'error',
-        message: i18n.t('notifications.errors.start_without_participants'),
-      });
-
       return;
     }
-
-    await this.streamerService.startTournament(fantasyTournament._id);
   }
 
   finalizeStreamerTournament = async () => {
@@ -223,39 +118,15 @@ class Tournament extends Component {
     const isAllMatchesCompleted = every(this.state.matches, { completed: true });
 
     if (fantasyTournament.users.length === 0) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.finalization.no_participatns'),
-      });
-
       return;
     }
 
     if (!fantasyTournament.started) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.errors.finalize_not_started_tournament'),
-      });
-
       return;
     }
 
     if (!isAllMatchesCompleted) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.finalization.uncompleted_matches'),
-      });
-
       return;
-    }
-
-    try {
-      await this.streamerService.finalizeTournament(fantasyTournament._id);
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -414,20 +285,9 @@ class Tournament extends Component {
   addPlayers = async ids => {
     this.setState({ isLoading: true });
 
-    const payload = {
-      players: ids,
-    };
-
-    await this.tournamentService.participateInTournament(this.tournamentId, payload);
     await this.loadTournamentData();
 
     ym('reachGoal', 'user_joined_tournament');
-
-    this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: i18n.t('youve_been_registered_for_the_tournament'),
-    });
   };
 
   openMatchResults = (event, item) => {
@@ -876,53 +736,6 @@ class Tournament extends Component {
           this.state.isLoading && (
             <Preloader
               isFullScreen
-            />
-          )}
-
-        {
-          this.state.isMatchInfoActive && (
-            <Modal
-              title={this.state.matchTitle}
-              close={this.closeMatchInfo}
-              wrapClassName={style.match_info_modal}
-            >
-              <Table
-                captions={matchInfoTableCaptions}
-                items={matchInfo}
-                renderRow={this.renderMatchInfoRow}
-                className={style.table}
-                emptyMessage="There is no results yet"
-              />
-            </Modal>
-          )
-        }
-
-        {
-          this.state.isSignInDialogShown && (
-            <DialogWindow
-              text={i18n.t('unauthenticated_tournament_join')}
-              onClose={this.toggleSignInDialog}
-              onSubmit={this.redirectToLogin}
-            />
-          )
-        }
-
-        {
-          this.state.isChooseChampionModalShown && (
-            <ChooseChampionModal
-              champions={tournamentChampions}
-              action={this.addPlayers}
-              onClose={this.toggleChampionModal}
-            />
-          )}
-
-        {
-          this.state.isMatchEditModalShown && (
-            <MatchModal
-              matchId={this.state.editingMatchId}
-              closeMatchEditing={this.closeMatchEditing}
-              matchChampions={tournamentChampions}
-              onMatchUpdated={() => this.loadTournamentData(false)}
             />
           )}
       </div>
