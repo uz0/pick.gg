@@ -92,12 +92,15 @@ const Reward = props => {
           name="image"
           className={style.field}
         />
-        <button type="submit">Submit</button>
-        <Button
-          text="Delete"
-          appearance="_basic-danger"
-          onClick={() => deleteReward(props.options.reward._id)}
-        />
+        <div className={style.wrap_buttons}>
+          <Button
+            text="Delete"
+            appearance="_basic-danger"
+            className={style.delete}
+            onClick={() => deleteReward(props.options.reward._id)}
+          />
+          <button className={style.submit} type="submit">Submit</button>
+        </div>
       </Form>
     </Modal>
   );

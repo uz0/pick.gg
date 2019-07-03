@@ -9,6 +9,15 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
+const customStyles = {
+  control: styles => ({ ...styles, backgroundColor: 'var(--primary-color)', border: 0 }),
+  singleValue: styles => ({ ...styles, color: '#fff', fontSize: '15px', textTransform: 'capitalize' }),
+  placeholder: styles => ({ ...styles, color: '#fff', fontSize: '15px' }),
+  input: styles => ({ ...styles, color: '#fff', fontSize: '15px', textTransform: 'capitalize' }),
+  indicatorSeparator: styles => ({ ...styles, width: 0 }),
+  menu: styles => ({ ...styles, color: 'var(--primary-color)', fontSize: '15px', textTransform: 'capitalize' }),
+};
+
 export default class Select extends Component {
   async componentDidMount() {
     const { userId } = this.props.form.values;
@@ -54,6 +63,7 @@ export default class Select extends Component {
           {...this.props}
           {...this.props.field}
           defaultOptions
+          styles={customStyles}
           loadOptions={this.getSuggestions}
           onChange={this.debouncedOnChange}
           onInputChange={this.handleInputChange}
