@@ -227,13 +227,15 @@
     "rewards": "Награды",
     "no_rewards": "Вы еще не получили никаких наград",
     "no_players": "Нет игроков",
-  
+    "edit_user": "Редактирование игрока",
+    "summonername": "Имя призывателя",
+    "choose_position": "Choose your position",
     "modal": {
       "step": "Шаг",
       "of": "из",
-      "new_tournament": "Новый турнир"
+      "new_tournament": "Новый турнир",
+      "can_provide_tournaments": "Проводит турниры"
     },
-  
     "match_modal": {
       "modal_title": "Редактировать матч {{name}}",
       "match_name": "Название матча",
@@ -247,7 +249,6 @@
         "match_updated": "Матч {{name}} успешно обновлен"
       }
     },
-  
     "result_modal": {
       "title": "Add results for {{name}}",
       "action_button_text": "Добавить результаты",
@@ -259,11 +260,9 @@
         "format_error": "Вы можете загружать только HTML файлы"
       }
     },
-  
     "new_tournament": {
       "empty_name": "Пожалуйста, введите название турнира"
     },
-  
     "notifications": {
       "player": {
         "created": "Вы создали игрока с именем {{name}}"
@@ -271,7 +270,9 @@
       "success": {
         "entity_is_created": "Новый {{ name }} создан успешно",
         "entity_is_edited": "{{ name }} отредактирован",
-        "entity_is_deleted": "{{ name }} удалён"
+        "entity_is_deleted": "{{ name }} удалён",
+        "user_edited": "Пользователь отредактирован",
+        "user_deleted": "Пользователь удалён"
       },
       "finalization": {
         "no_participatns": "Вы не можете завершить турнир без участников.",
@@ -286,14 +287,16 @@
         "empty_summoner_name": "Вам нужно ввести ваше имя в LoL в настройках профиля"
       }
     },
-  
     "serverErrors": {
       "champion_not_found": "Чемпион с именем {{name}} не существует. Попробуйте ввести другое имя.",
       "champion_already_exist": "Чемпион с именем {{name}} уже есть в базе игроков.",
       "players_are_not_same": "Игроки в матче фентези турнира и в матче LoL не совпадают",
       "position_is_empty": "Укажите роль игрока (Мидер, саппорт, лесник и т.п.)",
-  
       "results_file_format_error": "Упс. Данный файл не подойдёт для синхронизации результатов"
+    },
+    "button": {
+      "submit": "Сохранить",
+      "delete_user": "Удалить"
     }
   }
 }
