@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import Modal from 'components/modal';
 import { Form, withFormik, Field } from 'formik';
 import { FormInput } from 'components/form/input';
-import Select from 'components/form/user-select';
+import Select from 'components/form/select';
 import Button from 'components/button';
 import * as Yup from 'yup';
 import style from './style.module.css';
@@ -13,13 +13,14 @@ import notificationActions from 'components/notification/actions';
 import actions from 'pages/dashboard/users/actions';
 import i18n from 'i18n';
 
-const POSITIONS = [
-  { value: 'adc', label: 'ADC'},
-  { value: 'mid', label: 'Mid'},
-  { value: 'top', label: 'Top'},
-  { value: 'jungle', label: 'Jungle'},
-  { value: 'support', label: 'Support'}
-];
+const normalizePositionsField = obj => {
+  if (obj.preferredPosition) {
+    return {
+      ...obj,
+      preferredPosition: obj.preferredPosition.value,
+    };
+  }
+};
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -86,13 +87,12 @@ const User = props => {
           />
           <Field
             component={FormInput}
-            label={i18n.t('canProvideTournaments')}
+            label={i18n.t('modal.can_provide_tournaments')}
             type="checkbox"
             name="canProvideTournaments"
             className={style.field}
           />
         </div>
-
 
         <div className={style.footer_button}>
           <Button
@@ -128,7 +128,7 @@ const enhance = compose(
       return { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin };
     },
     handleSubmit: async (values, formikBag) => {
-
+      console.log(normalizePositionsField(values));
       const { isEditing } = formikBag.props.options;
       const defaultState = formikBag.props.options.user;
 
@@ -139,7 +139,7 @@ const enhance = compose(
               'Content-Type': 'application/json',
             },
             method: 'PATCH',
-            body: JSON.stringify(body),
+            body: JSON.stringify(normalizePositionsField(body)),
           });
 
           return request.json();
