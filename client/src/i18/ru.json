@@ -229,11 +229,12 @@
     "no_players": "Нет игроков",
     "edit_user": "Редактирование игрока",
     "summonername": "Имя призывателя",
-    "role": "Роль",
+    "choose_position": "Choose your position",
     "modal": {
       "step": "Шаг",
       "of": "из",
-      "new_tournament": "Новый турнир"
+      "new_tournament": "Новый турнир",
+      "can_provide_tournaments": "Проводит турниры"
     },
     "match_modal": {
       "modal_title": "Редактировать матч {{name}}",

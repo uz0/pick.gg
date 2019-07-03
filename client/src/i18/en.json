@@ -222,11 +222,12 @@
     "no_players": "No players",
     "edit_user": "Edit user",
     "summonername": "Summoner Name",
-    "role": "Who is it?",
+    "choose_position": "Choose your position",
     "modal": {
       "step": "Step",
       "of": "of",
-      "new_tournament": "New tournament"
+      "new_tournament": "New tournament",
+      "can_provide_tournaments": "Provide tournaments"
     },
     "match_modal": {
       "modal_title": "Edit match {{name}}",
