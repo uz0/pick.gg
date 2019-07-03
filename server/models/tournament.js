@@ -26,7 +26,7 @@ const schema = new Schema({
 },
 {
   toObject: { virtuals: true },
-  toJSON: {virtuals: true}
+  toJSON: { virtuals: true }
 }
 );
 
