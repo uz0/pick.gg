@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
 
 const schema = new Schema({
-  id: { type: String, unique: true},
   name: String,
   description: String,
   url: String, 
