@@ -1,6 +1,7 @@
 import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import negate from 'lodash/negate';
+import difference from 'lodash/difference'
 import isUndefined from 'lodash/isUndefined';
 
 import { param, body, check } from 'express-validator/check';
@@ -18,10 +19,16 @@ const validator = [
     .custom(async (tournamentId, { req }) => {
       const { _id } = req.decoded;
 
-      const { creator } = await Tournament.findById(tournamentId);
+      const { creator, isReady } = await Tournament.findById(tournamentId);
 
       if (creator !== _id) {
         throw new Error('You are not allowed to edit this tournament');
+      }
+
+      if (isReady) {
+        const extraField = difference(Object.keys(req.body,['name', 'description', 'url', 'imageUrl']))
+        
+        if(!extraField.length) throw new Error(`You can\'t edit next fields in ready tournament: ${extraField.join(', ')}`)
       }
 
       return true;
