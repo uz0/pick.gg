@@ -5,6 +5,7 @@ import { validator as validateCreate, handler as create } from './create';
 import { validator as validateAttend, handler as attend } from './attend';
 import { validator as validateById, handler as getById } from './getById';
 import { validator as validateEdit, handler as edit } from './edit';
+import { validator as validateReady, handler as ready } from './ready';
 
 import matchController from './match';
 
@@ -16,6 +17,8 @@ const TournamentController = io => {
   router.get('/:id', validateById, getById);
 
   router.put('/:id', validateEdit, edit);
+
+  router.patch('/:id/ready', validateReady, ready)
 
   router.patch('/:id/attend', validateAttend, attend);
 

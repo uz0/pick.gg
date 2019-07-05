@@ -1,9 +1,10 @@
-import { withValidationHandler } from '../../helpers';
 import { param, body } from 'express-validator/check';
-import { isEntityExists, isRequestHasCorrectFields } from '../../validators';
 
 import tournament from '../../../models/tournament';
 import match from '../../../models/match';
+
+import { isEntityExists, isRequestHasCorrectFields } from '../../validators';
+import { withValidationHandler } from '../../helpers';
 
 export const validator = [
     param('tournamentId').custom(id => isEntityExists(id, tournament)),
@@ -16,7 +17,7 @@ export const handler = withValidationHandler(async (req, res) => {
     const matchInfo = req.body;
 
     const newMatch = await match.create(matchInfo);
-    await tournament.findByIdAndUpdate(tournamentId, { $push: { matches: newMatch._id } });
+    await tournament.findByIdAndUpdate(tournamentId, { $push: { matches: newMatch._id } }).exec();
 
     res.json({ params: req.params, body: req.body })
 });
