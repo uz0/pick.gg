@@ -21,7 +21,7 @@ const TournamentController = io => {
 
   router.post('/', validateCreate, create);
 
-  router.use('/:tournamentId/mathes', matchController);
+  router.use('/:tournamentId/matches', matchController());
 
   return router;
 };
