@@ -38,10 +38,6 @@ class TopMenuComponent extends Component {
     this.updateProfile();
   }
 
-  componentWillUnmount() {
-    this.socket.close();
-  }
-
   render() {
     const { profile } = this.state;
 
