@@ -19,5 +19,5 @@ export const handler = withValidationHandler(async (req, res) => {
     const newMatch = await match.create(matchInfo);
     await tournament.findByIdAndUpdate(tournamentId, { $push: { matches: newMatch._id } }).exec();
 
-    res.json({ params: req.params, body: req.body })
+    res.json(newMatch)
 });
