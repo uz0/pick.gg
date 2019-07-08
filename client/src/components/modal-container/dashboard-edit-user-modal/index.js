@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import Modal from 'components/modal';
 import { Form, withFormik, Field } from 'formik';
 import { FormInput } from 'components/form/input';
-import Select from 'components/form/select';
+import Select from 'components/form/selects/select';
 import Button from 'components/button';
 import * as Yup from 'yup';
 import style from './style.module.css';
