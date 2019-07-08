@@ -1,25 +1,14 @@
-.home_page {
+.container {
+  padding: 20px 0;
+}
+.form_wrap {
   display: flex;
-  justify-content: space-between;
-  padding: 40px 0;
+  justify-content: center;
+  padding: 20px;
 }
-
-main {
-  width: 550px !important;
-  margin: 0 auto;
-}
-
-.content {
-  margin-top: 0px;
-  display: flex;
-}
-
-.form_container {
-  flex-grow: 1;
-  margin-left: 0px;
-}
-
 .form {
+  width: 600px;
+  margin: 0px auto;
   background-color: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
   padding: 16px;
@@ -38,7 +27,7 @@ main {
 .form > div label {
   color: #D79634;
   font-size: 12px;
-  padding-left: 12px;
+  padding-left: 8px;
 }
 
 .form > div input[type="text"],
@@ -63,65 +52,6 @@ main {
   height: auto;
 }
 
-.localization {
-  display: flex;
-  margin-bottom: 24px;
-}
-
-.localization > label {
-  margin-bottom: 8px;
-}
-
-.localization > div {
-  display: flex;
-}
-
-.localization .item {
-  display: flex;
-  align-items: center;
-}
-
-.localization .item + .item {
-  margin-left: 12px;
-}
-
-.localization .item label {
-  margin-right: 8px;
-}
-
-.localization .item input {
-  height: 18px;
-  width: 18px;
-}
-
-
-
-.password_recovery {
-  height: 75px;
-  margin-top: 10px;
-  margin-bottom: 32px;
-  padding-left: 16px;
-  padding-right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--background-color);
-}
-
-.password_recovery p {
-  color: #787888;
-}
-
-.password_recovery a {
-  color: #fff;
-  text-decoration: underline;
-  text-align: center;
-}
-
-.password_recovery a:hover {
-  color: var(--accent-color);
-}
-
 .is_preloader_form{
   background-image: url('../../assets/form-settings.svg');
   animation: loading 0.5s infinite;
@@ -132,6 +62,15 @@ main {
 .is_preloader_form .form{
   opacity: 0;
   transition: all 0.4s;
+}
+
+.save {
+  background: var(--accent-color);
+  border: 0;
+  border-radius: 4px;
+  color: #000;
+  height: 40px;
+  padding: 0 20px;
 }
 
 @keyframes loading{
@@ -155,6 +94,9 @@ main {
   }
 }
 
+.form .save {
+  margin-top: 14px;
+}
 
 @media (max-width: 1440px) {
   .home_page main {
@@ -163,34 +105,6 @@ main {
 }
 
 @media (max-width: 480px) {
-  main h1{
-    font-size: 21px;
-  }
-
-  .home_page main{
-    width: 90%;
-  }
-  .form_container .form label{
-    font-size: 16px;
-  }
-  .form_container .form button{
-    font-size: 16px;
-  }
-
-  .content{
-    margin-top: 0px;
-    display: flex;
-    flex-direction: column;
-  }
- 
-  .form_container{
-    margin-left: 0;
-    margin-top: 10px;
-  }
-  .password_recovery{
-    font-size: 18px;
-    padding: 50px 16px;
-  }
   .is_preloader_form{
     background-image: url('../../assets/form-settings-min.svg');
   }
