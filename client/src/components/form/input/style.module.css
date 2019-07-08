@@ -32,6 +32,11 @@
   background-color: var(--primary-color);
 }
 
+.wrapper .field:global(._is-checkbox) {
+  height: 24px;
+  width: 24px;
+}
+
 .wrapper .error {
   line-height: 1.5;
   font-size: 12px;
