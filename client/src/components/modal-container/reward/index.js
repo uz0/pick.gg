@@ -25,10 +25,12 @@ const normalizeUserField = obj => {
       userId: obj.userId.value,
     };
   }
+
+  return obj;
 };
 
 const Reward = props => {
-  const modalTitle = props.isEditing ? 'Edit reward' : 'Add new reward';
+  const modalTitle = props.options.isEditing ? 'Edit reward' : 'Add new reward';
 
   const deleteReward = async rewardId => {
     try {
@@ -118,6 +120,17 @@ const enhance = compose(
     validationSchema,
     mapPropsToValues: ({ options }) => {
       const { _id, key, userId, isClaimed, description, image } = options.reward;
+
+      if (!options.isEditing) {
+        return {
+          key: '',
+          userId: '',
+          isClaimed: false,
+          description: '',
+          image: '',
+        };
+      }
+
       return { _id, key, userId, isClaimed, description, image };
     },
     handleSubmit: async (values, formikBag) => {
@@ -159,6 +172,7 @@ const enhance = compose(
       if (isEditing) {
         const changedFields = getChangedFormFields(defaultState, values);
         const editRequest = await editRewardRequest(normalizeUserField(changedFields));
+
         formikBag.props.close();
 
         formikBag.props.showNotification({
@@ -168,9 +182,13 @@ const enhance = compose(
         });
 
         formikBag.props.updateReward(editRequest);
+
+        return;
       }
 
       const request = await createRewardRequest(normalizeUserField(values));
+      formikBag.props.createReward(request);
+
       formikBag.props.close();
 
       formikBag.props.showNotification({
@@ -178,8 +196,6 @@ const enhance = compose(
         shouldBeAddedToSidebar: false,
         message: i18n.t('notifications.success.entity_is_created', { name: values.description }),
       });
-
-      formikBag.props.createReward(request);
     },
   }),
 );
