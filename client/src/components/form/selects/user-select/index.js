@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { http } from 'helpers';
 import debounce from 'lodash/debounce';
+import compose from 'recompose/compose';
 
 import AsyncSelect from 'react-select/async';
+import withStyles from '../hoc/with-styles';
 import classnames from 'classnames';
 
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-export default class Select extends Component {
+const enhance = compose(
+  withStyles,
+);
+
+class Select extends Component {
   async componentDidMount() {
     const { userId } = this.props.form.values;
 
@@ -62,3 +68,5 @@ export default class Select extends Component {
     );
   }
 }
+
+export default enhance(Select);
