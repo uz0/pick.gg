@@ -1,18 +1,20 @@
 import React from 'react';
-import Modal from 'components/modal';
 import { connect } from 'react-redux';
-import { Form, Field, withFormik } from 'formik';
-import { FormInput } from 'components/form/input';
-import Button from 'components/button';
 import { compose } from 'recompose';
-import { http, getChangedFormFields } from 'helpers';
+import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
-import style from './style.module.css';
+import { http, getChangedFormFields } from 'helpers';
+
 import { actions as notificationActions } from 'components/notification';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 
+import Modal from 'components/modal';
+import Button from 'components/button';
 import Select from 'components/form/selects/user-select';
+import { FormInput } from 'components/form/input';
+
 import i18n from 'i18n';
+import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   key: Yup.string().required('Key field is required!'),
