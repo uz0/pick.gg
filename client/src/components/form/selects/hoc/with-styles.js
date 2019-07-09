@@ -9,17 +9,6 @@ const customStyles = {
   menu: styles => ({ ...styles, color: 'var(--primary-color)', fontSize: '15px', textTransform: 'capitalize' }),
 };
 
-const withStyles = WrappedComponent => {
-  return class extends Component {
-    render() {
-      return (
-        <WrappedComponent
-          styles={customStyles}
-          {...this.props}
-        />
-      );
-    }
-  };
-};
+const withStyles = WrappedComponent => props => <WrappedComponent styles={customStyles} {...props}/>;
 
 export default withStyles;
