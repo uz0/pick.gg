@@ -133,7 +133,13 @@ const enhance = compose(
         };
       }
 
-      return { _id, key, userId, isClaimed, description, image };
+      return options.isEditing ? pick(options.reward,['_id', 'key', 'userId', 'isClaimed', 'description', 'image']) :{
+           key: '',
+           userId: '',
+           isClaimed: false,
+           description: '',
+           image: '',
+         };
     },
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
