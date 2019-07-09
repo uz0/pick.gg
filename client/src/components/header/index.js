@@ -51,7 +51,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
                 />
               )}
             >
-              {currentUser && currentUser.isAdmin && (
+              {currentUser.isAdmin && (
                 <NavLink to="/dashboard/tournaments">
                   <i className="material-icons">dashboard</i>
                   {i18n.t('dashboard')}
@@ -68,7 +68,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
                 {i18n.t('my_tournaments')}
               </NavLink>
 
-              <NavLink to={`/user/${currentUser && currentUser._id}`}>
+              <NavLink to={`/user/${currentUser._id}`}>
                 <i className="material-icons">person</i>
                 {i18n.t('public_profile')}
               </NavLink>
@@ -106,7 +106,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
                 {i18n.t('my_tournaments')}
               </NavLink>
 
-              <NavLink to={`/user/${currentUser && currentUser._id}`}>
+              <NavLink to={`/user/${currentUser._id}`}>
                 <i className="material-icons">person</i>
                 {i18n.t('public_profile')}
               </NavLink>
