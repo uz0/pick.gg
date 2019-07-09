@@ -57,7 +57,7 @@ const Profile = () => {
 
           <Field
             component={FormInput}
-            label={i18n.t('photo')}
+            label={i18n.t('profile_photo')}
             name="imageUrl"
             className={style.field}
           />
@@ -73,7 +73,7 @@ const Profile = () => {
           <Field
             component={FormInput}
             type="textarea"
-            label="twitchAccount"
+            label={i18n.t('twich_account')}
             name="twitchAccount"
             className={style.field}
           />
