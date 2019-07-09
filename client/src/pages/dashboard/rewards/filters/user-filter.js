@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { http } from 'helpers';
 import debounce from 'lodash/debounce';
 import compose from 'recompose/compose';
@@ -10,45 +10,42 @@ const enhance = compose(
   withStyles,
 );
 
-class UserFilter extends Component {
-  normalizeUsers = users => users.map(({ username, _id }) => ({
-    label: username,
-    value: _id,
-  }));
+const normalizeUsers = users => users.map(({ username, _id }) => ({
+  label: username,
+  value: _id,
+}));
 
-  getSuggestions = debounce(async inputValue => {
-    if (!inputValue) {
-      return;
-    }
+const getSuggestions = debounce(async inputValue => {
+  if (!inputValue) {
+    return;
+  }
 
-    const usersSuggestions = await http(`/api/admin/user/name/${inputValue}`);
-    const { users } = await usersSuggestions.json();
+  const usersSuggestions = await http(`/api/admin/user/name/${inputValue}`);
+  const { users } = await usersSuggestions.json();
 
-    return this.normalizeUsers(users);
-  }, 300);
+  return normalizeUsers(users);
+}, 300);
 
-  debouncedOnChange = option => {
+const UserFilter = props => {
+  const debouncedOnChange = option => {
     if (option) {
-      this.props.onChange(option.value);
+      props.onChange(option.value);
       return;
     }
 
-    this.props.onChange(option);
+    props.onChange(option);
   };
 
-  render() {
-    return (
-      <AsyncSelect
-        isClearable
-        defaultOptions
-        placeholder="Filter by user"
-        loadOptions={this.getSuggestions}
-        styles={this.props.styles}
-        onChange={this.debouncedOnChange}
-        onInputChange={this.handleInputChange}
-      />
-    );
-  }
-}
+  return (
+    <AsyncSelect
+      isClearable
+      defaultOptions
+      placeholder="Filter by user"
+      loadOptions={getSuggestions}
+      styles={props.styles}
+      onChange={debouncedOnChange}
+    />
+  );
+};
 
 export default enhance(UserFilter);
