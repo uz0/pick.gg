@@ -122,8 +122,6 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: ({ options }) => {
-      const { _id, key, userId, isClaimed, description, image } = options.reward;
-
       if (!options.isEditing) {
         return {
           key: '',
@@ -134,13 +132,13 @@ const enhance = compose(
         };
       }
 
-      return options.isEditing ? pick(options.reward,['_id', 'key', 'userId', 'isClaimed', 'description', 'image']) :{
-           key: '',
-           userId: '',
-           isClaimed: false,
-           description: '',
-           image: '',
-         };
+      return options.isEditing ? pick(options.reward, ['_id', 'key', 'userId', 'isClaimed', 'description', 'image']) : {
+        key: '',
+        userId: '',
+        isClaimed: false,
+        description: '',
+        image: '',
+      };
     },
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
