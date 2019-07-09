@@ -4,6 +4,7 @@ import compose from 'recompose/compose';
 import classnames from 'classnames';
 
 import withStyles from '../hoc/with-styles';
+import { POSITIONS } from 'constants/index';
 
 import style from './style.module.css';
 import i18n from 'i18n';
@@ -13,8 +14,6 @@ const cx = classnames.bind(style);
 const enhance = compose(
   withStyles,
 );
-
-const POSITIONS = ['adc', 'mid', 'top', 'jungle', 'support'];
 
 const positionsSelectConfig = POSITIONS.map(position => ({
   value: position,
