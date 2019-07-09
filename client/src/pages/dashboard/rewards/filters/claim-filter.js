@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Select from 'react-select';
 import compose from 'recompose/compose';
 
@@ -16,18 +16,16 @@ const enhance = compose(
   withStyles,
 );
 
-class ClaimFilter extends Component {
-  render() {
-    return (
-      <Select
-        isClearable
-        options={options}
-        placeholder="Filter by claim"
-        styles={this.props.styles}
-        onChange={this.props.onChange}
-      />
-    );
-  }
-}
+const ClaimFilter = props => {
+  return (
+    <Select
+      isClearable
+      options={options}
+      placeholder="Filter by claim"
+      styles={props.styles}
+      onChange={props.onChange}
+    />
+  );
+};
 
 export default enhance(ClaimFilter);
