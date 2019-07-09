@@ -17,7 +17,7 @@ const Input = ({
         <label className={style.caption}>{label}</label>
       }
 
-      <input {...props} className={style.field}/>
+      <input {...props} className={cx({ '_is-checkbox': props.type === 'checkbox' }, style.field)}/>
 
       {error && isTouched &&
         <p className={style.error}>{error}</p>

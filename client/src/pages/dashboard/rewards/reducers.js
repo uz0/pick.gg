@@ -9,12 +9,19 @@ const initialState = {
 
 export default createReducer(initialState, {
   [actions.loadRewards]: (state, action) => {
+    const ids = [];
+    const list = {};
+
     action.payload.forEach(reward => {
-      state.ids.push(reward._id);
-      state.list[reward._id] = reward;
+      ids.push(reward._id);
+      list[reward._id] = reward;
     });
 
-    state.isLoaded = true;
+    return {
+      ids,
+      list,
+      isLoaded: true,
+    };
   },
 
   [actions.createReward]: (state, action) => {
@@ -32,5 +39,37 @@ export default createReducer(initialState, {
   [actions.deleteReward]: (state, action) => {
     state.ids = state.ids.filter(reward => reward !== action.payload);
     delete state.list[action.payload];
+  },
+
+  [actions.filterRewardsByClaim]: (state, action) => {
+    const rewards = Object.values(state.list).filter(reward => reward.isClaimed === action.payload);
+    const filteredRewardsIds = rewards.map(item => item._id);
+    const list = {};
+
+    rewards.forEach(reward => {
+      list[reward._id] = reward;
+    });
+
+    return {
+      ids: filteredRewardsIds,
+      list,
+      isLoaded: true,
+    };
+  },
+
+  [actions.filterRewardsByUser]: (state, action) => {
+    const rewards = Object.values(state.list).filter(reward => reward.userId === action.payload);
+    const filteredRewardsIds = rewards.map(item => item._id);
+    const list = {};
+
+    rewards.forEach(reward => {
+      list[reward._id] = reward;
+    });
+
+    return {
+      ids: filteredRewardsIds,
+      list,
+      isLoaded: true,
+    };
   },
 });

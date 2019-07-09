@@ -51,7 +51,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
                 />
               )}
             >
-              {currentUser && currentUser.isAdmin && (
+              {currentUser.isAdmin && (
                 <NavLink to="/dashboard/tournaments">
                   <i className="material-icons">dashboard</i>
                   {i18n.t('dashboard')}
@@ -68,7 +68,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
                 {i18n.t('my_tournaments')}
               </NavLink>
 
-              <NavLink to={`/user/${currentUser && currentUser._id}`}>
+              <NavLink to={`/user/${currentUser._id}`}>
                 <i className="material-icons">person</i>
                 {i18n.t('public_profile')}
               </NavLink>
@@ -80,8 +80,8 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
 
               <GoogleLogout
                 clientId={config.googleClientId}
-                render={renderProperties => (
-                  <button type="button" className={style.btn_logout} onClick={renderProperties.onClick}>
+                render={({ onClick }) => (
+                  <button type="button" className={style.btn_logout} onClick={onClick}>
                     <i className="material-icons">exit_to_app</i>
                     {i18n.t('log_out')}
                   </button>
@@ -106,7 +106,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
                 {i18n.t('my_tournaments')}
               </NavLink>
 
-              <NavLink to={`/user/${currentUser && currentUser._id}`}>
+              <NavLink to={`/user/${currentUser._id}`}>
                 <i className="material-icons">person</i>
                 {i18n.t('public_profile')}
               </NavLink>
