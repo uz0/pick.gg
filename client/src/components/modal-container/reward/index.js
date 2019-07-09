@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
+import pick from 'lodash/pick';
 import { http, getChangedFormFields } from 'helpers';
 
 import { actions as notificationActions } from 'components/notification';
