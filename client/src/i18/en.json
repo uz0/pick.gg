@@ -264,7 +264,9 @@
       "success": {
         "entity_is_created": "New {{ name }} was created",
         "entity_is_edited": "{{ name }} was edited",
-        "entity_is_deleted": "{{ name }} was deleted"
+        "entity_is_deleted": "{{ name }} was deleted",
+        "user_edited": "User is edited",
+        "user_deleted": "User is deleted"
       },
       "errors": {
         "closed_window": "User closed login window",
@@ -273,10 +275,6 @@
       },
       "warnings": {
         "empty_summoner_name": "You need enter summoner name in settings profile"
-      },
-      "success": {
-        "user_edited": "User is edited",
-        "user_deleted": "User is deleted"
       }
     },
     "serverErrors": {

@@ -16,9 +16,7 @@ const handler = withValidationHandler(async (req, res) => {
     .findById(id)
     .select('-password')
 
-  res.json({
-    user,
-  });
+  res.json(user);
 });
 
 export { validator, handler };

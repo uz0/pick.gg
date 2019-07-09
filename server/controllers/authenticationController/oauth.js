@@ -6,9 +6,9 @@ import { ONE_DAY } from './constants'
 
 export default (app) => async (req, res) => {
   const { email, name, photo } = req.body;
-  const user = await UserModel.findOne({ email });
+  const checkUser = await UserModel.findOne({ email });
 
-  if (!user) {
+  if (!checkUser) {
     await UserModel.create({
       username: name,
       imageUrl: photo,
@@ -16,11 +16,14 @@ export default (app) => async (req, res) => {
     });
   }
 
-  const { _id, username, isAdmin } = await UserModel.findOne({ email });
+  const user = await UserModel.findOne({ email });
+
+  const { _id, username, isAdmin } = user;
 
   res.json({
     success: true,
     message: 'Enjoy your token!',
+    user,
     token: jwt.sign({
       _id,
       username,

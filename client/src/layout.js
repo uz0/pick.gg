@@ -6,14 +6,22 @@ import Footer from 'components/footer';
 import Notification from 'components/notification';
 import ModalContainer from 'components/modal-container';
 
-export default props => (
-  <>
-    <Header/>
-    {props.children}
-    <Footer/>
+export default props => {
+  const isHomeRoute = document.location.pathname === '/home';
 
-    <YMInitializer accounts={[53679490]}/>
-    <Notification/>
-    <ModalContainer/>
-  </>
-);
+  return (
+    <>
+      {!isHomeRoute && (
+        <>
+          <Header/>
+          {props.children}
+          <Footer/>
+        </>
+      )}
+
+      <YMInitializer accounts={[53679490]}/>
+      <Notification/>
+      <ModalContainer/>
+    </>
+  );
+};
