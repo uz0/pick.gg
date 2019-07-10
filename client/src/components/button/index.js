@@ -5,14 +5,16 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const Button = ({ text, onClick, icon, className, disabled, appearance }) => {
+const Button = ({ type, text, onClick, icon, className, disabled, appearance }) => {
   const isIconString = typeof icon === 'string';
   const isComponentIcon = icon && isIconString;
   const isPropIcon = icon && !isIconString;
+  const buttonType = type ? type : 'button';
 
   return (
+    // eslint-disable-next-line react/button-has-type
     <button
-      type="button"
+      type={buttonType}
       className={cx('button', className)}
       appearance={appearance}
       disabled={disabled}
