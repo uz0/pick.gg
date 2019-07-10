@@ -1,18 +1,21 @@
 import React from 'react';
-import Modal from 'components/modal';
 import { connect } from 'react-redux';
-import { Form, Field, withFormik } from 'formik';
-import { FormInput } from 'components/form/input';
-import Button from 'components/button';
 import { compose } from 'recompose';
-import { http, getChangedFormFields } from 'helpers';
+import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
-import style from './style.module.css';
+import pick from 'lodash/pick';
+import { http, getChangedFormFields } from 'helpers';
+
 import { actions as notificationActions } from 'components/notification';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 
-import Select from 'components/form/user-select';
+import Modal from 'components/modal';
+import Button from 'components/button';
+import Select from 'components/form/selects/user-select';
+import { FormInput } from 'components/form/input';
+
 import i18n from 'i18n';
+import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   key: Yup.string().required('Key field is required!'),
@@ -25,10 +28,12 @@ const normalizeUserField = obj => {
       userId: obj.userId.value,
     };
   }
+
+  return obj;
 };
 
 const Reward = props => {
-  const modalTitle = props.isEditing ? 'Edit reward' : 'Add new reward';
+  const modalTitle = props.options.isEditing ? 'Edit reward' : 'Add new reward';
 
   const deleteReward = async rewardId => {
     try {
@@ -117,8 +122,23 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: ({ options }) => {
-      const { _id, key, userId, isClaimed, description, image } = options.reward;
-      return { _id, key, userId, isClaimed, description, image };
+      if (!options.isEditing) {
+        return {
+          key: '',
+          userId: '',
+          isClaimed: false,
+          description: '',
+          image: '',
+        };
+      }
+
+      return options.isEditing ? pick(options.reward, ['_id', 'key', 'userId', 'isClaimed', 'description', 'image']) : {
+        key: '',
+        userId: '',
+        isClaimed: false,
+        description: '',
+        image: '',
+      };
     },
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
@@ -159,6 +179,7 @@ const enhance = compose(
       if (isEditing) {
         const changedFields = getChangedFormFields(defaultState, values);
         const editRequest = await editRewardRequest(normalizeUserField(changedFields));
+
         formikBag.props.close();
 
         formikBag.props.showNotification({
@@ -168,9 +189,13 @@ const enhance = compose(
         });
 
         formikBag.props.updateReward(editRequest);
+
+        return;
       }
 
       const request = await createRewardRequest(normalizeUserField(values));
+      formikBag.props.createReward(request);
+
       formikBag.props.close();
 
       formikBag.props.showNotification({
@@ -178,8 +203,6 @@ const enhance = compose(
         shouldBeAddedToSidebar: false,
         message: i18n.t('notifications.success.entity_is_created', { name: values.description }),
       });
-
-      formikBag.props.createReward(request);
     },
   }),
 );

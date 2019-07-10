@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
-import Tournaments from './tournaments';
 import Users from './users';
 import Rewards from './rewards';
 import style from './style.module.css';
@@ -16,13 +15,11 @@ class Dashboard extends Component {
 
           <div className={style.content}>
             <div className={style.navigation}>
-              <NavLink to="/dashboard/tournaments">{i18n.t('tournaments')}</NavLink>
               <NavLink to="/dashboard/rewards">{i18n.t('rewards')}</NavLink>
               <NavLink to="/dashboard/users">{i18n.t('users')}</NavLink>
             </div>
             <div className={style.section}>
               <Switch>
-                <Route path="/dashboard/tournaments" component={Tournaments}/>
                 <Route path="/dashboard/rewards" component={Rewards}/>
                 <Route path="/dashboard/users" component={Users}/>
               </Switch>

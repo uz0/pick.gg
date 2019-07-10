@@ -18,7 +18,7 @@ const init = async () => {
   if (isLogged()) {
     let response = await http('/api/users/me');
     response = await response.json();
-    store.dispatch(storeActions.setCurrentUser(response.user));
+    store.dispatch(storeActions.setCurrentUser(response));
   }
 
   ReactDOM.render(

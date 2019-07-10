@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 
-import NotificationService from 'services/notification-service';
-import UserService from 'services/user-service';
-
-// Import io from 'socket.io-client';
-
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 
@@ -15,26 +10,19 @@ import classnames from 'classnames/bind';
 const cx = classnames.bind(style);
 
 class Profile extends Component {
-  constructor() {
-    super();
-
-    this.userService = new UserService();
-    this.notificationService = new NotificationService();
-
-    this.state = {
-      formData: {
-        username: '',
-        email: '',
-        about: '',
-        photo: '',
-        summonerName: '',
-        isStreamer: '',
-        lolApiKey: '',
-      },
-      locale: '',
-      isLoading: true,
-    };
-  }
+  state = {
+    formData: {
+      username: '',
+      email: '',
+      about: '',
+      photo: '',
+      summonerName: '',
+      isStreamer: '',
+      lolApiKey: '',
+    },
+    locale: '',
+    isLoading: true,
+  };
 
   handleChange = event => {
     event.preventDefault();
@@ -46,23 +34,8 @@ class Profile extends Component {
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    const userData = await this.userService.getMyProfile();
 
     const locale = localStorage.getItem('_pgg_locale');
-
-    this.setState({
-      formData: {
-        username: userData.user.username,
-        email: userData.user.email,
-        photo: userData.user.photo,
-        about: userData.user.about,
-        summonerName: userData.user.summonerName,
-        isStreamer: userData.user.isStreamer,
-        lolApiKey: userData.user.lolApiKey,
-      },
-      locale,
-      isLoading: false,
-    });
   }
 
   changeLocale = event => {
@@ -77,26 +50,6 @@ class Profile extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-
-    const { formData } = this.state;
-
-    const updateRequest = await this.userService.updateProfile(formData);
-
-    if (!updateRequest.success) {
-      this.notificationService.showSingleNotification({
-        type: 'error',
-        shouldBeAddedToSidebar: false,
-        message: 'Такого юзера в лол не существует',
-      });
-
-      return;
-    }
-
-    this.notificationService.showSingleNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: i18n.t('update_data'),
-    });
   }
 
   render() {

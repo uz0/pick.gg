@@ -226,13 +226,15 @@
     "rewards": "Rewards",
     "no_rewards": "You haven\"t received any rewards yet",
     "no_players": "No players",
-  
+    "edit_user": "Edit user",
+    "summonername": "Summoner Name",
+    "choose_position": "Choose your position",
     "modal": {
       "step": "Step",
       "of": "of",
-      "new_tournament": "New tournament"
+      "new_tournament": "New tournament",
+      "can_provide_tournaments": "Provide tournaments"
     },
-  
     "match_modal": {
       "modal_title": "Edit match {{name}}",
       "match_name": "Match name",
@@ -246,7 +248,6 @@
         "match_updated": "Match {{name}} was successfully updated"
       }
     },
-  
     "result_modal": {
       "title": "Add results for {{name}}",
       "action_button_text": "Add results",
@@ -258,11 +259,9 @@
         "format_error": "You can upload only HTML files"
       }
     },
-  
     "new_tournament": {
       "empty_name": "Name field can not be empty"
     },
-  
     "notifications": {
       "finalization": {
         "no_participatns": "You can\"t finalize tournaments without any participants.",
@@ -271,7 +270,9 @@
       "success": {
         "entity_is_created": "New {{ name }} was created",
         "entity_is_edited": "{{ name }} was edited",
-        "entity_is_deleted": "{{ name }} was deleted"
+        "entity_is_deleted": "{{ name }} was deleted",
+        "user_edited": "User is edited",
+        "user_deleted": "User is deleted"
       },
       "errors": {
         "closed_window": "User closed login window",
@@ -282,14 +283,16 @@
         "empty_summoner_name": "You need enter summoner name in settings profile"
       }
     },
-  
     "serverErrors": {
       "champion_not_found": "Champion with name {{name}} doesn\"t exist. Please, check name you\"ve entered and try again.",
       "champion_already_exist": "Сhampion with name {{name}} already exists.",
       "players_are_not_same": "Players in fantasy tournament and in LoL match are not the same",
       "position_is_empty": "Position field is required",
-  
       "results_file_format_error": "This file is broken and can not be used for results synchronization"
+    },
+    "button": {
+      "submit": "Submit",
+      "delete_user": "Delete user"
     }
   }
 }

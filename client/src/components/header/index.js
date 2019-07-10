@@ -1,245 +1,151 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-
-import io from 'socket.io-client';
+import React from 'react';
 import { GoogleLogout } from 'react-google-login';
-import config from 'config';
+import ym from 'react-yandex-metrika';
+import { NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 
-import AuthService from 'services/auth-service';
-import NotificationService from 'services/notification-service';
-import UserService from 'services/user-service';
-import StreamerService from 'services/streamer-service';
+import { actions as storeActions } from 'store';
+
+import config from 'config';
 
 import DropDown from 'components/dropdown';
 import UserBox from './userbox';
-import NotificationBell from 'components/old-notification/notification-bell';
 
 import style from './style.module.css';
-
 import i18n from 'i18n';
-import ym from 'react-yandex-metrika';
 
-class TopMenuComponent extends Component {
-  constructor() {
-    super();
+const Header = ({ setCurrentUser, currentUser, history }) => {
+  const handleLogout = () => {
+    localStorage.removeItem('JWS_TOKEN');
 
-    this.socket = io();
-    this.authService = new AuthService();
-    this.notificationService = new NotificationService();
-    this.userService = new UserService({
-      onUpdate: () => this.updateProfile(),
-    });
-    this.streamerService = new StreamerService({
-      onUpdate: () => this.updateProfile(),
-    });
+    history.push('/');
 
-    this.state = {
-      profile: null,
-      isLoading: true,
-    };
-  }
+    setCurrentUser(null);
 
-  handleLogout = async () => {
-    try {
-      await this.authService.logout();
-      this.props.history.push('/');
+    ym('reachGoal', 'user_logged_out');
+  };
 
-      ym('reachGoal', 'user_logged_out');
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  return (
+    <div className={style.top_menu}>
+      <div className={style.menu_wrap}>
+        <div className={style.links}>
+          <NavLink to="/home">
+            <h2 className={style.logo}>Pick.gg</h2>
+          </NavLink>
 
-  updateProfile = async () => {
-    let profile = await this.userService.getMyProfile();
+          <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
+          <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
+        </div>
 
-    if (profile.success === false) {
-      profile = null;
-    }
-
-    this.setState({
-      profile,
-      isLoading: false,
-    });
-  }
-
-  componentDidMount = () => {
-    this.updateProfile();
-
-    this.socket.on('fantasyTournamentCreated', ({ newTournamentPopulated }) => {
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        shouldBeAddedToSidebar: false,
-        link: `tournaments/${newTournamentPopulated._id}`,
-        message: `New fantasy tournament with name ${newTournamentPopulated.name} was created`,
-      });
-    });
-
-    this.socket.on('fantasyTournamentFinalized', ({ tournamentId, participants, winner }) => {
-      const currentUser = this.state.profile.user.username;
-
-      if (!participants.includes(currentUser)) {
-        return;
-      }
-
-      if (winner === currentUser) {
-        this.notificationService.showSingleNotification({
-          type: 'winning',
-          shouldBeAddedToSidebar: true,
-          link: `tournaments/${tournamentId}`,
-          message: i18n.t('fantasy_tournament_is_over_winner'),
-        });
-
-        return;
-      }
-
-      this.notificationService.showSingleNotification({
-        type: 'match',
-        shouldBeAddedToSidebar: true,
-        link: `tournaments/${tournamentId}`,
-        message: i18n.t('fantasy_tournament_is_over'),
-      });
-    });
-
-    //   This.socket.on('matchUpdated', ({ updatedMatch }) => {
-    //     if (!this.state.profile) {
-    //       return;
-    //     }
-
-    //     this.notificationService.showSingleNotification({
-    //       type: 'match',
-    //       link: `/tournaments/${updatedMatch.tournament_id}`,
-    //       shouldBeAddedToSidebar: true,
-    //       message: i18n.t('match_status_changed'),
-    //     });
-    //   });
-  }
-
-  componentWillUnmount() {
-    this.socket.close();
-  }
-
-  render() {
-    const { profile } = this.state;
-
-    const isStreamer = profile && profile.user && profile.user.isStreamer;
-    const userpic = profile && profile.user && profile.user.photo;
-    const username = profile && profile.user && profile.user.username;
-    const role = isStreamer && 'userbox_role_streamer';
-
-    return (
-      <div className={style.top_menu}>
-        <div className={style.menu_wrap}>
-          <div className={style.links}>
-            <NavLink to="/home">
-              <h2 className={style.logo}>Pick.gg</h2>
-            </NavLink>
-
-            <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
-            <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
-          </div>
-
-          {profile && profile.user && (
-            <>
-
-              <NotificationBell/>
-
-              <DropDown
-                className={style.mobile_hidden}
-                placeholder={(
-                  <UserBox
-                    userpic={userpic}
-                    username={username}
-                    role={role}
-                    isLoading={this.state.isLoading}
-                  />
-                )}
-              >
-                {profile && profile.user && profile.user.isAdmin && (
-                  <NavLink to="/dashboard/tournaments">
-                    <i className="material-icons">dashboard</i>
-                    {i18n.t('dashboard')}
-                  </NavLink>
-                )}
-
-                <NavLink to="/rewards">
-                  <i className="material-icons">attach_money</i>
-                  {i18n.t('my_awards')}
-                </NavLink>
-
-                <NavLink to="/mytournaments">
-                  <i className="material-icons">assignment</i>
-                  {i18n.t('my_tournaments')}
-                </NavLink>
-
-                <NavLink to={`/user/${profile.user && profile.user._id}`}>
-                  <i className="material-icons">person</i>
-                  {i18n.t('public_profile')}
-                </NavLink>
-
-                <NavLink to="/profile">
-                  <i className="material-icons">settings</i>
-                  {i18n.t('setting_profile')}
-                </NavLink>
-
-                <GoogleLogout
-                  clientId={config.googleClientId}
-                  render={renderProperties => (
-                    <button type="button" className={style.btn_logout} onClick={renderProperties.onClick}>
-                      <i className="material-icons">exit_to_app</i>
-                      {i18n.t('log_out')}
-                    </button>
-                  )}
-                  onLogoutSuccess={this.handleLogout}
+        {currentUser && (
+          <>
+            <DropDown
+              className={style.mobile_hidden}
+              placeholder={(
+                <UserBox
+                  userpic={currentUser.imageUrl}
+                  username={currentUser.username}
+                  isAdmin={currentUser.isAdmin}
+                  canProvideTournaments={currentUser.canProvideTournaments}
                 />
-              </DropDown>
-
-              <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
-                <NavLink to="/tournaments">
-                  <i className="material-icons">whatshot</i>
-                  {i18n.t('tournaments')}
-                </NavLink>
-
+              )}
+            >
+              {currentUser.isAdmin && (
                 <NavLink to="/dashboard/tournaments">
                   <i className="material-icons">dashboard</i>
                   {i18n.t('dashboard')}
                 </NavLink>
+              )}
 
-                <NavLink to="/mytournaments">
-                  <i className="material-icons">assignment</i>
-                  {i18n.t('my_tournaments')}
-                </NavLink>
+              <NavLink to="/rewards">
+                <i className="material-icons">attach_money</i>
+                {i18n.t('my_awards')}
+              </NavLink>
 
-                <NavLink to={`/user/${this.props.user && this.props.user._id}`}>
-                  <i className="material-icons">person</i>
-                  {i18n.t('public_profile')}
-                </NavLink>
+              <NavLink to="/mytournaments">
+                <i className="material-icons">assignment</i>
+                {i18n.t('my_tournaments')}
+              </NavLink>
 
-                <NavLink to="/profile">
-                  <i className="material-icons">settings</i>
-                  {i18n.t('setting_profile')}
-                </NavLink>
+              <NavLink to={`/user/${currentUser._id}`}>
+                <i className="material-icons">person</i>
+                {i18n.t('public_profile')}
+              </NavLink>
 
-                <GoogleLogout
-                  buttonText="Logout"
-                  clientId={config.googleClientId}
-                  render={renderProperties => (
-                    <button type="button" className={style.btn_logout} {...renderProperties}>
-                      <i className="material-icons">exit_to_app</i>
-                      {i18n.t('log_out')}
-                    </button>
-                  )}
-                  onLogoutSuccess={this.handleLogout}
-                />
-              </DropDown>
-            </>
-          )
-          }
+              <NavLink to="/profile">
+                <i className="material-icons">settings</i>
+                {i18n.t('setting_profile')}
+              </NavLink>
 
-        </div>
+              <GoogleLogout
+                clientId={config.googleClientId}
+                render={({ onClick })=> (
+                  <button type="button" className={style.btn_logout} onClick={onClick}>
+                    <i className="material-icons">exit_to_app</i>
+                    {i18n.t('log_out')}
+                  </button>
+                )}
+                onLogoutSuccess={handleLogout}
+              />
+            </DropDown>
+
+            <DropDown className={style.desktop_hidden} placeholder={<i className="material-icons">menu</i>}>
+              <NavLink to="/tournaments">
+                <i className="material-icons">whatshot</i>
+                {i18n.t('tournaments')}
+              </NavLink>
+
+              <NavLink to="/dashboard/tournaments">
+                <i className="material-icons">dashboard</i>
+                {i18n.t('dashboard')}
+              </NavLink>
+
+              <NavLink to="/mytournaments">
+                <i className="material-icons">assignment</i>
+                {i18n.t('my_tournaments')}
+              </NavLink>
+
+              <NavLink to={`/user/${currentUser._id}`}>
+                <i className="material-icons">person</i>
+                {i18n.t('public_profile')}
+              </NavLink>
+
+              <NavLink to="/profile">
+                <i className="material-icons">settings</i>
+                {i18n.t('setting_profile')}
+              </NavLink>
+
+              <GoogleLogout
+                buttonText="Logout"
+                clientId={config.googleClientId}
+                render={renderProperties => (
+                  <button type="button" className={style.btn_logout} {...renderProperties}>
+                    <i className="material-icons">exit_to_app</i>
+                    {i18n.t('log_out')}
+                  </button>
+                )}
+                onLogoutSuccess={handleLogout}
+              />
+            </DropDown>
+          </>
+        )
+        }
+
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default TopMenuComponent;
+export default compose(
+  withRouter,
+  connect(
+    state => ({
+      currentUser: state.currentUser,
+    }),
+
+    {
+      setCurrentUser: storeActions.setCurrentUser,
+    }
+  ),
+)(Header);

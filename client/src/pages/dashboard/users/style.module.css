@@ -1,162 +1,41 @@
 .users {
-
-}
-
-.users .table .tournament_row {
-  cursor: pointer;
-}
-
-.users .table .tournament_row:hover {
-  --bg-color: var(--accent-color);
-  --text-color: #000;
-}
-
-.users .rules_inputs {
-  display: flex;
-}
-
-.users .rules_inputs .rule_input + .rule_input {
-  margin-left: 12px;
-}
-
-.users .section .title {
-  line-height: var(--height);
-  font-size: 24px;
-  font-family: var(--font-family-title);
-  font-weight: var(--font-weight-bold);
-  color: var(--caption-color);
-}
-
-.users .champions_section {
-  --height: 40px;
-}
-
-.users .champions_section .champions {
-  --gap: 10px;
   display: flex;
   flex-wrap: wrap;
-  margin-left: calc(var(--gap) * -1);
-  margin-top: calc(var(--gap) * -1);
 }
 
-.users .champions_section .champions .champion {
-  --champion-padding: 12px;
-  display: flex;
-  height: var(--height);
-  align-items: center;
-  margin-top: var(--gap);
-  margin-left: var(--gap);
-  padding-left: var(--champion-padding);
-  padding-right: var(--champion-padding);
-  min-width: 0;
-  flex-shrink: 0;
-  font-size: 16px;
-  line-height: var(--height);
-  color: var(--caption-color);
-  border-radius: calc(var(--height) / 2);
-  background-color: var(--primary-color);
-}
-
-.users .champions_section .champions .champion_add {
-  height: var(--height);
-  display: flex;
-  align-items: center;
-  margin-top: var(--gap);
-  margin-left: var(--gap);
-}
-
-.users .champions_section .champions .champion_add .select {
-  height: var(--height);
-  min-width: 200px;
-  background-color: var(--primary-color);
-  color: var(--accent-color);
-  border: none;
-  border-radius: 4px;
-}
-
-.users .champions_section .champions .champion_add .button {
-  height: var(--height);
-  min-width: 60px;
-  font-size: 16px;
-  margin-left: var(--gap);
-}
-
-.users .matches_section .match {
-  --height: 40px;
-  --padding: 10px;
-  height: var(--height);
-  padding-left: var(--padding);
-  padding-right: var(--padding);
-  display: flex;
-  align-items: center;
-  max-width: 300px;
-  margin-top: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.users .matches_section .match:not(:hover){
-  background-color: var(--primary-color);
-  color: var(--caption-color);
-}
-
-.users .matches_section .match:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
-}
-
-.users .add_user{
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 60px;
-  min-width: 20px;
-  height: 60px;
-  border-radius: 40px;
-}
-
-.users input{
+.users input {
   margin-bottom: 10px;
 }
 
-.checkbox {
+.row {
+  --bg-color: linear-gradient(180deg, rgba(80, 92, 120, .1), rgba(49, 54, 68, .1));
   display: flex;
-}
-
-.checkbox p {
-  color: var(--accent-color);
+  align-items: center;
+  height: 50px;
   font-size: 16px;
-  margin-right: 10px;
-}
-
-.checkbox .input {
-  -webkit-appearance: none;
-  background-color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-  padding: 9px;
-  border-radius: 3px;
-  display: inline-block;
-  position: relative;
+  border-radius: 4px;
+  background: var(--background-color);
+  transition-property: background-color;
+  color: #fafafa;
+  margin: 4px;
+  padding: 0 20px;
   cursor: pointer;
+  flex-basis: 30%;
+  transition: 0.35s;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.checkbox .input:active,
-.checkbox .input:checked:active {
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+.row:hover {
+  box-shadow: 0 0px 8px rgba(255, 255, 255, 0.2);
 }
 
-.checkbox .input:checked {
-  background-color: var(--primary-color);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-  color: #99a1a7;
+.row:active {
+  transform: scale(0.96);
 }
 
-.checkbox .input:checked:after {
-  content: '\2714';
-  font-size: 14px;
-  position: absolute;
-  top: 0px;
-  left: 3px;
-  color: var(--accent-color);
+@media (max-width: 480px) {
+  .row {
+    flex-basis: 100%;
+  }
 }

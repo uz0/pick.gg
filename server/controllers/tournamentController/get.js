@@ -1,4 +1,5 @@
 import TournamentModel from '../../models/tournament';
+import MatchModel from '../../models/match';
 
 export default async (req, res) => {
     const tournaments = await TournamentModel

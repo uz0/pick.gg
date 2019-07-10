@@ -4,6 +4,7 @@ import { reducers as notificationReducers } from 'components/notification';
 import { reducers as modalReducers } from 'components/modal-container';
 import { reducers as tournamentsReducers } from 'pages/tournaments';
 import { reducers as rewardsReducers } from 'pages/dashboard/rewards';
+import { reducers as usersReducers } from 'pages/dashboard/users';
 
 import actions from './actions';
 
@@ -22,4 +23,5 @@ export default combineReducers({
   modal: modalReducers,
   tournaments: tournamentsReducers,
   rewards: rewardsReducers,
+  users: usersReducers,
 });
