@@ -9,8 +9,8 @@ const initialState = {
 
 export default createReducer(initialState, {
   [actions.loadRewards]: (state, action) => {
-    let ids = [];
-    let list = {};
+    const ids = [];
+    const list = {};
 
     action.payload.forEach(reward => {
       ids.push(reward._id);
@@ -44,7 +44,7 @@ export default createReducer(initialState, {
   [actions.filterRewardsByClaim]: (state, action) => {
     const rewards = Object.values(state.list).filter(reward => reward.isClaimed === action.payload);
     const filteredRewardsIds = rewards.map(item => item._id);
-    let list = {};
+    const list = {};
 
     rewards.forEach(reward => {
       list[reward._id] = reward;
@@ -60,7 +60,7 @@ export default createReducer(initialState, {
   [actions.filterRewardsByUser]: (state, action) => {
     const rewards = Object.values(state.list).filter(reward => reward.userId === action.payload);
     const filteredRewardsIds = rewards.map(item => item._id);
-    let list = {};
+    const list = {};
 
     rewards.forEach(reward => {
       list[reward._id] = reward;
