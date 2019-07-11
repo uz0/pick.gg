@@ -29,6 +29,14 @@ class Tournament extends Component {
     }
   };
 
+  addRules = () => this.props.toggleModal({
+    id: 'add-tournament-rules-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
   editTournament = () => this.props.toggleModal({
     id: 'edit-tournament-modal',
 
@@ -98,6 +106,7 @@ class Tournament extends Component {
                       appearance="_circle-accent"
                       icon="plus"
                       className={style.button}
+                      onClick={this.addRules}
                     />
                   </div>
                 )}
