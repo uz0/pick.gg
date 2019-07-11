@@ -74,7 +74,6 @@ const enhance = compose(
       const { options, close, values } = props;
       const matches = [...options.matches];
 
-      console.log(matches);
       if (options.editUid) {
         const index = findIndex(matches, { uid: options.editUid });
         matches[index] = { ...values };
