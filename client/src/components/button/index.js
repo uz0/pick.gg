@@ -19,6 +19,7 @@ const Button = ({
   const isPropIcon = icon && !isIconString;
 
   return (
+    // eslint-disable-next-line react/button-has-type
     <button
       type={type}
       className={cx('button', className)}
