@@ -80,7 +80,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
 
               <GoogleLogout
                 clientId={config.googleClientId}
-                render={({ onClick })=> (
+                render={({ onClick }) => (
                   <button type="button" className={style.btn_logout} onClick={onClick}>
                     <i className="material-icons">exit_to_app</i>
                     {i18n.t('log_out')}

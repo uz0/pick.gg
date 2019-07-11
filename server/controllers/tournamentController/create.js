@@ -14,10 +14,6 @@ const validator = [
     .not()
     .isEmpty()
     .withMessage('Enter entry price'),
-  check('rules')
-    .not()
-    .isEmpty()
-    .withMessage('Provide rules'),
   check('startAt')
     .not()
     .isEmpty()
@@ -37,17 +33,11 @@ const handler = withValidationHandler(async (req, res) => {
     const newTournament = await TournamentModel.create(
       defaults(
         pick(req.body, [
-          'id',
           'name',
           'description',
-          'url',
-          'imageUrl',
           'startAt',
-          'rewards',
           'price',
-          'rules',
-          'creatorId',
-          'summoners',
+          'url'
         ]),
         {
           isReady: false,
@@ -57,7 +47,7 @@ const handler = withValidationHandler(async (req, res) => {
           summoners: [],
           rewards: [],
           createdAt: Date.now(),
-          creatorId: req.decoded._id
+          creator: req.decoded._id
         }
       )
     );

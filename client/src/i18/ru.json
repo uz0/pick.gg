@@ -230,6 +230,9 @@
     "edit_user": "Редактирование игрока",
     "summonername": "Имя призывателя",
     "choose_position": "Choose your position",
+    "twich_account": "Аккаунт Twich",
+    "profile_photo": "Аватар",
+    "summoner_name": "Имя призывателя",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
@@ -279,7 +282,8 @@
       }
     },
     "new_tournament": {
-      "empty_name": "Пожалуйста, введите название турнира"
+      "empty_name": "Пожалуйста, введите название турнира",
+      "enter_valid_url": "Пожалуйста, вставьте корректную ссылку на стрим"
     },
     "notifications": {
       "player": {
@@ -290,7 +294,8 @@
         "entity_is_edited": "{{ name }} отредактирован",
         "entity_is_deleted": "{{ name }} удалён",
         "user_edited": "Пользователь отредактирован",
-        "user_deleted": "Пользователь удалён"
+        "user_deleted": "Пользователь удалён",
+        "profile_edited": "Профиль отредактирован"
       },
       "finalization": {
         "no_participatns": "Вы не можете завершить турнир без участников.",

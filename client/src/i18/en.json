@@ -223,6 +223,9 @@
     "edit_user": "Edit user",
     "summonername": "Summoner Name",
     "choose_position": "Choose your position",
+    "twich_account": "Twitch account",
+    "profile_photo": "Profile photo",
+    "summoner_name": "Summoner name",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
@@ -272,7 +275,8 @@
       }
     },
     "new_tournament": {
-      "empty_name": "Name field can not be empty"
+      "empty_name": "Name field can not be empty",
+      "enter_valid_url": "Please, enter correct stream link"
     },
     "notifications": {
       "finalization": {
@@ -284,7 +288,8 @@
         "entity_is_edited": "{{ name }} was edited",
         "entity_is_deleted": "{{ name }} was deleted",
         "user_edited": "User is edited",
-        "user_deleted": "User is deleted"
+        "user_deleted": "User is deleted",
+        "profile_edited": "Profile is edited"
       },
       "errors": {
         "closed_window": "User closed login window",
