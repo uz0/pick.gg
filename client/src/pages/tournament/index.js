@@ -57,6 +57,8 @@ class Tournament extends Component {
     const price = get(this.props, 'tournament.price');
     const date = moment(get(this.props, 'tournament.date', '')).format('MMM DD, h:mm');
 
+    const isCurrentUserCreator = get(this.props, 'tournament.creator') === get(this.props, 'currentUser._id');
+
     return (
       <div className={cx('tournament', 'container')}>
         <div className={style.inner_container}>
@@ -76,12 +78,14 @@ class Tournament extends Component {
             </div>
 
             <div className={style.actions}>
-              <Button
-                text={i18n.t('edit')}
-                appearance="_basic-accent"
-                className={style.button}
-                onClick={this.editTournament}
-              />
+              {isCurrentUserCreator && (
+                <Button
+                  text={i18n.t('edit')}
+                  appearance="_basic-accent"
+                  className={style.button}
+                  onClick={this.editTournament}
+                />
+              )}
 
               <Button
                 text={i18n.t('join_tournament')}
@@ -135,6 +139,7 @@ export default compose(
   connect(
     (state, props) => ({
       tournament: state.tournaments.list[props.match.params.id],
+      currentUser: state.currentUser,
     }),
 
     {
