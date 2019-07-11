@@ -22,6 +22,10 @@
   border-radius: 6px;
 }
 
+.wrapper .modal:global(.align-modal-center) {
+  margin: auto;
+}
+
 .wrapper .modal .header {
   --header-height: 60px;
   flex-shrink: 0;
