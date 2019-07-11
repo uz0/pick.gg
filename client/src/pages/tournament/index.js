@@ -53,11 +53,13 @@ class Tournament extends Component {
 
   render() {
     const name = get(this.props, 'tournament.name');
+    const creator = get(this.props, 'tournament.creator');
+    const currentUser = get(this.props, 'currentUser');
     const description = get(this.props, 'tournament.description');
     const price = get(this.props, 'tournament.price');
-    const date = moment(get(this.props, 'tournament.date', '')).format('MMM DD, h:mm');
+    const createdAt = moment(get(this.props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
 
-    const isCurrentUserCreator = get(this.props, 'tournament.creator') === get(this.props, 'currentUser._id');
+    const isCurrentUserCreator = creator && creator._id === currentUser._id;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -67,10 +69,18 @@ class Tournament extends Component {
               <h2 className={style.title}>{name}</h2>
 
               <div className={style.info}>
-                <p className={style.text}>{date}</p>
+                <p className={style.text}>{createdAt}</p>
 
                 <p className={style.text}>
-                Created By <Link to="/">efim1382 <Icon name="star"/></Link>
+                  Created By
+                  {creator && (
+                    <Link
+                      className={style.creator}
+                      to={`/user/${creator._id}`}
+                    >
+                      {creator.username}<Icon name="star"/>
+                    </Link>
+                  )}
                 </p>
               </div>
 
@@ -106,19 +116,19 @@ class Tournament extends Component {
           <h3 className={style.subtitle}>Information</h3>
 
           <div className={style.list}>
-            {description &&
+            {description && (
               <div className={style.item}>
                 <label className={style.title}>Description</label>
                 <p className={style.value}>{description}</p>
               </div>
-            }
+            )}
 
-            {price &&
+            {price && (
               <div className={style.item}>
                 <label className={style.title}>Price</label>
                 <p className={style.value}>{price} $</p>
               </div>
-            }
+            )}
           </div>
 
           {this.props.tournament && (
