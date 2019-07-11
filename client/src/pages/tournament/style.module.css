@@ -18,7 +18,6 @@
 .tournament .inner_container .tournament_section {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
   width: 100%;
 }
 
@@ -94,6 +93,30 @@
   right: 0;
 }
 
+.tournament .inner_container .tournament_section .main .tournament_readiness_status {
+  margin-top: 8px;
+  counter-reset: item;
+}
+
+.tournament .inner_container .tournament_section .main .tournament_readiness_status .item {
+  display: flex;
+  align-items: center;
+}
+
+.tournament .inner_container .tournament_section .main .tournament_readiness_status .item + .item {
+  margin-top: 8px;
+}
+
+.tournament .inner_container .tournament_section .main .tournament_readiness_status .item p {
+  color: var(--accent-color);
+  margin-right: 14px;
+}
+
+.tournament .inner_container .tournament_section .main .tournament_readiness_status .item p::before {
+  counter-increment: item;
+  content: counter(item) ". ";
+}
+
 .tournament .inner_container .tournament_section .main .tournament_status {
   display: block;
   margin-top: 10px;
@@ -107,10 +130,10 @@
 }
 
 .tournament .inner_container .tournament_section .actions .button {
-  --height: 54px;
+  --height: 44px;
   max-width: 400px;
   margin-left: auto;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .tournament .inner_container .tournament_section .actions .button:nth-of-type(n+2) {

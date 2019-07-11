@@ -57,9 +57,15 @@ class Tournament extends Component {
     const currentUser = get(this.props, 'currentUser');
     const description = get(this.props, 'tournament.description');
     const price = get(this.props, 'tournament.price');
+    const rules = get(this.props, 'tournament.rules');
+    const rewards = get(this.props, 'tournament.rewards');
+    const matches = get(this.props, 'tournament.matches');
     const createdAt = moment(get(this.props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
 
     const isCurrentUserCreator = creator && creator._id === currentUser._id;
+    const isRulesAdded = rules && rules.length > 0;
+    const isRewardsAdded = rewards && rewards.length > 0;
+    const isMatchesAdded = matches && matches.length > 0;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -84,7 +90,40 @@ class Tournament extends Component {
                 </p>
               </div>
 
-              <p className={style.tournament_status}>tournament_started</p>
+              <div className={style.tournament_readiness_status}>
+                {!isRulesAdded && (
+                  <div className={style.item}>
+                    <p>Добавьте правила турнира</p>
+                    <Button
+                      appearance="_circle-accent"
+                      icon="plus"
+                      className={style.button}
+                    />
+                  </div>
+                )}
+
+                {!isRewardsAdded && (
+                  <div className={style.item}>
+                    <p>Добавьте награды для участников</p>
+                    <Button
+                      appearance="_circle-accent"
+                      icon="plus"
+                      className={style.button}
+                    />
+                  </div>
+                )}
+
+                {!isMatchesAdded && (
+                  <div className={style.item}>
+                    <p>Добавьте хотя бы один матч</p>
+                    <Button
+                      appearance="_circle-accent"
+                      icon="plus"
+                      className={style.button}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className={style.actions}>
