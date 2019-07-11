@@ -9,8 +9,6 @@ import ym from 'react-yandex-metrika';
 import i18n from 'i18next';
 import config from 'config';
 
-import Footer from 'components/footer';
-
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
 import { http, isLogged } from 'helpers';
@@ -211,8 +209,6 @@ class Start extends Component {
             </div>
           </div>
         </section>
-
-        <Footer/>
       </>
     );
   }
