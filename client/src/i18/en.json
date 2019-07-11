@@ -254,7 +254,8 @@
       }
     },
     "new_tournament": {
-      "empty_name": "Name field can not be empty"
+      "empty_name": "Name field can not be empty",
+      "enter_valid_url": "Please, enter correct stream link"
     },
     "notifications": {
       "finalization": {

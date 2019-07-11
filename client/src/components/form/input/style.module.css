@@ -37,6 +37,19 @@
   width: 24px;
 }
 
+.wrapper .field[type="date"]::-webkit-inner-spin-button,
+.wrapper .field[type="date"]::-webkit-clear-button {
+  -webkit-appearance: none;
+}
+
+.wrapper .field[type="date"]::-webkit-calendar-picker-indicator {
+  padding: 4px 8px;
+  color: var(--accent-color);
+  background-color: rgba(0, 0, 0, 0.75);
+  opacity: 1;
+  cursor: pointer;
+}
+
 .wrapper .error {
   line-height: 1.5;
   font-size: 12px;
