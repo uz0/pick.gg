@@ -7,11 +7,15 @@ import { Form, withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import { actions as storeActions } from 'store';
 import { FormInput } from 'components/form/input';
-import Select from 'components/form/select';
+import Select from 'components/form/selects/select';
+import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 
+import classnames from 'classnames/bind';
 import style from './style.module.css';
 import i18n from 'i18n';
+
+const cx = classnames.bind(style);
 
 const normalizePositionsField = obj => {
   if (obj.preferredPosition) {
@@ -31,61 +35,65 @@ const validationSchema = Yup.object().shape({
 
 const Profile = () => {
   return (
-    <div className="container">
-      <div className={style.form_wrap}>
-        <Form className={style.form}>
-          <Field
-            component={FormInput}
-            label={i18n.t('username')}
-            name="username"
-            className={style.field}
-          />
+    <div className={cx('container', 'profile')}>
+      <Form className={style.form}>
+        <Field
+          component={FormInput}
+          label={i18n.t('username')}
+          name="username"
+          className={style.field}
+        />
 
-          <Field
-            component={FormInput}
-            label={i18n.t('summoner_name')}
-            name="summonerName"
-            className={style.field}
-          />
+        <Field
+          component={FormInput}
+          label={i18n.t('summoner_name')}
+          name="summonerName"
+          className={style.field}
+        />
 
-          <Field
-            component={FormInput}
-            label={i18n.t('email')}
-            name="email"
-            className={style.field}
-          />
+        <Field
+          component={FormInput}
+          label={i18n.t('email')}
+          name="email"
+          className={style.field}
+        />
 
-          <Field
-            component={FormInput}
-            label={i18n.t('profile_photo')}
-            name="imageUrl"
-            className={style.field}
-          />
+        <Field
+          component={FormInput}
+          label={i18n.t('profile_photo')}
+          name="imageUrl"
+          className={style.field}
+        />
 
-          <Field
-            component={FormInput}
-            type="textarea"
-            label={i18n.t('about')}
-            name="about"
-            className={style.field}
-          />
+        <Field
+          component={FormInput}
+          type="textarea"
+          label={i18n.t('about')}
+          name="about"
+          className={style.field}
+        />
 
-          <Field
-            component={FormInput}
-            type="textarea"
-            label={i18n.t('twich_account')}
-            name="twitchAccount"
-            className={style.field}
-          />
-          <Field
-            component={Select}
-            label={i18n.t('Position')}
-            name="preferredPosition"
-            className={style.field}
-          />
-          <button className={style.save} type="submit">{i18n.t('save_changes')}</button>
-        </Form>
-      </div>
+        <Field
+          component={FormInput}
+          type="textarea"
+          label={i18n.t('twich_account')}
+          name="twitchAccount"
+          className={style.field}
+        />
+        <Field
+          component={Select}
+          label={i18n.t('Position')}
+          name="preferredPosition"
+          className={style.field}
+        />
+        {/* <button className={style.save} type="submit">{i18n.t('save_changes')}</button> */}
+        <Button
+          appearance="_basic-accent"
+          type="submit"
+          text={i18n.t('save_changes')}
+          className={style.save}
+        />
+      </Form>
     </div>
   );
 };
