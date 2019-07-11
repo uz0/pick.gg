@@ -1,11 +1,5 @@
-.container {
-  padding: 20px 0;
-}
-
-.form_wrap {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+.profile {
+  padding: var(--layout-padding);
 }
 
 .form {
@@ -17,26 +11,9 @@
   border-radius: 4px;
 }
 
-.form>div {
-  display: flex;
-  flex-direction: column;
-}
-
-.form>div:not(:first-of-type) {
-  margin-top: 16px;
-}
-
-.form>div label {
+.form label {
   padding-left: 8px;
-}
-
-.save {
-  background: var(--accent-color);
-  border: 0;
-  border-radius: 4px;
-  color: #000;
-  height: 40px;
-  padding: 0 20px;
+  margin-top: 10px;
 }
 
 .form .save {
