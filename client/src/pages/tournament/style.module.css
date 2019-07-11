@@ -75,6 +75,10 @@
   margin-left: 8px;
 }
 
+.tournament .inner_container .tournament_section .main .info .text .creator {
+  margin-left: 8px;
+}
+
 .tournament .inner_container .tournament_section .main .info .text a {
   position: relative;
   padding-right: 14px;
