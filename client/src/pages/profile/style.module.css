@@ -1,202 +1,25 @@
-.home_page {
-  display: flex;
-  justify-content: space-between;
-  padding: 40px 0;
-}
-
-main {
-  width: 550px !important;
-  margin: 0 auto;
-}
-
-.content {
-  margin-top: 0px;
-  display: flex;
-}
-
-.form_container {
-  flex-grow: 1;
-  margin-left: 0px;
+.profile {
+  padding: var(--layout-padding);
 }
 
 .form {
+  width: 600px;
+  margin: 0px auto;
   background-color: var(--background-color);
   box-shadow: 0px 1px 1px #000000;
   padding: 16px;
   border-radius: 4px;
 }
 
-.form > div {
-  display: flex;
-  flex-direction: column;
-}
-
-.form > div:not(:first-of-type){
-  margin-top: 16px;
-}
-
-.form > div label {
-  color: #D79634;
-  font-size: 12px;
-  padding-left: 12px;
-}
-
-.form > div input[type="text"],
-.form > div textarea {
-  border: none;
-  height: 40px;
-  font-size: 16px;
-  margin-top: 6px;
-  background-color: #060916;
-  box-shadow: 0px 1px 1px #000000;
-  border-radius: 4px;
-  text-indent: 12px;
-  color: var(--accent-color);
-}
-.content .form input[name="email"]{
-  opacity: 0.8;
-}
-.form > div textarea {
-  resize: none;
-  padding: 12px;
-  text-indent: 0px;
-  height: auto;
-}
-
-.localization {
-  display: flex;
-  margin-bottom: 24px;
-}
-
-.localization > label {
-  margin-bottom: 8px;
-}
-
-.localization > div {
-  display: flex;
-}
-
-.localization .item {
-  display: flex;
-  align-items: center;
-}
-
-.localization .item + .item {
-  margin-left: 12px;
-}
-
-.localization .item label {
-  margin-right: 8px;
-}
-
-.localization .item input {
-  height: 18px;
-  width: 18px;
-}
-
-
-
-.password_recovery {
-  height: 75px;
+.form label {
+  padding-left: 8px;
   margin-top: 10px;
-  margin-bottom: 32px;
-  padding-left: 16px;
-  padding-right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--background-color);
 }
 
-.password_recovery p {
-  color: #787888;
+.form .save {
+  margin-top: 14px;
 }
 
-.password_recovery a {
-  color: #fff;
-  text-decoration: underline;
-  text-align: center;
-}
-
-.password_recovery a:hover {
-  color: var(--accent-color);
-}
-
-.is_preloader_form{
-  background-image: url('../../assets/form-settings.svg');
-  animation: loading 0.5s infinite;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.is_preloader_form .form{
-  opacity: 0;
-  transition: all 0.4s;
-}
-
-@keyframes loading{
-  0% { opacity: 1; }
-  50% { opacity: 0.8; }
-  0% { opacity: 1; }
-}
-
-.skeleton{
-  background-image: linear-gradient(-90deg, #fff 0%, #e6e6e6 50%, #fff 100%);
-  background-size: 400% 400%;
-  animation: pulse 1.2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: -135% 0%;
-  }
-}
-
-
-@media (max-width: 1440px) {
-  .home_page main {
-    width: 550px;
-  }
-}
-
-@media (max-width: 480px) {
-  main h1{
-    font-size: 21px;
-  }
-
-  .home_page main{
-    width: 90%;
-  }
-  .form_container .form label{
-    font-size: 16px;
-  }
-  .form_container .form button{
-    font-size: 16px;
-  }
-
-  .content{
-    margin-top: 0px;
-    display: flex;
-    flex-direction: column;
-  }
- 
-  .form_container{
-    margin-left: 0;
-    margin-top: 10px;
-  }
-  .password_recovery{
-    font-size: 18px;
-    padding: 50px 16px;
-  }
-  .is_preloader_form{
-    background-image: url('../../assets/form-settings-min.svg');
-  }
-}
-@media (max-width: 320px) {
-  .is_preloader_form{
-    background-size: 100%;
-  }
+.email {
+  opacity: 0.85;
 }

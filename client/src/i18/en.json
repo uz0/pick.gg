@@ -223,6 +223,9 @@
     "edit_user": "Edit user",
     "summonername": "Summoner Name",
     "choose_position": "Choose your position",
+    "twich_account": "Twitch account",
+    "profile_photo": "Profile photo",
+    "summoner_name": "Summoner name",
     "modal": {
       "step": "Step",
       "of": "of",
@@ -267,7 +270,8 @@
         "entity_is_edited": "{{ name }} was edited",
         "entity_is_deleted": "{{ name }} was deleted",
         "user_edited": "User is edited",
-        "user_deleted": "User is deleted"
+        "user_deleted": "User is deleted",
+        "profile_edited": "Profile is edited"
       },
       "errors": {
         "closed_window": "User closed login window",

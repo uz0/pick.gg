@@ -1,167 +1,172 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { http, getChangedFormFields } from 'helpers';
 
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import { Form, withFormik, Field } from 'formik';
+import * as Yup from 'yup';
+import { actions as storeActions } from 'store';
+import { FormInput } from 'components/form/input';
+import Select from 'components/form/selects/select';
 import Button from 'components/button';
-import Preloader from 'components/preloader';
+import notificationActions from 'components/notification/actions';
 
+import classnames from 'classnames/bind';
 import style from './style.module.css';
 import i18n from 'i18n';
-import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 
-class Profile extends Component {
-  state = {
-    formData: {
-      username: '',
-      email: '',
-      about: '',
-      photo: '',
-      summonerName: '',
-      isStreamer: '',
-      lolApiKey: '',
+const normalizePositionsField = obj => {
+  if (obj.preferredPosition) {
+    return {
+      ...obj,
+      preferredPosition: obj.preferredPosition.value,
+    };
+  }
+};
+
+const validationSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+});
+
+const Profile = () => {
+  return (
+    <div className={cx('container', 'profile')}>
+      <Form className={style.form}>
+        <Field
+          component={FormInput}
+          label={i18n.t('username')}
+          name="username"
+          className={style.field}
+        />
+
+        <Field
+          component={FormInput}
+          label={i18n.t('summoner_name')}
+          name="summonerName"
+          className={style.field}
+        />
+
+        <Field
+          component={Select}
+          label={i18n.t('Position')}
+          name="preferredPosition"
+          className={style.field}
+        />
+
+        <Field
+          disabled
+          component={FormInput}
+          label={i18n.t('email')}
+          name="email"
+          className={cx('email', 'field')}
+        />
+
+        <Field
+          component={FormInput}
+          label={i18n.t('profile_photo')}
+          name="imageUrl"
+          className={style.field}
+        />
+
+        <Field
+          component={FormInput}
+          type="textarea"
+          label={i18n.t('about')}
+          name="about"
+          className={style.field}
+        />
+
+        <Field
+          component={FormInput}
+          type="textarea"
+          label={i18n.t('twich_account')}
+          name="twitchAccount"
+          className={style.field}
+        />
+
+        <Button
+          appearance="_basic-accent"
+          type="submit"
+          text={i18n.t('save_changes')}
+          className={style.save}
+        />
+      </Form>
+    </div>
+  );
+};
+
+const enhance = compose(
+  connect(
+    store => ({
+      currentUser: store.currentUser,
+    }),
+
+    {
+      setCurrentUser: storeActions.setCurrentUser,
+      showNotification: notificationActions.showNotification,
+    }
+  ),
+  withFormik({
+    validationSchema,
+    mapPropsToValues: ({ currentUser }) => {
+      const {
+        _id,
+        username,
+        email,
+        summonerName,
+        imageUrl,
+        about,
+        twitchAccount,
+        preferredPosition,
+      } = currentUser;
+
+      return {
+        _id,
+        username,
+        email,
+        summonerName,
+        imageUrl,
+        about,
+        twitchAccount,
+        preferredPosition,
+      };
     },
-    locale: '',
-    isLoading: true,
-  };
+    handleSubmit: async (values, formikBag) => {
+      const defaultState = formikBag.props.currentUser;
 
-  handleChange = event => {
-    event.preventDefault();
-    const { formData } = this.state;
-    const { name, value } = event.target;
-    formData[name] = value;
-    this.setState({ formData });
-  }
+      const requestBody = getChangedFormFields(defaultState, values);
 
-  async componentDidMount() {
-    this.setState({ isLoading: true });
+      const editUserRequest = async body => {
+        try {
+          const request = await http('/api/users/me', {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+            body: JSON.stringify(normalizePositionsField(body)),
+          });
 
-    const locale = localStorage.getItem('_pgg_locale');
-  }
+          return request.json();
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-  changeLocale = event => {
-    this.setState({
-      locale: event.target.name,
-    });
+      formikBag.props.showNotification({
+        type: 'success',
+        shouldBeAddedToSidebar: false,
+        message: i18n.t('notifications.success.profile_edited'),
+      });
 
-    localStorage.setItem('_pgg_locale', event.target.name);
+      editUserRequest(requestBody);
+      formikBag.props.setCurrentUser({ ...values });
+    },
+  }),
+);
 
-    i18n.changeLanguage(event.target.name);
-  }
-
-  handleSubmit = async event => {
-    event.preventDefault();
-  }
-
-  render() {
-    const LOCALES = ['en', 'ru'];
-
-    return (
-      <div className="container">
-        <div className={style.home_page}>
-          <main>
-            <div className={style.content}>
-              <div className={cx(style.form_container, { [style.is_preloader_form]: this.state.isLoading })}>
-                <form className={cx(style.form)} onSubmit={this.handleSubmit}>
-                  <div>
-                    <label>{i18n.t('username')}</label>
-                    <input
-                      type="text"
-                      name="username"
-                      value={this.state.formData.username}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-
-                  {this.state.formData.isStreamer && (
-                    <>
-                      <div>
-                        <label>{i18n.t('summonerName')}</label>
-                        <input
-                          type="text"
-                          name="summonerName"
-                          value={this.state.formData.summonerName}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div>
-                        <label>{i18n.t('lolApiKey')}</label>
-                        <input
-                          type="text"
-                          name="lolApiKey"
-                          value={this.state.formData.lolApiKey}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                    </>
-                  )
-                  }
-
-                  <div>
-                    <label>{i18n.t('email')}</label>
-                    <input
-                      disabled
-                      type="text"
-                      name="email"
-                      value={this.state.formData.email}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-
-                  <div>
-                    <label>Photo</label>
-                    <input
-                      type="text"
-                      name="photo"
-                      value={this.state.formData.photo}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-
-                  <div>
-                    <label>{i18n.t('about')}</label>
-                    <textarea
-                      name="about"
-                      value={this.state.formData.about}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-
-                  <div className={style.localization}>
-                    <label>{i18n.t('settings_locale')}</label>
-                    <div>
-                      {
-                        LOCALES.map(locale => (
-                          <div key={locale} className={style.item}>
-                            <label>{locale.toUpperCase()}</label>
-                            <input
-                              type="radio"
-                              name={locale}
-                              value={this.state.locale}
-                              checked={this.state.locale === locale}
-                              onChange={this.changeLocale}
-                            />
-                          </div>
-                        ))
-                      }
-                    </div>
-                  </div>
-
-                  <Button
-                    appearance="_basic-accent"
-                    text={i18n.t('save_changes')}
-                  />
-                </form>
-              </div>
-            </div>
-
-            {this.state.isLoading &&
-              <Preloader/>
-            }
-          </main>
-        </div>
-      </div>
-    );
-  }
-}
-
-export default Profile;
+export default enhance(Profile);
