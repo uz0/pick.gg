@@ -11,7 +11,7 @@ import config from 'config';
 
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
-import { http, isLogged } from 'helpers';
+import { http } from 'helpers';
 
 import cardOne from 'assets/card-1.png';
 import cardTwo from 'assets/card-2.png';
@@ -78,7 +78,6 @@ class Start extends Component {
   };
 
   render() {
-    const isUserAuthenticated = isLogged();
 
     return (
       <>
@@ -89,27 +88,22 @@ class Start extends Component {
             <p>{i18n.t('home.under_title')}</p>
 
             <div className={style.buttons}>
-              {isUserAuthenticated ? (
-                <Link className={style.button} to="/tournaments">
-                  <span>{i18n.t('go_to_tournaments')}</span>
-                </Link>
-              ) : (
-                <GoogleLogin
-                  autoLoad={Boolean(this.tournamentId)}
-                  render={renderProperties => (
-                    <button
-                      type="button"
-                      className={style.button}
-                      onClick={renderProperties.onClick}
-                    >
-                      <span>{i18n.t('Jump in!')}</span>
-                    </button>
-                  )}
-                  clientId={config.googleClientId}
-                  onSuccess={this.onSuccessGoogleLogin}
-                  onFailure={this.onFailureGoogleLogin}
-                />
-              )}
+              <GoogleLogin
+                autoLoad={Boolean(this.tournamentId)}
+                render={renderProperties => (
+                  <button
+                    type="button"
+                    className={style.button}
+                    onClick={renderProperties.onClick}
+                  >
+                    <span>{i18n.t('Jump in!')}</span>
+                  </button>
+                )}
+                clientId={config.googleClientId}
+                onSuccess={this.onSuccessGoogleLogin}
+                onFailure={this.onFailureGoogleLogin}
+              />
+
               <Link to="#" className={style.streamer}>{i18n.t('home.link_1')}</Link>
             </div>
           </div>
@@ -184,27 +178,22 @@ class Start extends Component {
             <p>{i18n.t('home.footer_undertitle_2')}</p>
 
             <div className={style.buttons}>
-              {isUserAuthenticated ? (
-                <Link className={style.button} to="/tournaments">
-                  <span>{i18n.t('go_to_tournaments')}</span>
-                </Link>
-              ) : (
-                <GoogleLogin
-                  autoLoad={Boolean(this.tournamentId)}
-                  render={renderProperties => (
-                    <button
-                      type="button"
-                      className={style.button}
-                      onClick={renderProperties.onClick}
-                    >
-                      <span>{i18n.t('home.button_2')}</span>
-                    </button>
-                  )}
-                  clientId={config.googleClientId}
-                  onSuccess={this.onSuccessGoogleLogin}
-                  onFailure={this.onFailureGoogleLogin}
-                />
-              )}
+              <GoogleLogin
+                autoLoad={Boolean(this.tournamentId)}
+                render={renderProperties => (
+                  <button
+                    type="button"
+                    className={style.button}
+                    onClick={renderProperties.onClick}
+                  >
+                    <span>{i18n.t('home.button_2')}</span>
+                  </button>
+                )}
+                clientId={config.googleClientId}
+                onSuccess={this.onSuccessGoogleLogin}
+                onFailure={this.onFailureGoogleLogin}
+              />
+
               <Link to="#" className={style.streamer}>{i18n.t('home.link_2')}</Link>
             </div>
           </div>

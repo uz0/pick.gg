@@ -1,11 +1,3 @@
-:root {
-  --accent-color: #2f998e;
-  --dark: #26333c;
-  --light-dark: #3c4750;
-  --light-light-dark: #677077;
-  --light-accent: #3bbcb0;
-}
-
 @font-face {
   font-family: 'Roboto';
   src: local('Roboto Bold'), local('Roboto-Bold'), url('../../assets/fonts/Robotobold.woff2') format('woff2'), url('../../assets/fonts/Robotobold.woff') format('woff'), url('../../assets/fonts/Robotobold.ttf') format('truetype');
@@ -41,7 +33,7 @@
   font-style: normal;
 }
 
-body {
+.main, .work, .footer {
   margin: 0;
   font-family: Fira Sans, sans-serif;
 }
@@ -52,14 +44,14 @@ body {
   margin: 0 auto;
 }
 
-h1 {
+.main h1 {
   font-size: 144px;
   font-family: Roboto, sans-serif;
   margin: 0;
   color: #fff;
 }
 
-h2 {
+.work h2, .footer h2 {
   font-size: 96px;
   margin: 0;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
@@ -97,7 +89,7 @@ section {
 }
 
 .buttons .button {
-  background-color: var(--accent-color);
+  background-color: #2f998e;
   font-size: 48px;
   font-weight: bold;
   text-decoration: none;
@@ -199,14 +191,14 @@ section {
   .wrap {
     max-width: 1000px
   }
-  h1 {
+  .main h1 {
     font-size: 96px;
   }
   .main p {
     font-size: 27px;
     padding-top: 12px;
   }
-  h2 {
+  .work h2, .footer h2 {
     font-size: 48px;
   }
   .buttons {
@@ -296,7 +288,7 @@ section {
   .main p {
     font-size: 27px;
   }
-  h2 {
+  .work h2, .footer h2 {
     font-size: 36px;
   }
   .footer p {
