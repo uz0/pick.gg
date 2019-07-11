@@ -9,17 +9,14 @@ import ym from 'react-yandex-metrika';
 import i18n from 'i18next';
 import config from 'config';
 
-import Footer from 'components/footer';
-
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
-import { http, isLogged } from 'helpers';
+import { http } from 'helpers';
 
-import Lpl from 'assets/start/lpl.png';
-import Lolchamp from 'assets/start/lolchamp.png';
-import Lck from 'assets/start/lck.png';
-import { ReactComponent as GoogleIcon } from 'assets/google-icon.svg';
-import zed from 'assets/zed.mp4';
+import cardOne from 'assets/card-1.png';
+import cardTwo from 'assets/card-2.png';
+import cardThree from 'assets/card-3.png';
+import cardFour from 'assets/card-4.png';
 
 class Start extends Component {
   constructor(properties) {
@@ -81,120 +78,127 @@ class Start extends Component {
   };
 
   render() {
-    const isUserAuthenticated = isLogged();
 
     return (
-      <div className="container">
-        <div className={style.login_page}>
+      <>
+        <section className={style.main}>
+          <div className={style.wrap}>
+            <h1>Pick.gg</h1>
 
-          <section className={style.login_section}>
-            <div className={style.start_content}>
-              <div className={style.wrap_layout}>
-                <div className={style.front_layout}>
-                  <h1>Fantasy league</h1>
+            <p>{i18n.t('home.under_title')}</p>
 
-                  <div className={style.start_btns}>
-                    {isUserAuthenticated ? (
-                      <Link to="/tournaments">
-                        <span>{i18n.t('go_to_tournaments')}</span>
-                      </Link>
-                    ) : (
-                      <GoogleLogin
-                        icon
-                        autoLoad={Boolean(this.tournamentId)}
-                        render={renderProperties => (
-                          <button type="button" onClick={renderProperties.onClick}>
-                            <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
-                          </button>
-                        )}
-                        clientId={config.googleClientId}
-                        onSuccess={this.onSuccessGoogleLogin}
-                        onFailure={this.onFailureGoogleLogin}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <video loop autoPlay>
-                <source src={zed}/>
-              </video>
-            </div>
-          </section>
-
-          <section className={style.guide}>
-            <div className={style.wrap_guide}>
-              <h2>{i18n.t('what_is_fantasy')}</h2>
-
-              <p>{i18n.t('fantasy_is')}</p>
-
-              <h3>{i18n.t('how_to_play')}</h3>
-
-              <div className={style.step}>
-                <h4>1. {i18n.t('guade_choose')}</h4>
-
-                <p>{i18n.t('guade_choose_content')}</p>
-              </div>
-
-              <div className={style.step}>
-                <h4>2. {i18n.t('guade_create')}</h4>
-
-                <p>{i18n.t('guade_create_content')}</p>
-              </div>
-
-              <div className={style.step}>
-                <h4>3. {i18n.t('guade_win')}</h4>
-                <p>{i18n.t('guade_win_content')}</p>
-              </div>
-            </div>
-          </section>
-
-          <section className={style.tournament_players}>
-            <div className={style.wrap_tournament_players}>
-              <h2>{i18n.t('tournaments_players')}</h2>
-
-              <p>{i18n.t('tournament_players_content_1')}</p>
-
-              <p>{i18n.t('tournament_players_content_2')}</p>
-
-              <div className={style.tournaments}>
-
-                <div className={style.item_tournament}>
-                  <img src={Lpl} alt="lpl"/>
-                </div>
-
-                <div className={style.item_tournament}>
-                  <img src={Lck} alt="lck"/>
-                </div>
-
-                <div className={style.item_tournament}>
-                  <img src={Lolchamp} alt="lolchamp"/>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className={style.play_fantasy}>
-            {isUserAuthenticated ? (
+            <div className={style.buttons}>
               <GoogleLogin
-                icon
+                autoLoad={Boolean(this.tournamentId)}
                 render={renderProperties => (
-                  <button type="button" onClick={renderProperties.onClick}>
-                    <span>{i18n.t('start_with')} <GoogleIcon className={style.google_icon}/></span>
+                  <button
+                    type="button"
+                    className={style.button}
+                    onClick={renderProperties.onClick}
+                  >
+                    <span>{i18n.t('Jump in!')}</span>
                   </button>
                 )}
                 clientId={config.googleClientId}
                 onSuccess={this.onSuccessGoogleLogin}
                 onFailure={this.onFailureGoogleLogin}
               />
-            ) : (
-              <Link to="/tournaments">{i18n.t('play_fantasy')}</Link>
-            )}
-          </section>
 
-          <Footer/>
-        </div>
-      </div>
+              <Link to="#" className={style.streamer}>{i18n.t('home.link_1')}</Link>
+            </div>
+          </div>
+        </section>
+
+        <section className={style.work}>
+          <div className={style.wrap}>
+            <h2>{i18n.t('home.how_it_work')}</h2>
+
+            <div className={style.cards}>
+              <div className={style.card}>
+                <img src={cardOne} alt="Image"/>
+
+                <div className={style.text}>
+                  <div className={style.first_title}>
+                    {i18n.t('home.card_1_title')}
+                  </div>
+                </div>
+              </div>
+
+              <div className={style.card}>
+                <img src={cardTwo} alt="Image"/>
+
+                <div className={style.text}>
+                  <div className={style.title}>
+                    {i18n.t('home.card_2_title')}
+                  </div>
+
+                  <div className={style.undertitle}>
+                    {i18n.t('home.card_2_undertitle')}
+                  </div>
+                </div>
+              </div>
+
+              <div className={style.card}>
+                <img src={cardThree} alt="Image"/>
+
+                <div className={style.text}>
+                  <div className={style.title}>
+                    {i18n.t('home.card_3_title')}
+                  </div>
+
+                  <div className={style.undertitle}>
+                    {i18n.t('home.card_3_undertitle')}
+                  </div>
+                </div>
+              </div>
+
+              <div className={style.card}>
+                <img src={cardFour} alt="Image"/>
+
+                <div className={style.text}>
+                  <div className={style.title}>
+                    {i18n.t('home.card_4_title')}
+                  </div>
+
+                  <div className={style.undertitle}>
+                    {i18n.t('home.card_4_undertitle')}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={style.footer}>
+          <div className={style.wrap}>
+            <h2>{i18n.t('home.footer_title')}</h2>
+
+            <p>{i18n.t('home.footer_undertitle_1')}</p>
+
+            <p>{i18n.t('home.footer_undertitle_2')}</p>
+
+            <div className={style.buttons}>
+              <GoogleLogin
+                autoLoad={Boolean(this.tournamentId)}
+                render={renderProperties => (
+                  <button
+                    type="button"
+                    className={style.button}
+                    onClick={renderProperties.onClick}
+                  >
+                    <span>{i18n.t('home.button_2')}</span>
+                  </button>
+                )}
+                clientId={config.googleClientId}
+                onSuccess={this.onSuccessGoogleLogin}
+                onFailure={this.onFailureGoogleLogin}
+              />
+
+              <Link to="#" className={style.streamer}>{i18n.t('home.link_2')}</Link>
+            </div>
+          </div>
+        </section>
+      </>
     );
   }
 }
