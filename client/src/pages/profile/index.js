@@ -52,10 +52,18 @@ const Profile = () => {
         />
 
         <Field
+          component={Select}
+          label={i18n.t('Position')}
+          name="preferredPosition"
+          className={style.field}
+        />
+
+        <Field
+          disabled
           component={FormInput}
           label={i18n.t('email')}
           name="email"
-          className={style.field}
+          className={cx('email', 'field')}
         />
 
         <Field
@@ -80,13 +88,7 @@ const Profile = () => {
           name="twitchAccount"
           className={style.field}
         />
-        <Field
-          component={Select}
-          label={i18n.t('Position')}
-          name="preferredPosition"
-          className={style.field}
-        />
-        {/* <button className={style.save} type="submit">{i18n.t('save_changes')}</button> */}
+
         <Button
           appearance="_basic-accent"
           type="submit"
