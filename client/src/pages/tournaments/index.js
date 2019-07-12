@@ -7,7 +7,7 @@ import classnames from 'classnames/bind';
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
 import moment from 'moment';
-import { actions as modalActions } from 'components/modal-container';
+import modalActions from 'components/modal-container/actions';
 import { http } from 'helpers';
 import actions from './actions';
 import style from './style.module.css';

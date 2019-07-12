@@ -68,7 +68,7 @@ class MatchResults extends Component {
     >
       <Table
         captions={tableCaptions}
-        items={[1,2,3,4,5,6,7,8,9,10]}
+        items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
         renderRow={this.renderRow}
         isLoading={false}
         className={style.table}
@@ -78,5 +78,4 @@ class MatchResults extends Component {
   }
 }
 
-export default compose(
-)(MatchResults);
+export default compose()(MatchResults);

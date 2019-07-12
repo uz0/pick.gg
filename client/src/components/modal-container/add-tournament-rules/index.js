@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -7,7 +8,7 @@ import Modal from 'components/modal';
 
 import style from './style.module.css';
 import { compose } from 'recompose';
-// Import { actions as tournamentsActions } from 'pages/tournaments';
+import { actions as tournamentsActions } from 'pages/tournaments';
 
 const validationSchema = Yup.object().shape({
   kills: Yup.number()
@@ -76,6 +77,13 @@ const AddRules = props => {
 };
 
 const enhance = compose(
+  connect(
+    null,
+
+    {
+      updateTournament: tournamentsActions.updateTournament,
+    }
+  ),
   withFormik({
     validationSchema,
     mapPropsToValues: () => ({
@@ -83,8 +91,8 @@ const enhance = compose(
       deaths: 0,
       assists: 0,
     }),
-    handleSubmit: values => {
-      console.log(values, 'values');
+    handleSubmit: (values, formikBag) => {
+      const { updateTournament } = formikBag.props;
     },
   })
 );
