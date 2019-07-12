@@ -37,6 +37,22 @@ class Tournament extends Component {
     },
   });
 
+  addMatches = () => this.props.toggleModal({
+    id: 'add-match-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
+  addRewards = () => this.props.toggleModal({
+    id: 'add-tournament-rewards',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
   editTournament = () => this.props.toggleModal({
     id: 'edit-tournament-modal',
 
@@ -118,6 +134,7 @@ class Tournament extends Component {
                       appearance="_circle-accent"
                       icon="plus"
                       className={style.button}
+                      onClick={this.addRewards}
                     />
                   </div>
                 )}
@@ -129,6 +146,7 @@ class Tournament extends Component {
                       appearance="_circle-accent"
                       icon="plus"
                       className={style.button}
+                      onClick={this.addMatches}
                     />
                   </div>
                 )}
