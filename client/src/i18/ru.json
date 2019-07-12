@@ -233,6 +233,27 @@
     "edit_user": "Редактирование игрока",
     "summonername": "Имя призывателя",
     "choose_position": "Choose your position",
+    "twich_account": "Аккаунт Twich",
+    "profile_photo": "Аватар",
+    "summoner_name": "Имя призывателя",
+    "home": {
+      "under_title": "Where streamers and viewers play together",
+      "how_it_work": "How does it work?",
+      "card_1_title": "Pick.gg is a toolbox for streamers looking to engage and grow their audience in a whole new way.",
+      "card_2_title": "Streamers create tournaments with viewers or other streamers and choose prizes for the audience.",
+      "card_3_title": "Viewers pick a team they think will get the most points for a small fee.",
+      "card_4_title": "Collect your rewards",
+      "card_2_undertitle": "Tournaments ruleset and player info provide an insight into winning conditions.",
+      "card_3_undertitle": "Teams do not have to be the same as actual line-ups, you're free to choose whoever you think will do best. The fee is determined by the streamer.",
+      "card_4_undertitle": "Get cool stuff for your favorite games at fraction of the cost. All while competing against other people watching! Get better and earn even more rewards.",
+      "footer_title": "Team goals",
+      "footer_undertitle_1": "Pick.gg was created with an idea of more rewarding participation in steams than just donations. We want to help streamers grow and make their passion a full-time occupation and we know the struggle is real.",
+      "footer_undertitle_2": "The pool fees are shared with streamers, so you are directly supporting the person you watch while getting skins, in-game items, and in-game currencies for it!",
+      "link_1": "I am streamer",
+      "link_2": "Apply to create tournaments!",
+      "button_1": "Jump in!",
+      "button_2": "Get into the action!"
+    },
     "modal": {
       "step": "Шаг",
       "of": "из",
@@ -276,7 +297,8 @@
         "entity_is_edited": "{{ name }} отредактирован",
         "entity_is_deleted": "{{ name }} удалён",
         "user_edited": "Пользователь отредактирован",
-        "user_deleted": "Пользователь удалён"
+        "user_deleted": "Пользователь удалён",
+        "profile_edited": "Профиль отредактирован"
       },
       "finalization": {
         "no_participatns": "Вы не можете завершить турнир без участников.",
