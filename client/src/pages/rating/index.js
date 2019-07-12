@@ -2,36 +2,40 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import i18n from 'i18n';
 
-import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import Table from 'components/table';
-import Card from 'components/card-user';
+import cardTwo from 'assets/card-2.png';
+import cardThree from 'assets/card-3.png';
+import cardFour from 'assets/card-4.png';
+import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 
+const streamers = [
+  { name: 'hyperRun', points: '1900' },
+  { name: 'dcversus', points: '3333' },
+  { name: 'Rocketman', points: '1340' },
+  { name: 'rabbit', points: '1700' },
+  { name: 'SpiceFox', points: '1000' },
+];
+
 const ratingTableCaptions = {
-  place: {
-    text: '#',
-    width: window.innerWidth < 480 ? 50 : 80,
-  },
 
   avatar: {
     text: '',
-    width: window.innerWidth < 480 ? 55 : 80,
+    width: window.innerWidth < 480 ? 55 : 50,
   },
 
-  username: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 110 : 350,
+  name: {
+    text: '',
+    width: window.innerWidth < 480 ? 210 : 300,
   },
 
-  winning: {
-    text: i18n.t('amount'),
-    width: window.innerWidth < 480 ? 80 : 150,
-  },
 };
+
+const sordStreamers = streamers.sort((a, b) => b.points - a.points);
 
 class Rating extends Component {
   state = {
@@ -41,77 +45,80 @@ class Rating extends Component {
 
   renderRow = ({ className, itemClass, textClass, item }) => {
     const Avatar = () => item.photo ? <img src={item.photo} alt="userpic"/> : <AvatarPlaceholder/>;
-    const currentUserRow = this.state.currentUser.user && this.state.currentUser.user._id === item._id;
-
     return (
-      <NavLink key={item._id} to={`/user/${item._id}`} className={cx(className, { [style.current_user]: currentUserRow })}>
-        <div className={itemClass} style={{ '--width': ratingTableCaptions.place.width }}>
-          <span className={textClass}>{item.place}</span>
-        </div>
+      <NavLink key={item._id} to={`/user/${item._id}`} className={cx(className)}>
 
         <div className={itemClass} style={{ '--width': ratingTableCaptions.avatar.width }}>
           <span className={cx(textClass, style.avatar_table)}><Avatar/></span>
         </div>
 
-        <div className={itemClass} style={{ '--width': ratingTableCaptions.username.width }}>
-          <span className={textClass}>{item.username}</span>
+        <div className={itemClass} style={{ '--width': ratingTableCaptions.name.width }}>
+          <span className={textClass}>{item.name}</span>
         </div>
-
-        <div className={itemClass} style={{ '--width': ratingTableCaptions.winning.width }}>
-          <span className={textClass}>{item.rewards.length}</span>
-        </div>
-      </NavLink>
-    );
-  }
-
-  renderTopUsers = ({ className, avatarClass, nameClass, winningsClass, item }) => {
-    const Avatar = () => item.photo ? <img src={item.photo} alt="userpic"/> : <AvatarPlaceholder/>;
-
-    return (
-      <NavLink key={item._id} to={`/user/${item._id}`} className={className}>
-        <div className={avatarClass}>
-          <Avatar/>
-        </div>
-        <div className={nameClass}>{item.username} #{item.place}</div>
-        <div className={winningsClass}>{item.rewards}</div>
       </NavLink>
     );
   }
 
   render() {
-    const topUsers = this.state.playersList.slice(0, 3);
-    const sliceUsers = this.state.playersList.slice(3);
-
+    console.log(sordStreamers);
+    const topUsers = sordStreamers.slice(0, 3);
+    const sliceUsers = sordStreamers.slice(3);
+    console.log('3:', topUsers);
+    console.log('others:', sliceUsers);
     return (
-      <div className="container">
-        <div className={style.home_page}>
+      <div className={cx('container', 'rating')}>
 
-          <main className={style.main_block}>
-            <h1>{i18n.t('best_players')}</h1>
+        <main className={style.main_block}>
 
-            <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoading })}>
-              <Card
-                defaultSorting={this.tournamentsDefaultSorting}
-                items={topUsers}
-                className={style.card}
-                renderCard={this.renderTopUsers}
-              />
+          <div className={cx(style.section)}>
+            <div className={style.best_icon}>
+              <img src={cardTwo}/>
             </div>
 
-            <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoading })}>
+            <h2>{i18n.t('Best streamers')}</h2>
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={streamers}
+              className={style.card}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
+          </div>
 
-              <Table
-                captions={ratingTableCaptions}
-                defaultSorting={this.tournamentsDefaultSorting}
-                items={sliceUsers}
-                className={style.card}
-                renderRow={this.renderRow}
-                isLoading={this.state.isLoading}
-              />
+          <div className={cx(style.section)}>
+            <div className={style.best_icon}>
+              <img src={cardThree}/>
             </div>
 
-          </main>
-        </div>
+            <h2>{i18n.t('Best users')}</h2>
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={streamers}
+              className={style.card}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
+          </div>
+
+          <div className={cx(style.section)}>
+            <div className={style.best_icon}>
+              <img src={cardFour}/>
+            </div>
+
+            <h2>{i18n.t('Best summoners')}</h2>
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={streamers}
+              className={style.card}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
+          </div>
+
+        </main>
       </div>
     );
   }
