@@ -5,3 +5,14 @@
 .modal_content .field:nth-of-type(n+2) {
   margin-top: 12px;
 }
+
+.modal_content .wrap_buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0;
+}
+.modal_content .wrap_buttons .submit {
+  margin-left: 16px;
+  text-transform: capitalize;
+  color: #fff;
+}
