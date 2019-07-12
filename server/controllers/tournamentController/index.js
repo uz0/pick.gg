@@ -1,11 +1,11 @@
 import express from 'express';
 
 import get from './get';
-import { validator as validateCreate, handler as create } from './create';
-import { validator as validateAttend, handler as attend } from './attend';
-import { validator as validateById, handler as getById } from './getById';
-import { validator as validateEdit, handler as edit } from './edit';
-import { validator as validateReady, handler as ready } from './ready';
+import * as create from './create';
+import * as attend from './attend';
+import * as getById from './getById';
+import * as edit from './edit';
+import * as ready from './ready';
 
 import matchController from './match';
 
@@ -14,15 +14,15 @@ let router = express.Router();
 const TournamentController = io => {
   router.get('/', get);
 
-  router.get('/:id', validateById, getById);
+  router.get('/:id', getById.validator, getById.handler);
 
-  router.put('/:id', validateEdit, edit);
+  router.patch('/:id', edit.validator, edit.handler);
 
-  router.patch('/:id/ready', validateReady, ready)
+  router.patch('/:id/ready', ready.validator, ready.handler)
 
-  router.patch('/:id/attend', validateAttend, attend);
+  router.patch('/:id/attend', attend.validator, attend.handler);
 
-  router.post('/', validateCreate, create);
+  router.post('/', create.validator, create.handler);
 
   router.use('/:tournamentId/matches', matchController());
 
