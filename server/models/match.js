@@ -10,7 +10,7 @@ export default mongoose.model('Match',
     playersResults: [{
       userId: refTo('User'),
       results: [{
-        ruleName: String,
+        ruleId: String,
         value: Number
       }]
     }],
