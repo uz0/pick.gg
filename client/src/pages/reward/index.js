@@ -4,7 +4,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 
 import modalActions from 'components/modal-container/actions';
-import actions from './actions';
+import { actions as rewardsActions } from 'pages/dashboard/rewards';
 import { http } from 'helpers';
 
 import RewardCard from 'components/reward-card';
@@ -34,12 +34,12 @@ class Rewards extends Component {
             <Preloader/>
           )}
           {
-            this.props.tournamentsIds.length === 0 ? (
+            this.props.rewardsIds.length === 0 ? (
               <p className={style.no_rewards}>
                 {i18n.t('no_rewards')}
               </p>
             ) : (
-              this.props.tournamentsIds.map(id => {
+              this.props.rewardsIds.map(id => {
                 const reward = this.props.rewardsList[id];
                 const { key, description, isClaimed } = reward;
 
@@ -62,17 +62,14 @@ class Rewards extends Component {
 export default compose(
   connect(
     state => ({
-      tournamentsIds: state.rewards.ids,
+      rewardsIds: state.rewards.ids,
       rewardsList: state.rewards.list,
       isLoaded: state.rewards.isLoaded,
     }),
 
     {
-      loadRewards: actions.loadRewards,
+      loadRewards: rewardsActions.loadRewards,
       toggleModal: modalActions.toggleModal,
     },
   ),
 )(Rewards);
-
-export { default as actions } from './actions';
-export { default as reducers } from './reducers';
