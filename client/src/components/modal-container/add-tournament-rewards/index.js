@@ -43,7 +43,7 @@ const placeOptions = [
 
 class AddRewards extends Component {
   state = {
-    isLoading: false
+    isLoading: false,
   }
 
   async componentDidMount() {
@@ -105,7 +105,7 @@ class AddRewards extends Component {
       >
         <div>
           {this.state.isLoading && (
-            <Preloader />
+            <Preloader/>
           )}
           <Table
             captions={tableCaptions}
