@@ -125,7 +125,7 @@ const enhance = compose(
 
       const { newTournament } = await createTournamentRequest();
 
-      formikBag.props.history.push(`/tournamets/${newTournament._id}`);
+      formikBag.props.history.push(`/tournaments/${newTournament._id}`);
 
       formikBag.props.close();
     },
