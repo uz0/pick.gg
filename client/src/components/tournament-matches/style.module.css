@@ -78,6 +78,14 @@
   transition-property: background-color;
 }
 
+.matches .table .button.danger:not(:hover) {
+  --background-color: #f44336;
+}
+
+.matches .table .button.danger:hover {
+  --background-color: #e53935;
+}
+
 .matches .table .button:not(:hover) {
   --background-color: #101027;
 }
