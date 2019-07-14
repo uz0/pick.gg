@@ -1,7 +1,7 @@
 import PublicUsersController from "./usersController";
-import PublicTournamentsController from "./tournamentsController";
+import PublicTournamentController from "./tournamentController";
 
 export {
   PublicUsersController,
-  PublicTournamentsController,
+  PublicTournamentController,
 };
