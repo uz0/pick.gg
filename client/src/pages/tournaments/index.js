@@ -21,7 +21,7 @@ class Tournaments extends Component {
 
   loadTournaments = async () => {
     this.setState({ isLoading: true });
-    const response = await http('/api/tournaments');
+    const response = await http('/public/tournaments');
     const { tournaments } = await response.json();
     this.props.loadTournaments(tournaments);
     this.setState({ isLoading: false });
