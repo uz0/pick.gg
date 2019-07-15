@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import moment from 'moment';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
@@ -13,6 +14,7 @@ import TournamentMatches from 'components/tournament-matches';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
+import { actions as usersActions } from 'pages/dashboard/users';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import { actions as modalActions } from 'components/modal-container';
 import style from './style.module.css';
@@ -29,6 +31,13 @@ class Tournament extends Component {
     }
   };
 
+  loadUsers = async () => {
+    const response = await http('/api/admin/user');
+    const { users } = await response.json();
+
+    this.props.addUsers(users);
+  };
+
   addRules = () => this.props.toggleModal({
     id: 'add-tournament-rules-modal',
 
@@ -42,6 +51,16 @@ class Tournament extends Component {
 
     options: {
       tournamentId: this.props.match.params.id,
+    },
+  });
+
+  addSummoners = () => this.props.toggleModal({
+    id: 'add-summoners-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      selectedSummoners: this.props.tournament.summoners,
+      summoners: this.props.users,
     },
   });
 
@@ -69,9 +88,13 @@ class Tournament extends Component {
     this.props.updateTournament(tournament);
   };
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.tournament) {
       this.loadTournament();
+    }
+
+    if (isEmpty(this.props.users)) {
+      this.loadUsers();
     }
   }
 
@@ -87,6 +110,8 @@ class Tournament extends Component {
     const createdAt = moment(get(this.props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
 
     const isCurrentUserCreator = creator && creator._id === currentUser._id;
+    const isTournamentReady = get(this.props, 'tournament.isReady');
+
     const isRulesAdded = rules && rules.length > 0;
     const isRewardsAdded = rewards && rewards.length > 0;
     const isMatchesAdded = matches && matches.length > 0;
@@ -115,7 +140,7 @@ class Tournament extends Component {
               </div>
 
               <div className={style.tournament_readiness_status}>
-                {!isRulesAdded && (
+                {isCurrentUserCreator && !isTournamentReady && (
                   <div className={style.item}>
                     <p>Добавьте правила турнира</p>
                     <Button
@@ -127,7 +152,19 @@ class Tournament extends Component {
                   </div>
                 )}
 
-                {!isRewardsAdded && (
+                {isCurrentUserCreator && !isTournamentReady && (
+                  <div className={style.item}>
+                    <p>Добавьте summoners</p>
+                    <Button
+                      appearance="_circle-accent"
+                      icon="plus"
+                      className={style.button}
+                      onClick={this.addSummoners}
+                    />
+                  </div>
+                )}
+
+                {isCurrentUserCreator && !isTournamentReady && (
                   <div className={style.item}>
                     <p>Добавьте награды для участников</p>
                     <Button
@@ -139,9 +176,9 @@ class Tournament extends Component {
                   </div>
                 )}
 
-                {!isMatchesAdded && (
+                {isCurrentUserCreator && !isTournamentReady && (
                   <div className={style.item}>
-                    <p>Добавьте хотя бы один матч</p>
+                    <p>Добавьте матчи</p>
                     <Button
                       appearance="_circle-accent"
                       icon="plus"
@@ -195,6 +232,13 @@ class Tournament extends Component {
                 <p className={style.value}>{price} $</p>
               </div>
             )}
+
+            {!isEmpty(rules) && (
+              <div className={style.item}>
+                <label className={style.title}>Rules</label>
+                <p className={style.value}>KDA {Object.values(rules).join('/')}</p>
+              </div>
+            )}
           </div>
 
           {this.props.tournament && (
@@ -215,11 +259,13 @@ export default compose(
   connect(
     (state, props) => ({
       tournament: state.tournaments.list[props.match.params.id],
+      users: state.users.list,
       currentUser: state.currentUser,
     }),
 
     {
       addTournament: tournamentsActions.addTournament,
+      addUsers: usersActions.loadUsers,
       updateTournament: tournamentsActions.updateTournament,
       toggleModal: modalActions.toggleModal,
     },

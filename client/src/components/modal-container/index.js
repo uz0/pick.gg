@@ -17,7 +17,7 @@ import modalActions from './actions';
 const modals = {
   'new-tournament-modal': NewTournament,
   'match-results-modal': MatchResults,
-  'choose-players-modal': ChoosePlayers,
+  'add-summoners-modal': ChoosePlayers,
   'reward-modal': Reward,
   'add-match-modal': AddMatch,
   'add-tournament-rules-modal': AddRules,

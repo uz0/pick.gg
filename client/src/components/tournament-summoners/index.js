@@ -1,5 +1,6 @@
 import React from 'react';
 import compose from 'recompose/compose';
+import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import Table from 'components/table';
 import { withCaptions } from 'hoc';
@@ -8,12 +9,12 @@ import style from './style.module.css';
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
     text: t('number'),
-    width: isMobile ? 55 : 55,
+    width: isMobile ? 55 : 35,
   },
 
   name: {
     text: t('name'),
-    width: isMobile ? 150 : 200,
+    width: isMobile ? 150 : 300,
   },
 });
 
@@ -28,20 +29,20 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
       </div>
 
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.username}</span>
+        <span className={textClass}>{item.summonerName}</span>
       </div>
     </div>
   );
 };
 
-const Summoners = ({ tournament, captions }) => (
+const Summoners = ({ summoners, captions }) => (
   <div className={style.summoners}>
     <h3 className={style.subtitle}>Summoners</h3>
 
     <Table
       noCaptions
       captions={captions}
-      items={tournament.summoners}
+      items={summoners}
       renderRow={renderRow}
       isLoading={false}
       className={style.table}
@@ -51,11 +52,25 @@ const Summoners = ({ tournament, captions }) => (
 );
 
 export default compose(
-  withCaptions(tableCaptions),
-
   connect(
     (state, props) => ({
+      users: state.users.list,
       tournament: state.tournaments.list[props.id],
     }),
   ),
+  withCaptions(tableCaptions),
+  withProps(props => {
+    const users = Object.values(props.users);
+
+    const summoners = props.tournament.summoners.map(summonerId => {
+      const summoner = users.find(summoner => summoner._id === summonerId);
+
+      return summoner;
+    });
+
+    return {
+      ...props,
+      summoners,
+    };
+  }),
 )(Summoners);
