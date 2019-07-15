@@ -215,7 +215,7 @@
   display: grid;
   grid-row-gap: 30px;
   grid-column-gap: 16px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   width: 100%;
   margin-top: 40px;
 }
