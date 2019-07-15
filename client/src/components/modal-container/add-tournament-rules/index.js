@@ -78,7 +78,9 @@ const AddRules = props => {
 
 const enhance = compose(
   connect(
-    null,
+    (state, props) => ({
+      tournament: state.tournaments.list[props.options.tournamentId],
+    }),
 
     {
       updateTournament: tournamentsActions.updateTournament,
@@ -91,8 +93,11 @@ const enhance = compose(
       deaths: 0,
       assists: 0,
     }),
-    handleSubmit: (values, formikBag) => {
-      const { updateTournament } = formikBag.props;
+    handleSubmit: (values, { props }) => {
+      props.updateTournament({
+        ...props.tournament,
+        rules: values,
+      });
     },
   })
 );
