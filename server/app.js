@@ -12,6 +12,7 @@ import {
   TournamentController,
   AdminController,
   RewardController,
+  RatingsController,
 } from './controllers';
 
 import AuthenticationController from './controllers/authenticationController';
@@ -55,6 +56,7 @@ app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());
 app.use('/api/tournaments', TournamentController(io));
 app.use('/api/rewards', RewardController());
+app.use('/api/ratings', RatingsController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 
