@@ -95,9 +95,11 @@ const enhance = compose(
     }),
     handleSubmit: (values, { props }) => {
       props.updateTournament({
-        ...props.tournament,
+        _id: props.options.tournamentId,
         rules: values,
       });
+
+      props.close();
     },
   })
 );
