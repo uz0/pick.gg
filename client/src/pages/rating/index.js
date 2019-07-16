@@ -35,7 +35,7 @@ const ratingTableCaptions = {
 
   name: {
     text: '',
-    width: window.innerWidth < 480 ? 210 : 300,
+    width: window.innerWidth < 480 ? 210 : 220,
   },
 
 };
