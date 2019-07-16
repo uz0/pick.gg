@@ -1,12 +1,13 @@
 .user_page {
   display: flex;
   justify-content: center;
-  padding: 10px 0;
+  padding: var(--layout-padding);
 }
 
 .content {
   display: flex;
-  width: 1000px;
+  width: 100%;
+  max-width: var(--container-width);
 }
 
 .content aside {
