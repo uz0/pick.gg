@@ -233,6 +233,12 @@
     "twich_account": "Аккаунт Twich",
     "profile_photo": "Аватар",
     "summoner_name": "Имя призывателя",
+    "hide_streamers": "Скрыть стримеров",
+    "hide_users": "Скрыть пользователей",
+    "hide_summoners": "Скрыть призывателей",
+    "show_streamers": "Показать стримеров",
+    "show_users": "Показать пользователей",
+    "show_summoners": "Показать призывателей",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",

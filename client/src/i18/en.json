@@ -226,6 +226,12 @@
     "twich_account": "Twitch account",
     "profile_photo": "Profile photo",
     "summoner_name": "Summoner name",
+    "hide_streamers": "Hide streamers",
+    "hide_users": "Hide users",
+    "hide_summoners": "Hide summoners",
+    "show_streamers": "Show streamers",
+    "show_users": "Show users",
+    "show_summoners": "Show summoners",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
