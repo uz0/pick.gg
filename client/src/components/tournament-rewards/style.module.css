@@ -1,0 +1,76 @@
+.rewards {
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rewards .header {
+  --rewards-header-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.rewards .header .subtitle {
+  --height: 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  color: var(--caption-color);
+  font-size: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rewards .header .button {
+  flex-shrink: 0;
+  height: var(--rewards-header-height);
+  margin-left: auto;
+  line-height: var(--rewards-header-height);
+  font-size: 15px;
+  color: var(--color);
+  font-weight: 600;
+  background-color: transparent;
+  transition-property: color;
+}
+
+.rewards .header .button:not(:hover) {
+  --color: var(--accent-color);
+}
+
+.rewards .header .button:hover {
+  --color: #e88c00;
+}
+
+.rewards .header + .content,
+.rewards .header + .empty {
+  margin-top: 16px;
+}
+
+.rewards .empty {
+  --height: 24px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align-last: left;
+}
+
+.rewards .content {
+  flex-grow: 1;
+  display: flex;
+}
+
+.rewards .content .button {
+  margin: auto;
+}
+
+.rewards .content .table {
+  width: 100%;
+}
