@@ -1,5 +1,7 @@
 {
   "translation": {
+    "player": "Игрок",
+    "number": "Номер",
     "error": "Ошибка",
     "success": "Успех",
     "warning": "Предупреждение",
@@ -73,6 +75,7 @@
     "username": "Логин",
     "userbox_role_streamer": "Стример",
     "summonerName": "Ваше имя в LoL",
+    "suggest_yourself": "Предложить себя",
     "users": "Пользователи",
     "user_not_participated": "Этот пользователь еще не участвовал в турнирах",
     "withdraw": "Снять",
@@ -93,6 +96,7 @@
     "settings_locale_ru": "Русский",
     "settings_locale_en": "Английский",
     "position": "Позиция",
+    "region": "Region",
     "points": "Поинты",
     "is_going_on": "Is going on",
     "is_over": "Турнир завершён",
@@ -230,6 +234,7 @@
     "edit_user": "Редактирование игрока",
     "summonername": "Имя призывателя",
     "choose_position": "Choose your position",
+    "choose_region": "Choose your region",
     "twich_account": "Аккаунт Twich",
     "profile_photo": "Аватар",
     "summoner_name": "Имя призывателя",

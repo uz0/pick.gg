@@ -1,0 +1,134 @@
+import React, { Component } from 'react';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import filter from 'lodash/filter';
+import { http } from 'helpers';
+import Table from 'components/table';
+import Icon from 'components/icon';
+import classnames from 'classnames/bind';
+import { withCaptions } from 'hoc';
+import { actions as modalActions } from 'components/modal-container';
+import { actions as tournamentsActions } from 'pages/tournaments';
+import style from './style.module.css';
+
+const tableCaptions = ({ t, isMobile }) => ({
+  name: {
+    text: t('name'),
+    width: isMobile ? 200 : 250,
+  },
+
+  number: {
+    text: t('points'),
+    width: isMobile ? 40 : 65,
+  },
+});
+
+const cx = classnames.bind(style);
+
+class Matches extends Component {
+  openMatchDetails = () => this.props.toggleModal({ id: 'match-results-modal' });
+
+  openEditMatch = () => this.props.toggleModal({ id: 'edit-match-modal' });
+
+  deleteMatch = async (tournamentId, matchId) => {
+    try {
+      await http(`/api/tournaments/${tournamentId}/matches/${matchId}`, { method: 'DELETE' });
+    } catch (error) {
+      console.log(error, 'error');
+    }
+
+    const tournamentMatches = get(this.props, 'tournament.matches');
+    const matches = filter(tournamentMatches, match => match._id !== matchId);
+
+    this.props.updateTournament({
+      ...this.props.tournament,
+      matches,
+    });
+  }
+
+  renderRow = ({ className, itemClass, textClass, item, captions }) => {
+    const nameStyle = { '--width': captions.name.width };
+    const pointsStyle = { '--width': captions.number.width };
+
+    const { _id, name } = item;
+
+    const tournamentId = get(this.props, 'tournament._id');
+    const creator = get(this.props, 'tournament.creator');
+    const currentUser = get(this.props, 'currentUser');
+
+    const isTournamentReady = get(this.props, 'tournament.isReady');
+    const isCurrentUserCreator = creator && creator._id === currentUser._id;
+
+    return (
+      <div key={_id} className={className}>
+        <div className={itemClass} style={nameStyle}>
+          <span className={textClass}>{name}</span>
+        </div>
+
+        {isTournamentReady && (
+          <div className={itemClass} style={pointsStyle}>
+            <span className={style.points}>+123</span>
+          </div>
+        )}
+
+        {isTournamentReady && (
+          <button className={style.button} type="button" onClick={this.openMatchDetails}>
+            <Icon name="list"/>
+          </button>
+        )}
+
+        {isTournamentReady && isCurrentUserCreator && (
+          <button className={style.button} type="button" onClick={this.openEditMatch}>
+            <Icon name="info"/>
+          </button>
+        )}
+
+        {!isTournamentReady && isCurrentUserCreator && (
+          <button
+            type="button"
+            className={cx(style.button, style.danger)}
+            onClick={() => this.deleteMatch(tournamentId, _id)}
+          >
+            <Icon name="close"/>
+          </button>
+        )}
+      </div>
+    );
+  };
+
+  render() {
+    return (
+      <div className={style.matches}>
+        <div className={style.header}>
+          <h3 className={style.subtitle}>Matches</h3>
+        </div>
+
+        <Table
+          noCaptions
+          captions={this.props.captions}
+          items={this.props.tournament.matches}
+          renderRow={this.renderRow}
+          className={style.table}
+          emptyMessage="There is no matches yet"
+        />
+      </div>
+    );
+  }
+}
+
+export default compose(
+  withCaptions(tableCaptions),
+
+  connect(
+    (state, props) => ({
+      tournament: state.tournaments.list[props.id],
+      currentUser: state.currentUser,
+    }),
+
+    {
+      toggleModal: modalActions.toggleModal,
+      updateTournament: tournamentsActions.updateTournament,
+    },
+  ),
+)(Matches);

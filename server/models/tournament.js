@@ -6,27 +6,28 @@ const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
 const schema = new Schema({
   name: String,
   description: String,
-  url: String, 
+  url: String,
   imageUrl: String,
   createdAt: Date,
   startAt: Date,
   rewards: [{ rewardId: String, rewardPositionId: String }], // во время создания турнира, юзер может указать ID наград (выбрать их из своего инвентаря), после победы, эти награды передаются победителям... каким?
-  price: {type: Number, min: 0},
+  price: { type: Number, min: 0 },
   rules: {
     type: Map,
-    of: Number
-  }, 
-  isReady: {type: Boolean, default: false},
+    of: Number,
+    default: {},
+  },
+  isReady: { type: Boolean, default: false },
   winner: refTo('User'),
   creator: refTo('User'),
   summoners: [refTo('User')],
-  applicants: [refTo('User')], 
-  viewers: [{ userId: String, summoners: [String] }], 
+  applicants: [refTo('User')],
+  viewers: [{ userId: String, summoners: [String] }],
 },
-{
-  toObject: { virtuals: true },
-  toJSON: { virtuals: true }
-}
+  {
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+  }
 );
 
 schema.virtual('matches', {

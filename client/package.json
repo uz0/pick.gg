@@ -11,6 +11,7 @@
     "i18next": "^15.0.6",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
+    "mobile-detect": "^1.4.3",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "react": "^16.2.0",

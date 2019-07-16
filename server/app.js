@@ -18,7 +18,7 @@ import AuthenticationController from './controllers/authenticationController';
 
 import {
   PublicUsersController,
-  PublicTournamentsController,
+  PublicTournamentController,
 } from './controllers/public';
 
 import { AuthVerifyMiddleware, AdminVerifyMiddleware } from './middlewares';
@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 app.use('/authentication', AuthenticationController(app));
 
 app.use('/public/users', PublicUsersController());
-app.use('/public/tournaments', PublicTournamentsController());
+app.use('/public/tournaments', PublicTournamentController());
 
 app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());

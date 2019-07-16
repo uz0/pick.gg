@@ -5,7 +5,15 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const Button = ({ type = 'button', text, onClick, icon, className, disabled, appearance }) => {
+const Button = ({
+  text,
+  onClick,
+  icon,
+  className,
+  disabled,
+  appearance,
+  type = 'button',
+}) => {
   const isIconString = typeof icon === 'string';
   const isComponentIcon = icon && isIconString;
   const isPropIcon = icon && !isIconString;

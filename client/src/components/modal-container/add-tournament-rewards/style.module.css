@@ -1,0 +1,20 @@
+.wrapper {
+  --width: 768px;
+}
+
+.wrapper .modal_content {
+  padding-top: var(--layout-padding);
+}
+
+.wrapper .modal_content .select {
+  width: 100%;
+}
+
+.wrapper .modal_content .select select {
+  height: 40px;
+  cursor: pointer;
+}
+
+.wrapper .modal_content :global(.row) {
+  --background-color: #0c112b;
+}
