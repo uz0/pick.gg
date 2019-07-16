@@ -10,7 +10,10 @@ import { http } from 'helpers';
 import i18n from 'i18n';
 import Button from 'components/button';
 import Icon from 'components/icon';
+import TournamentInformation from 'components/tournament-information';
 import TournamentMatches from 'components/tournament-matches';
+import TournamentRewards from 'components/tournament-rewards';
+import TournamentRules from 'components/tournament-rules';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
@@ -107,7 +110,6 @@ class Tournament extends Component {
     const rules = get(this.props, 'tournament.rules');
     const rewards = get(this.props, 'tournament.rewards');
     const matches = get(this.props, 'tournament.matches');
-    const createdAt = moment(get(this.props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
 
     const isCurrentUserCreator = creator && creator._id === currentUser._id;
     const isTournamentReady = get(this.props, 'tournament.isReady');
@@ -119,87 +121,10 @@ class Tournament extends Component {
     return (
       <div className={cx('tournament', 'container')}>
         <div className={style.inner_container}>
+
           <div className={style.tournament_section}>
-            <div className={style.main}>
-              <h2 className={style.title}>{name}</h2>
 
-              <div className={style.info}>
-                <p className={style.text}>{createdAt}</p>
-
-                <p className={style.text}>
-                  Created By
-                  {creator && (
-                    <Link
-                      className={style.creator}
-                      to={`/user/${creator._id}`}
-                    >
-                      {creator.username}<Icon name="star"/>
-                    </Link>
-                  )}
-                </p>
-              </div>
-
-              <div className={style.tournament_readiness_status}>
-                {isCurrentUserCreator && !isTournamentReady && (
-                  <div className={style.item}>
-                    <p>Добавьте правила турнира</p>
-                    <Button
-                      appearance="_circle-accent"
-                      icon="plus"
-                      className={style.button}
-                      onClick={this.addRules}
-                    />
-                  </div>
-                )}
-
-                {isCurrentUserCreator && !isTournamentReady && (
-                  <div className={style.item}>
-                    <p>Добавьте summoners</p>
-                    <Button
-                      appearance="_circle-accent"
-                      icon="plus"
-                      className={style.button}
-                      onClick={this.addSummoners}
-                    />
-                  </div>
-                )}
-
-                {isCurrentUserCreator && !isTournamentReady && (
-                  <div className={style.item}>
-                    <p>Добавьте награды для участников</p>
-                    <Button
-                      appearance="_circle-accent"
-                      icon="plus"
-                      className={style.button}
-                      onClick={this.addRewards}
-                    />
-                  </div>
-                )}
-
-                {isCurrentUserCreator && !isTournamentReady && (
-                  <div className={style.item}>
-                    <p>Добавьте матчи</p>
-                    <Button
-                      appearance="_circle-accent"
-                      icon="plus"
-                      className={style.button}
-                      onClick={this.addMatches}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className={style.actions}>
-              {isCurrentUserCreator && (
-                <Button
-                  text={i18n.t('edit')}
-                  appearance="_basic-accent"
-                  className={style.button}
-                  onClick={this.editTournament}
-                />
-              )}
-
+            {/* <div className={style.actions}>
               <Button
                 text={i18n.t('join_tournament')}
                 appearance="_basic-accent"
@@ -213,33 +138,28 @@ class Tournament extends Component {
                 className={style.button}
                 onClick={this.attendTournament}
               />
+            </div> */}
+
+          </div>
+
+          <h2 className={style.title}>{name}</h2>
+
+          {this.props.tournament && (
+            <div className={cx(style.widgets, style.col_3)}>
+              <TournamentInformation
+                id={this.props.match.params.id}
+                editTournament={this.editTournament}
+              />
+              <TournamentRules
+                id={this.props.match.params.id}
+                addRules={this.addRules}
+              />
+              <TournamentRewards
+                id={this.props.match.params.id}
+                addRules={this.addRules}
+              />
             </div>
-          </div>
-
-          <h3 className={style.subtitle}>Information</h3>
-
-          <div className={style.list}>
-            {description && (
-              <div className={style.item}>
-                <label className={style.title}>Description</label>
-                <p className={style.value}>{description}</p>
-              </div>
-            )}
-
-            {price && (
-              <div className={style.item}>
-                <label className={style.title}>Price</label>
-                <p className={style.value}>{price} $</p>
-              </div>
-            )}
-
-            {!isEmpty(rules) && (
-              <div className={style.item}>
-                <label className={style.title}>Rules</label>
-                <p className={style.value}>KDA {Object.values(rules).join('/')}</p>
-              </div>
-            )}
-          </div>
+          )}
 
           {this.props.tournament && (
             <div className={style.widgets}>
