@@ -6,6 +6,7 @@ import * as attend from './attend';
 import * as getById from './getById';
 import * as edit from './edit';
 import * as ready from './ready';
+import * as applicantStatus from './applicantStatus'
 
 import matchController from './match';
 
@@ -21,6 +22,8 @@ const TournamentController = io => {
   router.patch('/:id/ready', ready.validator, ready.handler)
 
   router.patch('/:id/attend', attend.validator, attend.handler);
+
+  router.patch('/:id/applicant-status', applicantStatus.validator, applicantStatus.handler);
 
   router.post('/', create.validator, create.handler);
 
