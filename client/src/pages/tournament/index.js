@@ -156,7 +156,7 @@ class Tournament extends Component {
               />
               <TournamentRewards
                 id={this.props.match.params.id}
-                addRules={this.addRules}
+                addRewards={this.addRewards}
               />
             </div>
           )}
