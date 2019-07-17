@@ -1,89 +1,101 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Modal from 'components/modal';
-import DetaultAvatar from 'assets/avatar-placeholder.svg';
 import classnames from 'classnames/bind';
 import style from './style.module.css';
+import { connect } from 'react-redux';
+
+import compose from 'recompose/compose';
+import withStateHandlers from 'recompose/withStateHandlers';
+import withProps from 'recompose/withProps';
+import withHandlers from 'recompose/withHandlers';
+
+import { actions as tournamentsActions } from 'pages/tournaments';
 
 const cx = classnames.bind(style);
 
-const _players = [
-  { _id: '0' },
-  { _id: '1' },
-  { _id: '2' },
-  { _id: '3' },
-  { _id: '4' },
-  { _id: '5' },
-  { _id: '6' },
-  { _id: '7' },
-  { _id: '8' },
-  { _id: '9' },
-];
+const enhance = compose(
+  connect(
+    null,
 
-class JoinTournamentPlayers extends Component {
-  state = {
-    ids: [],
-  };
-
-  join = () => {
-
-  };
-
-  togglePlayer = id => () => this.setState(prevState => {
-    const { ids } = prevState;
-
-    if (ids.includes(id)) {
-      return {
-        ids: ids.filter(selectedId => selectedId !== id),
-      };
+    {
+      updateTournament: tournamentsActions.updateTournament,
     }
-
-    if (ids.length >= 5) {
-      return { ids };
-    }
+  ),
+  withProps(props => {
+    const tournamentSummoners = props.options.tournamentSummoners
+      .map(summoner => Object
+        .values(props.options.summoners)
+        .find(item => item._id === summoner)
+      );
 
     return {
-      ids: [...ids, id],
+      ...props,
+      tournamentSummoners,
     };
-  });
+  }),
+  withStateHandlers(
+    props => {
+      return {
+        tournamentSummoners: props.tournamentSummoners,
+        selectedSummoners: [],
+      };
+    },
 
-  render() {
-    const isDisabled = this.state.ids.length < 5;
+    {
+      toggleSelectSummoner: state => id => {
+        const { selectedSummoners } = state;
+        if (selectedSummoners.length >= 5) {
+          return state;
+        }
 
-    const actions = [
-      { text: 'Add Players', appearance: '_basic-accent', onClick: this.join, disabled: isDisabled },
-    ];
+        return {
+          ...state,
+          selectedSummoners: selectedSummoners.includes(id) ?
+            selectedSummoners.filter(nextId => nextId !== id) :
+            [...selectedSummoners, id],
+        };
+      },
+    }
+  ),
+);
 
-    return (
-      <Modal
-        title="Choose five champions"
-        close={this.props.close}
-        actions={actions}
-        wrapClassName={style.wrapper}
-        className={style.content}
-      >
-        {_players.map(player => {
-          const isChecked = this.state.ids.includes(player._id);
+export default enhance(props => {
+  const { tournamentSummoners, selectedSummoners, toggleSelectSummoner } = props;
 
-          return (
-            <button
-              key={player._id}
-              className={cx('player', { '_is-checked': isChecked })}
-              type="button"
-              onClick={this.togglePlayer(player._id)}
-            >
-              <div className={style.image}>
-                <img src={DetaultAvatar} alt="Player"/>
-              </div>
+  const actions = [
+    { text: 'Add Players', appearance: '_basic-accent' },
+  ];
 
-              <p className={style.name}>Kellin</p>
-              <p className={style.position}>Position: Support</p>
-              <p className={style.stat}>K: 0.1 D: 3.1 A: 4.4</p>
-            </button>
-          );
-        })}
-      </Modal>
-    );
-  }
-}
+  return (
+    <Modal
+      title="Choose your summoners"
+      close={props.close}
+      actions={actions}
+      wrapClassName={style.wrapper}
+      className={style.content}
+    >
+      {tournamentSummoners.map(summoner => {
+        const isChecked = selectedSummoners.includes(summoner._id);
 
-export default JoinTournamentPlayers;
+        return (
+          <button
+            key={summoner._id}
+            className={cx('summoner', { '_is-checked': isChecked })}
+            type="button"
+            onClick={() => toggleSelectSummoner(summoner._id)}
+          >
+            <div className={style.image}>
+              <img src={summoner.imageUrl} alt="summoner"/>
+            </div>
+
+            <p className={style.name}>{summoner.summonerName}</p>
+
+            {summoner.preferredPosition && (
+              <p className={style.position}>Position: {summoner.preferredPosition}</p>
+            )}
+          </button>
+        );
+      })}
+    </Modal>
+  );
+});
