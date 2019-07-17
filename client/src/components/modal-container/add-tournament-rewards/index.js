@@ -19,13 +19,13 @@ const tableCaptions = {
     width: window.innerWidth < 480 ? 120 : 150,
   },
 
-  role: {
-    text: 'Role',
+  place: {
+    text: 'Place',
     width: window.innerWidth < 480 ? 75 : 100,
   },
 
-  place: {
-    text: 'Place',
+  role: {
+    text: 'Role',
     width: window.innerWidth < 480 ? 75 : 100,
   },
 };
