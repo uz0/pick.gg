@@ -17,3 +17,12 @@
 .summoners .subtitle + .table {
   margin-top: 16px;
 }
+
+.summoners .table .row {
+
+}
+
+.summoners .table .row .number {
+  flex-grow: 0;
+  flex-shrink: 0;
+}

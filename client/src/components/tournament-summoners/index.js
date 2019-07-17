@@ -2,14 +2,17 @@ import React from 'react';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
+import classnames from 'classnames/bind';
 import Table from 'components/table';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
 
+const cx = classnames.bind(style);
+
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
     text: t('number'),
-    width: isMobile ? 55 : 35,
+    width: isMobile ? 35 : 60,
   },
 
   name: {
@@ -23,8 +26,8 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   const nameStyle = { '--width': captions.name.width };
 
   return (
-    <div key={item._id} className={className}>
-      <div className={itemClass} style={numberStyle}>
+    <div key={item._id} className={cx(className, style.row)}>
+      <div className={cx(itemClass, style.number)} style={numberStyle}>
         <span className={textClass}>{index + 1}</span>
       </div>
 
