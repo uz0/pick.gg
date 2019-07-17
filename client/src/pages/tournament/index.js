@@ -83,7 +83,15 @@ class Tournament extends Component {
     },
   });
 
-  joinTournament = () => this.props.toggleModal({ id: 'join-tournament-players-modal' });
+  joinTournament = () => this.props.toggleModal({
+    id: 'join-tournament-players-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      tournamentSummoners: this.props.tournament.summoners,
+      summoners: this.props.users,
+    },
+  });
 
   attendTournament = async () => {
     const response = await http(`/api/tournaments/${this.props.match.params.id}/attend`, { method: 'PATCH' });
@@ -124,7 +132,9 @@ class Tournament extends Component {
 
           <div className={style.tournament_section}>
 
-            {/* <div className={style.actions}>
+            <h2 className={style.title}>{name}</h2>
+
+            <div className={style.actions}>
               <Button
                 text={i18n.t('join_tournament')}
                 appearance="_basic-accent"
@@ -138,11 +148,9 @@ class Tournament extends Component {
                 className={style.button}
                 onClick={this.attendTournament}
               />
-            </div> */}
+            </div>
 
           </div>
-
-          <h2 className={style.title}>{name}</h2>
 
           {this.props.tournament && (
             <div className={cx(style.widgets, style.col_3)}>
@@ -162,11 +170,11 @@ class Tournament extends Component {
           )}
 
           {this.props.tournament && (
-            <div className={style.widgets}>
-              <TournamentApplicants id={this.props.match.params.id}/>
-              <TournamentSummoners id={this.props.match.params.id}/>
-              <TournamentViewers id={this.props.match.params.id}/>
+            <div className={cx(style.widgets, style.col_3)}>
               <TournamentMatches id={this.props.match.params.id}/>
+              <TournamentSummoners id={this.props.match.params.id}/>
+              <TournamentApplicants id={this.props.match.params.id}/>
+              <TournamentViewers id={this.props.match.params.id}/>
             </div>
           )}
         </div>
