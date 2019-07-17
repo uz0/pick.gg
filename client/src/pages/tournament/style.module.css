@@ -31,10 +31,12 @@
 .tournament .inner_container .tournament_section {
   flex-shrink: 0;
   display: flex;
+  justify-content: space-between;
   width: 100%;
 }
 
 .tournament .inner_container .tournament_section .actions {
+  display: flex;
   flex-shrink: 0;
   margin-left: 30px;
 }
@@ -47,7 +49,7 @@
 }
 
 .tournament .inner_container .tournament_section .actions .button:nth-of-type(n+2) {
-  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .tournament .inner_container .tournament_section + .subtitle {
