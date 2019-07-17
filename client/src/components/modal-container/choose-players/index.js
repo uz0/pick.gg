@@ -107,7 +107,6 @@ export default enhance(props => {
 
   const isSelectedSummoners = props.selectedSummoners.length > 0;
   const isFiltering = props.filter.length > 0;
-  console.log(props);
   return (
     <Modal
       title="Choose tournament summoners"
