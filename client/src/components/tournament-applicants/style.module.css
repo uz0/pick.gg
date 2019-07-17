@@ -48,3 +48,8 @@
   --height: var(--row-height);
   flex-shrink: 0;
 }
+
+.applicants .table .row .number {
+  flex-grow: 0;
+  flex-shrink: 0;
+}

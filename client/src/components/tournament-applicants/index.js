@@ -1,10 +1,13 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import classnames from 'classnames/bind';
 import Button from 'components/button';
 import Table from 'components/table';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
+
+const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
@@ -23,8 +26,8 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   const nameStyle = { '--width': captions.name.width };
 
   return (
-    <div key={item._id} className={className}>
-      <div className={itemClass} style={numberStyle}>
+    <div key={item._id} className={cx(className, style.row)}>
+      <div className={cx(itemClass, style.number)} style={numberStyle}>
         <span className={textClass}>{index + 1}</span>
       </div>
 
@@ -32,8 +35,8 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
         <span className={textClass}>{item.username}</span>
       </div>
 
-      <Button appearance="_icon-transparent" icon="plus" className={style.action} />
-      <Button appearance="_icon-transparent" icon="close" className={style.action} />
+      <Button appearance="_icon-transparent" icon="plus" className={style.action}/>
+      <Button appearance="_icon-transparent" icon="close" className={style.action}/>
     </div>
   );
 };
@@ -45,7 +48,7 @@ const Applicants = ({
   <div className={style.applicants}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Applicants</h3>
-      <button className={style.button}>Stop</button>
+      <button type="button" className={style.button}>Stop</button>
     </div>
 
     <Table
