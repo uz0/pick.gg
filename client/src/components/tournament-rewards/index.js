@@ -35,7 +35,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   );
 };
 
-const Rewards = ({ tournament, captions }) => (
+const Rewards = ({ tournament, addRewards, captions }) => (
   <div className={style.rewards}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
@@ -59,6 +59,7 @@ const Rewards = ({ tournament, captions }) => (
           appearance="_circle-accent"
           icon="plus"
           className={style.button}
+          onClick={addRewards}
         />
       )}
 
