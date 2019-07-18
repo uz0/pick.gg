@@ -88,7 +88,9 @@ class Tournament extends Component {
 
     options: {
       tournamentId: this.props.match.params.id,
+      currentUserId: this.props.currentUser._id,
       tournamentSummoners: this.props.tournament.summoners,
+      tournamentViewers: this.props.tournament.viewers,
       summoners: this.props.users,
     },
   });
@@ -136,13 +138,6 @@ class Tournament extends Component {
 
             <div className={style.actions}>
               <Button
-                text={i18n.t('join_tournament')}
-                appearance="_basic-accent"
-                className={style.button}
-                onClick={this.joinTournament}
-              />
-
-              <Button
                 text={i18n.t('suggest_yourself')}
                 appearance="_basic-accent"
                 className={style.button}
@@ -173,8 +168,11 @@ class Tournament extends Component {
             <div className={cx(style.widgets, style.col_3)}>
               <TournamentMatches id={this.props.match.params.id}/>
               <TournamentSummoners id={this.props.match.params.id}/>
+              <TournamentViewers
+                id={this.props.match.params.id}
+                joinTournament={this.joinTournament}
+              />
               <TournamentApplicants id={this.props.match.params.id}/>
-              <TournamentViewers id={this.props.match.params.id}/>
             </div>
           )}
         </div>
