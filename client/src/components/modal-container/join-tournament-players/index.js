@@ -9,6 +9,8 @@ import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
 
+import { http } from 'helpers';
+
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 const cx = classnames.bind(style);
@@ -57,13 +59,34 @@ const enhance = compose(
       },
     }
   ),
+  withHandlers({
+    attend: props => async () => {
+      const { selectedSummoners } = props;
+      const { tournamentId, tournamentViewers, currentUserId } = props.options;
+
+      props.updateTournament({
+        _id: tournamentId,
+        viewers: [...tournamentViewers, {
+          userId: currentUserId,
+          summoners: selectedSummoners,
+        }],
+      });
+
+      props.close();
+    },
+  }),
 );
 
 export default enhance(props => {
-  const { tournamentSummoners, selectedSummoners, toggleSelectSummoner } = props;
+  const {
+    tournamentSummoners,
+    selectedSummoners,
+    toggleSelectSummoner,
+    attend,
+  } = props;
 
   const actions = [
-    { text: 'Add Players', appearance: '_basic-accent' },
+    { text: 'Add Players', appearance: '_basic-accent', onClick: attend },
   ];
 
   return (
