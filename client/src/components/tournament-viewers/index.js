@@ -1,9 +1,14 @@
 import React from 'react';
 import compose from 'recompose/compose';
+import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
+import classnames from 'classnames/bind';
 import Table from 'components/table';
+import Button from 'components/button';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
+
+const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
@@ -22,33 +27,78 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   const nameStyle = { '--width': captions.name.width };
 
   return (
-    <div key={item._id} className={className}>
-      <div className={itemClass} style={numberStyle}>
+    <div key={item._id} className={cx(className, style.row)}>
+      <div className={cx(itemClass, style.position)} style={numberStyle}>
         <span className={textClass}>{index + 1}</span>
       </div>
 
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.username}</span>
+        <span className={textClass}>{item.user.username}</span>
       </div>
     </div>
   );
 };
 
 const Viewers = ({
-  tournament,
+  joinTournament,
+  viewers,
+  currentUserSummoners,
   captions,
 }) => (
   <div className={style.viewers}>
-    <h3 className={style.subtitle}>Viewers</h3>
+    <div className={style.header}>
+      <h3 className={style.subtitle}>Viewers</h3>
+    </div>
 
-    <Table
-      noCaptions
-      captions={captions}
-      items={tournament.viewers}
-      renderRow={renderRow}
-      className={style.table}
-      emptyMessage="There is no viewers yet"
-    />
+    <div className={style.content}>
+      {currentUserSummoners.length === 0 && (
+        <div className={style.attend}>
+          <Button
+            text="Join tournament"
+            appearance="_basic-accent"
+            className={style.button}
+            onClick={joinTournament}
+          />
+        </div>
+      )}
+
+      {currentUserSummoners && (
+        <div className={style.forecast}>
+          <div className={style.title}>Your summoners:</div>
+          <div className={style.list}>
+            {currentUserSummoners.map(summoner => {
+              return (
+                <div key={summoner._id} className={style.item}>
+                  <div className={style.avatar}>
+                    <img src={summoner.imageUrl}/>
+                  </div>
+                  <div className={style.info}>
+                    <div className={style.name}>
+                      {summoner.summonerName}
+                    </div>
+                    {summoner.preferredPosition && (
+                      <div className={style.position}>
+                        {summoner.preferredPosition}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+            }
+          </div>
+        </div>
+      )}
+
+      <Table
+        noCaptions
+        captions={captions}
+        items={viewers}
+        renderRow={renderRow}
+        className={style.table}
+        emptyMessage="There is no viewers yet"
+      />
+    </div>
   </div>
 );
 
@@ -57,7 +107,41 @@ export default compose(
 
   connect(
     (state, props) => ({
+      users: state.users.list,
+      currentUser: state.currentUser,
       tournament: state.tournaments.list[props.id],
     }),
   ),
+  withProps(props => {
+    const { tournament, currentUser, users } = props;
+
+    const currentUserSummoners = tournament.viewers.length > 0 &&
+      tournament.viewers.find(({ userId }) => userId === currentUser._id);
+
+    if (currentUserSummoners) {
+      return {
+        ...props,
+        viewers: tournament.viewers.map(item => ({
+          userId: item.userId,
+          user: Object.values(users).find(user => {
+            return user._id === item.userId;
+          }),
+          summoners: item.summoners.map(summonerId => Object.values(users).find(item => item._id === summonerId)),
+        })),
+        currentUserSummoners: currentUserSummoners.summoners.map(summonerId => Object.values(users).find(item => item._id === summonerId)),
+      };
+    }
+
+    return {
+      ...props,
+      viewers: tournament.viewers.map(item => ({
+        userId: item.userId,
+        user: Object.values(users).find(user => {
+          return user._id === item.userId;
+        }),
+        summoners: item.summoners.map(summonerId => Object.values(users).find(item => item._id === summonerId)),
+      })),
+      currentUserSummoners: [],
+    };
+  })
 )(Viewers);
