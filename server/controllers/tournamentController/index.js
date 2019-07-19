@@ -3,6 +3,7 @@ import express from 'express';
 import get from './get';
 import * as create from './create';
 import * as attend from './attend';
+import * as view from './view';
 import * as getById from './getById';
 import * as edit from './edit';
 import * as ready from './ready';
@@ -23,7 +24,7 @@ const TournamentController = io => {
 
   router.patch('/:id/attend', attend.validator, attend.handler);
 
-  router.patch('/:id/applicant-status', applicantStatus.validator, applicantStatus.handler);
+  router.patch('/:id/view', view.validator, view.handler);
 
   router.post('/', create.validator, create.handler);
 
