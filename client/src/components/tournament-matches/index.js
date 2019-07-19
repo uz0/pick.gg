@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import filter from 'lodash/filter';
 import { http } from 'helpers';
 import Table from 'components/table';
+import Button from 'components/button';
 import Icon from 'components/icon';
 import classnames from 'classnames/bind';
 import { withCaptions } from 'hoc';
@@ -27,6 +28,14 @@ const tableCaptions = ({ t, isMobile }) => ({
 const cx = classnames.bind(style);
 
 class Matches extends Component {
+  addMatch = () => this.props.toggleModal({
+    id: 'add-match-modal',
+
+    options: {
+      tournamentId: this.props.id,
+    },
+  });
+
   openMatchDetails = () => this.props.toggleModal({ id: 'match-results-modal' });
 
   openEditMatch = () => this.props.toggleModal({ id: 'edit-match-modal' });
@@ -98,20 +107,49 @@ class Matches extends Component {
   };
 
   render() {
+    const { matches } = this.props.tournament;
+
     return (
       <div className={style.matches}>
         <div className={style.header}>
           <h3 className={style.subtitle}>Matches</h3>
+          {matches.length > 0 && (
+            <button
+              type="button"
+              className={style.button}
+              onClick={this.addMatch}
+            >
+              Add
+            </button>
+          )}
         </div>
 
-        <Table
-          noCaptions
-          captions={this.props.captions}
-          items={this.props.tournament.matches}
-          renderRow={this.renderRow}
-          className={style.table}
-          emptyMessage="There is no matches yet"
-        />
+        {matches.length === 0 && (
+          <p className={style.empty}>You can add matches</p>
+        )}
+
+        <div className={style.content}>
+          {matches.length === 0 && (
+            <Button
+              appearance="_circle-accent"
+              icon="plus"
+              className={style.button}
+              onClick={this.addMatch}
+            />
+          )}
+
+          {matches.length > 0 && (
+            <Table
+              noCaptions
+              captions={this.props.captions}
+              items={matches}
+              renderRow={this.renderRow}
+              className={style.table}
+              emptyMessage="There is no matches yet"
+            />
+          )}
+        </div>
+
       </div>
     );
   }

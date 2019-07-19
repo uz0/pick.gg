@@ -6,6 +6,19 @@
   align-items: center;
 }
 
+.matches .empty {
+  --height: 24px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align-last: left;
+}
+
 .matches .header .subtitle {
   flex-grow: 1;
   overflow: hidden;
@@ -40,13 +53,26 @@
   --color: #e88c00;
 }
 
-.matches .header + .table {
+.matches .header + .table,
+.matches .header + .content {
   margin-top: 16px;
 }
 
-.matches .table {}
+.matches .content {
+  min-height: 100px;
+  flex-grow: 1;
+  display: flex;
+}
 
-.matches .table .points {
+.matches .content .button {
+  margin: auto;
+}
+
+.matches .content .table {
+  width: 100%;
+}
+
+.matches .content .table .points {
   --height: 24px;
   overflow: hidden;
   height: var(--height);
@@ -61,13 +87,13 @@
   text-overflow: ellipsis;
 }
 
-.matches .table .date {
+.matches .content .table .date {
   flex-grow: 0;
   flex-shrink: 0;
   width: auto;
 }
 
-.matches .table .button {
+.matches .content .table .button {
   flex-shrink: 0;
   display: flex;
   justify-content: center;
@@ -78,23 +104,23 @@
   transition-property: background-color;
 }
 
-.matches .table .button.danger:not(:hover) {
+.matches .content .table .button.danger:not(:hover) {
   --background-color: #f44336;
 }
 
-.matches .table .button.danger:hover {
+.matches .content .table .button.danger:hover {
   --background-color: #e53935;
 }
 
-.matches .table .button:not(:hover) {
+.matches .content .table .button:not(:hover) {
   --background-color: #101027;
 }
 
-.matches .table .button:hover {
+.matches .content .table .button:hover {
   --background-color: #1c1c3e;
 }
 
-.matches .table .button i {
+.matches .content .table .button i {
   --icon-size: 18px;
   --icon-color: #fff;
 }
