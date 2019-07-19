@@ -64,15 +64,27 @@ const enhance = compose(
       const { selectedSummoners } = props;
       const { tournamentId, tournamentViewers, currentUserId } = props.options;
 
-      props.updateTournament({
-        _id: tournamentId,
-        viewers: [...tournamentViewers, {
-          userId: currentUserId,
-          summoners: selectedSummoners,
-        }],
-      });
+      try {
+        await http(`/api/tournaments/${tournamentId}/view`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify({ userId: currentUserId, summoners: selectedSummoners }),
+        });
 
-      props.close();
+        props.updateTournament({
+          _id: tournamentId,
+          viewers: [...tournamentViewers, {
+            userId: currentUserId,
+            summoners: selectedSummoners,
+          }],
+        });
+
+        props.close();
+      } catch (error) {
+        console.log(error);
+      }
     },
   }),
 );
@@ -108,7 +120,7 @@ export default enhance(props => {
             onClick={() => toggleSelectSummoner(summoner._id)}
           >
             <div className={style.image}>
-              <img src={summoner.imageUrl} alt="summoner"/>
+              <img src={summoner.imageUrl} alt="summoner" />
             </div>
 
             <p className={style.name}>{summoner.summonerName}</p>

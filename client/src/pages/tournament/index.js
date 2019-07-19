@@ -167,7 +167,10 @@ class Tournament extends Component {
           {this.props.tournament && (
             <div className={cx(style.widgets, style.col_3)}>
               <TournamentMatches id={this.props.match.params.id}/>
-              <TournamentSummoners id={this.props.match.params.id}/>
+              <TournamentSummoners
+                id={this.props.match.params.id}
+                addSummoners={this.addSummoners}
+              />
               <TournamentViewers
                 id={this.props.match.params.id}
                 joinTournament={this.joinTournament}
