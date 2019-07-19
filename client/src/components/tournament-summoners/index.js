@@ -4,6 +4,7 @@ import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import Table from 'components/table';
+import Button from 'components/button';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
 
@@ -38,19 +39,46 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   );
 };
 
-const Summoners = ({ summoners, captions }) => (
+const Summoners = ({ summoners, addSummoners, captions }) => (
   <div className={style.summoners}>
-    <h3 className={style.subtitle}>Summoners</h3>
+    <div className={style.header}>
+      <h3 className={style.subtitle}>Summoners</h3>
+      {summoners.length > 0 && (
+        <button
+          type="button"
+          className={style.button}
+          onClick={addSummoners}
+        >
+          Edit
+        </button>
+      )}
+    </div>
 
-    <Table
-      noCaptions
-      captions={captions}
-      items={summoners}
-      renderRow={renderRow}
-      isLoading={false}
-      className={style.table}
-      emptyMessage="There is no summoners yet"
-    />
+    {summoners.length === 0 && (
+      <p className={style.empty}>You can choose summoners</p>
+    )}
+
+    <div className={style.content}>
+      {summoners.length === 0 && (
+        <Button
+          appearance="_circle-accent"
+          icon="plus"
+          className={style.button}
+          onClick={addSummoners}
+        />
+      )}
+
+      {summoners.length > 0 && (
+        <Table
+          noCaptions
+          captions={captions}
+          items={summoners}
+          renderRow={renderRow}
+          isLoading={false}
+          className={style.table}
+        />
+      )}
+    </div>
   </div>
 );
 
