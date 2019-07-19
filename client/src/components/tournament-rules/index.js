@@ -25,13 +25,10 @@ const tableCaptions = ({ t, isMobile }) => ({
 });
 
 const renderRow = ({ className, itemClass, textClass, item, captions }) => {
-
-  console.log(className, 'className');
-
   const valueStyle = { '--width': captions.value.width };
   const ruleStyle = { '--width': captions.rule.width };
 
-  const ruleName = Object.keys(item)[0];
+  const [ruleName] = Object.keys(item);
 
   return (
     <div key={ruleName} className={cx(className, style.row)}>
