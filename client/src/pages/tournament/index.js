@@ -49,14 +49,6 @@ class Tournament extends Component {
     },
   });
 
-  addMatches = () => this.props.toggleModal({
-    id: 'add-match-modal',
-
-    options: {
-      tournamentId: this.props.match.params.id,
-    },
-  });
-
   addSummoners = () => this.props.toggleModal({
     id: 'add-summoners-modal',
 

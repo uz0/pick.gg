@@ -26,16 +26,8 @@ const EditMatch = ({ close }) => {
         className={style.field}
       />
 
-      <Field
-        label="Start time"
-        name="time"
-        type="time"
-        component={FormInput}
-        className={style.field}
-      />
-
       {[1, 2, 3, 4, 5].map(id => (
-        <div key={id} className={style.player}>
+        <div key={id} className={style.summoner}>
           <h3 className={style.name}>JackeyLove</h3>
 
           <Field
@@ -69,9 +61,8 @@ const EditMatch = ({ close }) => {
 
 export default compose(
   withFormik({
-    handleSubmit: async (qwe, asd) => {
-      console.log(qwe);
-      console.log(asd);
+    handleSubmit: async (values, { props }) => {
+      console.log(values, 'values');
     },
   }),
 )(EditMatch);

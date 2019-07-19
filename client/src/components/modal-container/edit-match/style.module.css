@@ -9,23 +9,24 @@
   margin-top: 12px;
 }
 
-.wrapper .content .field + .player {
+.wrapper .content .field + .summoner {
   margin-top: 40px;
 }
 
-.wrapper .content .player {
+.wrapper .content .summoner {
   display: grid;
   grid-gap: 12px;
   grid-template-columns: repeat(3, 1fr);
 }
 
-.wrapper .content .player + .player {
+.wrapper .content .summoner + .summoner {
   margin-top: 20px;
 }
 
-.wrapper .content .player .name {
+.wrapper .content .summoner .name {
+  color: var(--caption-color);
   grid-column: 1 / -1;
 }
 
-.wrapper .content .player .kda {
+.wrapper .content .summoner .kda {
 }

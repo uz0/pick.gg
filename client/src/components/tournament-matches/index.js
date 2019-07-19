@@ -87,11 +87,9 @@ class Matches extends Component {
           </button>
         )}
 
-        {isTournamentReady && isCurrentUserCreator && (
-          <button className={style.button} type="button" onClick={this.openEditMatch}>
-            <Icon name="info"/>
-          </button>
-        )}
+        <button className={style.button} type="button" onClick={this.openEditMatch}>
+          <Icon name="info"/>
+        </button>
 
         {!isTournamentReady && isCurrentUserCreator && (
           <button

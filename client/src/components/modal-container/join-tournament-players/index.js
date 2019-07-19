@@ -120,7 +120,7 @@ export default enhance(props => {
             onClick={() => toggleSelectSummoner(summoner._id)}
           >
             <div className={style.image}>
-              <img src={summoner.imageUrl} alt="summoner" />
+              <img src={summoner.imageUrl} alt="summoner"/>
             </div>
 
             <p className={style.name}>{summoner.summonerName}</p>
