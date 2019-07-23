@@ -38,7 +38,13 @@ class Matches extends Component {
 
   openMatchDetails = () => this.props.toggleModal({ id: 'match-results-modal' });
 
-  openEditMatch = () => this.props.toggleModal({ id: 'edit-match-modal' });
+  openEditMatch = matchId => this.props.toggleModal({
+    id: 'edit-match-modal',
+    options: {
+      tournamentId: this.props.id,
+      matchId,
+    },
+  });
 
   deleteMatch = async (tournamentId, matchId) => {
     try {
@@ -87,7 +93,7 @@ class Matches extends Component {
           </button>
         )}
 
-        <button className={style.button} type="button" onClick={this.openEditMatch}>
+        <button className={style.button} type="button" onClick={() => this.openEditMatch(_id)}>
           <Icon name="info"/>
         </button>
 
