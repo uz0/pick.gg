@@ -81,7 +81,6 @@ const handler = withValidationHandler(async (req, res) => {
         'description',
         'url',
         'price',
-        'rewards',
         'rules',
         'summoners'
       ])
