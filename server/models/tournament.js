@@ -11,8 +11,11 @@ const schema = new Schema(
     imageUrl: String,
     createdAt: Date,
     startAt: Date,
-    rewards: [{ rewardId: String, rewardPositionId: String }], // во время создания турнира, юзер может указать ID наград (выбрать их из своего инвентаря), после победы, эти награды передаются победителям... каким?
     price: { type: Number, min: 0 },
+    rewards: {
+      type: Map,
+      of: String
+    },
     rules: {
       type: Map,
       of: Number
