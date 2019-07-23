@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import isEmpty from 'lodash/isEmpty';
+
 const Schema = mongoose.Schema;
 
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName });
@@ -46,6 +48,18 @@ schema.virtual('matches', {
   ref: 'Match',
   localField: '_id',
   foreignField: 'tournamentId'
+});
+
+schema.virtual('isPrepared').get(function () {
+  if(isEmpty(this.rules) || isEmpty(this.matches)){
+    return false;
+  }
+
+  if(this.summoners.length < 2){
+    return false;
+  }
+
+  return true;
 });
 
 export default mongoose.model('Tournament', schema);
