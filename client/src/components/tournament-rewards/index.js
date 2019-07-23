@@ -1,10 +1,10 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Table from 'components/table';
 import Button from 'components/button';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
+import { REWARD_POSITIONS } from '../../constants';
 
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
@@ -18,28 +18,11 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const renderRow = ({ className, itemClass, textClass, index, item, captions }) => {
-  const numberStyle = { '--width': captions.number.width };
-  const nameStyle = { '--width': captions.name.width };
-
-  return (
-    <div key={item._id} className={className}>
-      <div className={itemClass} style={numberStyle}>
-        <span className={textClass}>{index + 1}</span>
-      </div>
-
-      <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.summonerName}</span>
-      </div>
-    </div>
-  );
-};
-
-const Rewards = ({ tournament, addRewards, captions }) => (
+const Rewards = ({ tournament, addRewards }) => (
   <div className={style.rewards}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
-      {tournament.rewards.length > 0 && (
+      {tournament.unfoldedRewards.length > 0 && (
         <button
           type="button"
           className={style.button}
@@ -49,12 +32,12 @@ const Rewards = ({ tournament, addRewards, captions }) => (
       )}
     </div>
 
-    {tournament.rewards.length === 0 && (
+    {tournament.unfoldedRewards.length === 0 && (
       <p className={style.empty}>Add rewards</p>
     )}
 
     <div className={style.content}>
-      {tournament.rewards.length === 0 && (
+      {tournament.unfoldedRewards.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -63,17 +46,33 @@ const Rewards = ({ tournament, addRewards, captions }) => (
         />
       )}
 
-      {tournament.rewards.length > 0 && (
-        <Table
-          noCaptions
-          captions={captions}
-          items={tournament.rewards}
-          renderRow={renderRow}
-          isLoading={false}
-          className={style.table}
-          emptyMessage="There is no rewards yet"
-        />
+      {tournament.unfoldedRewards && (
+        <div className={style.prizes}>
+          <div className={style.list}>
+            {tournament.unfoldedRewards.map(reward => {
+              return (
+                <div key={reward._id} className={style.item}>
+                  <div className={style.avatar}>
+                    <img src={reward.image}/>
+                  </div>
+                  <div className={style.info}>
+                    <div className={style.name}>
+                      {reward.description}
+                    </div>
+                    <div className={style.position}>
+                      {
+                        `For ${REWARD_POSITIONS[tournament.rewards[reward._id]].role} and
+                        ${REWARD_POSITIONS[tournament.rewards[reward._id]].place} place`
+                      }
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       )}
+
     </div>
   </div>
 );

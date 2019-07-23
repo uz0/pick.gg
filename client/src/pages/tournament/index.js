@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import moment from 'moment';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http } from 'helpers';
 import i18n from 'i18n';
 import Button from 'components/button';
-import Icon from 'components/icon';
 import TournamentInformation from 'components/tournament-information';
 import TournamentMatches from 'components/tournament-matches';
 import TournamentRewards from 'components/tournament-rewards';
@@ -26,11 +23,17 @@ const cx = classnames.bind(style);
 
 class Tournament extends Component {
   loadTournament = async () => {
-    const response = await http(`/api/tournaments/${this.props.match.params.id}`);
-    const tournament = await response.json();
+    const tournamentRequest = await http(`/api/tournaments/${this.props.match.params.id}`);
+    const rewardsRequest = await http(`/api/tournaments/${this.props.match.params.id}/rewards`);
+
+    const tournament = await tournamentRequest.json();
+    const unfoldedRewards = await rewardsRequest.json();
 
     if (tournament) {
-      this.props.addTournament(tournament);
+      this.props.addTournament({
+        ...tournament,
+        unfoldedRewards,
+      });
     }
   };
 

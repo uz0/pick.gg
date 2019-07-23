@@ -71,6 +71,80 @@
   margin: auto;
 }
 
-.rewards .content .table {
+.rewards .content .prizes {
+  padding: 12px;
+  background-color: var(--background-color);
+  border-radius: 2px;
+}
+
+.rewards .content .prizes .title {
+  --height: 30px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  color: var(--caption-color);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rewards .content .prizes {
   width: 100%;
+}
+
+.rewards .content .prizes .list {}
+
+.rewards .content .prizes .list .item {
+  height: 50px;
+  padding-left: 8px;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  background-color: #0a0a1f;
+}
+
+.rewards .content .prizes .list .item + .item {
+  margin-top: 4px;
+}
+
+.rewards .content .prizes .list .item .avatar {
+  display: flex;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.rewards .content .prizes .list .item .avatar img {
+  width: 32px;
+  border-radius: 50%;
+}
+
+.rewards .content .prizes .list .item .info {
+  margin-left: 8px;
+  flex-grow: 1;
+}
+
+.rewards .content .prizes .list .item .info .name {
+  font-size: 14px;
+  color: var(--caption-color);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rewards .content .prizes .list .item .info .position {
+  font-size: 12px;
+  color: var(--accent-color);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
