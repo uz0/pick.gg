@@ -73,7 +73,7 @@ class Matches extends Component {
     const currentUser = get(this.props, 'currentUser');
 
     const isTournamentReady = get(this.props, 'tournament.isReady');
-    const isCurrentUserCreator = creator && creator._id === currentUser._id;
+    const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
 
     return (
       <div key={_id} className={className}>

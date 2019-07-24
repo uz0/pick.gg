@@ -67,7 +67,8 @@
 }
 
 .viewers .content .attend + .forecast,
-.viewers .content .forecast + .table {
+.viewers .content .forecast + .table,
+.viewers .content .attend + .table {
   margin-top: 12px;
 }
 

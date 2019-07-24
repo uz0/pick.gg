@@ -73,7 +73,7 @@ const Viewers = ({
         </div>
       )}
 
-      {currentUserSummoners && (
+      {currentUserSummoners.length > 0 && (
         <div className={style.forecast}>
           <div className={style.title}>Your summoners:</div>
           <div className={style.list}>
@@ -126,9 +126,6 @@ export default compose(
   withProps(props => {
     const { tournament, currentUser, users } = props;
 
-    const currentUserSummoners = tournament.viewers.length > 0 &&
-      tournament.viewers.find(({ userId }) => userId === currentUser._id);
-
     const viewers = tournament.viewers
       .map(({ userId, summoners }) => {
         const userList = Object.values(users);
@@ -150,6 +147,17 @@ export default compose(
       .sort((prev, next) => {
         return next.points - prev.points;
       });
+
+    if (!currentUser) {
+      return {
+        ...props,
+        viewers,
+        currentUserSummoners: [],
+      };
+    }
+
+    const currentUserSummoners = tournament.viewers.length > 0 &&
+      tournament.viewers.find(({ userId }) => userId === currentUser._id);
 
     if (currentUserSummoners) {
       const summoners = currentUserSummoners.summoners

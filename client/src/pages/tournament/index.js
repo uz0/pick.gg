@@ -23,8 +23,8 @@ const cx = classnames.bind(style);
 
 class Tournament extends Component {
   loadTournament = async () => {
-    const tournamentRequest = await http(`/api/tournaments/${this.props.match.params.id}`);
-    const rewardsRequest = await http(`/api/tournaments/${this.props.match.params.id}/rewards`);
+    const tournamentRequest = await http(`/public/tournaments/${this.props.match.params.id}`);
+    const rewardsRequest = await http(`/public/tournaments/${this.props.match.params.id}/rewards`);
 
     const tournament = await tournamentRequest.json();
     const unfoldedRewards = await rewardsRequest.json();
@@ -38,7 +38,7 @@ class Tournament extends Component {
   };
 
   loadUsers = async () => {
-    const response = await http('/api/admin/user');
+    const response = await http('/public/users');
     const { users } = await response.json();
 
     this.props.addUsers(users);
