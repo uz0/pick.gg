@@ -114,7 +114,7 @@ export default compose(
       }));
 
       try {
-        const match = await http(`/api/tournaments/${tournamentId}/matches/${matchId}/results`, {
+        const matchRequest = await http(`/api/tournaments/${tournamentId}/matches/${matchId}/results`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -122,12 +122,16 @@ export default compose(
           body: JSON.stringify(results),
         });
 
+        const updatedMatch = await matchRequest.json();
+
         const { matches } = props.tournament;
 
-        for (const item of matches) {
-          if (item._id === match._id) {
-            item.name = match.name;
-            item.playersResults = match.playersResults;
+        // We use for loop here to save initial object order in array
+        for (let i = 0; i < matches.length; i++) {
+          if (updatedMatch._id === matches[i]._id) {
+            matches[i] = {
+              ...updatedMatch,
+            };
           }
         }
 
