@@ -108,20 +108,6 @@ class Tournament extends Component {
 
   render() {
     const name = get(this.props, 'tournament.name');
-    const creator = get(this.props, 'tournament.creator');
-    const currentUser = get(this.props, 'currentUser');
-    const description = get(this.props, 'tournament.description');
-    const price = get(this.props, 'tournament.price');
-    const rules = get(this.props, 'tournament.rules');
-    const rewards = get(this.props, 'tournament.rewards');
-    const matches = get(this.props, 'tournament.matches');
-
-    const isCurrentUserCreator = creator && creator._id === currentUser._id;
-    const isTournamentReady = get(this.props, 'tournament.isReady');
-
-    const isRulesAdded = rules && rules.length > 0;
-    const isRewardsAdded = rewards && rewards.length > 0;
-    const isMatchesAdded = matches && matches.length > 0;
 
     return (
       <div className={cx('tournament', 'container')}>
