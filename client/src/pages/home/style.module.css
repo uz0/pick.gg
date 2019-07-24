@@ -45,14 +45,14 @@
 }
 
 .main h1 {
-  font-size: 144px;
+  font-size: 96px;
   font-family: Roboto, sans-serif;
   margin: 0;
   color: #fff;
 }
 
 .work h2, .footer h2 {
-  font-size: 96px;
+  font-size: 64px;
   margin: 0;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
@@ -74,7 +74,7 @@ section {
 }
 
 .main p {
-  font-size: 48px;
+  font-size: 36px;
   color: #fff;
   margin: 0;
   padding-top: 24px;
@@ -90,7 +90,7 @@ section {
 
 .buttons .button {
   background-color: #2f998e;
-  font-size: 48px;
+  font-size: 36px;
   font-weight: bold;
   text-decoration: none;
   border: 0;
@@ -135,7 +135,7 @@ section {
 }
 
 .work .cards .card .first_title {
-  font-size: 36px;
+  font-size: 27px;
   font-weight: bold;
 }
 
@@ -156,14 +156,14 @@ section {
 }
 
 .work .cards .card .title {
-  font-size: 36px;
+  font-size: 27px;
   font-weight: bold;
-  padding-bottom: 36px;
+  padding-bottom: 27px;
 }
 
 .work .cards .card .undertitle {
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 20px;
+  line-height: 27px;
 }
 
 .footer {
@@ -177,11 +177,13 @@ section {
 
 .footer h2 {
   color: #fafafa;
+  padding-bottom: 36px;
 }
 
 .footer p {
   font-size: 24px;
   line-height: 36px;
+  padding-bottom: 27px;
   color: #fff;
   font-weight: lighter;
   width: 50%;
@@ -199,7 +201,7 @@ section {
     padding-top: 12px;
   }
   .work h2, .footer h2 {
-    font-size: 48px;
+    font-size: 36px;
   }
   .buttons {
     width: 250px;
@@ -245,12 +247,11 @@ section {
     width: 100px;
   }
   .work h2 {
-    margin-bottom: 48px;
+    margin-bottom: 36px;
   }
   .footer p {
     font-size: 18px;
     line-height: 27px;
-    padding-top: 24px;
   }
 }
 
@@ -298,10 +299,19 @@ section {
     font-size: 24px;
   }
   .buttons .streamer {
-    font-size: 18px;
+    font-size: 16px;
   }
   .footer p {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 320px) {
+  .main h1 {
+    font-size: 64px;
+  }
+  .main p {
+    font-size: 20px;
   }
 }
