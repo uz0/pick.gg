@@ -45,62 +45,62 @@ const Viewers = ({
   currentUserSummoners,
   captions,
 }) => (
-  <div className={style.viewers}>
-    <div className={style.header}>
-      <h3 className={style.subtitle}>Viewers</h3>
-    </div>
+    <div className={style.viewers}>
+      <div className={style.header}>
+        <h3 className={style.subtitle}>Viewers</h3>
+      </div>
 
-    <div className={style.content}>
-      {currentUserSummoners.length === 0 && (
-        <div className={style.attend}>
-          <Button
-            text="Join tournament"
-            appearance="_basic-accent"
-            className={style.button}
-            onClick={joinTournament}
-          />
-        </div>
-      )}
-
-      {currentUserSummoners && (
-        <div className={style.forecast}>
-          <div className={style.title}>Your summoners:</div>
-          <div className={style.list}>
-            {currentUserSummoners.map(summoner => {
-              return (
-                <div key={summoner._id} className={style.item}>
-                  <div className={style.avatar}>
-                    <img src={summoner.imageUrl}/>
-                  </div>
-                  <div className={style.info}>
-                    <div className={style.name}>
-                      {summoner.summonerName}
-                    </div>
-                    {summoner.preferredPosition && (
-                      <div className={style.position}>
-                        {summoner.preferredPosition}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })
-            }
+      <div className={style.content}>
+        {currentUserSummoners.length === 0 && (
+          <div className={style.attend}>
+            <Button
+              text="Join tournament"
+              appearance="_basic-accent"
+              className={style.button}
+              onClick={joinTournament}
+            />
           </div>
-        </div>
-      )}
+        )}
 
-      <Table
-        noCaptions
-        captions={captions}
-        items={viewers}
-        renderRow={renderRow}
-        className={style.table}
-        emptyMessage="There is no viewers yet"
-      />
+        {currentUserSummoners && (
+          <div className={style.forecast}>
+            <div className={style.title}>Your summoners:</div>
+            <div className={style.list}>
+              {currentUserSummoners.map(summoner => {
+                return (
+                  <div key={summoner._id} className={style.item}>
+                    <div className={style.avatar}>
+                      <img src={summoner.imageUrl} />
+                    </div>
+                    <div className={style.info}>
+                      <div className={style.name}>
+                        {summoner.summonerName}
+                      </div>
+                      {summoner.preferredPosition && (
+                        <div className={style.position}>
+                          {summoner.preferredPosition}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+              }
+            </div>
+          </div>
+        )}
+
+        <Table
+          noCaptions
+          captions={captions}
+          items={viewers}
+          renderRow={renderRow}
+          className={style.table}
+          emptyMessage="There is no viewers yet"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
 
 export default compose(
   withCaptions(tableCaptions),
@@ -118,29 +118,26 @@ export default compose(
     const currentUserSummoners = tournament.viewers.length > 0 &&
       tournament.viewers.find(({ userId }) => userId === currentUser._id);
 
+    const viewers = tournament.viewers.map(item => ({
+      userId: item.userId,
+      user: Object.values(users).find(user => user._id === item.userId),
+      summoners: item.summoners.map(summonerId => Object.values(users).find(item => item._id === summonerId)),
+    }));
+
     if (currentUserSummoners) {
+      const summoners = currentUserSummoners.summoners
+        .map(summonerId => Object.values(users).find(item => item._id === summonerId));
+
       return {
         ...props,
-        viewers: tournament.viewers.map(item => ({
-          userId: item.userId,
-          user: Object.values(users).find(user => {
-            return user._id === item.userId;
-          }),
-          summoners: item.summoners.map(summonerId => Object.values(users).find(item => item._id === summonerId)),
-        })),
-        currentUserSummoners: currentUserSummoners.summoners.map(summonerId => Object.values(users).find(item => item._id === summonerId)),
+        viewers,
+        currentUserSummoners: summoners,
       };
     }
 
     return {
       ...props,
-      viewers: tournament.viewers.map(item => ({
-        userId: item.userId,
-        user: Object.values(users).find(user => {
-          return user._id === item.userId;
-        }),
-        summoners: item.summoners.map(summonerId => Object.values(users).find(item => item._id === summonerId)),
-      })),
+      viewers,
       currentUserSummoners: [],
     };
   })
