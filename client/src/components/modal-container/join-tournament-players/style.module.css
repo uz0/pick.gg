@@ -15,6 +15,9 @@
   background-color: var(--background-color);
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transition-property: background-color;
 }
 
@@ -94,4 +97,27 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
+}
+
+@media (max-width: 480px) {
+  .wrapper .content {
+    grid-template-columns: 1fr;
+  }
+  .wrapper .content .summoner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .wrapper .content .summoner .image {
+    margin: 0;
+  }
+  .wrapper .content .summoner .name {
+    text-align: left;
+  }
+  .wrapper .content .summoner {
+    margin-left: 24px;
+  }
+  .wrapper .content .summoner .info {
+    margin-left: 12px;
+  }
 }
