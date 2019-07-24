@@ -46,7 +46,7 @@ const Rewards = ({ tournament, addRewards }) => (
         />
       )}
 
-      {tournament.unfoldedRewards && (
+      {tournament.unfoldedRewards.length !== 0 && (
         <div className={style.prizes}>
           <div className={style.list}>
             {tournament.unfoldedRewards.map(reward => {

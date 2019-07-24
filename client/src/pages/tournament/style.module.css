@@ -139,3 +139,18 @@
 .tournament .inner_container .widgets > * {
   min-width: 0;
 }
+
+@media (max-width: 768px) {
+  .tournament .inner_container .widgets.col_3 {
+    grid-template-columns: 1fr;
+  }
+  .tournament .inner_container .tournament_section {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .tournament .inner_container .tournament_section .actions {
+    margin-left: 0;
+    margin-top: 24px;
+  }
+}

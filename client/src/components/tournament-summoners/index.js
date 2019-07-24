@@ -15,7 +15,7 @@ const cx = classnames.bind(style);
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
     text: t('number'),
-    width: isMobile ? 35 : 60,
+    width: isMobile ? 40 : 60,
   },
 
   name: {
