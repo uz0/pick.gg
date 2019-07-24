@@ -143,3 +143,12 @@
   flex-grow: 0;
   flex-shrink: 1;
 }
+
+.viewers .content .table .row .points {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--primary-color);
+  background-color: var(--accent-color);
+}
