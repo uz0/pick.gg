@@ -27,7 +27,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   const nameStyle = { '--width': captions.name.width };
 
   return (
-    <div key={item._id} className={cx(className, style.row)}>
+    <div key={item.userId} className={cx(className, style.row)}>
       <div className={cx(itemClass, style.position)} style={numberStyle}>
         <span className={textClass}>{index + 1}</span>
       </div>
