@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
+import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames/bind';
 import Table from 'components/table';
 import Button from 'components/button';
@@ -20,7 +21,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   value: {
     text: t('values'),
-    width: isMobile ? 25 : 30,
+    width: isMobile ? 40 : 60,
   },
 });
 
@@ -36,7 +37,7 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
         <span className={textClass}>{ruleName}</span>
       </div>
 
-      <div className={itemClass} style={valueStyle}>
+      <div className={cx(itemClass, style.rule_value)} style={valueStyle}>
         <span className={textClass}>{item[ruleName]}</span>
       </div>
     </div>
@@ -95,6 +96,13 @@ export default compose(
   ),
   withCaptions(tableCaptions),
   withProps(props => {
+    if (isEmpty(props.tournament.rules)) {
+      return {
+        ...props,
+        rules: [],
+      };
+    }
+
     const rules = Object.entries(props.tournament.rules).map(([key, value]) => ({ [key]: value }));
 
     return {
