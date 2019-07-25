@@ -5,6 +5,7 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const Select = ({
+  name,
   label,
   className,
   options,
@@ -16,7 +17,7 @@ const Select = ({
       <label className={style.label}>{ label }</label>
     }
 
-    <select defaultValue="" onChange={onChange}>
+    <select name={name} defaultValue="" onChange={onChange}>
       {defaultOption &&
         <option value="">{defaultOption}</option>
       }
