@@ -107,6 +107,17 @@ class Tournament extends Component {
   render() {
     const tournament = get(this.props, 'tournament');
     const name = get(this.props, 'tournament.name');
+    const creator = get(this.props, 'tournament.creator');
+
+    const isEmpty = get(this.props, 'tournament.isEmpty');
+    const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
+    const isReadyForForecasts = get(this.props, 'tournament.isReadyForForecasts');
+    const isStarted = get(this.props, 'tournament.isStarted');
+    const isFinalized = get(this.props, 'tournament.isFinalized');
+
+    const isApplicantsWidgetVisible = !isApplicationsAvailable && isReadyForForecasts;
+    const isSummonersWidgetVisible = !isEmpty;
+    const isViewersWidgetVisible = !isApplicationsAvailable && isReadyForForecasts;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -116,49 +127,69 @@ class Tournament extends Component {
 
             <h2 className={style.title}>{name}</h2>
 
-            <div className={style.actions}>
-              <Button
-                text={i18n.t('suggest_yourself')}
-                appearance="_basic-accent"
-                className={style.button}
-                onClick={this.attendTournament}
-              />
-            </div>
+            {isApplicationsAvailable && (
+              <div className={style.actions}>
+                <Button
+                  text={i18n.t('suggest_yourself')}
+                  appearance="_basic-accent"
+                  className={style.button}
+                  onClick={this.attendTournament}
+                />
+              </div>
+            )}
 
           </div>
 
           {tournament && (
-            <div className={cx(style.widgets, style.col_3)}>
-              <TournamentInformation
-                id={this.props.match.params.id}
-                editTournament={this.editTournament}
-              />
-              <TournamentRules
-                id={this.props.match.params.id}
-                addRules={this.addRules}
-              />
-              <TournamentRewards
-                id={this.props.match.params.id}
-                addRewards={this.addRewards}
-              />
-            </div>
-          )}
-
-          {tournament && (
-            <div className={cx(style.widgets, style.col_3)}>
-              <TournamentMatches id={this.props.match.params.id}/>
-              {tournament.summoners.length > 0 && (
-                <TournamentSummoners
+            <>
+              <div className={cx(style.widgets, { [style.is_empty]: isEmpty })}>
+                <TournamentInformation
+                  className={style.information_widget}
                   id={this.props.match.params.id}
-                  addSummoners={this.addSummoners}
+                  editTournament={this.editTournament}
                 />
-              )}
-              <TournamentViewers
-                id={this.props.match.params.id}
-                joinTournament={this.joinTournament}
-              />
-              <TournamentApplicants id={this.props.match.params.id}/>
-            </div>
+
+                <TournamentRules
+                  className={style.rules_widget}
+                  id={this.props.match.params.id}
+                  addRules={this.addRules}
+                />
+
+                <TournamentRewards
+                  className={style.rewards_widget}
+                  id={this.props.match.params.id}
+                  addRewards={this.addRewards}
+                />
+
+                <TournamentMatches
+                  className={style.matches_widget}
+                  id={this.props.match.params.id}
+                />
+
+                {isSummonersWidgetVisible && (
+                  <TournamentSummoners
+                    className={style.summoners_widget}
+                    id={this.props.match.params.id}
+                    addSummoners={this.addSummoners}
+                  />
+                )}
+
+                {isViewersWidgetVisible && (
+                  <TournamentViewers
+                    className={style.viewers_widget}
+                    id={this.props.match.params.id}
+                    joinTournament={this.joinTournament}
+                  />
+                )}
+
+                {isApplicantsWidgetVisible && (
+                  <TournamentApplicants
+                    className={style.applicants_widget}
+                    id={this.props.match.params.id}
+                  />
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>
