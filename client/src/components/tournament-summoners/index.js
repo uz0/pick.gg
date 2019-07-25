@@ -44,9 +44,11 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
         <span className={textClass}>{item.summonerName}</span>
       </div>
 
-      <div className={cx(itemClass, style.cell)} style={pointsStyle}>
-        <span className={cx(textClass, style.points)}>{item.points}</span>
-      </div>
+      {item.points > 0 && (
+        <div className={cx(itemClass, style.cell)} style={pointsStyle}>
+          <span className={cx(textClass, style.points)}>{item.points}</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -55,7 +57,7 @@ const Summoners = ({ summoners, addSummoners, className, captions }) => (
   <div className={cx(style.summoners, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Summoners</h3>
-      {summoners.length > 0 && (
+      {summoners && summoners.length > 0 && (
         <button
           type="button"
           className={style.button}
@@ -66,12 +68,12 @@ const Summoners = ({ summoners, addSummoners, className, captions }) => (
       )}
     </div>
 
-    {summoners.length === 0 && (
+    {summoners && summoners.length === 0 && (
       <p className={style.empty}>You can choose summoners</p>
     )}
 
     <div className={style.content}>
-      {summoners.length === 0 && (
+      {summoners && summoners.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -80,7 +82,7 @@ const Summoners = ({ summoners, addSummoners, className, captions }) => (
         />
       )}
 
-      {summoners.length > 0 && (
+      {summoners && summoners.length > 0 && (
         <Table
           noCaptions
           captions={captions}
@@ -103,7 +105,7 @@ export default compose(
   ),
   withCaptions(tableCaptions),
   withProps(props => {
-    const { matches, rules } = props.tournament;
+    const { matches, rules, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
 
     if (props.tournament.summoners.length === 0) {
@@ -119,7 +121,9 @@ export default compose(
       return pick(summoner, ['_id', 'summonerName']);
     });
 
-    summoners = calcSummonersPoints(summoners, matches, rules);
+    if (!isApplicationsAvailable) {
+      summoners = calcSummonersPoints(summoners, matches, rules);
+    }
 
     return {
       ...props,
