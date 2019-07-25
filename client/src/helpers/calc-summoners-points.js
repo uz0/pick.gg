@@ -3,6 +3,10 @@ export default (summoners, matches = [], rules = {}) => {
     return summoners.map(summoner => ({ ...summoner, points: 0 }));
   }
 
+  if (summoners.includes(undefined)) {
+    return;
+  }
+
   const points = summoners.reduce((points, item) => ({ ...points, [item._id]: 0 }), {});
 
   for (const match of matches) {
