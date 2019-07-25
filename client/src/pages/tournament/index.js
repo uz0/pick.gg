@@ -117,6 +117,7 @@ class Tournament extends Component {
     const tournament = get(this.props, 'tournament');
     const name = get(this.props, 'tournament.name');
     const creator = get(this.props, 'tournament.creator');
+    const rules = get(this.props, 'tournament.rules');
 
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
@@ -124,7 +125,7 @@ class Tournament extends Component {
     const isStarted = get(this.props, 'tournament.isStarted');
     const isFinalized = get(this.props, 'tournament.isFinalized');
 
-    const isApplicantsWidgetVisible = !isApplicationsAvailable && isReadyForForecasts;
+    const isApplicantsWidgetVisible = isApplicationsAvailable;
     const isSummonersWidgetVisible = !isEmpty;
     const isViewersWidgetVisible = !isApplicationsAvailable && isReadyForForecasts;
 
@@ -151,10 +152,15 @@ class Tournament extends Component {
 
           {tournament && (
             <>
-              <div className={cx(style.widgets, { [style.is_empty]: isEmpty })}>
+              <div className={cx(
+                style.widgets,
+                { [style.is_empty]: isEmpty },
+                { [style.applications_available]: isApplicationsAvailable }
+              )}
+              >
                 <TournamentInformation
-                  className={style.information_widget}
                   id={this.props.match.params.id}
+                  className={style.information_widget}
                   editTournament={this.editTournament}
                 />
 
@@ -166,8 +172,8 @@ class Tournament extends Component {
                 />
 
                 <TournamentRewards
-                  className={style.rewards_widget}
                   id={this.props.match.params.id}
+                  className={style.rewards_widget}
                   addRewards={this.addRewards}
                 />
 
@@ -178,24 +184,24 @@ class Tournament extends Component {
 
                 {isSummonersWidgetVisible && (
                   <TournamentSummoners
-                    className={style.summoners_widget}
                     id={this.props.match.params.id}
+                    className={style.summoners_widget}
                     addSummoners={this.addSummoners}
                   />
                 )}
 
                 {isViewersWidgetVisible && (
                   <TournamentViewers
-                    className={style.viewers_widget}
                     id={this.props.match.params.id}
+                    className={style.viewers_widget}
                     joinTournament={this.joinTournament}
                   />
                 )}
 
                 {isApplicantsWidgetVisible && (
                   <TournamentApplicants
-                    className={style.applicants_widget}
                     id={this.props.match.params.id}
+                    className={style.applicants_widget}
                   />
                 )}
               </div>

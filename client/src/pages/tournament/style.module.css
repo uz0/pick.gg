@@ -127,13 +127,58 @@
   display: grid;
   grid-row-gap: 30px;
   grid-column-gap: 16px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: minmax(100px, 1fr);
+  grid-template-areas: "information rules rewards"
+                       "matches summoners viewers"
+                       "applicants . .";
   width: 100%;
   margin-top: 40px;
 }
 
-.tournament .inner_container .widgets.col_3 {
-  grid-template-columns: 1fr 1fr 1fr;
+.tournament .inner_container .widgets.is_empty {
+  grid-template-areas: "information information information"
+                       "rules matches rewards";
+}
+
+.tournament .inner_container .widgets.applications_available {
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "information rules"
+                       "summoners applicants "
+                       "rewards matches";
+}
+
+
+.tournament .inner_container .widgets .information_widget {
+  grid-area: information
+}
+
+.tournament .inner_container .widgets.is_empty .information_widget {
+  width: 50%;
+}
+
+.tournament .inner_container .widgets .rules_widget {
+  grid-area: rules
+}
+
+.tournament .inner_container .widgets .rewards_widget {
+  grid-area: rewards
+}
+
+.tournament .inner_container .widgets .matches_widget {
+  grid-area: matches
+}
+
+.tournament .inner_container .widgets .summoners_widget {
+  grid-area: summoners
+}
+
+.tournament .inner_container .widgets .viewers_widget {
+  grid-area: viewers
+}
+
+.tournament .inner_container .widgets .applicants_widget {
+  grid-area: applicants
 }
 
 .tournament .inner_container .widgets > * {
