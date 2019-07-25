@@ -45,10 +45,19 @@ class Tournament extends Component {
   };
 
   addRules = () => this.props.toggleModal({
-    id: 'add-tournament-rules-modal',
+    id: 'tournament-rules-modal',
 
     options: {
       tournamentId: this.props.match.params.id,
+    },
+  });
+
+  editRules = () => this.props.toggleModal({
+    id: 'tournament-rules-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      isEditing: true,
     },
   });
 
@@ -150,9 +159,10 @@ class Tournament extends Component {
                 />
 
                 <TournamentRules
-                  className={style.rules_widget}
                   id={this.props.match.params.id}
+                  className={style.rules_widget}
                   addRules={this.addRules}
+                  editRules={this.editRules}
                 />
 
                 <TournamentRewards

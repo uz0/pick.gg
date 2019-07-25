@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import isEmpty from 'lodash/isEmpty';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -30,13 +31,13 @@ const validationSchema = Yup.object().shape({
 const AddRules = props => {
   return (
     <Modal
-      title="Add tournament rules"
+      title={props.options.isEditing ? 'Edit rules' : 'Add rules'}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
       actions={[
         {
-          text: 'Add',
+          text: props.options.isEditing ? 'Edit' : 'Add',
           type: 'button',
           appearance: '_basic-accent',
           onClick: props.submitForm,
@@ -90,11 +91,17 @@ const enhance = compose(
   ),
   withFormik({
     validationSchema,
-    mapPropsToValues: () => ({
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-    }),
+    mapPropsToValues: props => {
+      if (isEmpty(props.tournament.rules)) {
+        return {
+          kills: 0,
+          deaths: 0,
+          assists: 0,
+        };
+      }
+
+      return props.tournament.rules;
+    },
     handleSubmit: async (values, { props }) => {
       const { tournamentId } = props.options;
 
