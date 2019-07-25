@@ -115,8 +115,8 @@ export default compose(
       };
     }
 
-    let summoners = props.tournament.summoners.map(item => {
-      const summoner = users.find(user => user._id === item._id);
+    let summoners = props.tournament.summoners.map(summonerId => {
+      const summoner = users.find(user => user._id === summonerId);
 
       return pick(summoner, ['_id', 'summonerName']);
     });
