@@ -25,7 +25,7 @@ const Rewards = ({ tournament, addRewards, className }) => (
   <div className={cx(style.rewards, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
-      {tournament.unfoldedRewards && (
+      {tournament.unfoldedRewards && tournament.unfoldedRewards.length > 0 && (
         <button
           type="button"
           className={style.button}
@@ -35,12 +35,12 @@ const Rewards = ({ tournament, addRewards, className }) => (
       )}
     </div>
 
-    {tournament.unfoldedRewards && tournament.unfoldedRewards === 0 && (
+    {tournament.unfoldedRewards && tournament.unfoldedRewards.length === 0 && (
       <p className={style.empty}>Add rewards</p>
     )}
 
     <div className={style.content}>
-      {tournament.unfoldedRewards && tournament.unfoldedRewards === 0 && (
+      {tournament.unfoldedRewards && tournament.unfoldedRewards.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
