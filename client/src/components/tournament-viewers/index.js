@@ -40,7 +40,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
       </div>
 
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.user.username}</span>
+        <span className={textClass}>{item.user && item.user.username}</span>
       </div>
 
       <div className={itemClass} style={pointsStyle}>
@@ -101,14 +101,16 @@ const Viewers = ({
         </div>
       )}
 
-      <Table
-        noCaptions
-        captions={captions}
-        items={viewers}
-        renderRow={renderRow}
-        className={style.table}
-        emptyMessage="There is no viewers yet"
-      />
+      {viewers.length > 0 && (
+        <Table
+          noCaptions
+          captions={captions}
+          items={viewers}
+          renderRow={renderRow}
+          className={style.table}
+          emptyMessage="There is no viewers yet"
+        />
+      )}
     </div>
   </div>
 );
@@ -132,6 +134,16 @@ export default compose(
         const user = userList.find(user => user._id === userId);
         const tournamentSummoners = summoners.map(summonerId => userList.find(item => item._id === summonerId));
         const summonersWithPoints = calcSummonersPoints(tournamentSummoners, tournament.matches, tournament.rules);
+
+        if (!summonersWithPoints) {
+          return {
+            userId,
+            user,
+            summoners,
+            points: 0,
+          };
+        }
+
         const viewerPoints = summonersWithPoints.reduce((points, summoner) => {
           points += summoner.points;
           return points;
@@ -161,7 +173,8 @@ export default compose(
 
     if (currentUserSummoners) {
       const summoners = currentUserSummoners.summoners
-        .map(summonerId => Object.values(users).find(item => item._id === summonerId));
+        .map(summonerId => Object.values(users).find(item => item._id === summonerId))
+        .filter(item => item !== undefined);
 
       return {
         ...props,
