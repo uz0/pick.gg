@@ -40,8 +40,9 @@ const validator = [
 
 const handler = withValidationHandler((req, res) => {
   const { id } = req.params;
+  const { rewards } = req.body;
 
-  Tournament.findByIdAndUpdate(id, { $set: { rewards: req.body } }, { new: true })
+  Tournament.findByIdAndUpdate(id, { $set: { rewards } }, { new: true })
     .exec()
     .then(res.json)
     .catch(error => res.json({ error }));
