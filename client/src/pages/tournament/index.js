@@ -30,7 +30,7 @@ class Tournament extends Component {
     const unfoldedRewards = await rewardsRequest.json();
 
     if (tournament) {
-      this.props.addTournament({
+      this.props.updateTournament({
         ...tournament,
         unfoldedRewards,
       });
@@ -97,9 +97,7 @@ class Tournament extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.tournament) {
-      this.loadTournament();
-    }
+    this.loadTournament();
 
     if (isEmpty(this.props.users)) {
       this.loadUsers();
@@ -107,6 +105,7 @@ class Tournament extends Component {
   }
 
   render() {
+    const tournament = get(this.props, 'tournament');
     const name = get(this.props, 'tournament.name');
 
     return (
@@ -128,7 +127,7 @@ class Tournament extends Component {
 
           </div>
 
-          {this.props.tournament && (
+          {tournament && (
             <div className={cx(style.widgets, style.col_3)}>
               <TournamentInformation
                 id={this.props.match.params.id}
@@ -145,13 +144,15 @@ class Tournament extends Component {
             </div>
           )}
 
-          {this.props.tournament && (
+          {tournament && (
             <div className={cx(style.widgets, style.col_3)}>
               <TournamentMatches id={this.props.match.params.id}/>
-              <TournamentSummoners
-                id={this.props.match.params.id}
-                addSummoners={this.addSummoners}
-              />
+              {tournament.summoners.length > 0 && (
+                <TournamentSummoners
+                  id={this.props.match.params.id}
+                  addSummoners={this.addSummoners}
+                />
+              )}
               <TournamentViewers
                 id={this.props.match.params.id}
                 joinTournament={this.joinTournament}
