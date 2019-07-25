@@ -22,7 +22,7 @@ const Rewards = ({ tournament, addRewards }) => (
   <div className={style.rewards}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
-      {tournament.unfoldedRewards.length > 0 && (
+      {tournament.unfoldedRewards && (
         <button
           type="button"
           className={style.button}
@@ -32,12 +32,12 @@ const Rewards = ({ tournament, addRewards }) => (
       )}
     </div>
 
-    {tournament.unfoldedRewards.length === 0 && (
+    {tournament.unfoldedRewards && tournament.unfoldedRewards === 0 && (
       <p className={style.empty}>Add rewards</p>
     )}
 
     <div className={style.content}>
-      {tournament.unfoldedRewards.length === 0 && (
+      {tournament.unfoldedRewards && tournament.unfoldedRewards === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -46,7 +46,7 @@ const Rewards = ({ tournament, addRewards }) => (
         />
       )}
 
-      {tournament.unfoldedRewards.length !== 0 && (
+      {tournament.unfoldedRewards && tournament.unfoldedRewards.length !== 0 && (
         <div className={style.prizes}>
           <div className={style.list}>
             {tournament.unfoldedRewards.map(reward => {
