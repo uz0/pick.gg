@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import Table from 'components/table';
 import Button from 'components/button';
+import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
 import { calcSummonersPoints } from 'helpers';
@@ -81,7 +82,10 @@ const Viewers = ({
               return (
                 <div key={summoner._id} className={style.item}>
                   <div className={style.avatar}>
-                    <img src={summoner.imageUrl} />
+                    <img src={summoner.imageUrl} onError={e => {
+                      e.currentTarget.src = AvatarPlaceholder;
+                    }}
+                    />
                   </div>
                   <div className={style.info}>
                     <div className={style.name}>
