@@ -1,10 +1,13 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import Button from 'components/button';
 import { withCaptions } from 'hoc';
-import style from './style.module.css';
 import { REWARD_POSITIONS } from '../../constants';
+import style from './style.module.css';
+
+const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
@@ -18,8 +21,8 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const Rewards = ({ tournament, addRewards }) => (
-  <div className={style.rewards}>
+const Rewards = ({ tournament, addRewards, className }) => (
+  <div className={cx(style.rewards, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
       {tournament.unfoldedRewards && (

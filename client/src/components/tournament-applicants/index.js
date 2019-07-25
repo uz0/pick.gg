@@ -44,8 +44,9 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
 const Applicants = ({
   tournament,
   captions,
+  className,
 }) => (
-  <div className={style.applicants}>
+  <div className={cx(style.applicants, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Applicants</h3>
       <button type="button" className={style.button}>Stop</button>

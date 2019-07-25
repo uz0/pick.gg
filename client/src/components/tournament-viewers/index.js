@@ -55,9 +55,10 @@ const Viewers = ({
   joinTournament,
   viewers,
   currentUserSummoners,
+  className,
   captions,
 }) => (
-  <div className={style.viewers}>
+  <div className={cx(style.viewers, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Viewers</h3>
     </div>

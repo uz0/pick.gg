@@ -43,8 +43,8 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
   );
 };
 
-const Rules = ({ rules, captions, addRules }) => (
-  <div className={style.rules}>
+const Rules = ({ rules, captions, addRules, className }) => (
+  <div className={cx(style.rules, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>{i18n.t('rules')}</h3>
       {rules.length > 0 && (

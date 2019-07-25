@@ -51,8 +51,8 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   );
 };
 
-const Summoners = ({ summoners, addSummoners, captions }) => (
-  <div className={style.summoners}>
+const Summoners = ({ summoners, addSummoners, className, captions }) => (
+  <div className={cx(style.summoners, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Summoners</h3>
       {summoners.length > 0 && (

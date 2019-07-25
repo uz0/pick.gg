@@ -7,6 +7,8 @@ import get from 'lodash/get';
 import Icon from 'components/icon';
 import style from './style.module.css';
 
+const cx = classnames.bind(style);
+
 const Information = props => {
   const creator = get(props, 'tournament.creator');
   const createdAt = moment(get(props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
@@ -15,7 +17,7 @@ const Information = props => {
   const url = get(props, 'tournament.url');
 
   return (
-    <div className={style.information}>
+    <div className={cx(style.information, className)}>
       <div className={style.header}>
         <h3 className={style.subtitle}>Information</h3>
         <button

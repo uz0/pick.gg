@@ -13,6 +13,8 @@ import { actions as modalActions } from 'components/modal-container';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import style from './style.module.css';
 
+const cx = classnames.bind(style);
+
 const tableCaptions = ({ t, isMobile }) => ({
   name: {
     text: t('name'),
@@ -24,8 +26,6 @@ const tableCaptions = ({ t, isMobile }) => ({
     width: isMobile ? 40 : 65,
   },
 });
-
-const cx = classnames.bind(style);
 
 class Matches extends Component {
   addMatch = () => this.props.toggleModal({
@@ -111,10 +111,11 @@ class Matches extends Component {
   };
 
   render() {
+    const { className } = this.props;
     const { matches } = this.props.tournament;
 
     return (
-      <div className={style.matches}>
+      <div className={cx(style.matches, className)}>
         <div className={style.header}>
           <h3 className={style.subtitle}>Matches</h3>
           {matches.length > 0 && (
