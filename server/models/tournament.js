@@ -50,9 +50,9 @@ schema.virtual('matches', {
   foreignField: 'tournamentId'
 });
 
-schema.virtual('isPrepared').get(function () {
-  if(isEmpty(this.rules) || isEmpty(this.matches)){
-    return false;
+schema.virtual('isEmptyAndInvisible').get(function () {
+  if(isEmpty(this.rules) || this.matches.length === 0){
+    return true;
   }
 
   if(this.summoners.length < 2){
