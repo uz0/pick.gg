@@ -105,11 +105,11 @@
 }
 
 .matches .content .table .button.danger:not(:hover) {
-  --background-color: #f44336;
+  --background-color: #af3a3a;
 }
 
 .matches .content .table .button.danger:hover {
-  --background-color: #e53935;
+  --background-color: #d43131;
 }
 
 .matches .content .table .button:not(:hover) {
