@@ -2,22 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import classnames from 'classnames';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
-import Button from 'components/button';
 import Icon from 'components/icon';
 import style from './style.module.css';
-
-import i18n from 'i18n';
-
-const cx = classnames.bind(style);
 
 const Information = props => {
   const creator = get(props, 'tournament.creator');
   const createdAt = moment(get(props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
   const description = get(props, 'tournament.description');
   const price = get(props, 'tournament.price');
+  const url = get(props, 'tournament.url');
 
   return (
     <div className={style.information}>
@@ -45,6 +40,13 @@ const Information = props => {
               <Link className={style.creator} to={`/user/${creator._id}`}>
                 {creator.username}<Icon name="star"/>
               </Link>
+            </div>
+          </div>
+
+          <div className={style.item}>
+            <div className={style.key}>Stream link:</div>
+            <div className={style.value}>
+              <a target="blank" href={url}>link</a>
             </div>
           </div>
 
