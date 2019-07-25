@@ -50,16 +50,32 @@ schema.virtual('matches', {
   foreignField: 'tournamentId'
 });
 
-schema.virtual('isEmptyAndInvisible').get(function () {
-  if(isEmpty(this.rules) || this.matches.length === 0){
+schema.virtual('isEmpty').get(function () {
+  if (isEmpty(this.rules) || isEmpty(this.rewards) || this.matches.length === 0) {
     return true;
   }
 
-  if(this.summoners.length < 2){
-    return false;
+  return false;
+});
+
+schema.virtual('isApplicationsAvailable').get(function () {
+  if (!this.isEmpty) {
+    return true;
   }
 
-  return true;
+  return false;
+});
+
+schema.virtual('isReadyForForecasts').get(function () {
+  return false;
+});
+
+schema.virtual('isStarted').get(function () {
+  return false;
+});
+
+schema.virtual('isFinalized').get(function () {
+  return false;
 });
 
 export default mongoose.model('Tournament', schema);
