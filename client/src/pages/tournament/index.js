@@ -72,9 +72,18 @@ class Tournament extends Component {
   });
 
   addRewards = () => this.props.toggleModal({
-    id: 'add-tournament-rewards',
+    id: 'tournament-rewards',
 
     options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
+  editRewards = () => this.props.toggleModal({
+    id: 'tournament-rewards',
+
+    options: {
+      isEditing: true,
       tournamentId: this.props.match.params.id,
     },
   });
@@ -175,6 +184,7 @@ class Tournament extends Component {
                   id={this.props.match.params.id}
                   className={style.rewards_widget}
                   addRewards={this.addRewards}
+                  editRewards={this.editRewards}
                 />
 
                 <TournamentMatches

@@ -7,7 +7,7 @@ import MatchResults from './match-results';
 import ChoosePlayers from './choose-players';
 import AddMatch from './add-match';
 import AddRules from './tournament-rules';
-import AddRewards from './add-tournament-rewards';
+import AddRewards from './tournament-rewards';
 import EditTournament from './edit-tournament';
 import JoinTournamentPlayers from './join-tournament-players';
 import EditMatch from './edit-match';
@@ -21,7 +21,7 @@ const modals = {
   'reward-modal': Reward,
   'add-match-modal': AddMatch,
   'tournament-rules-modal': AddRules,
-  'add-tournament-rewards': AddRewards,
+  'tournament-rewards': AddRewards,
   'join-tournament-players-modal': JoinTournamentPlayers,
   'edit-match-modal': EditMatch,
   'edit-tournament-modal': EditTournament,

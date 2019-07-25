@@ -21,7 +21,7 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const Rewards = ({ tournament, addRewards, className }) => (
+const Rewards = ({ tournament, addRewards, editRewards, className }) => (
   <div className={cx(style.rewards, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
@@ -29,6 +29,7 @@ const Rewards = ({ tournament, addRewards, className }) => (
         <button
           type="button"
           className={style.button}
+          onClick={editRewards}
         >
           Edit
         </button>

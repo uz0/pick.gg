@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import isEmpty from 'lodash/isEmpty';
 import { http } from 'helpers';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 import { actions as notificationActions } from 'components/notification';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import Modal from 'components/modal';
 import Table from 'components/table';
-import Preloader from 'components/preloader';
 import Select from 'components/filters/select';
 
 import classnames from 'classnames';
@@ -45,22 +45,34 @@ const placeOptions = [
 
 class AddRewards extends Component {
   state = {
-    isLoading: false,
     rewards: {},
   }
 
   async componentDidMount() {
-    this.loadRewards();
-    console.log(this.props);
+    const { rewards } = this.props.tournament;
+
+    if (isEmpty(rewards)) {
+      this.loadRewards();
+
+      return;
+    }
+
+    const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, values]) => {
+      const [role, place] = values.split('_');
+      rewards[key] = { role, place };
+
+      return rewards;
+    }, {});
+
+    this.setState({ rewards: normalizedRewards });
   }
 
   loadRewards = async () => {
-    this.setState({ isLoading: true });
     const response = await http('/api/rewards/reward?isClaimed=false');
     const { rewards } = await response.json();
     this.props.loadRewards(rewards);
 
-    const rewardsMap = rewards.reduce((map, reward) => {
+    const normalizedRewards = rewards.reduce((map, reward) => {
       map[reward._id] = {
         role: null,
         place: null,
@@ -70,8 +82,7 @@ class AddRewards extends Component {
     }, {});
 
     this.setState({
-      isLoading: false,
-      rewards: rewardsMap,
+      rewards: normalizedRewards,
     });
   };
 
@@ -87,11 +98,11 @@ class AddRewards extends Component {
         body: JSON.stringify({ rewards }),
       });
 
-      const rewardsRequest = await http(`/public/tournaments/${this.props.match.params.id}/rewards`);
+      const rewardsRequest = await http(`/public/tournaments/${tournamentId}/rewards`);
       const unfoldedRewards = await rewardsRequest.json();
 
       this.props.updateTournament({
-        _id: this.props.tournament._id,
+        ...this.props.tournament,
         unfoldedRewards,
         rewards,
       });
@@ -136,13 +147,19 @@ class AddRewards extends Component {
       [field]: value,
     };
 
-    this.setState({ rewards }, () => console.log(this.state));
+    this.setState({ rewards });
   };
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
+    const { isEditing } = this.props.options;
+    const { rewards } = this.state;
+
     const rewardDescription = { '--width': captions.rewardDescription.width };
     const role = { '--width': captions.role.width };
     const place = { '--width': captions.place.width };
+
+    const defaultPlace = (isEditing && !isEmpty(rewards)) ? rewards[item._id].place : 'choose place';
+    const defaultRole = (isEditing && !isEmpty(rewards)) ? rewards[item._id].role : 'choose role';
 
     return (
       <div key={item._id} className={cx(className, 'row')}>
@@ -154,7 +171,7 @@ class AddRewards extends Component {
           <Select
             name={item._id}
             className={style.select}
-            defaultOption="choose place"
+            defaultOption={defaultPlace}
             options={placeOptions}
             onChange={event => this.onSelectChange(event, 'place')}
           />
@@ -164,7 +181,7 @@ class AddRewards extends Component {
           <Select
             name={item._id}
             className={style.select}
-            defaultOption="choose role"
+            defaultOption={defaultRole}
             options={roleOptions}
             onChange={event => this.onSelectChange(event, 'role')}
           />
@@ -174,15 +191,22 @@ class AddRewards extends Component {
   }
 
   render() {
+    const { isEditing } = this.props.options;
+
+    const rewards = isEditing ? this.props.tournament.unfoldedRewards : Object.values(this.props.rewardsList);
+
+    const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
+    const buttonText = isEditing ? 'Edit' : 'Add';
+
     return (
       <Modal
-        title="Add tournament rewards"
+        title={modalTitle}
         close={this.props.close}
         className={style.modal_content}
         wrapClassName={style.wrapper}
         actions={[
           {
-            text: 'Add',
+            text: buttonText,
             type: 'button',
             appearance: '_basic-accent',
             onClick: this.onRewardsSubmit,
@@ -190,14 +214,10 @@ class AddRewards extends Component {
         ]}
       >
         <div>
-          {this.state.isLoading && (
-            <Preloader/>
-          )}
           <Table
             captions={tableCaptions}
-            items={Object.values(this.props.rewardsList)}
+            items={rewards}
             renderRow={this.renderRow}
-            isLoading={false}
             className={style.rewards}
             emptyMessage="You don't have any not claimed rewards"
           />
@@ -209,7 +229,8 @@ class AddRewards extends Component {
 
 const enhance = compose(
   connect(
-    state => ({
+    (state, props) => ({
+      tournament: state.tournaments.list[props.options.tournamentId],
       rewardsIds: state.rewards.ids,
       rewardsList: state.rewards.list,
       isLoaded: state.rewards.isLoaded,
