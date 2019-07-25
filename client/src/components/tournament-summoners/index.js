@@ -106,6 +106,13 @@ export default compose(
     const { matches, rules } = props.tournament;
     const users = Object.values(props.users);
 
+    if (props.tournament.summoners.length === 0) {
+      return {
+        ...props,
+        summoners: [],
+      };
+    }
+
     let summoners = props.tournament.summoners.map(item => {
       const summoner = users.find(user => user._id === item._id);
 
