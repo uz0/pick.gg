@@ -78,3 +78,9 @@
 .rules .content .table .row {
   --row-height: 36px;
 }
+
+.rules .content .table .row .rule_value {
+  flex-shrink: 1;
+  min-width: 40px;
+  flex-grow: 0;
+}

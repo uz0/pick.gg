@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
+
+import { http } from 'helpers';
 
 import { FormInput } from 'components/form/input';
 import Modal from 'components/modal';
 
 import style from './style.module.css';
-import { compose } from 'recompose';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 const validationSchema = Yup.object().shape({
@@ -93,13 +95,27 @@ const enhance = compose(
       deaths: 0,
       assists: 0,
     }),
-    handleSubmit: (values, { props }) => {
-      props.updateTournament({
-        _id: props.options.tournamentId,
-        rules: values,
-      });
+    handleSubmit: async (values, { props }) => {
+      const { tournamentId } = props.options;
 
-      props.close();
+      try {
+        await http(`/api/tournaments/${tournamentId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify({ rules: values }),
+        });
+
+        props.updateTournament({
+          _id: props.tournament._id,
+          rules: values,
+        });
+
+        props.close();
+      } catch (error) {
+        console.log(error);
+      }
     },
   })
 );
