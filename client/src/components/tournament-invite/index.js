@@ -17,7 +17,6 @@ const enhance = compose(
 );
 
 export default enhance(props => {
-  console.log(props, 'ivite props');
   return (
     <div className={cx(style.invite, props.className)}>
       <div className={style.header}>
