@@ -13,6 +13,7 @@ const Table = ({
   isLoading,
   emptyMessage,
   className,
+  withProps,
 }) => {
   const isEmptyMessageShown = items.length === 0 && emptyMessage && !isLoading;
   const isCaptionsShown = !noCaptions && items.length > 0;
@@ -35,14 +36,15 @@ const Table = ({
       )}
 
       {list.length > 0 &&
-      list.map((item, index) => renderRow({
-        item,
-        index,
-        captions,
-        className: style.row,
-        itemClass: style.item,
-        textClass: style.text,
-      }))
+        list.map((item, index) => renderRow({
+          item,
+          index,
+          captions,
+          className: style.row,
+          itemClass: style.item,
+          textClass: style.text,
+          props: withProps,
+        }))
       }
 
       {isEmptyMessageShown &&
