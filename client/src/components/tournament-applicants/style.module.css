@@ -40,7 +40,8 @@
   --color: #e88c00;
 }
 
-.applicants .header + .table {
+.applicants .header + .table,
+.applicants .header + .content {
   margin-top: 16px;
 }
 
@@ -52,4 +53,30 @@
 .applicants .table .row .number {
   flex-grow: 0;
   flex-shrink: 0;
+}
+
+.applicants .content {
+  min-height: 100px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.applicants .content .apply {
+  margin: auto;
+}
+
+.applicants .content .table {
+  width: 100%;
+}
+
+.applicants .content .table .button {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--row-height);
+  height: var(--row-height);
+  background-color: var(--background-color);
+  transition-property: background-color;
 }
