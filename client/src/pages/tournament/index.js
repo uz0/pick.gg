@@ -110,12 +110,6 @@ class Tournament extends Component {
     },
   });
 
-  attendTournament = async () => {
-    const response = await http(`/api/tournaments/${this.props.match.params.id}/attend`, { method: 'PATCH' });
-    const tournament = await response.json();
-    this.props.updateTournament(tournament);
-  };
-
   componentDidMount() {
     this.loadTournament();
 
@@ -127,8 +121,6 @@ class Tournament extends Component {
   render() {
     const tournament = get(this.props, 'tournament');
     const name = get(this.props, 'tournament.name');
-    const creator = get(this.props, 'tournament.creator');
-    const rules = get(this.props, 'tournament.rules');
 
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
@@ -146,20 +138,7 @@ class Tournament extends Component {
         <div className={style.inner_container}>
 
           <div className={style.tournament_section}>
-
             <h2 className={style.title}>{name}</h2>
-
-            {isApplicationsAvailable && (
-              <div className={style.actions}>
-                <Button
-                  text={i18n.t('suggest_yourself')}
-                  appearance="_basic-accent"
-                  className={style.button}
-                  onClick={this.attendTournament}
-                />
-              </div>
-            )}
-
           </div>
 
           {tournament && (
