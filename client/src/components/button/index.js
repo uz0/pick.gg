@@ -32,7 +32,7 @@ const Button = ({
       }
 
       {isPropIcon &&
-      icon
+        icon
       }
 
       {text && <span>{text}</span>}
