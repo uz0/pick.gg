@@ -14,19 +14,13 @@ const validator = [
 
 const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
+  const { status, user } = req.body;
 
-  const [$set, arrayFilters] = Object.entries(req.body).reduce(
-    ([set, arrayFilter], { userId, newStatus }) => [
-      { ...set, [`applicants.$[${userId}].status`]: newStatus },
-      { ...arrayFilter, [`${userId}.user`]: userId }
-    ],
-    [{}, {}]
-  );
-
-  const newTournament = await tournament
-    .findByIdAndUpdate(id, { $set }, { upsert: false, arrayFilters })
+  await Tournament
+    .findByIdAndUpdate(id, { [`applicants.$[${user}].status`]: status }, { upsert: false })
     .exec();
 
+  res.send({});
 });
 
 export { validator, handler };

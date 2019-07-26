@@ -28,6 +28,8 @@ const TournamentController = io => {
 
   router.patch('/:id/attend', attend.validator, attend.handler);
 
+  router.patch('/:id/applicantStatus', applicantStatus.validator, applicantStatus.handler);
+
   router.patch('/:id/view', view.validator, view.handler);
 
   router.patch('/:id/rewards', editRewards.validator, editRewards.handler);
