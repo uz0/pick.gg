@@ -1,13 +1,13 @@
 import React from 'react';
 import compose from 'recompose/compose';
-import pick from 'lodash/pick';
 import withProps from 'recompose/withProps';
+import pick from 'lodash/pick';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
+import { calcSummonersPoints } from 'helpers';
+import { withCaptions } from 'hoc';
 import Table from 'components/table';
 import Button from 'components/button';
-import { withCaptions } from 'hoc';
-import { calcSummonersPoints } from 'helpers';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
