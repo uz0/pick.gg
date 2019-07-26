@@ -16,7 +16,6 @@ export const handler = withValidationHandler(async (req, res) => {
       .findById(id)
       .populate('winner')
       .populate('creatorId')
-      .populate('applicants')
       .populate('matches')
       .populate('creator', '_id username summonerName')
       .exec();
