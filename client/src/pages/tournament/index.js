@@ -14,9 +14,11 @@ import TournamentRules from 'components/tournament-rules';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
+import TournamentInvite from 'components/tournament-invite';
 import { actions as usersActions } from 'pages/dashboard/users';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import { actions as modalActions } from 'components/modal-container';
+import { actions as notificationActions } from 'components/notification';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -137,6 +139,7 @@ class Tournament extends Component {
     const isApplicantsWidgetVisible = isApplicationsAvailable;
     const isSummonersWidgetVisible = !isEmpty;
     const isViewersWidgetVisible = !isApplicationsAvailable && isReadyForForecasts;
+    const isInviteWidgetVisible = isApplicationsAvailable || isReadyForForecasts;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -187,6 +190,13 @@ class Tournament extends Component {
                   editRewards={this.editRewards}
                 />
 
+                {isInviteWidgetVisible && (
+                  <TournamentInvite
+                    className={style.invite_widget}
+                    showNotification={this.props.showNotification}
+                  />
+                )}
+
                 <TournamentMatches
                   className={style.matches_widget}
                   id={this.props.match.params.id}
@@ -236,6 +246,7 @@ export default compose(
       addUsers: usersActions.loadUsers,
       updateTournament: tournamentsActions.updateTournament,
       toggleModal: modalActions.toggleModal,
+      showNotification: notificationActions.showNotification,
     },
   ),
 )(Tournament);

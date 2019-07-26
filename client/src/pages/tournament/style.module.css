@@ -143,9 +143,10 @@
 
 .tournament .inner_container .widgets.applications_available {
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: "information rules"
-                       "summoners applicants "
-                       "rewards matches";
+  grid-template-areas: "information invite"
+                       "applicants summoners"
+                       "rules matches"
+                       "rewards .";
 }
 
 
@@ -159,6 +160,10 @@
 
 .tournament .inner_container .widgets .rules_widget {
   grid-area: rules
+}
+
+.tournament .inner_container .widgets .invite_widget {
+  grid-area: invite
 }
 
 .tournament .inner_container .widgets .rewards_widget {
