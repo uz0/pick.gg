@@ -121,6 +121,8 @@ class Tournament extends Component {
   render() {
     const tournament = get(this.props, 'tournament');
     const name = get(this.props, 'tournament.name');
+    const creator = get(this.props, 'tournament.creator');
+    const currentUser = get(this.props, 'currentUser');
 
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
@@ -128,7 +130,9 @@ class Tournament extends Component {
     const isStarted = get(this.props, 'tournament.isStarted');
     const isFinalized = get(this.props, 'tournament.isFinalized');
 
-    const isApplicantsWidgetVisible = isApplicationsAvailable;
+    const isCurrentUserCreator = (creator && currentUser) && creator._id === currentUser._id;
+
+    const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
     const isViewersWidgetVisible = !isApplicationsAvailable && isReadyForForecasts;
     const isInviteWidgetVisible = isApplicationsAvailable || isReadyForForecasts;
@@ -146,7 +150,8 @@ class Tournament extends Component {
               <div className={cx(
                 style.widgets,
                 { [style.is_empty]: isEmpty },
-                { [style.applications_available]: isApplicationsAvailable }
+                { [style.applications_available]: isApplicationsAvailable },
+                { [style.applications_available_streamer]: isApplicantsWidgetVisible }
               )}
               >
                 <TournamentInformation
