@@ -1,5 +1,6 @@
 import React from 'react';
 import compose from 'recompose/compose';
+import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Button from 'components/button';
@@ -21,11 +22,11 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const Rewards = ({ tournament, addRewards, editRewards, className }) => (
+const Rewards = ({ tournament, isCurrentUserCreator, addRewards, editRewards, className }) => (
   <div className={cx(style.rewards, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
-      {tournament.unfoldedRewards && tournament.unfoldedRewards.length > 0 && (
+      {isCurrentUserCreator && (
         <button
           type="button"
           className={style.button}
@@ -41,7 +42,7 @@ const Rewards = ({ tournament, addRewards, editRewards, className }) => (
     )}
 
     <div className={style.content}>
-      {tournament.unfoldedRewards && tournament.unfoldedRewards.length === 0 && (
+      {isCurrentUserCreator && tournament.unfoldedRewards && tournament.unfoldedRewards.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -76,7 +77,6 @@ const Rewards = ({ tournament, addRewards, editRewards, className }) => (
           </div>
         </div>
       )}
-
     </div>
   </div>
 );
@@ -85,8 +85,17 @@ export default compose(
   connect(
     (state, props) => ({
       users: state.users.list,
+      currentUser: state.currentUser,
       tournament: state.tournaments.list[props.id],
     }),
   ),
+  withProps(props => {
+    const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
+
+    return {
+      ...props,
+      isCurrentUserCreator,
+    };
+  }),
   withCaptions(tableCaptions),
 )(Rewards);

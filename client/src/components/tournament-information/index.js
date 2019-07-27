@@ -55,13 +55,15 @@ const Information = props => {
     <div className={cx(style.information, className)}>
       <div className={style.header}>
         <h3 className={style.subtitle}>Information</h3>
-        <button
-          type="button"
-          className={style.button}
-          onClick={props.editTournament}
-        >
-          Edit
-        </button>
+        {isCurrentUserCreator && (
+          <button
+            type="button"
+            className={style.button}
+            onClick={props.editTournament}
+          >
+            Edit
+          </button>
+        )}
       </div>
 
       <div className={style.content}>

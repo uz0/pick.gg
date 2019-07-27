@@ -99,18 +99,21 @@ const Summoners = ({ summoners, addSummoners, className, captions }) => (
 export default compose(
   connect(
     (state, props) => ({
+      currentUser: state.currentUser,
       users: state.users.list,
       tournament: state.tournaments.list[props.id],
     }),
   ),
   withCaptions(tableCaptions),
   withProps(props => {
-    const { matches, rules, isApplicationsAvailable } = props.tournament;
+    const { creator, matches, rules, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
+    const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
 
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
+        isCurrentUserCreator,
         summoners: [],
       };
     }
@@ -127,6 +130,7 @@ export default compose(
 
     return {
       ...props,
+      isCurrentUserCreator,
       summoners,
     };
   }),

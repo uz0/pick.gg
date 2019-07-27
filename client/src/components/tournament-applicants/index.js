@@ -176,12 +176,13 @@ export default compose(
       }
 
       try {
-        await http(`/api/tournaments/${tournamentId}/applicantStatus`, {
+        const acceptRequest = await http(`/api/tournaments/${tournamentId}/applicantStatus`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
           method: 'PATCH',
-          body: JSON.stringify({ status: 'ACCEPTED' }),
+          body: JSON.stringify({ userId: applicantId, newStatus: 'ACCEPTED' }),
         });
-
-        alert('В процессе');
 
       } catch (error) {
         console.log(error);

@@ -93,9 +93,15 @@ class Matches extends Component {
           </button>
         )}
 
-        <button className={style.button} type="button" onClick={() => this.openEditMatch(_id)}>
-          <Icon name="info"/>
-        </button>
+        {isCurrentUserCreator && (
+          <button
+            type="button"
+            className={style.button}
+            onClick={() => this.openEditMatch(_id)}
+          >
+            <Icon name="info"/>
+          </button>
+        )}
 
         {!isTournamentReady && isCurrentUserCreator && (
           <button
@@ -111,14 +117,18 @@ class Matches extends Component {
   };
 
   render() {
-    const { className } = this.props;
-    const { matches } = this.props.tournament;
+    const { currentUser, className } = this.props;
+
+    const matches = get(this.props, 'tournament.matches');
+    const creator = get(this.props, 'tournament.creator');
+
+    const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
 
     return (
       <div className={cx(style.matches, className)}>
         <div className={style.header}>
           <h3 className={style.subtitle}>Matches</h3>
-          {matches.length > 0 && (
+          {isCurrentUserCreator && matches.length > 0 && (
             <button
               type="button"
               className={style.button}
@@ -129,12 +139,12 @@ class Matches extends Component {
           )}
         </div>
 
-        {matches.length === 0 && (
+        {isCurrentUserCreator && matches.length === 0 && (
           <p className={style.empty}>You can add matches</p>
         )}
 
         <div className={style.content}>
-          {matches.length === 0 && (
+          {isCurrentUserCreator && matches.length === 0 && (
             <Button
               appearance="_circle-accent"
               icon="plus"
