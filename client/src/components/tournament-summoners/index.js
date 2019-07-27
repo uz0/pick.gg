@@ -2,13 +2,16 @@ import React from 'react';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import pick from 'lodash/pick';
+import find from 'lodash/find';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
-import { calcSummonersPoints } from 'helpers';
+import { http, calcSummonersPoints } from 'helpers';
+import { actions as tournamentsActions } from 'pages/tournaments';
 import { withCaptions } from 'hoc';
 import Table from 'components/table';
 import Button from 'components/button';
 import style from './style.module.css';
+import { withHandlers } from 'recompose';
 
 const cx = classnames.bind(style);
 
@@ -53,7 +56,16 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
   );
 };
 
-const Summoners = ({ summoners, addSummoners, className, captions }) => (
+const Summoners = ({
+  captions,
+  summoners,
+  className,
+  isCurrentUserCreator,
+  isApplicationsAvailable,
+  isAlreadyApplicantOrSummoner,
+  addSummoners,
+  applyTournament,
+}) => (
   <div className={cx(style.summoners, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Summoners</h3>
@@ -68,17 +80,34 @@ const Summoners = ({ summoners, addSummoners, className, captions }) => (
       )}
     </div>
 
-    {summoners && summoners.length === 0 && (
+    {isCurrentUserCreator && summoners && (
       <p className={style.empty}>You can choose summoners</p>
     )}
 
+    {!isCurrentUserCreator && !isAlreadyApplicantOrSummoner && (
+      <p className={style.empty}>You can apply as summoner</p>
+    )}
+
+    {isAlreadyApplicantOrSummoner && summoners && (
+      <p className={style.empty}>You already applied as summoner</p>
+    )}
+
     <div className={style.content}>
-      {summoners && summoners.length === 0 && (
+      {isCurrentUserCreator && summoners && (
         <Button
           appearance="_circle-accent"
           icon="plus"
           className={style.button}
           onClick={addSummoners}
+        />
+      )}
+
+      {!isCurrentUserCreator && !isAlreadyApplicantOrSummoner && isApplicationsAvailable && (
+        <Button
+          appearance="_basic-accent"
+          text="Apply as summoner"
+          className={style.button}
+          onClick={applyTournament}
         />
       )}
 
@@ -103,17 +132,49 @@ export default compose(
       users: state.users.list,
       tournament: state.tournaments.list[props.id],
     }),
+
+    {
+      updateTournament: tournamentsActions.updateTournament,
+    }
   ),
   withCaptions(tableCaptions),
+  withHandlers({
+    applyTournament: props => async () => {
+      const tournamentId = props.id;
+      const currentUserId = props.currentUser._id;
+
+      if (props.isAlreadyApplicantOrSummoner) {
+        alert('Вы уже подали заявку на участие в турнире');
+
+        return;
+      }
+
+      try {
+        await http(`/api/tournaments/${tournamentId}/attend`, { method: 'PATCH' });
+
+        props.updateTournament({
+          _id: tournamentId,
+          applicants: [...props.tournament.applicants, { user: currentUserId, status: 'PENDING' }],
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  }),
   withProps(props => {
     const { creator, matches, rules, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
+    const currentUserId = props.currentUser && props.currentUser._id;
+
     const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
+    const isAlreadyApplicantOrSummoner = find(props.tournament.applicants, { user: currentUserId }) || props.tournament.summoners.includes(currentUserId);
 
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
         isCurrentUserCreator,
+        isApplicationsAvailable,
+        isAlreadyApplicantOrSummoner,
         summoners: [],
       };
     }
@@ -131,6 +192,8 @@ export default compose(
     return {
       ...props,
       isCurrentUserCreator,
+      isApplicationsAvailable,
+      isAlreadyApplicantOrSummoner,
       summoners,
     };
   }),
