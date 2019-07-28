@@ -22,12 +22,21 @@ const handler = withValidationHandler(async (req, res) => {
         { arrayFilters: [{ 'element.user': userId }] },
       )
       .exec();
-  } catch (error){
+
+    if (newStatus === 'ACCEPTED') {
+      await Tournament
+        .update(
+          { _id: id },
+          { $push: { summoners: userId } },
+        )
+        .exec();
+    }
+
+    res.send(newTournament);
+  } catch (error) {
     console.log(error);
     res.status(400).send({})
   }
-
-  res.send({});
 });
 
 export { validator, handler };

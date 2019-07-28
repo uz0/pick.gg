@@ -80,3 +80,16 @@
   background-color: var(--background-color);
   transition-property: background-color;
 }
+
+.applicants .content .table .row .status {
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.applicants .content .table .row .accepted {
+  color: #4ccc4c;
+}
+
+.applicants .content .table .row .rejected {
+  color: #af3a3a;
+}

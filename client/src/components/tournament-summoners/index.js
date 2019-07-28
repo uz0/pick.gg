@@ -3,10 +3,12 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import pick from 'lodash/pick';
 import find from 'lodash/find';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http, calcSummonersPoints } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import notificationActions from 'components/notification/actions';
 import { withCaptions } from 'hoc';
 import Table from 'components/table';
 import Button from 'components/button';
@@ -61,8 +63,11 @@ const Summoners = ({
   summoners,
   className,
   isCurrentUserCreator,
+  isAlreadySummonerOrApplicant,
   isApplicationsAvailable,
-  isAlreadyApplicantOrSummoner,
+  isApplicantRejected,
+  isAlreadyApplicant,
+  isAlreadySummoner,
   addSummoners,
   applyTournament,
 }) => (
@@ -80,20 +85,24 @@ const Summoners = ({
       )}
     </div>
 
-    {isCurrentUserCreator && summoners && (
+    {isCurrentUserCreator && summoners.length === 0 && (
       <p className={style.empty}>You can choose summoners</p>
     )}
 
-    {!isCurrentUserCreator && !isAlreadyApplicantOrSummoner && (
+    {!isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && (
       <p className={style.empty}>You can apply as summoner</p>
     )}
 
-    {isAlreadyApplicantOrSummoner && summoners && (
-      <p className={style.empty}>You already applied as summoner</p>
+    {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
+      <p className={style.empty}>You applied as summoner</p>
+    )}
+
+    {isApplicantRejected && (
+      <p className={style.empty}>Your application was rejeceted</p>
     )}
 
     <div className={style.content}>
-      {isCurrentUserCreator && summoners && (
+      {isCurrentUserCreator && summoners.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -102,12 +111,12 @@ const Summoners = ({
         />
       )}
 
-      {!isCurrentUserCreator && !isAlreadyApplicantOrSummoner && isApplicationsAvailable && (
+      {!isCurrentUserCreator && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
         <Button
           appearance="_basic-accent"
           text="Apply as summoner"
           className={style.button}
-          onClick={applyTournament}
+          onClick={debounce(applyTournament, 400)}
         />
       )}
 
@@ -134,6 +143,7 @@ export default compose(
     }),
 
     {
+      showNotification: notificationActions.showNotification,
       updateTournament: tournamentsActions.updateTournament,
     }
   ),
@@ -144,7 +154,11 @@ export default compose(
       const currentUserId = props.currentUser._id;
 
       if (props.isAlreadyApplicantOrSummoner) {
-        alert('Вы уже подали заявку на участие в турнире');
+        props.showNotification({
+          type: 'error',
+          shouldBeAddedToSidebar: false,
+          message: 'Вы уже подали заявку на участие в турнире',
+        });
 
         return;
       }
@@ -167,14 +181,21 @@ export default compose(
     const currentUserId = props.currentUser && props.currentUser._id;
 
     const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
-    const isAlreadyApplicantOrSummoner = find(props.tournament.applicants, { user: currentUserId }) || props.tournament.summoners.includes(currentUserId);
+
+    const isAlreadyApplicant = find(props.tournament.applicants, { user: currentUserId });
+    const isAlreadySummoner = props.tournament.summoners.includes(currentUserId);
+    const isAlreadySummonerOrApplicant = isAlreadyApplicant || isAlreadySummoner;
+    const isApplicantRejected = find(props.tournament.applicants, { user: currentUserId, status: 'REJECTED' });
 
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
         isCurrentUserCreator,
         isApplicationsAvailable,
-        isAlreadyApplicantOrSummoner,
+        isAlreadySummonerOrApplicant,
+        isAlreadyApplicant,
+        isApplicantRejected,
+        isAlreadySummoner,
         summoners: [],
       };
     }
@@ -193,7 +214,10 @@ export default compose(
       ...props,
       isCurrentUserCreator,
       isApplicationsAvailable,
-      isAlreadyApplicantOrSummoner,
+      isAlreadySummonerOrApplicant,
+      isApplicantRejected,
+      isAlreadyApplicant,
+      isAlreadySummoner,
       summoners,
     };
   }),

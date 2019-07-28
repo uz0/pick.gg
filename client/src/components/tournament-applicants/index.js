@@ -5,10 +5,10 @@ import withHandlers from 'recompose/withHandlers';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import pick from 'lodash/pick';
-import find from 'lodash/find';
 import debounce from 'lodash/debounce';
 import { http } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import notificationActions from 'components/notification/actions';
 import Button from 'components/button';
 import Table from 'components/table';
 import { withCaptions } from 'hoc';
@@ -31,6 +31,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 const renderRow = ({ className, itemClass, textClass, index, item, captions, props }) => {
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
+  const isActionsAreVisible = props.isCurrentUserCreator && item.status === 'PENDING';
 
   return (
     <div key={item._id} className={cx(className, style.row)}>
@@ -39,16 +40,19 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions, pro
       </div>
 
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.summonerName}{` ${item.status}`}</span>
+        <span className={textClass}>
+          {item.summonerName}
+          <span className={cx(style.status, { [style.accepted]: item.status === 'ACCEPTED' }, { [style.rejected]: item.status === 'REJECTED' })}>{` (${item.status})`}</span>
+        </span>
       </div>
 
-      {props.isCurrentUserCreator && (
+      {isActionsAreVisible && (
         <>
           <Button
             appearance="_icon-transparent"
             icon="plus"
             className={style.action}
-            onClick={props.acceptApplicant(item)}
+            onClick={debounce(props.acceptApplicant(item), 400)}
           />
 
           <Button
@@ -67,41 +71,33 @@ const Applicants = ({
   applicants,
   captions,
   className,
-  applyTournament,
   isCurrentUserCreator,
-  isAlreadyApplicantOrSummoner,
   acceptApplicant,
   rejectApplicant,
 }) => (
-  <div className={cx(style.applicants, className)}>
-    <div className={style.header}>
-      <h3 className={style.subtitle}>Applicants</h3>
-      {!isAlreadyApplicantOrSummoner && (
-        <button type="button" className={style.button} onClick={debounce(applyTournament, 400)}>Apply as summoner</button>
-      )}
-      {isCurrentUserCreator && (
-        <button type="button" className={style.button}>Stop</button>
-      )}
-    </div>
+    <div className={cx(style.applicants, className)}>
+      <div className={style.header}>
+        <h3 className={style.subtitle}>Applicants</h3>
+      </div>
 
-    <div className={style.content}>
-      <Table
-        noCaptions
-        captions={captions}
-        isCurrentUserCreator={isCurrentUserCreator}
-        items={applicants}
-        renderRow={renderRow}
-        className={style.table}
-        withProps={{
-          isCurrentUserCreator,
-          acceptApplicant,
-          rejectApplicant,
-        }}
-        emptyMessage="There is no applicants yet"
-      />
+      <div className={style.content}>
+        <Table
+          noCaptions
+          captions={captions}
+          isCurrentUserCreator={isCurrentUserCreator}
+          items={applicants}
+          renderRow={renderRow}
+          className={style.table}
+          withProps={{
+            isCurrentUserCreator,
+            acceptApplicant,
+            rejectApplicant,
+          }}
+          emptyMessage="There is no applicants yet"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
 
 export default compose(
   connect(
@@ -112,6 +108,7 @@ export default compose(
     }),
 
     {
+      showNotification: notificationActions.showNotification,
       updateTournament: tournamentsActions.updateTournament,
     }
   ),
@@ -119,7 +116,7 @@ export default compose(
   withProps(props => {
     const users = Object.values(props.users);
     const currentUserId = props.currentUser._id;
-    const isAlreadyApplicantOrSummoner = find(props.tournament.applicants, { user: currentUserId }) || props.tournament.summoners.includes(currentUserId);
+
     const isCurrentUserCreator = props.tournament.creator._id === currentUserId;
 
     if (props.tournament.applicants.length === 0) {
@@ -141,42 +138,24 @@ export default compose(
     return {
       ...props,
       applicants,
-      isAlreadyApplicantOrSummoner,
       isCurrentUserCreator,
     };
   }),
   withHandlers({
-    applyTournament: props => async () => {
-      const tournamentId = props.id;
-      const currentUserId = props.currentUser._id;
-
-      if (props.isAlreadyApplicantOrSummoner) {
-        alert('Вы уже подали заявку на участие в турнире');
-
-        return;
-      }
-
-      try {
-        await http(`/api/tournaments/${tournamentId}/attend`, { method: 'PATCH' });
-
-        props.updateTournament({
-          _id: tournamentId,
-          applicants: [...props.tournament.applicants, { user: currentUserId, status: 'PENDING' }],
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    },
     acceptApplicant: props => item => async event => {
       const tournamentId = props.id;
       const applicantId = item._id;
 
       if (item.status === 'ACCEPTED') {
-        alert(`${item.summonerName} is already accepted as summoner`);
+        props.showNotification({
+          type: 'error',
+          shouldBeAddedToSidebar: false,
+          message: `${item.summonerName} is already accepted as summoner`,
+        });
       }
 
       try {
-        const acceptRequest = await http(`/api/tournaments/${tournamentId}/applicantStatus`, {
+        await http(`/api/tournaments/${tournamentId}/applicantStatus`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -184,12 +163,53 @@ export default compose(
           body: JSON.stringify({ userId: applicantId, newStatus: 'ACCEPTED' }),
         });
 
+        const applicants = props.tournament.applicants.map(item => {
+          if (item.user === applicantId) {
+            item.status = 'ACCEPTED';
+          }
+
+          return item;
+        });
+
+        props.updateTournament({
+          ...props.tournament,
+          applicants,
+          summoners: [...props.tournament.summoners, applicantId],
+        });
+
       } catch (error) {
         console.log(error);
       }
     },
-    rejectApplicant: props => async () => {
+    rejectApplicant: props => item => async event => {
+      const tournamentId = props.id;
+      const applicantId = item._id;
 
+      try {
+        await http(`/api/tournaments/${tournamentId}/applicantStatus`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify({ userId: applicantId, newStatus: 'REJECTED' }),
+        });
+
+        const applicants = props.tournament.applicants.map(item => {
+          if (item.user === applicantId) {
+            item.status = 'REJECTED';
+          }
+
+          return item;
+        });
+
+        props.updateTournament({
+          ...props.tournament,
+          applicants,
+        });
+
+      } catch (error) {
+        console.log(error);
+      }
     },
   }),
 )(Applicants);
