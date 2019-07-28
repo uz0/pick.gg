@@ -157,6 +157,14 @@
                        ". .";
 }
 
+.tournament .inner_container .widgets.forecasting_is_available {
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "information invite"
+                       "summoners rewards "
+                       "rules matches"
+                       ". .";
+}
+
 .tournament .inner_container .widgets .information_widget {
   grid-area: information
 }

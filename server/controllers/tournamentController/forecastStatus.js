@@ -8,9 +8,9 @@ import { withValidationHandler } from '../helpers';
 export const validator = [
     param('id').custom(id => isEntityExists(id, Tournament)),
     param('id').custom(async id => {
-        const { isReady } = await Tournament.findById(id).exec();
+        const { isForecastingActive } = await Tournament.findById(id).exec();
 
-        if (isReady) throw new Error('Tournament is ready by now');
+        if (isForecastingActive) throw new Error('Forecasting is already avalilable');
 
         return true;
     })
@@ -21,7 +21,7 @@ export const handler = withValidationHandler(async (req, res) => {
 
     const modifiedTournament = await Tournament.findByIdAndUpdate(
         id,
-        { $set: { isReady: true } },
+        { $set: { isForecastingActive: true } },
         { new: true }
     ).exec();
 

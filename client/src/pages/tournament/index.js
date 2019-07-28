@@ -46,6 +46,15 @@ class Tournament extends Component {
     this.props.addUsers(users);
   };
 
+  enableForecasting = async () => {
+    const response = await http(`/api/tournaments/${this.props.match.params.id}/forecastStatus`, { method: 'PATCH' });
+    const tournament = await response.json();
+
+    this.props.updateTournament({
+      ...tournament,
+    });
+  };
+
   addRules = () => this.props.toggleModal({
     id: 'tournament-rules-modal',
 
@@ -126,7 +135,7 @@ class Tournament extends Component {
 
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
-    const isReadyForForecasts = get(this.props, 'tournament.isReadyForForecasts');
+    const isForecastingActive = get(this.props, 'tournament.isForecastingActive');
     const isStarted = get(this.props, 'tournament.isStarted');
     const isFinalized = get(this.props, 'tournament.isFinalized');
 
@@ -134,8 +143,8 @@ class Tournament extends Component {
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
-    const isViewersWidgetVisible = !isApplicationsAvailable && isReadyForForecasts;
-    const isInviteWidgetVisible = isApplicationsAvailable || isReadyForForecasts;
+    const isViewersWidgetVisible = !isApplicationsAvailable && isForecastingActive;
+    const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -143,6 +152,14 @@ class Tournament extends Component {
 
           <div className={style.tournament_section}>
             <h2 className={style.title}>{name}</h2>
+
+            {isCurrentUserCreator && (
+              <Button
+                text="Allow forecasts"
+                appearance="_basic-accent"
+                onClick={this.enableForecasting}
+              />
+            )}
           </div>
 
           {tournament && (
@@ -151,7 +168,8 @@ class Tournament extends Component {
                 style.widgets,
                 { [style.is_empty]: isEmpty },
                 { [style.applications_available]: isApplicationsAvailable },
-                { [style.applications_available_streamer]: isApplicantsWidgetVisible }
+                { [style.applications_available_streamer]: isApplicantsWidgetVisible },
+                { [style.forecasting_is_available]: isForecastingActive }
               )}
               >
                 <TournamentInformation

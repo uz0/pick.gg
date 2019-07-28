@@ -13,7 +13,10 @@ const schema = new Schema(
     imageUrl: String,
     createdAt: Date,
     startAt: Date,
-    price: { type: Number, min: 0 },
+    price: {
+      type: Number,
+      min: 0
+    },
     rewards: {
       type: Map,
       of: String
@@ -22,7 +25,10 @@ const schema = new Schema(
       type: Map,
       of: Number
     },
-    isReady: { type: Boolean, default: false },
+    isForecastingActive: {
+      type: Boolean,
+      default: false
+    },
     winner: refTo('User'),
     creator: refTo('User'),
     summoners: [refTo('User')],
@@ -63,10 +69,6 @@ schema.virtual('isApplicationsAvailable').get(function () {
     return true;
   }
 
-  return false;
-});
-
-schema.virtual('isReadyForForecasts').get(function () {
   return false;
 });
 
