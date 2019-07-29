@@ -42,7 +42,12 @@ const schema = new Schema(
         }
       }
     ],
-    viewers: [{ userId: String, summoners: [String] }]
+    viewers: [
+      {
+        userId: String,
+        summoners: [String]
+      }
+    ]
   },
   {
     toObject: { virtuals: true },
@@ -65,7 +70,7 @@ schema.virtual('isEmpty').get(function () {
 });
 
 schema.virtual('isApplicationsAvailable').get(function () {
-  if (!this.isEmpty) {
+  if (!this.isEmpty && !this.isForecastingActive) {
     return true;
   }
 

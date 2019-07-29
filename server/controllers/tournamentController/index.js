@@ -18,6 +18,8 @@ let router = express.Router();
 const TournamentController = io => {
   router.get('/', get);
 
+  router.post('/', create.validator, create.handler);
+
   router.get('/:id', getById.validator, getById.handler);
 
   router.get('/:id/rewards', getRewards.validator, getRewards.handler);
@@ -33,8 +35,6 @@ const TournamentController = io => {
   router.patch('/:id/view', view.validator, view.handler);
 
   router.patch('/:id/rewards', editRewards.validator, editRewards.handler);
-
-  router.post('/', create.validator, create.handler);
 
   router.use('/:tournamentId/matches', matchController());
 
