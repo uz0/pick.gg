@@ -71,10 +71,11 @@
   transition-property: transform;
 }
 
-.tournaments > .button {
+.tournaments .list > .button {
   --height: 50px;
-  position: fixed;
-  right: var(--layout-padding);
+  position: sticky;
+  margin-left: auto;
+  right: calc((var(--layout-padding) * 2));
   bottom: calc(var(--footer-height) + var(--layout-padding));
   border-radius: calc(var(--height) / 2);
 }

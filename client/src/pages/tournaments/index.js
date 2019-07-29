@@ -56,14 +56,14 @@ class Tournaments extends Component {
               </Link>
             );
           })}
-        </div>
 
-        <Button
-          appearance="_icon-accent"
-          icon="plus"
-          className={style.button}
-          onClick={this.props.openNewTournamentModal}
-        />
+          <Button
+            appearance="_icon-accent"
+            icon="plus"
+            className={style.button}
+            onClick={this.props.openNewTournamentModal}
+          />
+        </div>
       </div>
     );
   }
