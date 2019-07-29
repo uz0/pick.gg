@@ -49,7 +49,9 @@ const Information = props => {
     if ((!isApplicationsAvailable && !isFinalized) && isReadyForForecasts) {
       return 'Tournament is going on';
     }
-  }
+  };
+
+  const isPrice = price === 0 ? 'Free' : `$ ${price}`;
 
   return (
     <div className={cx(style.information, className)}>
@@ -91,7 +93,7 @@ const Information = props => {
 
           <div className={style.item}>
             <div className={style.key}>Price:</div>
-            <div className={style.value}>{`$ ${price}`}</div>
+            <div className={style.value}>{isPrice}</div>
           </div>
 
           <div className={style.item}>
