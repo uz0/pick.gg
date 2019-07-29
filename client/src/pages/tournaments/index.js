@@ -11,6 +11,7 @@ import modalActions from 'components/modal-container/actions';
 import { http } from 'helpers';
 import actions from './actions';
 import style from './style.module.css';
+import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
@@ -34,9 +35,12 @@ class Tournaments extends Component {
   }
 
   render() {
+    const isTounaments = this.props.tournamentsIds.length === 0;
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={cx('list', { '_is-loading': this.state.isLoading })}>
+          {isTounaments && <span>{i18n.t('not_yet_tournaments')}</span>}
+
           {this.props.tournamentsIds.map(id => {
             const tournament = this.props.tournamentsList[id];
             const date = moment(tournament.date).format('DD MMM YYYY');
