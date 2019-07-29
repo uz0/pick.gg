@@ -143,7 +143,8 @@ class Tournament extends Component {
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
-    const isViewersWidgetVisible = !isApplicationsAvailable && isForecastingActive;
+    // const isViewersWidgetVisible = !isApplicationsAvailable && isForecastingActive;
+    const isViewersWidgetVisible = isForecastingActive;
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     return (

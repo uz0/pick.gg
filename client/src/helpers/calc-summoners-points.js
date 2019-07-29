@@ -11,7 +11,7 @@ export default (summoners, matches = [], rules = {}) => {
 
   for (const match of matches) {
     if (match.playersResults.length === 0) {
-      return;
+      break;
     }
 
     for (const result of match.playersResults) {

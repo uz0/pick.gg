@@ -159,10 +159,10 @@
 
 .tournament .inner_container .widgets.forecasting_is_available {
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: "information invite"
-                       "summoners rewards "
+  grid-template-areas: "information ."
+                       "viewers summoners "
                        "rules matches"
-                       ". .";
+                       "invite rewards";
 }
 
 .tournament .inner_container .widgets .information_widget {
