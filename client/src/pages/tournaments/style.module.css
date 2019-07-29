@@ -41,12 +41,8 @@
   text-decoration: none;
 }
 
-.tournaments .list .item:not(:hover) {
-  --transform: 0;
-}
-
-.tournaments .list .item:hover {
-  --transform: -8px;
+.tournaments .list .item:hover .card {
+  box-shadow: 0 0 6px rgb(58, 58, 58);
 }
 
 .tournaments .list .item:nth-of-type(n+2) {
@@ -71,7 +67,7 @@
   transition-property: transform;
 }
 
-.tournaments .list > .button {
+.tournaments .list>.button {
   --height: 50px;
   position: sticky;
   margin-left: auto;
