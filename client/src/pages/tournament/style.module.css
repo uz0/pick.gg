@@ -206,6 +206,12 @@
 }
 
 @media (max-width: 768px) {
+  .tournament .inner_container .widgets {
+    grid-template-columns: 1fr;
+  }
+  .tournament .inner_container .widgets.is_empty .information_widget {
+    width: 100%;
+  }
   .tournament .inner_container .widgets.forecasting_is_available {
     grid-template-columns: 1fr;
     grid-template-areas: "information "
@@ -246,9 +252,14 @@
 }
 
 @media (max-width: 480px) {
+  .tournament .inner_container .tournament_section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .tournament .inner_container .title {
     font-size: 30px;
     --height: 30px;
+    margin-bottom: 12px;
   }
   .tournament .inner_container .tournament_section + .subtitle {
     margin-top: 30px;

@@ -38,28 +38,33 @@ class Tournaments extends Component {
     const isTounaments = this.props.tournamentsIds.length === 0;
     return (
       <div className={cx('tournaments', 'container')}>
-        <div className={cx('list', { '_is-loading': this.state.isLoading })}>
-          {isTounaments && <span>{i18n.t('not_yet_tournaments')}</span>}
+        <div className={style.wrap_tournaments}>
+          <div className={cx('list', { '_is-loading': this.state.isLoading })}>
+            {isTounaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
 
-          {this.props.tournamentsIds.map(id => {
-            const tournament = this.props.tournamentsList[id];
-            const date = moment(tournament.date).format('DD MMM YYYY');
-            const championsLength = tournament.champions_ids && tournament.champions_ids.length;
-            const tournamentName = tournament.name || 'No name';
+            {this.props.tournamentsIds.map(id => {
+              const tournament = this.props.tournamentsList[id];
+              const dateMonth = moment(tournament.date).format('MMM');
+              const dateDay = moment(tournament.date).format('DD');
+              const championsLength = tournament.viewers && tournament.viewers.length;
+              const tournamentName = tournament.name || 'No name';
+              const price = tournament.price === 0 ? 'Free' : `$${tournament.price}`;
 
-            return (
-              <Link key={tournament._id} to={`/tournaments/${tournament._id}`} className={style.item}>
-                <h2 className={style.name}>{tournamentName}</h2>
+              return (
+                <Link key={tournament._id} to={`/tournaments/${tournament._id}`} className={style.item}>
+                  <TournamentCard
+                    name={tournamentName}
+                    dateDay={dateDay}
+                    dateMonth={dateMonth}
+                    price={price}
+                    people={championsLength || 0}
+                    className={style.card}
+                  />
+                </Link>
+              );
+            })}
 
-                <TournamentCard
-                  name={tournamentName}
-                  date={date}
-                  people={championsLength || 0}
-                  className={style.card}
-                />
-              </Link>
-            );
-          })}
+          </div>
 
           <Button
             appearance="_icon-accent"
