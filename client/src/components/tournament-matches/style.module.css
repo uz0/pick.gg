@@ -54,7 +54,8 @@
 }
 
 .matches .header + .table,
-.matches .header + .content {
+.matches .header + .content,
+.matches .header + .empty {
   margin-top: 16px;
 }
 
