@@ -1,6 +1,7 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
+import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Button from 'components/button';
@@ -26,7 +27,7 @@ const Rewards = ({ tournament, isCurrentUserCreator, addRewards, editRewards, cl
   <div className={cx(style.rewards, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
-      {isCurrentUserCreator && (
+      {isCurrentUserCreator && !isEmpty(tournament.rewards) && (
         <button
           type="button"
           className={style.button}

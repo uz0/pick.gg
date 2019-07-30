@@ -64,6 +64,7 @@
 
 .rewards .content {
   display: flex;
+  min-height: 100px;
 }
 
 .rewards .content .button {
