@@ -13,11 +13,13 @@ import Button from 'components/button';
 
 import modalActions from '../actions';
 import i18n from 'i18n';
+import moment from 'moment';
 
 import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
+    .min(4)
     .max(40)
     .required('Required'),
   description: Yup.string()
@@ -31,10 +33,12 @@ const validationSchema = Yup.object().shape({
     .min(0)
     .required(),
   startAt: Yup.date()
+    .min(moment(new Date()).format('DD MMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
     .required('Required'),
 });
 
 const NewTournament = props => {
+  const today = moment();
   return (
     <Modal
       title="Create new tournament"
