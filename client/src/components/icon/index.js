@@ -10,6 +10,7 @@ import { ReactComponent as PeopleIcon } from 'assets/icons/people.svg';
 import { ReactComponent as StarIcon } from 'assets/icons/star.svg';
 import { ReactComponent as InfoIcon } from 'assets/icons/info.svg';
 import { ReactComponent as ListIcon } from 'assets/icons/list.svg';
+import { ReactComponent as CoinIcon } from 'assets/icons/coin.svg';
 
 const cx = classnames.bind(style);
 
@@ -23,6 +24,7 @@ const Icon = ({ name, className }) => {
     star: StarIcon,
     info: InfoIcon,
     list: ListIcon,
+    coin: CoinIcon,
   })[name];
 
   return (
