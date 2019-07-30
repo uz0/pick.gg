@@ -46,8 +46,12 @@ const Information = props => {
       return 'Waiting for applicants and summoners';
     }
 
-    if ((!isApplicationsAvailable && !isFinalized) && isReadyForForecasts) {
-      return 'Tournament is going on';
+    if (isReadyForForecasts) {
+      return 'Waiting for viewers forecasts';
+    }
+
+    if (isStarted) {
+      return 'Tournament is going on!';
     }
   };
 
