@@ -36,7 +36,13 @@ class Matches extends Component {
     },
   });
 
-  openMatchDetails = () => this.props.toggleModal({ id: 'match-results-modal' });
+  openMatchResults = matchId => this.props.toggleModal({
+    id: 'match-results-modal',
+    options: {
+      tournamentId: this.props.id,
+      matchId,
+    },
+  });
 
   openEditMatch = matchId => this.props.toggleModal({
     id: 'edit-match-modal',
@@ -93,7 +99,7 @@ class Matches extends Component {
         )}
 
         {isStarted && (
-          <button className={style.button} type="button" onClick={this.openMatchDetails}>
+          <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
             <Icon name="list"/>
           </button>
         )}
