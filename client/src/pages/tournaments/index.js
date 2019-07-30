@@ -39,8 +39,6 @@ class Tournaments extends Component {
     const isTounaments = this.props.tournamentsIds.length === 0;
     const isCurrentUserCanProvideTournaments = get(this.props, 'currentUser.canProvideTournaments');
 
-    console.log(isCurrentUserCanProvideTournaments, 'isCurrentUserCanProvideTournaments');
-
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={cx('list', { '_is-loading': this.state.isLoading })}>
