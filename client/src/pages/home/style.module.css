@@ -122,21 +122,29 @@ section {
   margin-bottom: 80px;
 }
 
+.work .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .work .cards .card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 96px;
+  padding: 24px 48px;
   background: #f1f1f1;
   margin-bottom: 36px;
-  height: 250px;
+  height: 270px;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgb(196, 196, 196);
+  flex-basis: 49%;
 }
 
 .work .cards .card .first_title {
-  font-size: 27px;
+  font-size: 24px;
   font-weight: bold;
+  padding-right: 20px;
 }
 
 .work .cards .card:nth-child(odd) {
@@ -148,17 +156,17 @@ section {
 }
 
 .work .cards .card:nth-child(even) .text {
-  padding-left: 96px;
+  padding-left: 64px;
 }
 
 .work .cards .card .text {
-  width: 70%;
+  width: 90%;
 }
 
 .work .cards .card .title {
-  font-size: 27px;
+  font-size: 24px;
   font-weight: bold;
-  padding-bottom: 27px;
+  padding-bottom: 20px;
 }
 
 .work .cards .card .undertitle {
@@ -194,32 +202,33 @@ section {
     max-width: 1000px
   }
   .main h1 {
-    font-size: 96px;
+    font-size: 72px;
   }
   .main p {
-    font-size: 27px;
-    padding-top: 12px;
+    font-size: 24px;
+    padding-top: 8px;
   }
   .work h2, .footer h2 {
-    font-size: 36px;
+    font-size: 27px;
   }
   .buttons {
-    width: 250px;
+    max-width: 200px;
+    width: 100%;
     padding-top: 144px;
   }
   .buttons .button {
-    font-size: 24px;
+    font-size: 20px;
     padding: 12px 0;
   }
   .buttons .streamer {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 12px;
   }
   section {
     padding: 64px;
   }
   .work .cards .card {
-    height: 150px;
+    height: 170px;
     margin-bottom: 24px;
     padding: 24px 48px;
   }
@@ -230,11 +239,11 @@ section {
     padding-left: 48px;
   }
   .work .cards .card .first_title {
-    font-size: 20px;
+    font-size: 16px;
   }
   .work .cards .card .title {
-    font-size: 20px;
-    padding-bottom: 12px;
+    font-size: 16px;
+    padding-bottom: 6px;
   }
   .work .cards .card .undertitle {
     font-size: 14px;
@@ -244,20 +253,23 @@ section {
     width: 50px;
   }
   .work .cards .card:first-child img {
-    width: 100px;
+    width: 80px;
   }
   .work h2 {
-    margin-bottom: 36px;
+    margin-bottom: 27px;
   }
   .footer p {
-    font-size: 18px;
-    line-height: 27px;
+    font-size: 16px;
+    line-height: 22px;
   }
 }
 
 @media (max-width: 480px) {
   section {
     padding: 40px 20px;
+  }
+  .work .cards .card {
+    flex-basis: 100%;
   }
   .work .cards .card:nth-child(odd), .work .cards .card:nth-child(even) {
     flex-direction: column-reverse;
