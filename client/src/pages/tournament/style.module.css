@@ -230,7 +230,7 @@
   }
   
   .tournament .inner_container .widgets.applications_available.applications_available_streamer {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-areas: "information"
                          "invite"
                          "applicants"
@@ -241,7 +241,7 @@
   }
   
   .tournament .inner_container .widgets.applications_available {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-areas: "information"
                          "invite"
                          "summoners"
