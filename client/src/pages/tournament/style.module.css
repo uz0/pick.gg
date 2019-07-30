@@ -206,16 +206,51 @@
 }
 
 @media (max-width: 768px) {
-  .tournament .inner_container .widgets.col_3 {
+  .tournament .inner_container .widgets.forecasting_is_available {
     grid-template-columns: 1fr;
+    grid-template-areas: "information "
+                         "viewers "
+                         "summoners "
+                         "rules "
+                         "matches"
+                         "invite "
+                         "rewards";
   }
-  .tournament .inner_container .tournament_section {
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+  .tournament .inner_container .widgets.is_empty {
+    grid-template-areas: "information"
+                         "rules"
+                         "matches"
+                         "rewards";
   }
-  .tournament .inner_container .tournament_section .actions {
-    margin-left: 0;
-    margin-top: 24px;
+  
+  .tournament .inner_container .widgets.applications_available.applications_available_streamer {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "information"
+                         "invite"
+                         "applicants"
+                         "summoners"
+                         "rules"
+                         "matches"
+                         "rewards";
+  }
+  
+  .tournament .inner_container .widgets.applications_available {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "information"
+                         "invite"
+                         "summoners"
+                         "rewards"
+                         "rules"
+                         "matches";
+  }
+}
+
+@media (max-width: 480px) {
+  .tournament .inner_container .title {
+    font-size: 30px;
+    --height: 30px;
+  }
+  .tournament .inner_container .tournament_section + .subtitle {
+    margin-top: 30px;
   }
 }

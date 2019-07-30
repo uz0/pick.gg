@@ -124,3 +124,9 @@
   --icon-size: 18px;
   --icon-color: #fff;
 }
+
+@media (max-width: 480px) {
+  .matches .header .subtitle {
+    font-size: 20px;
+  }
+}

@@ -21,7 +21,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   value: {
     text: t('values'),
-    width: isMobile ? 40 : 60,
+    width: isMobile ? 75 : 60,
   },
 });
 

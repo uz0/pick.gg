@@ -20,7 +20,7 @@ const cx = classnames.bind(style);
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
     text: t('number'),
-    width: isMobile ? 40 : 60,
+    width: isMobile ? 55 : 60,
   },
 
   name: {
@@ -30,7 +30,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   points: {
     text: t('points'),
-    width: isMobile ? 50 : 80,
+    width: isMobile ? 80 : 80,
   },
 });
 
@@ -73,66 +73,66 @@ const Summoners = ({
 }) => {
   return (
     <div className={cx(style.summoners, className)}>
-        <div className={style.header}>
-          <h3 className={style.subtitle}>Summoners</h3>
-          {isCurrentUserCreator && summoners && summoners.length > 0 && (
-            <button
-              type="button"
-              className={style.button}
-              onClick={addSummoners}
-            >
+      <div className={style.header}>
+        <h3 className={style.subtitle}>Summoners</h3>
+        {isCurrentUserCreator && summoners && summoners.length > 0 && (
+          <button
+            type="button"
+            className={style.button}
+            onClick={addSummoners}
+          >
               Edit
-            </button>
-          )}
-        </div>
-    
-        {isCurrentUserCreator && summoners.length === 0 && (
-          <p className={style.empty}>You can choose summoners</p>
+          </button>
         )}
-    
-        {!isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && (
-          <p className={style.empty}>You can apply as summoner</p>
-        )}
-    
-        {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
-          <p className={style.empty}>You applied as summoner</p>
-        )}
-    
-        {isApplicantRejected && (
-          <p className={style.empty}>Your application was rejeceted</p>
-        )}
-    
-        <div className={style.content}>
-          {isCurrentUserCreator && summoners.length === 0 && (
-            <Button
-              appearance="_circle-accent"
-              icon="plus"
-              className={style.button}
-              onClick={addSummoners}
-            />
-          )}
-    
-          {!isCurrentUserCreator && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
-            <Button
-              appearance="_basic-accent"
-              text="Apply as summoner"
-              className={style.button}
-              onClick={debounce(applyTournament, 400)}
-            />
-          )}
-    
-          {summoners && summoners.length > 0 && (
-            <Table
-              noCaptions
-              captions={captions}
-              items={summoners}
-              renderRow={renderRow}
-              isLoading={false}
-              className={style.table}
-            />
-          )}
-        </div>
       </div>
+
+      {isCurrentUserCreator && summoners.length === 0 && (
+        <p className={style.empty}>You can choose summoners</p>
+      )}
+
+      {!isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && (
+        <p className={style.empty}>You can apply as summoner</p>
+      )}
+
+      {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
+        <p className={style.empty}>You applied as summoner</p>
+      )}
+
+      {isApplicantRejected && (
+        <p className={style.empty}>Your application was rejeceted</p>
+      )}
+
+      <div className={style.content}>
+        {isCurrentUserCreator && summoners.length === 0 && (
+          <Button
+            appearance="_circle-accent"
+            icon="plus"
+            className={style.button}
+            onClick={addSummoners}
+          />
+        )}
+
+        {!isCurrentUserCreator && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
+          <Button
+            appearance="_basic-accent"
+            text="Apply as summoner"
+            className={style.button}
+            onClick={debounce(applyTournament, 400)}
+          />
+        )}
+
+        {summoners && summoners.length > 0 && (
+          <Table
+            noCaptions
+            captions={captions}
+            items={summoners}
+            renderRow={renderRow}
+            isLoading={false}
+            className={style.table}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 

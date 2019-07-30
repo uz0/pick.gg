@@ -87,3 +87,9 @@
   color: var(--primary-color);
   background-color: var(--accent-color);
 }
+
+@media (max-width: 480px) {
+  .summoners .header .subtitle {
+    font-size: 20px;
+  }
+}

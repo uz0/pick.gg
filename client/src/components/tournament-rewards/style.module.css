@@ -147,3 +147,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+@media (max-width: 480px) {
+  .rewards .header .subtitle {
+    font-size: 20px;
+  }
+}
