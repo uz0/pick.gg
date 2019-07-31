@@ -36,7 +36,13 @@ class Matches extends Component {
     },
   });
 
-  openMatchDetails = () => this.props.toggleModal({ id: 'match-results-modal' });
+  openMatchResults = matchId => this.props.toggleModal({
+    id: 'match-results-modal',
+    options: {
+      tournamentId: this.props.id,
+      matchId,
+    },
+  });
 
   openEditMatch = matchId => this.props.toggleModal({
     id: 'edit-match-modal',
@@ -72,8 +78,13 @@ class Matches extends Component {
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
 
-    const isTournamentReady = get(this.props, 'tournament.isReady');
+    const isForecastingActive = get(this.props, 'tournament.isForecastingActive');
+    const isEmpty = get(this.props, 'tournament.isEmpty');
+    const isStarted = get(this.props, 'tournament.isStarted');
+    const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
+
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
+    const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
 
     return (
       <div key={_id} className={className}>
@@ -81,14 +92,14 @@ class Matches extends Component {
           <span className={textClass}>{name}</span>
         </div>
 
-        {isTournamentReady && (
+        {isForecastingActive && (
           <div className={itemClass} style={pointsStyle}>
             <span className={style.points}>+123</span>
           </div>
         )}
 
-        {isTournamentReady && (
-          <button className={style.button} type="button" onClick={this.openMatchDetails}>
+        {isStarted && (
+          <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
             <Icon name="list"/>
           </button>
         )}
@@ -103,7 +114,7 @@ class Matches extends Component {
           </button>
         )}
 
-        {!isTournamentReady && isCurrentUserCreator && (
+        {isCurrentUserCreator && isDeleteButtonShown && (
           <button
             type="button"
             className={cx(style.button, style.danger)}

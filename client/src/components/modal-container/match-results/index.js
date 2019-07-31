@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+import withProps from 'recompose/withProps';
 import i18n from 'i18n';
 import Modal from 'components/modal';
 import Table from 'components/table';
@@ -26,56 +28,93 @@ const tableCaptions = {
     text: i18n.t('assists'),
     width: window.innerWidth < 480 ? 75 : 100,
   },
+
+  total: {
+    text: i18n.t('assists'),
+    width: window.innerWidth < 480 ? 75 : 100,
+  },
 };
 
 const cx = classnames.bind(style);
 
-class MatchResults extends Component {
-  renderRow = ({ className, itemClass, textClass, index, item }) => {
-    const playerStyle = { '--width': tableCaptions.player.width };
-    const killsStyle = { '--width': tableCaptions.kills.width };
-    const deathsStyle = { '--width': tableCaptions.deaths.width };
-    const assistsStyle = { '--width': tableCaptions.assists.width };
+const renderRow = ({ className, itemClass, textClass, props, item }) => {
+  const playerStyle = { '--width': tableCaptions.player.width };
+  const killsStyle = { '--width': tableCaptions.kills.width };
+  const deathsStyle = { '--width': tableCaptions.deaths.width };
+  const assistsStyle = { '--width': tableCaptions.assists.width };
+  const totalStyle = { '--width': tableCaptions.total.width };
 
-    return <div className={cx(className, 'row')} key={item}>
+  const { results } = item;
+
+  return (
+    <div key={item.userId} className={cx(className, 'row')}>
       <div className={itemClass} style={playerStyle}>
-        <span className={textClass}>TADOFFICAL</span>
+        <span className={textClass}>{item.summonerName}</span>
       </div>
 
       <div className={itemClass} style={killsStyle}>
-        <span className={textClass}>2x4</span>
+        <span className={textClass}>{results.kills}x{props.kills}</span>
       </div>
 
       <div className={itemClass} style={deathsStyle}>
-        <span className={textClass}>2x4</span>
+        <span className={textClass}>{results.deaths}x{props.deaths}</span>
       </div>
 
       <div className={itemClass} style={assistsStyle}>
-        <span className={textClass}>2x4</span>
+        <span className={textClass}>{results.assists}x{props.assists}</span>
       </div>
-    </div>;
-  };
 
-  componentWillMount() {
-  }
+      <div className={itemClass} style={totalStyle}>
+        <span className={textClass}>{results.assists}x{props.assists}</span>
+      </div>
+    </div>
+  );
+};
 
-  render() {
-    return <Modal
-      title="Match results"
-      close={this.props.close}
-      wrapClassName={style.modal}
-      className={style.modal_content}
-    >
-      <Table
-        captions={tableCaptions}
-        items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-        renderRow={this.renderRow}
-        isLoading={false}
-        className={style.table}
-        emptyMessage="There is no results yet"
-      />
-    </Modal>;
-  }
-}
+const MatchResults = ({ results, rules, close }) => (
+  <Modal
+    title="Match results"
+    close={close}
+    wrapClassName={style.modal}
+    className={style.modal_content}
+  >
+    <Table
+      captions={tableCaptions}
+      items={results}
+      renderRow={renderRow}
+      isLoading={false}
+      className={style.table}
+      withProps={rules}
+      emptyMessage="There is no results yet"
+    />
+  </Modal>
+);
 
-export default compose()(MatchResults);
+export default compose(
+  connect(
+    (state, props) => ({
+      tournament: state.tournaments.list[props.options.tournamentId],
+      users: state.users.list,
+    }),
+  ),
+  withProps(props => {
+    const { matchId } = props.options;
+    const { rules } = props.tournament;
+
+    const match = props.tournament.matches.find(match => match._id === matchId);
+
+    const results = match.playersResults.map(item => {
+      const { summonerName } = props.users[item.userId];
+
+      return {
+        ...item,
+        summonerName,
+      };
+    });
+
+    return {
+      results,
+      rules,
+    };
+  })
+)(MatchResults);

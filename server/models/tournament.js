@@ -29,6 +29,10 @@ const schema = new Schema(
       type: Boolean,
       default: false
     },
+    isStarted: {
+      type: Boolean,
+      default: false
+    },
     winner: refTo('User'),
     creator: refTo('User'),
     summoners: [refTo('User')],
@@ -70,14 +74,10 @@ schema.virtual('isEmpty').get(function () {
 });
 
 schema.virtual('isApplicationsAvailable').get(function () {
-  if (!this.isEmpty && !this.isForecastingActive) {
+  if (!this.isEmpty && !this.isForecastingActive && !this.isStarted) {
     return true;
   }
 
-  return false;
-});
-
-schema.virtual('isStarted').get(function () {
   return false;
 });
 

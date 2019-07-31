@@ -47,11 +47,21 @@ export const handler = withValidationHandler(async (req, res) => {
   const { _id: userId } = req.decoded;
   const { summoners } = req.body;
 
-  const modifiedTournament = await Tournament.findByIdAndUpdate(id, {
-    $push: { viewers: { userId, summoners } }
-  });
+  await Tournament
+  .update(
+    { _id: id },
+    { $push: { viewers: { userId, summoners } }
+  })
+  .save();
 
-  await modifiedTournament.save();
+  const modifiedTournament = await Tournament
+    .findById(id)
+    .populate('winner')
+    .populate('creatorId')
+    .populate('applicants')
+    .populate('matches')
+    .populate('creator', '_id username summonerName')
+    .exec();
 
   res.json(modifiedTournament);
 });

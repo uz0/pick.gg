@@ -55,6 +55,15 @@ class Tournament extends Component {
     });
   };
 
+  startMatches = async () => {
+    const response = await http(`/api/tournaments/${this.props.match.params.id}/start`, { method: 'PATCH' });
+    const tournament = await response.json();
+
+    this.props.updateTournament({
+      ...tournament,
+    });
+  };
+
   addRules = () => this.props.toggleModal({
     id: 'tournament-rules-modal',
 
@@ -143,9 +152,10 @@ class Tournament extends Component {
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
-    // const isViewersWidgetVisible = !isApplicationsAvailable && isForecastingActive;
-    const isViewersWidgetVisible = isForecastingActive;
+    const isViewersWidgetVisible = isForecastingActive || isStarted;
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
+
+    const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -154,11 +164,20 @@ class Tournament extends Component {
           <div className={style.tournament_section}>
             <h2 className={style.title}>{name}</h2>
 
-            {isCurrentUserCreator && (
+            {isCurrentUserCreator && isApplicationsAvailable && isApplicationsAvailable && (
               <Button
+                disabled={isAllowForecastButtonDisabled}
                 text="Allow forecasts"
                 appearance="_basic-accent"
                 onClick={this.enableForecasting}
+              />
+            )}
+
+            {isCurrentUserCreator && isForecastingActive && (
+              <Button
+                text="Start tournament"
+                appearance="_basic-accent"
+                onClick={this.startMatches}
               />
             )}
           </div>
@@ -170,7 +189,8 @@ class Tournament extends Component {
                 { [style.is_empty]: isEmpty },
                 { [style.applications_available]: isApplicationsAvailable },
                 { [style.applications_available_streamer]: isApplicantsWidgetVisible },
-                { [style.forecasting_is_available]: isForecastingActive }
+                { [style.forecasting_is_available]: isForecastingActive },
+                { [style.is_started]: isStarted }
               )}
               >
                 <TournamentInformation
