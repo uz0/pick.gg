@@ -52,6 +52,17 @@ class Matches extends Component {
     },
   });
 
+  startMatch = async (tournamentId, matchId) => {
+    try {
+      const startMatchRequest = await http(`/api/tournaments/${tournamentId}/matches/${matchId}/start`, { method: 'PATCH' });
+      const updatedTournament = await startMatchRequest.json();
+
+      this.props.updateTournament({ ...updatedTournament });
+    } catch (error) {
+      console.log(error, 'error');
+    }
+  };
+
   deleteMatch = async (tournamentId, matchId) => {
     try {
       await http(`/api/tournaments/${tournamentId}/matches/${matchId}`, { method: 'DELETE' });
@@ -82,35 +93,33 @@ class Matches extends Component {
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isStarted = get(this.props, 'tournament.isStarted');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
+    const isMatchActive = item.isActive;
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
+    const actionButtonIcon = isMatchActive ? 'info' : 'play';
+    const actionButtonTitle = isMatchActive ? 'Enter match results' : 'Start match';
 
     return (
-      <div key={_id} className={className}>
+      <div key={_id} className={cx(className, { [style.is_active]: isMatchActive })}>
         <div className={itemClass} style={nameStyle}>
           <span className={textClass}>{name}</span>
         </div>
-
-        {isForecastingActive && (
-          <div className={itemClass} style={pointsStyle}>
-            <span className={style.points}>+123</span>
-          </div>
-        )}
-
-        {isStarted && (
-          <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
-            <Icon name="list"/>
-          </button>
-        )}
 
         {isCurrentUserCreator && (
           <button
             type="button"
             className={style.button}
-            onClick={() => this.openEditMatch(_id)}
+            title={actionButtonTitle}
+            onClick={() => isMatchActive ? this.openEditMatch(_id) : this.startMatch(tournamentId, _id)}
           >
-            <Icon name="info"/>
+            <Icon name={actionButtonIcon}/>
+          </button>
+        )}
+
+        {isStarted && (
+          <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
+            <Icon name="list"/>
           </button>
         )}
 
@@ -128,7 +137,10 @@ class Matches extends Component {
   };
 
   render() {
-    const { currentUser, className } = this.props;
+    const {
+      currentUser,
+      className,
+    } = this.props;
 
     const matches = get(this.props, 'tournament.matches');
     const creator = get(this.props, 'tournament.creator');
