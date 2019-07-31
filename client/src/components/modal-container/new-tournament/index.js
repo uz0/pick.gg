@@ -36,9 +36,9 @@ const validationSchema = Yup.object().shape({
     .min(moment(new Date()).format('DD MMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
     .required('Required'),
 });
+const today = moment().format('YYYY-MM-DD');
 
 const NewTournament = props => {
-  const today = moment();
   return (
     <Modal
       title="Create new tournament"
@@ -80,6 +80,7 @@ const NewTournament = props => {
           type="date"
           label="Date"
           name="startAt"
+          min={today}
           className={style.field}
         />
         <Button
@@ -108,7 +109,7 @@ const enhance = compose(
       description: '',
       url: '',
       price: 0,
-      startAt: '',
+      startAt: today,
     }),
     handleSubmit: async (values, formikBag) => {
       const createTournamentRequest = async () => {
