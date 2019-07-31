@@ -61,19 +61,21 @@ const Profile = () => {
           className={style.field}
         />
 
-        <Field
-          component={PositionSelect}
-          label={i18n.t('Position')}
-          name="preferredPosition"
-          className={style.field}
-        />
+        <div className={style.position}>
+          <Field
+            component={PositionSelect}
+            label={i18n.t('Position')}
+            name="preferredPosition"
+            className={style.field}
+          />
 
-        <Field
-          component={RegionSelect}
-          label={i18n.t('region')}
-          name="regionId"
-          className={style.field}
-        />
+          <Field
+            component={RegionSelect}
+            label={i18n.t('region')}
+            name="regionId"
+            className={style.field}
+          />
+        </div>
 
         <Field
           disabled

@@ -23,6 +23,7 @@ const validationSchema = Yup.object().shape({
     .max(40)
     .required('Required'),
   description: Yup.string()
+    .min(4)
     .max(120)
     .required('Required'),
   url: Yup.string()
