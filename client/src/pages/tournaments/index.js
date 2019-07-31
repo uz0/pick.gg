@@ -50,8 +50,8 @@ class Tournaments extends Component {
               const dateMonth = moment(tournament.date).format('MMM');
               const dateDay = moment(tournament.date).format('DD');
               const championsLength = tournament.viewers && tournament.viewers.length;
-              const tournamentName = tournament.name || 'No name';
-              const price = tournament.price === 0 ? 'Free' : `$${tournament.price}`;
+              const tournamentName = tournament.name || i18n.t('no_name');
+              const price = tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
 
               return (
                 <Link key={tournament._id} to={`/tournaments/${tournament._id}`} className={style.item}>

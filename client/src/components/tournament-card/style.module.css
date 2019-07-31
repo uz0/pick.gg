@@ -3,6 +3,9 @@
   border-radius: 6px;
   position: relative;
   overflow: hidden;
+  background: url('assets/play-with.jpg') no-repeat;
+  background-size: cover;
+  background-position: center right;
 }
 
 .card .date {
@@ -97,4 +100,11 @@
   font-weight: 600;
   color: #fff;
   text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+  .card {
+    background-position: -60px center;
+    background-size: 150% 100%;
+  }
 }
