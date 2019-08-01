@@ -8,7 +8,7 @@ import Button from 'components/button';
 import { withCaptions } from 'hoc';
 import { REWARD_POSITIONS } from '../../constants';
 import style from './style.module.css';
-
+import i18n from 'i18next';
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
@@ -33,13 +33,13 @@ const Rewards = ({ tournament, isCurrentUserCreator, addRewards, editRewards, cl
           className={style.button}
           onClick={editRewards}
         >
-          Edit
+          {i18n.t('add')}
         </button>
       )}
     </div>
 
     {tournament.unfoldedRewards && tournament.unfoldedRewards.length === 0 && (
-      <p className={style.empty}>Add rewards</p>
+      <p className={style.empty}>{i18n.t('add_rewards')}</p>
     )}
 
     <div className={style.content}>
@@ -67,8 +67,8 @@ const Rewards = ({ tournament, isCurrentUserCreator, addRewards, editRewards, cl
                     </div>
                     <div className={style.position}>
                       {
-                        `For ${REWARD_POSITIONS[tournament.rewards[reward._id]].role} and
-                        ${REWARD_POSITIONS[tournament.rewards[reward._id]].place} place`
+                        `${i18n.t('for')} ${REWARD_POSITIONS[tournament.rewards[reward._id]].role} ${i18n.t('and')}
+                        ${REWARD_POSITIONS[tournament.rewards[reward._id]].place} ${i18n.t('place')}`
                       }
                     </div>
                   </div>

@@ -7,6 +7,7 @@ import moment from 'moment';
 import classnames from 'classnames';
 import Icon from 'components/icon';
 import style from './style.module.css';
+import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
@@ -30,24 +31,24 @@ const Information = props => {
   const getTournamentStatus = () => {
     if (isCurrentUserCreator) {
       if (isEmpty) {
-        return 'Add rules, matches and rewards';
+        return i18n.t('add_rules_matches_rewards');
       }
 
       if ((!isReadyForForecasts && !isEmpty) && isApplicationsAvailable) {
-        return 'Add summoners or approve applicants';
+        return i18n.t('add_summoners_applicants');
       }
 
       if ((!isApplicationsAvailable && !isFinalized) && isReadyForForecasts) {
-        return 'Let your viewers make forecasts';
+        return i18n.t('let_viewers_make_forecastsadd_summoners_applicants');
       }
     }
 
     if ((!isReadyForForecasts && !isEmpty) && isApplicationsAvailable) {
-      return 'Waiting for applicants and summoners';
+      return i18n.t('waiting_applicants');
     }
 
     if (isReadyForForecasts) {
-      return 'Waiting for viewers forecasts';
+      return i18n.t('waiting_viewers');
     }
 
     if (isStarted && !isFinalized) {
@@ -59,7 +60,7 @@ const Information = props => {
     }
   };
 
-  const isPrice = price === 0 ? 'Free' : `$ ${price}`;
+  const isPrice = price === 0 ? i18n.t('free') : `$ ${price}`;
 
   return (
     <div className={cx(style.information, className)}>
@@ -71,7 +72,7 @@ const Information = props => {
             className={style.button}
             onClick={props.editTournament}
           >
-            Edit
+            {i18n.t('edit')}
           </button>
         )}
       </div>
@@ -79,12 +80,12 @@ const Information = props => {
       <div className={style.content}>
         <div className={style.info}>
           <div className={style.item}>
-            <div className={style.key}>Created at:</div>
+            <div className={style.key}>{i18n.t('created_at')}:</div>
             <div className={style.value}>{createdAt}</div>
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>Creator: </div>
+            <div className={style.key}>{i18n.t('creator')}: </div>
             <div className={style.value}>
               <Link className={style.creator} to={`/user/${creator._id}`}>
                 {creator.username}<Icon name="star"/>
@@ -93,19 +94,19 @@ const Information = props => {
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>Stream link:</div>
+            <div className={style.key}>{i18n.t('stream_link')}:</div>
             <div className={style.value}>
-              <a target="blank" href={url}>link</a>
+              <a target="blank" href={url}>{i18n.t('link')}</a>
             </div>
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>Price:</div>
+            <div className={style.key}>{i18n.t('price')}:</div>
             <div className={style.value}>{isPrice}</div>
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>Status:</div>
+            <div className={style.key}>{i18n.t('status')}:</div>
             <div className={style.value}>{getTournamentStatus()}</div>
           </div>
         </div>

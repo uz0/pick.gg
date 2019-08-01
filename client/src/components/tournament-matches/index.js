@@ -12,6 +12,7 @@ import { withCaptions } from 'hoc';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import style from './style.module.css';
+import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
@@ -157,13 +158,13 @@ class Matches extends Component {
               className={style.button}
               onClick={this.addMatch}
             >
-              Add
+              {i18n.t('add')}
             </button>
           )}
         </div>
 
         {isCurrentUserCreator && matches.length === 0 && (
-          <p className={style.empty}>You can add matches</p>
+          <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>
         )}
 
         <div className={style.content}>
@@ -183,7 +184,7 @@ class Matches extends Component {
               items={matches}
               renderRow={this.renderRow}
               className={style.table}
-              emptyMessage="There is no matches yet"
+              emptyMessage={i18n.t('no_matches_yet')}
             />
           )}
         </div>

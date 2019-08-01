@@ -15,6 +15,8 @@ import Button from 'components/button';
 import style from './style.module.css';
 import { withHandlers } from 'recompose';
 
+import i18n from 'i18next';
+
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
@@ -87,25 +89,25 @@ const Summoners = ({
             className={style.button}
             onClick={addSummoners}
           >
-              Edit
+            Edit
           </button>
         )}
       </div>
 
       {isCurrentUserCreator && summoners.length === 0 && (
-        <p className={style.empty}>You can choose summoners</p>
+        <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
       )}
 
       {!isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && (
-        <p className={style.empty}>You can apply as summoner</p>
+        <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
       )}
 
       {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
-        <p className={style.empty}>You applied as summoner</p>
+        <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
       )}
 
       {isApplicantRejected && (
-        <p className={style.empty}>Your application was rejeceted</p>
+        <p className={style.empty}>{i18n.t('application_rejected')}</p>
       )}
 
       <div className={style.content}>
@@ -121,7 +123,7 @@ const Summoners = ({
         {!isCurrentUserCreator && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
           <Button
             appearance="_basic-accent"
-            text="Apply as summoner"
+            text={i18n.t('apply_summoner')}
             className={style.button}
             onClick={debounce(applyTournament, 400)}
           />
@@ -166,7 +168,7 @@ export default compose(
         props.showNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: 'Вы уже подали заявку на участие в турнире',
+          message: i18n.t('you_send_join'),
         });
 
         return;
