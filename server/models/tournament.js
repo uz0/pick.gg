@@ -33,7 +33,21 @@ const schema = new Schema(
       type: Boolean,
       default: false
     },
-    winner: refTo('User'),
+    isFinalized: {
+      type: Boolean,
+      default: false
+    },
+    winners: [
+      {
+        _id: false,
+        id: refTo('User'),
+        position: {
+          type: String,
+          enum: ['summoner', 'viewer'],
+        },
+        place: Number,
+      }
+    ],
     creator: refTo('User'),
     summoners: [refTo('User')],
     applicants: [
@@ -78,10 +92,6 @@ schema.virtual('isApplicationsAvailable').get(function () {
     return true;
   }
 
-  return false;
-});
-
-schema.virtual('isFinalized').get(function () {
   return false;
 });
 

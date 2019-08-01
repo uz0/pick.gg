@@ -9,8 +9,9 @@ import * as getRewards from './rewards/get';
 import * as getById from './getById';
 import * as edit from './edit';
 import * as forecastStatus from './forecastStatus';
-import * as start from './start'
-import * as applicantStatus from './applicantStatus'
+import * as start from './start';
+import * as finalize from './finalize';
+import * as applicantStatus from './applicantStatus';
 
 import matchController from './match';
 
@@ -36,6 +37,8 @@ const TournamentController = io => {
   router.patch('/:id/view', view.validator, view.handler);
 
   router.patch('/:id/start', start.validator, start.handler);
+
+  router.patch('/:id/finalize', finalize.validator, finalize.handler);
 
   router.patch('/:id/rewards', editRewards.validator, editRewards.handler);
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http } from 'helpers';
@@ -57,6 +58,15 @@ class Tournament extends Component {
 
   startMatches = async () => {
     const response = await http(`/api/tournaments/${this.props.match.params.id}/start`, { method: 'PATCH' });
+    const tournament = await response.json();
+
+    this.props.updateTournament({
+      ...tournament,
+    });
+  };
+
+  finalizeTournament = async () => {
+    const response = await http(`/api/tournaments/${this.props.match.params.id}/finalize`, { method: 'PATCH' });
     const tournament = await response.json();
 
     this.props.updateTournament({
@@ -156,6 +166,7 @@ class Tournament extends Component {
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
+    const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.isActive === true);
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -178,6 +189,15 @@ class Tournament extends Component {
                 text="Start tournament"
                 appearance="_basic-accent"
                 onClick={this.startMatches}
+              />
+            )}
+
+            {isCurrentUserCreator && isStarted && (
+              <Button
+                disabled={isFinalizeButtonDisabled}
+                text="Finalize tournament"
+                appearance="_basic-accent"
+                onClick={debounce(this.finalizeTournament, 1000)}
               />
             )}
           </div>
