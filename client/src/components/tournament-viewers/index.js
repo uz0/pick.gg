@@ -54,6 +54,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
 };
 
 const Viewers = ({
+  tournament,
   joinTournament,
   viewers,
   currentUserSummoners,
@@ -66,7 +67,7 @@ const Viewers = ({
     </div>
 
     <div className={style.content}>
-      {currentUserSummoners.length === 0 && (
+      {currentUserSummoners.length === 0 && tournament.isForecastingActive && (
         <div className={style.attend}>
           <Button
             text={i18n.t('join_tournament')}
