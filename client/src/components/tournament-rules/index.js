@@ -54,7 +54,7 @@ const Rules = ({ rules, isCurrentUserCreator, captions, addRules, editRules, cla
           className={style.button}
           onClick={editRules}
         >
-          Edit
+          ${i18n.t('edit')}
         </button>
       )}
     </div>
@@ -81,7 +81,7 @@ const Rules = ({ rules, isCurrentUserCreator, captions, addRules, editRules, cla
           renderRow={renderRow}
           isLoading={false}
           className={style.table}
-          emptyMessage="There is no rules yet"
+          emptyMessage={i18n.t('no_rules_yet')}
         />
       )}
     </div>

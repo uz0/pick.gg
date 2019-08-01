@@ -10,6 +10,8 @@ import { withCaptions } from 'hoc';
 import style from './style.module.css';
 import { calcSummonersPoints } from 'helpers';
 
+import i18n from 'i18next';
+
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
@@ -60,14 +62,14 @@ const Viewers = ({
 }) => (
   <div className={cx(style.viewers, className)}>
     <div className={style.header}>
-      <h3 className={style.subtitle}>Viewers</h3>
+      <h3 className={style.subtitle}>{i18n.t('viewers')}</h3>
     </div>
 
     <div className={style.content}>
       {currentUserSummoners.length === 0 && (
         <div className={style.attend}>
           <Button
-            text="Join tournament"
+            text={i18n.t('join_tournament')}
             appearance="_basic-accent"
             className={style.button}
             onClick={joinTournament}
@@ -77,7 +79,7 @@ const Viewers = ({
 
       {currentUserSummoners.length > 0 && (
         <div className={style.forecast}>
-          <div className={style.title}>Your summoners:</div>
+          <div className={style.title}>{i18n.t('your_summoners')}:</div>
           <div className={style.list}>
             {currentUserSummoners.map(summoner => {
               return (
@@ -113,7 +115,7 @@ const Viewers = ({
           items={viewers}
           renderRow={renderRow}
           className={style.table}
-          emptyMessage="There is no viewers yet"
+          emptyMessage={i18n.t('no_viewers_yet')}
         />
       )}
     </div>
