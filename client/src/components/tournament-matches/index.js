@@ -107,7 +107,7 @@ class Matches extends Component {
           <span className={textClass}>{name}</span>
         </div>
 
-        {isCurrentUserCreator && (
+        {isCurrentUserCreator && isStarted && (
           <button
             type="button"
             className={style.button}

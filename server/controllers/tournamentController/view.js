@@ -1,43 +1,38 @@
 import { param, body, check } from 'express-validator/check';
 
-import Tournament from '../../models/tournament';
-import User from '../../models/user';
+// import Tournament from '../../models/tournament';
+// import User from '../../models/user';
+import Tournament from '../../models/tournament'
 
 import { isEntityExists } from '../validators';
 import { withValidationHandler } from '../helpers';
 
 export const validator = [
   param('id').custom(id => isEntityExists(id, Tournament)),
-  param('id').custom(id =>
-    Tournament.findById(id)
-      .exec()
-      .then(
-        ({ isReady }) =>
-          !isReady || Promise.reject("You can't apply as viewer if tournament is ready")
-      )
-  ),
-  check('userId')
+  check('id')
     .custom(async (_, { req }) => {
       const { _id: userId } = req.decoded;
       const { summoners } = req.body;
       const { id } = req.params;
 
-      const { viewers } = await Tournament.findById(id).exec();
-
-      const isAlreadyViewer = viewers.find(viewer => viewer.userId === userId);
-
-      if (isAlreadyViewer) {
-        throw new Error('User already is a viewer');
+      try {
+        // const tournament = await Tournament.find({ _id: id });
+        // const isAlreadyViewer = tournament.viewers.find(viewer => viewer.userId === userId);
+  
+        // if (isAlreadyViewer) {
+        //   throw new Error('User already is a viewer');
+        // }
+  
+        // if(!summoners){
+        //   throw new Error("You can't apply as an viewer without choosing summoners");
+        // }
+  
+        // if(summoners.length > 5){
+        //   throw new Error("You can't choose more than 5 summoners");
+        // }
+      } catch (error) {
+        console.log(error);
       }
-
-      if(!summoners){
-        throw new Error("You can't apply as an viewer without choosing summoners");
-      }
-
-      if(summoners.length > 5){
-        throw new Error("You can't choose more than 5 summoners");
-      }
-
       return true;
     })
 ];
@@ -47,12 +42,10 @@ export const handler = withValidationHandler(async (req, res) => {
   const { _id: userId } = req.decoded;
   const { summoners } = req.body;
 
-  await Tournament
-  .update(
+  await Tournament.update(
     { _id: id },
     { $push: { viewers: { userId, summoners } }
-  })
-  .save();
+  });
 
   const modifiedTournament = await Tournament
     .findById(id)

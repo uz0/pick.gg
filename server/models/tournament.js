@@ -19,7 +19,8 @@ const schema = new Schema(
     },
     rewards: {
       type: Map,
-      of: String
+      of: String,
+      default: {},
     },
     rules: {
       type: Map,
@@ -80,7 +81,7 @@ schema.virtual('matches', {
   foreignField: 'tournamentId'
 });
 
-schema.virtual('isEmpty').get(function () {
+schema.virtual('isEmpty').get(function() {
   if (isEmpty(this.rules) || isEmpty(this.rewards) || this.matches.length === 0) {
     return true;
   }
@@ -88,7 +89,7 @@ schema.virtual('isEmpty').get(function () {
   return false;
 });
 
-schema.virtual('isApplicationsAvailable').get(function () {
+schema.virtual('isApplicationsAvailable').get(function() {
   if (!this.isEmpty && !this.isForecastingActive && !this.isStarted) {
     return true;
   }
