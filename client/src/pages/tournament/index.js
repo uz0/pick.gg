@@ -192,7 +192,7 @@ class Tournament extends Component {
               />
             )}
 
-            {isCurrentUserCreator && isStarted && (
+            {isCurrentUserCreator && isStarted && !isFinalized && (
               <Button
                 disabled={isFinalizeButtonDisabled}
                 text="Finalize tournament"

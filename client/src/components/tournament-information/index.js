@@ -50,8 +50,12 @@ const Information = props => {
       return 'Waiting for viewers forecasts';
     }
 
-    if (isStarted) {
+    if (isStarted && !isFinalized) {
       return 'Tournament is going on!';
+    }
+
+    if (isFinalized) {
+      return 'Tournament is over!';
     }
   };
 

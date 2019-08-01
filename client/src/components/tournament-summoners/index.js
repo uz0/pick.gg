@@ -34,10 +34,12 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const renderRow = ({ className, itemClass, textClass, index, item, captions }) => {
+const renderRow = ({ className, itemClass, textClass, index, item, props, captions }) => {
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
+
+  const isSummonerWinner = props.find(summoner => summoner.id === item._id);
 
   return (
     <div key={item._id} className={cx(className, style.row)}>
@@ -46,7 +48,10 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
       </div>
 
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.summonerName}</span>
+        <span className={textClass}>
+          {item.summonerName}
+          {isSummonerWinner && <span className={style.is_winner}> is winner</span>}
+        </span>
       </div>
 
       {item.points > 0 && (
@@ -60,6 +65,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
 
 const Summoners = ({
   captions,
+  winners,
   summoners,
   className,
   isCurrentUserCreator,
@@ -126,6 +132,7 @@ const Summoners = ({
             noCaptions
             captions={captions}
             items={summoners}
+            withProps={winners}
             renderRow={renderRow}
             isLoading={false}
             className={style.table}
@@ -178,7 +185,7 @@ export default compose(
     },
   }),
   withProps(props => {
-    const { creator, matches, rules, isApplicationsAvailable } = props.tournament;
+    const { creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
     const currentUserId = props.currentUser && props.currentUser._id;
 
@@ -192,6 +199,7 @@ export default compose(
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
+        winners,
         isCurrentUserCreator,
         isApplicationsAvailable,
         isAlreadySummonerOrApplicant,
@@ -214,6 +222,7 @@ export default compose(
 
     return {
       ...props,
+      winners,
       isCurrentUserCreator,
       isApplicationsAvailable,
       isAlreadySummonerOrApplicant,
