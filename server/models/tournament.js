@@ -23,7 +23,8 @@ const schema = new Schema(
     },
     rules: {
       type: Map,
-      of: Number
+      of: Number,
+      default: {},
     },
     isForecastingActive: {
       type: Boolean,

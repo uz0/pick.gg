@@ -145,14 +145,17 @@ class Matches extends Component {
 
     const matches = get(this.props, 'tournament.matches');
     const creator = get(this.props, 'tournament.creator');
+    const isStarted = get(this.props, 'tournament.isStarted');
+    const isFinalized = get(this.props, 'tournament.isFinalized');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
+    const isEditingAvailable = isCurrentUserCreator && matches.length > 0 && !isStarted;
 
     return (
       <div className={cx(style.matches, className)}>
         <div className={style.header}>
           <h3 className={style.subtitle}>Matches</h3>
-          {isCurrentUserCreator && matches.length > 0 && (
+          {isEditingAvailable && (
             <button
               type="button"
               className={style.button}

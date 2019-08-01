@@ -23,11 +23,18 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const Rewards = ({ tournament, isCurrentUserCreator, addRewards, editRewards, className }) => (
+const Rewards = ({
+  tournament,
+  isAddButtonVisible,
+  isCurrentUserCreator,
+  addRewards,
+  editRewards,
+  className,
+}) => (
   <div className={cx(style.rewards, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>Rewards</h3>
-      {isCurrentUserCreator && !isEmpty(tournament.rewards) && (
+      {isAddButtonVisible && (
         <button
           type="button"
           className={style.button}
@@ -92,9 +99,13 @@ export default compose(
   ),
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
+    const isAddButtonVisible = isCurrentUserCreator &&
+      !props.tournament.isStarted &&
+      props.tournament.unfoldedRewards.length > 0;
 
     return {
       ...props,
+      isAddButtonVisible,
       isCurrentUserCreator,
     };
   }),

@@ -15,6 +15,7 @@ const Information = props => {
   const creator = get(props, 'tournament.creator');
   const createdAt = moment(get(props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
   const description = get(props, 'tournament.description');
+  const className = get(props, 'className');
   const price = get(props, 'tournament.price');
   const url = get(props, 'tournament.url');
 
@@ -26,7 +27,8 @@ const Information = props => {
   const isStarted = get(props, 'tournament.isStarted');
   const isFinalized = get(props, 'tournament.isFinalized');
 
-  const className = get(props, 'className');
+  const isTournamentFree = price === 0 ? i18n.t('free') : `$ ${price}`;
+  const isEditingAvailable = isCurrentUserCreator && !isStarted;
 
   const getTournamentStatus = () => {
     if (isCurrentUserCreator) {
@@ -60,13 +62,11 @@ const Information = props => {
     }
   };
 
-  const isPrice = price === 0 ? i18n.t('free') : `$ ${price}`;
-
   return (
     <div className={cx(style.information, className)}>
       <div className={style.header}>
         <h3 className={style.subtitle}>Information</h3>
-        {isCurrentUserCreator && (
+        {isEditingAvailable && (
           <button
             type="button"
             className={style.button}
@@ -102,7 +102,7 @@ const Information = props => {
 
           <div className={style.item}>
             <div className={style.key}>{i18n.t('price')}:</div>
-            <div className={style.value}>{isPrice}</div>
+            <div className={style.value}>{isTournamentFree}</div>
           </div>
 
           <div className={style.item}>

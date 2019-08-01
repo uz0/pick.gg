@@ -1,19 +1,17 @@
 import React from 'react';
-import compose from 'recompose/compose';
-import withProps from 'recompose/withProps';
+import { connect } from 'react-redux';
+import { compose, withHandlers, withProps } from 'recompose';
 import pick from 'lodash/pick';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
-import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http, calcSummonersPoints } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
-import notificationActions from 'components/notification/actions';
 import { withCaptions } from 'hoc';
+import notificationActions from 'components/notification/actions';
 import Table from 'components/table';
 import Button from 'components/button';
 import style from './style.module.css';
-import { withHandlers } from 'recompose';
 
 import i18n from 'i18next';
 
@@ -71,6 +69,7 @@ const Summoners = ({
   summoners,
   className,
   isCurrentUserCreator,
+  isEditingAvailable,
   isAlreadySummonerOrApplicant,
   isApplicationsAvailable,
   isApplicantRejected,
@@ -83,7 +82,7 @@ const Summoners = ({
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
         <h3 className={style.subtitle}>Summoners</h3>
-        {isCurrentUserCreator && summoners && summoners.length > 0 && (
+        {isEditingAvailable && (
           <button
             type="button"
             className={style.button}
@@ -192,6 +191,7 @@ export default compose(
     const currentUserId = props.currentUser && props.currentUser._id;
 
     const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
+    const isEditingAvailable = isCurrentUserCreator && !props.tournament.isStarted;
 
     const isAlreadyApplicant = find(props.tournament.applicants, { user: currentUserId });
     const isAlreadySummoner = props.tournament.summoners.includes(currentUserId);
@@ -203,6 +203,7 @@ export default compose(
         ...props,
         winners,
         isCurrentUserCreator,
+        isEditingAvailable,
         isApplicationsAvailable,
         isAlreadySummonerOrApplicant,
         isAlreadyApplicant,
@@ -226,6 +227,7 @@ export default compose(
       ...props,
       winners,
       isCurrentUserCreator,
+      isEditingAvailable,
       isApplicationsAvailable,
       isAlreadySummonerOrApplicant,
       isApplicantRejected,
