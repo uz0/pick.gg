@@ -69,8 +69,8 @@ const Summoners = ({
   summoners,
   className,
   isCurrentUserCreator,
+  isUserCanApply,
   isEditingAvailable,
-  isAlreadySummonerOrApplicant,
   isApplicationsAvailable,
   isApplicantRejected,
   isAlreadyApplicant,
@@ -97,7 +97,7 @@ const Summoners = ({
         <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
       )}
 
-      {!isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && (
+      {isUserCanApply && (
         <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
       )}
 
@@ -198,6 +198,8 @@ export default compose(
     const isAlreadySummonerOrApplicant = isAlreadyApplicant || isAlreadySummoner;
     const isApplicantRejected = find(props.tournament.applicants, { user: currentUserId, status: 'REJECTED' });
 
+    const isUserCanApply = !isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
+
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
@@ -205,7 +207,7 @@ export default compose(
         isCurrentUserCreator,
         isEditingAvailable,
         isApplicationsAvailable,
-        isAlreadySummonerOrApplicant,
+        isUserCanApply,
         isAlreadyApplicant,
         isApplicantRejected,
         isAlreadySummoner,
@@ -229,7 +231,7 @@ export default compose(
       isCurrentUserCreator,
       isEditingAvailable,
       isApplicationsAvailable,
-      isAlreadySummonerOrApplicant,
+      isUserCanApply,
       isApplicantRejected,
       isAlreadyApplicant,
       isAlreadySummoner,
