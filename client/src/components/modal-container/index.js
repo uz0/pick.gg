@@ -10,6 +10,7 @@ import AddRules from './tournament-rules';
 import AddRewards from './tournament-rewards';
 import EditTournament from './edit-tournament';
 import JoinTournamentPlayers from './join-tournament-players';
+import EditUser from './dashboard-edit-user-modal';
 import EditMatch from './edit-match';
 import Reward from './reward';
 import modalActions from './actions';
@@ -25,6 +26,7 @@ const modals = {
   'join-tournament-players-modal': JoinTournamentPlayers,
   'edit-match-modal': EditMatch,
   'edit-tournament-modal': EditTournament,
+  'user-modal': EditUser,
 };
 
 class ModalContainer extends Component {
