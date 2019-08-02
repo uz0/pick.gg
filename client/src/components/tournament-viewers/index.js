@@ -31,7 +31,7 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const renderRow = ({ className, itemClass, textClass, index, item, captions }) => {
+const renderRow = ({ className, itemClass, textClass, index, item, props: tournament, captions }) => {
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
@@ -46,9 +46,11 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
         <span className={textClass}>{item.user && item.user.username}</span>
       </div>
 
-      <div className={itemClass} style={pointsStyle}>
-        <span className={cx(textClass, style.points)}>{item.points}</span>
-      </div>
+      {tournament.isStarted && (
+        <div className={itemClass} style={pointsStyle}>
+          <span className={cx(textClass, style.points)}>{item.points}</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -114,6 +116,7 @@ const Viewers = ({
           noCaptions
           captions={captions}
           items={viewers}
+          withProps={tournament}
           renderRow={renderRow}
           className={style.table}
           emptyMessage={i18n.t('no_viewers_yet')}
