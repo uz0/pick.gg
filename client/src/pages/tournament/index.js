@@ -173,7 +173,7 @@ class Tournament extends Component {
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
-    const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.isActive === true);
+    const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);
 
     return (
       <div className={cx('tournament', 'container')}>

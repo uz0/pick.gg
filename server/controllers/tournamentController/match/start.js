@@ -23,12 +23,10 @@ export const handler = withValidationHandler(async (req, res) => {
   await Match.update(
     { _id: matchId },
     { $set: { isActive: true, startedAt: Date.now() } },
-    { new: true }
   ).exec();
 
   const modifiedTournament = await Tournament
     .findById(tournamentId)
-    .populate('winner')
     .populate('creatorId')
     .populate('applicants')
     .populate('matches')
