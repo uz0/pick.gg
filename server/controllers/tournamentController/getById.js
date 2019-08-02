@@ -16,9 +16,9 @@ export const handler = withValidationHandler(async (req, res) => {
         .findById(id)
         .populate('winner')
         .populate('creatorId')
-        .populate('summoners')
         .populate('applicants')
         .populate('matches')
+        .populate('creator', '_id username summonerName')
         .exec();
         res.json(tournament);
         

@@ -5,7 +5,7 @@ let router = express.Router();
 
 const PublicUsersController = () => {
   router.get('/', async (req, res) => {
-    const users = await UserModel.find().select('-password -summonerName -isAdmin');
+    const users = await UserModel.find().select('-isAdmin');
 
     res.json({
       users,

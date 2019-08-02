@@ -1,74 +1,92 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import groupBy from 'lodash/groupBy';
 import partition from 'lodash/partition';
 import flatten from 'lodash/flatten';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
-import withStateHandlers from 'recompose/withStateHandlers';
-import withHandlers from 'recompose/withHandlers';
 import compose from 'recompose/compose';
+import withStateHandlers from 'recompose/withStateHandlers';
+import withProps from 'recompose/withProps';
+import withHandlers from 'recompose/withHandlers';
+
+import { http } from 'helpers';
+import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Modal from 'components/modal';
 
 import style from './style.module.css';
-import withProps from 'recompose/withProps';
 
 const cx = classnames.bind(style);
 
-const _players = [
-  { _id: '1dsfdsfffwee', name: 'ADD', position: 'Top' },
-  { _id: '2dsfdsfffwee', name: 'Aiming', position: 'Top' },
-  { _id: '3dsfdsfffwee', name: 'Alphari', position: 'Top' },
-  { _id: '4dsfdsfffwee', name: 'AmazingJ', position: 'Top' },
-  { _id: '5dsfdsfffwee', name: 'Bang', position: 'Top' },
-  { _id: '6dsfdsfffwee', name: 'Biubiu', position: 'Top' },
-  { _id: '7dsfdsfffwee', name: 'Bjergsen', position: 'Top' },
-  { _id: '8dsfdsfffwee', name: 'Broken', position: 'Top' },
-  { _id: 'd11sfdsfffwee', name: 'Sangyoon', position: 'Top' },
-  { _id: '22dsfdsfffwee', name: 'Selfmade', position: 'Top' },
-  { _id: 'dsfdfdsfffwee', name: 'ShowMaker', position: 'Top' },
-  { _id: 'dssdfdsfffwee', name: 'Santorin', position: 'Top' },
-  { _id: 'ddfdsdsfdsfffwee', name: '369', position: 'Top' },
-  { _id: 'dddfdsdsfdsfffwee', name: '169', position: 'Top' },
-  { _id: 'dfdfdsdsfdsfffwee', name: '669', position: 'Top' },
-];
-
 const enhance = compose(
+  connect(
+    null,
+
+    {
+      updateTournament: tournamentsActions.updateTournament,
+    }
+  ),
   withStateHandlers(
-    ({ options }) => ({
-      selectedPlayers: options.values.length > 0 ? options.values : [],
-      filter: '',
-    }),
+    ({ options }) => {
+      const summoners = Object
+        .values(options.summoners)
+        .filter(summoner => summoner.summonerName !== '')
+        .sort((summoner, nextsummoner) => summoner.summonerName.localeCompare(nextsummoner.summonerName));
+
+      return {
+        selectedSummoners: options.selectedSummoners.length > 0 ? options.selectedSummoners : [],
+        summonersList: summoners,
+        filter: '',
+      };
+    },
+
     {
       clearFilter: state => () => ({ ...state, filter: '' }),
       handleFilterInput: state => e => ({ ...state, filter: e.target.value }),
-      toggleSelectPlayer: state => id => {
-        const { selectedPlayers } = state;
-        console.log(state);
-        if (selectedPlayers.length >= 10) {
+      toggleSelectSummoner: state => id => {
+        const { selectedSummoners } = state;
+        if (selectedSummoners.length >= 10) {
           return state;
         }
 
         return {
           ...state,
-          selectedPlayers: selectedPlayers.includes(id) ?
-            selectedPlayers.filter(nextId => nextId !== id) :
-            [...selectedPlayers, id],
+          selectedSummoners: selectedSummoners.includes(id) ?
+            selectedSummoners.filter(nextId => nextId !== id) :
+            [...selectedSummoners, id],
         };
       },
     }
   ),
   withHandlers({
-    choose: props => () => {
-      props.options.onChoose(props.selectedPlayers);
+    choose: props => async () => {
+      const { selectedSummoners } = props;
+      const { tournamentId } = props.options;
 
-      props.close();
+      try {
+        await http(`/api/tournaments/${tournamentId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify({ summoners: selectedSummoners }),
+        });
+
+        props.updateTournament({
+          _id: tournamentId,
+          summoners: selectedSummoners,
+        });
+
+        props.close();
+      } catch (error) {
+        console.log(error);
+      }
     },
   }),
   withProps(({ choose }) => ({
-    getSortedKeys: keys =>
-      flatten(partition(keys, key => isNaN(parseInt(key, 10)))),
+    getSortedKeys: keys => flatten(partition(keys, key => isNaN(parseInt(key, 10)))),
     actions: [
       {
         text: 'Choose',
@@ -80,36 +98,37 @@ const enhance = compose(
 );
 
 export default enhance(props => {
-  const players = filter(_players, player =>
-    player.name.toLowerCase().startsWith(props.filter.toLowerCase())
+  const { summonersList } = props;
+
+  const summoners = filter(summonersList, summoner =>
+    summoner.summonerName.toLowerCase().startsWith(props.filter.toLowerCase())
   );
-  const group = groupBy(players, player => player.name[0]);
-  const isSelectedPlayersShown = props.selectedPlayers.length > 0;
-  console.log(isSelectedPlayersShown);
+  const group = groupBy(summoners, summoner => summoner.summonerName[0]);
+
+  const isSelectedSummoners = props.selectedSummoners.length > 0;
   const isFiltering = props.filter.length > 0;
-  console.log(props);
   return (
     <Modal
-      title="Choose tournament players"
+      title="Choose tournament summoners"
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
       actions={props.actions}
     >
       <div className={style.sidebar}>
-        <h3 className={style.title}>Choosen players</h3>
+        <h3 className={style.title}>Choosen summoners</h3>
 
-        {isSelectedPlayersShown ? (
-          props.selectedPlayers.map((id, index) => {
-            const player = find(_players, { _id: id });
+        {isSelectedSummoners ? (
+          props.selectedSummoners.map((id, index) => {
+            const summoner = find(summoners, { _id: id });
             return (
-              <p key={player._id} className={style.player}>
-                {index + 1}. {player.name}
+              <p key={summoner._id} className={style.summoner}>
+                {index + 1}. {summoner.summonerName}
               </p>
             );
           })
         ) : (
-          <p className={style.empty}>You haven`t chosen any players yet</p>
+          <p className={style.empty}>You haven`t chosen any summoners yet</p>
         )}
       </div>
 
@@ -117,7 +136,7 @@ export default enhance(props => {
         <div className={style.search_container}>
           <input
             className={style.field}
-            placeholder="Find a player"
+            placeholder="Find a summoner by name"
             value={props.filter}
             onInput={props.handleFilterInput}
           />
@@ -131,20 +150,20 @@ export default enhance(props => {
           </button>
         </div>
 
-        <div className={style.players}>
+        <div className={style.summoners}>
           {isFiltering ? (
             <div className={style.section}>
               <div className={style.list}>
-                {players.map(player => (
+                {summoners.map(summoner => (
                   <button
-                    key={player._id}
+                    key={summoner._id}
                     className={cx('item', {
-                      '_is-selected': props.selectedPlayers.includes(player._id),
+                      '_is-selected': props.selectedSummoners.includes(summoner._id),
                     })}
                     type="button"
-                    onClick={() => props.toggleSelectPlayer(player._id)}
+                    onClick={() => props.toggleSelectSummoner(summoner._id)}
                   >
-                    {player.name}
+                    {summoner.summonerName}
                   </button>
                 ))}
               </div>
@@ -155,18 +174,18 @@ export default enhance(props => {
                 <h3 className={style.letter}>{key}</h3>
 
                 <div className={style.list}>
-                  {group[key].map(player => (
+                  {group[key].map(summoner => (
                     <button
-                      key={player._id}
+                      key={summoner._id}
                       className={cx('item', {
-                        '_is-selected': props.selectedPlayers.includes(
-                          player._id
+                        '_is-selected': props.selectedSummoners.includes(
+                          summoner._id
                         ),
                       })}
                       type="button"
-                      onClick={() => props.toggleSelectPlayer(player._id)}
+                      onClick={() => props.toggleSelectSummoner(summoner._id)}
                     >
-                      {player.name}
+                      {summoner.summonerName}
                     </button>
                   ))}
                 </div>

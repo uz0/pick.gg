@@ -14,6 +14,7 @@
 .card .content .name {
   font-size: 14px;
   text-align: center;
+  color: #fff;
 }
 
 .card .content svg {
@@ -32,6 +33,9 @@
   margin-top: 20px;
   background-image: linear-gradient(270deg,#3eb4f8,#3e6ef8);
   transition: all 0.3s;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 50px;
 }
 
 .card .content .claim:hover {

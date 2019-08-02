@@ -8,11 +8,12 @@ export default mongoose.model('Match',
     tournamentId: refTo('Tournament'),
     name: String,
     playersResults: [{
+      _id: false,
       userId: refTo('User'),
-      results: [{
-        ruleName: String,
-        value: Number
-      }]
+      results: {
+        type: Map,
+        of: Number
+      }
     }],
     isActive: Boolean,
     startedAt: Date,

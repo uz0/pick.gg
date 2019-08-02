@@ -1,746 +1,255 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-
-import Button from 'components/button';
-import Preloader from 'components/preloader';
-import Table from 'components/table';
-
-import i18n from 'i18n';
-import moment from 'moment';
-import uuid from 'uuid';
-import ym from 'react-yandex-metrika';
-
-import find from 'lodash/find';
-import groupBy from 'lodash/groupBy';
-import cloneDeep from 'lodash/cloneDeep';
-import every from 'lodash/every';
-import findIndex from 'lodash/findIndex';
-
-import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
-import Avatar from 'assets/avatar-placeholder.svg';
-
+import compose from 'recompose/compose';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
+import { http } from 'helpers';
+import i18n from 'i18n';
+import Button from 'components/button';
+import TournamentInformation from 'components/tournament-information';
+import TournamentMatches from 'components/tournament-matches';
+import TournamentRewards from 'components/tournament-rewards';
+import TournamentRules from 'components/tournament-rules';
+import TournamentSummoners from 'components/tournament-summoners';
+import TournamentViewers from 'components/tournament-viewers';
+import TournamentApplicants from 'components/tournament-applicants';
+import TournamentInvite from 'components/tournament-invite';
+import { actions as usersActions } from 'pages/dashboard/users';
+import { actions as tournamentsActions } from 'pages/tournaments';
+import { actions as modalActions } from 'components/modal-container';
+import { actions as notificationActions } from 'components/notification';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const matchInfoTableCaptions = {
-  player: {
-    text: 'Player',
-    width: 120,
-  },
-
-  kill: {
-    text: 'Kills',
-    width: window.innerWidth < 480 ? 50 : 75,
-  },
-
-  death: {
-    text: 'Deaths',
-    width: window.innerWidth < 480 ? 50 : 75,
-  },
-
-  assists: {
-    text: 'Assists',
-    width: window.innerWidth < 480 ? 50 : 75,
-  },
-  total: {
-    text: 'Total',
-    width: window.innerWidth < 480 ? 50 : 75,
-  },
-};
-
-const leadersTableCaptions = {
-  position: {
-    text: i18n.t('position'),
-    width: 55,
-  },
-
-  name: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 100 : 200,
-  },
-
-  points: {
-    text: i18n.t('points'),
-    width: window.innerWidth < 480 ? 100 : 250,
-  },
-};
-
-const matchesTableCaptions = {
-  name: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 100 : 150,
-  },
-
-  points: {
-    text: i18n.t('points'),
-    width: window.innerWidth < 480 ? 75 : 120,
-  },
-
-  date: {
-    text: i18n.t('date'),
-    width: window.innerWidth < 480 ? 75 : 60,
-  },
-};
-
 class Tournament extends Component {
-  state = {
-    fantasyTournament: null,
-    matches: [],
-    users: [],
-    isLoading: true,
-    isChooseChampionModalShown: false,
-    isMatchEditModalShown: false,
-    isSignInDialogShown: false,
-    editingMatchId: '',
-    username: '',
-  };
+  loadTournament = async () => {
+    const tournamentRequest = await http(`/public/tournaments/${this.props.match.params.id}`);
+    const rewardsRequest = await http(`/public/tournaments/${this.props.match.params.id}/rewards`);
 
-  async componentDidMount() {
-    this.loadTournamentData();
-  }
+    const tournament = await tournamentRequest.json();
+    const unfoldedRewards = await rewardsRequest.json();
 
-  componentWillUnmount() {
-    this.socket.close();
-  }
-
-  startStreamerTournament = async () => {
-    const { fantasyTournament } = this.state;
-
-    if (fantasyTournament.users.length === 0) {
-      return;
-    }
-  }
-
-  finalizeStreamerTournament = async () => {
-    const { fantasyTournament } = this.state;
-    const isAllMatchesCompleted = every(this.state.matches, { completed: true });
-
-    if (fantasyTournament.users.length === 0) {
-      return;
-    }
-
-    if (!fantasyTournament.started) {
-      return;
-    }
-
-    if (!isAllMatchesCompleted) {
-      return;
-    }
-  }
-
-  toggleChampionModal = () => this.setState(prevState => ({ isChooseChampionModalShown: !prevState.isChooseChampionModalShown }));
-
-  toggleSignInDialog = () => this.setState(prevState => ({ isSignInDialogShown: !prevState.isSignInDialogShown }));
-
-  redirectToLogin = () => this.props.history.replace(`/?tournamentId=${this.state.fantasyTournament._id}`);
-
-  copyInput = () => {
-    document.querySelector('#copyUrl').select();
-    document.execCommand('copy');
-    this.setState({
-      animate: true,
-    });
-
-    ym('reachGoal', 'copied_invite_link');
-  }
-
-  getFantasyTournamentStatus = () => {
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if (!this.state.currentUser) {
-        return;
-      }
-
-      return item.user._id === this.state.currentUser._id;
-    });
-
-    const tournamentWinner = this.state.fantasyTournament && this.state.fantasyTournament.winner !== null;
-    const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-
-    if (tournamentWinner) {
-      return i18n.t('is_over');
-    }
-
-    if (champions.length > 0) {
-      return i18n.t('wait_matches');
-    }
-
-    if (champions.length === 0) {
-      return i18n.t('join_tournament_and');
-    }
-  }
-
-  getCountMatchPoints = (fantasyTournament, matchId, userId) => {
-    const userPlayers = this.getUserPlayers(fantasyTournament, userId);
-    const ruleSet = this.getRulesSet(fantasyTournament);
-    const rulesIds = fantasyTournament.rules.map(item => item.rule._id);
-
-    const userPlayersIds = userPlayers.map(player => player._id);
-
-    const match = find(fantasyTournament.tournament.matches, { _id: matchId });
-
-    if (!match.completed) {
-      return 0;
-    }
-
-    const results = match.results.playersResults;
-
-    const userPlayersWithResults = results.filter(item => userPlayersIds.includes(item.playerId) ? item : false);
-    const userPlayersResults = userPlayersWithResults.reduce((arr, item) => {
-      arr.push(...item.results);
-      return arr;
-    }, []);
-
-    const userPlayersResultsSum = userPlayersResults.reduce((sum, item) => {
-      if (rulesIds.includes(item.rule)) {
-        sum += item.score * ruleSet[item.rule];
-      }
-
-      return sum;
-    }, 0);
-
-    return userPlayersResultsSum;
-  };
-
-  getTotalUserScore = (fantasyTournament, userId) => {
-    const { matches } = fantasyTournament.tournament;
-    const userMatchResults = matches.map(match => this.getCountMatchPoints(fantasyTournament, match._id, userId));
-    const totalUserScore = userMatchResults.reduce((sum, score) => {
-      sum += score;
-      return sum;
-    });
-
-    return totalUserScore;
-  };
-
-  getUserPlayers = (fantasyTournament, userId) => {
-    const user = find(fantasyTournament.users, item => item.user._id === userId);
-
-    return user.players;
-  };
-
-  getUserPlayerScore = (fantasyTournament, playerId) => {
-    const ruleSet = this.getRulesSet(fantasyTournament);
-    const rulesIds = fantasyTournament.rules.map(item => item.rule._id);
-
-    const tournamentMatches = fantasyTournament.tournament.matches;
-    const tournamentMatchesWithResults = tournamentMatches.filter(match => match.results !== null);
-
-    const playerResults = tournamentMatchesWithResults.map(item => item.results.playersResults.filter(item => item.playerId === playerId).map(item => item.results));
-    const playerResultsWithdata = playerResults.filter(item => item.length > 0).reduce((arr, item) => {
-      item.forEach(element => arr.push(...element));
-      return arr;
-    }, []);
-
-    const aggregatedPlayerResultsSum = playerResultsWithdata.reduce((sum, item) => {
-      if (rulesIds.includes(item.rule)) {
-        sum += item.score * ruleSet[item.rule];
-      }
-
-      return sum;
-    }, 0);
-
-    return aggregatedPlayerResultsSum;
-  };
-
-  getCalcUserProgress = (fantasyTournament, userId) => {
-    const usersResults = this.state.users.map(item => this.getTotalUserScore(fantasyTournament, item.user._id));
-    const currentUserResult = this.getTotalUserScore(fantasyTournament, userId);
-
-    const maxResult = Math.max(...usersResults);
-
-    return currentUserResult / maxResult * 100;
-  };
-
-  leadersDefaultSorting = (prev, next) => {
-    return next.totalResults - prev.totalResults;
-  };
-
-  getRulesSet = fantasyTournament => fantasyTournament.rules.reduce((set, item) => {
-    set[`${item.rule._id}`] = item.score;
-    return set;
-  }, {});
-
-  getRulesNames = () => {
-    if (!this.state.fantasyTournament) {
-      return;
-    }
-
-    const { rules } = this.state.fantasyTournament;
-    let str = '';
-
-    rules.forEach(rule => {
-      if (!str) {
-        str = rule.rule.name[0] + rule.score;
-        return;
-      }
-
-      str += ` / ${rule.rule.name[0] + rule.score}`;
-    });
-
-    return str;
-  };
-
-  addPlayers = async ids => {
-    this.setState({ isLoading: true });
-
-    await this.loadTournamentData();
-
-    ym('reachGoal', 'user_joined_tournament');
-  };
-
-  openMatchResults = (event, item) => {
-    event.preventDefault();
-
-    const fantasyTournamentChampions = this.state.fantasyTournament.tournament.champions;
-    const fantasyTournamentRules = this.state.fantasyTournament.rules.map(item => item.rule);
-
-    const { playersResults } = item.results;
-    const groupedMatchResults = Object.values(Object.freeze(groupBy(playersResults, 'playerId')));
-    const matchResults = [];
-
-    for (const element of groupedMatchResults) {
-      const matchResult = cloneDeep(element[0]);
-
-      for (let j = 1; j < element.length; j++) {
-        matchResult.results[0].score += element[j].results[0].score;
-        matchResult.results[1].score += element[j].results[1].score;
-        matchResult.results[2].score += element[j].results[2].score;
-      }
-
-      matchResults.push(matchResult);
-    }
-
-    matchResults.forEach(match => {
-      match.playerName = find(fantasyTournamentChampions, { _id: match.playerId }).name;
-
-      match.results.forEach(item => {
-        item.ruleName = find(fantasyTournamentRules, { _id: item.rule }).name;
+    if (tournament) {
+      this.props.updateTournament({
+        ...tournament,
+        unfoldedRewards,
       });
-    });
-
-    this.setState({
-      isMatchInfoActive: true,
-      matchInfo: matchResults,
-      matchTitle: item.name,
-    });
-
-    ym('reachGoal', 'opened_match_results');
-  }
-
-  editMatchInit = (event, item) => {
-    event.preventDefault();
-
-    this.setState({
-      isMatchEditModalShown: true,
-      editingMatchId: item._id,
-    });
-  }
-
-  closeMatchEditing = () => {
-    this.setState({
-      isMatchEditModalShown: false,
-      editingMatchId: '',
-    });
-  }
-
-  closeMatchInfo = () => {
-    this.setState({
-      isMatchInfoActive: false,
-      matchInfo: [],
-      matchTitle: '',
-    });
-  }
-
-  renderLeaderRow = ({ className, itemClass, textClass, index, item }) => {
-    const { fantasyTournament } = this.state;
-    const summonerName = this.state.username;
-    const summonerArr = item.user.username === summonerName;
-    const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
-    const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
-    const { isStreamer } = item.user;
-
-    return (
-      <div key={item.user._id} className={cx(className, { activeSummoner: summonerArr })}>
-        {/* <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
-        <span className={textClass}></span>
-      </div> */}
-
-        <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
-          <span className={cx(textClass, 'name_leader')}>{index + 1}. {item.user.username}{isStreamer && <i title="Streamer" className="material-icons">star</i>}</span>
-        </div>
-
-        {totalScore > 0 && (
-          <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
-            <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
-          </div>
-        )}
-      </div>
-    );
+    }
   };
 
-  isUsername = item => {
-    const summonerName = this.state.username;
+  loadUsers = async () => {
+    const response = await http('/public/users');
+    const { users } = await response.json();
 
-    return item.user.username === summonerName;
+    this.props.addUsers(users);
+  };
+
+  enableForecasting = async () => {
+    const response = await http(`/api/tournaments/${this.props.match.params.id}/forecastStatus`, { method: 'PATCH' });
+    const tournament = await response.json();
+
+    this.props.updateTournament({
+      ...tournament,
+    });
+  };
+
+  addRules = () => this.props.toggleModal({
+    id: 'tournament-rules-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
+  editRules = () => this.props.toggleModal({
+    id: 'tournament-rules-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      isEditing: true,
+    },
+  });
+
+  addSummoners = () => this.props.toggleModal({
+    id: 'add-summoners-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      selectedSummoners: this.props.tournament.summoners,
+      summoners: this.props.users,
+    },
+  });
+
+  addRewards = () => this.props.toggleModal({
+    id: 'tournament-rewards',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
+  editRewards = () => this.props.toggleModal({
+    id: 'tournament-rewards',
+
+    options: {
+      isEditing: true,
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
+  editTournament = () => this.props.toggleModal({
+    id: 'edit-tournament-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+    },
+  });
+
+  joinTournament = () => this.props.toggleModal({
+    id: 'join-tournament-players-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      currentUserId: this.props.currentUser._id,
+      tournamentSummoners: this.props.tournament.summoners,
+      tournamentViewers: this.props.tournament.viewers,
+      summoners: this.props.users,
+    },
+  });
+
+  componentDidMount() {
+    this.loadTournament();
+
+    if (isEmpty(this.props.users)) {
+      this.loadUsers();
+    }
   }
-
-  renderSummonerLeaderRow = ({ className, itemClass, textClass, item }) => {
-    const { fantasyTournament, users } = this.state;
-    const summonerName = this.state.username;
-    const sortUsers = users.sort(this.leadersDefaultSorting);
-    const indexUser = findIndex(sortUsers, item => item.user.username === summonerName);
-
-    const totalScore = this.getTotalUserScore(fantasyTournament, item.user._id);
-    const progressPercents = this.getCalcUserProgress(fantasyTournament, item.user._id);
-
-    return (
-      <div key={item.user._id} className={cx(className, 'summoner_arr')}>
-        <div className={cx('leader_num_cell', itemClass)} style={{ '--width': leadersTableCaptions.position.width }}>
-          <span className={textClass}>{indexUser + 1}</span>
-        </div>
-
-        <div className={cx('leader_name_cell', itemClass)} style={{ '--width': leadersTableCaptions.name.width }}>
-          <span className={textClass}>{item.user.username}</span>
-        </div>
-
-        {totalScore > 0 && (
-          <div className={itemClass} style={{ '--width': leadersTableCaptions.points.width }}>
-            <div className={style.leader_progress} style={{ '--width': progressPercents }}>{totalScore}</div>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  renderMatchRow = ({ className, itemClass, textClass, item }) => {
-    const { fantasyTournament } = this.state;
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if (!this.state.currentUser) {
-        return;
-      }
-
-      return item.user._id === this.state.currentUser._id;
-    });
-
-    const points = currentUserParticipant && this.getCountMatchPoints(fantasyTournament, item._id, this.state.currentUser._id);
-    const matchPoints = points > 0 ? points : 0;
-
-    const isMatchCompleted = item.completed;
-    const isUserStreamerAndCreator = this.state.currentUser && this.state.currentUser.isStreamer && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
-
-    const url = '';
-    const urlMatch = url === '' ? '' : url;
-
-    const timeMatch = moment(item.startDate).format('MMM DD HH:mm');
-    const timeNow = moment().format('MMM DD HH:mm');
-
-    const disableUrlStyle = moment(timeNow).isAfter(timeMatch);
-
-    return (
-      <div key={uuid()} to={urlMatch} target="_blank" className={cx(className, { disabledUrl: disableUrlStyle, completed: isMatchCompleted })}>
-        <div className={itemClass} style={{ '--width': matchesTableCaptions.name.width }}>
-          <span className={textClass}>{item.name}</span>
-        </div>
-
-        <div className={itemClass} style={{ '--width': matchesTableCaptions.points.width }}>
-          {isMatchCompleted && currentUserParticipant &&
-            <div className={style.match_points}>{`+${matchPoints}`}</div>
-          }
-        </div>
-
-        <button type="button" className={style.match_button} onClick={event => this.openMatchResults(event, item)}>
-          <i className="material-icons">list</i>
-        </button>
-
-        {isUserStreamerAndCreator && (
-          <button type="button" className={style.match_button} onClick={event => this.editMatchInit(event, item)}>
-            <i className="material-icons">info</i>
-          </button>
-        )
-        }
-      </div>
-    );
-  };
-
-  renderMatchInfoRow = ({ className, itemClass, textClass, item }) => {
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if (!this.state.currentUser) {
-        return;
-      }
-
-      return item.user._id === this.state.currentUser._id;
-    });
-
-    const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    const isPlayerChoosedByUser = Boolean(find(champions, { _id: item.playerId }));
-
-    const { rules } = this.state.fantasyTournament;
-
-    const killsScore = item.results[0].score === 0 ? 0 : <span className={style.score_block}>{item.results[0].score} <span className={style.rule_color}>x{rules[0].score}</span></span>;
-    const deathScore = item.results[1].score === 0 ? 0 : <span className={style.score_block}>{item.results[1].score} <span className={style.rule_color}>x{rules[1].score}</span></span>;
-    const assistsScore = item.results[2].score === 0 ? 0 : <span className={style.score_block}>{item.results[2].score} <span className={style.rule_color}>x{rules[2].score}</span></span>;
-    const totalScore = (item.results[0].score * rules[0].score) + (item.results[1].score * rules[1].score) + (item.results[2].score * rules[2].score);
-
-    return (
-      <div key={uuid()} className={cx(className, style.row_dark, { [style.row_choosed]: isPlayerChoosedByUser })}>
-        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.player.width }}>
-          <span className={textClass}>{item.playerName}</span>
-        </div>
-
-        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.kill.width }}>
-          <span className={cx(textClass, { [style.grey_scores]: item.results[0].score === 0 })}>{killsScore}</span>
-        </div>
-
-        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.death.width }}>
-          <span className={cx(textClass, { [style.grey_scores]: item.results[1].score === 0 })}>{deathScore}</span>
-        </div>
-
-        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.assists.width }}>
-          <span className={cx(textClass, { [style.grey_scores]: item.results[2].score === 0 })}>{assistsScore}</span>
-        </div>
-
-        <div className={itemClass} style={{ '--width': matchInfoTableCaptions.total.width }}>
-          <span className={cx(textClass)}>{totalScore}</span>
-        </div>
-      </div>
-    );
-  };
 
   render() {
-    const currentUserParticipant = this.state.fantasyTournament && find(this.state.fantasyTournament.users, item => {
-      if (!this.state.currentUser) {
-        return;
-      }
+    const tournament = get(this.props, 'tournament');
+    const name = get(this.props, 'tournament.name');
+    const creator = get(this.props, 'tournament.creator');
+    const currentUser = get(this.props, 'currentUser');
 
-      return item.user._id === this.state.currentUser._id;
-    });
+    const isEmpty = get(this.props, 'tournament.isEmpty');
+    const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
+    const isForecastingActive = get(this.props, 'tournament.isForecastingActive');
+    const isStarted = get(this.props, 'tournament.isStarted');
+    const isFinalized = get(this.props, 'tournament.isFinalized');
 
-    const champions = (currentUserParticipant && currentUserParticipant.players) || [];
-    const fantasyTournamentName = this.state.fantasyTournament && this.state.fantasyTournament.name;
-    const tournamentDate = this.state.fantasyTournament && moment(this.state.fantasyTournament.tournament.date).format('MMM DD, h:mm');
-    const tournamentCreator = this.state.fantasyTournament && this.state.fantasyTournament.creator.username;
-    const tournamentCreatorLink = this.state.fantasyTournament && this.state.fantasyTournament.creator._id;
+    const isCurrentUserCreator = (creator && currentUser) && creator._id === currentUser._id;
 
-    const winner = this.state.fantasyTournament && this.state.fantasyTournament.winner;
-    const joinButtonAction = !currentUserParticipant && !this.state.currentUser ? this.toggleSignInDialog : this.toggleChampionModal;
-    const isTournamentStarted = this.state.fantasyTournament && this.state.fantasyTournament.started;
-    const isTournamentFinished = this.state.fantasyTournament && this.state.fantasyTournament.winner;
-    const isFinalizeButtonShown = this.state.fantasyTournament && !this.state.fantasyTournament.winner && this.state.fantasyTournament.creator.isStreamer && this.state.currentUser && this.state.currentUser._id === this.state.fantasyTournament.creator._id;
-
-    const isJoinButtonShown = !currentUserParticipant && !winner;
-    const tournamentChampions = this.state.fantasyTournament && this.state.fantasyTournament.tournament.champions;
-    const rules = this.getRulesNames();
-
-    const sortUsers = this.state.users.sort(this.leadersDefaultSorting);
-    const topTen = sortUsers.slice(0, 10);
-
-    const summonerName = this.state.username;
-    const summonerArr = topTen.filter(item => item.user.username === summonerName);
-    const summonerFilter = this.state.users.filter(item => item.user.username === summonerName);
-    const renderSummonerArr = summonerArr.length === 0 ? summonerFilter : '';
-
-    const matchInfo = this.state.matchInfo && this.state.matchInfo;
-    const isStreamer = this.state.fantasyTournament && this.state.fantasyTournament.creator.isStreamer;
-    const isUserStreamerAndCreator = this.state.currentUser && this.state.currentUser.isStreamer;
-
-    const getMatchLenght = this.state.matches && this.state.matches.length;
-    const getMatchFinished = this.state.matches.filter(i => i.completed === true).length;
-    const getUsersLength = this.state.users && this.state.users.length;
+    const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
+    const isSummonersWidgetVisible = !isEmpty;
+    // const isViewersWidgetVisible = !isApplicationsAvailable && isForecastingActive;
+    const isViewersWidgetVisible = isForecastingActive;
+    const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     return (
-      <div className={style.tournament}>
-        <div className={style.tournament_section}>
-          <div className={style.main}>
-            <h2 className={style.title}>{fantasyTournamentName}</h2>
+      <div className={cx('tournament', 'container')}>
+        <div className={style.inner_container}>
 
-            <div className={style.info}>
-              <span>{tournamentDate}</span>
+          <div className={style.tournament_section}>
+            <h2 className={style.title}>{name}</h2>
 
-              <span className={style.creator_info}>
-                {i18n.t('created_by')}
-                <Link to={`/user/${tournamentCreatorLink}`}>
-                  {tournamentCreator}
-                </Link>
-                {isStreamer && <i title="Streamer" className="material-icons">star</i>}
-              </span>
-            </div>
-
-            <span className={style.fantasy_status}>
-              {isTournamentStarted && !isTournamentFinished &&
-                <p className={style.start_tournament}>{i18n.t('tournament_started')}</p>
-              }
-            </span>
-          </div>
-
-          <div className={style.button_block}>
-            {!isTournamentStarted && isJoinButtonShown && (
+            {isCurrentUserCreator && (
               <Button
-                text={i18n.t('join_tournament')}
+                text="Allow forecasts"
                 appearance="_basic-accent"
-                className={cx(style.button)}
-                onClick={joinButtonAction}
-              />
-            )}
-
-          </div>
-        </div>
-
-        {winner && (
-          <div className={style.winner}>
-            <TrophyIcon/>
-
-            <div className={style.text}>
-              <p>
-                {i18n.t('tournament_over', { winner: winner.username })}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {currentUserParticipant &&
-          <h3 className={cx(style.subtitle, style.my_team_title)}>{i18n.t('my_team')}</h3>
-        }
-
-        {currentUserParticipant && champions.length > 0 && (
-          <div className={style.team}>
-            {champions.map(champion => (
-              <div key={champion._id} className={style.champion}>
-                <div className={style.image}>
-                  <img src={champion.photo === null ? Avatar : champion.photo} alt={i18n.t('champion_avatar')} onError={event => {
-                    event.target.src = Avatar;
-                  }
-                  }
-                  />
-                </div>
-
-                <span className={style.name}>{champion.name}</span>
-
-                {champion.championScore !== null &&
-                  <div className={style.scores}>Score: {champion.championScore}</div>
-                }
-              </div>
-            ))}
-          </div>
-        )}
-        <div className={style.info_wrap}>
-          <div className={style.info_block}>
-            <h3 className={style.subtitle}>{i18n.t('information')}</h3>
-
-            <div className={style.list}>
-              <div className={style.item}>
-                <label className={style.title}>{i18n.t('rules')}</label>
-                <p className={style.value}>{rules}</p>
-              </div>
-
-              <div className={style.item}>
-                <label className={style.title}>{i18n.t('matches')}</label>
-                <p className={style.value}>{getMatchFinished} {i18n.t('of')} {getMatchLenght}</p>
-              </div>
-
-              <div className={style.item}>
-                <label className={style.title}>{i18n.t('champions')}</label>
-                <p className={style.value}>{getUsersLength}</p>
-              </div>
-            </div>
-
-            {isFinalizeButtonShown && !isTournamentFinished && !isTournamentStarted && isUserStreamerAndCreator && (
-              <Button
-                text={i18n.t('start_tournament')}
-                appearance="_basic-start"
-                className={cx(style.start_button)}
-                onClick={this.startStreamerTournament}
-              />
-            )}
-
-            {isFinalizeButtonShown && isTournamentStarted && isUserStreamerAndCreator && (
-              <Button
-                text={i18n.t('finalize_tournament')}
-                appearance="_basic-start"
-                className={cx(style.start_button)}
-                onClick={this.finalizeStreamerTournament}
+                onClick={this.enableForecasting}
               />
             )}
           </div>
 
-          {!isTournamentStarted && (
-            <div className={cx(style.info_users, { [style.anim_teemo]: this.state.animate })}>
-              <h3 className={style.subtitle}>{i18n.t('invite')}</h3>
-
-              <div className={style.copy_block}>
-                <input
-                  id="copyUrl"
-                  className={style.input_href}
-                  defaultValue={window.location.href}
+          {tournament && (
+            <>
+              <div className={cx(
+                style.widgets,
+                { [style.is_empty]: isEmpty },
+                { [style.applications_available]: isApplicationsAvailable },
+                { [style.applications_available_streamer]: isApplicantsWidgetVisible },
+                { [style.forecasting_is_available]: isForecastingActive }
+              )}
+              >
+                <TournamentInformation
+                  id={this.props.match.params.id}
+                  className={style.information_widget}
+                  editTournament={this.editTournament}
                 />
-                <button
-                  type="button"
-                  className={style.copy_button}
-                  onClick={this.copyInput}
-                >
-                  <i className="material-icons">file_copy</i>
-                </button>
+
+                <TournamentRules
+                  id={this.props.match.params.id}
+                  className={style.rules_widget}
+                  addRules={this.addRules}
+                  editRules={this.editRules}
+                />
+
+                <TournamentRewards
+                  id={this.props.match.params.id}
+                  className={style.rewards_widget}
+                  addRewards={this.addRewards}
+                  editRewards={this.editRewards}
+                />
+
+                {isInviteWidgetVisible && (
+                  <TournamentInvite
+                    className={style.invite_widget}
+                    showNotification={this.props.showNotification}
+                  />
+                )}
+
+                <TournamentMatches
+                  className={style.matches_widget}
+                  id={this.props.match.params.id}
+                />
+
+                {isSummonersWidgetVisible && (
+                  <TournamentSummoners
+                    id={this.props.match.params.id}
+                    className={style.summoners_widget}
+                    addSummoners={this.addSummoners}
+                  />
+                )}
+
+                {isViewersWidgetVisible && (
+                  <TournamentViewers
+                    id={this.props.match.params.id}
+                    className={style.viewers_widget}
+                    joinTournament={this.joinTournament}
+                  />
+                )}
+
+                {isApplicantsWidgetVisible && (
+                  <TournamentApplicants
+                    id={this.props.match.params.id}
+                    className={style.applicants_widget}
+                  />
+                )}
               </div>
-            </div>
+            </>
           )}
-
         </div>
-
-        <div className={style.block_results}>
-
-          <div className={style.matches}>
-            <div className={style.matches_title}>
-              <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
-            </div>
-
-            <Table
-              noCaptions
-              captions={matchesTableCaptions}
-              items={this.state.matches}
-              renderRow={this.renderMatchRow}
-              isLoading={this.state.isLoading}
-              className={style.table}
-              emptyMessage="There is no matches yet"
-            />
-          </div>
-
-          <div className={style.leaders}>
-            <h3 className={style.subtitle}>{i18n.t('leaderboard')}</h3>
-
-            <Table
-              noCaptions
-              captions={leadersTableCaptions}
-              items={topTen}
-              renderRow={this.renderLeaderRow}
-              isLoading={this.state.isLoading}
-              defaultSorting={this.leadersDefaultSorting}
-              className={style.table}
-              emptyMessage="There is no participants yet"
-            />
-
-            {renderSummonerArr && (
-              <Table
-                noCaptions
-                items={summonerFilter}
-                renderRow={this.renderSummonerLeaderRow}
-                isLoading={this.state.isLoading}
-                className={style.table}
-              />
-            )}
-          </div>
-
-        </div>
-
-        {
-          this.state.isLoading && (
-            <Preloader
-              isFullScreen
-            />
-          )}
       </div>
     );
   }
 }
 
-export default Tournament;
+export default compose(
+  connect(
+    (state, props) => ({
+      tournament: state.tournaments.list[props.match.params.id],
+      users: state.users.list,
+      currentUser: state.currentUser,
+    }),
+
+    {
+      addTournament: tournamentsActions.addTournament,
+      addUsers: usersActions.loadUsers,
+      updateTournament: tournamentsActions.updateTournament,
+      toggleModal: modalActions.toggleModal,
+      showNotification: notificationActions.showNotification,
+    },
+  ),
+)(Tournament);

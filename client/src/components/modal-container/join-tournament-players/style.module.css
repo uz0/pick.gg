@@ -1,0 +1,123 @@
+.wrapper {
+  --width: 800px;
+}
+
+.wrapper .content {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  padding-top: var(--layout-padding);
+}
+
+.wrapper .content .summoner {
+  min-width: 0;
+  padding: 10px;
+  background-color: var(--background-color);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition-property: background-color;
+}
+
+.wrapper .content .summoner:not(._is-checked):not(:hover) {
+  --background-color: var(--primary-color);
+  --color: #9696b0;
+}
+
+.wrapper .content .summoner:not(._is-checked):hover {
+  --background-color: var(--accent-color);
+  --color: #000;
+}
+
+.wrapper .content .summoner._is-checked {
+  --background-color: var(--accent-color);
+  --color: #000;
+}
+
+.wrapper .content .summoner .image {
+  --size: 80px;
+  width: var(--size);
+  height: var(--size);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: calc(var(--size) / 2);
+}
+
+.wrapper .content .summoner .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.wrapper .content .summoner .name {
+  --height: 16px;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 15px;
+  text-align: center;
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.wrapper .content .summoner .position {
+  --height: 16px;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 10px;
+  text-align: center;
+  color: var(--color);
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.wrapper .content .summoner .stat {
+  --height: 16px;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  margin-top: 4px;
+  line-height: var(--height);
+  font-size: 10px;
+  text-align: center;
+  color: var(--color);
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+@media (max-width: 480px) {
+  .wrapper .content {
+    grid-template-columns: 1fr;
+  }
+  .wrapper .content .summoner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .wrapper .content .summoner .image {
+    margin: 0;
+  }
+  .wrapper .content .summoner .name {
+    text-align: left;
+  }
+  .wrapper .content .summoner {
+    margin-left: 24px;
+  }
+  .wrapper .content .summoner .info {
+    margin-left: 12px;
+  }
+}

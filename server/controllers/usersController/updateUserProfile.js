@@ -27,7 +27,7 @@ const handler = withValidationHandler(async (req, res) => {
         'regionId',
         'preferredPosition',
       ]),
-      {new: true},
+      { new: true },
     );
 
     res.status(200).json(user);

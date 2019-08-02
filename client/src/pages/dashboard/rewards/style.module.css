@@ -13,7 +13,7 @@
   flex-shrink: 0;
 }
 
-.controls .filters .filter + .filter {
+.controls .filters .filter+.filter {
   margin-left: 12px;
 }
 
@@ -23,6 +23,26 @@
   grid-gap: 32px;
 }
 
-.rewards > div {
+.rewards>div {
   cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+  .controls {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+  .controls .filters {
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .controls .filters .filter+.filter {
+    margin: 12px 0;
+  }
+  .controls .filters .filter {
+    width: 100%;
+  }
+  .rewards {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

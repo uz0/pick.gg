@@ -1,5 +1,6 @@
 import getModelFields from './helpers/getModelFields';
 import difference from 'lodash/difference';
+import isEmpty from 'lodash/isEmpty';
 
 export const isPropertyValueUnique = async (property, model) => {
   const key = Object.keys(property)[0];
@@ -37,7 +38,7 @@ export const isEntityExists = async (_id, model) => {
 
 export const isRequestHasCorrectFields = (requestFields, model) => {
   const modelFields = getModelFields(model);
-  const diff = difference(requestFields, modelFields);
+  const diff = difference(Object.keys(requestFields), modelFields);
 
   if(diff.length){
     throw new Error(`${model.modelName} shouldn't contain ${diff.join(', ')} fields`);

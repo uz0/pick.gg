@@ -7,10 +7,11 @@ import classnames from 'classnames/bind';
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
 import moment from 'moment';
-import { actions as modalActions } from 'components/modal-container';
+import modalActions from 'components/modal-container/actions';
 import { http } from 'helpers';
 import actions from './actions';
 import style from './style.module.css';
+import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
@@ -21,7 +22,7 @@ class Tournaments extends Component {
 
   loadTournaments = async () => {
     this.setState({ isLoading: true });
-    const response = await http('/api/tournaments');
+    const response = await http('/public/tournaments');
     const { tournaments } = await response.json();
     this.props.loadTournaments(tournaments);
     this.setState({ isLoading: false });
@@ -34,9 +35,12 @@ class Tournaments extends Component {
   }
 
   render() {
+    const isTounaments = this.props.tournamentsIds.length === 0;
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={cx('list', { '_is-loading': this.state.isLoading })}>
+          {isTounaments && <span>{i18n.t('not_yet_tournaments')}</span>}
+
           {this.props.tournamentsIds.map(id => {
             const tournament = this.props.tournamentsList[id];
             const date = moment(tournament.date).format('DD MMM YYYY');
@@ -56,14 +60,14 @@ class Tournaments extends Component {
               </Link>
             );
           })}
-        </div>
 
-        <Button
-          appearance="_icon-accent"
-          icon="plus"
-          className={style.button}
-          onClick={this.props.openNewTournamentModal}
-        />
+          <Button
+            appearance="_icon-accent"
+            icon="plus"
+            className={style.button}
+            onClick={this.props.openNewTournamentModal}
+          />
+        </div>
       </div>
     );
   }

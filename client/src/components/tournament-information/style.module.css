@@ -1,0 +1,168 @@
+.information {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.information .header {
+  --information-header-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.information .header .subtitle {
+  --height: 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  color: var(--caption-color);
+  font-size: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.information .header .button {
+  flex-shrink: 0;
+  height: var(--information-header-height);
+  margin-left: auto;
+  line-height: var(--information-header-height);
+  font-size: 15px;
+  color: var(--color);
+  font-weight: 600;
+  background-color: transparent;
+  transition-property: color;
+}
+
+.information .header .button:not(:hover) {
+  --color: var(--accent-color);
+}
+
+.information .header .button:hover {
+  --color: #e88c00;
+}
+
+.information .header + .content,
+.information .header + .empty {
+  margin-top: 16px;
+}
+
+.information .content {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.information .content .info {
+  display: flex;
+  flex-direction: column;
+}
+
+.information .content .info .item {
+  display: flex;
+}
+
+.information .content .info .item + .item {
+  margin-top: 8px;
+}
+
+.information .content .info .item .key {
+  --height: 20px;
+  font-weight: 400;
+  font-size: 16px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  color: var(--header-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.information .content .info .item .value {
+  --height: 20px;
+  font-size: 16px;
+  margin-left: 8px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-weight: var(--font-weight-bold);
+  color: var(--header-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.information .content .info .item .value {
+  position: relative;
+  padding-right: 16px;
+}
+
+.information .content .info .item .value a:not(:hover) {
+  color: var(--accent-color);
+}
+
+.information .content .info .item .value a:hover {
+  color: #ffa721;
+}
+
+.information .content .info .item .value a i {
+  --icon-size: 12px;
+  --icon-color: #ffd120;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.information .content .info .text {
+  --height: 24px;
+  overflow: hidden;
+  position: relative;
+  height: var(--height);
+  padding-right: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.information .content .info .text:not(:last-of-type)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background-color: #9696b0;
+  border-radius: 2px;
+  transform: translateY(-50%);
+}
+
+.information .content .info .text:nth-of-type(n+2) {
+  margin-left: 8px;
+}
+
+.information .content .info .text .creator {
+  margin-left: 8px;
+}
+
+.information .content .info .text a {
+  position: relative;
+  padding-right: 14px;
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.information .content .description {
+  margin-top: 16px;
+}
+
+.information .content .description .text {
+  font-weight: 400;
+  font-size: 16px;
+  overflow: hidden;
+  line-height: var(--height);
+  color: var(--header-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

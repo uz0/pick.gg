@@ -3,18 +3,28 @@ import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import NewTournament from './new-tournament';
+import MatchResults from './match-results';
 import ChoosePlayers from './choose-players';
 import AddMatch from './add-match';
-import dashboardEditUserModal from './dashboard-edit-user-modal';
+import AddRules from './tournament-rules';
+import AddRewards from './tournament-rewards';
+import EditTournament from './edit-tournament';
+import JoinTournamentPlayers from './join-tournament-players';
+import EditMatch from './edit-match';
 import Reward from './reward';
 import modalActions from './actions';
 
 const modals = {
   'new-tournament-modal': NewTournament,
-  'choose-players-modal': ChoosePlayers,
+  'match-results-modal': MatchResults,
+  'add-summoners-modal': ChoosePlayers,
   'reward-modal': Reward,
   'add-match-modal': AddMatch,
-  'user-modal': dashboardEditUserModal,
+  'tournament-rules-modal': AddRules,
+  'tournament-rewards': AddRewards,
+  'join-tournament-players-modal': JoinTournamentPlayers,
+  'edit-match-modal': EditMatch,
+  'edit-tournament-modal': EditTournament,
 };
 
 class ModalContainer extends Component {
