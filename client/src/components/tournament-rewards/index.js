@@ -28,7 +28,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 const Rewards = ({
   tournament,
   isAddButtonVisible,
-  isCurrentUserCreator,
+  isActionsAvailable,
   addRewards,
   editRewards,
   className,
@@ -42,17 +42,17 @@ const Rewards = ({
           className={style.button}
           onClick={editRewards}
         >
-          {i18n.t('add')}
+          {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : i18n.t('edit')}
         </button>
       )}
     </div>
 
-    {tournament.unfoldedRewards && tournament.unfoldedRewards.length === 0 && (
+    {isActionsAvailable && (
       <p className={style.empty}>{i18n.t('add_rewards')}</p>
     )}
 
     <div className={style.content}>
-      {isCurrentUserCreator && tournament.unfoldedRewards && tournament.unfoldedRewards.length === 0 && (
+      {isActionsAvailable && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -110,9 +110,14 @@ export default compose(
       !props.tournament.isStarted &&
       props.tournament.unfoldedRewards.length > 0;
 
+    const isActionsAvailable = isCurrentUserCreator &&
+      props.tournament.unfoldedRewards &&
+      props.tournament.unfoldedRewards.length === 0;
+
     return {
       ...props,
       isAddButtonVisible,
+      isActionsAvailable,
       isCurrentUserCreator,
     };
   }),
