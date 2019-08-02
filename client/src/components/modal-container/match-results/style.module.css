@@ -1,0 +1,15 @@
+.modal {
+  --width: 600px;
+}
+
+.modal .modal_content {
+  padding-top: var(--layout-padding);
+}
+
+.modal .modal_content .table {
+
+}
+
+.modal .modal_content .table .row {
+  --background-color: rgba(0, 0, 0, 0.2);
+}

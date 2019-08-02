@@ -1,0 +1,32 @@
+.wrapper {
+}
+
+.wrapper .content {
+  padding-top: var(--layout-padding);
+}
+
+.wrapper .content .field:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
+.wrapper .content .field + .summoner {
+  margin-top: 40px;
+}
+
+.wrapper .content .summoner {
+  display: grid;
+  grid-gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.wrapper .content .summoner + .summoner {
+  margin-top: 20px;
+}
+
+.wrapper .content .summoner .name {
+  color: var(--caption-color);
+  grid-column: 1 / -1;
+}
+
+.wrapper .content .summoner .kda {
+}

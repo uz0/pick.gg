@@ -1,11 +1,15 @@
 import React from 'react';
 import classnames from 'classnames/bind';
+import { Form } from 'formik';
 import Button from 'components/button';
 import style from './style.module.css';
+
+const div = props => <div {...props}>{props.children}</div>;
 
 const cx = classnames.bind(style);
 
 const Modal = ({
+  isForm,
   title,
   close,
   actions,
@@ -14,10 +18,16 @@ const Modal = ({
   children,
 }) => {
   const isActionsShown = actions && actions.length > 0;
+  const modalWrapperTag = isForm ? 'form' : 'div';
+
+  const Wrapper = ({
+    div,
+    form: Form,
+  })[modalWrapperTag];
 
   return (
     <div className={style.wrapper}>
-      <div className={cx('modal', wrapClassName)}>
+      <Wrapper className={cx('modal', wrapClassName)}>
         <div className={style.header}>
           <h2 className={style.title}>{title}</h2>
 
@@ -42,7 +52,7 @@ const Modal = ({
             ))}
           </div>
         )}
-      </div>
+      </Wrapper>
     </div>
   );
 };

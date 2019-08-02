@@ -19,9 +19,7 @@ class Rewards extends Component {
   };
 
   async componentDidMount() {
-    if (!this.props.isLoaded) {
-      this.loadRewards();
-    }
+    this.loadRewards();
   }
 
   openRewardModal = (isEditing = false, reward = {}) => this.props.toggleModal({

@@ -78,7 +78,6 @@ class Start extends Component {
   };
 
   render() {
-
     return (
       <>
         <section className={style.main}>

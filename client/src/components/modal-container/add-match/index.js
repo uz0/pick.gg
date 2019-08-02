@@ -1,23 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, Field, withFormik } from 'formik';
-import findIndex from 'lodash/findIndex';
 import * as Yup from 'yup';
-import uuid from 'uuid';
 
 import { FormInput } from 'components/form/input';
 import Modal from 'components/modal';
 
+import { http } from 'helpers';
+
 import style from './style.module.css';
-import { withHandlers, compose } from 'recompose';
+import { compose } from 'recompose';
+import { actions as tournamentsActions } from 'pages/tournaments';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
-
-  startTime: Yup.string().required('Required'),
 });
 
 const ChoosePlayers = props => {
-  console.log('in third', props);
   return (
     <Modal
       title="Add match"
@@ -26,11 +25,10 @@ const ChoosePlayers = props => {
       wrapClassName={style.wrapper}
       actions={[
         {
-          text: 'Create',
+          text: 'Add',
           type: 'button',
           appearance: '_basic-accent',
-          onClick: props.handleAdd,
-          disabled: !props.isValid,
+          onClick: props.submitForm,
         },
       ]}
     >
@@ -41,53 +39,47 @@ const ChoosePlayers = props => {
           name="name"
           className={style.field}
         />
-
-        <Field
-          component={FormInput}
-          label="Start time"
-          name="startTime"
-          type="time"
-          className={style.field}
-        />
       </Form>
     </Modal>
   );
 };
 
 const enhance = compose(
+  connect(
+    (state, props) => ({
+      tournament: state.tournaments.list[props.options.tournamentId],
+    }),
+    {
+      updateTournament: tournamentsActions.updateTournament,
+    }
+  ),
   withFormik({
     validationSchema,
-    mapPropsToValues: ({ options }) => {
-      const { matches, editUid } = options;
-      const matchIndex = editUid && findIndex(matches, { uid: editUid });
+    mapPropsToValues: () => ({ name: '' }),
+    handleSubmit: async (values, { props }) => {
+      const { tournamentId } = props.options;
 
-      return options.editUid ?
-        {
-          name: matches[matchIndex].name,
-          startTime: matches[matchIndex].startTime,
-        } :
-        {};
-    },
-  }),
-  withHandlers({
-    handleAdd: props => () => {
-      const { options, close, values } = props;
-      const matches = [...options.matches];
+      try {
+        const matchRequest = await http(`/api/tournaments/${tournamentId}/matches`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify({ ...values, tournamentId }),
+        });
 
-      console.log(matches);
-      if (options.editUid) {
-        const index = findIndex(matches, { uid: options.editUid });
-        matches[index] = { ...values };
+        const newMatch = await matchRequest.json();
+        const matches = [...props.tournament.matches, newMatch];
 
-        options.onAdd(matches);
+        props.updateTournament({
+          ...props.tournament,
+          matches,
+        });
 
-        close();
-        return;
+        props.close();
+      } catch (error) {
+        console.log(error);
       }
-
-      options.onAdd([...matches, { uid: uuid(), ...values }]);
-
-      close();
     },
   })
 );

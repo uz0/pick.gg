@@ -1,64 +1,44 @@
 import express from 'express';
 
-import TournamentModel from '../../models/tournament';
-import UserModel from '../../models/user';
+import get from './get';
+import * as create from './create';
+import * as attend from './attend';
+import * as view from './view';
+import * as editRewards from './rewards/edit';
+import * as getRewards from './rewards/get';
+import * as getById from './getById';
+import * as edit from './edit';
+import * as forecastStatus from './forecastStatus';
+import * as applicantStatus from './applicantStatus'
 
-import moment from 'moment';
-
-import get from './get'
-import {validator as validateCreate, handler as create} from './create'
-import {validator as validateAttend, handler as attend} from './attend'
-import {validator as validateById, handler as getById} from './getById';
+import matchController from './match';
 
 let router = express.Router();
 
 const TournamentController = io => {
   router.get('/', get);
 
-  router.get('/real', async (req, res) => {
-    const tournaments = await TournamentModel
-      .find({
-        // date: {$lt: moment().toISOString()},
-      })
-      .populate('champions')
-      .populate('matches')
+  router.post('/', create.validator, create.handler);
 
-    res.send({
-      tournaments,
-    });
-  })
+  router.get('/:id', getById.validator, getById.handler);
 
-  router.get('/user/:id', async (req, res) => {
-    const id = req.params.id;
-    const tournaments = await TournamentModel
-    .find({'users.user': id}, '-rules -users.players')
+  router.get('/:id/rewards', getRewards.validator, getRewards.handler);
 
-    res.json({ tournaments });
-  });
+  router.patch('/:id', edit.validator, edit.handler);
 
-  router.get('/myended', async (req, res) => {
-    const id = req.params.id;
-    const yesterday = moment().utc().endOf('day').subtract(1, 'days').toISOString();
+  router.patch('/:id/attend', attend.validator, attend.handler);
 
-    const tournaments = await TournamentModel
-      .find({
-        'users.user._id': id,
-        date: {$lt: yesterday},
-      }, '-users.players')
+  router.patch('/:id/applicantStatus', applicantStatus.validator, applicantStatus.handler);
 
-      .populate({ path: 'users.user', select: '_id username' })
-      .populate('rules.rule')
+  router.patch('/:id/forecastStatus', forecastStatus.validator, forecastStatus.handler);
 
-    res.json({ tournaments });
-  });
+  router.patch('/:id/view', view.validator, view.handler);
 
-  router.get('/:id',validateById, getById);
+  router.patch('/:id/rewards', editRewards.validator, editRewards.handler);
 
-  router.patch('/:id/attend',validateAttend, attend)
-
-  router.post('/', validateCreate, create);
+  router.use('/:tournamentId/matches', matchController());
 
   return router;
-}
+};
 
 export default TournamentController;

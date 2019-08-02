@@ -7,7 +7,8 @@ import { Form, withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import { actions as storeActions } from 'store';
 import { FormInput } from 'components/form/input';
-import Select from 'components/form/selects/select';
+import PositionSelect from 'components/form/selects/select';
+import RegionSelect from 'components/form/selects/region-select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 
@@ -17,13 +18,22 @@ import i18n from 'i18n';
 
 const cx = classnames.bind(style);
 
-const normalizePositionsField = obj => {
+const normalizeSelectField = obj => {
   if (obj.preferredPosition) {
-    return {
+    obj = {
       ...obj,
       preferredPosition: obj.preferredPosition.value,
     };
   }
+
+  if (obj.regionId) {
+    obj = {
+      ...obj,
+      regionId: obj.regionId.value,
+    };
+  }
+
+  return obj;
 };
 
 const validationSchema = Yup.object().shape({
@@ -52,9 +62,16 @@ const Profile = () => {
         />
 
         <Field
-          component={Select}
+          component={PositionSelect}
           label={i18n.t('Position')}
           name="preferredPosition"
+          className={style.field}
+        />
+
+        <Field
+          component={RegionSelect}
+          label={i18n.t('region')}
+          name="regionId"
           className={style.field}
         />
 
@@ -123,6 +140,7 @@ const enhance = compose(
         about,
         twitchAccount,
         preferredPosition,
+        regionId,
       } = currentUser;
 
       return {
@@ -134,6 +152,7 @@ const enhance = compose(
         about,
         twitchAccount,
         preferredPosition,
+        regionId,
       };
     },
     handleSubmit: async (values, formikBag) => {
@@ -148,7 +167,7 @@ const enhance = compose(
               'Content-Type': 'application/json',
             },
             method: 'PATCH',
-            body: JSON.stringify(normalizePositionsField(body)),
+            body: JSON.stringify(normalizeSelectField(body)),
           });
 
           return request.json();

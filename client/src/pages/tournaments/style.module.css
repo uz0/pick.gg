@@ -1,6 +1,6 @@
 .tournaments {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: var(--layout-padding);
+  padding-bottom: var(--layout-padding);
 }
 
 .tournaments .list {
@@ -41,12 +41,8 @@
   text-decoration: none;
 }
 
-.tournaments .list .item:not(:hover) {
-  --transform: 0;
-}
-
-.tournaments .list .item:hover {
-  --transform: -8px;
+.tournaments .list .item:hover .card {
+  box-shadow: 0 0 6px rgb(58, 58, 58);
 }
 
 .tournaments .list .item:nth-of-type(n+2) {
@@ -71,10 +67,11 @@
   transition-property: transform;
 }
 
-.tournaments > .button {
+.tournaments .list>.button {
   --height: 50px;
-  position: fixed;
-  right: var(--layout-padding);
+  position: sticky;
+  margin-left: auto;
+  right: calc((var(--layout-padding) * 2));
   bottom: calc(var(--footer-height) + var(--layout-padding));
   border-radius: calc(var(--height) / 2);
 }

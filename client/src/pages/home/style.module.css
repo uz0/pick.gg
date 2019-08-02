@@ -307,12 +307,11 @@ section {
   }
 }
 
-@media (max-width: 320px){
+@media (max-width: 320px) {
   .main h1 {
     font-size: 64px;
   }
-
-  .main p{
+  .main p {
     font-size: 20px;
   }
 }
