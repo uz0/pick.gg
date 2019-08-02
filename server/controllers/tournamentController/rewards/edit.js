@@ -42,10 +42,7 @@ const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
   const { rewards } = req.body;
 
-  Tournament.update({ _id: id }, { $set: { rewards } }, { new: true })
-    .exec()
-    .then(res.json)
-    .catch(error => res.json({ error }));
+  await Tournament.update({ _id: id }, { $set: { rewards } }, { new: true }).exec();
 
   const modifiedTournament = await Tournament
     .findById(id)
