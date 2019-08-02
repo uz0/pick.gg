@@ -4,7 +4,7 @@ export default (tournaments, users) => {
 
   const tournamentsList = streamersIds.reduce((list, streamer) => {
     const streamerTournaments = tournaments.filter(item => {
-      return String(item.creator) === String(streamer);
+      return String(item.creator._id) === String(streamer);
     });
     list[streamer] = streamerTournaments;
 
@@ -28,6 +28,7 @@ export default (tournaments, users) => {
 
     return rating;
   }, [])
+  .sort((prev, next) => next.totalViewers - prev.totalViewers);
 
   return rating;
 };

@@ -9,11 +9,16 @@ import getViewersRating from './getViewersRating';
 export default async (req, res) => {
   const tournaments = await TournamentModel
     .find({ isFinalized: true })
-    .populate('creatorId')
     .populate('applicants')
     .populate('matches')
     .populate('creator', '_id username summonerName')
     .exec();
+  
+  const users = await UserModel.find();
 
-  res.json(tournaments);
+  const rating = {
+    streamersRating: getStreamersRating(tournaments, users),
+  }
+
+  res.json(rating);
 }
