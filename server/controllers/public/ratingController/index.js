@@ -3,10 +3,10 @@ import getRating from './getRating';
 
 let router = express.Router();
 
-const RatingsController = () => {
+const PublicRatingController = () => {
   router.get('/', getRating);
 
   return router;
 };
 
-export default RatingsController;
+export default PublicRatingController;
