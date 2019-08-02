@@ -18,6 +18,7 @@ export default async (req, res) => {
 
   const rating = {
     streamersRating: getStreamersRating(tournaments, users),
+    viewersRating: getViewersRating(tournaments, users),
   }
 
   res.json(rating);
