@@ -6,7 +6,6 @@ import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http } from 'helpers';
-import i18n from 'i18n';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
@@ -179,7 +178,7 @@ class Tournament extends Component {
       <div className={cx('tournament', 'container')}>
 
         {this.state.isLoading && (
-          <Preloader isFullScreen />
+          <Preloader isFullScreen/>
         )}
 
         <div className={style.inner_container}>

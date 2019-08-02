@@ -93,9 +93,12 @@ const Viewers = ({
               return (
                 <div key={summoner._id} className={style.item}>
                   <div className={style.avatar}>
-                    <img src={summoner.imageUrl} onError={e => {
-                      e.currentTarget.src = AvatarPlaceholder;
-                    }}
+                    <img
+                      src={summoner.imageUrl}
+                      alt="Summoner avatar"
+                      onError={e => {
+                        e.currentTarget.src = AvatarPlaceholder;
+                      }}
                     />
                   </div>
                   <div className={style.info}>

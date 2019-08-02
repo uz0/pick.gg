@@ -108,7 +108,7 @@ class Start extends Component {
 
             <div className={style.cards}>
               <div className={style.card}>
-                <img src={cardOne} alt="Image"/>
+                <img src={cardOne} alt="card one"/>
 
                 <div className={style.text}>
                   <div className={style.first_title}>
@@ -118,7 +118,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardTwo} alt="Image"/>
+                <img src={cardTwo} alt="card two"/>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -132,7 +132,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardThree} alt="Image"/>
+                <img src={cardThree} alt="card three"/>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -146,7 +146,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardFour} alt="Image"/>
+                <img src={cardFour} alt="card four"/>
 
                 <div className={style.text}>
                   <div className={style.title}>

@@ -93,7 +93,6 @@ class Matches extends Component {
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
     const nameStyle = { '--width': captions.name.width };
-    const pointsStyle = { '--width': captions.number.width };
 
     const { _id, name } = item;
 
@@ -101,7 +100,6 @@ class Matches extends Component {
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
 
-    const isForecastingActive = get(this.props, 'tournament.isForecastingActive');
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isStarted = get(this.props, 'tournament.isStarted');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
@@ -174,7 +172,7 @@ class Matches extends Component {
             className={cx(style.button, style.danger)}
             onClick={() => this.deleteMatch(tournamentId, _id)}
           >
-            <Icon name="close" />
+            <Icon name="close"/>
           </button>
         )}
       </div>
@@ -190,7 +188,6 @@ class Matches extends Component {
     const matches = get(this.props, 'tournament.matches');
     const creator = get(this.props, 'tournament.creator');
     const isStarted = get(this.props, 'tournament.isStarted');
-    const isFinalized = get(this.props, 'tournament.isFinalized');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isEditingAvailable = isCurrentUserCreator && matches.length > 0 && !isStarted;

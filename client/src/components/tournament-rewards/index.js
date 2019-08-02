@@ -70,6 +70,7 @@ const Rewards = ({
                   <div className={style.avatar}>
                     <img
                       src={reward.image}
+                      alt="reward"
                       onError={e => {
                         e.currentTarget.src = RewardPlaceholder;
                       }}
