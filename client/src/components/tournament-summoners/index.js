@@ -82,7 +82,7 @@ const Summoners = ({
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
         <h3 className={style.subtitle}>Summoners</h3>
-        {isEditingAvailable && (
+        {isEditingAvailable && summoners.length > 0 && (
           <button
             type="button"
             className={style.button}
