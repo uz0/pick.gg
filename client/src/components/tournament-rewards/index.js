@@ -1,14 +1,16 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
-import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Button from 'components/button';
+import RewardPlaceholder from 'assets/trophy.svg';
 import { withCaptions } from 'hoc';
 import { REWARD_POSITIONS } from '../../constants';
+
 import style from './style.module.css';
 import i18n from 'i18next';
+
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
@@ -66,7 +68,12 @@ const Rewards = ({
               return (
                 <div key={reward._id} className={style.item}>
                   <div className={style.avatar}>
-                    <img src={reward.image}/>
+                    <img
+                      src={reward.image}
+                      onError={e => {
+                        e.currentTarget.src = RewardPlaceholder;
+                      }}
+                    />
                   </div>
                   <div className={style.info}>
                     <div className={style.name}>
