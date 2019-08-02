@@ -19,7 +19,7 @@ const cx = classnames.bind(style);
 const tableCaptions = ({ t, isMobile }) => ({
   name: {
     text: t('name'),
-    width: isMobile ? 200 : 250,
+    width: isMobile ? 110 : 250,
   },
 
   number: {
@@ -117,6 +117,18 @@ class Matches extends Component {
           <span className={textClass}>{name}</span>
         </div>
 
+        {isMatchOver && (
+          <div className={style.status_match}>
+            <span className={textClass}>{i18n.t('is_over_match')}</span>
+          </div>
+        )}
+
+        {isMatchActive && (
+          <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
+            <span className={textClass}>{i18n.t('is_active_match')}</span>
+          </div>
+        )}
+
         {isCurrentUserCreator && isStarted && !isMatchOver && !isMatchActive && (
           <button
             type="button"
@@ -162,7 +174,7 @@ class Matches extends Component {
             className={cx(style.button, style.danger)}
             onClick={() => this.deleteMatch(tournamentId, _id)}
           >
-            <Icon name="close"/>
+            <Icon name="close" />
           </button>
         )}
       </div>
@@ -186,7 +198,7 @@ class Matches extends Component {
     return (
       <div className={cx(style.matches, className)}>
         <div className={style.header}>
-          <h3 className={style.subtitle}>Matches</h3>
+          <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
           {isEditingAvailable && (
             <button
               type="button"

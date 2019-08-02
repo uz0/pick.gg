@@ -267,6 +267,8 @@
     "viewers": "Viewers",
     "your_summoners": "Your summoners",
     "summoners": "Summoners",
+    "is_over_match": "Ended",
+    "is_active_match": "Is going on",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
