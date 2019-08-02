@@ -25,7 +25,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   name: {
     text: t('name'),
-    width: isMobile ? 150 : 300,
+    width: isMobile ? 100 : 300,
   },
 
   points: {
