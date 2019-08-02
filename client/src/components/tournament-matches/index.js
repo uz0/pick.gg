@@ -112,7 +112,7 @@ class Matches extends Component {
     const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
 
     return (
-      <div key={_id} className={cx(className, { [style.is_active]: isMatchActive })}>
+      <div key={_id} className={cx(className, { [style.is_active]: isMatchActive }, { [style.is_over]: isMatchOver })}>
         <div className={itemClass} style={nameStyle}>
           <span className={textClass}>{name}</span>
         </div>
