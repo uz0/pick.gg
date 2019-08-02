@@ -47,6 +47,7 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
 const Rules = ({
   rules,
   isEditingAvailable,
+  isCurrentUserCreator,
   captions,
   addRules,
   editRules,
@@ -55,7 +56,7 @@ const Rules = ({
   <div className={cx(style.rules, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>{i18n.t('rules')}</h3>
-      {isEditingAvailable && (
+      {isCurrentUserCreator && isEditingAvailable && (
         <button
           type="button"
           className={style.button}
@@ -66,12 +67,12 @@ const Rules = ({
       )}
     </div>
 
-    {rules.length === 0 && (
+    {isCurrentUserCreator && rules.length === 0 && (
       <p className={style.empty}>{i18n.t('add_rules')}</p>
     )}
 
     <div className={style.content}>
-      {rules.length === 0 && (
+      {isCurrentUserCreator && rules.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
