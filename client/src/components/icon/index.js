@@ -12,6 +12,7 @@ import { ReactComponent as InfoIcon } from 'assets/icons/info.svg';
 import { ReactComponent as ListIcon } from 'assets/icons/list.svg';
 import { ReactComponent as CoinIcon } from 'assets/icons/coin.svg';
 import { ReactComponent as PlayIcon } from 'assets/icons/play.svg';
+import { ReactComponent as StopIcon } from 'assets/icons/stop.svg';
 
 const cx = classnames.bind(style);
 
@@ -27,6 +28,7 @@ const Icon = ({ name, className }) => {
     list: ListIcon,
     coin: CoinIcon,
     play: PlayIcon,
+    stop: StopIcon,
   })[name];
 
   return (

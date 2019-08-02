@@ -64,6 +64,17 @@ class Matches extends Component {
     }
   };
 
+  endMatch = async (tournamentId, matchId) => {
+    try {
+      const endMatchRequest = await http(`/api/tournaments/${tournamentId}/matches/${matchId}/end`, { method: 'PATCH' });
+      const updatedTournament = await endMatchRequest.json();
+
+      this.props.updateTournament({ ...updatedTournament });
+    } catch (error) {
+      console.log(error, 'error');
+    }
+  };
+
   deleteMatch = async (tournamentId, matchId) => {
     try {
       await http(`/api/tournaments/${tournamentId}/matches/${matchId}`, { method: 'DELETE' });
@@ -95,11 +106,10 @@ class Matches extends Component {
     const isStarted = get(this.props, 'tournament.isStarted');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
     const isMatchActive = item.isActive;
+    const isMatchOver = item.endAt;
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
-    const actionButtonIcon = isMatchActive ? 'info' : 'play';
-    const actionButtonTitle = isMatchActive ? 'Enter match results' : 'Start match';
 
     return (
       <div key={_id} className={cx(className, { [style.is_active]: isMatchActive })}>
@@ -107,20 +117,42 @@ class Matches extends Component {
           <span className={textClass}>{name}</span>
         </div>
 
-        {isCurrentUserCreator && isStarted && (
+        {isCurrentUserCreator && isStarted && !isMatchOver && !isMatchActive && (
           <button
             type="button"
             className={style.button}
-            title={actionButtonTitle}
-            onClick={() => isMatchActive ? this.openEditMatch(_id) : this.startMatch(tournamentId, _id)}
+            title="Start match"
+            onClick={() => this.startMatch(tournamentId, _id)}
           >
-            <Icon name={actionButtonIcon}/>
+            <Icon name="play" />
           </button>
         )}
 
-        {isStarted && (
+        {isCurrentUserCreator && isStarted && isMatchActive && (
+          <button
+            type="button"
+            className={style.button}
+            title="End match"
+            onClick={() => this.endMatch(tournamentId, _id)}
+          >
+            <Icon name="stop" />
+          </button>
+        )}
+
+        {isCurrentUserCreator && isStarted && isMatchOver && (
+          <button
+            type="button"
+            className={style.button}
+            title="Add match results"
+            onClick={() => this.openEditMatch(_id)}
+          >
+            <Icon name="info" />
+          </button>
+        )}
+
+        {isMatchOver && (
           <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
-            <Icon name="list"/>
+            <Icon name="list" />
           </button>
         )}
 
@@ -130,7 +162,7 @@ class Matches extends Component {
             className={cx(style.button, style.danger)}
             onClick={() => this.deleteMatch(tournamentId, _id)}
           >
-            <Icon name="close"/>
+            <Icon name="close" />
           </button>
         )}
       </div>

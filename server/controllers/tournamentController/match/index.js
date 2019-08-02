@@ -7,6 +7,7 @@ import { validator as validateEditResults, handler as editResults } from './edit
 import { validator as validateGet, handler as get } from './get';
 import * as createResults from './createResults';
 import * as start from './start';
+import * as end from './end';
 
 const router = express.Router({
   mergeParams: true
@@ -18,6 +19,8 @@ const MatchController = () => {
   router.get('/:matchId', validateGet, get);
 
   router.patch('/:matchId/start', start.validator, start.handler);
+
+  router.patch('/:matchId/end', end.validator, end.handler);
 
   router.patch('/:matchId', validateEdit, edit);
 
