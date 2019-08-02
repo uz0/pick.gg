@@ -9,8 +9,18 @@ const refTo = schemaName => ({
 
 export default mongoose.model('Reward', new Schema({
   userId: refTo('User'),
-  key: { type: String, unique: true },
-  isClaimed: { type: Boolean, default: false },
-  description: { type: String },
-  image: { type: String },
+  key: {
+    type: String,
+    unique: true,
+  },
+  isClaimed: {
+    type: Boolean,
+    default: false,
+  },
+  description: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
 }));

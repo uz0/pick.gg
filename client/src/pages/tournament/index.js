@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http } from 'helpers';
 import i18n from 'i18n';
 import Button from 'components/button';
+import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
 import TournamentMatches from 'components/tournament-matches';
 import TournamentRewards from 'components/tournament-rewards';
@@ -24,6 +26,10 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 class Tournament extends Component {
+  state = {
+    isLoading: true,
+  }
+
   loadTournament = async () => {
     const tournamentRequest = await http(`/public/tournaments/${this.props.match.params.id}`);
     const rewardsRequest = await http(`/public/tournaments/${this.props.match.params.id}/rewards`);
@@ -48,6 +54,24 @@ class Tournament extends Component {
 
   enableForecasting = async () => {
     const response = await http(`/api/tournaments/${this.props.match.params.id}/forecastStatus`, { method: 'PATCH' });
+    const tournament = await response.json();
+
+    this.props.updateTournament({
+      ...tournament,
+    });
+  };
+
+  startMatches = async () => {
+    const response = await http(`/api/tournaments/${this.props.match.params.id}/start`, { method: 'PATCH' });
+    const tournament = await response.json();
+
+    this.props.updateTournament({
+      ...tournament,
+    });
+  };
+
+  finalizeTournament = async () => {
+    const response = await http(`/api/tournaments/${this.props.match.params.id}/finalize`, { method: 'PATCH' });
     const tournament = await response.json();
 
     this.props.updateTournament({
@@ -119,12 +143,14 @@ class Tournament extends Component {
     },
   });
 
-  componentDidMount() {
-    this.loadTournament();
+  async componentDidMount() {
+    await this.loadTournament();
 
     if (isEmpty(this.props.users)) {
-      this.loadUsers();
+      await this.loadUsers();
     }
+
+    this.setState({ isLoading: false });
   }
 
   render() {
@@ -143,22 +169,47 @@ class Tournament extends Component {
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
-    // const isViewersWidgetVisible = !isApplicationsAvailable && isForecastingActive;
-    const isViewersWidgetVisible = isForecastingActive;
+    const isViewersWidgetVisible = isForecastingActive || isStarted;
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
+
+    const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
+    const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.isActive === true);
 
     return (
       <div className={cx('tournament', 'container')}>
+
+        {this.state.isLoading && (
+          <Preloader isFullScreen/>
+        )}
+
         <div className={style.inner_container}>
 
           <div className={style.tournament_section}>
             <h2 className={style.title}>{name}</h2>
 
-            {isCurrentUserCreator && (
+            {isCurrentUserCreator && isApplicationsAvailable && isApplicationsAvailable && (
               <Button
+                disabled={isAllowForecastButtonDisabled}
                 text="Allow forecasts"
                 appearance="_basic-accent"
                 onClick={this.enableForecasting}
+              />
+            )}
+
+            {isCurrentUserCreator && isForecastingActive && (
+              <Button
+                text="Start tournament"
+                appearance="_basic-accent"
+                onClick={this.startMatches}
+              />
+            )}
+
+            {isCurrentUserCreator && isStarted && !isFinalized && (
+              <Button
+                disabled={isFinalizeButtonDisabled}
+                text="Finalize tournament"
+                appearance="_basic-accent"
+                onClick={debounce(this.finalizeTournament, 1000)}
               />
             )}
           </div>
@@ -170,7 +221,8 @@ class Tournament extends Component {
                 { [style.is_empty]: isEmpty },
                 { [style.applications_available]: isApplicationsAvailable },
                 { [style.applications_available_streamer]: isApplicantsWidgetVisible },
-                { [style.forecasting_is_available]: isForecastingActive }
+                { [style.forecasting_is_available]: isForecastingActive },
+                { [style.is_started]: isStarted }
               )}
               >
                 <TournamentInformation

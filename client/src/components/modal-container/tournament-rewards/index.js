@@ -90,7 +90,7 @@ class AddRewards extends Component {
     const { tournamentId } = this.props.options;
 
     try {
-      await http(`/api/tournaments/${tournamentId}/rewards`, {
+      const rewardsUpdateRequest = await http(`/api/tournaments/${tournamentId}/rewards`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -98,11 +98,13 @@ class AddRewards extends Component {
         body: JSON.stringify({ rewards }),
       });
 
+      const updatedTournament = await rewardsUpdateRequest.json();
+
       const rewardsRequest = await http(`/public/tournaments/${tournamentId}/rewards`);
       const unfoldedRewards = await rewardsRequest.json();
 
       this.props.updateTournament({
-        ...this.props.tournament,
+        ...updatedTournament,
         unfoldedRewards,
         rewards,
       });

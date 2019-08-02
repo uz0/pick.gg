@@ -38,14 +38,21 @@ const validator = [
     })
 ];
 
-const handler = withValidationHandler((req, res) => {
+const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
   const { rewards } = req.body;
 
-  Tournament.findByIdAndUpdate(id, { $set: { rewards } }, { new: true })
-    .exec()
-    .then(res.json)
-    .catch(error => res.json({ error }));
+  await Tournament.update({ _id: id }, { $set: { rewards } }, { new: true }).exec();
+
+  const modifiedTournament = await Tournament
+    .findById(id)
+    .populate('creatorId')
+    .populate('applicants')
+    .populate('matches')
+    .populate('creator', '_id username summonerName')
+    .exec();
+
+  res.json(modifiedTournament);
 });
 
 export { validator, handler };

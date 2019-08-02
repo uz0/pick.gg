@@ -15,7 +15,10 @@ export default mongoose.model('Match',
         of: Number
       }
     }],
-    isActive: Boolean,
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
     startedAt: Date,
     endAt: Date,
     updatedAt: Date,

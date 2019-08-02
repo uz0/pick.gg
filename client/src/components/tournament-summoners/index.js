@@ -1,26 +1,26 @@
 import React from 'react';
-import compose from 'recompose/compose';
-import withProps from 'recompose/withProps';
+import { connect } from 'react-redux';
+import { compose, withHandlers, withProps } from 'recompose';
 import pick from 'lodash/pick';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
-import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http, calcSummonersPoints } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
-import notificationActions from 'components/notification/actions';
 import { withCaptions } from 'hoc';
+import notificationActions from 'components/notification/actions';
 import Table from 'components/table';
 import Button from 'components/button';
 import style from './style.module.css';
-import { withHandlers } from 'recompose';
+
+import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
     text: t('number'),
-    width: isMobile ? 40 : 60,
+    width: isMobile ? 55 : 60,
   },
 
   name: {
@@ -30,14 +30,16 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   points: {
     text: t('points'),
-    width: isMobile ? 50 : 80,
+    width: isMobile ? 80 : 80,
   },
 });
 
-const renderRow = ({ className, itemClass, textClass, index, item, captions }) => {
+const renderRow = ({ className, itemClass, textClass, index, item, props, captions }) => {
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
+
+  const isSummonerWinner = props.find(summoner => summoner.id === item._id);
 
   return (
     <div key={item._id} className={cx(className, style.row)}>
@@ -46,7 +48,10 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
       </div>
 
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.summonerName}</span>
+        <span className={textClass}>
+          {item.summonerName}
+          {isSummonerWinner && <span className={style.is_winner}> is winner</span>}
+        </span>
       </div>
 
       {item.points > 0 && (
@@ -60,10 +65,12 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
 
 const Summoners = ({
   captions,
+  winners,
   summoners,
   className,
   isCurrentUserCreator,
-  isAlreadySummonerOrApplicant,
+  isUserCanApply,
+  isEditingAvailable,
   isApplicationsAvailable,
   isApplicantRejected,
   isAlreadyApplicant,
@@ -73,66 +80,67 @@ const Summoners = ({
 }) => {
   return (
     <div className={cx(style.summoners, className)}>
-        <div className={style.header}>
-          <h3 className={style.subtitle}>Summoners</h3>
-          {isCurrentUserCreator && summoners && summoners.length > 0 && (
-            <button
-              type="button"
-              className={style.button}
-              onClick={addSummoners}
-            >
-              Edit
-            </button>
-          )}
-        </div>
-    
-        {isCurrentUserCreator && summoners.length === 0 && (
-          <p className={style.empty}>You can choose summoners</p>
+      <div className={style.header}>
+        <h3 className={style.subtitle}>Summoners</h3>
+        {isEditingAvailable && summoners.length > 0 && (
+          <button
+            type="button"
+            className={style.button}
+            onClick={addSummoners}
+          >
+            Edit
+          </button>
         )}
-    
-        {!isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && (
-          <p className={style.empty}>You can apply as summoner</p>
-        )}
-    
-        {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
-          <p className={style.empty}>You applied as summoner</p>
-        )}
-    
-        {isApplicantRejected && (
-          <p className={style.empty}>Your application was rejeceted</p>
-        )}
-    
-        <div className={style.content}>
-          {isCurrentUserCreator && summoners.length === 0 && (
-            <Button
-              appearance="_circle-accent"
-              icon="plus"
-              className={style.button}
-              onClick={addSummoners}
-            />
-          )}
-    
-          {!isCurrentUserCreator && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
-            <Button
-              appearance="_basic-accent"
-              text="Apply as summoner"
-              className={style.button}
-              onClick={debounce(applyTournament, 400)}
-            />
-          )}
-    
-          {summoners && summoners.length > 0 && (
-            <Table
-              noCaptions
-              captions={captions}
-              items={summoners}
-              renderRow={renderRow}
-              isLoading={false}
-              className={style.table}
-            />
-          )}
-        </div>
       </div>
+
+      {isCurrentUserCreator && summoners.length === 0 && (
+        <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
+      )}
+
+      {isUserCanApply && (
+        <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
+      )}
+
+      {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
+        <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
+      )}
+
+      {isApplicantRejected && (
+        <p className={style.empty}>{i18n.t('application_rejected')}</p>
+      )}
+
+      <div className={style.content}>
+        {isCurrentUserCreator && summoners.length === 0 && (
+          <Button
+            appearance="_circle-accent"
+            icon="plus"
+            className={style.button}
+            onClick={addSummoners}
+          />
+        )}
+
+        {!isCurrentUserCreator && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
+          <Button
+            appearance="_basic-accent"
+            text={i18n.t('apply_summoner')}
+            className={style.button}
+            onClick={debounce(applyTournament, 400)}
+          />
+        )}
+
+        {summoners && summoners.length > 0 && (
+          <Table
+            noCaptions
+            captions={captions}
+            items={summoners}
+            withProps={winners}
+            renderRow={renderRow}
+            isLoading={false}
+            className={style.table}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -159,7 +167,7 @@ export default compose(
         props.showNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: 'Вы уже подали заявку на участие в турнире',
+          message: i18n.t('you_send_join'),
         });
 
         return;
@@ -178,23 +186,28 @@ export default compose(
     },
   }),
   withProps(props => {
-    const { creator, matches, rules, isApplicationsAvailable } = props.tournament;
+    const { creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
     const currentUserId = props.currentUser && props.currentUser._id;
 
     const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
+    const isEditingAvailable = isCurrentUserCreator && !props.tournament.isStarted;
 
     const isAlreadyApplicant = find(props.tournament.applicants, { user: currentUserId });
     const isAlreadySummoner = props.tournament.summoners.includes(currentUserId);
     const isAlreadySummonerOrApplicant = isAlreadyApplicant || isAlreadySummoner;
     const isApplicantRejected = find(props.tournament.applicants, { user: currentUserId, status: 'REJECTED' });
 
+    const isUserCanApply = !isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
+
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
+        winners,
         isCurrentUserCreator,
+        isEditingAvailable,
         isApplicationsAvailable,
-        isAlreadySummonerOrApplicant,
+        isUserCanApply,
         isAlreadyApplicant,
         isApplicantRejected,
         isAlreadySummoner,
@@ -214,9 +227,11 @@ export default compose(
 
     return {
       ...props,
+      winners,
       isCurrentUserCreator,
+      isEditingAvailable,
       isApplicationsAvailable,
-      isAlreadySummonerOrApplicant,
+      isUserCanApply,
       isApplicantRejected,
       isAlreadyApplicant,
       isAlreadySummoner,

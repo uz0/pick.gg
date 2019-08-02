@@ -3,50 +3,48 @@
   padding-bottom: var(--layout-padding);
 }
 
-.tournaments .list {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.tournaments .no_tournaments {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.wrap_tournaments {
   width: 100%;
   max-width: var(--container-width);
   margin-left: auto;
   margin-right: auto;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
+  padding: var(--layout-padding);
 }
 
-.tournaments .list._is-loading {
-  min-height: 400px;
-  background-position: var(--layout-padding) 0;
-  background-image: url('assets/card-tournament.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  animation: loading 1s infinite;
-}
-
-@keyframes loading {
-  0% {
-    opacity: 0.75;
-  }
-  100% {
-    opacity: 0.5;
-  }
-  0% {
-    opacity: 0.75;
-  }
+.tournaments .list {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .tournaments .list .item {
   max-width: 100%;
   text-decoration: none;
+  transition: 0.3s;
 }
 
-.tournaments .list .item:hover .card {
-  box-shadow: 0 0 6px rgb(58, 58, 58);
+.tournaments .list .item .card:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  height: 4px;
+  background-color: var(--accent-color);
+  transition: 0.3s;
+  width: 0;
+  opacity: 0.4;
 }
 
-.tournaments .list .item:nth-of-type(n+2) {
-  margin-top: 30px;
+.tournaments .list .item:hover .card:after {
+  width: 100%;
+  opacity: 0.9;
 }
 
 .tournaments .list .item .name {
@@ -63,15 +61,21 @@
 
 .tournaments .list .item .card {
   margin-top: 12px;
-  transform: translateY(var(--transform));
-  transition-property: transform;
+  transition: 0.3s;
 }
 
-.tournaments .list>.button {
+.tournaments .button {
   --height: 50px;
   position: sticky;
   margin-left: auto;
-  right: calc((var(--layout-padding) * 2));
-  bottom: calc(var(--footer-height) + var(--layout-padding));
+  margin-top: auto;
+  right: var(--layout-padding);
+  bottom: var(--layout-padding);
   border-radius: calc(var(--height) / 2);
+}
+
+@media (max-width: 480px) {
+  .tournaments .list {
+    grid-template-columns: 1fr;
+  }
 }

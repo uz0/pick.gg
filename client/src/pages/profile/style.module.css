@@ -24,3 +24,21 @@
 .email {
   opacity: 0.85;
 }
+
+.position {
+  display: flex;
+  justify-content: space-between;
+}
+
+.position .field {
+  width: 49%;
+}
+
+@media (max-width: 480px) {
+  .position {
+    flex-wrap: wrap;
+  }
+  .position .field {
+    width: 100%;
+  }
+}

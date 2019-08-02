@@ -19,17 +19,37 @@ const schema = new Schema(
     },
     rewards: {
       type: Map,
-      of: String
+      of: String,
+      default: {},
     },
     rules: {
       type: Map,
-      of: Number
+      of: Number,
+      default: {},
     },
     isForecastingActive: {
       type: Boolean,
       default: false
     },
-    winner: refTo('User'),
+    isStarted: {
+      type: Boolean,
+      default: false
+    },
+    isFinalized: {
+      type: Boolean,
+      default: false
+    },
+    winners: [
+      {
+        _id: false,
+        id: refTo('User'),
+        position: {
+          type: String,
+          enum: ['summoner', 'viewer'],
+        },
+        place: Number,
+      }
+    ],
     creator: refTo('User'),
     summoners: [refTo('User')],
     applicants: [
@@ -61,7 +81,7 @@ schema.virtual('matches', {
   foreignField: 'tournamentId'
 });
 
-schema.virtual('isEmpty').get(function () {
+schema.virtual('isEmpty').get(function() {
   if (isEmpty(this.rules) || isEmpty(this.rewards) || this.matches.length === 0) {
     return true;
   }
@@ -69,19 +89,11 @@ schema.virtual('isEmpty').get(function () {
   return false;
 });
 
-schema.virtual('isApplicationsAvailable').get(function () {
-  if (!this.isEmpty && !this.isForecastingActive) {
+schema.virtual('isApplicationsAvailable').get(function() {
+  if (!this.isEmpty && !this.isForecastingActive && !this.isStarted) {
     return true;
   }
 
-  return false;
-});
-
-schema.virtual('isStarted').get(function () {
-  return false;
-});
-
-schema.virtual('isFinalized').get(function () {
   return false;
 });
 

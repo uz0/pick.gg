@@ -13,14 +13,17 @@ import Button from 'components/button';
 
 import modalActions from '../actions';
 import i18n from 'i18n';
+import moment from 'moment';
 
 import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
+    .min(4)
     .max(40)
     .required('Required'),
   description: Yup.string()
+    .min(4)
     .max(120)
     .required('Required'),
   url: Yup.string()
@@ -31,8 +34,10 @@ const validationSchema = Yup.object().shape({
     .min(0)
     .required(),
   startAt: Yup.date()
+    .min(moment(new Date()).format('DD MMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
     .required('Required'),
 });
+const today = moment().format('YYYY-MM-DD');
 
 const NewTournament = props => {
   return (
@@ -76,6 +81,7 @@ const NewTournament = props => {
           type="date"
           label="Date"
           name="startAt"
+          min={today}
           className={style.field}
         />
         <Button
@@ -104,7 +110,7 @@ const enhance = compose(
       description: '',
       url: '',
       price: 0,
-      startAt: '',
+      startAt: today,
     }),
     handleSubmit: async (values, formikBag) => {
       const createTournamentRequest = async () => {

@@ -21,7 +21,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   value: {
     text: t('values'),
-    width: isMobile ? 40 : 60,
+    width: isMobile ? 75 : 60,
   },
 });
 
@@ -44,27 +44,35 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
   );
 };
 
-const Rules = ({ rules, isCurrentUserCreator, captions, addRules, editRules, className }) => (
+const Rules = ({
+  rules,
+  isEditingAvailable,
+  isCurrentUserCreator,
+  captions,
+  addRules,
+  editRules,
+  className,
+}) => (
   <div className={cx(style.rules, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>{i18n.t('rules')}</h3>
-      {isCurrentUserCreator && rules.length > 0 && (
+      {isCurrentUserCreator && isEditingAvailable && (
         <button
           type="button"
           className={style.button}
           onClick={editRules}
         >
-          Edit
+          {i18n.t('edit')}
         </button>
       )}
     </div>
 
-    {rules.length === 0 && (
+    {isCurrentUserCreator && rules.length === 0 && (
       <p className={style.empty}>{i18n.t('add_rules')}</p>
     )}
 
     <div className={style.content}>
-      {rules.length === 0 && (
+      {isCurrentUserCreator && rules.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -81,7 +89,7 @@ const Rules = ({ rules, isCurrentUserCreator, captions, addRules, editRules, cla
           renderRow={renderRow}
           isLoading={false}
           className={style.table}
-          emptyMessage="There is no rules yet"
+          emptyMessage={i18n.t('no_rules_yet')}
         />
       )}
     </div>
@@ -100,10 +108,15 @@ export default compose(
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
 
+    const isEditingAvailable = isCurrentUserCreator &&
+      Object.keys(props.tournament.rules).length > 0 &&
+      !props.tournament.isStarted;
+
     if (isEmpty(props.tournament.rules)) {
       return {
         ...props,
         isCurrentUserCreator,
+        isEditingAvailable,
         rules: [],
       };
     }
@@ -113,6 +126,7 @@ export default compose(
     return {
       ...props,
       isCurrentUserCreator,
+      isEditingAvailable,
       rules,
     };
   })

@@ -79,6 +79,11 @@
   flex-shrink: 0;
 }
 
+.summoners .table .row .is_winner {
+  color: #4ccc4c;
+  font-weight: 400;
+}
+
 .summoners .table .row .points {
   display: flex;
   align-items: center;
@@ -86,4 +91,10 @@
   border-radius: 4px;
   color: var(--primary-color);
   background-color: var(--accent-color);
+}
+
+@media (max-width: 480px) {
+  .summoners .header .subtitle {
+    font-size: 20px;
+  }
 }

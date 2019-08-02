@@ -10,26 +10,28 @@ import { withCaptions } from 'hoc';
 import style from './style.module.css';
 import { calcSummonersPoints } from 'helpers';
 
+import i18n from 'i18next';
+
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
     text: t('number'),
-    width: isMobile ? 55 : 55,
+    width: isMobile ? 55 : 60,
   },
 
   name: {
     text: t('name'),
-    width: isMobile ? 150 : 200,
+    width: isMobile ? 150 : 300,
   },
 
   points: {
     text: t('points'),
-    width: isMobile ? 50 : 80,
+    width: isMobile ? 80 : 80,
   },
 });
 
-const renderRow = ({ className, itemClass, textClass, index, item, captions }) => {
+const renderRow = ({ className, itemClass, textClass, index, item, props: tournament, captions }) => {
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
@@ -44,14 +46,17 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions }) =
         <span className={textClass}>{item.user && item.user.username}</span>
       </div>
 
-      <div className={itemClass} style={pointsStyle}>
-        <span className={cx(textClass, style.points)}>{item.points}</span>
-      </div>
+      {tournament.isStarted && (
+        <div className={itemClass} style={pointsStyle}>
+          <span className={cx(textClass, style.points)}>{item.points}</span>
+        </div>
+      )}
     </div>
   );
 };
 
 const Viewers = ({
+  tournament,
   joinTournament,
   viewers,
   currentUserSummoners,
@@ -60,14 +65,14 @@ const Viewers = ({
 }) => (
   <div className={cx(style.viewers, className)}>
     <div className={style.header}>
-      <h3 className={style.subtitle}>Viewers</h3>
+      <h3 className={style.subtitle}>{i18n.t('viewers')}</h3>
     </div>
 
     <div className={style.content}>
-      {currentUserSummoners.length === 0 && (
+      {currentUserSummoners.length === 0 && tournament.isForecastingActive && (
         <div className={style.attend}>
           <Button
-            text="Join tournament"
+            text={i18n.t('join_tournament')}
             appearance="_basic-accent"
             className={style.button}
             onClick={joinTournament}
@@ -77,7 +82,7 @@ const Viewers = ({
 
       {currentUserSummoners.length > 0 && (
         <div className={style.forecast}>
-          <div className={style.title}>Your summoners:</div>
+          <div className={style.title}>{i18n.t('your_summoners')}:</div>
           <div className={style.list}>
             {currentUserSummoners.map(summoner => {
               return (
@@ -111,9 +116,10 @@ const Viewers = ({
           noCaptions
           captions={captions}
           items={viewers}
+          withProps={tournament}
           renderRow={renderRow}
           className={style.table}
-          emptyMessage="There is no viewers yet"
+          emptyMessage={i18n.t('no_viewers_yet')}
         />
       )}
     </div>

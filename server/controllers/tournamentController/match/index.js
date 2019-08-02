@@ -3,9 +3,10 @@ import express from 'express';
 import { validator as validateCreate, handler as create } from './create';
 import { validator as validateEdit, handler as edit } from './edit';
 import { validator as validateDelete, handler as deleteHandler } from './delete';
-import * as createResults from './createResults';
 import { validator as validateEditResults, handler as editResults } from './editResults';
 import { validator as validateGet, handler as get } from './get';
+import * as createResults from './createResults';
+import * as start from './start';
 
 const router = express.Router({
   mergeParams: true
@@ -16,7 +17,9 @@ const MatchController = () => {
 
   router.get('/:matchId', validateGet, get);
 
-  router.put('/:matchId', validateEdit, edit);
+  router.patch('/:matchId/start', start.validator, start.handler);
+
+  router.patch('/:matchId', validateEdit, edit);
 
   router.delete('/:matchId', validateDelete, deleteHandler);
 
