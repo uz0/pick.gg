@@ -8,6 +8,7 @@ import classnames from 'classnames/bind';
 import { http } from 'helpers';
 import i18n from 'i18n';
 import Button from 'components/button';
+import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
 import TournamentMatches from 'components/tournament-matches';
 import TournamentRewards from 'components/tournament-rewards';
@@ -25,6 +26,10 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 class Tournament extends Component {
+  state = {
+    isLoading: true,
+  }
+
   loadTournament = async () => {
     const tournamentRequest = await http(`/public/tournaments/${this.props.match.params.id}`);
     const rewardsRequest = await http(`/public/tournaments/${this.props.match.params.id}/rewards`);
@@ -138,12 +143,14 @@ class Tournament extends Component {
     },
   });
 
-  componentDidMount() {
-    this.loadTournament();
+  async componentDidMount() {
+    await this.loadTournament();
 
     if (isEmpty(this.props.users)) {
-      this.loadUsers();
+      await this.loadUsers();
     }
+
+    this.setState({ isLoading: false });
   }
 
   render() {
@@ -170,6 +177,11 @@ class Tournament extends Component {
 
     return (
       <div className={cx('tournament', 'container')}>
+
+        {this.state.isLoading && (
+          <Preloader isFullScreen />
+        )}
+
         <div className={style.inner_container}>
 
           <div className={style.tournament_section}>
