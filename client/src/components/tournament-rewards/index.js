@@ -35,7 +35,7 @@ const Rewards = ({
 }) => (
   <div className={cx(style.rewards, className)}>
     <div className={style.header}>
-      <h3 className={style.subtitle}>Rewards</h3>
+      <h3 className={style.subtitle}>{i18n.t('rewards')}</h3>
       {isAddButtonVisible && (
         <button
           type="button"

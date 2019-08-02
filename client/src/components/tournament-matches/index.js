@@ -124,7 +124,7 @@ class Matches extends Component {
             title="Start match"
             onClick={() => this.startMatch(tournamentId, _id)}
           >
-            <Icon name="play" />
+            <Icon name="play"/>
           </button>
         )}
 
@@ -135,7 +135,7 @@ class Matches extends Component {
             title="End match"
             onClick={() => this.endMatch(tournamentId, _id)}
           >
-            <Icon name="stop" />
+            <Icon name="stop"/>
           </button>
         )}
 
@@ -146,13 +146,13 @@ class Matches extends Component {
             title="Add match results"
             onClick={() => this.openEditMatch(_id)}
           >
-            <Icon name="info" />
+            <Icon name="info"/>
           </button>
         )}
 
         {isMatchOver && (
           <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
-            <Icon name="list" />
+            <Icon name="list"/>
           </button>
         )}
 
@@ -162,7 +162,7 @@ class Matches extends Component {
             className={cx(style.button, style.danger)}
             onClick={() => this.deleteMatch(tournamentId, _id)}
           >
-            <Icon name="close" />
+            <Icon name="close"/>
           </button>
         )}
       </div>

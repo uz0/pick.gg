@@ -20,7 +20,7 @@
 .tournaments .list {
   display: grid;
   grid-column-gap: 20px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
 }
 
 .tournaments .list .item {
@@ -66,15 +66,43 @@
 
 .tournaments .button {
   --height: 50px;
-  position: sticky;
-  margin-left: auto;
-  margin-top: auto;
-  right: var(--layout-padding);
-  bottom: var(--layout-padding);
+  position: fixed;
+  right: 28%;
+  bottom: calc(var(--layout-padding) * 4);
   border-radius: calc(var(--height) / 2);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1920px) {
+  .tournaments .button {
+    right: 25%;
+  }
+}
+
+@media (max-width: 1440px) {
+  .tournaments .button {
+    right: 15%;
+  }
+}
+
+@media (max-width: 1366px) {
+  .tournaments .button {
+    right: 12%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .tournaments .button {
+    right: 10%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .tournaments .button {
+    right: var(--layout-padding);
+  }
+}
+
+@media (max-width: 768px) {
   .tournaments .list {
     grid-template-columns: 1fr;
   }

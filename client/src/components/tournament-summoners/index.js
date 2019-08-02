@@ -81,7 +81,7 @@ const Summoners = ({
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
-        <h3 className={style.subtitle}>Summoners</h3>
+        <h3 className={style.subtitle}>{i18n.t('summoners')}</h3>
         {isEditingAvailable && summoners.length > 0 && (
           <button
             type="button"
