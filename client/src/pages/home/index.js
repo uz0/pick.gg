@@ -61,12 +61,6 @@ class Start extends Component {
     ym('reachGoal', 'user_signed_in');
     const url = this.tournamentId ? `/tournaments/${this.tournamentId}` : '/tournaments';
     this.props.history.push(url);
-
-    this.props.showNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: response.message,
-    });
   };
 
   onFailureGoogleLogin = () => {
