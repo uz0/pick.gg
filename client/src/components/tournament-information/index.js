@@ -101,11 +101,6 @@ const Information = props => {
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>{i18n.t('price')}:</div>
-            <div className={style.value}>{isTournamentFree}</div>
-          </div>
-
-          <div className={style.item}>
             <div className={style.key}>{i18n.t('status')}:</div>
             <div className={style.value}>{getTournamentStatus()}</div>
           </div>
