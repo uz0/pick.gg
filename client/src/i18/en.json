@@ -246,7 +246,7 @@
     "tournament_go": "Tournament is going on!",
     "created_at": "Created at",
     "creator": "Creator",
-    "stream_link": "Stream link",
+    "stream": "Stream",
     "link": "link",
     "status": "Status",
     "link_was_copy": "Link was copy to your clipboard",
@@ -269,6 +269,7 @@
     "summoners": "Summoners",
     "is_over_match": "Ended",
     "is_active_match": "Is going on",
+    "date_tournament": "Date of tournament",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",

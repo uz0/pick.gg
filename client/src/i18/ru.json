@@ -250,8 +250,8 @@
     "tournament_go": "Турнир продолжается!",
     "created_at": "Создан:",
     "creator": "Создатель",
-    "stream_link": "Стрим ссылка",
-    "link": "ссылка",
+    "stream": "Ссылка на",
+    "link": "стрим",
     "status": "Статус",
     "link_was_copy": "Ссылка была скопирована в ваш буфер обмена",
     "copy": "Копировать",
@@ -273,6 +273,7 @@
     "summoners": "Призыватели",
     "is_over_match": "Закончился",
     "is_active_match": "В процессе",
+    "date_tournament": "Дата турнира",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",

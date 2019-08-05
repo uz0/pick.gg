@@ -16,12 +16,12 @@ const cx = classnames.bind(style);
 const tableCaptions = ({ t, isMobile }) => ({
   rule: {
     text: t('rules'),
-    width: isMobile ? 75 : 200,
+    width: isMobile ? 75 : 160,
   },
 
   value: {
     text: t('values'),
-    width: isMobile ? 75 : 60,
+    width: isMobile ? 75 : 80,
   },
 });
 

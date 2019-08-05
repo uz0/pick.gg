@@ -13,10 +13,9 @@ const cx = classnames.bind(style);
 
 const Information = props => {
   const creator = get(props, 'tournament.creator');
-  const createdAt = moment(get(props, 'tournament.createdAt', '')).format('MMM DD, h:mm');
+  const createdAt = moment(get(props, 'tournament.createdAt', '')).format('MMM DD');
   const description = get(props, 'tournament.description');
   const className = get(props, 'className');
-  const price = get(props, 'tournament.price');
   const url = get(props, 'tournament.url');
 
   const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
@@ -27,7 +26,6 @@ const Information = props => {
   const isStarted = get(props, 'tournament.isStarted');
   const isFinalized = get(props, 'tournament.isFinalized');
 
-  const isTournamentFree = price === 0 ? i18n.t('free') : `$ ${price}`;
   const isEditingAvailable = isCurrentUserCreator && !isStarted;
 
   const getTournamentStatus = () => {
@@ -80,7 +78,7 @@ const Information = props => {
       <div className={style.content}>
         <div className={style.info}>
           <div className={style.item}>
-            <div className={style.key}>{i18n.t('created_at')}:</div>
+            <div className={style.key}>{i18n.t('date_tournament')}:</div>
             <div className={style.value}>{createdAt}</div>
           </div>
 
@@ -94,7 +92,7 @@ const Information = props => {
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>{i18n.t('stream_link')}:</div>
+            <div className={style.key}>{i18n.t('stream')}</div>
             <div className={style.value}>
               <a target="blank" href={url}>{i18n.t('link')}</a>
             </div>
