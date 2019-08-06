@@ -37,7 +37,8 @@ const handler = withValidationHandler(async (req, res) => {
           'description',
           'startAt',
           'price',
-          'url'
+          'url',
+          'imageUrl',
         ]),
         {
           isReady: false,

@@ -20,7 +20,7 @@ import style from './style.module.css';
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(4)
-    .max(40)
+    .max(60)
     .required('Required'),
   description: Yup.string()
     .min(4)
@@ -30,11 +30,13 @@ const validationSchema = Yup.object().shape({
     .max(200)
     .required('Required')
     .url(i18n.t('new_tournament.enter_valid_url')),
+  imageUrl: Yup.string()
+    .required(),
   price: Yup.string()
     .min(0)
     .required(),
   startAt: Yup.date()
-    .min(moment(new Date()).format('DD MMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
+    .min(moment(new Date()).format('DD MMMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
     .required('Required'),
 });
 const today = moment().format('YYYY-MM-DD');
@@ -66,6 +68,13 @@ const NewTournament = props => {
           component={FormInput}
           label="Stream link"
           name="url"
+          className={style.field}
+        />
+
+        <Field
+          component={FormInput}
+          label="Image tournament"
+          name="imageUrl"
           className={style.field}
         />
 
@@ -109,6 +118,7 @@ const enhance = compose(
       name: '',
       description: '',
       url: '',
+      imageUrl: '',
       price: 0,
       startAt: today,
     }),
