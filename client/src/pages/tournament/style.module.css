@@ -137,6 +137,7 @@
 }
 
 .tournament .inner_container .widgets.is_empty {
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: "information information information"
                        "rules matches rewards";
 }
