@@ -13,7 +13,7 @@ const cx = classnames.bind(style);
 
 const Information = props => {
   const creator = get(props, 'tournament.creator');
-  const createdAt = moment(get(props, 'tournament.createdAt', '')).format('MMM DD');
+  const createdAt = moment(get(props, 'tournament.createdAt', '')).format('D MMMM');
   const description = get(props, 'tournament.description');
   const className = get(props, 'className');
   const url = get(props, 'tournament.url');
@@ -52,11 +52,11 @@ const Information = props => {
     }
 
     if (isStarted && !isFinalized) {
-      return 'Tournament is going on!';
+      return i18n.t('tournament_go');
     }
 
     if (isFinalized) {
-      return 'Tournament is over!';
+      return i18n.t('is_over');
     }
   };
 
@@ -83,7 +83,7 @@ const Information = props => {
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>{i18n.t('creator')}: </div>
+            <div className={style.key}>{i18n.t('creator')}:</div>
             <div className={style.value}>
               <Link className={style.creator} to={`/user/${creator._id}`}>
                 {creator.username}<Icon name="star"/>
@@ -98,7 +98,7 @@ const Information = props => {
             </div>
           </div>
 
-          <div className={style.item}>
+          <div className={cx(style.item, style.status)}>
             <div className={style.key}>{i18n.t('status')}:</div>
             <div className={style.value}>{getTournamentStatus()}</div>
           </div>
