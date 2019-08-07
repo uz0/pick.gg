@@ -105,10 +105,6 @@ const Summoners = ({
         <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
       )}
 
-      {isApplicantRejected && (
-        <p className={style.empty}>{i18n.t('application_rejected')}</p>
-      )}
-
       <div className={style.content}>
         {isCurrentUserCreator && summoners.length === 0 && (
           <Button
