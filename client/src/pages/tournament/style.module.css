@@ -264,6 +264,18 @@
                          "summoners"
                          "viewers";
   }
+<<<<<<< HEAD
+=======
+  .tournament .inner_container .widgets.is_started {
+    grid-template-columns: 1fr;
+    grid-template-areas: "information"
+                         "rewards"
+                         "viewers"
+                         "summoners"
+                         "rules"
+                         "matches";
+  }
+>>>>>>> 4c05a98837a7cac052ff0be24d1fd398f1abd312
   
 }
 

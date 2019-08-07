@@ -17,6 +17,7 @@ import cardOne from 'assets/card-1.png';
 import cardTwo from 'assets/card-2.png';
 import cardThree from 'assets/card-3.png';
 import cardFour from 'assets/card-4.png';
+import Footer from 'components/footer';
 
 class Start extends Component {
   constructor(properties) {
@@ -191,6 +192,7 @@ class Start extends Component {
             </div>
           </div>
         </section>
+        <Footer className={style.home_footer}/>
       </>
     );
   }
