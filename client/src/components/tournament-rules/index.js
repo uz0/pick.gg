@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames/bind';
 import Table from 'components/table';
 import Button from 'components/button';
+import Icon from 'components/icon';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
 
@@ -62,7 +63,7 @@ const Rules = ({
           className={style.button}
           onClick={editRules}
         >
-          {i18n.t('edit')}
+          <Icon name="edit"/>
         </button>
       )}
     </div>

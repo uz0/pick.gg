@@ -4,6 +4,7 @@ import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Button from 'components/button';
+import Icon from 'components/icon';
 import RewardPlaceholder from 'assets/trophy.svg';
 import { withCaptions } from 'hoc';
 import { REWARD_POSITIONS } from '../../constants';
@@ -42,7 +43,7 @@ const Rewards = ({
           className={style.button}
           onClick={editRewards}
         >
-          {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : i18n.t('edit')}
+          {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : <Icon name="edit"/>}
         </button>
       )}
     </div>

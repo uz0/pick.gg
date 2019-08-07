@@ -44,6 +44,17 @@
   --color: #e88c00;
 }
 
+.rewards .header .button svg {
+  fill: #ccc;
+  width: 16px;
+  margin-left: 6px;
+  margin-top: 2px;
+}
+
+.rewards .header .button:hover svg {
+  fill: var(--accent-color);
+}
+
 .rewards .header + .content,
 .rewards .header + .empty {
   margin-top: 16px;

@@ -70,7 +70,7 @@ const Information = props => {
             className={style.button}
             onClick={props.editTournament}
           >
-            {i18n.t('edit')}
+            <Icon name="edit"/>
           </button>
         )}
       </div>
