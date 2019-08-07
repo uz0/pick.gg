@@ -51,6 +51,12 @@
   flex-grow: 1;
 }
 
+.viewers .content .message {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
 .viewers .content .attend {
   height: 80px;
   display: flex;

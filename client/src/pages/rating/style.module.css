@@ -12,7 +12,7 @@
 .main_block h2 {
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
-  font-size: 20px;
+  font-size: 24px;
   color: var(--caption-color);
   text-shadow: 0px 1px 1px #000000;
   text-align: center;
@@ -111,6 +111,15 @@
   background: #121b49;
   margin-bottom: 8px;
   width: 100%;
+}
+
+.column .row_column .item>.text {
+  --text-color: red;
+}
+
+@media screen and (max-width: 768px) {}
+
+@media screen and (max-width: 480px) {
 }
 
 .column .row_column .item>.text {

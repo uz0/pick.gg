@@ -45,7 +45,7 @@ export default enhance(props => {
           </div>
         </div>
         {props.isTextCopied && (
-          <p className={style.message}>{i18n.t('link_was.copy')}</p>
+          <p className={style.message}>{i18n.t('link_was_copy')}</p>
         )}
       </div>
     </div>

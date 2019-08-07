@@ -14,6 +14,19 @@ import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 
+const streamers = [
+  { name: 'hyperRun', points: '1900' },
+  { name: 'dcversus', points: '3333' },
+  { name: 'Rocketman', points: '1340' },
+  { name: 'rabbit', points: '1700' },
+  { name: 'SpiceFox', points: '1000' },
+  { name: 'Rox', points: '2' },
+  { name: 'Ata', points: '550' },
+  { name: 'agata', points: '17' },
+  { name: 'Rif', points: '250' },
+  { name: 'Wot oh my got cho proishodit skolko eche nado dobavit dannuh ', points: '234' },
+];
+
 const ratingTableCaptions = {
 
   avatar: {
@@ -27,6 +40,8 @@ const ratingTableCaptions = {
   },
 
 };
+
+const sordStreamers = streamers.sort((a, b) => b.points - a.points);
 
 class Rating extends Component {
   state = {

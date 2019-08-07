@@ -127,49 +127,47 @@
   display: grid;
   grid-row-gap: 30px;
   grid-column-gap: 16px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: minmax(100px, 1fr);
-  grid-template-areas: "information rules rewards"
-                       "matches summoners viewers"
-                       "applicants . .";
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-rows: minmax(10px, 1fr);
+  grid-template-areas: "information information summoners summoners"
+                       "rules rewards viewers viewers"
+                       "matches matches applicants applicants";
   width: 100%;
   margin-top: 40px;
 }
 
 .tournament .inner_container .widgets.is_empty {
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: "information information information"
                        "rules matches rewards";
 }
 
 .tournament .inner_container .widgets.applications_available.applications_available_streamer {
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: "information invite"
-                       "applicants summoners"
-                       "rules matches"
-                       "rewards .";
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-areas: "information information invite invite"
+                       "rewards rules summoners summoners"
+                       "matches matches applicants applicants";
 }
 
 .tournament .inner_container .widgets.applications_available {
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: "information invite"
-                       "summoners rewards "
-                       "rules matches"
-                       ". .";
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-areas: "information information invite invite"
+                       "rewards rules summoners summoners"
+                       "matches matches . .";
 }
 
 .tournament .inner_container .widgets.forecasting_is_available {
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: "information ."
-                       "viewers summoners "
-                       "rules matches"
-                       "invite rewards";
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-areas: "information information invite invite"
+                       "rewards rules summoners summoners"
+                       "matches matches viewers viewers";
 }
 
 .tournament .inner_container .widgets.is_started {
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: "information rewards"
-                       "viewers summoners "
-                       "rules matches";
+  grid-template-columns: 2fr 1fr 4fr;
+  grid-template-areas: "information information summoners"
+                       "rewards rules viewers"
+                       "matches matches .";
 }
 
 .tournament .inner_container .widgets .information_widget {
@@ -221,15 +219,17 @@
   }
   .tournament .inner_container .widgets.forecasting_is_available {
     grid-template-columns: 1fr;
-    grid-template-areas: "information "
-                         "viewers "
-                         "summoners "
-                         "rules "
+    grid-template-areas: "information"
+                         "rules"
+                         "rewards"
                          "matches"
-                         "invite "
+                         "invite"
+                         "viewers"
+                         "summoners"
                          "rewards";
   }
   .tournament .inner_container .widgets.is_empty {
+    grid-template-columns: 1fr;
     grid-template-areas: "information"
                          "rules"
                          "matches"
@@ -240,32 +240,31 @@
     grid-template-columns: 1fr;
     grid-template-areas: "information"
                          "invite"
-                         "applicants"
-                         "summoners"
                          "rules"
+                         "rewards"
                          "matches"
-                         "rewards";
+                         "applicants"
+                         "summoners";
   }
   
   .tournament .inner_container .widgets.applications_available {
     grid-template-columns: 1fr;
     grid-template-areas: "information"
                          "invite"
-                         "summoners"
-                         "rewards"
                          "rules"
-                         "matches";
+                         "rewards"
+                         "matches"
+                         "summoners";
   }
   .tournament .inner_container .widgets.is_started {
     grid-template-columns: 1fr;
     grid-template-areas: "information"
-                         "rewards"
-                         "viewers"
-                         "summoners"
                          "rules"
-                         "matches";
+                         "matches"
+                         "rewards"
+                         "summoners"
+                         "viewers";
   }
-  
 }
 
 @media (max-width: 480px) {
