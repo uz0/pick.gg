@@ -12,7 +12,7 @@
 .main_block h2 {
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
-  font-size: 24px;
+  font-size: 20px;
   color: var(--caption-color);
   text-shadow: 0px 1px 1px #000000;
   text-align: center;
@@ -46,6 +46,7 @@
   overflow: auto;
   margin: 0 auto;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .avatar_table img {
@@ -103,7 +104,7 @@
   display: block;
   transition: 0.3s;
   height: auto;
-  width: 80%;
+  width: 100%;
 }
 
 .column .row_column {
@@ -116,9 +117,7 @@
   --text-color: red;
 }
 
-@media screen and (max-width: 768px) {}
-
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   .main_block {
     flex-direction: column;
   }
