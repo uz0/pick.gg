@@ -1,44 +1,43 @@
 import find from 'lodash/find';
+import pick from 'lodash/pick';
 import {
   calcSummonersPoints,
-  calcViewersPoints,
-} from '../..helpers';
+  calcViewerPoints,
+} from '../../helpers';
 
 export default (tournaments, users) => {
   const userIds = users.map(user => user._id);
 
   const tournamentsList = userIds.reduce((list, user) => {
     const userTournaments = tournaments.filter(item => find(item.viewers, { userId: String(user) }));
+    const normalizedTournaments = userTournaments.map(tournament => pick(tournament, ['rules', 'summoners', 'viewers', 'matches']));
 
-    list[user] = userTournaments;
+    list[user] = normalizedTournaments;
     return list;
-  },{});
+  }, {});
 
-  const rating = userIds.reduce((rating, user) => {
-    const { _id, summonerName, username } = users.find(item => String(item._id) === String(user));
+  const rating = userIds.map(user => {
+    const { summonerName, username } = users.find(item => String(item._id) === String(user));
 
-      const points = tournamentsList[streamer].reduce((points, tournament) => {
-        const { summoners, matches, rules } = tournament;
+    const rating = tournamentsList[user].reduce((points, tournament) => {
+      const { summoners, matches, viewers, rules } = tournament;
+      const viewer = viewers.find(item => String(item.userId) === String(user));
 
-        const summoners = calcSummonersPoints(summoners, matches, rules);
-        const viewerRating = calcViewersPoints();
+      const summonersPoints = calcSummonersPoints(summoners, matches, rules);
+      const viewersPoints = calcViewerPoints(viewer, summonersPoints);
 
-        viewersCounter += tournament.viewers.length;
+      points.points += viewersPoints;
 
-        return viewersCounter;
-
-      }, 0);
-
-      rating.push({
-        _id,
-        username,
+      return points;
+    }, {
         summonerName,
-        points
+        username,
+        points: 0
       });
 
-      return rating;
-    }, [])
-    .sort((prev, next) => next.points - prev.points);
+    return rating;
+  })
+  .sort((prev, next) => next.points - prev.points);
 
   return rating;
 };
