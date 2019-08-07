@@ -24,12 +24,12 @@ export default (tournaments, users) => {
       imageUrl,
       username,
       summonerName,
-      totalViewers
+      points: totalViewers,
     });
 
     return rating;
   }, [])
-  .sort((prev, next) => next.totalViewers - prev.totalViewers);
+  .sort((prev, next) => next.points - prev.points);
 
   return rating;
 };

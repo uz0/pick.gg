@@ -17,7 +17,7 @@ export default (tournaments, users) => {
   }, {});
 
   const rating = userIds.map(user => {
-    const { summonerName, username, imageUrl } = users.find(item => String(item._id) === String(user));
+    const { _id, summonerName, username, imageUrl } = users.find(item => String(item._id) === String(user));
 
     const rating = tournamentsList[user].reduce((points, tournament) => {
       const { summoners, matches, viewers, rules } = tournament;
@@ -30,6 +30,7 @@ export default (tournaments, users) => {
 
       return points;
     }, {
+        _id,
         summonerName,
         imageUrl,
         username,
