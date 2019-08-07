@@ -144,21 +144,21 @@
 
 .tournament .inner_container .widgets.applications_available.applications_available_streamer {
   grid-template-columns: 2fr 1fr 2fr 2fr;
-  grid-template-areas: "information information invite ."
+  grid-template-areas: "information information invite invite"
                        "rewards rules summoners summoners"
                        "matches matches applicants applicants";
 }
 
 .tournament .inner_container .widgets.applications_available {
   grid-template-columns: 2fr 1fr 2fr 2fr;
-  grid-template-areas: "information information invite ."
+  grid-template-areas: "information information invite invite"
                        "rewards rules summoners summoners"
                        "matches matches . .";
 }
 
 .tournament .inner_container .widgets.forecasting_is_available {
   grid-template-columns: 2fr 1fr 2fr 2fr;
-  grid-template-areas: "information information . invite"
+  grid-template-areas: "information information invite invite"
                        "rewards rules summoners summoners"
                        "matches matches viewers viewers";
 }
