@@ -12,7 +12,7 @@ export default (tournaments, users) => {
   },{});
 
   const rating = streamersIds.reduce((rating, streamer) => {
-    const { _id, summonerName, username } = streamers.find(item => String(item._id) === String(streamer));
+    const { _id, summonerName, username, imageUrl } = streamers.find(item => String(item._id) === String(streamer));
 
     const totalViewers = tournamentsList[streamer].reduce((viewersCounter, tournament) => {
       viewersCounter += tournament.viewers.length;
@@ -21,6 +21,7 @@ export default (tournaments, users) => {
 
     rating.push({
       _id,
+      imageUrl,
       username,
       summonerName,
       totalViewers
