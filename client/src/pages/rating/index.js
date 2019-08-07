@@ -14,21 +14,7 @@ import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 
-const streamers = [
-  { name: 'hyperRun', points: '1900' },
-  { name: 'dcversus', points: '3333' },
-  { name: 'Rocketman', points: '1340' },
-  { name: 'rabbit', points: '1700' },
-  { name: 'SpiceFox', points: '1000' },
-  { name: 'Rox', points: '2' },
-  { name: 'Ata', points: '550' },
-  { name: 'agata', points: '17' },
-  { name: 'Rif', points: '250' },
-  { name: 'Wot oh my got cho proishodit skolko eche nado dobavit dannuh ', points: '234' },
-];
-
 const ratingTableCaptions = {
-
   avatar: {
     text: '',
     width: window.innerWidth < 480 ? 40 : 70,
@@ -38,21 +24,20 @@ const ratingTableCaptions = {
     text: '',
     width: window.innerWidth < 480 ? 210 : 220,
   },
-
 };
-
-const sordStreamers = streamers.sort((a, b) => b.points - a.points);
 
 class Rating extends Component {
   state = {
     isLoading: true,
     columnStreamers: false,
+
     topApplicants: '',
     topStreamers: '',
     topViewers: '',
-    sliceApplicants: '',
-    sliceStreamers: '',
-    sliceViewers: '',
+
+    wholeApplicantsList: '',
+    wholeStreamersList: '',
+    wholeViewersList: '',
   };
 
   async componentDidMount() {
@@ -64,23 +49,22 @@ class Rating extends Component {
     const viewers = allRating.viewersRating;
 
     const topApplicants = applicants.slice(0, 3);
-    const sliceApplicants = applicants.slice(3, 97);
+    const wholeApplicantsList = applicants.slice(3, 97);
 
     const topStreamers = streamers.slice(0, 3);
-    const sliceStreamers = streamers.slice(3, 97);
+    const wholeStreamersList = streamers.slice(3, 97);
 
     const topViewers = viewers.slice(0, 3);
-    const sliceViewers = viewers.slice(3, 97);
+    const wholeViewersList = viewers.slice(3, 97);
 
     this.setState({
       topStreamers,
       topApplicants,
       topViewers,
-      sliceApplicants,
-      sliceStreamers,
-      sliceViewers,
+      wholeApplicantsList,
+      wholeStreamersList,
+      wholeViewersList,
     });
-    console.log(allRating);
   }
 
   showStreamers = () => this.setState(prevState => ({ columnStreamers: !prevState.columnStreamers }));
@@ -136,13 +120,14 @@ class Rating extends Component {
   }
 
   render() {
-    const topStreamers = this.state.topStreamers;
-    const topApplicants = this.state.topApplicants;
-    const topViewers = this.state.topViewers;
-
-    const sliceStreamers = this.state.sliceStreamers;
-    const sliceApplicants = this.state.sliceApplicants;
-    const sliceViewers = this.state.sliceViewers;
+    const {
+      topStreamers,
+      topApplicants,
+      topViewers,
+      wholeApplicantsList,
+      wholeStreamersList,
+      wholeViewersList,
+    } = this.state;
 
     const textStreamers = this.state.columnStreamers ? i18n.t('hide_streamers') : i18n.t('show_streamers');
     const textUsers = this.state.columnUsers ? i18n.t('hide_viewers') : i18n.t('show_viewers');
@@ -155,7 +140,7 @@ class Rating extends Component {
 
           <div className={cx(style.section)}>
             <div className={style.best_icon}>
-              <img src={cardTwo}/>
+              <img src={cardTwo} alt="streamers rating logo"/>
             </div>
 
             <h2>{i18n.t('best_streamers')}</h2>
@@ -171,7 +156,7 @@ class Rating extends Component {
             <Table
               captions={ratingTableCaptions}
               defaultSorting={this.tournamentsDefaultSorting}
-              items={sliceStreamers}
+              items={wholeStreamersList}
               className={cx(style.hidden, { show: this.state.columnStreamers })}
               renderRow={this.renderRow}
               isLoading={this.state.isLoading}
@@ -182,7 +167,7 @@ class Rating extends Component {
 
           <div className={cx(style.section)}>
             <div className={style.best_icon}>
-              <img src={cardThree}/>
+              <img src={cardThree} alt="viewers rating logo"/>
             </div>
 
             <h2>{i18n.t('best_users')}</h2>
@@ -198,7 +183,7 @@ class Rating extends Component {
             <Table
               captions={ratingTableCaptions}
               defaultSorting={this.tournamentsDefaultSorting}
-              items={sliceViewers}
+              items={wholeViewersList}
               className={cx(style.hidden, { show: this.state.columnUsers })}
               renderRow={this.renderRow}
               isLoading={this.state.isLoading}
@@ -209,7 +194,7 @@ class Rating extends Component {
 
           <div className={cx(style.section)}>
             <div className={style.best_icon}>
-              <img src={cardFour}/>
+              <img src={cardFour} alt="appllicants rating logo"/>
             </div>
 
             <h2>{i18n.t('best_summoners')}</h2>
@@ -226,7 +211,7 @@ class Rating extends Component {
             <Table
               captions={ratingTableCaptions}
               defaultSorting={this.tournamentsDefaultSorting}
-              items={sliceApplicants}
+              items={wholeApplicantsList}
               className={cx(style.hidden, { show: this.state.columnSummoners })}
               renderRow={this.renderApplicants}
               isLoading={this.state.isLoading}
