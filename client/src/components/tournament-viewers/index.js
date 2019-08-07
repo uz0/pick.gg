@@ -62,8 +62,11 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
 
 const Viewers = ({
   tournament,
-  joinTournament,
   viewers,
+  joinTournament,
+  isCurrentUserCreator,
+  isCurrentUserSummoner,
+  isUserCanMakeForecast,
   currentUserSummoners,
   className,
   captions,
@@ -74,7 +77,7 @@ const Viewers = ({
     </div>
 
     <div className={style.content}>
-      {currentUserSummoners.length === 0 && tournament.isForecastingActive && (
+      {isUserCanMakeForecast && currentUserSummoners.length === 0 && (
         <div className={style.attend}>
           <Button
             text={i18n.t('join_tournament')}
@@ -83,6 +86,14 @@ const Viewers = ({
             onClick={joinTournament}
           />
         </div>
+      )}
+
+      {isCurrentUserCreator && tournament.isForecastingActive && (
+        <p className={style.message}>{i18n.t('streamer_cant_make_forecast')}</p>
+      )}
+
+      {isCurrentUserSummoner && tournament.isForecastingActive && (
+        <p className={style.message}>{i18n.t('summoner_cant_make_forecast')}</p>
       )}
 
       {currentUserSummoners.length > 0 && (
@@ -147,6 +158,10 @@ export default compose(
   withProps(props => {
     const { tournament, currentUser, users } = props;
 
+    const isCurrentUserCreator = (currentUser && tournament.creator) && tournament.creator._id === currentUser._id;
+    const isCurrentUserSummoner = tournament.summoners.includes(currentUser._id);
+    const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserCreator && !isCurrentUserSummoner;
+
     const viewers = tournament.viewers
       .map(({ userId, summoners }) => {
         const userList = Object.values(users);
@@ -175,14 +190,15 @@ export default compose(
           points: viewerPoints,
         };
       })
-      .sort((prev, next) => {
-        return next.points - prev.points;
-      });
+      .sort((prev, next) => next.points - prev.points);
 
     if (!currentUser) {
       return {
         ...props,
         viewers,
+        isCurrentUserCreator,
+        isUserCanMakeForecast,
+        isCurrentUserSummoner,
         currentUserSummoners: [],
       };
     }
@@ -198,6 +214,9 @@ export default compose(
       return {
         ...props,
         viewers,
+        isCurrentUserCreator,
+        isUserCanMakeForecast,
+        isCurrentUserSummoner,
         currentUserSummoners: summoners,
       };
     }
@@ -205,6 +224,9 @@ export default compose(
     return {
       ...props,
       viewers,
+      isCurrentUserCreator,
+      isUserCanMakeForecast,
+      isCurrentUserSummoner,
       currentUserSummoners: [],
     };
   })

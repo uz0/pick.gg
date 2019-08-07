@@ -253,6 +253,8 @@
     "copy": "Copy",
     "invite_summoners_and_viewers": "Invite summoners and viewers",
     "you_can_add_matches": "You can add matches",
+    "streamer_cant_make_forecast": "You can not make forecast because you are a tournament creator",
+    "summoner_cant_make_forecast": "You can not make forecast because you are the one of the tournament summoners",
     "no_matches_yet": "There is no matches yet",
     "add_rewards": "Add rewards",
     "for": "For",
