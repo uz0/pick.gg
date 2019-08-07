@@ -7,7 +7,7 @@
 }
 
 .modal .modal_content .table {
-
+  padding-bottom: var(--layout-padding);
 }
 
 .modal .modal_content .table .row {
