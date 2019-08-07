@@ -4,10 +4,16 @@ import store, { actions as storeActions } from 'store';
 import { isLogged, http } from 'helpers';
 import MobileDetect from 'mobile-detect';
 
+import moment from 'moment';
+import 'moment/locale/ru';
+
 import 'typeface-roboto';
 import './index.css';
 
 import Routes from './routes';
+
+const lang = localStorage.getItem('_pgg_locale') || 'en';
+moment.locale(lang);
 
 const md = new MobileDetect(window.navigator.userAgent);
 const isMobile = Boolean(md.mobile());
