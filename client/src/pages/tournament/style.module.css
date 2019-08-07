@@ -229,6 +229,7 @@
                          "rewards";
   }
   .tournament .inner_container .widgets.is_empty {
+    grid-template-columns: 1fr;
     grid-template-areas: "information"
                          "rules"
                          "matches"
