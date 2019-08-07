@@ -256,6 +256,16 @@
                          "rules"
                          "matches";
   }
+  .tournament .inner_container .widgets.is_started {
+    grid-template-columns: 1fr;
+    grid-template-areas: "information"
+                         "rewards"
+                         "viewers"
+                         "summoners"
+                         "rules"
+                         "matches";
+  }
+  
 }
 
 @media (max-width: 480px) {

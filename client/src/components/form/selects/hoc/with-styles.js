@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const customStyles = {
   control: styles => ({ ...styles, backgroundColor: 'var(--primary-color)', border: 0 }),

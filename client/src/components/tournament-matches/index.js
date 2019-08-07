@@ -19,7 +19,7 @@ const cx = classnames.bind(style);
 const tableCaptions = ({ t, isMobile }) => ({
   name: {
     text: t('name'),
-    width: isMobile ? 200 : 250,
+    width: isMobile ? 110 : 250,
   },
 
   number: {
@@ -64,6 +64,17 @@ class Matches extends Component {
     }
   };
 
+  endMatch = async (tournamentId, matchId) => {
+    try {
+      const endMatchRequest = await http(`/api/tournaments/${tournamentId}/matches/${matchId}/end`, { method: 'PATCH' });
+      const updatedTournament = await endMatchRequest.json();
+
+      this.props.updateTournament({ ...updatedTournament });
+    } catch (error) {
+      console.log(error, 'error');
+    }
+  };
+
   deleteMatch = async (tournamentId, matchId) => {
     try {
       await http(`/api/tournaments/${tournamentId}/matches/${matchId}`, { method: 'DELETE' });
@@ -82,7 +93,6 @@ class Matches extends Component {
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
     const nameStyle = { '--width': captions.name.width };
-    const pointsStyle = { '--width': captions.number.width };
 
     const { _id, name } = item;
 
@@ -90,35 +100,67 @@ class Matches extends Component {
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
 
-    const isForecastingActive = get(this.props, 'tournament.isForecastingActive');
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isStarted = get(this.props, 'tournament.isStarted');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
     const isMatchActive = item.isActive;
+    const isMatchOver = item.endAt;
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
-    const actionButtonIcon = isMatchActive ? 'info' : 'play';
-    const actionButtonTitle = isMatchActive ? 'Enter match results' : 'Start match';
 
     return (
-      <div key={_id} className={cx(className, { [style.is_active]: isMatchActive })}>
+      <div key={_id} className={cx(className, { [style.is_active]: isMatchActive }, { [style.is_over]: isMatchOver })}>
         <div className={itemClass} style={nameStyle}>
           <span className={textClass}>{name}</span>
         </div>
 
-        {isCurrentUserCreator && isStarted && (
+        {isMatchOver && (
+          <div className={style.status_match}>
+            <span className={textClass}>{i18n.t('is_over_match')}</span>
+          </div>
+        )}
+
+        {isMatchActive && (
+          <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
+            <span className={textClass}>{i18n.t('is_active_match')}</span>
+          </div>
+        )}
+
+        {isCurrentUserCreator && isStarted && !isMatchOver && !isMatchActive && (
           <button
             type="button"
             className={style.button}
-            title={actionButtonTitle}
-            onClick={() => isMatchActive ? this.openEditMatch(_id) : this.startMatch(tournamentId, _id)}
+            title="Start match"
+            onClick={() => this.startMatch(tournamentId, _id)}
           >
-            <Icon name={actionButtonIcon}/>
+            <Icon name="play"/>
           </button>
         )}
 
-        {isStarted && (
+        {isCurrentUserCreator && isStarted && isMatchActive && (
+          <button
+            type="button"
+            className={style.button}
+            title="End match"
+            onClick={() => this.endMatch(tournamentId, _id)}
+          >
+            <Icon name="stop"/>
+          </button>
+        )}
+
+        {isCurrentUserCreator && isStarted && isMatchOver && (
+          <button
+            type="button"
+            className={style.button}
+            title="Add match results"
+            onClick={() => this.openEditMatch(_id)}
+          >
+            <Icon name="info"/>
+          </button>
+        )}
+
+        {isMatchOver && (
           <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
             <Icon name="list"/>
           </button>
@@ -146,7 +188,6 @@ class Matches extends Component {
     const matches = get(this.props, 'tournament.matches');
     const creator = get(this.props, 'tournament.creator');
     const isStarted = get(this.props, 'tournament.isStarted');
-    const isFinalized = get(this.props, 'tournament.isFinalized');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isEditingAvailable = isCurrentUserCreator && matches.length > 0 && !isStarted;
@@ -154,7 +195,7 @@ class Matches extends Component {
     return (
       <div className={cx(style.matches, className)}>
         <div className={style.header}>
-          <h3 className={style.subtitle}>Matches</h3>
+          <h3 className={style.subtitle}>{i18n.t('matches')}</h3>
           {isEditingAvailable && (
             <button
               type="button"

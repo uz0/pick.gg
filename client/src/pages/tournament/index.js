@@ -6,7 +6,6 @@ import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http } from 'helpers';
-import i18n from 'i18n';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
@@ -173,7 +172,7 @@ class Tournament extends Component {
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
-    const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.isActive === true);
+    const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);
 
     return (
       <div className={cx('tournament', 'container')}>

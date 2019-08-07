@@ -65,7 +65,7 @@ const Information = props => {
   return (
     <div className={cx(style.information, className)}>
       <div className={style.header}>
-        <h3 className={style.subtitle}>Information</h3>
+        <h3 className={style.subtitle}>{i18n.t('information')}</h3>
         {isEditingAvailable && (
           <button
             type="button"

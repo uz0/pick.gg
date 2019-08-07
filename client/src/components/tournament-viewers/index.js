@@ -36,6 +36,8 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
 
+  const isViewerWinner = tournament.winners.find(winner => winner.id === item.userId);
+
   return (
     <div key={item.userId} className={cx(className, style.row)}>
       <div className={cx(itemClass, style.position)} style={numberStyle}>
@@ -43,7 +45,10 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
       </div>
 
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>{item.user && item.user.username}</span>
+        <span className={textClass}>
+          {item.user && item.user.username}
+          {isViewerWinner && <span className={style.is_winner}> is winner</span>}
+        </span>
       </div>
 
       {tournament.isStarted && (
@@ -88,9 +93,12 @@ const Viewers = ({
               return (
                 <div key={summoner._id} className={style.item}>
                   <div className={style.avatar}>
-                    <img src={summoner.imageUrl} onError={e => {
-                      e.currentTarget.src = AvatarPlaceholder;
-                    }}
+                    <img
+                      src={summoner.imageUrl}
+                      alt="Summoner avatar"
+                      onError={e => {
+                        e.currentTarget.src = AvatarPlaceholder;
+                      }}
                     />
                   </div>
                   <div className={style.info}>
