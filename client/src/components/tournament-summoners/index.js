@@ -9,6 +9,7 @@ import { http, calcSummonersPoints } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import { withCaptions } from 'hoc';
 import notificationActions from 'components/notification/actions';
+import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
 import style from './style.module.css';
@@ -120,7 +121,7 @@ const Summoners = ({
             appearance="_basic-accent"
             text={i18n.t('apply_summoner')}
             className={style.button}
-            onClick={debounce(applyTournament, 400)}
+            onClick={debounce(check(applyTournament), 400)}
           />
         )}
 
