@@ -280,6 +280,9 @@
     "show_summoners": "Show summoners",
     "hide_viewers": "Hide viewers",
     "show_viewers": "Show viewers",
+    "no_games": "No games",
+    "viewer": "Viewer",
+    "summoner": "Summoner",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
