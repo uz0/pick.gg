@@ -1,0 +1,11 @@
+.modal {
+}
+
+.modal .modal_content {
+  padding: var(--layout-padding);
+}
+
+.modal .modal_content .summonerName {
+  margin-top: 12px;
+  margin-left: auto;
+}

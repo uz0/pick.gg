@@ -1,20 +1,31 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
-import { compose, withState } from 'recompose';
+import { compose, withStateHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import ym from 'react-yandex-metrika';
-import i18n from 'i18next';
 
 import { http } from 'helpers';
 import config from 'config';
 import storeActions from 'store/actions';
+import Button from 'components/button';
 
 import { actions as notificationActions } from 'components/notification';
-import Select from 'components/form/selects/select';
+import Input from 'components/form/input';
 import Modal from 'components/modal';
 
+import style from './style.module.css';
+
 const enhance = compose(
-  withState('summonerName', 'setSummonerName', ''),
+  withStateHandlers(() => ({
+    summonerName: '',
+    contact: '',
+  }),
+
+  {
+    setSummonerName: state => event => ({ ...state, summonerName: event.target.value }),
+    setContact: state => event => ({ ...state, contact: event.target.value }),
+  }
+  ),
   connect(
     state => ({
       currentUser: state.currentUser,
@@ -65,37 +76,41 @@ export default enhance(props => {
     localStorage.setItem('JWS_TOKEN', response.token);
     ym('reachGoal', 'user_signed_in');
 
-    this.props.showNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: response.message,
-    });
+    props.options.action();
+    props.close();
   };
 
   return (
     <Modal
-      title="Choose tournament summoners"
+      title={props.options.title || 'Auth'}
       close={props.close}
-      // ClassName={style.modal_content}
-      // wrapClassName={style.wrapper}
+      className={style.modal_content}
+      wrapClassName={style.modal}
       actions={props.actions}
     >
-      <Select value={props.summonerName} onChange={e => props.setSummonerName(e.target.value)}/>
+      <Input
+        label="Summoner name"
+        value={props.summonerName}
+        onChange={props.setSummonerName}
+      />
+      <Input
+        label="Contact (VK, Facebook, Discord, or email link)"
+        value={props.contact}
+        onChange={props.setContact}
+      />
       <GoogleLogin
-        autoLoad={Boolean(this.tournamentId)}
         render={renderProperties => (
-          <button
+          <Button
+            text="Jump in!"
             type="button"
+            appearance="_basic-accent"
+            className={style.summonerName}
             disabled={!props.summonerName.trim()}
-            // ClassName={style.button}
             onClick={renderProperties.onClick}
-          >
-            <span>{i18n.t('Jump in!')}</span>
-          </button>
+          />
         )}
         clientId={config.googleClientId}
         onSuccess={auth}
-        onFailure={this.onFailureGoogleLogin}
       />
     </Modal>
   );

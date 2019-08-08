@@ -121,7 +121,10 @@ const Summoners = ({
             appearance="_basic-accent"
             text={i18n.t('apply_summoner')}
             className={style.button}
-            onClick={debounce(check(applyTournament), 400)}
+            onClick={debounce(check(applyTournament, {
+              title: 'Apply as summoner',
+              action: applyTournament,
+            }), 400)}
           />
         )}
 
@@ -171,7 +174,12 @@ export default compose(
       }
 
       try {
-        await http(`/api/tournaments/${tournamentId}/attend`, { method: 'PATCH' });
+        await http(`/api/tournaments/${tournamentId}/attend`, {
+          method: 'PATCH',
+          headers: {
+            'x-access-token': localStorage.getItem('JWS_TOKEN'),
+          },
+        });
 
         props.updateTournament({
           _id: tournamentId,
@@ -183,7 +191,7 @@ export default compose(
     },
   }),
   withProps(props => {
-    const { creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
+    const { _id: tournamentId, creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
     const currentUserId = props.currentUser && props.currentUser._id;
 
@@ -200,6 +208,7 @@ export default compose(
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
+        tournamentId,
         winners,
         isCurrentUserCreator,
         isEditingAvailable,
@@ -224,6 +233,7 @@ export default compose(
 
     return {
       ...props,
+      tournamentId,
       winners,
       isCurrentUserCreator,
       isEditingAvailable,
