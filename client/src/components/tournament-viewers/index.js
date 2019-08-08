@@ -159,7 +159,7 @@ export default compose(
     const { tournament, currentUser, users } = props;
 
     const isCurrentUserCreator = (currentUser && tournament.creator) && tournament.creator._id === currentUser._id;
-    const isCurrentUserSummoner = tournament.summoners.includes(currentUser._id);
+    const isCurrentUserSummoner = currentUser && tournament.summoners.includes(currentUser._id);
     const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserCreator && !isCurrentUserSummoner;
 
     const viewers = tournament.viewers

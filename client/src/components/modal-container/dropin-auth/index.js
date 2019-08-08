@@ -7,7 +7,7 @@ import i18n from 'i18next';
 
 import { http } from 'helpers';
 import config from 'config';
-import { actions as storeActions } from 'store';
+import storeActions from 'store/actions';
 
 import { actions as notificationActions } from 'components/notification';
 import Select from 'components/form/selects/select';
