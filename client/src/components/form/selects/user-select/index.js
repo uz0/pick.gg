@@ -24,7 +24,7 @@ class Select extends Component {
     }
 
     const currentUserRequest = await http(`/api/admin/user/${userId}`);
-    const { user } = await currentUserRequest.json();
+    const user = await currentUserRequest.json();
 
     this.props.form.setFieldValue('userId', {
       label: user.username,
@@ -59,7 +59,6 @@ class Select extends Component {
         <AsyncSelect
           {...this.props}
           {...this.props.field}
-          defaultOptions
           loadOptions={this.getSuggestions}
           onChange={this.debouncedOnChange}
           onInputChange={this.handleInputChange}
