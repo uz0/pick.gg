@@ -282,6 +282,9 @@
     "show_viewers": "Show viewers",
     "match_results": "Match results",
     "no_matches_results": "There are no results yet",
+    "no_games": "No games",
+    "viewer": "Viewer",
+    "summoner": "Summoner",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",

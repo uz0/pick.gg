@@ -284,6 +284,9 @@
     "show_summoners": "Показать призывателей",
     "hide_viewers": "Скрыть зрителей",
     "show_viewers": "Показать зрителей",
+    "no_games": "Нет игр",
+    "viewer": "Зритель",
+    "summoner": "Призыватель",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
