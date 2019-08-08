@@ -128,6 +128,7 @@ const enhance = compose(
           const request = await http('/api/tournaments', {
             headers: {
               'Content-Type': 'application/json',
+              'x-access-token': localStorage.getItem('JWS_TOKEN'),
             },
             method: 'POST',
             body: JSON.stringify(values),
