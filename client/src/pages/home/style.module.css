@@ -40,25 +40,28 @@
 
 .wrap {
   max-width: 1440px;
+  max-width: var(--container-width);
   width: 100%;
   margin: 0 auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
 }
 
 .main h1 {
-  font-size: 144px;
+  font-size: 64px;
   font-family: Roboto, sans-serif;
   margin: 0;
   color: #fff;
 }
 
 .work h2, .footer h2 {
-  font-size: 96px;
+  font-size: 48px;
   margin: 0;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
 section {
-  padding: 144px;
+  padding: 64px;
 }
 
 .main {
@@ -74,10 +77,10 @@ section {
 }
 
 .main p {
-  font-size: 48px;
+  font-size: 27px;
   color: #fff;
   margin: 0;
-  padding-top: 24px;
+  padding-top: 12px;
 }
 
 .buttons {
@@ -90,13 +93,13 @@ section {
 
 .buttons .button {
   background-color: #2f998e;
-  font-size: 48px;
+  font-size: 27px;
   font-weight: bold;
   text-decoration: none;
   border: 0;
   border-radius: 10px;
-  padding: 24px 0;
-  width: 100%;
+  padding: 16px 48px;
+  width: auto;
   font-family: Roboto, sans-serif;
   font-weight: bold;
   color: #fff;
@@ -111,7 +114,7 @@ section {
 .buttons .streamer {
   margin-top: 24px;
   color: #fff;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .work {
@@ -119,24 +122,40 @@ section {
 }
 
 .work h2 {
-  margin-bottom: 80px;
+  margin-bottom: 24px;
+}
+
+.work .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .work .cards .card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 96px;
+  padding: 24px 48px;
   background: #f1f1f1;
   margin-bottom: 36px;
-  height: 250px;
+  height: 300px;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgb(196, 196, 196);
+  flex-basis: 48%;
+}
+
+.work .cards .card img {
+  width: 60px;
+}
+
+.work .cards .card:first-child img {
+  width: 100px;
 }
 
 .work .cards .card .first_title {
-  font-size: 36px;
+  font-size: 24px;
   font-weight: bold;
+  padding-right: 20px;
 }
 
 .work .cards .card:nth-child(odd) {
@@ -148,22 +167,22 @@ section {
 }
 
 .work .cards .card:nth-child(even) .text {
-  padding-left: 96px;
+  padding-left: 64px;
 }
 
 .work .cards .card .text {
-  width: 70%;
+  width: 90%;
 }
 
 .work .cards .card .title {
-  font-size: 36px;
+  font-size: 24px;
   font-weight: bold;
-  padding-bottom: 36px;
+  padding-bottom: 20px;
 }
 
 .work .cards .card .undertitle {
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 20px;
+  line-height: 27px;
 }
 
 .footer {
@@ -177,47 +196,53 @@ section {
 
 .footer h2 {
   color: #fafafa;
+  padding-bottom: 36px;
 }
 
 .footer p {
   font-size: 24px;
   line-height: 36px;
+  padding-bottom: 27px;
   color: #fff;
   font-weight: lighter;
   width: 50%;
 }
 
+.footer {
+  background-color: #2f998e;
+  background-color: #14121a;
+  background-color: var(--background-color);
+}
+
 @media (max-width: 1440px) {
-  .wrap {
-    max-width: 1000px
-  }
   .main h1 {
-    font-size: 96px;
+    font-size: 72px;
   }
   .main p {
-    font-size: 27px;
-    padding-top: 12px;
+    font-size: 24px;
+    padding-top: 8px;
   }
   .work h2, .footer h2 {
-    font-size: 48px;
+    font-size: 27px;
   }
   .buttons {
-    width: 250px;
+    max-width: 250px;
+    width: 100%;
     padding-top: 144px;
   }
   .buttons .button {
-    font-size: 24px;
-    padding: 12px 0;
+    font-size: 20px;
+    padding: 12px 24px;
   }
   .buttons .streamer {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 12px;
   }
   section {
     padding: 64px;
   }
   .work .cards .card {
-    height: 150px;
+    height: 170px;
     margin-bottom: 24px;
     padding: 24px 48px;
   }
@@ -228,11 +253,11 @@ section {
     padding-left: 48px;
   }
   .work .cards .card .first_title {
-    font-size: 20px;
+    font-size: 16px;
   }
   .work .cards .card .title {
-    font-size: 20px;
-    padding-bottom: 12px;
+    font-size: 16px;
+    padding-bottom: 6px;
   }
   .work .cards .card .undertitle {
     font-size: 14px;
@@ -242,21 +267,43 @@ section {
     width: 50px;
   }
   .work .cards .card:first-child img {
-    width: 100px;
+    width: 80px;
   }
   .work h2 {
-    margin-bottom: 48px;
+    margin-bottom: 27px;
   }
   .footer p {
-    font-size: 18px;
-    line-height: 27px;
-    padding-top: 24px;
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .work .cards .card {
+    flex-basis: 48%;
+  }
+  .work .cards .card:nth-child(odd), .work .cards .card:nth-child(even) {
+    flex-direction: column-reverse;
+  }
+  .work .cards .card:nth-child(even) .text {
+    padding-left: 0;
+  }
+  .work .cards .card {
+    height: auto;
+    padding: 40px 0;
+  }
+  .work .cards .card .text {
+    width: 80%;
+    padding-bottom: 36px;
   }
 }
 
 @media (max-width: 480px) {
   section {
     padding: 40px 20px;
+  }
+  .work .cards .card {
+    flex-basis: 100%;
   }
   .work .cards .card:nth-child(odd), .work .cards .card:nth-child(even) {
     flex-direction: column-reverse;
@@ -273,10 +320,11 @@ section {
     padding-bottom: 36px;
   }
   .work .cards .card .title {
-    font-size: 24px;
+    font-size: 20px;
+    padding-bottom: 12px;
   }
   .work .cards .card .undertitle {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 24px;
   }
   .work .cards .card .first_title {
@@ -294,14 +342,41 @@ section {
   .footer p {
     width: 100%;
   }
+  .buttons {
+    max-width: 100%;
+    padding-right: 50px;
+  }
   .buttons .button {
     font-size: 24px;
+    padding: 16px 24px;
   }
   .buttons .streamer {
-    font-size: 18px;
+    font-size: 16px;
+    margin-top: 20px;
   }
   .footer p {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 320px) {
+  .main h1 {
+    font-size: 64px;
+  }
+  .work h2, .footer h2 {
+    font-size: 24px;
+  }
+  .work .cards .card .first_title {
+    font-size: 20px;
+  }
+  .main p {
+    font-size: 20px;
+  }
+  .buttons {
+    padding-right: 20px;
+  }
+  .buttons .button {
+    font-size: 22px;
   }
 }

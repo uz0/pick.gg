@@ -1,40 +1,73 @@
 .card {
-  width: 320px;
+  min-height: 150px;
   border-radius: 6px;
-  background-color: var(--background-color);
-  border-bottom: 3px solid #1b1b3c;
-}
-
-.card .image {
-  height: 170px;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+  position: relative;
   overflow: hidden;
+  background: url('assets/play-with.jpg') no-repeat, #081a2f;
+  background-size: cover;
+  background-position: center right;
+  max-width: 500px;
 }
 
-.card .image img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+.card .date {
+  color: var(--accent-color);
+  background: var(--background-color);
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 4px;
+  margin-right: 24px;
+  z-index: 1;
+  transition: .25s ease-in;
+  border: 1px solid #333333;
+  flex-shrink: 0;
+}
+
+.card .date .day {
+  font-size: 20px;
+  height: 20px;
+  font-weight: bold;
+}
+
+.card .date .month {
+  font-size: 14px;
+  font-weight: bold;
+  height: 12px;
+  text-transform: uppercase;
+}
+
+.card:hover .content {
+  background-position: right;
 }
 
 .card .content {
-  padding: 16px;
+  padding: 24px;
+  z-index: 2;
+  background-image: linear-gradient( 120deg, rgba(48, 48, 94, 0.6), rgba(14, 14, 43, 0.8), rgba(49, 49, 116, 0.4));
+  background-size: 150%;
+  display: flex;
+  transition: 0.3s ease-in;
+  min-height: 150px;
 }
 
 .card .content .name {
-  --height: 24px;
+  --height: 48px;
   overflow: hidden;
-  height: var(--height);
-  line-height: var(--height);
+  min-height: var(--height);
+  max-height: var(--height);
   font-size: 18px;
+  line-height: 1.3;
   color: #fff;
   font-weight: 600;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  max-width: 100%;
+  padding-right: 20px;
 }
 
-.card .content .name + .info {
+.card .content .name+.info {
   margin-top: 12px;
 }
 
@@ -42,6 +75,7 @@
   display: flex;
   align-items: center;
   height: 24px;
+  margin-bottom: 6px;
 }
 
 .card .content .info i {
@@ -72,8 +106,35 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 320px){
+@media (max-width: 768px) {
   .card {
-    width: 280px;
+    margin: 6px auto;
+    max-width: 480px;
+  }
+  .card .content .name {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    background-position: -50px 0px;
+    background-size: 150% 100%;
+    background-size: cover;
+    width: 340px;
+  }
+}
+
+@media (max-width: 320px) {
+  .card {
+    width: 270px;
+    min-height: 130px;
+    background-position: -80px 0px;
+  }
+  .card .content {
+    padding: 12px;
+  }
+  .card .content {
+    min-height: 130px;
   }
 }

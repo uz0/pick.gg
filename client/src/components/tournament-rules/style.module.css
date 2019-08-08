@@ -1,0 +1,102 @@
+.rules {
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rules .header {
+  --rules-header-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.rules .header .subtitle {
+  --height: 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  color: var(--caption-color);
+  font-size: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rules .header .button {
+  flex-shrink: 0;
+  height: var(--rules-header-height);
+  margin-left: auto;
+  line-height: var(--rules-header-height);
+  font-size: 15px;
+  color: var(--color);
+  font-weight: 600;
+  background-color: transparent;
+  transition-property: color;
+}
+
+.rules .header .button svg {
+  fill: #ccc;
+  width: 16px;
+  margin-left: 6px;
+  margin-top: 2px;
+}
+
+.rules .header .button:hover svg {
+  fill: var(--accent-color);
+}
+
+.rules .header .button:not(:hover) {
+  --color: var(--accent-color);
+}
+
+.rules .header .button:hover {
+  --color: #e88c00;
+}
+
+.rules .header+.content, .rules .header+.empty {
+  margin-top: 16px;
+}
+
+.rules .empty {
+  --height: 24px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align-last: left;
+}
+
+.rules .content {
+  flex-grow: 1;
+  display: flex;
+}
+
+.rules .content .button {
+  margin: auto;
+}
+
+.rules .content .table {
+  width: 100%;
+}
+
+.rules .content .table .row {
+  --row-height: 36px;
+}
+
+.rules .content .table .row .rule_value {
+  flex-shrink: 1;
+  min-width: 40px;
+  flex-grow: 0;
+}
+
+@media (max-width: 480px) {
+  .rules .header .subtitle {
+    font-size: 20px;
+  }
+}

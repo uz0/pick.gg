@@ -13,26 +13,33 @@ import Button from 'components/button';
 
 import modalActions from '../actions';
 import i18n from 'i18n';
+import moment from 'moment';
 
 import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-    .max(40)
+    .min(4)
+    .max(60)
     .required('Required'),
   description: Yup.string()
+    .min(4)
     .max(120)
     .required('Required'),
   url: Yup.string()
     .max(200)
     .required('Required')
     .url(i18n.t('new_tournament.enter_valid_url')),
+  imageUrl: Yup.string()
+    .required(),
   price: Yup.string()
     .min(0)
     .required(),
   startAt: Yup.date()
+    .min(moment(new Date()).format('DD MMMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
     .required('Required'),
 });
+const today = moment().format('YYYY-MM-DD');
 
 const NewTournament = props => {
   return (
@@ -66,6 +73,13 @@ const NewTournament = props => {
 
         <Field
           component={FormInput}
+          label="Image tournament"
+          name="imageUrl"
+          className={style.field}
+        />
+
+        <Field
+          component={FormInput}
           label="Price"
           name="price"
           className={style.field}
@@ -76,6 +90,7 @@ const NewTournament = props => {
           type="date"
           label="Date"
           name="startAt"
+          min={today}
           className={style.field}
         />
         <Button
@@ -103,8 +118,9 @@ const enhance = compose(
       name: '',
       description: '',
       url: '',
+      imageUrl: '',
       price: 0,
-      startAt: '',
+      startAt: today,
     }),
     handleSubmit: async (values, formikBag) => {
       const createTournamentRequest = async () => {

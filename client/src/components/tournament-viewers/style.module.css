@@ -1,6 +1,12 @@
 .viewers {}
 
-.viewers .subtitle {
+.viewers .header {
+  --viewers-header-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.viewers .header .subtitle {
   --height: 28px;
   flex-shrink: 0;
   overflow: hidden;
@@ -14,6 +20,155 @@
   text-overflow: ellipsis;
 }
 
-.viewers .subtitle + .table {
+.viewers .header .button {
+  flex-shrink: 0;
+  height: var(--viewers-header-height);
+  margin-left: auto;
+  line-height: var(--viewers-header-height);
+  font-size: 15px;
+  color: var(--color);
+  font-weight: 600;
+  background-color: transparent;
+  transition-property: color;
+}
+
+.viewers .header .button:not(:hover) {
+  --color: var(--accent-color);
+}
+
+.viewers .header .button:hover {
+  --color: #e88c00;
+}
+
+.viewers .header + .content,
+.viewers .header + .empty {
   margin-top: 16px;
+}
+
+.viewers .content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.viewers .content .message {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.viewers .content .attend {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  border-radius: 2px;
+}
+
+.viewers .content .forecast {
+  padding: 12px;
+  background-color: var(--background-color);
+  border-radius: 2px;
+}
+
+.viewers .content .attend + .forecast,
+.viewers .content .forecast + .table,
+.viewers .content .attend + .table {
+  margin-top: 12px;
+}
+
+.viewers .content .forecast .title {
+  --height: 30px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  color: var(--caption-color);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.viewers .content .forecast .list {}
+
+.viewers .content .forecast .list .item {
+  height: 50px;
+  padding-left: 8px;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  background-color: #0a0a1f;
+}
+
+.viewers .content .forecast .list .item + .item {
+  margin-top: 4px;
+}
+
+.viewers .content .forecast .list .item .avatar {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewers .content .forecast .list .item .avatar img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.viewers .content .forecast .list .item .info {
+  margin-left: 8px;
+  flex-grow: 1;
+}
+
+.viewers .content .forecast .list .item .info .name {
+  font-size: 14px;
+  color: var(--caption-color);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.viewers .content .forecast .list .item .info .position {
+  font-size: 12px;
+  color: var(--accent-color);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.viewers .content .table .row .position {
+  flex-grow: 0;
+  flex-shrink: 1;
+}
+
+.viewers .content .table .row .points {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--primary-color);
+  background-color: var(--accent-color);
+}
+
+.viewers .content .table .row .is_winner {
+  color: #4ccc4c;
+  font-weight: 400;
+}
+
+@media (max-width: 480px) {
+  .viewers .header .subtitle {
+    font-size: 20px;
+  }
 }

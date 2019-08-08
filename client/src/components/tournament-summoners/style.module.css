@@ -1,6 +1,10 @@
-.summoners {}
+.summoners .header {
+  --summoners-header-height: 28px;
+  display: flex;
+  align-items: center;
+}
 
-.summoners .subtitle {
+.summoners .header .subtitle {
   --height: 28px;
   flex-shrink: 0;
   overflow: hidden;
@@ -14,6 +18,83 @@
   text-overflow: ellipsis;
 }
 
+.summoners .header .button {
+  flex-shrink: 0;
+  height: var(--summoners-header-height);
+  margin-left: auto;
+  line-height: var(--summoners-header-height);
+  font-size: 15px;
+  color: var(--color);
+  font-weight: 600;
+  background-color: transparent;
+  transition-property: color;
+}
+
+.summoners .header .button:not(:hover) {
+  --color: var(--accent-color);
+}
+
+.summoners .header .button:hover {
+  --color: #e88c00;
+}
+
+.summoners .header + .content,
+.summoners .header + .empty {
+  margin-top: 16px;
+}
+
+.summoners .empty {
+  --height: 24px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align-last: left;
+}
+
+.summoners .content {
+  min-height: 100px;
+  flex-grow: 1;
+  display: flex;
+}
+
+.summoners .content .button {
+  margin: auto;
+}
+
+.summoners .content .table {
+  width: 100%;
+}
+
 .summoners .subtitle + .table {
   margin-top: 16px;
+}
+
+.summoners .table .row .cell {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.summoners .table .row .is_winner {
+  color: #4ccc4c;
+  font-weight: 400;
+}
+
+.summoners .table .row .points {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--primary-color);
+  background-color: var(--accent-color);
+}
+
+@media (max-width: 480px) {
+  .summoners .header .subtitle {
+    font-size: 20px;
+  }
 }

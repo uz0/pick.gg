@@ -6,10 +6,12 @@ import NewTournament from './new-tournament';
 import MatchResults from './match-results';
 import ChoosePlayers from './choose-players';
 import AddMatch from './add-match';
-import AddRules from './add-tournament-rules';
-import AddRewards from './add-tournament-rewards';
+import AddRules from './tournament-rules';
+import AddRewards from './tournament-rewards';
 import EditTournament from './edit-tournament';
+import ExpressReg from './dropin-auth';
 import JoinTournamentPlayers from './join-tournament-players';
+import EditUser from './dashboard-edit-user-modal';
 import EditMatch from './edit-match';
 import Reward from './reward';
 import modalActions from './actions';
@@ -20,11 +22,13 @@ const modals = {
   'add-summoners-modal': ChoosePlayers,
   'reward-modal': Reward,
   'add-match-modal': AddMatch,
-  'add-tournament-rules-modal': AddRules,
-  'add-tournament-rewards': AddRewards,
+  'tournament-rules-modal': AddRules,
+  'tournament-rewards': AddRewards,
   'join-tournament-players-modal': JoinTournamentPlayers,
   'edit-match-modal': EditMatch,
   'edit-tournament-modal': EditTournament,
+  'user-modal': EditUser,
+  'express-reg': ExpressReg,
 };
 
 class ModalContainer extends Component {

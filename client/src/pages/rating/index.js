@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import i18n from 'i18n';
+import { http } from 'helpers';
 
-import { ReactComponent as AvatarPlaceholder } from 'assets/avatar-placeholder.svg';
 import Table from 'components/table';
-import Card from 'components/card-user';
+import cardTwo from 'assets/card-2.png';
+import cardThree from 'assets/card-3.png';
+import cardFour from 'assets/card-4.png';
+import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
 
 import style from './style.module.css';
 import classnames from 'classnames/bind';
@@ -12,106 +15,212 @@ import classnames from 'classnames/bind';
 const cx = classnames.bind(style);
 
 const ratingTableCaptions = {
-  place: {
-    text: '#',
-    width: window.innerWidth < 480 ? 50 : 80,
-  },
-
   avatar: {
     text: '',
-    width: window.innerWidth < 480 ? 55 : 80,
+    width: window.innerWidth < 480 ? 40 : 70,
   },
 
-  username: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 110 : 350,
-  },
-
-  winning: {
-    text: i18n.t('amount'),
-    width: window.innerWidth < 480 ? 80 : 150,
+  name: {
+    text: '',
+    width: window.innerWidth < 480 ? 210 : 220,
   },
 };
 
 class Rating extends Component {
   state = {
-    playersList: [],
     isLoading: true,
+    columnStreamers: false,
+
+    topApplicants: '',
+    topStreamers: '',
+    topViewers: '',
+
+    wholeApplicantsList: '',
+    wholeStreamersList: '',
+    wholeViewersList: '',
   };
 
-  renderRow = ({ className, itemClass, textClass, item }) => {
-    const Avatar = () => item.photo ? <img src={item.photo} alt="userpic"/> : <AvatarPlaceholder/>;
-    const currentUserRow = this.state.currentUser.user && this.state.currentUser.user._id === item._id;
+  async componentDidMount() {
+    const ratingRequest = await http('/public/rating');
+    const { ...allRating } = await ratingRequest.json();
 
+    const applicants = allRating.applicantsRating;
+    const streamers = allRating.streamersRating;
+    const viewers = allRating.viewersRating;
+
+    const topApplicants = applicants.slice(0, 3);
+    const wholeApplicantsList = applicants.slice(3, 97);
+
+    const topStreamers = streamers.slice(0, 3);
+    const wholeStreamersList = streamers.slice(3, 97);
+
+    const topViewers = viewers.slice(0, 3);
+    const wholeViewersList = viewers.slice(3, 97);
+
+    this.setState({
+      topStreamers,
+      topApplicants,
+      topViewers,
+      wholeApplicantsList,
+      wholeStreamersList,
+      wholeViewersList,
+    });
+  }
+
+  showStreamers = () => this.setState(prevState => ({ columnStreamers: !prevState.columnStreamers }));
+
+  showUsers = () => this.setState(prevState => ({ columnUsers: !prevState.columnUsers }));
+
+  showSummoners = () => this.setState(prevState => ({ columnSummoners: !prevState.columnSummoners }));
+
+  renderRow = ({ className, itemClass, textClass, item }) => {
     return (
-      <NavLink key={item._id} to={`/user/${item._id}`} className={cx(className, { [style.current_user]: currentUserRow })}>
-        <div className={itemClass} style={{ '--width': ratingTableCaptions.place.width }}>
-          <span className={textClass}>{item.place}</span>
-        </div>
+      <NavLink key={item._id} to={`/user/${item._id}`} className={cx(className, style.row_column)}>
 
         <div className={itemClass} style={{ '--width': ratingTableCaptions.avatar.width }}>
-          <span className={cx(textClass, style.avatar_table)}><Avatar/></span>
+          <span className={cx(textClass, style.avatar_table)}>
+            <img
+              src={item.imageUrl}
+              alt="userpic"
+              onError={e => {
+                e.currentTarget.src = AvatarPlaceholder;
+              }}
+            />
+          </span>
         </div>
 
-        <div className={itemClass} style={{ '--width': ratingTableCaptions.username.width }}>
+        <div className={itemClass} style={{ '--width': ratingTableCaptions.name.width }}>
           <span className={textClass}>{item.username}</span>
-        </div>
-
-        <div className={itemClass} style={{ '--width': ratingTableCaptions.winning.width }}>
-          <span className={textClass}>{item.rewards.length}</span>
         </div>
       </NavLink>
     );
   }
 
-  renderTopUsers = ({ className, avatarClass, nameClass, winningsClass, item }) => {
-    const Avatar = () => item.photo ? <img src={item.photo} alt="userpic"/> : <AvatarPlaceholder/>;
-
+  renderApplicants = ({ className, itemClass, textClass, item }) => {
     return (
-      <NavLink key={item._id} to={`/user/${item._id}`} className={className}>
-        <div className={avatarClass}>
-          <Avatar/>
+      <NavLink key={item._id} to={`/user/${item._id}`} className={cx(className, style.row_column)}>
+
+        <div className={itemClass} style={{ '--width': ratingTableCaptions.avatar.width }}>
+          <span className={cx(textClass, style.avatar_table)}>
+            <img
+              src={item.imageUrl}
+              alt="userpic"
+              onError={e => {
+                e.currentTarget.src = AvatarPlaceholder;
+              }}
+            />
+          </span>
         </div>
-        <div className={nameClass}>{item.username} #{item.place}</div>
-        <div className={winningsClass}>{item.rewards}</div>
+
+        <div className={itemClass} style={{ '--width': ratingTableCaptions.name.width }}>
+          <span className={textClass}>{item.summonerName}</span>
+        </div>
       </NavLink>
     );
   }
 
   render() {
-    const topUsers = this.state.playersList.slice(0, 3);
-    const sliceUsers = this.state.playersList.slice(3);
+    const {
+      topStreamers,
+      topApplicants,
+      topViewers,
+      wholeApplicantsList,
+      wholeStreamersList,
+      wholeViewersList,
+    } = this.state;
+
+    const textStreamers = this.state.columnStreamers ? i18n.t('hide_streamers') : i18n.t('show_streamers');
+    const textUsers = this.state.columnUsers ? i18n.t('hide_viewers') : i18n.t('show_viewers');
+    const textSummoners = this.state.columnSummoners ? i18n.t('hide_summoners') : i18n.t('show_summoners');
 
     return (
-      <div className="container">
-        <div className={style.home_page}>
+      <div className={cx('container', 'rating')}>
 
-          <main className={style.main_block}>
-            <h1>{i18n.t('best_players')}</h1>
+        <main className={style.main_block}>
 
-            <div className={cx(style.top_users, { [style.is_preloader_card]: this.state.isLoading })}>
-              <Card
-                defaultSorting={this.tournamentsDefaultSorting}
-                items={topUsers}
-                className={style.card}
-                renderCard={this.renderTopUsers}
-              />
+          <div className={cx(style.section)}>
+            <div className={style.best_icon}>
+              <img src={cardTwo} alt="streamers rating logo"/>
             </div>
 
-            <div className={cx(style.section, { [style.is_preloader_table]: this.state.isLoading })}>
+            <h2>{i18n.t('best_streamers')}</h2>
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={topStreamers}
+              className={style.column}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
 
-              <Table
-                captions={ratingTableCaptions}
-                defaultSorting={this.tournamentsDefaultSorting}
-                items={sliceUsers}
-                className={style.card}
-                renderRow={this.renderRow}
-                isLoading={this.state.isLoading}
-              />
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={wholeStreamersList}
+              className={cx(style.hidden, { show: this.state.columnStreamers })}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
+
+            <div className={style.see_all} onClick={this.showStreamers}>{textStreamers}</div>
+          </div>
+
+          <div className={cx(style.section)}>
+            <div className={style.best_icon}>
+              <img src={cardThree} alt="viewers rating logo"/>
             </div>
 
-          </main>
-        </div>
+            <h2>{i18n.t('best_users')}</h2>
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={topViewers}
+              className={style.column}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
+
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={wholeViewersList}
+              className={cx(style.hidden, { show: this.state.columnUsers })}
+              renderRow={this.renderRow}
+              isLoading={this.state.isLoading}
+            />
+
+            <div className={style.see_all} onClick={this.showUsers}>{textUsers}</div>
+          </div>
+
+          <div className={cx(style.section)}>
+            <div className={style.best_icon}>
+              <img src={cardFour} alt="appllicants rating logo"/>
+            </div>
+
+            <h2>{i18n.t('best_summoners')}</h2>
+
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={topApplicants}
+              className={style.column}
+              renderRow={this.renderApplicants}
+              isLoading={this.state.isLoading}
+            />
+
+            <Table
+              captions={ratingTableCaptions}
+              defaultSorting={this.tournamentsDefaultSorting}
+              items={wholeApplicantsList}
+              className={cx(style.hidden, { show: this.state.columnSummoners })}
+              renderRow={this.renderApplicants}
+              isLoading={this.state.isLoading}
+            />
+
+            <div className={style.see_all} onClick={this.showSummoners}>{textSummoners}</div>
+          </div>
+
+        </main>
       </div>
     );
   }

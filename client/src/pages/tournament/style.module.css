@@ -15,18 +15,7 @@
   padding-right: var(--layout-padding);
 }
 
-.tournament .inner_container .tournament_section {
-  flex-shrink: 0;
-  display: flex;
-  width: 100%;
-}
-
-.tournament .inner_container .tournament_section .main {
-  flex-grow: 1;
-  min-width: 0;
-}
-
-.tournament .inner_container .tournament_section .main .title {
+.tournament .inner_container .title {
   --height: 40px;
   overflow: hidden;
   height: var(--height);
@@ -39,92 +28,15 @@
   text-overflow: ellipsis;
 }
 
-.tournament .inner_container .tournament_section .main .info {
+.tournament .inner_container .tournament_section {
+  flex-shrink: 0;
   display: flex;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.tournament .inner_container .tournament_section .main .info .text {
-  --height: 24px;
-  overflow: hidden;
-  position: relative;
-  height: var(--height);
-  padding-right: 12px;
-  line-height: var(--height);
-  font-size: 15px;
-  color: var(--caption-color);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.tournament .inner_container .tournament_section .main .info .text:not(:last-of-type)::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  width: 4px;
-  height: 4px;
-  background-color: #9696b0;
-  border-radius: 2px;
-  transform: translateY(-50%);
-}
-
-.tournament .inner_container .tournament_section .main .info .text:nth-of-type(n+2) {
-  margin-left: 8px;
-}
-
-.tournament .inner_container .tournament_section .main .info .text .creator {
-  margin-left: 8px;
-}
-
-.tournament .inner_container .tournament_section .main .info .text a {
-  position: relative;
-  padding-right: 14px;
-  color: var(--accent-color);
-  text-decoration: underline;
-}
-
-.tournament .inner_container .tournament_section .main .info .text a i {
-  --icon-size: 12px;
-  --icon-color: #ffd120;
-  position: absolute;
-  top: -3px;
-  right: 0;
-}
-
-.tournament .inner_container .tournament_section .main .tournament_readiness_status {
-  margin-top: 8px;
-  counter-reset: item;
-}
-
-.tournament .inner_container .tournament_section .main .tournament_readiness_status .item {
-  display: flex;
-  align-items: center;
-}
-
-.tournament .inner_container .tournament_section .main .tournament_readiness_status .item + .item {
-  margin-top: 8px;
-}
-
-.tournament .inner_container .tournament_section .main .tournament_readiness_status .item p {
-  color: var(--accent-color);
-  margin-right: 14px;
-}
-
-.tournament .inner_container .tournament_section .main .tournament_readiness_status .item p::before {
-  counter-increment: item;
-  content: counter(item) ". ";
-}
-
-.tournament .inner_container .tournament_section .main .tournament_status {
-  display: block;
-  margin-top: 10px;
-  color: var(--accent-color);
-  font-weight: 700;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .tournament .inner_container .tournament_section .actions {
+  display: flex;
   flex-shrink: 0;
   margin-left: 30px;
 }
@@ -137,7 +49,7 @@
 }
 
 .tournament .inner_container .tournament_section .actions .button:nth-of-type(n+2) {
-  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .tournament .inner_container .tournament_section + .subtitle {
@@ -215,11 +127,157 @@
   display: grid;
   grid-row-gap: 30px;
   grid-column-gap: 16px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-rows: minmax(10px, 1fr);
+  grid-template-areas: "information information summoners summoners"
+                       "rules rewards viewers viewers"
+                       "matches matches applicants applicants";
   width: 100%;
   margin-top: 40px;
 }
 
+.tournament .inner_container .widgets.is_empty {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "information information information"
+                       "rules matches rewards";
+}
+
+.tournament .inner_container .widgets.applications_available.applications_available_streamer {
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-areas: "information information invite invite"
+                       "rewards rules summoners summoners"
+                       "matches matches applicants applicants";
+}
+
+.tournament .inner_container .widgets.applications_available {
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-areas: "information information invite invite"
+                       "rewards rules summoners summoners"
+                       "matches matches . .";
+}
+
+.tournament .inner_container .widgets.forecasting_is_available {
+  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-areas: "information information invite invite"
+                       "rewards rules summoners summoners"
+                       "matches matches viewers viewers";
+}
+
+.tournament .inner_container .widgets.is_started {
+  grid-template-columns: 2fr 1fr 4fr;
+  grid-template-areas: "information information summoners"
+                       "rewards rules viewers"
+                       "matches matches .";
+}
+
+.tournament .inner_container .widgets .information_widget {
+  grid-area: information
+}
+
+.tournament .inner_container .widgets.is_empty .information_widget {
+  width: 50%;
+}
+
+.tournament .inner_container .widgets .rules_widget {
+  grid-area: rules
+}
+
+.tournament .inner_container .widgets .invite_widget {
+  grid-area: invite
+}
+
+.tournament .inner_container .widgets .rewards_widget {
+  grid-area: rewards
+}
+
+.tournament .inner_container .widgets .matches_widget {
+  grid-area: matches
+}
+
+.tournament .inner_container .widgets .summoners_widget {
+  grid-area: summoners
+}
+
+.tournament .inner_container .widgets .viewers_widget {
+  grid-area: viewers
+}
+
+.tournament .inner_container .widgets .applicants_widget {
+  grid-area: applicants
+}
+
 .tournament .inner_container .widgets > * {
   min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .tournament .inner_container .widgets {
+    grid-template-columns: 1fr;
+  }
+  .tournament .inner_container .widgets.is_empty .information_widget {
+    width: 100%;
+  }
+  .tournament .inner_container .widgets.forecasting_is_available {
+    grid-template-columns: 1fr;
+    grid-template-areas: "information"
+                         "rules"
+                         "rewards"
+                         "matches"
+                         "invite"
+                         "viewers"
+                         "summoners"
+                         "rewards";
+  }
+  .tournament .inner_container .widgets.is_empty {
+    grid-template-columns: 1fr;
+    grid-template-areas: "information"
+                         "rules"
+                         "matches"
+                         "rewards";
+  }
+  
+  .tournament .inner_container .widgets.applications_available.applications_available_streamer {
+    grid-template-columns: 1fr;
+    grid-template-areas: "information"
+                         "invite"
+                         "rules"
+                         "rewards"
+                         "matches"
+                         "applicants"
+                         "summoners";
+  }
+  
+  .tournament .inner_container .widgets.applications_available {
+    grid-template-columns: 1fr;
+    grid-template-areas: "information"
+                         "invite"
+                         "rules"
+                         "rewards"
+                         "matches"
+                         "summoners";
+  }
+  .tournament .inner_container .widgets.is_started {
+    grid-template-columns: 1fr;
+    grid-template-areas: "information"
+                         "rules"
+                         "matches"
+                         "rewards"
+                         "summoners"
+                         "viewers";
+  }
+}
+
+@media (max-width: 480px) {
+  .tournament .inner_container .tournament_section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tournament .inner_container .title {
+    font-size: 30px;
+    --height: 30px;
+    margin-bottom: 12px;
+  }
+  .tournament .inner_container .tournament_section + .subtitle {
+    margin-top: 30px;
+  }
 }

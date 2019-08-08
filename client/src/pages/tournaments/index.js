@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
@@ -11,6 +12,7 @@ import modalActions from 'components/modal-container/actions';
 import { http } from 'helpers';
 import actions from './actions';
 import style from './style.module.css';
+import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
@@ -34,36 +36,49 @@ class Tournaments extends Component {
   }
 
   render() {
+    const isTounaments = this.props.tournamentsIds.length === 0;
+    const isCurrentUserCanProvideTournaments = get(this.props, 'currentUser.canProvideTournaments');
+    console.log(this.props.tournamentsIds);
     return (
       <div className={cx('tournaments', 'container')}>
-        <div className={cx('list', { '_is-loading': this.state.isLoading })}>
-          {this.props.tournamentsIds.map(id => {
-            const tournament = this.props.tournamentsList[id];
-            const date = moment(tournament.date).format('DD MMM YYYY');
-            const championsLength = tournament.champions_ids && tournament.champions_ids.length;
-            const tournamentName = tournament.name || 'No name';
+        <div className={style.wrap_tournaments}>
+          <div className={cx('list', { '_is-loading': this.state.isLoading })}>
+            {isTounaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
 
-            return (
-              <Link key={tournament._id} to={`/tournaments/${tournament._id}`} className={style.item}>
-                <h2 className={style.name}>{tournamentName}</h2>
+            {this.props.tournamentsIds.map(id => {
+              const tournament = this.props.tournamentsList[id];
+              const dateMonth = moment(tournament.date).format('MMM');
+              const dateDay = moment(tournament.date).format('DD');
+              const championsLength = tournament.viewers && tournament.viewers.length;
+              const tournamentName = tournament.name || i18n.t('no_name');
+              const price = tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
 
-                <TournamentCard
-                  name={tournamentName}
-                  date={date}
-                  people={championsLength || 0}
-                  className={style.card}
-                />
-              </Link>
-            );
-          })}
+              return (
+                <Link key={tournament._id} to={`/tournaments/${tournament._id}`} className={style.item}>
+                  <TournamentCard
+                    name={tournamentName}
+                    dateDay={dateDay}
+                    dateMonth={dateMonth}
+                    price={price}
+                    people={championsLength || 0}
+                    imageUrl={tournament.imageUrl}
+                    className={style.card}
+                  />
+                </Link>
+              );
+            })}
+
+          </div>
+
+          {isCurrentUserCanProvideTournaments && (
+            <Button
+              appearance="_icon-accent"
+              icon="plus"
+              className={style.button}
+              onClick={this.props.openNewTournamentModal}
+            />
+          )}
         </div>
-
-        <Button
-          appearance="_icon-accent"
-          icon="plus"
-          className={style.button}
-          onClick={this.props.openNewTournamentModal}
-        />
       </div>
     );
   }
@@ -72,6 +87,7 @@ class Tournaments extends Component {
 export default compose(
   connect(
     state => ({
+      currentUser: state.currentUser,
       tournamentsIds: state.tournaments.ids,
       tournamentsList: state.tournaments.list,
       isLoaded: state.tournaments.isLoaded,

@@ -17,6 +17,7 @@ import cardOne from 'assets/card-1.png';
 import cardTwo from 'assets/card-2.png';
 import cardThree from 'assets/card-3.png';
 import cardFour from 'assets/card-4.png';
+import Footer from 'components/footer';
 
 class Start extends Component {
   constructor(properties) {
@@ -61,12 +62,6 @@ class Start extends Component {
     ym('reachGoal', 'user_signed_in');
     const url = this.tournamentId ? `/tournaments/${this.tournamentId}` : '/tournaments';
     this.props.history.push(url);
-
-    this.props.showNotification({
-      type: 'success',
-      shouldBeAddedToSidebar: false,
-      message: response.message,
-    });
   };
 
   onFailureGoogleLogin = () => {
@@ -114,7 +109,7 @@ class Start extends Component {
 
             <div className={style.cards}>
               <div className={style.card}>
-                <img src={cardOne} alt="Image"/>
+                <img src={cardOne} alt="card one"/>
 
                 <div className={style.text}>
                   <div className={style.first_title}>
@@ -124,7 +119,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardTwo} alt="Image"/>
+                <img src={cardTwo} alt="card two"/>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -138,7 +133,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardThree} alt="Image"/>
+                <img src={cardThree} alt="card three"/>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -152,7 +147,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardFour} alt="Image"/>
+                <img src={cardFour} alt="card four"/>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -197,6 +192,7 @@ class Start extends Component {
             </div>
           </div>
         </section>
+        <Footer className={style.home_footer}/>
       </>
     );
   }
