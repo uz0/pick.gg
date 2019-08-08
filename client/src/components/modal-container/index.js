@@ -9,6 +9,7 @@ import AddMatch from './add-match';
 import AddRules from './tournament-rules';
 import AddRewards from './tournament-rewards';
 import EditTournament from './edit-tournament';
+import ExpressReg from './dropin-auth';
 import JoinTournamentPlayers from './join-tournament-players';
 import EditUser from './dashboard-edit-user-modal';
 import EditMatch from './edit-match';
@@ -26,7 +27,11 @@ const modals = {
   'join-tournament-players-modal': JoinTournamentPlayers,
   'edit-match-modal': EditMatch,
   'edit-tournament-modal': EditTournament,
+<<<<<<< HEAD
   'user-modal': EditUser,
+=======
+  'express-reg': ExpressReg,
+>>>>>>> Add WIP wor for drop-it registration
 };
 
 class ModalContainer extends Component {
