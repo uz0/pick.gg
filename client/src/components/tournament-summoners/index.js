@@ -13,6 +13,7 @@ import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
 import style from './style.module.css';
+import uuid from 'uuid';
 
 import i18n from 'i18next';
 
@@ -43,7 +44,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
   const isSummonerWinner = props.find(summoner => summoner.id === item._id);
 
   return (
-    <div key={item._id} className={cx(className, style.row)}>
+    <div key={uuid()} className={cx(className, style.row)}>
       <div className={cx(itemClass, style.cell)} style={numberStyle}>
         <span className={textClass}>{index + 1}</span>
       </div>
