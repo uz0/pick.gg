@@ -9,6 +9,7 @@ import AddMatch from './add-match';
 import AddRules from './tournament-rules';
 import AddRewards from './tournament-rewards';
 import EditTournament from './edit-tournament';
+import ExpressReg from './dropin-auth';
 import JoinTournamentPlayers from './join-tournament-players';
 import EditUser from './dashboard-edit-user-modal';
 import EditMatch from './edit-match';
@@ -27,6 +28,7 @@ const modals = {
   'edit-match-modal': EditMatch,
   'edit-tournament-modal': EditTournament,
   'user-modal': EditUser,
+  'express-reg': ExpressReg,
 };
 
 class ModalContainer extends Component {
