@@ -39,7 +39,6 @@ const UserFilter = props => {
   return (
     <AsyncSelect
       isClearable
-      defaultOptions
       placeholder="Filter by user"
       loadOptions={getSuggestions}
       styles={props.styles}
