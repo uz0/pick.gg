@@ -11,7 +11,7 @@ import config from 'config';
 
 import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
-import { http } from 'helpers';
+import { isLogged, http } from 'helpers';
 
 import cardOne from 'assets/card-1.png';
 import cardTwo from 'assets/card-2.png';
@@ -72,6 +72,11 @@ class Start extends Component {
     });
   };
 
+  redirectToTournaments = () => {
+    const url = this.tournamentId ? `/tournaments/${this.tournamentId}` : '/tournaments';
+    this.props.history.push(url);
+  };
+
   render() {
     return (
       <>
@@ -88,7 +93,7 @@ class Start extends Component {
                   <button
                     type="button"
                     className={style.button}
-                    onClick={renderProperties.onClick}
+                    onClick={() => isLogged() ? this.redirectToTournaments() : renderProperties.onClick()}
                   >
                     <span>{i18n.t('Jump in!')}</span>
                   </button>
@@ -178,7 +183,7 @@ class Start extends Component {
                   <button
                     type="button"
                     className={style.button}
-                    onClick={renderProperties.onClick}
+                    onClick={() => isLogged() ? this.redirectToTournaments() : renderProperties.onClick()}
                   >
                     <span>{i18n.t('home.button_2')}</span>
                   </button>
