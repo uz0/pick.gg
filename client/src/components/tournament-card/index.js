@@ -25,10 +25,10 @@ const TournamentCard = ({ name, dateDay, dateMonth, people, price, className, im
             <p className={style.value}>{people}</p>
           </div>
 
-          <div className={style.info}>
+          {/* <div className={style.info}>
             <Icon name="coin"/>
             <p className={style.value}>{price}</p>
-          </div>
+          </div> */}
         </div>
 
       </div>
