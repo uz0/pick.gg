@@ -21,8 +21,6 @@
 .content .nickname {
   text-overflow: ellipsis;
   overflow: hidden;
-  padding: 0 10px;
-  text-align: center;
 }
 
 .content .text {
@@ -45,12 +43,11 @@
 
 @media screen and (max-width: 768px) {
   .sidebar {
-    --sidebar-size: 200px;
-    min-height: 140px;
+    --sidebar-size: 400px;
   }
   .content {
-    padding-top: calc(var(--sidebar-size) / 3);
-    width: 200px;
+    padding-top: 60px;
+    width: 400px;
   }
 }
 
