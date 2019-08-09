@@ -52,7 +52,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>
           {item.summonerName}
-          {isSummonerWinner && <span className={style.is_winner}> is winner</span>}
+          {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
         </span>
       </div>
 
@@ -90,7 +90,7 @@ const Summoners = ({
             className={style.button}
             onClick={addSummoners}
           >
-            Edit
+            {i18n.t('edit')}
           </button>
         )}
       </div>

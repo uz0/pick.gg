@@ -286,6 +286,7 @@
     "viewer": "Viewer",
     "summoner": "Summoner",
     "date_tournament": "Tournament date",
+    "is_winner": "is winner",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
