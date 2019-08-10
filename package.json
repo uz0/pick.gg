@@ -5,10 +5,10 @@
     "client:start": "cd client && npm start",
     "client:build": "cd client && npm run build",
     "server:start": "nodemon server/app.js --exec babel-node",
-    "server:build": "babel server --out-dir dist",
+    "server:build": "cd server && npx webpack",
     "build": "cross-env NODE_ENV=production concurrently --kill-others-on-fail \"npm run server:build\" \"npm run client:build\"",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail \"npm run server:start\" \"npm run client:start\"",
-    "start": "node dist/app.js",
+    "start": "node server/dist/app.js",
     "test": "npm-run-all test:*",
     "test:client": "jest --testPathPattern=\"client/.*__tests__/.*(test.js)\"",
     "test:server": "jest --testPathPattern=\"server/.*__tests__/.*(test.js)\"",
@@ -24,10 +24,6 @@
     "dotenv": "^8.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
     "clean-dir": "^1.0.3",
     "concurrently": "^3.5.0",
     "cross-env": "^5.2.0",
