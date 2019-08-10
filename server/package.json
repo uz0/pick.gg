@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "npx backpack dev",
+    "build": "npx backpack build"
   },
   "author": "",
   "license": "MIT",
@@ -28,10 +30,6 @@
     "uws": "10.148.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6",
-    "webpack-node-externals": "^1.7.2"
+    "backpack-core": "^0.8.4"
   }
 }
