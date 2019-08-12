@@ -19,6 +19,7 @@ const Information = props => {
   const url = get(props, 'tournament.url');
 
   const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
+  const isCurrentUserAdmin = props.currentUser.isAdmin;
 
   const isEmpty = get(props, 'tournament.isEmpty');
   const isApplicationsAvailable = get(props, 'tournament.isApplicationsAvailable');
@@ -26,7 +27,7 @@ const Information = props => {
   const isStarted = get(props, 'tournament.isStarted');
   const isFinalized = get(props, 'tournament.isFinalized');
 
-  const isEditingAvailable = isCurrentUserCreator && !isStarted;
+  const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) && !isStarted;
 
   const getTournamentStatus = () => {
     if (isCurrentUserCreator) {

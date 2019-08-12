@@ -70,10 +70,10 @@ const Summoners = ({
   winners,
   summoners,
   className,
-  isCurrentUserCreator,
   isUserCanApply,
   isEditingAvailable,
   isApplicationsAvailable,
+  isCurrentUserCreatorOrAdmin,
   isApplicantRejected,
   isAlreadyApplicant,
   isAlreadySummoner,
@@ -95,7 +95,7 @@ const Summoners = ({
         )}
       </div>
 
-      {isCurrentUserCreator && summoners.length === 0 && (
+      {isCurrentUserCreatorOrAdmin && summoners.length === 0 && (
         <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
       )}
 
@@ -108,7 +108,7 @@ const Summoners = ({
       )}
 
       <div className={style.content}>
-        {isCurrentUserCreator && summoners.length === 0 && (
+        {isCurrentUserCreatorOrAdmin && summoners.length === 0 && (
           <Button
             appearance="_circle-accent"
             icon="plus"
@@ -117,7 +117,7 @@ const Summoners = ({
           />
         )}
 
-        {!isCurrentUserCreator && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
+        {!isCurrentUserCreatorOrAdmin && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
           <Button
             appearance="_basic-accent"
             text={i18n.t('apply_summoner')}
@@ -197,14 +197,18 @@ export default compose(
     const currentUserId = props.currentUser && props.currentUser._id;
 
     const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
-    const isEditingAvailable = isCurrentUserCreator && !props.tournament.isStarted;
+    const isCurrentUserAdmin = props.currentUser.isAdmin;
+
+    const isCurrentUserCreatorOrAdmin = isCurrentUserCreator || isCurrentUserAdmin;
+
+    const isEditingAvailable = isCurrentUserCreatorOrAdmin && !props.tournament.isStarted;
 
     const isAlreadyApplicant = find(props.tournament.applicants, { user: currentUserId });
     const isAlreadySummoner = props.tournament.summoners.includes(currentUserId);
     const isAlreadySummonerOrApplicant = isAlreadyApplicant || isAlreadySummoner;
     const isApplicantRejected = find(props.tournament.applicants, { user: currentUserId, status: 'REJECTED' });
 
-    const isUserCanApply = !isCurrentUserCreator && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
+    const isUserCanApply = !isCurrentUserCreatorOrAdmin && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
 
     if (props.tournament.summoners.length === 0) {
       return {
@@ -214,6 +218,7 @@ export default compose(
         isCurrentUserCreator,
         isEditingAvailable,
         isApplicationsAvailable,
+        isCurrentUserCreatorOrAdmin,
         isUserCanApply,
         isAlreadyApplicant,
         isApplicantRejected,
@@ -239,6 +244,7 @@ export default compose(
       isCurrentUserCreator,
       isEditingAvailable,
       isApplicationsAvailable,
+      isCurrentUserCreatorOrAdmin,
       isUserCanApply,
       isApplicantRejected,
       isAlreadyApplicant,
