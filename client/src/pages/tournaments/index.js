@@ -38,7 +38,10 @@ class Tournaments extends Component {
 
   render() {
     const isTounaments = this.props.tournamentsIds.length === 0;
-    const isCurrentUserCanProvideTournaments = get(this.props, 'currentUser.canProvideTournaments');
+
+    const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
+    const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
+    const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
 
     return (
       <div className={cx('tournaments', 'container')}>
@@ -71,7 +74,7 @@ class Tournaments extends Component {
 
           </div>
 
-          {isCurrentUserCanProvideTournaments && (
+          {isCurrentUserAdminOrStreamer && (
             <Button
               appearance="_icon-accent"
               icon="plus"

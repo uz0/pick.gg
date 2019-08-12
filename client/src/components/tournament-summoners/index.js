@@ -197,7 +197,7 @@ export default compose(
     const currentUserId = props.currentUser && props.currentUser._id;
 
     const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
-    const isCurrentUserAdmin = props.currentUser.isAdmin;
+    const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
 
     const isCurrentUserCreatorOrAdmin = isCurrentUserCreator || isCurrentUserAdmin;
 
