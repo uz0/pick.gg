@@ -108,10 +108,11 @@ export default compose(
   ),
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
-    const isCurrentUserAdmin = props.currentUser.isAdmin;
+    const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
 
     const isAddButtonVisible = (isCurrentUserCreator || isCurrentUserAdmin) &&
       !props.tournament.isStarted &&
+      props.tournament.unfoldedRewards &&
       props.tournament.unfoldedRewards.length > 0;
 
     const isActionsAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
