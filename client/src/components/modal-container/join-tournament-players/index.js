@@ -17,7 +17,10 @@ const cx = classnames.bind(style);
 
 const enhance = compose(
   connect(
-    null,
+    (state, props) => ({
+      currentUser: state.currentUser,
+      tournamentCreator: state.tournaments.list[props.options.tournamentId].creator,
+    }),
 
     {
       updateTournament: tournamentsActions.updateTournament,
@@ -71,7 +74,10 @@ const enhance = compose(
             'x-access-token': localStorage.getItem('JWS_TOKEN'),
           },
           method: 'PATCH',
-          body: JSON.stringify({ userId: currentUserId, summoners: selectedSummoners }),
+          body: JSON.stringify({
+            userId: currentUserId,
+            summoners: selectedSummoners,
+          }),
         });
 
         props.updateTournament({
@@ -86,20 +92,24 @@ const enhance = compose(
       } catch (error) {
         console.log(error);
       }
-    },
+    }
   }),
 );
 
 export default enhance(props => {
   const {
-    tournamentSummoners,
     selectedSummoners,
+    tournamentSummoners,
     toggleSelectSummoner,
+    tournamentCreator,
+    currentUser,
     attend,
   } = props;
 
+  const addPlayersButtonAction = tournamentCreator._id === currentUser._id ? props.close : attend;
+
   const actions = [
-    { text: 'Add Players', appearance: '_basic-accent', onClick: attend },
+    { text: 'Add Players', appearance: '_basic-accent', onClick: () => addPlayersButtonAction() },
   ];
 
   return (
