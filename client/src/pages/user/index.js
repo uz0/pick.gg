@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { actions as storeActions } from 'store';
 import { actions as usersActions } from 'pages/dashboard/users';
 import { http } from 'helpers';
 import findIndex from 'lodash/findIndex';
 
 import ProfileSidebar from 'components/profile-sidebar';
 import Preloader from 'components/preloader';
-import thumb from 'assets/tournament_thumbnail.jpg';
 import moment from 'moment';
 
 import style from './style.module.css';
@@ -154,7 +152,7 @@ class User extends Component {
         </div>
 
         {this.state.isLoading &&
-          <Preloader />
+          <Preloader/>
         }
       </div>
     );
