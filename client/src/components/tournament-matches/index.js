@@ -11,6 +11,7 @@ import classnames from 'classnames/bind';
 import { withCaptions } from 'hoc';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import moment from 'moment';
 import style from './style.module.css';
 import i18n from 'i18next';
 
@@ -121,6 +122,8 @@ class Matches extends Component {
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
     const isMatchActive = item.isActive;
     const isMatchOver = item.endAt;
+    const startMatchTime = moment(item.startedAt).format('hh:mm');
+    const endMatchTime = moment(isMatchOver).format('hh:mm');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
@@ -135,14 +138,23 @@ class Matches extends Component {
         </div>
 
         {isMatchOver && (
-          <div className={style.status_match}>
-            <span className={textClass}>{i18n.t('is_over_match')}</span>
+          <div>
+            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
+              <span className={cx(textClass, style.time_match)}>{startMatchTime} - {endMatchTime}</span>
+            </div>
+
+            <div className={style.status_match}>
+              <span className={textClass}>{i18n.t('is_over_match')}</span>
+            </div>
           </div>
         )}
 
         {isMatchActive && (
-          <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
-            <span className={textClass}>{i18n.t('is_active_match')}</span>
+          <div>
+            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
+
+              <span className={textClass}>{i18n.t('is_active_match')} {startMatchTime}</span>
+            </div>
           </div>
         )}
 

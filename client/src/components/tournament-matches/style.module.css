@@ -127,6 +127,10 @@
   width: auto;
 }
 
+.matches .content .table .time_match {
+  font-size: 12px;
+}
+
 .matches .content .table .button {
   flex-shrink: 0;
   display: flex;
