@@ -5,7 +5,7 @@
   overflow: hidden;
   background: url('assets/play-with.jpg') no-repeat, #081a2f;
   background-size: cover;
-  background-position: center right;
+  background-position: 0 0;
   max-width: 500px;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .card .content .name {
-  --height: 40px;
+  --height: 48px;
   overflow: hidden;
   min-height: var(--height);
   max-height: var(--height);
@@ -66,10 +66,6 @@
   max-width: 100%;
   padding-right: 20px;
 }
-
-/* .card .content .name+.info {
-  margin-top: 12px;
-} */
 
 .card .content .info {
   display: flex;
@@ -118,9 +114,6 @@
 
 @media (max-width: 480px) {
   .card {
-    background-position: -50px 0px;
-    background-size: 150% 100%;
-    background-size: cover;
     width: 340px;
   }
 }
@@ -129,7 +122,6 @@
   .card {
     width: 270px;
     min-height: 130px;
-    background-position: -80px 0px;
   }
   .card .content {
     padding: 12px;
