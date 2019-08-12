@@ -39,7 +39,7 @@ class Tournaments extends Component {
   render() {
     const isTounaments = this.props.tournamentsIds.length === 0;
 
-    const isCurrentUserAdmin = this.props.currentUser.isAdmin;
+    const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
     const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
     const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
 
