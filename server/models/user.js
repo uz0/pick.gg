@@ -17,6 +17,10 @@ export default mongoose.model('User', new Schema({
   canProvideTournaments: { type: Boolean, default: false },
   twitchAccount: { type: String, default: '' },
   summonerName: { type: String, default: '' },
+  contact: {
+    type: String,
+    default: ''
+  },
   regionId: { type: String, enum: ['', ...REGIONS], default: '' },
   preferredPosition: { type: String, enum: ['', 'adc', 'mid', 'top', 'jungle', 'support'], default: '' },
 },

@@ -78,6 +78,13 @@ const Profile = () => {
         </div>
 
         <Field
+          component={FormInput}
+          label="Contact"
+          name="contact"
+          className={style.field}
+        />
+
+        <Field
           disabled
           component={FormInput}
           label={i18n.t('email')}
@@ -143,6 +150,7 @@ const enhance = compose(
         twitchAccount,
         preferredPosition,
         regionId,
+        contact,
       } = currentUser;
 
       return {
@@ -155,6 +163,7 @@ const enhance = compose(
         twitchAccount,
         preferredPosition,
         regionId,
+        contact,
       };
     },
     handleSubmit: async (values, formikBag) => {

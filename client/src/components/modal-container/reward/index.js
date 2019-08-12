@@ -202,6 +202,17 @@ const enhance = compose(
       }
 
       const request = await createRewardRequest(normalizeUserField(values));
+
+      if (request.errors) {
+        formikBag.props.showNotification({
+          type: 'error',
+          shouldBeAddedToSidebar: false,
+          message: request.errors[0].msg,
+        });
+
+        return;
+      }
+
       formikBag.props.createReward(request);
 
       formikBag.props.close();

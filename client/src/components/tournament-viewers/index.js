@@ -1,10 +1,12 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import Table from 'components/table';
 import Button from 'components/button';
+import { check } from 'components/dropin-auth/check';
 import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
 import { withCaptions } from 'hoc';
 import style from './style.module.css';
@@ -83,7 +85,10 @@ const Viewers = ({
             text={i18n.t('join_tournament')}
             appearance="_basic-accent"
             className={style.button}
-            onClick={joinTournament}
+            onClick={debounce(check(joinTournament, {
+              title: 'Make forecast',
+              action: joinTournament,
+            }), 400)}
           />
         </div>
       )}
@@ -159,7 +164,7 @@ export default compose(
     const { tournament, currentUser, users } = props;
 
     const isCurrentUserCreator = (currentUser && tournament.creator) && tournament.creator._id === currentUser._id;
-    const isCurrentUserSummoner = tournament.summoners.includes(currentUser._id);
+    const isCurrentUserSummoner = currentUser && tournament.summoners.includes(currentUser._id);
     const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserCreator && !isCurrentUserSummoner;
 
     const viewers = tournament.viewers

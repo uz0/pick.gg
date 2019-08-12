@@ -68,7 +68,7 @@ class AddRewards extends Component {
   }
 
   loadRewards = async () => {
-    const response = await http('/api/rewards/reward?isClaimed=false');
+    const response = await http('/api/rewards/reward/streamer?isClaimed=false');
     const { rewards } = await response.json();
     this.props.loadRewards(rewards);
 

@@ -26,6 +26,7 @@ const handler = withValidationHandler(async (req, res) => {
         'summonerName',
         'regionId',
         'preferredPosition',
+        'contact',
       ]),
       { new: true },
     );

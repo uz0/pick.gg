@@ -68,6 +68,7 @@ const enhance = compose(
         await http(`/api/tournaments/${tournamentId}/view`, {
           headers: {
             'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('JWS_TOKEN'),
           },
           method: 'PATCH',
           body: JSON.stringify({ userId: currentUserId, summoners: selectedSummoners }),

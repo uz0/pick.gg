@@ -27,5 +27,5 @@ export const REWARD_POSITIONS = {
   'viewer_third': {
     role: 'viewer',
     place: 'third',
-  }
+  },
 };
