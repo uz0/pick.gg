@@ -39,7 +39,7 @@ const Information = props => {
       }
 
       if ((!isApplicationsAvailable && !isFinalized) && isForecastingActive) {
-        return i18n.t('let_viewers_make_forecastsadd_summoners_applicants');
+        return i18n.t('let_viewers_make_forecasts');
       }
     }
 
