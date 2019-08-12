@@ -211,6 +211,9 @@
 }
 
 @media (max-width: 768px) {
+  .tournament .inner_container .title {
+    width: 100%;
+  }
   .tournament .inner_container .widgets {
     grid-template-columns: 1fr;
   }
