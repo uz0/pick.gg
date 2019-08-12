@@ -13,6 +13,7 @@ import User from './pages/user';
 import MyTournaments from './pages/mytournaments';
 import Rewards from './pages/reward';
 import Rating from './pages/rating';
+import NotFound from './pages/404';
 
 import store from 'store';
 
@@ -32,6 +33,8 @@ export default () => (
             <Route exact path="/mytournaments" component={MyTournaments}/>
             <Route exact path="/rewards" component={Rewards}/>
             <Route exact path="/rating" component={Rating}/>
+
+            <Route exact path="" component={NotFound}/>
           </Switch>
         </Layout>
       </>

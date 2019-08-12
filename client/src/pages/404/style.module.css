@@ -1,0 +1,39 @@
+.not_found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fafafa;
+}
+
+.not_found .text {
+  margin-right: 36px;
+  font-size: 18px;
+}
+
+.not_found .code {
+  font-size: 64px;
+}
+
+.not_found .wrap_logo {
+  width: 200px;
+  height: 200px;
+}
+
+.not_found .wrap_logo .logo_not_found {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 480px) {
+  .not_found {
+    flex-direction: column;
+  }
+  .not_found .text {
+    margin-right: 0;
+    margin-bottom: 24px;
+  }
+  .not_found .code {
+    font-size: 48px;
+  }
+}
