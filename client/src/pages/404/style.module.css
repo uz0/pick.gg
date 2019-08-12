@@ -29,10 +29,12 @@
   .not_found {
     flex-direction: column;
   }
+
   .not_found .text {
     margin-right: 0;
     margin-bottom: 24px;
   }
+
   .not_found .code {
     font-size: 48px;
   }

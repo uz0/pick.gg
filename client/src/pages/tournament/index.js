@@ -36,6 +36,12 @@ class Tournament extends Component {
     const tournament = await tournamentRequest.json();
     const unfoldedRewards = await rewardsRequest.json();
 
+    if (tournament.errors) {
+      this.props.history.push('/404');
+
+      return;
+    }
+
     if (tournament) {
       this.props.updateTournament({
         ...tournament,
@@ -143,7 +149,11 @@ class Tournament extends Component {
   });
 
   async componentDidMount() {
-    await this.loadTournament();
+    try {
+      await this.loadTournament();
+    } catch (error) {
+      console.log(error);
+    }
 
     if (isEmpty(this.props.users)) {
       await this.loadUsers();
@@ -180,7 +190,7 @@ class Tournament extends Component {
       <div className={cx('tournament', 'container')}>
 
         {this.state.isLoading && (
-          <Preloader isFullScreen/>
+          <Preloader isFullScreen />
         )}
 
         <div className={style.inner_container}>

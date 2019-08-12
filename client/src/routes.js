@@ -34,7 +34,7 @@ export default () => (
             <Route exact path="/rewards" component={Rewards}/>
             <Route exact path="/rating" component={Rating}/>
 
-            <Route exact path="" component={NotFound}/>
+            <Route component={NotFound}/>
           </Switch>
         </Layout>
       </>
