@@ -38,7 +38,7 @@ class Tournaments extends Component {
   render() {
     const isTounaments = this.props.tournamentsIds.length === 0;
     const isCurrentUserCanProvideTournaments = get(this.props, 'currentUser.canProvideTournaments');
-    console.log(this.props.tournamentsIds);
+
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={style.wrap_tournaments}>
