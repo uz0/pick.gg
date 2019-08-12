@@ -7,7 +7,7 @@ const refTo = schemaName => ({
   default: null
 });
 
-export default mongoose.model('Reward', new Schema({
+const schema = new Schema({
   userId: refTo('User'),
   key: {
     type: String,
@@ -23,4 +23,6 @@ export default mongoose.model('Reward', new Schema({
   image: {
     type: String,
   },
-}));
+});
+
+export default mongoose.model('Reward', schema);

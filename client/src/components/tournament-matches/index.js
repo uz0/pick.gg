@@ -179,13 +179,30 @@ class Matches extends Component {
     );
   };
 
+  sortMatches = (prev, next) => {
+    if (!prev.startedAt && !next.startedAt) {
+      return 1;
+    }
+
+    if (!prev.startedAt) {
+      return 1;
+    }
+
+    if (!next.startedAt) {
+      return -1;
+    }
+
+    return new Date(prev.startedAt) - new Date(next.startedAt);
+  };
+
   render() {
     const {
       currentUser,
       className,
     } = this.props;
 
-    const matches = get(this.props, 'tournament.matches');
+    const matches = get(this.props, 'tournament.matches')
+      .sort(this.sortMatches);
     const creator = get(this.props, 'tournament.creator');
     const isStarted = get(this.props, 'tournament.isStarted');
 

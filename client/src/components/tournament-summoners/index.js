@@ -13,6 +13,7 @@ import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
 import style from './style.module.css';
+import uuid from 'uuid';
 
 import i18n from 'i18next';
 
@@ -43,7 +44,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
   const isSummonerWinner = props.find(summoner => summoner.id === item._id);
 
   return (
-    <div key={item._id} className={cx(className, style.row)}>
+    <div key={uuid()} className={cx(className, style.row)}>
       <div className={cx(itemClass, style.cell)} style={numberStyle}>
         <span className={textClass}>{index + 1}</span>
       </div>
@@ -51,7 +52,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>
           {item.summonerName}
-          {isSummonerWinner && <span className={style.is_winner}> is winner</span>}
+          {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
         </span>
       </div>
 
@@ -89,7 +90,7 @@ const Summoners = ({
             className={style.button}
             onClick={addSummoners}
           >
-            Edit
+            {i18n.t('edit')}
           </button>
         )}
       </div>
@@ -121,7 +122,10 @@ const Summoners = ({
             appearance="_basic-accent"
             text={i18n.t('apply_summoner')}
             className={style.button}
-            onClick={debounce(check(applyTournament), 400)}
+            onClick={debounce(check(applyTournament, {
+              title: 'Apply as summoner',
+              action: applyTournament,
+            }), 400)}
           />
         )}
 
@@ -171,7 +175,12 @@ export default compose(
       }
 
       try {
-        await http(`/api/tournaments/${tournamentId}/attend`, { method: 'PATCH' });
+        await http(`/api/tournaments/${tournamentId}/attend`, {
+          method: 'PATCH',
+          headers: {
+            'x-access-token': localStorage.getItem('JWS_TOKEN'),
+          },
+        });
 
         props.updateTournament({
           _id: tournamentId,
@@ -183,7 +192,7 @@ export default compose(
     },
   }),
   withProps(props => {
-    const { creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
+    const { _id: tournamentId, creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
     const currentUserId = props.currentUser && props.currentUser._id;
 
@@ -200,6 +209,7 @@ export default compose(
     if (props.tournament.summoners.length === 0) {
       return {
         ...props,
+        tournamentId,
         winners,
         isCurrentUserCreator,
         isEditingAvailable,
@@ -224,6 +234,7 @@ export default compose(
 
     return {
       ...props,
+      tournamentId,
       winners,
       isCurrentUserCreator,
       isEditingAvailable,

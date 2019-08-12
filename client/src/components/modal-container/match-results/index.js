@@ -73,7 +73,7 @@ const renderRow = ({ className, itemClass, textClass, props, item }) => {
 
 const MatchResults = ({ results, rules, close }) => (
   <Modal
-    title="Match results"
+    title={i18n.t('match_results')}
     close={close}
     wrapClassName={style.modal}
     className={style.modal_content}
@@ -85,7 +85,7 @@ const MatchResults = ({ results, rules, close }) => (
       isLoading={false}
       className={style.table}
       withProps={rules}
-      emptyMessage="There is no results yet"
+      emptyMessage={i18n.t('no_matches_results')}
     />
   </Modal>
 );

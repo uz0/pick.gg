@@ -5,7 +5,7 @@ import UserModel from "../../models/user";
 import { ONE_DAY } from './constants'
 
 export default (app) => async (req, res) => {
-  const { email, name, photo, summonerName = '' } = req.body;
+  const { email, name, photo, summonerName = '', contact = '', } = req.body;
   const checkUser = await UserModel.findOne({ email });
 
   if (!checkUser) {
@@ -13,7 +13,8 @@ export default (app) => async (req, res) => {
       username: name,
       imageUrl: photo,
       email,
-      summonerName
+      summonerName,
+      contact
     });
   }
 

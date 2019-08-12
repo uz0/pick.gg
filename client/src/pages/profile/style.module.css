@@ -3,7 +3,7 @@
 }
 
 .form {
-  max-width: 600px;
+  max-width: 400px;
   width: 100%;
   margin: 0px auto;
   background-color: var(--background-color);
@@ -18,7 +18,8 @@
 }
 
 .form .save {
-  margin-top: 14px;
+  margin-top: 24px;
+  font-size: 14px;
 }
 
 .email {
@@ -32,13 +33,4 @@
 
 .position .field {
   width: 49%;
-}
-
-@media (max-width: 480px) {
-  .position {
-    flex-wrap: wrap;
-  }
-  .position .field {
-    width: 100%;
-  }
 }

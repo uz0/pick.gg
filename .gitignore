@@ -1,8 +1,10 @@
 /node_modules
 /client/build
+/server/build/
 /client/node_modules
 /server/node_modules
 /dist
 .env
 .vscode
 .idea
+.DS_Store
