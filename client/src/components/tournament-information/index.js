@@ -19,7 +19,7 @@ const Information = props => {
   const url = get(props, 'tournament.url');
 
   const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
-  const isCurrentUserAdmin = props.currentUser.isAdmin;
+  const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
 
   const isEmpty = get(props, 'tournament.isEmpty');
   const isApplicationsAvailable = get(props, 'tournament.isApplicationsAvailable');

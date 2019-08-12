@@ -108,7 +108,7 @@ export default compose(
   withCaptions(tableCaptions),
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
-    const isCurrentUserAdmin = props.currentUser.isAdmin;
+    const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
     const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin;
 
     const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
