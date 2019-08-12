@@ -122,8 +122,8 @@ class Matches extends Component {
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
     const isMatchActive = item.isActive;
     const isMatchOver = item.endAt;
-    const startMatchTime = moment(item.startedAt).format('hh:mm');
-    const endMatchTime = moment(isMatchOver).format('hh:mm');
+    const startMatchTime = moment(item.startedAt).format('HH:mm');
+    const endMatchTime = moment(isMatchOver).format('HH:mm');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
