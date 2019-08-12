@@ -168,33 +168,29 @@ const enhance = compose(
     },
     handleSubmit: async (values, formikBag) => {
       const defaultState = formikBag.props.currentUser;
-
       const requestBody = getChangedFormFields(defaultState, values);
 
-      const editUserRequest = async body => {
-        try {
-          const request = await http('/api/users/me', {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'PATCH',
-            body: JSON.stringify(normalizeSelectField(body)),
-          });
+      try {
+        const request = await http('/api/users/me', {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify(normalizeSelectField(requestBody)),
+        });
 
-          return request.json();
-        } catch (error) {
-          console.log(error);
-        }
-      };
+        const updatedProfile = await request.json();
 
-      formikBag.props.showNotification({
-        type: 'success',
-        shouldBeAddedToSidebar: false,
-        message: i18n.t('notifications.success.profile_edited'),
-      });
+        formikBag.props.showNotification({
+          type: 'success',
+          shouldBeAddedToSidebar: false,
+          message: i18n.t('notifications.success.profile_edited'),
+        });
 
-      editUserRequest(requestBody);
-      formikBag.props.setCurrentUser({ ...values });
+        formikBag.props.setCurrentUser({ ...updatedProfile });
+      } catch (error) {
+        console.log(error);
+      }
     },
   }),
 );
