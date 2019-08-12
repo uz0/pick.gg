@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
+import Preloader from 'components/preloader';
 import moment from 'moment';
 import modalActions from 'components/modal-container/actions';
 import { http } from 'helpers';
@@ -47,8 +48,8 @@ class Tournaments extends Component {
 
             {this.props.tournamentsIds.map(id => {
               const tournament = this.props.tournamentsList[id];
-              const dateMonth = moment(tournament.date).format('MMM');
-              const dateDay = moment(tournament.date).format('DD');
+              const dateMonth = moment(tournament.startAt).format('MMM');
+              const dateDay = moment(tournament.startAt).format('DD');
               const championsLength = tournament.viewers && tournament.viewers.length;
               const tournamentName = tournament.name || i18n.t('no_name');
               const price = tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
@@ -77,6 +78,10 @@ class Tournaments extends Component {
               className={style.button}
               onClick={this.props.openNewTournamentModal}
             />
+          )}
+
+          {this.state.isLoading && (
+            <Preloader isFullScreen/>
           )}
         </div>
       </div>
