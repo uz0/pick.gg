@@ -32,15 +32,22 @@ class EditTournament extends Component {
         />
 
         <Field
-          label="Price"
-          name="price"
+          label="Description"
+          name="description"
           component={FormInput}
           className={style.field}
         />
 
         <Field
-          label="Description"
-          name="description"
+          label="Tournament image"
+          name="imageUrl"
+          component={FormInput}
+          className={style.field}
+        />
+
+        <Field
+          label="Price"
+          name="price"
           component={FormInput}
           className={style.field}
         />
@@ -71,11 +78,12 @@ export default compose(
   withFormik({
     mapPropsToValues: ({ tournament }) => {
       const startAt = moment(tournament.startAt).format('YYYY-MM-DD');
-      const { name, description, price } = tournament;
+      const { name, description, price, imageUrl } = tournament;
 
       return {
         name,
         price,
+        imageUrl,
         startAt,
         description,
       };

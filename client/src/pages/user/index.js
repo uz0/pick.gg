@@ -9,6 +9,7 @@ import findIndex from 'lodash/findIndex';
 import ProfileSidebar from 'components/profile-sidebar';
 import Preloader from 'components/preloader';
 import thumb from 'assets/tournament_thumbnail.jpg';
+import moment from 'moment';
 
 import style from './style.module.css';
 import i18n from 'i18n';
@@ -16,21 +17,13 @@ import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 
-const lastGames = [
-  { name: 'Fisrt figth', role: 'Streamer', position: 'Mid', place: '4 of 10' },
-  { name: '1vs1', role: 'Streamer', position: 'ADC', place: '1 of 2' },
-  { name: 'Super battle', role: 'User', position: 'Jungle', place: '5 of 10' },
-  { name: '3vs3', role: 'User', position: 'Mid', place: '2 of 6' },
-  { name: 'Super Mario', role: 'Streamer', position: 'Top', place: '8 of 10' },
-  { name: 'Super mid battle', role: 'User', position: 'Jungle', place: '2 of 10' },
-];
-
 class User extends Component {
   state = {
     isLoading: false,
     applicants: '',
     streamers: '',
     viewers: '',
+    lastGames: '',
   };
 
   loadUser = async () => {
@@ -46,11 +39,17 @@ class User extends Component {
     const streamers = allRating.streamersRating;
     const viewers = allRating.viewersRating;
 
+    const lastGamesRequest = await http(`/public/tournaments/user/${userId}?quantity=100`);
+    const lastGamesJson = await lastGamesRequest.json();
+    const lastGames = lastGamesJson.tournaments;
+    console.log('last games:', lastGames);
+
     this.setState({
       isLoading: false,
       applicants,
       streamers,
       viewers,
+      lastGames,
     });
   }
 
@@ -65,7 +64,7 @@ class User extends Component {
     const currentUser = this.props.users[userId] || {};
 
     const { about, imageUrl, summonerName, preferredPosition, username } = currentUser;
-    const { applicants, streamers, viewers } = this.state;
+    const { applicants, streamers, viewers, lastGames } = this.state;
 
     const placeApplicants = findIndex(applicants, item => item.username === username) + 1;
     const placeStreamers = findIndex(streamers, item => item.username === username) + 1;
@@ -97,7 +96,7 @@ class User extends Component {
 
           <div className={style.user_statistics}>
             <div>
-              <h2>{i18n.t('Statistics')}</h2>
+              <h2>{i18n.t('statistics')}</h2>
 
               <div className={style.statistics_masonry}>
                 <div className={cx(style.item, { [style.no_games]: isStreamerGames })}>
@@ -116,31 +115,46 @@ class User extends Component {
                 </div>
               </div>
             </div>
+
             <div className={style.last_games_wrap}>
-              <h2>{i18n.t('Last games')}</h2>
+              <h2>{i18n.t('last_games')}</h2>
 
               <div className={style.last_games}>
-                {lastGames && lastGames.map(item => (
-                  <div key={item.name} className={style.card}>
-                    <div className={style.img}>
-                      <img src={thumb}/>
-                    </div>
+                {lastGames && lastGames.map(item => {
+                  const dateMonth = moment(item.date).format('MMM');
+                  const dateDay = moment(item.date).format('DD');
+                  const winner = item.winners.filter(item => item.id === userId)[0];
+                  // const summoners = item.summoners.some(item => item.id === userId);
+                  const isWinner = winner ? i18n.t('winner') : i18n.t('tornament is end');
 
-                    <div className={style.content}>
-                      <div className={style.name}>{item.name}</div>
-                      <div className={style.role}>{item.role}</div>
-                      <div className={style.position}>{item.position}</div>
-                      <div className={style.place}>#{item.place}</div>
+                  const isFinal = item.isFinalized ? (
+                    <span className={style.final}>{isWinner}</span>
+                  ) : <span className={style.final}>{i18n.t('active_tournament')}</span>;
+
+                  return (
+                    <div key={item.name} className={style.card}>
+                      <div className={style.content}>
+                        <div className={style.date}>
+                          <span className={style.month}>{dateMonth}</span>
+
+                          <span className={style.day}>{dateDay}</span>
+                        </div>
+
+                        <div className={style.basic}>
+                          <div className={style.name}>{item.name}</div>
+                          {isFinal}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
 
         {this.state.isLoading &&
-          <Preloader/>
+          <Preloader />
         }
       </div>
     );

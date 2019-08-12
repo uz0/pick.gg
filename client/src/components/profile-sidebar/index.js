@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Avatar from './avatar';
 import style from './style.module.css';
+import i18n from 'i18n';
 
 class ProfileSidebar extends Component {
   render() {
@@ -14,21 +15,21 @@ class ProfileSidebar extends Component {
 
           {summonerName && (
             <div className={style.wrap_info}>
-              <label className={style.label}>Summoner Name:</label>
+              <label className={style.label}>{i18n.t('summonername')}:</label>
               <p className={style.text}>{summonerName}</p>
             </div>
           )}
 
           {preferredPosition && (
             <div className={style.wrap_info}>
-              <label className={style.label}>Position:</label>
+              <label className={style.label}>{i18n.t('position')}:</label>
               <p className={style.text}>{preferredPosition}</p>
             </div>
           )}
 
           {description && (
             <div className={style.wrap_info}>
-              <label className={style.label}>About:</label>
+              <label className={style.label}>{i18n.t('about')}:</label>
               <p className={style.text}>{description}</p>
             </div>
           )}

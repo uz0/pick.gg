@@ -285,6 +285,9 @@
     "no_games": "No games",
     "viewer": "Viewer",
     "summoner": "Summoner",
+    "statistics": "Statistics",
+    "last_games": "Last games",
+    "active_tournament": "Active tournament",
     "date_tournament": "Tournament date",
     "is_winner": "is winner",
     "home": {

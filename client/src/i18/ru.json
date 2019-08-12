@@ -287,6 +287,9 @@
     "no_games": "Нет игр",
     "viewer": "Зритель",
     "summoner": "Призыватель",
+    "statistics": "Статистика",
+    "last_games": "Последние игры",
+    "active_tournament": "Турнир в процессе",
     "date_tournament": "Дата турнира",
     "is_winner": "победитель",
     "home": {

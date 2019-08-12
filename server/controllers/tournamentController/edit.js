@@ -79,6 +79,7 @@ const handler = withValidationHandler(async (req, res) => {
       $set: pick(req.body, [
         'name',
         'description',
+        'imageUrl',
         'url',
         'price',
         'rules',
