@@ -9,19 +9,24 @@ const FileInput = ({
   className,
   error,
   isTouched,
+  file,
   ...props
 }) => {
+  const statusText = file ? file.name : 'Choose file';
+
   return (
     <div className={cx('wrapper', className)}>
       {label &&
         <label className={style.caption}>{label}</label>
       }
 
+      <span>{statusText}</span>
+
       <input
         {...props}
         id="file-upload"
         type="file"
-        className={cx(style.field)}
+        className={cx(style.input)}
       />
 
       <label

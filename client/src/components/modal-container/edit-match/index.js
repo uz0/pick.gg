@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-const EditMatch = ({ close, summoners, setFieldValue, errors, touched }) => {
+const EditMatch = ({ close, summoners, setFieldValue, errors, touched, values }) => {
   const actions = [
     { text: 'Edit', appearance: '_basic-accent', type: 'submit' },
   ];
@@ -46,10 +46,13 @@ const EditMatch = ({ close, summoners, setFieldValue, errors, touched }) => {
       <FileInput
         label="Results file"
         name="resultsFile"
+        file={values.resultsFile}
         error={errors.resultsFile}
         isTouched={touched.resultsFile}
         className={style.field}
-        onChange={event => setFieldValue('resultsFile', event.currentTarget.files[0])}
+        onChange={event => {
+          setFieldValue('resultsFile', event.currentTarget.files[0]);
+        }}
       />
 
       {summoners.map((summoner, index) => (
