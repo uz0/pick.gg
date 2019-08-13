@@ -9,7 +9,6 @@ import { http } from 'helpers';
 
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
-import Button from 'components/button';
 
 import modalActions from '../actions';
 import i18n from 'i18n';
@@ -39,6 +38,7 @@ const validationSchema = Yup.object().shape({
     .min(moment(new Date()).format('DD MMMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
     .required('Required'),
 });
+
 const today = moment().format('YYYY-MM-DD');
 
 const NewTournament = props => {
@@ -48,6 +48,13 @@ const NewTournament = props => {
       close={props.close}
       wrapClassName="align-modal-center"
       className={style.modal_content}
+      actions={[{
+        type: 'submit',
+        text: 'Create tournament',
+        appearance: '_basic-accent',
+        disabled: props.isSubmitting,
+        onClick: props.submitForm,
+      }]}
     >
       <Form className={style.form}>
         <Field
@@ -92,11 +99,6 @@ const NewTournament = props => {
           name="startAt"
           min={today}
           className={style.field}
-        />
-        <Button
-          type="submit"
-          text="Create tournament"
-          appearance="_basic-accent"
         />
       </Form>
     </Modal>

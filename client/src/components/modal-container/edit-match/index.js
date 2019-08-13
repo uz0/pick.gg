@@ -22,9 +22,17 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-const EditMatch = ({ close, summoners, setFieldValue, errors, touched, values }) => {
+const EditMatch = ({
+  close,
+  summoners,
+  setFieldValue,
+  isSubmitting,
+  errors,
+  touched,
+  values,
+}) => {
   const actions = [
-    { text: 'Edit', appearance: '_basic-accent', type: 'submit' },
+    { text: 'Edit', appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
   ];
 
   return (

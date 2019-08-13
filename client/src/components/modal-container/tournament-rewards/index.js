@@ -237,6 +237,7 @@ const enhance = compose(
       rewardsList: state.rewards.list,
       isLoaded: state.rewards.isLoaded,
     }),
+
     {
       loadRewards: rewardsActions.loadRewards,
       showNotification: notificationActions.showNotification,
