@@ -124,7 +124,7 @@ class Matches extends Component {
     const isMatchOver = item.endAt;
     const startMatchTime = moment(item.startedAt).format('hh:mm');
     const endMatchTime = moment(isMatchOver).format('hh:mm');
-    console.log(item);
+
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
     const isCurrentUserCreatorOrAdmin = isCurrentUserCreator || isCurrentUserAdmin;

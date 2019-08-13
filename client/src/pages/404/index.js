@@ -15,7 +15,7 @@ class NotFound extends Component {
         </div>
 
         <div className={style.wrap_logo}>
-          <img className={style.logo_not_found} src={logo}/>
+          <img className={style.logo_not_found} src={logo} alt="404 page"/>
         </div>
       </div>
     );
