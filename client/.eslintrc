@@ -5,7 +5,7 @@
 		"sourceType": "module",
 		"jsx": true
 	},
-	"plugins": ["jest"],
+	"plugins": ["jest", "import-helpers"],
 	"extends": [
 		"xo-react/space",
 		"xo-space/esnext",
@@ -43,6 +43,24 @@
 				"nonEmpty": "tag-aligned",
 				"selfClosing": "tag-aligned"
 			}
-		]
+    ],
+    "import-helpers/order-imports": [
+      "warn",
+      { 
+          "newlinesBetween": "always",
+          "groups": [
+			  "module",
+			  "/^assets/",
+              "/^components/",
+			  "/^constants/",
+			  "/^helpers/",
+			  "/^hoc/",
+			  "/^i18n/",
+			  "/^store/",
+              ["parent", "sibling", "index"],
+          ],
+          "alphabetize": { "order": "asc", "ignoreCase": true },
+      },
+  ],
 	}
 }
