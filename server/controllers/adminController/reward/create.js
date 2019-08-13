@@ -1,6 +1,7 @@
+import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
 import defaults from 'lodash/defaults';
-import { check } from 'express-validator/check';
+import { check, body } from 'express-validator/check';
 
 import { withValidationHandler } from '../../helpers';
 
@@ -12,6 +13,18 @@ const validator = [
     .not()
     .isEmpty()
     .withMessage('Enter key'),
+  body()
+    .custom(async (value, { req }) => {
+      const { key } = value;
+
+      const reward = await RewardModel.findOne({ key }).lean();
+
+      if(!isEmpty(reward)){
+        throw new Error(`Reward with key ${key} is already exists`);;
+      }
+
+      return true;
+    })
 ];
 
 const handler = withValidationHandler(async (req, res) => {
@@ -21,6 +34,7 @@ const handler = withValidationHandler(async (req, res) => {
         pick(req.body, [
           'key',
           'description',
+          'userId',
           'image',
         ]),
         {

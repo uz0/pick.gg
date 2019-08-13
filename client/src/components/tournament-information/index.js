@@ -19,14 +19,15 @@ const Information = props => {
   const url = get(props, 'tournament.url');
 
   const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
+  const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
 
   const isEmpty = get(props, 'tournament.isEmpty');
   const isApplicationsAvailable = get(props, 'tournament.isApplicationsAvailable');
-  const isReadyForForecasts = get(props, 'tournament.isReadyForForecasts');
+  const isForecastingActive = get(props, 'tournament.isForecastingActive');
   const isStarted = get(props, 'tournament.isStarted');
   const isFinalized = get(props, 'tournament.isFinalized');
 
-  const isEditingAvailable = isCurrentUserCreator && !isStarted;
+  const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) && !isStarted;
 
   const getTournamentStatus = () => {
     if (isCurrentUserCreator) {
@@ -34,20 +35,20 @@ const Information = props => {
         return i18n.t('add_rules_matches_rewards');
       }
 
-      if ((!isReadyForForecasts && !isEmpty) && isApplicationsAvailable) {
+      if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
         return i18n.t('add_summoners_applicants');
       }
 
-      if ((!isApplicationsAvailable && !isFinalized) && isReadyForForecasts) {
-        return i18n.t('let_viewers_make_forecastsadd_summoners_applicants');
+      if ((!isApplicationsAvailable && !isFinalized) && isForecastingActive) {
+        return i18n.t('let_viewers_make_forecasts');
       }
     }
 
-    if ((!isReadyForForecasts && !isEmpty) && isApplicationsAvailable) {
+    if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
       return i18n.t('waiting_applicants');
     }
 
-    if (isReadyForForecasts) {
+    if (isForecastingActive) {
       return i18n.t('waiting_viewers');
     }
 

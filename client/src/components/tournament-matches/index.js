@@ -11,6 +11,7 @@ import classnames from 'classnames/bind';
 import { withCaptions } from 'hoc';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import moment from 'moment';
 import style from './style.module.css';
 import i18n from 'i18next';
 
@@ -91,6 +92,22 @@ class Matches extends Component {
     });
   }
 
+  sortMatches = (prev, next) => {
+    if (!prev.startedAt && !next.startedAt) {
+      return 1;
+    }
+
+    if (!prev.startedAt) {
+      return 1;
+    }
+
+    if (!next.startedAt) {
+      return -1;
+    }
+
+    return new Date(prev.startedAt) - new Date(next.startedAt);
+  };
+
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
     const nameStyle = { '--width': captions.name.width };
 
@@ -105,8 +122,13 @@ class Matches extends Component {
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
     const isMatchActive = item.isActive;
     const isMatchOver = item.endAt;
+    const startMatchTime = moment(item.startedAt).format('HH:mm');
+    const endMatchTime = moment(isMatchOver).format('HH:mm');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
+    const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
+    const isCurrentUserCreatorOrAdmin = isCurrentUserCreator || isCurrentUserAdmin;
+
     const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
 
     return (
@@ -116,18 +138,27 @@ class Matches extends Component {
         </div>
 
         {isMatchOver && (
-          <div className={style.status_match}>
-            <span className={textClass}>{i18n.t('is_over_match')}</span>
+          <div>
+            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
+              <span className={cx(textClass, style.time_match)}>{startMatchTime} - {endMatchTime}</span>
+            </div>
+
+            <div className={style.status_match}>
+              <span className={textClass}>{i18n.t('is_over_match')}</span>
+            </div>
           </div>
         )}
 
         {isMatchActive && (
-          <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
-            <span className={textClass}>{i18n.t('is_active_match')}</span>
+          <div>
+            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
+
+              <span className={textClass}>{i18n.t('is_active_match')} {startMatchTime}</span>
+            </div>
           </div>
         )}
 
-        {isCurrentUserCreator && isStarted && !isMatchOver && !isMatchActive && (
+        {isCurrentUserCreatorOrAdmin && isStarted && !isMatchOver && !isMatchActive && (
           <button
             type="button"
             className={style.button}
@@ -138,7 +169,7 @@ class Matches extends Component {
           </button>
         )}
 
-        {isCurrentUserCreator && isStarted && isMatchActive && (
+        {isCurrentUserCreatorOrAdmin && isStarted && isMatchActive && (
           <button
             type="button"
             className={style.button}
@@ -149,7 +180,7 @@ class Matches extends Component {
           </button>
         )}
 
-        {isCurrentUserCreator && isStarted && isMatchOver && (
+        {isCurrentUserCreatorOrAdmin && isStarted && isMatchOver && (
           <button
             type="button"
             className={style.button}
@@ -166,7 +197,7 @@ class Matches extends Component {
           </button>
         )}
 
-        {isCurrentUserCreator && isDeleteButtonShown && (
+        {isCurrentUserCreatorOrAdmin && isDeleteButtonShown && (
           <button
             type="button"
             className={cx(style.button, style.danger)}
@@ -185,12 +216,17 @@ class Matches extends Component {
       className,
     } = this.props;
 
-    const matches = get(this.props, 'tournament.matches');
+    const matches = get(this.props, 'tournament.matches')
+      .sort(this.sortMatches);
+
     const creator = get(this.props, 'tournament.creator');
     const isStarted = get(this.props, 'tournament.isStarted');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
-    const isEditingAvailable = isCurrentUserCreator && matches.length > 0 && !isStarted;
+    const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
+    const isCurrentUserAdminOrCreator = isCurrentUserCreator || isCurrentUserAdmin;
+
+    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) && matches.length > 0 && !isStarted;
 
     return (
       <div className={cx(style.matches, className)}>
@@ -207,12 +243,12 @@ class Matches extends Component {
           )}
         </div>
 
-        {isCurrentUserCreator && matches.length === 0 && (
+        {isCurrentUserAdminOrCreator && matches.length === 0 && (
           <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>
         )}
 
         <div className={style.content}>
-          {isCurrentUserCreator && matches.length === 0 && (
+          {isCurrentUserAdminOrCreator && matches.length === 0 && (
             <Button
               appearance="_circle-accent"
               icon="plus"

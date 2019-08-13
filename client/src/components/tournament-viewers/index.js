@@ -66,7 +66,6 @@ const Viewers = ({
   tournament,
   viewers,
   joinTournament,
-  isCurrentUserCreator,
   isCurrentUserSummoner,
   isUserCanMakeForecast,
   currentUserSummoners,
@@ -91,10 +90,6 @@ const Viewers = ({
             }), 400)}
           />
         </div>
-      )}
-
-      {isCurrentUserCreator && tournament.isForecastingActive && (
-        <p className={style.message}>{i18n.t('streamer_cant_make_forecast')}</p>
       )}
 
       {isCurrentUserSummoner && tournament.isForecastingActive && (
@@ -165,7 +160,7 @@ export default compose(
 
     const isCurrentUserCreator = (currentUser && tournament.creator) && tournament.creator._id === currentUser._id;
     const isCurrentUserSummoner = currentUser && tournament.summoners.includes(currentUser._id);
-    const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserCreator && !isCurrentUserSummoner;
+    const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserSummoner;
 
     const viewers = tournament.viewers
       .map(({ userId, summoners }) => {

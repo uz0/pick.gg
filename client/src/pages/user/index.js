@@ -1,110 +1,175 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import { actions as usersActions } from 'pages/dashboard/users';
+import { http } from 'helpers';
+import findIndex from 'lodash/findIndex';
 
-import { NavLink } from 'react-router-dom';
-
-import ProfileSidebar from '../../components/profile-sidebar';
-import Preloader from '../../components/preloader';
-import Table from 'components/table';
+import ProfileSidebar from 'components/profile-sidebar';
+import Preloader from 'components/preloader';
+import moment from 'moment';
 
 import style from './style.module.css';
 import i18n from 'i18n';
+import classnames from 'classnames/bind';
 
-const tournamentsTableCaptions = {
-  name: {
-    text: i18n.t('name'),
-    width: window.innerWidth < 480 ? 150 : 250,
-  },
-
-  users: {
-    text: i18n.t('users'),
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-
-  entry: {
-    text: i18n.t('entry'),
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-};
+const cx = classnames.bind(style);
 
 class User extends Component {
   state = {
-    tournaments: [],
-    rewards: [],
-    userData: {},
-    loading: true,
+    isLoading: false,
+    applicants: '',
+    streamers: '',
+    viewers: '',
+    lastGames: '',
   };
 
-  renderRow = ({ className, itemClass, textClass, item }) => {
-    const entry = item.entry === 0 ? 'Free' : item.entry;
-    return (
-      <NavLink key={item._id} to={`/tournaments/${item._id}`} className={className}>
-        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.name.width }}>
-          <span className={textClass}>{item.name}</span>
-        </div>
+  loadUser = async () => {
+    this.setState({ isLoading: true });
+    const userId = this.props.match.params.id;
+    const userRequest = await http(`/public/users/${userId}`);
+    const { user } = await userRequest.json();
+    this.props.loadUser([user]);
 
-        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.users.width }}>
-          <span className={textClass}>{item.users.length}</span>
-        </div>
+    const ratingRequest = await http('/public/rating');
+    const { ...allRating } = await ratingRequest.json();
+    const applicants = allRating.applicantsRating;
+    const streamers = allRating.streamersRating;
+    const viewers = allRating.viewersRating;
 
-        <div className={itemClass} style={{ '--width': tournamentsTableCaptions.entry.width }}>
-          <span className={textClass}>{entry}$</span>
-        </div>
-      </NavLink>
-    );
+    const lastGamesRequest = await http(`/public/tournaments/user/${userId}?quantity=100`);
+    const lastGamesJson = await lastGamesRequest.json();
+    const lastGames = lastGamesJson.tournaments;
+    console.log('last games:', lastGames);
+
+    this.setState({
+      isLoading: false,
+      applicants,
+      streamers,
+      viewers,
+      lastGames,
+    });
+  }
+
+  componentDidMount() {
+    if (!this.props.isLoaded) {
+      this.loadUser();
+    }
   }
 
   render() {
-    const { tournaments, rewards, loading } = this.state;
+    const userId = this.props.match.params.id;
+    const currentUser = this.props.users[userId] || {};
+
+    const { about, imageUrl, summonerName, preferredPosition, username } = currentUser;
+    const { applicants, streamers, viewers, lastGames } = this.state;
+
+    const placeApplicants = findIndex(applicants, item => item.username === username) + 1;
+    const placeStreamers = findIndex(streamers, item => item.username === username) + 1;
+    const placeViewers = findIndex(viewers, item => item.username === username) + 1;
+
+    const lenghtApplicants = applicants.length;
+    const lenghtStreamers = streamers.length;
+    const lengthViewers = viewers.length;
+
+    const isGamesStreamers = placeStreamers === 0 ? i18n.t('no_games') : `${placeStreamers} ${i18n.t('of')} ${lenghtStreamers}`;
+    const isGamesApplicants = placeApplicants === 0 ? i18n.t('no_games') : `${placeApplicants} ${i18n.t('of')} ${lenghtApplicants}`;
+    const isGamesViewers = placeViewers === 0 ? i18n.t('no_games') : `${placeViewers} ${i18n.t('of')} ${lengthViewers}`;
+
+    const isApplicantsGames = placeApplicants === 0;
+    const isStreamerGames = placeStreamers === 0;
+    const isViewersGames = placeViewers === 0;
 
     return (
-      <div className="container">
-        <div className={style.user_page}>
-          {loading && <Preloader isFullScreen/>}
-          <div className={style.content}>
-            <ProfileSidebar
-              withData
-              source={this.state.userData.photo}
-              nickname={this.state.userData.username}
-              description={this.state.userData.about}
-            />
+      <div className={cx('container', 'user_page')}>
+        <div className={style.content}>
+          <ProfileSidebar
+            withData
+            source={imageUrl}
+            nickname={username}
+            description={about}
+            summonerName={summonerName}
+            preferredPosition={preferredPosition}
+          />
 
-            <div className={style.user_statistics}>
-              <div>
-                <h2>{i18n.t('scores')}</h2>
+          <div className={style.user_statistics}>
+            <div>
+              <h2>{i18n.t('statistics')}</h2>
 
-                <div className={style.statistics_masonry}>
-                  <div className={style.item}>
-                    <div className={style.value}>{rewards && rewards.length}</div>
-                    <div className={style.key}>{i18n.t('rewards')}</div>
-                  </div>
-                  <div className={style.item}>
-                    <div className={style.value}>{tournaments && tournaments.length}</div>
-                    <div className={style.key}>{i18n.t('tournaments')}</div>
-                  </div>
+              <div className={style.statistics_masonry}>
+                <div className={cx(style.item, { [style.no_games]: isStreamerGames })}>
+                  <div className={style.key}>{i18n.t('streamer')}</div>
+                  <div className={style.value}>{isGamesStreamers}</div>
+                </div>
 
+                <div className={cx(style.item, { [style.no_games]: isApplicantsGames })}>
+                  <div className={style.key}>{i18n.t('summoner')}</div>
+                  <div className={style.value}>{isGamesApplicants}</div>
+                </div>
+
+                <div className={cx(style.item, { [style.no_games]: isViewersGames })}>
+                  <div className={style.key}>{i18n.t('viewer')}</div>
+                  <div className={style.value}>{isGamesViewers}</div>
                 </div>
               </div>
-              <div>
-                <h2>{i18n.t('recent_tournaments')}</h2>
-                <div className={style.section}>
-                  {tournaments && (
-                    <Table
-                      captions={tournamentsTableCaptions}
-                      items={tournaments}
-                      className={style.table}
-                      renderRow={this.renderRow}
-                      isLoading={this.state.isLoading}
-                      emptyMessage={i18n.t('there_is_no_tournaments_yet')}
-                    />
-                  )}
-                </div>
+            </div>
+
+            <div className={style.last_games_wrap}>
+              <h2>{i18n.t('last_games')}</h2>
+
+              <div className={style.last_games}>
+                {lastGames && lastGames.map(item => {
+                  const dateMonth = moment(item.date).format('MMM');
+                  const dateDay = moment(item.date).format('DD');
+                  const winner = item.winners.filter(item => item.id === userId)[0];
+                  // const summoners = item.summoners.some(item => item.id === userId);
+                  const isWinner = winner ? i18n.t('winner') : i18n.t('tornament is end');
+
+                  const isFinal = item.isFinalized ? (
+                    <span className={style.final}>{isWinner}</span>
+                  ) : <span className={style.final}>{i18n.t('active_tournament')}</span>;
+
+                  return (
+                    <div key={item.name} className={style.card}>
+                      <div className={style.content}>
+                        <div className={style.date}>
+                          <span className={style.month}>{dateMonth}</span>
+
+                          <span className={style.day}>{dateDay}</span>
+                        </div>
+
+                        <div className={style.basic}>
+                          <div className={style.name}>{item.name}</div>
+                          {isFinal}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
+
+        {this.state.isLoading &&
+          <Preloader/>
+        }
       </div>
     );
   }
 }
 
-export default User;
+const enhance = compose(
+  connect(
+    state => ({
+      users: state.users.list,
+      isLoaded: state.tournaments.isLoaded,
+    }),
+
+    {
+      loadUser: usersActions.loadUsers,
+    }
+  ),
+);
+
+export default enhance(User);

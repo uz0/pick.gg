@@ -36,6 +36,12 @@ class Tournament extends Component {
     const tournament = await tournamentRequest.json();
     const unfoldedRewards = await rewardsRequest.json();
 
+    if (tournament.errors) {
+      this.props.history.push('/404');
+
+      return;
+    }
+
     if (tournament) {
       this.props.updateTournament({
         ...tournament,
@@ -143,7 +149,11 @@ class Tournament extends Component {
   });
 
   async componentDidMount() {
-    await this.loadTournament();
+    try {
+      await this.loadTournament();
+    } catch (error) {
+      console.log(error);
+    }
 
     if (isEmpty(this.props.users)) {
       await this.loadUsers();
@@ -165,6 +175,8 @@ class Tournament extends Component {
     const isFinalized = get(this.props, 'tournament.isFinalized');
 
     const isCurrentUserCreator = (creator && currentUser) && creator._id === currentUser._id;
+    const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
+    const isCurrentUserAdminOrCreator = isCurrentUserCreator || isCurrentUserAdmin;
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
@@ -178,7 +190,7 @@ class Tournament extends Component {
       <div className={cx('tournament', 'container')}>
 
         {this.state.isLoading && (
-          <Preloader isFullScreen/>
+          <Preloader isFullScreen />
         )}
 
         <div className={style.inner_container}>
@@ -186,7 +198,7 @@ class Tournament extends Component {
           <div className={style.tournament_section}>
             <h2 className={style.title}>{name}</h2>
 
-            {isCurrentUserCreator && isApplicationsAvailable && isApplicationsAvailable && (
+            {isCurrentUserAdminOrCreator && isApplicationsAvailable && isApplicationsAvailable && (
               <Button
                 disabled={isAllowForecastButtonDisabled}
                 text="Allow forecasts"
@@ -195,7 +207,7 @@ class Tournament extends Component {
               />
             )}
 
-            {isCurrentUserCreator && isForecastingActive && (
+            {isCurrentUserAdminOrCreator && isForecastingActive && (
               <Button
                 text="Start tournament"
                 appearance="_basic-accent"
@@ -203,7 +215,7 @@ class Tournament extends Component {
               />
             )}
 
-            {isCurrentUserCreator && isStarted && !isFinalized && (
+            {isCurrentUserAdminOrCreator && isStarted && !isFinalized && (
               <Button
                 disabled={isFinalizeButtonDisabled}
                 text="Finalize tournament"

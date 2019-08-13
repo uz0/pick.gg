@@ -48,7 +48,7 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
 const Rules = ({
   rules,
   isEditingAvailable,
-  isCurrentUserCreator,
+  isCurrentUserCanEditRules,
   captions,
   addRules,
   editRules,
@@ -57,7 +57,7 @@ const Rules = ({
   <div className={cx(style.rules, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>{i18n.t('rules')}</h3>
-      {isCurrentUserCreator && isEditingAvailable && (
+      {isEditingAvailable && (
         <button
           type="button"
           className={style.button}
@@ -68,12 +68,12 @@ const Rules = ({
       )}
     </div>
 
-    {isCurrentUserCreator && rules.length === 0 && (
+    {isCurrentUserCanEditRules && rules.length === 0 && (
       <p className={style.empty}>{i18n.t('add_rules')}</p>
     )}
 
     <div className={style.content}>
-      {isCurrentUserCreator && rules.length === 0 && (
+      {isCurrentUserCanEditRules && rules.length === 0 && (
         <Button
           appearance="_circle-accent"
           icon="plus"
@@ -108,14 +108,17 @@ export default compose(
   withCaptions(tableCaptions),
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
+    const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
+    const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin;
 
-    const isEditingAvailable = isCurrentUserCreator &&
+    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
       Object.keys(props.tournament.rules).length > 0 &&
       !props.tournament.isStarted;
 
     if (isEmpty(props.tournament.rules)) {
       return {
         ...props,
+        isCurrentUserCanEditRules,
         isCurrentUserCreator,
         isEditingAvailable,
         rules: [],
@@ -126,6 +129,7 @@ export default compose(
 
     return {
       ...props,
+      isCurrentUserCanEditRules,
       isCurrentUserCreator,
       isEditingAvailable,
       rules,

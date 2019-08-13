@@ -1,12 +1,14 @@
 .user_page {
   display: flex;
   justify-content: center;
-  padding: 10px 0;
+  padding: var(--layout-padding);
 }
 
 .content {
   display: flex;
-  width: 1000px;
+  width: 100%;
+  max-width: var(--container-width);
+  padding-bottom: 30px;
 }
 
 .content aside {
@@ -24,7 +26,6 @@
   color: var(--header-color);
   text-shadow: 0px 1px 1px #000000;
   white-space: nowrap;
-
 }
 
 .content .user_statistics {
@@ -54,6 +55,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .statistics_masonry .item:not(:last-of-type) {
@@ -61,30 +63,233 @@
 }
 
 .statistics_masonry .item .key {
-  font-size: 20px;
+  font-size: 27px;
   color: var(--header-color);
+  margin-bottom: 12px;
 }
 
 .statistics_masonry .item .value {
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
-  font-size: 40px;
+  font-size: 20px;
   color: var(--header-color);
   text-shadow: 0px 1px 1px #000000;
+}
+
+.statistics_masonry .no_games {
+  background-color: #1b1b2d !important;
+}
+
+.statistics_masonry .item+.no_games .value {
+  font-size: 12px;
+  color: #ccc;
+  height: 20px;
+}
+
+.statistics_masonry .item .points {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-bold);
+  font-size: 12px;
+  color: var(--accent-color);
+  text-shadow: 0px 1px 1px #000000;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
 }
 
 .statistics_masonry .item .value span {
   font-weight: var(--font-weight-regular);
 }
 
-.zero_info {
-  color: #9494ae;
+/* 
+.card {
+  width: 100%;
+  max-width: 220px;
+  overflow: hidden;
+  background: #151534;
+  border: 3px solid #151534;
+  border-radius: 6px;
+  transition: 0.3s;
+  cursor: pointer;
+  color: #fff;
+}
+
+.card:active {
+  transform: scale(0.95);
+}
+
+.card:hover {
+  border: 3px solid rgb(32, 20, 80);
+}
+
+.card .img {
+  width: 100%;
+  height: 170px;
+}
+
+.card .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card .content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.card .content .name {
+  margin-bottom: 6px;
   font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.card .content .position {
+  font-size: 10px;
+  color: var(--accent-color);
+}
+
+.card .content .place {
+  align-self: flex-end;
+} */
+
+.final {
+  color: var(--accent-color);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.card {
+  min-height: 150px;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  background: url('assets/play-with.jpg') no-repeat, #081a2f;
+  background-size: cover;
+  background-position: center right;
+  max-width: 100%;
+  display: flex;
+}
+
+.card .date {
+  color: var(--accent-color);
+  background: var(--background-color);
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 4px;
+  margin-right: 24px;
+  z-index: 1;
+  transition: .25s ease-in;
+  border: 1px solid #333333;
+  flex-shrink: 0;
+}
+
+.card .date .day {
+  font-size: 20px;
+  height: 20px;
+  font-weight: bold;
+}
+
+.card .date .month {
+  font-size: 14px;
+  font-weight: bold;
+  height: 12px;
+  text-transform: uppercase;
+}
+
+.card:hover .content {
+  background-position: right;
+}
+
+.card .content {
+  padding: 24px;
+  z-index: 2;
+  background-image: linear-gradient( 120deg, rgba(48, 48, 94, 0.6), rgba(14, 14, 43, 0.8), rgba(49, 49, 116, 0.4));
+  background-size: 150%;
+  display: flex;
+  transition: 0.3s ease-in;
+  min-height: 150px;
+}
+
+.card .content .name {
+  --height: 48px;
+  overflow: hidden;
+  min-height: var(--height);
+  max-height: var(--height);
+  font-size: 16px;
+  line-height: 1.3;
+  color: #fff;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding-right: 20px;
+}
+
+.card .content .name+.info {
+  margin-top: 12px;
+}
+
+.card .content .info {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  margin-bottom: 6px;
+}
+
+.card .content .info i {
+  --icon-size: 20px;
+  --icon-color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.card .content .info .name {
+  --height: 20px;
+  flex-shrink: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-color);
+  text-transform: uppercase;
+}
+
+.card .content .info .value {
+  --height: 20px;
+  height: var(--height);
+  margin-left: 8px;
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.last_games {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 32px;
 }
 
 @media (max-width: 1024px) {
-  .content {
-    width: 760px;
+  .statistics_masonry .item .key {
+    font-size: 20px;
+  }
+  .statistics_masonry .item .value {
+    font-size: 18px;
+  }
+  .last_games {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 24px;
   }
 }
 
@@ -107,14 +312,17 @@
     margin-right: 30px;
   }
   .statistics_masonry .item .value {
-    font-size: 20px
-  }
-  .statistics_masonry .item .key {
     font-size: 16px
   }
-}
-
-@media screen and (max-width:480px) {
+  .statistics_masonry .item .key {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .last_games {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 32px;
+  }
   .content {
     flex-direction: column;
     padding-top: 20px;
@@ -123,21 +331,46 @@
   .content aside {
     margin-right: 0px;
   }
-  .content h2{
+  .content h2 {
     font-size: 27px;
   }
   .content .user_statistics {
     padding-top: 0;
   }
-  .content .user_statistics > div {
+  .content .user_statistics>div {
     padding-top: 24px;
   }
+  .content .user_statistics .statistics_masonry {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width:480px) {
   .user_statistics .statistics_masonry {
     margin-bottom: 0;
   }
   .content .user_statistics .statistics_masonry {
     margin-bottom: 0px;
     --height: 94px;
+  }
+  .last_games {
+    grid-gap: 12px;
+  }
+  .card .content {
+    font-size: 12px;
+  }
+  .card .content .name {
+    font-size: 16px;
+  }
+  .statistics_masonry .item .value {
+    font-size: 12px
+  }
+  .statistics_masonry .item .key {
+    font-size: 14px
+  }
+  .statistics_masonry .item+.no_games .value {
+    font-size: 12px;
+    height: 12px;
   }
 }
 

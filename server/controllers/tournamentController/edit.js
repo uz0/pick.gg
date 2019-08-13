@@ -24,11 +24,11 @@ const validator = [
   param('id')
     .custom(id => isEntityExists(id, Tournament))
     .custom(async (tournamentId, { req }) => {
-      const { _id } = req.decoded;
+      const { _id, isAdmin } = req.decoded;
 
       const { creator, isReady } = await Tournament.findById(tournamentId);
 
-      if (String(creator) !== String(_id)) {
+      if (!isAdmin && String(creator) !== String(_id)) {
         throw new Error('You are not allowed to edit this tournament');
       }
 
@@ -79,6 +79,7 @@ const handler = withValidationHandler(async (req, res) => {
       $set: pick(req.body, [
         'name',
         'description',
+        'imageUrl',
         'url',
         'price',
         'rules',

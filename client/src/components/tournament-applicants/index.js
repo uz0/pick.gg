@@ -75,29 +75,29 @@ const Applicants = ({
   acceptApplicant,
   rejectApplicant,
 }) => (
-    <div className={cx(style.applicants, className)}>
-      <div className={style.header}>
-        <h3 className={style.subtitle}>Applicants</h3>
-      </div>
-
-      <div className={style.content}>
-        <Table
-          noCaptions
-          captions={captions}
-          isCurrentUserCreator={isCurrentUserCreator}
-          items={applicants}
-          renderRow={renderRow}
-          className={style.table}
-          withProps={{
-            isCurrentUserCreator,
-            acceptApplicant,
-            rejectApplicant,
-          }}
-          emptyMessage="There is no applicants yet"
-        />
-      </div>
+  <div className={cx(style.applicants, className)}>
+    <div className={style.header}>
+      <h3 className={style.subtitle}>Applicants</h3>
     </div>
-  );
+
+    <div className={style.content}>
+      <Table
+        noCaptions
+        captions={captions}
+        isCurrentUserCreator={isCurrentUserCreator}
+        items={applicants}
+        renderRow={renderRow}
+        className={style.table}
+        withProps={{
+          isCurrentUserCreator,
+          acceptApplicant,
+          rejectApplicant,
+        }}
+        emptyMessage="There is no applicants yet"
+      />
+    </div>
+  </div>
+);
 
 export default compose(
   connect(
@@ -176,7 +176,6 @@ export default compose(
           applicants,
           summoners: [...props.tournament.summoners, applicantId],
         });
-
       } catch (error) {
         console.log(error);
       }
@@ -206,7 +205,6 @@ export default compose(
           ...props.tournament,
           applicants,
         });
-
       } catch (error) {
         console.log(error);
       }
