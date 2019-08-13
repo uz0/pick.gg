@@ -20,6 +20,8 @@ const normalizePositionsField = obj => {
       preferredPosition: obj.preferredPosition.value,
     };
   }
+
+  return obj;
 };
 
 const validationSchema = Yup.object().shape({
@@ -128,7 +130,6 @@ const enhance = compose(
       return { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin };
     },
     handleSubmit: async (values, formikBag) => {
-      console.log(normalizePositionsField(values));
       const { isEditing } = formikBag.props.options;
       const defaultState = formikBag.props.options.user;
 
