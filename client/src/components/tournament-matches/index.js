@@ -122,8 +122,8 @@ class Matches extends Component {
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
     const isMatchActive = item.isActive;
     const isMatchOver = item.endAt;
-    const startMatchTime = moment(item.startedAt).format('HH:mm');
-    const endMatchTime = moment(isMatchOver).format('HH:mm');
+    const startMatchTime = moment(item.startedAt).format('hh:mm');
+    const endMatchTime = moment(isMatchOver).format('hh:mm');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
@@ -152,8 +152,10 @@ class Matches extends Component {
         {isMatchActive && (
           <div>
             <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
-
-              <span className={textClass}>{i18n.t('is_active_match')} {startMatchTime}</span>
+              <span className={cx(textClass, style.time_match)}>{startMatchTime}</span>
+            </div>
+            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
+              <span className={textClass}>{i18n.t('is_active_match')}</span>
             </div>
           </div>
         )}
