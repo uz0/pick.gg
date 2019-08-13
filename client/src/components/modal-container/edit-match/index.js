@@ -4,12 +4,25 @@ import pick from 'lodash/pick';
 import Modal from 'components/modal';
 import { compose, withProps } from 'recompose';
 import { Field, withFormik } from 'formik';
+import * as Yup from 'yup';
 import { FormInput } from 'components/form/input';
+import FileInput from 'components/form/input-file';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import style from './style.module.css';
 import { http } from 'helpers';
 
-const EditMatch = ({ close, summoners }) => {
+const validationSchema = Yup.object().shape({
+  resultsFile: Yup.mixed()
+    .test('fileType', 'Unsupported File Format', value => {
+      if (!value) {
+        return true;
+      }
+
+      return value.type === 'text/html';
+    }),
+});
+
+const EditMatch = ({ close, summoners, setFieldValue, errors, touched }) => {
   const actions = [
     { text: 'Edit', appearance: '_basic-accent', type: 'submit' },
   ];
@@ -28,6 +41,15 @@ const EditMatch = ({ close, summoners }) => {
         name="name"
         component={FormInput}
         className={style.field}
+      />
+
+      <FileInput
+        label="Results file"
+        name="resultsFile"
+        error={errors.resultsFile}
+        isTouched={touched.resultsFile}
+        className={style.field}
+        onChange={event => setFieldValue('resultsFile', event.currentTarget.files[0])}
       />
 
       {summoners.map((summoner, index) => (
@@ -101,9 +123,11 @@ export default compose(
     };
   }),
   withFormik({
+    validationSchema,
     mapPropsToValues: props => ({
       name: props.match.name,
       summoners: [...props.summoners],
+      resultsFile: '',
     }),
     handleSubmit: async (values, { props }) => {
       const { tournamentId, matchId } = props.options;
@@ -113,20 +137,36 @@ export default compose(
         results: summoner.results,
       }));
 
-      try {
-        const matchRequest = await http(`/api/tournaments/${tournamentId}/matches/${matchId}/results`, {
+      const formData = new FormData();
+      formData.append('resultFile', values.resultsFile);
+
+      const resultsFileUploadConfig = {
+        url: `/api/tournaments/${tournamentId}/matches/${matchId}/results/upload`,
+        headers: {
+          method: 'PUT',
+          body: formData,
+        },
+      };
+
+      const resultsUploadConfig = {
+        url: `/api/tournaments/${tournamentId}/matches/${matchId}/results`,
+        headers: {
           headers: {
             'Content-Type': 'application/json',
           },
           method: 'PUT',
           body: JSON.stringify(results),
-        });
+        },
+      };
 
+      try {
+        const request = values.resultsFile ? resultsFileUploadConfig : resultsUploadConfig;
+
+        const matchRequest = await http(request.url, { ...request.headers });
         const updatedMatch = await matchRequest.json();
 
         const { matches } = props.tournament;
 
-        // We use for loop here to save initial object order in array
         for (let i = 0; i < matches.length; i++) {
           if (updatedMatch._id === matches[i]._id) {
             matches[i] = {
