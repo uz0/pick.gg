@@ -57,15 +57,13 @@
 }
 
 .summoners .content {
-  min-height: 100px;
   flex-grow: 1;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .summoners .content .button {
-  margin: auto;
-  margin-top: 20px;
+  margin: 20px auto;
 }
 
 .summoners .content .table {
