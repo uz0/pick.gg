@@ -73,7 +73,7 @@ const NewTournament = props => {
 
         <Field
           component={FormInput}
-          label="Image tournament"
+          label="Image tournament (500x150)"
           name="imageUrl"
           className={style.field}
         />
