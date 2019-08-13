@@ -13,9 +13,10 @@
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin-bottom: 6px;
 }
 
-.wrapper .caption + .field {
+.wrapper .caption+.field {
   margin-top: 4px;
 }
 
@@ -41,8 +42,7 @@
   width: 24px;
 }
 
-.wrapper .field[type="date"]::-webkit-inner-spin-button,
-.wrapper .field[type="date"]::-webkit-clear-button {
+.wrapper .field[type="date"]::-webkit-inner-spin-button, .wrapper .field[type="date"]::-webkit-clear-button {
   -webkit-appearance: none;
 }
 
@@ -52,6 +52,27 @@
   background-color: rgba(0, 0, 0, 0.75);
   opacity: 1;
   cursor: pointer;
+}
+
+.wrapper .status_upload {
+  color: #fafafa;
+  font-size: 15px;
+  margin-right: 12px;
+}
+
+.wrapper .button_upload {
+  background: var(--accent-color);
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.wrapper .button_upload:hover {
+  background: #ed9a1b;
 }
 
 .wrapper .error {

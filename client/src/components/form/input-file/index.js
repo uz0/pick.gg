@@ -20,7 +20,7 @@ const FileInput = ({
         <label className={style.caption}>{label}</label>
       }
 
-      <span>{statusText}</span>
+      <span className={style.status_upload}>{statusText}</span>
 
       <input
         {...props}
@@ -30,9 +30,10 @@ const FileInput = ({
       />
 
       <label
+        className={style.button_upload}
         htmlFor="file-upload"
       >
-        file-upload
+        upload file
       </label>
 
       {error && isTouched &&
