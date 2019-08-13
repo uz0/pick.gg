@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { http } from 'helpers';
+import classnames from 'classnames';
 import debounce from 'lodash/debounce';
+import React, { Component } from 'react';
+import AsyncSelect from 'react-select/async';
 import compose from 'recompose/compose';
 
-import AsyncSelect from 'react-select/async';
-import withStyles from '../hoc/with-styles';
-import classnames from 'classnames';
+import { http } from 'helpers';
 
+import withStyles from '../hoc/with-styles';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);

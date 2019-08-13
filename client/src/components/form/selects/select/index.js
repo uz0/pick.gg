@@ -1,13 +1,14 @@
+import classnames from 'classnames';
 import React from 'react';
 import Select from 'react-select/async';
 import compose from 'recompose/compose';
-import classnames from 'classnames';
 
-import withStyles from '../hoc/with-styles';
 import { POSITIONS } from 'constants/index';
 
-import style from './style.module.css';
 import i18n from 'i18n';
+
+import withStyles from '../hoc/with-styles';
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 

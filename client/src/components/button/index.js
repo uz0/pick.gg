@@ -1,6 +1,8 @@
-import React from 'react';
 import classnames from 'classnames/bind';
+import React from 'react';
+
 import Icon from 'components/icon';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);

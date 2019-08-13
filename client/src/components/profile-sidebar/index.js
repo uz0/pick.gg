@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import Avatar from './avatar';
 import style from './style.module.css';
 

@@ -1,7 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
+
 import { ReactComponent as Trophy } from 'assets/trophy.svg';
 
-import classnames from 'classnames';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);

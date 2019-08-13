@@ -1,10 +1,13 @@
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import ym from 'react-yandex-metrika';
+
 import { ReactComponent as DiscordIcon } from 'assets/icon-discord.svg';
 
-import style from './style.module.css';
 import i18n from 'i18n';
-import ym from 'react-yandex-metrika';
+
+import style from './style.module.css';
 
 const Footer = () => {
   const changeLocale = event => {

@@ -1,16 +1,20 @@
+import classnames from 'classnames/bind';
 import React, { Component } from 'react';
 import { Portal } from 'react-portal';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import classnames from 'classnames/bind';
-import Button from 'components/button';
+
+import sound from 'assets/alert.mp3';
+import { ReactComponent as BattleIcon } from 'assets/battle.svg';
+import { ReactComponent as ErrorIcon } from 'assets/error.svg';
+import { ReactComponent as SuccessIcon } from 'assets/success.svg';
 import { ReactComponent as TrophyIcon } from 'assets/trophy.svg';
 import { ReactComponent as WarningIcon } from 'assets/warning.svg';
-import { ReactComponent as SuccessIcon } from 'assets/success.svg';
-import { ReactComponent as ErrorIcon } from 'assets/error.svg';
-import { ReactComponent as BattleIcon } from 'assets/battle.svg';
-import sound from 'assets/alert.mp3';
+
+import Button from 'components/button';
+
 import i18n from 'i18next';
+
 import actions from './actions';
 import style from './style.module.css';
 

@@ -1,7 +1,9 @@
-import React from 'react';
 import classnames from 'classnames/bind';
 import { Form } from 'formik';
+import React from 'react';
+
 import Button from 'components/button';
+
 import style from './style.module.css';
 
 const div = props => <div {...props}>{props.children}</div>;

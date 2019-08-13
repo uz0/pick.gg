@@ -1,10 +1,11 @@
+import classnames from 'classnames/bind';
 import React from 'react';
+
 import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
 
-import classnames from 'classnames/bind';
-import style from './style.module.css';
-
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
