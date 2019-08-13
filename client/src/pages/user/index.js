@@ -122,7 +122,7 @@ class User extends Component {
                   const dateMonth = moment(item.date).format('MMM');
                   const dateDay = moment(item.date).format('DD');
                   const winner = item.winners.filter(item => item.id === userId)[0];
-                  // const summoners = item.summoners.some(item => item.id === userId);
+                  // Const summoners = item.summoners.some(item => item.id === userId);
                   const isWinner = winner ? i18n.t('winner') : i18n.t('tornament is end');
 
                   const isFinal = item.isFinalized ? (

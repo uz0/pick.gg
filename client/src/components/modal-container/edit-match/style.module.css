@@ -10,7 +10,7 @@
 }
 
 .wrapper .content .field + .summoner {
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
 .wrapper .content .summoner {
@@ -26,7 +26,4 @@
 .wrapper .content .summoner .name {
   color: var(--caption-color);
   grid-column: 1 / -1;
-}
-
-.wrapper .content .summoner .kda {
 }

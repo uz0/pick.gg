@@ -41,6 +41,7 @@ const AddRules = props => {
           type: 'button',
           appearance: '_basic-accent',
           onClick: props.submitForm,
+          disabled: props.isSubmitting,
         },
       ]}
     >

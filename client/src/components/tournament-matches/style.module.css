@@ -112,7 +112,7 @@
   padding: 0 12px 0 22px;
   border: 0;
   min-width: 120px;
-  text-align: right;
+  text-align: left;
 }
 
 .matches .content .table .is_active_match {

@@ -12,7 +12,13 @@ import style from './style.module.css';
 class EditTournament extends Component {
   render() {
     const actions = [
-      { text: 'Edit', appearance: '_basic-accent', type: 'submit' },
+      {
+        text: 'Edit',
+        type: 'submit',
+        appearance: '_basic-accent',
+        disabled: this.props.isSubmitting,
+        onClick: this.props.submitForm,
+      },
     ];
 
     return (

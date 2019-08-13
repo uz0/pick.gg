@@ -97,6 +97,7 @@ class Rating extends Component {
   }
 
   renderApplicants = ({ className, itemClass, textClass, item }) => {
+    const isSummonerName = item.summonerName ? item.summonerName : item.username;
     return (
       <NavLink key={item._id} to={`/user/${item._id}`} className={cx(className, style.row_column)}>
 
@@ -113,7 +114,7 @@ class Rating extends Component {
         </div>
 
         <div className={itemClass} style={{ '--width': ratingTableCaptions.name.width }}>
-          <span className={textClass}>{item.summonerName}</span>
+          <span className={textClass}>{isSummonerName}</span>
         </div>
       </NavLink>
     );

@@ -39,12 +39,14 @@ const enhance = compose(
         selectedSummoners: options.selectedSummoners.length > 0 ? options.selectedSummoners : [],
         summonersList: summoners,
         filter: '',
+        isSubmitting: false,
       };
     },
 
     {
       clearFilter: state => () => ({ ...state, filter: '' }),
       handleFilterInput: state => e => ({ ...state, filter: e.target.value }),
+      toggleSubmitting: state => () => ({ ...state, isSubmitting: !state.isSubmitting }),
       toggleSelectSummoner: state => id => {
         const { selectedSummoners } = state;
         if (selectedSummoners.length >= 10) {
@@ -62,6 +64,8 @@ const enhance = compose(
   ),
   withHandlers({
     choose: props => async () => {
+      props.toggleSubmitting();
+
       const { selectedSummoners } = props;
       const { tournamentId } = props.options;
 
@@ -85,20 +89,13 @@ const enhance = compose(
       }
     },
   }),
-  withProps(({ choose }) => ({
+  withProps(() => ({
     getSortedKeys: keys => flatten(partition(keys, key => isNaN(parseInt(key, 10)))),
-    actions: [
-      {
-        text: 'Choose',
-        appearance: '_basic-accent',
-        onClick: choose,
-      },
-    ],
   }))
 );
 
 export default enhance(props => {
-  const { summonersList } = props;
+  const { isSubmitting, summonersList } = props;
 
   const summoners = filter(summonersList, summoner =>
     summoner.summonerName.toLowerCase().startsWith(props.filter.toLowerCase())
@@ -107,18 +104,24 @@ export default enhance(props => {
 
   const isSelectedSummoners = props.selectedSummoners.length > 0;
   const isFiltering = props.filter.length > 0;
+
   return (
     <Modal
       title="Choose tournament summoners"
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
-      actions={props.actions}
+      actions={[{
+        text: 'Choose',
+        appearance: '_basic-accent',
+        disabled: isSubmitting,
+        onClick: props.choose,
+      }]}
     >
       <div className={style.sidebar}>
         <h3 className={style.title}>Choosen summoners</h3>
 
-        {isSelectedSummoners ? (
+        {(isSelectedSummoners && !isFiltering) ? (
           props.selectedSummoners.map((id, index) => {
             const summoner = find(summoners, { _id: id });
             return (
@@ -138,7 +141,7 @@ export default enhance(props => {
             className={style.field}
             placeholder="Find a summoner by name"
             value={props.filter}
-            onInput={props.handleFilterInput}
+            onChange={props.handleFilterInput}
           />
 
           <button

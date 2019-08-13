@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
 });
 
-const ChoosePlayers = props => {
+const Match = props => {
   return (
     <Modal
       title="Add match"
@@ -26,9 +26,10 @@ const ChoosePlayers = props => {
       actions={[
         {
           text: 'Add',
-          type: 'button',
+          type: 'submit',
           appearance: '_basic-accent',
           onClick: props.submitForm,
+          disabled: props.isSubmitting,
         },
       ]}
     >
@@ -84,4 +85,4 @@ const enhance = compose(
   })
 );
 
-export default enhance(ChoosePlayers);
+export default enhance(Match);
