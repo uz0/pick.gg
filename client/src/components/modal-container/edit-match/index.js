@@ -7,6 +7,7 @@ import { Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { FormInput } from 'components/form/input';
 import FileInput from 'components/form/input-file';
+import notificationActions from 'components/notification/actions';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import style from './style.module.css';
 import { http } from 'helpers';
@@ -104,6 +105,7 @@ export default compose(
     }),
 
     {
+      showNotification: notificationActions.showNotification,
       updateTournament: tournamentsActions.updateTournament,
     }
   ),
@@ -189,6 +191,12 @@ export default compose(
         props.updateTournament({
           _id: tournamentId,
           matches,
+        });
+
+        props.showNotification({
+          type: 'success',
+          shouldBeAddedToSidebar: false,
+          message: 'Результаты матча успешно обновлены',
         });
 
         props.close();
