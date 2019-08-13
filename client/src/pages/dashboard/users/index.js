@@ -23,7 +23,7 @@ class Users extends Component {
   };
 
   async componentDidMount() {
-    if (!this.props.isLoading && !this.props.users) {
+    if (!this.props.isLoading && !this.props.usersList) {
       this.loadUsers();
     }
   }
