@@ -1,5 +1,6 @@
 import fs from 'fs';
 import cheerio from 'cheerio';
+import isEmpty from 'lodash/isEmpty';
 
 import Match from '../../../models/match';
 import User from '../../../models/user';
@@ -23,33 +24,47 @@ export const handler = withValidationHandler(async (req, res) => {
 
       parsedMatchResults[name] = { kills, deaths, assists };
     });
-  });
 
-  const usersQuery = await User
-    .find({})
-    .select('_id summonerName')
-    .lean();
-    
-  const usersMap = usersQuery.reduce((users, user) => ({ ...users, [user.summonerName]: user._id }), {});
+    if(isEmpty(parsedMatchResults)){
+      res.send({
+        error: 'В html файле отстутствуют результаты'
+      });
 
-  const results = Object.keys(parsedMatchResults).reduce((results, username) => {
-    if(!usersMap[username]){
-      return results;
+      return;
     }
 
-    results.push({
-      userId: usersMap[username],
-      results: parsedMatchResults[username]
+    const usersQuery = await User
+      .find({})
+      .select('_id summonerName')
+      .lean();
+
+    const usersMap = usersQuery.reduce((users, user) => ({ ...users, [user.summonerName]: user._id }), {});
+    const userNamesMap = Object.entries(usersMap).reduce((users, [ name, id ]) => ({ ...users, [id]: name }), {});
+
+    const results = Object.keys(parsedMatchResults).reduce((results, username) => {
+      if(!usersMap[username]){
+        return results;
+      }
+
+      results.push({
+        userId: usersMap[username],
+        results: parsedMatchResults[username]
+      });
+
+      return results;
+    }, []);
+
+    const updatedResultsUsernames = results.map(item => userNamesMap[item.userId]);
+
+    const updatedMatch = await Match.findByIdAndUpdate(
+      { _id: matchId },
+      { $set: { playersResults: results }},
+      { new: true, upsert: false }
+    );
+
+    res.send({
+      updatedMatch,
+      users: updatedResultsUsernames,
     });
-
-    return results;
-  }, []);
-
-  const updatedMatch = await Match.findByIdAndUpdate(
-    { _id: matchId },
-    { $set: { playersResults: results }},
-    { new: true, upsert: false }
-  );
-
-  res.send(updatedMatch);
+  });
 });

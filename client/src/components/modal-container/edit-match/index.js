@@ -142,7 +142,8 @@ export default compose(
       summoners: [...props.summoners],
       resultsFile: '',
     }),
-    handleSubmit: async (values, { props }) => {
+    handleSubmit: async (values, formikBag) => {
+      const { props } = formikBag;
       const { tournamentId, matchId } = props.options;
 
       const results = values.summoners.map(summoner => ({
@@ -176,14 +177,25 @@ export default compose(
         const request = values.resultsFile ? resultsFileUploadConfig : resultsUploadConfig;
 
         const matchRequest = await http(request.url, { ...request.headers });
-        const updatedMatch = await matchRequest.json();
+        const match = await matchRequest.json();
+
+        if(match.error){
+          props.showNotification({
+            type: 'error',
+            message: match.updatedMatch.error,
+          });
+
+          formikBag.setFieldValue('resultsFile', '');
+
+          return;
+        }
 
         const { matches } = props.tournament;
 
         for (let i = 0; i < matches.length; i++) {
-          if (updatedMatch._id === matches[i]._id) {
+          if (match.updatedMatch._id === matches[i]._id) {
             matches[i] = {
-              ...updatedMatch,
+              ...match.updatedMatch,
             };
           }
         }
@@ -196,7 +208,7 @@ export default compose(
         props.showNotification({
           type: 'success',
           shouldBeAddedToSidebar: false,
-          message: 'Результаты матча успешно обновлены',
+          message: `Результаты матча успешно обновлены для игроков ${match.users.join(', ')}`,
         });
 
         props.close();
