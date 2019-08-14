@@ -1,19 +1,19 @@
+import config from 'config';
 import React from 'react';
 import { GoogleLogout } from 'react-google-login';
-import ym from 'react-yandex-metrika';
-import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { NavLink, withRouter } from 'react-router-dom';
+import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
+
+import DropDown from 'components/dropdown';
+
+import i18n from 'i18n';
 
 import { actions as storeActions } from 'store';
 
-import config from 'config';
-
-import DropDown from 'components/dropdown';
-import UserBox from './userbox';
-
 import style from './style.module.css';
-import i18n from 'i18n';
+import UserBox from './userbox';
 
 const Header = ({ setCurrentUser, currentUser, history }) => {
   const handleLogout = () => {

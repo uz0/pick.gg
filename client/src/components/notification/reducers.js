@@ -1,4 +1,5 @@
 import { createReducer } from 'redux-starter-kit';
+
 import actions from './actions';
 
 const initialState = {
@@ -14,7 +15,7 @@ export default createReducer(initialState, {
     state.message = action.payload.message;
   },
 
-  [actions.closeNotification]: (state, action) => {
+  [actions.closeNotification]: state => {
     state.isShown = false;
     state.type = '';
     state.message = '';
