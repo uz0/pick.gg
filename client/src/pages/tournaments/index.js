@@ -43,7 +43,8 @@ class Tournaments extends Component {
     const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
     const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
     const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
-    const TournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
+    const tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
+    const filterTournamentList = tournamentList.filter(tournament => !tournament.isFinalized);
 
     return (
       <div className={cx('tournaments', 'container')}>
@@ -51,7 +52,7 @@ class Tournaments extends Component {
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
             {isTounaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
 
-            {TournamentList.map(tournament => {
+            {filterTournamentList.map(tournament => {
               // const tournament = this.props.tournamentsList[id];
               const dateMonth = moment(tournament.startAt).format('MMM');
               const dateDay = moment(tournament.startAt).format('DD');
