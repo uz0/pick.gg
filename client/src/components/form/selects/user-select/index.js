@@ -53,6 +53,8 @@ class Select extends Component {
   };
 
   render() {
+    const { errors } = this.props.form;
+
     return (
       <div className={cx('wrapper', this.props.className)}>
         <label className={style.caption}>UserId</label>
@@ -63,6 +65,10 @@ class Select extends Component {
           onChange={this.debouncedOnChange}
           onInputChange={this.handleInputChange}
         />
+
+        {errors && errors['userId'] &&
+          <p className={style.error}>{errors['userId']}</p>
+        }
       </div>
     );
   }
