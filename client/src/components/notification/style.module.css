@@ -43,19 +43,20 @@
 }
 
 @keyframes show {
-  0% {transform: scaleX(0);}
-  60% {transform: scaleX(1);}
-  85% {transform: scaleX(1.1);}
-  100% {transform: scaleX(1);}
+  0% { transform: scaleX(0); }
+  60% { transform: scaleX(1); }
+  85% { transform: scaleX(1.1); }
+  100% { transform: scaleX(1); }
 }
 
 @keyframes hide {
-  0% {transform: scaleX(1);}
-  100% {transform: scaleX(0);}
+  0% { transform: scaleX(1); }
+  100% { transform: scaleX(0); }
 }
 
 .wrapper > .notification > .header {
   --notification-header-height: 20px;
+
   display: flex;
   align-items: center;
   height: var(--notification-header-height);
@@ -89,6 +90,7 @@
 
 .wrapper > .notification > .header > .close {
   --icon-size: 12px;
+
   flex-shrink: 0;
   margin-left: 12px;
   margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
