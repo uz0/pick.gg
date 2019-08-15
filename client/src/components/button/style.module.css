@@ -11,12 +11,14 @@
 
 .button[appearance^="_icon"] {
   --height: 32px;
+
   justify-content: center;
   width: var(--height);
 }
 
 .button[appearance^="_basic"] {
   --height: 40px;
+
   justify-content: center;
   min-width: 64px;
   padding-left: 16px;
@@ -28,6 +30,7 @@
 
 .button[appearance^="_circle"] {
   --height: 40px;
+
   height: var(--height);
   width: var(--height);
   justify-content: center;
@@ -38,6 +41,7 @@
 
 .button[appearance^="_google"] {
   --height: 40px;
+
   width: auto;
   background-color: #f1f1f1;
   padding: 0 12px;
@@ -53,16 +57,19 @@
 
 .button[appearance$="accent"]:not(:hover) {
   text-transform: uppercase;
+
   --background-color: var(--accent-color);
 }
 
 .button[appearance$="accent"]:hover {
   text-transform: uppercase;
+
   --background-color: #ed9a1b;
 }
 
 .button[appearance$="accent"]:active {
   --background-color: #f3ab3f;
+
   animation: pulse 0.5s;
   box-shadow: 0 0 0 8px rgba(155, 20, 20, 0);
 }
@@ -75,23 +82,25 @@
 .button[appearance$="default"]:not(:hover) {
   text-transform: uppercase;
   color: #fff;
+
   --background-color: rgba(255, 255, 255, 0.1);
 }
 
 .button[appearance$="default"]:hover {
   text-transform: uppercase;
   color: #fff;
+
   --background-color: rgba(255, 255, 255, 0.25);
 }
 
 .button[appearance$="primary"]:hover {
-  --background-color: #FFA51B;
+  --background-color: #ffa51b;
   --color: #000;
 }
 
 .button[appearance$="transparent"]:not(:hover) {
   --background-color: transparent;
-  --color: #9FA2BE;
+  --color: #9fa2be;
 }
 
 .button[appearance$="transparent"]:hover {
@@ -103,7 +112,6 @@
   --background-color: var(--danger-color);
   --color: #fff;
 }
-
 
 .button[appearance$="danger"]:hover {
   --background-color: #ff2020;
@@ -122,18 +130,19 @@
 .button[appearance^="_google"]:hover {
   opacity: 1;
 }
-.button[appearance^="_google"]:active{
+
+.button[appearance^="_google"]:active {
   animation: pulse 1s;
   box-shadow: 0 0 0 22px rgba(155, 20, 20, 0);
 }
 
-/*********/
+/********   */
 
 .button[disabled] {
   pointer-events: none;
   cursor: auto;
   color: #000;
-  background-color: #9FA2BE;
+  background-color: #9fa2be;
 }
 
 .button svg {
@@ -142,13 +151,10 @@
   height: var(--icon-size, 16px);
 }
 
-.button svg polygon, .button svg path {
+.button svg polygon,
+.button svg path {
   fill: var(--color);
   transition-property: fill;
-}
-
-.button svg + span {
-  margin-left: 12px;
 }
 
 .button span {
@@ -159,6 +165,10 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
+}
+
+.button svg + span {
+  margin-left: 12px;
 }
 
 ._is-danger {
