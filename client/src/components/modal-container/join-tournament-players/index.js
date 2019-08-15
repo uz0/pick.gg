@@ -8,6 +8,7 @@ import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
+import i18n from 'i18n';
 
 import { http } from 'helpers';
 
@@ -124,7 +125,7 @@ export default enhance(props => {
 
   return (
     <Modal
-      title="Choose your summoners"
+      title={i18n.t('modal.choose_your_summoners')}
       close={props.close}
       actions={actions}
       wrapClassName={style.wrapper}

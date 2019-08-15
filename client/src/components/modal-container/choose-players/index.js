@@ -10,6 +10,7 @@ import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
+import i18n from 'i18n';
 
 import { http } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
@@ -107,7 +108,7 @@ export default enhance(props => {
 
   return (
     <Modal
-      title="Choose tournament summoners"
+      title={i18n.t('choose_tournament_summoners')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
@@ -139,7 +140,7 @@ export default enhance(props => {
         <div className={style.search_container}>
           <input
             className={style.field}
-            placeholder="Find a summoner by name"
+            placeholder={i18n.t('modal.find_summoner_name')}
             value={props.filter}
             onChange={props.handleFilterInput}
           />
@@ -149,7 +150,7 @@ export default enhance(props => {
             type="button"
             onClick={props.clearFilter}
           >
-            Clear
+            {i18n.t('clear_button')}
           </button>
         </div>
 

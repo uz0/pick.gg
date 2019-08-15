@@ -12,6 +12,7 @@ import Button from 'components/button';
 import { actions as notificationActions } from 'components/notification';
 import Input from 'components/form/input';
 import Modal from 'components/modal';
+import i18n from 'i18n';
 
 import style from './style.module.css';
 
@@ -89,19 +90,19 @@ export default enhance(props => {
       actions={props.actions}
     >
       <Input
-        label="Summoner name"
+        label={i18n.t('summonerName')}
         value={props.summonerName}
         onChange={props.setSummonerName}
       />
       <Input
-        label="Contact (VK, Facebook, Discord, or email link)"
+        label={i18n.t('modal.contacts')}
         value={props.contact}
         onChange={props.setContact}
       />
       <GoogleLogin
         render={renderProperties => (
           <Button
-            text="Jump in!"
+            text={i18n.t('home.button_1')}
             type="button"
             appearance="_basic-accent"
             className={style.summonerName}

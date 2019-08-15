@@ -292,6 +292,7 @@
     "active_tournament": "Турнир в процессе",
     "date_tournament": "Дата турнира",
     "is_winner": "победитель",
+    "tournament_is_end": "Турнир закончился",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
@@ -314,7 +315,18 @@
       "step": "Шаг",
       "of": "из",
       "new_tournament": "Новый турнир",
-      "can_provide_tournaments": "Проводит турниры"
+      "can_provide_tournaments": "Проводит турниры",
+      "choose_your_summoners": "Выберите призывателей",
+      "edit_tournament": "Редактировать турнир",
+      "tournament_image": "Изображение турнира",
+      "description": "Описание",
+      "add_rules": "Добавить правила",
+      "edit_rules": "Редактировать правила",
+      "find_summoner_name": "Найти призывателя по имени",
+      "choose_tournament_summoners": "Выберите турнирных призывателей",
+      "contacts": "Как с вами связаться (VK, Facebook, Discord, or email link)",
+      "results_file": "Файл результатов",
+      "create_new_tournament": "Создать новый турнир"
     },
     "match_modal": {
       "modal_title": "Редактировать матч {{name}}",

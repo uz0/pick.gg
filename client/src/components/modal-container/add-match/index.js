@@ -11,6 +11,7 @@ import { http } from 'helpers';
 import style from './style.module.css';
 import { compose } from 'recompose';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import i18n from 'i18n';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -19,13 +20,13 @@ const validationSchema = Yup.object().shape({
 const Match = props => {
   return (
     <Modal
-      title="Add match"
+      title={i18n.t('add_match')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
       actions={[
         {
-          text: 'Add',
+          text: i18n.t('add'),
           type: 'submit',
           appearance: '_basic-accent',
           onClick: props.submitForm,
@@ -36,7 +37,7 @@ const Match = props => {
       <Form>
         <Field
           component={FormInput}
-          label="Match name"
+          label={i18n.t('match_name')}
           name="name"
           className={style.field}
         />
