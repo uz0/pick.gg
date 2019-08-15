@@ -11,6 +11,7 @@ import notificationActions from 'components/notification/actions';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import style from './style.module.css';
 import { http } from 'helpers';
+import i18n from 'i18n';
 
 const validationSchema = Yup.object().shape({
   resultsFile: Yup.mixed()
@@ -33,27 +34,27 @@ const EditMatch = ({
   values,
 }) => {
   const actions = [
-    { text: 'Edit', appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
+    { text: i18n.t('edit'), appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
   ];
 
   return (
     <Modal
       isForm
-      title="Edit match"
+      title={i18n.t('edit_match')}
       close={close}
       actions={actions}
       wrapClassName={style.wrapper}
       className={style.content}
     >
       <Field
-        label="Match name"
+        label={i18n.t('match_name')}
         name="name"
         component={FormInput}
         className={style.field}
       />
 
       <FileInput
-        label="Results file"
+        label={i18n.t('modal.results_file')}
         name="resultsFile"
         file={values.resultsFile}
         error={errors.resultsFile}

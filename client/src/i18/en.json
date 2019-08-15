@@ -290,6 +290,7 @@
     "active_tournament": "Active tournament",
     "date_tournament": "Tournament date",
     "is_winner": "is winner",
+    "tournament_is_end": "Tournament is end",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
@@ -312,7 +313,18 @@
       "step": "Step",
       "of": "of",
       "new_tournament": "New tournament",
-      "can_provide_tournaments": "Provide tournaments"
+      "can_provide_tournaments": "Provide tournaments",
+      "choose_your_summoners": "Choose your summoners",
+      "edit_tournament": "Edit tournament",
+      "tournament_image": "Tournament Image",
+      "description": "Description",
+      "add_rules": "Add rules",
+      "edit_rules": "Edit rules",
+      "find_summoner_name": "Find a summoner by name",
+      "choose_tournament_summoners": "Choose tournament summoners",
+      "contacts": "Contact (VK, Facebook, Discord, or email link)",
+      "results_file": "Results file",
+      "create_new_tournament": "Create new tournament"
     },
     "match_modal": {
       "modal_title": "Edit match {{name}}",

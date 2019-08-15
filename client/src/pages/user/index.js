@@ -4,9 +4,11 @@ import compose from 'recompose/compose';
 import { actions as usersActions } from 'pages/dashboard/users';
 import { http } from 'helpers';
 import findIndex from 'lodash/findIndex';
+import { Link } from 'react-router-dom';
 
 import ProfileSidebar from 'components/profile-sidebar';
 import Preloader from 'components/preloader';
+import defaultBackground from 'assets/play-with.jpg';
 import moment from 'moment';
 
 import style from './style.module.css';
@@ -119,31 +121,34 @@ class User extends Component {
 
               <div className={style.last_games}>
                 {lastGames && lastGames.map(item => {
-                  const dateMonth = moment(item.date).format('MMM');
-                  const dateDay = moment(item.date).format('DD');
+                  const dateMonth = moment(item.startAt).format('MMM');
+                  const dateDay = moment(item.startAt).format('DD');
                   const winner = item.winners.filter(item => item.id === userId)[0];
-                  // Const summoners = item.summoners.some(item => item.id === userId);
-                  const isWinner = winner ? i18n.t('winner') : i18n.t('tornament is end');
+                  const isWinner = winner ? i18n.t('winner') : i18n.t('tournament_is_end');
 
                   const isFinal = item.isFinalized ? (
                     <span className={style.final}>{isWinner}</span>
                   ) : <span className={style.final}>{i18n.t('active_tournament')}</span>;
 
+                  const isBackground = item.imageUrl ? item.imageUrl : defaultBackground;
+
                   return (
-                    <div key={item.name} className={style.card}>
-                      <div className={style.content}>
-                        <div className={style.date}>
-                          <span className={style.month}>{dateMonth}</span>
+                    <Link key={item._id} to={`/tournaments/${item._id}`} className={style.item}>
+                      <div key={item.name} className={style.card} style={{ backgroundImage: `url(${isBackground})` }}>
+                        <div className={style.content}>
+                          <div className={style.date}>
+                            <span className={style.month}>{dateMonth}</span>
 
-                          <span className={style.day}>{dateDay}</span>
-                        </div>
+                            <span className={style.day}>{dateDay}</span>
+                          </div>
 
-                        <div className={style.basic}>
-                          <div className={style.name}>{item.name}</div>
-                          {isFinal}
+                          <div className={style.basic}>
+                            <div className={style.name}>{item.name}</div>
+                            {isFinal}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -152,7 +157,7 @@ class User extends Component {
         </div>
 
         {this.state.isLoading &&
-          <Preloader/>
+          <Preloader />
         }
       </div>
     );

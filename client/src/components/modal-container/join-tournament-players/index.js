@@ -8,6 +8,7 @@ import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
+import i18n from 'i18n';
 
 import { http } from 'helpers';
 
@@ -109,12 +110,12 @@ export default enhance(props => {
   const addPlayersButtonAction = tournamentCreator._id === currentUser._id ? props.close : attend;
 
   const actions = [
-    { text: 'Add Players', appearance: '_basic-accent', onClick: () => addPlayersButtonAction() },
+    { text: i18n.t('add_players'), appearance: '_basic-accent', onClick: () => addPlayersButtonAction() },
   ];
 
   return (
     <Modal
-      title="Choose your summoners"
+      title={i18n.t('modal.choose_your_summoners')}
       close={props.close}
       actions={actions}
       wrapClassName={style.wrapper}
