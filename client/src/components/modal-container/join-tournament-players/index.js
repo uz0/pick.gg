@@ -44,6 +44,7 @@ const enhance = compose(
       return {
         tournamentSummoners: props.tournamentSummoners,
         selectedSummoners: [],
+        isSubmitting: false,
       };
     },
 
@@ -61,10 +62,13 @@ const enhance = compose(
             [...selectedSummoners, id],
         };
       },
+      toggleSubmitting: state => () => ({ ...state, isSubmitting: !state.isSubmitting }),
     }
   ),
   withHandlers({
     attend: props => async () => {
+      props.toggleSubmitting();
+
       const { selectedSummoners } = props;
       const { tournamentId, tournamentViewers, currentUserId } = props.options;
 
@@ -103,6 +107,7 @@ export default enhance(props => {
     tournamentSummoners,
     toggleSelectSummoner,
     tournamentCreator,
+    isSubmitting,
     currentUser,
     attend,
   } = props;
@@ -110,7 +115,12 @@ export default enhance(props => {
   const addPlayersButtonAction = tournamentCreator._id === currentUser._id ? props.close : attend;
 
   const actions = [
-    { text: i18n.t('add_players'), appearance: '_basic-accent', onClick: () => addPlayersButtonAction() },
+    {
+      text: 'Add Players',
+      appearance: '_basic-accent',
+      disabled: isSubmitting,
+      onClick: () => addPlayersButtonAction()
+    },
   ];
 
   return (
