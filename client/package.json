@@ -54,6 +54,9 @@
     "eslint-plugin-unicorn": "^9.0.0",
     "lint-staged": "^8.2.0",
     "npm-run-all": "^4.1.2",
+    "stylelint": "^10.1.0",
+    "stylelint-config-css-modules": "^1.4.0",
+    "stylelint-config-standard": "^18.3.0",
     "typeface-roboto": "0.0.54"
   },
   "proxy": "http://localhost:3001",
