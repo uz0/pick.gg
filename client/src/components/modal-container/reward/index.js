@@ -20,6 +20,7 @@ import style from './style.module.css';
 const validationSchema = Yup.object().shape({
   key: Yup.string().required('Key field is required!'),
   userId: Yup.string().required('UserId field is required!'),
+  description: Yup.string().required('Description field is required!'),
 });
 
 const normalizeUserField = obj => {
