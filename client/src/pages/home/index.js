@@ -16,12 +16,6 @@ import { isLogged, http } from 'helpers';
 
 import { ReactComponent as DiscordIcon } from 'assets/icon-discord.svg';
 
-import cardOne from 'assets/card-1.png';
-import cardTwo from 'assets/card-2.png';
-import cardThree from 'assets/card-3.png';
-import cardFour from 'assets/card-4.png';
-import Footer from 'components/footer';
-
 class Start extends Component {
   constructor(properties) {
     super(properties);
