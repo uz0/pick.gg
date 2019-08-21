@@ -445,9 +445,10 @@
     padding: 0;
     background-image: none;
   }
-  .work h2, .footer h2 {
+  .work h2, .team_goals h2 {
     font-size: 27px;
     margin-bottom: 12px;
+    padding-left: 0;
   }
   .work .cards .card .num {
     left: 6px;
@@ -487,7 +488,7 @@
   .main:before {
     background-size: 340px, cover, cover;
   }
-  .work h2, .footer h2 {
+  .work h2, .team_goals h2 {
     font-size: 24px;
   }
   .work .cards .card .first_title {
