@@ -13,6 +13,9 @@ import { actions as notificationActions } from 'components/notification';
 import { actions as storeActions } from 'store';
 import { isLogged, http } from 'helpers';
 
+
+import { ReactComponent as DiscordIcon } from 'assets/icon-discord.svg';
+
 import cardOne from 'assets/card-1.png';
 import cardTwo from 'assets/card-2.png';
 import cardThree from 'assets/card-3.png';
@@ -72,6 +75,14 @@ class Start extends Component {
     });
   };
 
+  changeLocale = event => {
+    localStorage.setItem('_pgg_locale', event.target.name);
+    i18n.changeLanguage(event.target.name);
+
+    ym('reachGoal', `choosed_${event.target.name}_locale`);
+    window.location.reload();
+  };
+
   redirectToTournaments = () => {
     const url = this.tournamentId ? `/tournaments/${this.tournamentId}` : '/tournaments';
     this.props.history.push(url);
@@ -82,28 +93,41 @@ class Start extends Component {
       <>
         <section className={style.main}>
           <div className={style.wrap}>
-            <h1>Pick.gg</h1>
+            <header className={style.header}>
+              <div className={style.logo}>
+                Pick.gg
+              </div>
 
-            <p>{i18n.t('home.under_title')}</p>
+              <div className={style.lang_settings}>
+                <button type="button" name="ru" onClick={this.changeLocale}>RU</button>
+                <button type="button" name="en" onClick={this.changeLocale}>EN</button>
+              </div>
+            </header>
 
-            <div className={style.buttons}>
-              <GoogleLogin
-                autoLoad={Boolean(this.tournamentId)}
-                render={renderProperties => (
-                  <button
-                    type="button"
-                    className={style.button}
-                    onClick={() => isLogged() ? this.redirectToTournaments() : renderProperties.onClick()}
-                  >
-                    <span>{i18n.t('Jump in!')}</span>
-                  </button>
-                )}
-                clientId={config.googleClientId}
-                onSuccess={this.onSuccessGoogleLogin}
-                onFailure={this.onFailureGoogleLogin}
-              />
+            <div className={style.main_content}>
+              <h1 className={style.logo_back}>Pick.gg</h1>
 
-              <Link to="#" className={style.streamer}>{i18n.t('home.link_1')}</Link>
+              <p>{i18n.t('home.under_title')}</p>
+
+              <div className={style.buttons}>
+                <GoogleLogin
+                  autoLoad={Boolean(this.tournamentId)}
+                  render={renderProperties => (
+                    <button
+                      type="button"
+                      className={style.button}
+                      onClick={() => isLogged() ? this.redirectToTournaments() : renderProperties.onClick()}
+                    >
+                      <span>{i18n.t('home.button_1')}</span>
+                    </button>
+                  )}
+                  clientId={config.googleClientId}
+                  onSuccess={this.onSuccessGoogleLogin}
+                  onFailure={this.onFailureGoogleLogin}
+                />
+
+                <Link to="#" className={style.streamer}>{i18n.t('home.link_1')}</Link>
+              </div>
             </div>
           </div>
         </section>
@@ -114,17 +138,7 @@ class Start extends Component {
 
             <div className={style.cards}>
               <div className={style.card}>
-                <img src={cardOne} alt="card one"/>
-
-                <div className={style.text}>
-                  <div className={style.first_title}>
-                    {i18n.t('home.card_1_title')}
-                  </div>
-                </div>
-              </div>
-
-              <div className={style.card}>
-                <img src={cardTwo} alt="card two"/>
+                <div className={style.num}>01</div>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -138,7 +152,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardThree} alt="card three"/>
+                <div className={style.num}>02</div>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -152,7 +166,7 @@ class Start extends Component {
               </div>
 
               <div className={style.card}>
-                <img src={cardFour} alt="card four"/>
+                <div className={style.num}>03</div>
 
                 <div className={style.text}>
                   <div className={style.title}>
@@ -168,7 +182,7 @@ class Start extends Component {
           </div>
         </section>
 
-        <section className={style.footer}>
+        <section className={style.team_goals}>
           <div className={style.wrap}>
             <h2>{i18n.t('home.footer_title')}</h2>
 
@@ -197,7 +211,26 @@ class Start extends Component {
             </div>
           </div>
         </section>
-        <Footer className={style.home_footer}/>
+
+        <footer className={style.footer}>
+          <div className={style.container}>
+            <div className={style.info}>
+              <div className={style.copyright}>
+                <p>© {new Date().getFullYear()} uz0</p>
+
+                <Link to="#">{i18n.t('terms_and_agreement')}</Link>
+              </div>
+
+              <div className={style.contacts}>
+                <p>{i18n.t('contact_us')}:</p>
+
+                <Link to="#">
+                  <DiscordIcon />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </footer>
       </>
     );
   }
