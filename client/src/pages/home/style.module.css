@@ -1,79 +1,82 @@
-@font-face {
-  font-family: 'Roboto';
-  src: local('Roboto Bold'), local('Roboto-Bold'), url('../../assets/fonts/Robotobold.woff2') format('woff2'), url('../../assets/fonts/Robotobold.woff') format('woff'), url('../../assets/fonts/Robotobold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: local('Roboto Black'), local('Roboto-Black'), url('../../assets/fonts/Robotoblack.woff2') format('woff2'), url('../../assets/fonts/Robotoblack.woff') format('woff'), url('../../assets/fonts/Robotoblack.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Fira Sans';
-  src: local('Fira Sans ExtraLight'), local('FiraSans-ExtraLight'), url('../../assets/fonts/Firasansextralight.woff2') format('woff2'), url('../../assets/fonts/Firasansextralight.woff') format('woff'), url('../../assets/fonts/Firasansextralight.ttf') format('truetype');
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Fira Sans';
-  src: local('Fira Sans Regular'), local('FiraSans-Regular'), url('../../assets/fonts/Firasansregular.woff2') format('woff2'), url('../../assets/fonts/Firasansregular.woff') format('woff'), url('../../assets/fonts/Firasansregular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Fira Sans';
-  src: local('Fira Sans Bold'), local('FiraSans-Bold'), url('../../assets/fonts/Firasansbold.woff2') format('woff2'), url('../../assets/fonts/Firasansbold.woff') format('woff'), url('../../assets/fonts/Firasansbold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-.main, .work, .footer {
+@import url("https://use.typekit.net/eam5kjp.css");
+* {
   margin: 0;
-  font-family: Fira Sans, sans-serif;
+}
+
+.main .logo {
+  font-weight: bold;
+  color: #fafafa;
+  font-size: 24px;
+}
+
+.main .main_content {
+  position: relative;
+  padding-left: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 250px;
+  height: 100%;
+}
+
+.main .wrap .main_content .logo_back {
+  position: absolute;
+  left: -220px;
+  top: 340px;
+  font-size: 150px;
+  transform: rotate(-90deg);
+  opacity: 0.6;
+  color: #fafafa;
 }
 
 .wrap {
-  max-width: 1440px;
   max-width: var(--container-width);
   width: 100%;
   margin: 0 auto;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
-}
-
-.main h1 {
-  font-size: 64px;
-  font-family: Roboto, sans-serif;
-  margin: 0;
-  color: #fff;
+  font-family: montserrat, sans-serif;
 }
 
 .work h2, .footer h2 {
   font-size: 48px;
-  margin: 0;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  color: #fafafa;
 }
 
-section {
-  padding: 64px;
+.work h2 {
+  padding-left: 24px;
+  padding-bottom: 24px;
+}
+
+.main:before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url('assets/home/red-head-girl.png'), linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
+  background-repeat: no-repeat;
+  background-size: 1000px, cover, cover;
+  background-position: 90% bottom, center, center;
+  z-index: -2;
 }
 
 .main {
-  height: 100vh;
+  position: relative;
+  height: 110vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('assets//bg-login-min.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
+  padding: 0px 64px;
+}
+
+.main .header {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 12px;
+  border-bottom: 1px solid #fafafa;
 }
 
 .main p {
@@ -81,34 +84,51 @@ section {
   color: #fff;
   margin: 0;
   padding-top: 12px;
+  width: 410px;
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 350px;
-  padding-top: 240px;
+  padding-top: 60px;
 }
 
 .buttons .button {
-  background-color: #2f998e;
+  background-color: transparent;
   font-size: 27px;
   font-weight: bold;
   text-decoration: none;
-  border: 0;
-  border-radius: 10px;
-  padding: 16px 48px;
+  border: 5px solid #b4844c;
+  padding: 12px 48px;
   width: auto;
-  font-family: Roboto, sans-serif;
   font-weight: bold;
   color: #fff;
   text-align: center;
   transition: 0.35s background;
+  position: relative;
+  overflow: hidden;
 }
 
-.buttons .button:hover {
-  background: #3bbcb0;
+.buttons .button:after {
+  position: absolute;
+  display: block;
+  content: "";
+  border: 3px solid #b4844c;
+  height: 0;
+  width: 110%;
+  top: 50%;
+  left: -3px;
+  opacity: 0;
+  transition: 0.4s;
+  transform: translateX(0%) translateY(-50%);
+}
+
+.buttons .button:hover:after {
+  height: 120%;
+  opacity: 1;
+  color: #FFF;
+  transform: translateX(0%) translateY(-50%);
 }
 
 .buttons .streamer {
@@ -118,56 +138,66 @@ section {
 }
 
 .work {
-  background-color: #e0e0e0;
+  position: relative;
+  padding: 48px 0;
+  background-image: url('assets/home/ahri-arcade.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 40%;
 }
 
-.work h2 {
-  margin-bottom: 24px;
+.work:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 112%;
+  position: absolute;
+  /* background-color: #383838; */
+  background: linear-gradient(rgba(20, 20, 20, 0.95), rgba(20, 20, 20, 0.95)), url('assets/home/ahri-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  left: 0;
+  top: -6%;
+  transform: skewY(3deg);
+  z-index: -1;
 }
 
 .work .cards {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+}
+
+.work .cards .card:before {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  background: #5b8f5e;
+  right: 99%;
+  top: 0;
 }
 
 .work .cards .card {
+  position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: 24px 48px;
-  background: #f1f1f1;
+  padding: 24px 24px 24px 118px;
+  background: #5b8f5e;
   margin-bottom: 36px;
-  height: 300px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgb(196, 196, 196);
-  flex-basis: 48%;
+  width: 60%;
+  color: #fafafa;
 }
 
-.work .cards .card img {
-  width: 60px;
-}
-
-.work .cards .card:first-child img {
-  width: 100px;
-}
-
-.work .cards .card .first_title {
-  font-size: 24px;
-  font-weight: bold;
-  padding-right: 20px;
-}
-
-.work .cards .card:nth-child(odd) {
-  flex-direction: row-reverse;
-}
-
-.work .cards .card:nth-child(even) {
-  justify-content: flex-start;
-}
-
-.work .cards .card:nth-child(even) .text {
-  padding-left: 64px;
+.work .cards .card .num {
+  position: absolute;
+  color: #fafafa;
+  font-weight: 800;
+  font-size: 64px;
+  opacity: 0.6;
+  left: 24px;
+  top: 16px;
 }
 
 .work .cards .card .text {
@@ -175,7 +205,7 @@ section {
 }
 
 .work .cards .card .title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   padding-bottom: 20px;
 }
@@ -185,89 +215,149 @@ section {
   line-height: 27px;
 }
 
-.footer {
-  background-image: linear-gradient(0deg, rgba(3, 1, 15, 0.6), rgba(4, 0, 19, 0.8)), url('assets//bg-login-min.png');
-  background-color: #444444;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
-}
-
-.footer h2 {
+.lang_settings button {
+  font-size: 16px;
+  background-color: transparent;
   color: #fafafa;
-  padding-bottom: 36px;
+  transition: 0.3s ease;
 }
 
-.footer p {
-  font-size: 24px;
-  line-height: 36px;
-  padding-bottom: 27px;
-  color: #fff;
-  font-weight: lighter;
-  width: 50%;
+.lang_settings button+button {
+  margin-left: 8px;
+}
+
+.lang_settings button:hover {
+  color: #000;
+}
+
+.team_goals {
+  padding: 64px 0;
+  /* background: #5b8f5e; */
+  background-size: cover;
+  color: #fafafa;
+  position: relative;
+}
+
+.team_goals:before {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  content: '';
+  background: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
+  left: 0;
+  top: 0;
+  z-index: -2;
+}
+
+.team_goals .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.team_goals .wrap h2 {
+  margin-bottom: 24px;
+}
+
+.team_goals .wrap p {
+  margin-bottom: 12px;
+  font-size: 16px;
+  width: 60%;
 }
 
 .footer {
-  background-color: #2f998e;
-  background-color: #14121a;
-  background-color: var(--background-color);
+  height: var(--footer-height);
+  display: flex;
+  align-items: center;
+  background-color: #383838;
+}
+
+.footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--container-width);
+  flex-grow: 1;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.footer .container a {
+  font-size: 12px;
+  white-space: nowrap;
+  color: var(--caption-color);
+  font-family: var(--font-family-title);
+  transition: all 0.3s;
+}
+
+.footer .container a:hover {
+  text-shadow: 0 0 2px #fff;
+}
+
+.footer .container a svg {
+  padding-top: 4px;
+  width: 16px;
+}
+
+.footer .container a svg path {
+  fill: var(--header-color);
+}
+
+.footer .container a svg:hover {
+  filter: drop-shadow(0 0 2px white);
+  transition: all 0.3s;
+}
+
+.footer .container .info, .footer .container .info .copyright, .footer .container .info .contacts {
+  display: flex;
+  align-items: center;
+}
+
+.footer .container .info .copyright {
+  margin-right: 16px;
+}
+
+.footer .container .info p {
+  margin-right: 16px;
+  font-size: 12px;
+  color: var(--caption-color);
+  white-space: nowrap;
 }
 
 @media (max-width: 1440px) {
-  .main h1 {
-    font-size: 72px;
-  }
   .main p {
     font-size: 24px;
     padding-top: 8px;
   }
-  .work h2, .footer h2 {
+  .work h2 {
     font-size: 27px;
   }
   .buttons {
-    max-width: 250px;
-    width: 100%;
     padding-top: 144px;
   }
   .buttons .button {
     font-size: 20px;
-    padding: 12px 24px;
+    padding: 12px 48px;
   }
   .buttons .streamer {
     font-size: 14px;
     margin-top: 12px;
   }
-  section {
-    padding: 64px;
-  }
   .work .cards .card {
-    height: 170px;
     margin-bottom: 24px;
-    padding: 24px 48px;
-  }
-  .work .cards .card .text {
-    width: 75%;
-  }
-  .work .cards .card:nth-child(even) .text {
-    padding-left: 48px;
-  }
-  .work .cards .card .first_title {
-    font-size: 16px;
+    padding: 24px 24px 24px 118px;
   }
   .work .cards .card .title {
-    font-size: 16px;
-    padding-bottom: 6px;
+    font-size: 14px;
+    line-height: 20px;
+    padding-bottom: 8px;
   }
   .work .cards .card .undertitle {
     font-size: 14px;
-    line-height: 18px;
-  }
-  .work .cards .card img {
-    width: 50px;
-  }
-  .work .cards .card:first-child img {
-    width: 80px;
+    line-height: 20px;
   }
   .work h2 {
     margin-bottom: 27px;
@@ -276,68 +366,92 @@ section {
     font-size: 16px;
     line-height: 22px;
   }
+  .main:before {
+    background-size: 650px, cover, cover;
+  }
+  .main .main_content {
+    padding-left: 140px;
+    padding-top: 100px;
+  }
+  .main .wrap .main_content .logo_back {
+    position: absolute;
+    left: -180px;
+    top: 180px;
+    font-size: 110px;
+    transform: rotate(-90deg);
+    opacity: 0.6;
+  }
+  .buttons {
+    padding-top: 80px;
+  }
+  .work .cards .card .num {
+    position: absolute;
+    color: #fafafa;
+    font-weight: 800;
+    font-size: 64px;
+    opacity: 0.6;
+    left: 24px;
+    top: 12px;
+  }
 }
 
 @media (max-width: 1024px) {
-  .work .cards .card {
-    flex-basis: 48%;
+  .main {
+    padding: 0 24px;
   }
-  .work .cards .card:nth-child(odd), .work .cards .card:nth-child(even) {
-    flex-direction: column-reverse;
-  }
-  .work .cards .card:nth-child(even) .text {
-    padding-left: 0;
+  .work {
+    padding-bottom: 360px;
+    background-size: 45%;
   }
   .work .cards .card {
     height: auto;
-    padding: 40px 0;
-  }
-  .work .cards .card .text {
-    width: 80%;
-    padding-bottom: 36px;
+    width: 100%;
+    padding: 24px 24px 24px 118px;
   }
 }
 
 @media (max-width: 480px) {
-  section {
-    padding: 40px 20px;
-  }
   .work .cards .card {
-    flex-basis: 100%;
-  }
-  .work .cards .card:nth-child(odd), .work .cards .card:nth-child(even) {
-    flex-direction: column-reverse;
-  }
-  .work .cards .card:nth-child(even) .text {
-    padding-left: 0;
-  }
-  .work .cards .card {
-    height: auto;
-    padding: 40px 0;
-  }
-  .work .cards .card .text {
-    width: 80%;
-    padding-bottom: 36px;
+    padding: 100px 12px 30px 5px;
   }
   .work .cards .card .title {
-    font-size: 20px;
+    font-size: 16px;
+    line-height: 1.3;
     padding-bottom: 12px;
   }
   .work .cards .card .undertitle {
     font-size: 16px;
-    line-height: 24px;
-  }
-  .work .cards .card .first_title {
-    font-size: 24px;
+    line-height: 1.3;
   }
   .main {
     height: 100vh;
+    padding: 0;
+  }
+  .main:before {
+    background-size: 440px, cover, cover;
+  }
+  .main .main_content {
+    padding-left: 0;
+    padding-top: 20px;
+  }
+  .main .main_content .logo_back {
+    display: none;
   }
   .main p {
     font-size: 27px;
+    width: auto;
   }
-  .work h2, .footer h2 {
-    font-size: 36px;
+  .work {
+    padding: 0;
+    background-image: none;
+  }
+  .work h2, .team_goals h2 {
+    font-size: 27px;
+    margin-bottom: 12px;
+    padding-left: 0;
+  }
+  .work .cards .card .num {
+    left: 6px;
   }
   .footer p {
     width: 100%;
@@ -347,8 +461,8 @@ section {
     padding-right: 50px;
   }
   .buttons .button {
-    font-size: 24px;
-    padding: 16px 24px;
+    font-size: 20px;
+    padding: 12px 24px;
   }
   .buttons .streamer {
     font-size: 16px;
@@ -358,13 +472,23 @@ section {
     font-size: 16px;
     line-height: 24px;
   }
+  .team_goals {
+    padding: 120px 0 64px;
+  }
+  .team_goals .wrap p {
+    width: 100%;
+  }
+  .footer .container .info {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 320px) {
-  .main h1 {
-    font-size: 64px;
+  .main:before {
+    background-size: 340px, cover, cover;
   }
-  .work h2, .footer h2 {
+  .work h2, .team_goals h2 {
     font-size: 24px;
   }
   .work .cards .card .first_title {
@@ -377,6 +501,6 @@ section {
     padding-right: 20px;
   }
   .buttons .button {
-    font-size: 22px;
+    font-size: 18px;
   }
 }
