@@ -8,6 +8,7 @@ import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
+import i18n from 'i18n';
 
 import { http } from 'helpers';
 
@@ -43,6 +44,7 @@ const enhance = compose(
       return {
         tournamentSummoners: props.tournamentSummoners,
         selectedSummoners: [],
+        isSubmitting: false,
       };
     },
 
@@ -60,10 +62,13 @@ const enhance = compose(
             [...selectedSummoners, id],
         };
       },
+      toggleSubmitting: state => () => ({ ...state, isSubmitting: !state.isSubmitting }),
     }
   ),
   withHandlers({
     attend: props => async () => {
+      props.toggleSubmitting();
+
       const { selectedSummoners } = props;
       const { tournamentId, tournamentViewers, currentUserId } = props.options;
 
@@ -102,6 +107,7 @@ export default enhance(props => {
     tournamentSummoners,
     toggleSelectSummoner,
     tournamentCreator,
+    isSubmitting,
     currentUser,
     attend,
   } = props;
@@ -109,12 +115,17 @@ export default enhance(props => {
   const addPlayersButtonAction = tournamentCreator._id === currentUser._id ? props.close : attend;
 
   const actions = [
-    { text: 'Add Players', appearance: '_basic-accent', onClick: () => addPlayersButtonAction() },
+    {
+      text: 'Add Players',
+      appearance: '_basic-accent',
+      disabled: isSubmitting,
+      onClick: () => addPlayersButtonAction()
+    },
   ];
 
   return (
     <Modal
-      title="Choose your summoners"
+      title={i18n.t('modal.choose_your_summoners')}
       close={props.close}
       actions={actions}
       wrapClassName={style.wrapper}

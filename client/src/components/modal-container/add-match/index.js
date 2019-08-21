@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
+import isEmpty from 'lodash/isEmpty';
 
 import { FormInput } from 'components/form/input';
 import Modal from 'components/modal';
@@ -11,6 +12,7 @@ import { http } from 'helpers';
 import style from './style.module.css';
 import { compose } from 'recompose';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import i18n from 'i18n';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -19,13 +21,13 @@ const validationSchema = Yup.object().shape({
 const Match = props => {
   return (
     <Modal
-      title="Add match"
+      title={i18n.t('add_match')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
       actions={[
         {
-          text: 'Add',
+          text: i18n.t('add'),
           type: 'submit',
           appearance: '_basic-accent',
           onClick: props.submitForm,
@@ -36,7 +38,7 @@ const Match = props => {
       <Form>
         <Field
           component={FormInput}
-          label="Match name"
+          label={i18n.t('match_name')}
           name="name"
           className={style.field}
         />
@@ -59,6 +61,7 @@ const enhance = compose(
     mapPropsToValues: () => ({ name: '' }),
     handleSubmit: async (values, { props }) => {
       const { tournamentId } = props.options;
+      const { rules, rewards, matches, isForecastingActive, isStarted } = props.tournament;
 
       try {
         const matchRequest = await http(`/api/tournaments/${tournamentId}/matches`, {
@@ -72,8 +75,12 @@ const enhance = compose(
         const newMatch = await matchRequest.json();
         const matches = [...props.tournament.matches, newMatch];
 
+        const isTournamentEmpty = isEmpty(rules) || isEmpty(rewards) || matches.length === 0;
+        const isApplicationsAvailable = !isTournamentEmpty && !isForecastingActive && !isStarted;
+
         props.updateTournament({
           ...props.tournament,
+          isApplicationsAvailable,
           matches,
         });
 

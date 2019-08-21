@@ -198,7 +198,7 @@ class Tournament extends Component {
           <div className={style.tournament_section}>
             <h2 className={style.title}>{name}</h2>
 
-            {isCurrentUserAdminOrCreator && isApplicationsAvailable && isApplicationsAvailable && (
+            {isCurrentUserAdminOrCreator && isApplicationsAvailable && (
               <Button
                 disabled={isAllowForecastButtonDisabled}
                 text="Allow forecasts"

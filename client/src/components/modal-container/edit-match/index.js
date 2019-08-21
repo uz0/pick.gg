@@ -11,6 +11,7 @@ import notificationActions from 'components/notification/actions';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import style from './style.module.css';
 import { http } from 'helpers';
+import i18n from 'i18n';
 
 const validationSchema = Yup.object().shape({
   resultsFile: Yup.mixed()
@@ -33,27 +34,27 @@ const EditMatch = ({
   values,
 }) => {
   const actions = [
-    { text: 'Edit', appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
+    { text: i18n.t('edit'), appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
   ];
 
   return (
     <Modal
       isForm
-      title="Edit match"
+      title={i18n.t('edit_match')}
       close={close}
       actions={actions}
       wrapClassName={style.wrapper}
       className={style.content}
     >
       <Field
-        label="Match name"
+        label={i18n.t('match_name')}
         name="name"
         component={FormInput}
         className={style.field}
       />
 
       <FileInput
-        label="Results file"
+        label={i18n.t('modal.results_file')}
         name="resultsFile"
         file={values.resultsFile}
         error={errors.resultsFile}
@@ -142,7 +143,8 @@ export default compose(
       summoners: [...props.summoners],
       resultsFile: '',
     }),
-    handleSubmit: async (values, { props }) => {
+    handleSubmit: async (values, formikBag) => {
+      const { props } = formikBag;
       const { tournamentId, matchId } = props.options;
 
       const results = values.summoners.map(summoner => ({
@@ -176,14 +178,25 @@ export default compose(
         const request = values.resultsFile ? resultsFileUploadConfig : resultsUploadConfig;
 
         const matchRequest = await http(request.url, { ...request.headers });
-        const updatedMatch = await matchRequest.json();
+        const match = await matchRequest.json();
+
+        if(match.error){
+          props.showNotification({
+            type: 'error',
+            message: match.updatedMatch.error,
+          });
+
+          formikBag.setFieldValue('resultsFile', '');
+
+          return;
+        }
 
         const { matches } = props.tournament;
 
         for (let i = 0; i < matches.length; i++) {
-          if (updatedMatch._id === matches[i]._id) {
+          if (match.updatedMatch._id === matches[i]._id) {
             matches[i] = {
-              ...updatedMatch,
+              ...match.updatedMatch,
             };
           }
         }
@@ -196,7 +209,7 @@ export default compose(
         props.showNotification({
           type: 'success',
           shouldBeAddedToSidebar: false,
-          message: 'Результаты матча успешно обновлены',
+          message: `Результаты матча успешно обновлены для игроков ${match.users.join(', ')}`,
         });
 
         props.close();

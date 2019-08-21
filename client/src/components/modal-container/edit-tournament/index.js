@@ -8,12 +8,13 @@ import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import style from './style.module.css';
+import i18n from 'i18n';
 
 class EditTournament extends Component {
   render() {
     const actions = [
       {
-        text: 'Edit',
+        text: i18n.t('edit'),
         type: 'submit',
         appearance: '_basic-accent',
         disabled: this.props.isSubmitting,
@@ -24,42 +25,42 @@ class EditTournament extends Component {
     return (
       <Modal
         isForm
-        title="Edit tournament"
+        title={i18n.t('modal.edit_tournament')}
         close={this.props.close}
         actions={actions}
         wrapClassName={style.modal}
         className={style.modal_content}
       >
         <Field
-          label="Name"
+          label={i18n.t('name')}
           name="name"
           component={FormInput}
           className={style.field}
         />
 
         <Field
-          label="Description"
+          label={i18n.t('modal.description')}
           name="description"
           component={FormInput}
           className={style.field}
         />
 
         <Field
-          label="Tournament image"
+          label={i18n.t('modal.tournament_image')}
           name="imageUrl"
           component={FormInput}
           className={style.field}
         />
 
         <Field
-          label="Price"
+          label={i18n.t('price')}
           name="price"
           component={FormInput}
           className={style.field}
         />
 
         <Field
-          label="Date"
+          label={i18n.t('date')}
           name="startAt"
           type="date"
           component={FormInput}

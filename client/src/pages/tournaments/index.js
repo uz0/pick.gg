@@ -4,6 +4,7 @@ import withHandlers from 'recompose/withHandlers';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
+import sortBy from 'lodash/sortBy';
 import classnames from 'classnames/bind';
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
@@ -42,6 +43,8 @@ class Tournaments extends Component {
     const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
     const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
     const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
+    const tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
+    const filterTournamentList = tournamentList.filter(tournament => !tournament.isFinalized);
 
     return (
       <div className={cx('tournaments', 'container')}>
@@ -49,8 +52,8 @@ class Tournaments extends Component {
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
             {isTounaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
 
-            {this.props.tournamentsIds.map(id => {
-              const tournament = this.props.tournamentsList[id];
+            {filterTournamentList.map(tournament => {
+              // const tournament = this.props.tournamentsList[id];
               const dateMonth = moment(tournament.startAt).format('MMM');
               const dateDay = moment(tournament.startAt).format('DD');
               const championsLength = tournament.viewers && tournament.viewers.length;
