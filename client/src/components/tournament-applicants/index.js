@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
 import { connect } from 'react-redux';
+import ym from 'react-yandex-metrika';
 import classnames from 'classnames/bind';
 import pick from 'lodash/pick';
 import debounce from 'lodash/debounce';
@@ -171,6 +172,8 @@ export default compose(
           return item;
         });
 
+        ym('reachGoal', 'accepted_as_summoner');
+
         props.updateTournament({
           ...props.tournament,
           applicants,
@@ -200,6 +203,8 @@ export default compose(
 
           return item;
         });
+
+        ym('reachGoal', 'rejected_as_summoner');
 
         props.updateTournament({
           ...props.tournament,

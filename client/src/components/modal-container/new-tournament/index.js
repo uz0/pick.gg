@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -143,6 +144,8 @@ const enhance = compose(
       };
 
       const { newTournament } = await createTournamentRequest();
+
+      ym('reachGoal', 'tournament_created');
 
       formikBag.props.history.push(`/tournaments/${newTournament._id}`);
 
