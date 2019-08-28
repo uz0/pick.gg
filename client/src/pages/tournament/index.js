@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
+import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { http } from 'helpers';
@@ -78,6 +79,8 @@ class Tournament extends Component {
   finalizeTournament = async () => {
     const response = await http(`/api/tournaments/${this.props.match.params.id}/finalize`, { method: 'PATCH' });
     const tournament = await response.json();
+
+    ym('reachGoal', 'streamer_finalized_tournament');
 
     this.props.updateTournament({
       ...tournament,

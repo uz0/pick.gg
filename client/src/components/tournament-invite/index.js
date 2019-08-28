@@ -1,4 +1,5 @@
 import React from 'react';
+import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import classnames from 'classnames/bind';
@@ -31,6 +32,8 @@ export default enhance(props => {
               const linkInput = document.querySelector('[data-link]');
               linkInput.select();
               document.execCommand('copy');
+
+              ym('reachGoal', 'copied_invite_link');
 
               props.copyText();
             }}

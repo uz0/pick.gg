@@ -61,7 +61,7 @@ const enhance = compose(
     mapPropsToValues: () => ({ name: '' }),
     handleSubmit: async (values, { props }) => {
       const { tournamentId } = props.options;
-      const { rules, rewards, matches, isForecastingActive, isStarted } = props.tournament;
+      const { rules, rewards, isForecastingActive, isStarted } = props.tournament;
 
       try {
         const matchRequest = await http(`/api/tournaments/${tournamentId}/matches`, {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withProps } from 'recompose';
+import ym from 'react-yandex-metrika';
 import pick from 'lodash/pick';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
@@ -181,6 +182,8 @@ export default compose(
             'x-access-token': localStorage.getItem('JWS_TOKEN'),
           },
         });
+
+        ym('reachGoal', 'applied_as_summoner');
 
         props.updateTournament({
           _id: tournamentId,

@@ -108,7 +108,7 @@ export default enhance(props => {
 
   return (
     <Modal
-      title={i18n.t('choose_tournament_summoners')}
+      title={i18n.t('modal.choose_tournament_summoners')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}

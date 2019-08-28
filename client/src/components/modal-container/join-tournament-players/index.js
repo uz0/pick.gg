@@ -1,4 +1,5 @@
 import React from 'react';
+import ym from 'react-yandex-metrika';
 import Modal from 'components/modal';
 import classnames from 'classnames/bind';
 import style from './style.module.css';
@@ -84,6 +85,8 @@ const enhance = compose(
             summoners: selectedSummoners,
           }),
         });
+
+        ym('reachGoal', 'user_joined_tournament');
 
         props.updateTournament({
           _id: tournamentId,

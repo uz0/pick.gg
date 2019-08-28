@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -15,6 +16,8 @@ import i18n from 'i18n';
 import moment from 'moment';
 
 import style from './style.module.css';
+
+const date = new Date();
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -31,11 +34,8 @@ const validationSchema = Yup.object().shape({
     .url(i18n.t('new_tournament.enter_valid_url')),
   imageUrl: Yup.string()
     .required(),
-  price: Yup.string()
-    .min(0)
-    .required(),
   startAt: Yup.date()
-    .min(moment(new Date()).format('DD MMMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
+    .min(date, `Tournament date should be after: ${moment(date).format('DD MMM')}`)
     .required('Required'),
 });
 
@@ -82,13 +82,6 @@ const NewTournament = props => {
           component={FormInput}
           label="Image tournament (500x150)"
           name="imageUrl"
-          className={style.field}
-        />
-
-        <Field
-          component={FormInput}
-          label="Price"
-          name="price"
           className={style.field}
         />
 
@@ -143,6 +136,8 @@ const enhance = compose(
       };
 
       const { newTournament } = await createTournamentRequest();
+
+      ym('reachGoal', 'tournament_created');
 
       formikBag.props.history.push(`/tournaments/${newTournament._id}`);
 
