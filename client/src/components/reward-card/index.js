@@ -26,7 +26,9 @@ const RewardCard = ({ description, rewardKey, isClaimed, onClick }) => {
           className={style.claim}
           onClick={copyRewardCode(rewardKey)}
         >
-          {rewardKey}
+          <span>
+            {rewardKey}
+          </span>
         </button>
       </div>
     </div>
