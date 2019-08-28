@@ -34,9 +34,6 @@ const validationSchema = Yup.object().shape({
     .url(i18n.t('new_tournament.enter_valid_url')),
   imageUrl: Yup.string()
     .required(),
-  price: Yup.string()
-    .min(0)
-    .required(),
   startAt: Yup.date()
     .min(date, `Tournament date should be after: ${moment(date).format('DD MMM')}`)
     .required('Required'),
@@ -85,13 +82,6 @@ const NewTournament = props => {
           component={FormInput}
           label="Image tournament (500x150)"
           name="imageUrl"
-          className={style.field}
-        />
-
-        <Field
-          component={FormInput}
-          label="Price"
-          name="price"
           className={style.field}
         />
 
