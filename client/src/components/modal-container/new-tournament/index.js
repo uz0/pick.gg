@@ -17,6 +17,8 @@ import moment from 'moment';
 
 import style from './style.module.css';
 
+const date = new Date();
+
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(4)
@@ -36,7 +38,7 @@ const validationSchema = Yup.object().shape({
     .min(0)
     .required(),
   startAt: Yup.date()
-    .min(moment(new Date()).format('DD MMMM'), `Tournament date should be after: ${moment(new Date()).format('DD MMM')}`)
+    .min(date, `Tournament date should be after: ${moment(date).format('DD MMM')}`)
     .required('Required'),
 });
 
