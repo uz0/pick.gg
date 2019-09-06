@@ -8,29 +8,14 @@
     }
   ],
   "env": {
-    "CLIENT_ID": {
-      "required": true
-    },
-    "CLIENT_SECRET": {
-      "required": true
-    },
-    "DATABASE": {
-      "required": true
-    },
-    "HOST": {
-      "required": true
-    },
     "MONGODB_URI": {
       "required": true
     },
     "NODE_ENV": {
       "required": true
     },
-    "NPM_CONFIG_PRODUCTION": {
-      "required": true
-    },
     "SECRET": {
-      "required": true
+      "required": false
     }
   },
   "formation": {
