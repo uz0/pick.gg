@@ -12,7 +12,7 @@
 5. PROFIT?
 
 ### Структура кода
-Это корень репозитория, клиентское приложение в папке [client](/client), серверное в папке [server](/server) и общий код в [common](/common)
+Это корень монорепозитория, клиентское приложение в папке [client](/client), серверное в папке [server](/server) и общий код в [common](/common)
 
 ## Как работать? (организационно)
 Все задачи и планирование ведем на [github](https://github.com/uz0/pick.gg/issues). Наверное чтобы понять как тут все устроено лучше взять задачу из [этого списка](https://github.com/uz0/pick.gg/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
