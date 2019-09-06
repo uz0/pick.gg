@@ -1,45 +1,18 @@
 # pick.gg
+Сервис для проведения турниров между стримерами и игроками по игре League of Legends.
 
-- [ES2015 with Babel (Server/Client)](https://babeljs.io/learn-es2015/)
-- [ReactJS](https://reactjs.org/)
-- [React-router-V4](https://reacttraining.com/react-router/)
-- [ExpressJS](http://expressjs.com/es/)
-- [Mongoose](http://mongoosejs.com/)
-- [JWT-Authentication](https://jwt.io/)
-- [Socket.IO](https://socket.io/)
-- [Webpack](https://webpack.js.org/) -> *Internally with HMR*
+[ES2015 with Babel (Server/Client)](https://babeljs.io/learn-es2015/), [ReactJS](https://reactjs.org/), [React-router-V4](https://reacttraining.com/react-router/), [ExpressJS](http://expressjs.com/es/), [Mongoose](http://mongoosejs.com/), [JWT-Authentication](https://jwt.io/), [Socket.IO](https://socket.io/), [Webpack](https://webpack.js.org/)
 
-*create-react-app has been used to create the client app*
+## С чего начать разработку?
+Предварительно почитай [это](https://github.com/uz0/uz0.ru/blob/master/README.md)
+1. Клонируем репозиторий
+2. Выполняем `npm i`
+3. Запускаем `npm run dev`
+4. ...
+5. PROFIT?
 
-*client files are located under **./client** folder*
+### Структура кода
+Это корень репозитория, клиентское приложение в папке [client](/client), серверное в папке [server](/server) и общий код в [common](/common)
 
-*server files are located under **./server** folder*
-
-
-Setup
------
-
-#### Clone the repo and run:
-
-### `npm i`
-
-#### To serve the app in dev mode run:
-
-### `npm start`
-
-*It will run the client app on [http://localhost:3000](http://localhost:3000) (with HMR) and the server on [http://localhost:3001](http://localhost:3001)*
-
-### Environment variables
-For establishing database connection you have to create .env file in the project root directory and add required variables.
-You can write to our team in [https://discordapp.com/channels/494396859587231744/531545521244864514](Discord) and we will give you required credentials.
-
-
-Debugging with VSCode
----------------------
-
-Also if you're using **VSCode**, you can debug both, Server and Client app in development
-
-- First press F5 to start VSCode debugger on the Server, you can add breakpoints on VSCode.
-- Then open the ./client folder in a new instance of VSCode.
-- Run `npm start` here and then press F5, it will run the debugger for the client app on VSCode and open an instance of the browser.
-- Now you´re ready to debug your app.
+## Как работать? (организационно)
+Все задачи и планирование ведем на [github](https://github.com/uz0/pick.gg/issues). Наверное чтобы понять как тут все устроено лучше взять задачу из [этого списка](https://github.com/uz0/pick.gg/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
