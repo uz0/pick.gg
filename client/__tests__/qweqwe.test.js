@@ -15,4 +15,3 @@ describe('Index page', () => {
     await expect(page).not.toMatch('qweqwe');
   });
 });
-ex
