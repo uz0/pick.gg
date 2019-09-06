@@ -4,7 +4,7 @@ module.exports = {
   },
   server: {
     command: `npm start`,
-    port: 3001,
+    port: process.env.PORT || 3001,
     launchTimeout: 10000,
     debug: true,
   },
