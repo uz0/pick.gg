@@ -1,4 +1,4 @@
-const url = 'http://localhost:3001/';
+const url = `http://localhost:${process.env.PORT || 3001}`;
 
 jest.setTimeout(31000);
 
@@ -15,3 +15,4 @@ describe('Index page', () => {
     await expect(page).not.toMatch('qweqwe');
   });
 });
+ex
