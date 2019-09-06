@@ -4,6 +4,9 @@
   ],
   "buildpacks": [
     {
+      "url": "https://github.com/jontewks/puppeteer-heroku-buildpack"
+    },
+    {
       "url": "heroku/nodejs"
     }
   ],
