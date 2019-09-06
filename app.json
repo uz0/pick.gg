@@ -12,7 +12,7 @@
       "required": true
     },
     "NODE_ENV": {
-      "required": true
+      "required": false
     },
     "SECRET": {
       "required": false
