@@ -1,5 +1,4 @@
-const url = 'http://localhost:3000/';
-const loginWithGoogleButtonSelector = '.style_start_btns__3Z_3K';
+const url = 'http://localhost:3001/';
 
 jest.setTimeout(31000);
 
@@ -9,14 +8,10 @@ describe('Index page', () => {
   });
 
   it('should display "Fantasy league"', async () => {
-    await expect(page).toMatch('Fantasy league');
+    await expect(page).toMatch('Pick.gg');
   });
 
   it('should not display "qweqwe." text on page', async () => {
     await expect(page).not.toMatch('qweqwe');
-  });
-
-  it('should display googl auth button', async () => {
-    await page.waitForSelector(loginWithGoogleButtonSelector, { visible: true });
   });
 });
