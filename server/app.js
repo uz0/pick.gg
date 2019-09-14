@@ -22,7 +22,7 @@ import {
   PublicRatingController,
 } from './controllers/public';
 
-import { AuthVerifyMiddleware, AdminVerifyMiddleware } from './middlewares';
+import { AuthVerifyMiddleware, AdminVerifyMiddleware, setupMock } from './middlewares';
 import config from './config';
 
 const app = express();
@@ -35,6 +35,11 @@ mongoose.connect(config.database);
 app.set('superSecret', config.secret);
 
 const port = process.env.PORT || 3001;
+
+if (process.argv[2] === '--mocked') {
+  console.log('MOCKED MODE ENABLED');
+  app.use(setupMock(app));
+}
 
 if (process.env.NODE_ENV === 'production') console.log('PRODUCTION');
 if (process.env.NODE_ENV === 'development') {

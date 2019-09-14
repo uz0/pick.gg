@@ -5,16 +5,16 @@ import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
-
-import { http } from 'helpers';
+import moment from 'moment';
 
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
 
-import modalActions from '../actions';
-import i18n from 'i18n';
-import moment from 'moment';
+import { http } from 'helpers';
 
+import i18n from 'i18n';
+
+import modalActions from '../actions';
 import style from './style.module.css';
 
 const date = new Date();
@@ -123,7 +123,6 @@ const enhance = compose(
           const request = await http('/api/tournaments', {
             headers: {
               'Content-Type': 'application/json',
-              'x-access-token': localStorage.getItem('JWS_TOKEN'),
             },
             method: 'POST',
             body: JSON.stringify(values),

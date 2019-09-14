@@ -6,17 +6,21 @@ import pick from 'lodash/pick';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
 import classnames from 'classnames/bind';
-import { http, calcSummonersPoints } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
-import { withCaptions } from 'hoc';
+import uuid from 'uuid';
+
 import notificationActions from 'components/notification/actions';
 import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
-import style from './style.module.css';
-import uuid from 'uuid';
+
+import { http, calcSummonersPoints } from 'helpers';
+
+import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -178,9 +182,6 @@ export default compose(
       try {
         await http(`/api/tournaments/${tournamentId}/attend`, {
           method: 'PATCH',
-          headers: {
-            'x-access-token': localStorage.getItem('JWS_TOKEN'),
-          },
         });
 
         ym('reachGoal', 'applied_as_summoner');

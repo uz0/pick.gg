@@ -5,7 +5,7 @@ let router = express.Router();
 
 const AuthVerifyMiddleware = (app) => {
   router.use((req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const token = req.body.token || req.query.token || req.__mockedToken || req.headers['x-access-token'];
 
     if (token) {
       jwt.verify(token, app.get('superSecret'), (err, decoded) => {

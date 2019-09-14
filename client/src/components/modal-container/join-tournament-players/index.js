@@ -1,19 +1,20 @@
 import React from 'react';
 import ym from 'react-yandex-metrika';
-import Modal from 'components/modal';
 import classnames from 'classnames/bind';
-import style from './style.module.css';
 import { connect } from 'react-redux';
-
 import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
-import i18n from 'i18n';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
+import Modal from 'components/modal';
 
 import { http } from 'helpers';
 
-import { actions as tournamentsActions } from 'pages/tournaments';
+import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -77,7 +78,6 @@ const enhance = compose(
         await http(`/api/tournaments/${tournamentId}/view`, {
           headers: {
             'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('JWS_TOKEN'),
           },
           method: 'PATCH',
           body: JSON.stringify({
@@ -100,7 +100,7 @@ const enhance = compose(
       } catch (error) {
         console.log(error);
       }
-    }
+    },
   }),
 );
 
@@ -122,7 +122,7 @@ export default enhance(props => {
       text: 'Add Players',
       appearance: '_basic-accent',
       disabled: isSubmitting,
-      onClick: () => addPlayersButtonAction()
+      onClick: () => addPlayersButtonAction(),
     },
   ];
 

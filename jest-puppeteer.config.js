@@ -3,7 +3,7 @@ module.exports = {
     headless: true,
   },
   server: {
-    command: `npm start`,
+    command: `node server/build/main.js --mocked`,
     port: process.env.PORT || 3001,
     launchTimeout: 10000,
     debug: true,
