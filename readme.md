@@ -1,7 +1,7 @@
 # pick.gg
 Сервис для проведения турниров между стримерами и игроками по игре League of Legends.
 
-[ES2015 with Babel (Server/Client)](https://babeljs.io/learn-es2015/), [ReactJS](https://reactjs.org/), [React-router-V4](https://reacttraining.com/react-router/), [ExpressJS](http://expressjs.com/es/), [Mongoose](http://mongoosejs.com/), [JWT-Authentication](https://jwt.io/), [Socket.IO](https://socket.io/), [Webpack](https://webpack.js.org/)
+[ES2015 with Babel (Server/Client)](https://babeljs.io/learn-es2015/), [ReactJS](https://reactjs.org/), [React-router-V4](https://reacttraining.com/react-router/), [ExpressJS](http://expressjs.com/), [Mongoose](http://mongoosejs.com/), [JWT-Authentication](https://jwt.io/), [Socket.IO](https://socket.io/), [Webpack](https://webpack.js.org/)
 
 ## С чего начать разработку?
 Предварительно почитай [это](https://github.com/uz0/uz0.ru/blob/master/README.md)
