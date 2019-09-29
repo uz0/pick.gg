@@ -1,15 +1,16 @@
-import store from 'store';
 import modalActions from 'components/modal-container/actions';
 
-export const check = (actionWithReg = () => {}, modalOptions) => function (...args) {
-  const isRegistered = store.getState().currentUser;
+import store from 'store';
 
-  if (isRegistered) {
+export const check = (actionWithReg = () => {}, modalOptions) => function (...args) {
+  const { currentUser } = store.getState();
+
+  if (currentUser && currentUser.summonerName) {
     return actionWithReg.apply(this, args);
   }
 
   store.dispatch(modalActions.toggleModal({
-    id: 'express-reg',
+    id: 'dropin-auth',
 
     options: {
       ...modalOptions,

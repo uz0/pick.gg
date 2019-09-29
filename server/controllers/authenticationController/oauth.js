@@ -2,23 +2,25 @@ import jwt from "jsonwebtoken";
 
 import UserModel from "../../models/user";
 
+import omitBy from "lodash/omitBy";
+import isNil from "lodash/isNil";
 import { ONE_DAY } from './constants'
 
 export default (app) => async (req, res) => {
-  const { email, name, photo, summonerName = '', contact = '', } = req.body;
-  const checkUser = await UserModel.findOne({ email });
+  const { email, name, photo, summonerName, contact } = req.body;
+  const userInfo = {
+    username: name,
+    imageUrl: photo,
+    email,
+    summonerName,
+    contact
+  };
 
-  if (!checkUser) {
-    await UserModel.create({
-      username: name,
-      imageUrl: photo,
-      email,
-      summonerName,
-      contact
-    });
-  }
-
-  const user = await UserModel.findOne({ email });
+  const user = await UserModel.findOneAndUpdate({ email }, omitBy(userInfo, isNil), {
+    new: true,
+    upsert: true,
+    setDefaultsOnInsert: true
+  });
 
   const { _id, username, isAdmin } = user;
 
