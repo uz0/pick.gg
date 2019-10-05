@@ -29,24 +29,6 @@
   transition: 0.3s;
 }
 
-.tournaments .list .item .card:after {
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: 2px;
-  left: 0;
-  height: 4px;
-  background-color: var(--accent-color);
-  transition: 0.3s;
-  width: 0;
-  opacity: 0.4;
-}
-
-.tournaments .list .item:hover .card:after {
-  width: 100%;
-  opacity: 0.9;
-}
-
 .tournaments .list .item .name {
   --height: 30px;
   overflow: hidden;

@@ -23,18 +23,17 @@ const Footer = () => {
       <div className={style.container}>
         <div className={style.info}>
           <div className={style.copyright}>
-            <p>© {new Date().getFullYear()} uz0</p>
-
-            <NavLink to="#">{i18n.t('terms_and_agreement')}</NavLink>
+            <p>PICK.GG</p>
+            <p>{new Date().getFullYear()} All right reserved</p>
           </div>
 
-          <div className={style.contacts}>
+          {/* <div className={style.contacts}>
             <p>{i18n.t('contact_us')}:</p>
 
             <NavLink to="#">
               <DiscordIcon/>
             </NavLink>
-          </div>
+          </div> */}
         </div>
 
         <div className={style.lang_settings}>

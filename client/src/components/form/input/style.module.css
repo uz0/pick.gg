@@ -10,7 +10,8 @@
   height: var(--height);
   line-height: var(--height);
   font-size: 15px;
-  color: var(--accent-color);
+  color: #fff;
+  font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -30,6 +31,7 @@
   font-size: 15px;
   border-radius: 4px;
   background-color: var(--primary-color);
+  margin-bottom: 12px;
 }
 
 .wrapper .field:global(._is-checkbox) {

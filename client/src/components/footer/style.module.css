@@ -2,7 +2,8 @@
   height: var(--footer-height);
   display: flex;
   align-items: center;
-  background-color: var(--background-color);
+  background-color: #0e1014;
+  border-top: 1px solid #7E8082;
 }
 
 .footer .container {

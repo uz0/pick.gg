@@ -6,6 +6,8 @@ import { NavLink, withRouter } from 'react-router-dom';
 import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
 
+import { ReactComponent as LogoIcon } from 'assets/home/p-logo.svg';
+
 import DropDown from 'components/dropdown';
 
 import i18n from 'i18n';
@@ -31,6 +33,7 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
       <div className={style.menu_wrap}>
         <div className={style.links}>
           <NavLink to="/home">
+            <LogoIcon/>
             <h2 className={style.logo}>Pick.gg</h2>
           </NavLink>
 

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   height: var(--header-height);
-  background: var(--background-color);
+  background: var(--background-gradient);
 }
 
 .top_menu a, .top_menu .item {
@@ -39,8 +39,10 @@
   font-family: var(--font-family-title);
   font-weight: var(--font-weight-bold);
   line-height: 40px;
-  color: var(--header-color);
+  color: #fff;
   font-size: 18px;
+  text-transform: uppercase;
+  margin-left: 6px;
 }
 
 .links {
@@ -53,13 +55,15 @@
   margin-left: 20px;
   color: rgb(252, 252, 252);
   font-family: var(--font-family-title);
-  font-weight: var(--font-weight-bold);
-  font-size: 18px;
+  font-weight: 900;
+  font-size: 15px;
   transition: 0.3s;
+  text-transform: uppercase;
 }
 
 .links a:hover {
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  color: var(--accent-color);
 }
 
 .links a:active {
@@ -80,7 +84,6 @@
 .top_menu .btn_logout {
   font-size: 16px;
   color: var(--header-color);
-  text-shadow: 0px 2px 0px #000000;
   line-height: 2;
   background: transparent;
   text-align: left;

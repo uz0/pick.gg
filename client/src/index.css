@@ -1,6 +1,7 @@
 @import '../~normalize.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url("https://use.typekit.net/bri1vhj.css");
 
 @font-face {
   font-family: 'Gotham Pro';
@@ -47,7 +48,7 @@
 }
 
 :root {
-  --font-family-title: 'Gotham Pro';
+  --font-family-title: montserrat, sans-serif;
   --font-family-base: 'Gotham Pro';
 
   --font-weight-regular: 400;
@@ -60,7 +61,7 @@
   --primary-color: #060916;
   --caption-color: #e3e3e6;
   --header-color: #eeeeee;
-
+  --background-gradient: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, 1));
   --header-height: 60px;
   --footer-height: 60px;
   --layout-padding: 20px;
@@ -90,8 +91,8 @@ body {
 
 :global(.container) {
   min-height: calc(100% - var(--header-height) - 60px);
-  background: url('assets/bg-login.jpg');
-  background-color: #000;
+  background: linear-gradient(rgba(14, 16, 20, 0.4), rgb(14, 16, 20)), url('assets/main-bg.svg');
+  background-color: #0e1014;
   background-repeat: no-repeat;
   background-size: 100% auto;
 }
