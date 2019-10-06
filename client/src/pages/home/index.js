@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import ym from 'react-yandex-metrika';
@@ -154,9 +153,9 @@ class Start extends Component {
                   onFailure={this.onFailureGoogleLogin}
                 />
 
-                <Link to="#" className={style.streamer}>
+                <a target="_blank" rel="noopener noreferrer" href="https://dcversus.typeform.com/to/ZesIbS" className={style.streamer}>
                   {i18n.t('home.link_1')}
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -323,7 +322,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
-                <a href="#" className={style.join_link}>Join to matchup</a>
+                <a className={style.join_link}>Join to matchup</a>
               </div>
             </div>
           </div>
@@ -356,9 +355,9 @@ class Start extends Component {
                 onFailure={this.onFailureGoogleLogin}
               />
 
-              <Link to="#" className={style.streamer}>
+              <a target="_blank" rel="noopener noreferrer" href="https://dcversus.typeform.com/to/ZesIbS" className={style.streamer}>
                 {i18n.t('home.link_2')}
-              </Link>
+              </a>
             </div>
           </div>
         </section>
@@ -368,14 +367,14 @@ class Start extends Component {
             <h2>Contact Us!</h2>
 
             <div className={style.contacts}>
-              <a href="#">
+              <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pickforgg/">
                 <div className={style.icon}>
                   <img src={facebook} alt="facebook icon"/>
                 </div>
                 FACEBOOK
               </a>
 
-              <a href="#">
+              <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/company/pick-gg/about/">
                 <div className={style.icon}>
                   <img src={linkedin} alt="linkedin icon"/>
                 </div>

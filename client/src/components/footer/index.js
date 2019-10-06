@@ -1,9 +1,6 @@
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import ym from 'react-yandex-metrika';
-
-import { ReactComponent as DiscordIcon } from 'assets/icon-discord.svg';
 
 import i18n from 'i18n';
 
@@ -26,14 +23,6 @@ const Footer = () => {
             <p>PICK.GG</p>
             <p>{new Date().getFullYear()} All right reserved</p>
           </div>
-
-          {/* <div className={style.contacts}>
-            <p>{i18n.t('contact_us')}:</p>
-
-            <NavLink to="#">
-              <DiscordIcon/>
-            </NavLink>
-          </div> */}
         </div>
 
         <div className={style.lang_settings}>
