@@ -1,4 +1,3 @@
-@import url("https://use.typekit.net/eam5kjp.css");
 * {
   margin: 0;
 }
@@ -6,17 +5,23 @@
 .main .logo {
   font-weight: bold;
   color: #fafafa;
-  font-size: 24px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.main .logo svg {
+  margin-right: 12px;
 }
 
 .main .main_content {
   position: relative;
-  padding-left: 200px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 250px;
-  height: 100%;
+  justify-content: center;
+  height: 80%;
 }
 
 .main .wrap .main_content .logo_back {
@@ -30,22 +35,22 @@
 }
 
 .wrap {
-  max-width: var(--container-width);
+  max-width: 1300px;
   width: 100%;
   margin: 0 auto;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
   font-family: montserrat, sans-serif;
+  height: 100%;
 }
 
 .work h2, .footer h2 {
-  font-size: 48px;
+  font-size: 50px;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   color: #fafafa;
 }
 
 .work h2 {
-  padding-left: 24px;
   padding-bottom: 24px;
 }
 
@@ -57,10 +62,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: url('assets/home/red-head-girl.png'), linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
+  background: url('assets/home/main-girl.svg'), linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
   background-repeat: no-repeat;
-  background-size: 1000px, cover, cover;
-  background-position: 90% bottom, center, center;
+  background-size: contain, cover, cover;
+  background-position: 100% top, center, center;
   z-index: -2;
 }
 
@@ -70,51 +75,67 @@
   display: flex;
   flex-direction: column;
   padding: 0px 64px;
+  overflow: hidden;
+}
+
+.main .logos {
+  display: flex;
+  align-items: center;
+  padding: 48px 0 0;
+}
+
+.main .logos img {
+  margin-right: 24px;
 }
 
 .main .header {
   display: flex;
   justify-content: space-between;
   padding: 24px 12px;
-  border-bottom: 1px solid #fafafa;
 }
 
-.main p {
-  font-size: 27px;
+.main h2 {
+  font-size: 60px;
   color: #fff;
   margin: 0;
   padding-top: 12px;
-  width: 410px;
+  width: 650px;
+  font-weight: bold;
 }
 
 .buttons {
   display: flex;
-  flex-direction: column;
   align-items: center;
   padding-top: 60px;
+  z-index: 2;
 }
 
 .buttons .button {
-  background-color: transparent;
-  font-size: 27px;
-  font-weight: bold;
-  text-decoration: none;
-  border: 5px solid #b4844c;
-  padding: 12px 48px;
-  width: auto;
-  font-weight: bold;
+  background-color: var(--accent-color);
+  border: 5px solid var(--accent-color);
   color: #fff;
-  text-align: center;
-  transition: 0.35s background;
-  position: relative;
+  font-size: 15px;
+  font-weight: bold;
+  font-weight: bolder;
+  margin-bottom: 24px;
+  margin-right: 12px;
+  min-width: 230px;
   overflow: hidden;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.35s background;
+  max-width: 300px;
+  padding: 0 48px;
+  height: 68px;
 }
 
 .buttons .button:after {
   position: absolute;
   display: block;
   content: "";
-  border: 3px solid #b4844c;
+  border: 3px solid var(--accent-color);
   height: 0;
   width: 110%;
   top: 50%;
@@ -128,54 +149,120 @@
   height: 120%;
   opacity: 1;
   color: #FFF;
+  background-color: transparent;
   transform: translateX(0%) translateY(-50%);
 }
 
 .buttons .streamer {
-  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 5px solid var(--accent-color);
+  width: auto;
+  font-weight: bold;
   color: #fff;
-  font-size: 18px;
+  text-align: center;
+  transition: 0.35s background;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  min-width: 230px;
+  max-width: 300px;
+  margin-bottom: 24px;
+  height: 68px;
+  padding: 0 48px;
+}
+
+.buttons .streamer:after {
+  position: absolute;
+  display: block;
+  content: "";
+  border: 3px solid var(--accent-color);
+  height: 0;
+  width: 110%;
+  top: 50%;
+  left: -3px;
+  opacity: 0;
+  transition: 0.4s;
+  transform: translateX(0%) translateY(-50%);
+}
+
+.buttons .streamer:hover:after {
+  height: 120%;
+  opacity: 1;
+  color: #FFF;
+  transform: translateX(0%) translateY(-50%);
 }
 
 .work {
   position: relative;
-  padding: 48px 0;
-  background-image: url('assets/home/ahri-arcade.png');
+  padding: 48px 0 0;
+  background: #171717;
   background-repeat: no-repeat;
   background-position: right bottom;
-  background-size: 40%;
+  background-size: 100%;
 }
 
 .work:before {
   content: '';
   display: block;
   width: 100%;
-  height: 112%;
+  height: 50%;
   position: absolute;
-  /* background-color: #383838; */
-  background: linear-gradient(rgba(20, 20, 20, 0.95), rgba(20, 20, 20, 0.95)), url('assets/home/ahri-bg.jpg');
+  background: #171717;
   background-repeat: no-repeat;
   background-size: cover;
   left: 0;
-  top: -6%;
+  top: -10%;
   transform: skewY(3deg);
   z-index: -1;
+}
+
+.work:after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 120%;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/home/lol-girl.svg");
+  background-size: contain;
+  left: -5%;
+  top: -15%;
+  z-index: 0;
+}
+
+.work .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.work .wrap h2 {
+  width: 60%;
+}
+
+.work .games {
+  width: 60%;
+  padding-bottom: 36px;
+  display: flex;
+  align-items: center;
+}
+
+.work .games img {
+  margin-right: 24px;
 }
 
 .work .cards {
   display: flex;
   flex-direction: column;
-}
-
-.work .cards .card:before {
-  content: '';
-  display: block;
-  position: absolute;
-  height: 100%;
-  width: 50%;
-  background: #5b8f5e;
-  right: 99%;
-  top: 0;
+  align-items: flex-end;
+  z-index: 1;
+  margin-bottom: -96px;
 }
 
 .work .cards .card {
@@ -183,21 +270,27 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 24px 24px 24px 118px;
-  background: #5b8f5e;
+  padding: 36px 24px 36px 148px;
+  background: var(--accent-color);
   margin-bottom: 36px;
   width: 60%;
   color: #fafafa;
+  border-radius: 4px;
 }
 
 .work .cards .card .num {
   position: absolute;
   color: #fafafa;
-  font-weight: 800;
-  font-size: 64px;
-  opacity: 0.6;
-  left: 24px;
-  top: 16px;
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 60px;
+  left: -12px;
+  top: 24px;
+  padding: 0px 24px 0px 36px;
+  background: linear-gradient(#79BA78, #659C64);
+  border-radius: 4px;
+  text-align: right;
+  box-sizing: border-box;
 }
 
 .work .cards .card .text {
@@ -206,20 +299,231 @@
 
 .work .cards .card .title {
   font-size: 20px;
-  font-weight: bold;
-  padding-bottom: 20px;
+  font-weight: 800;
+  padding-bottom: 12px;
 }
 
 .work .cards .card .undertitle {
-  font-size: 20px;
-  line-height: 27px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tournaments {
+  background: linear-gradient(#79BA78, #659C64);
+}
+
+.tournaments .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 96px 0 0px;
+}
+
+.tournaments .wrap h2 {
+  color: #fafafa;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.tournaments .wrap p {
+  color: #fafafa;
+  width: 680px;
+  text-align: center;
+  line-height: 1.3;
+  padding: 24px 0;
+}
+
+.tournaments .wrap .tournament_items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  padding: 24px 0;
+}
+
+.tournaments .wrap .tournament_items .tournament_item {
+  background: linear-gradient(#79BA78, #659C64);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 12px 24px;
+  justify-content: flex-start;
+  min-width: 360px;
+  z-index: 1;
+}
+
+.tournaments .wrap .tournament_items .tournament_item .img {
+  width: 320px;
+  height: 320px;
+  margin-bottom: 24px;
+  margin-top: -15px;
+}
+
+.tournaments .wrap .tournament_items .tournament_item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tournaments .wrap .tournament_items .tournament_item .title_item {
+  color: #fafafa;
+  font-weight: bold;
+  padding-bottom: 12px;
+  font-size: 40px;
+}
+
+.tournaments .wrap .tournament_items .tournament_item .undertitle_item {
+  font-size: 15px;
+  font-weight: 900;
+  color: #fafafa;
+}
+
+.jump_section {
+  background: #171717;
+  color: #fafafa;
+  padding: 48px 0;
+  position: relative;
+}
+
+.jump_section:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  background: #171717;
+  background-repeat: no-repeat;
+  background-size: cover;
+  left: 0;
+  top: -35%;
+  transform: skewY(3deg);
+  z-index: 0;
+}
+
+.jump_section h2 {
+  font-size: 50px;
+  padding-bottom: 48px;
+  z-index: 1;
+}
+
+h2 .orange {
+  color: var(--accent-color);
+}
+
+.jump_section .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.jump_section .wrap .players {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: space-between;
+  padding: 24px 0;
+  z-index: 1;
+  margin-bottom: -160px;
+}
+
+.jump_section .wrap .players .player {
+  background: var(--accent-color);
+  border-radius: 4px;
+  padding: 48px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 16px rgba(23, 23, 23, 0.2);
+}
+
+.jump_section .wrap .players .player .avatar {
+  position: relative;
+}
+
+.jump_section .wrap .players .player .img {
+  width: 160px;
+  height: 160px;
+}
+
+.jump_section .wrap .players .player .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.jump_section .wrap .players .player .name {
+  font-weight: 600;
+  padding-top: 24px;
+  padding-bottom: 12px;
+}
+
+.jump_section .wrap .players .player .status_on {
+  font-size: 15px;
+  background: #171717;
+  padding: 6px 12px 6px 24px;
+  border-radius: 20px;
+  color: #6FCF97;
+  position: relative;
+}
+
+.jump_section .wrap .players .player .status_on:before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6FCF97;
+  left: 12px;
+  top: 12px;
+}
+
+.jump_section .wrap .players .player .status_off {
+  font-size: 15px;
+  background: #171717;
+  padding: 6px 12px 6px 24px;
+  border-radius: 20px;
+  color: #F23642;
+  position: relative;
+}
+
+.jump_section .wrap .players .player .status_off:before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F23642;
+  left: 12px;
+  top: 12px;
+}
+
+.jump_section .wrap .players .player .logo_game {
+  position: absolute;
+  top: -27px;
+  left: -27px;
+}
+
+.jump_section .wrap .players .player a {
+  color: var(--accent-color);
+  background: #fafafa;
+  border-radius: 4px;
+  font-weight: 900;
+  padding: 12px 36px;
+  display: block;
+  margin-top: 12px;
+  font-size: 15px;
 }
 
 .lang_settings button {
   font-size: 16px;
   background-color: transparent;
-  color: #fafafa;
+  color: var(--accent-color);
   transition: 0.3s ease;
+  font-weight: bold;
 }
 
 .lang_settings button+button {
@@ -227,12 +531,11 @@
 }
 
 .lang_settings button:hover {
-  color: #000;
+  color: #fafafa;
 }
 
 .team_goals {
-  padding: 64px 0;
-  /* background: #5b8f5e; */
+  padding: 200px 0 200px;
   background-size: cover;
   color: #fafafa;
   position: relative;
@@ -258,34 +561,133 @@
 
 .team_goals .wrap h2 {
   margin-bottom: 24px;
+  font-size: 50px;
 }
 
 .team_goals .wrap p {
   margin-bottom: 12px;
   font-size: 16px;
-  width: 60%;
+  width: 42%;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.contact {
+  background: #171717;
+  position: relative;
+  padding: 208px 0 48px;
+}
+
+.contact:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  background: #171717;
+  background-repeat: no-repeat;
+  background-size: cover;
+  left: 0;
+  top: -35%;
+  transform: skewY(3deg);
+  z-index: 0;
+}
+
+.contact:after {
+  content: '';
+  display: block;
+  width: 730px;
+  height: 1200px;
+  position: absolute;
+  background-image: url('../../assets/home/zed-lol.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  right: 0px;
+  top: -780px;
+  z-index: 0;
+}
+
+.contact .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact h2 {
+  color: #fafafa;
+  font-size: 40px;
+  z-index: 1;
+}
+
+.contact .wrap .contacts {
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+.contact .wrap .contacts a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fafafa;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.contact .wrap .contacts a:hover .icon {
+  opacity: 0.9;
+}
+
+.contact .wrap .contacts .icon {
+  width: 90px;
+  height: 90px;
+  padding: 24px;
+  border-radius: 50%;
+  margin-left: 36px;
+  transition: 0.2s;
+  margin-right: 12px;
+  background: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
+}
+
+.contact .wrap .contacts .icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.contact .wrap .contacts a:nth-child(2) .icon {
+  background: #0077B5;
+}
+
+.contact .wrap .contacts a:nth-child(3) .icon {
+  background: var(--accent-color);
 }
 
 .footer {
   height: var(--footer-height);
   display: flex;
   align-items: center;
-  background-color: #383838;
+  background-color: #171717;
+  border-top: 1px solid #434344;
+  padding: 48px 0 96px;
 }
 
-.footer .container {
+.footer .wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: var(--container-width);
   flex-grow: 1;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
 }
 
-.footer .container a {
+.footer .wrap .logo {
+  font-weight: 600;
+  font-size: 22px;
+  color: #7E8082;
+  margin-right: 12px;
+}
+
+.footer .wrap a {
   font-size: 12px;
   white-space: nowrap;
   color: var(--caption-color);
@@ -293,58 +695,56 @@
   transition: all 0.3s;
 }
 
-.footer .container a:hover {
+.footer .wrap a:hover {
   text-shadow: 0 0 2px #fff;
 }
 
-.footer .container a svg {
+.footer .wrap a svg {
   padding-top: 4px;
   width: 16px;
 }
 
-.footer .container a svg path {
+.footer .wrap a svg path {
   fill: var(--header-color);
 }
 
-.footer .container a svg:hover {
+.footer .wrap a svg:hover {
   filter: drop-shadow(0 0 2px white);
   transition: all 0.3s;
 }
 
-.footer .container .info, .footer .container .info .copyright, .footer .container .info .contacts {
+.footer .wrap .info, .footer .wrap .info .copyright, .footer .wrap .info .contacts {
   display: flex;
   align-items: center;
 }
 
-.footer .container .info .copyright {
+.footer .wrap .info {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer .wrap .info .copyright {
   margin-right: 16px;
 }
 
-.footer .container .info p {
+.footer .wrap .info p {
   margin-right: 16px;
   font-size: 12px;
-  color: var(--caption-color);
+  color: #7E8082;
   white-space: nowrap;
 }
 
 @media (max-width: 1440px) {
-  .main p {
-    font-size: 24px;
+  .wrap {
+    max-width: 1150px;
+  }
+  .main h2 {
+    font-size: 40px;
+    line-height: 40px;
     padding-top: 8px;
   }
-  .work h2 {
-    font-size: 27px;
-  }
-  .buttons {
-    padding-top: 144px;
-  }
-  .buttons .button {
-    font-size: 20px;
-    padding: 12px 48px;
-  }
-  .buttons .streamer {
-    font-size: 14px;
-    margin-top: 12px;
+  .work .wrap h2, .team_goals .wrap h2, .tournaments .wrap h2, .jump_section h2 {
+    font-size: 40px;
   }
   .work .cards .card {
     margin-bottom: 24px;
@@ -361,17 +761,21 @@
   }
   .work h2 {
     margin-bottom: 27px;
+    font-size: 30px;
   }
   .footer p {
     font-size: 16px;
     line-height: 22px;
   }
   .main:before {
-    background-size: 650px, cover, cover;
+    background-size: contain, cover, cover;
+    background-position: 100% top, center, center;
   }
   .main .main_content {
-    padding-left: 140px;
-    padding-top: 100px;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .main .wrap .main_content .logo_back {
     position: absolute;
@@ -382,22 +786,83 @@
     opacity: 0.6;
   }
   .buttons {
-    padding-top: 80px;
+    padding-top: 40px;
   }
   .work .cards .card .num {
-    position: absolute;
-    color: #fafafa;
-    font-weight: 800;
-    font-size: 64px;
-    opacity: 0.6;
-    left: 24px;
-    top: 12px;
+    font-size: 40px;
+  }
+  .contact:after {
+    width: 600px;
+    height: 1000px;
+    top: -700px;
+  }
+  .contact .wrap h2 {
+    font-size: 30px;
+  }
+  .contact .wrap .contacts a {
+    font-size: 12px;
+  }
+  .tournaments .wrap .tournament_items .tournament_item {
+    min-width: 300px;
+  }
+  .tournaments .wrap .tournament_items .tournament_item .img {
+    width: 250px;
+    height: 250px;
+    margin-top: -12px;
+  }
+  .tournaments .wrap .tournament_items {
+    max-width: 1000px
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .wrap {
+    max-width: 1000px;
+  }
+  .jump_section .wrap .players {
+    overflow: hidden;
+    overflow-x: scroll;
+    padding: 0 12px;
+    /* margin: 0 0 -24px; */
+  }
+  .jump_section .wrap .players .player {
+    margin: 0 12px;
+    min-width: 250px;
+  }
+  .jump_section .wrap .players .player a {
+    padding: 12px 30px;
+  }
+  .tournaments .wrap .tournament_items {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tournaments .wrap .tournament_items .tournament_item {
+    margin: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  }
+  .tournaments .wrap p {
+    width: 80%;
+  }
+  .contact .wrap {
+    flex-wrap: wrap;
+  }
+  .contact .wrap .contacts {
+    padding-top: 24px;
+  }
+  .contact .wrap .contacts a {
+    margin-right: 24px;
+  }
+  .contact .wrap .contacts .icon {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 1025px) {
   .main {
     padding: 0 24px;
+  }
+  .main:before {
+    background-position: 100% top, center, center;
   }
   .work {
     padding-bottom: 360px;
@@ -408,99 +873,218 @@
     width: 100%;
     padding: 24px 24px 24px 118px;
   }
+  .wrap {
+    max-width: 100%;
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact .wrap .contacts {
+    flex-wrap: wrap;
+  }
+  .contact .wrap .contacts a {
+    margin-right: 24px;
+    margin-bottom: 24px;
+  }
+  .work .wrap h2 {
+    width: 100%;
+  }
+  .work .games {
+    width: 100%;
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  /* .buttons .button, .buttons .streamer {
+    min-width: 300px;
+  } */
+  .main .buttons .button, .main .buttons .streamer {
+    width: 100%;
+    min-width: 100px;
+    max-width: 100%;
+    font-size: 12px;
+    flex-basis: 49%;
+    margin: 0;
+    padding: 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .team_goals .buttons {
+    flex-wrap: wrap;
+  }
+  .main h2 {
+    width: 100%;
+  }
+  .tournaments .wrap .tournament_items .tournament_item {
+    min-width: 260px;
+  }
+  .tournaments .wrap .tournament_items .tournament_item .img {
+    width: 250px;
+    margin-bottom: 0px;
+  }
+  .jump_section h2 {
+    padding: 0 24px 24px;
+    font-size: 24px;
+  }
+  .jump_section .wrap {
+    padding: 0;
+  }
 }
 
 @media (max-width: 480px) {
+  .work:before {
+    top: -5%;
+  }
   .work .cards .card {
-    padding: 100px 12px 30px 5px;
+    padding: 24px 12px 24px 100px;
   }
   .work .cards .card .title {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1.3;
-    padding-bottom: 12px;
+    padding-bottom: 6px;
   }
   .work .cards .card .undertitle {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1.3;
   }
-  .main {
-    height: 100vh;
-    padding: 0;
-  }
-  .main:before {
-    background-size: 440px, cover, cover;
-  }
-  .main .main_content {
-    padding-left: 0;
-    padding-top: 20px;
-  }
-  .main .main_content .logo_back {
-    display: none;
-  }
-  .main p {
-    font-size: 27px;
-    width: auto;
+  .work .cards .card .num {
+    left: -6px;
+    top: 20px;
+    font-size: 26px;
+    padding: 0px 24px 0px 36px;
+    line-height: 36px;
   }
   .work {
     padding: 0;
     background-image: none;
+    padding-bottom: 300px;
+  }
+  .work:after {
+    width: 85%;
+    top: 70%;
   }
   .work h2, .team_goals h2 {
     font-size: 27px;
     margin-bottom: 12px;
     padding-left: 0;
   }
-  .work .cards .card .num {
-    left: 6px;
+  .main {
+    height: 100vh;
+    padding: 0;
+  }
+  .main:before {
+    background-size: cover, cover, cover;
+    background-position: 50% top, center, center;
+  }
+  .main .main_content {
+    justify-content: flex-end;
+    padding-bottom: 50px;
+  }
+  .main .main_content .logo_back {
+    display: none;
+  }
+  .main h2 {
+    font-size: 26px;
+    width: auto;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  }
+  .main .logos img {
+    width: 20%;
+  }
+  .jump_section h2 {
+    align-self: flex-start;
   }
   .footer p {
     width: 100%;
-  }
-  .buttons {
-    max-width: 100%;
-    padding-right: 50px;
-  }
-  .buttons .button {
-    font-size: 20px;
-    padding: 12px 24px;
-  }
-  .buttons .streamer {
-    font-size: 16px;
-    margin-top: 20px;
   }
   .footer p {
     font-size: 16px;
     line-height: 24px;
   }
   .team_goals {
-    padding: 120px 0 64px;
+    padding: 140px 0 120px;
   }
   .team_goals .wrap p {
     width: 100%;
+    font-size: 12px;
+    line-height: 16px;
   }
-  .footer .container .info {
+  .team_goals .wrap h2 {
+    font-size: 30px;
+  }
+  .team_goals .buttons {
+    padding-top: 24px;
+  }
+  .footer .wrap .info {
     flex-wrap: wrap;
     justify-content: center;
+  }
+  .tournaments .wrap h2 {
+    font-size: 30px;
+  }
+  .tournaments .wrap p {
+    font-size: 12px;
+  }
+  .tournaments .wrap .tournament_items .tournament_item .title_item {
+    font-size: 30px;
+  }
+  .tournaments .wrap .tournament_items .tournament_item .undertitle_item {
+    font-size: 12px;
+  }
+  .work .games {
+    justify-content: space-between;
+  }
+  .work .games img {
+    width: 40%;
+  }
+  .work .cards {
+    margin-bottom: 0;
+  }
+  .contact {
+    padding-top: 100px;
+  }
+  .contact h2 {
+    font-size: 30px;
+  }
+  .contact:before {
+    top: -10%;
+  }
+  .contact::after {
+    width: 520px;
+    height: 700px;
+    top: -300px;
+    right: -60%;
+    display: none;
+  }
+  .contact .wrap .contacts a {
+    font-size: 12px;
+    flex-basis: 100%;
+  }
+  .contact .wrap .contacts .icon {
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+  }
+  .buttons .button, .buttons .streamer {
+    font-size: 10px;
+    height: 48px;
+    line-height: 16px;
+    min-width: 200px;
+    max-width: 200px;
+    padding: 0 24px;
   }
 }
 
 @media (max-width: 320px) {
-  .main:before {
-    background-size: 340px, cover, cover;
+  .work {
+    padding-bottom: 200px;
   }
-  .work h2, .team_goals h2 {
-    font-size: 24px;
-  }
-  .work .cards .card .first_title {
-    font-size: 20px;
-  }
-  .main p {
-    font-size: 20px;
-  }
-  .buttons {
-    padding-right: 20px;
-  }
-  .buttons .button {
-    font-size: 18px;
+  .work:after {
+    top: 80%;
   }
 }

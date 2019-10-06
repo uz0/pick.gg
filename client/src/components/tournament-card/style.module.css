@@ -1,17 +1,17 @@
 .card {
   min-height: 150px;
-  border-radius: 6px;
+  border-radius: 10px;
   position: relative;
   overflow: hidden;
-  background: url('assets/play-with.jpg') no-repeat, #081a2f;
+  background: url('assets/play-with.jpg') no-repeat, rgb(52, 95, 55);
   background-size: cover;
   background-position: 0 0;
   max-width: 500px;
 }
 
 .card .date {
-  color: var(--accent-color);
-  background: var(--background-color);
+  color: #fafafa;
+  background: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95));
   width: 60px;
   height: 60px;
   text-align: center;
@@ -22,7 +22,6 @@
   margin-right: 24px;
   z-index: 1;
   transition: .25s ease-in;
-  border: 1px solid #333333;
   flex-shrink: 0;
 }
 
@@ -35,7 +34,7 @@
 .card .date .month {
   font-size: 14px;
   font-weight: bold;
-  height: 12px;
+  height: 16px;
   text-transform: uppercase;
 }
 
@@ -46,7 +45,7 @@
 .card .content {
   padding: 24px;
   z-index: 2;
-  background-image: linear-gradient( 120deg, rgba(48, 48, 94, 0.6), rgba(14, 14, 43, 0.8), rgba(49, 49, 116, 0.4));
+  background-image: linear-gradient( 120deg, rgba(7, 7, 22, 0.2), rgba(4, 4, 14, 0.3), rgba(0, 0, 0, 0));
   background-size: 150%;
   display: flex;
   transition: 0.3s ease-in;
@@ -72,6 +71,7 @@
   align-items: center;
   height: 24px;
   margin-bottom: 6px;
+  padding: 24px 12px 0;
 }
 
 .card .content .info i {
