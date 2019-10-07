@@ -21,7 +21,6 @@ const Select = ({
       {!options.map(a => a.id).includes(defaultOption) &&
         <option value="">{defaultOption}</option>
       }
-      {console.log(options)}
       {options.map(option => <option key={option._id || option.id} defaultValue={defaultOption.id || defaultOption} value={option._id || option.id}>{option.name}</option>)}
     </select>
   </div>
