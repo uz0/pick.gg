@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+
 import NewTournament from './new-tournament';
 import MatchResults from './match-results';
 import ChoosePlayers from './choose-players';
@@ -9,7 +10,7 @@ import AddMatch from './add-match';
 import AddRules from './tournament-rules';
 import AddRewards from './tournament-rewards';
 import EditTournament from './edit-tournament';
-import ExpressReg from './dropin-auth';
+import DropinAuth from './dropin-auth';
 import JoinTournamentPlayers from './join-tournament-players';
 import EditUser from './dashboard-edit-user-modal';
 import EditMatch from './edit-match';
@@ -28,7 +29,7 @@ const modals = {
   'edit-match-modal': EditMatch,
   'edit-tournament-modal': EditTournament,
   'user-modal': EditUser,
-  'express-reg': ExpressReg,
+  'dropin-auth': DropinAuth,
 };
 
 class ModalContainer extends Component {

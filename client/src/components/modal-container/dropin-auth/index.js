@@ -3,29 +3,32 @@ import GoogleLogin from 'react-google-login';
 import { compose, withStateHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import ym from 'react-yandex-metrika';
-
-import { http } from 'helpers';
 import config from 'config';
-import storeActions from 'store/actions';
-import Button from 'components/button';
 
+import Button from 'components/button';
 import { actions as notificationActions } from 'components/notification';
 import Input from 'components/form/input';
 import Modal from 'components/modal';
+
+import { http } from 'helpers';
+
 import i18n from 'i18n';
+
+import storeActions from 'store/actions';
 
 import style from './style.module.css';
 
 const enhance = compose(
-  withStateHandlers(() => ({
-    summonerName: '',
-    contact: '',
-  }),
+  withStateHandlers(
+    () => ({
+      summonerName: '',
+      contact: '',
+    }),
 
-  {
-    setSummonerName: state => event => ({ ...state, summonerName: event.target.value }),
-    setContact: state => event => ({ ...state, contact: event.target.value }),
-  }
+    {
+      setSummonerName: state => event => ({ ...state, summonerName: event.target.value }),
+      setContact: state => event => ({ ...state, contact: event.target.value }),
+    }
   ),
   connect(
     state => ({
