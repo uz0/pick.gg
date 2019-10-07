@@ -3,14 +3,18 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+
+import RewardPlaceholder from 'assets/trophy.svg';
+
 import Button from 'components/button';
 import Icon from 'components/icon';
-import RewardPlaceholder from 'assets/trophy.svg';
-import { withCaptions } from 'hoc';
-import { REWARD_POSITIONS } from '../../constants';
 
-import style from './style.module.css';
+import { withCaptions } from 'hoc';
+
 import i18n from 'i18next';
+
+import { REWARD_POSITIONS } from '../../constants';
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -28,7 +32,7 @@ const tableCaptions = ({ t, isMobile }) => ({
 
 const Rewards = ({
   tournament,
-  isAddButtonVisible,
+  isControlButtonsVisible,
   isActionsAvailable,
   addRewards,
   editRewards,
@@ -37,14 +41,23 @@ const Rewards = ({
   <div className={cx(style.rewards, className)}>
     <div className={style.header}>
       <h3 className={style.subtitle}>{i18n.t('rewards')}</h3>
-      {isAddButtonVisible && (
-        <button
-          type="button"
-          className={style.button}
-          onClick={editRewards}
-        >
-          {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : <Icon name="edit"/>}
-        </button>
+      {isControlButtonsVisible && (
+        <div>
+          <button
+            type="button"
+            className={style.button}
+            onClick={addRewards}
+          >
+            {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : <Icon name="plus"/>}
+          </button>
+          <button
+            type="button"
+            className={style.button}
+            onClick={editRewards}
+          >
+            {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : <Icon name="edit"/>}
+          </button>
+        </div>
       )}
     </div>
 
@@ -110,7 +123,7 @@ export default compose(
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
 
-    const isAddButtonVisible = (isCurrentUserCreator || isCurrentUserAdmin) &&
+    const isControlButtonsVisible = (isCurrentUserCreator || isCurrentUserAdmin) &&
       !props.tournament.isStarted &&
       props.tournament.unfoldedRewards &&
       props.tournament.unfoldedRewards.length > 0;
@@ -121,7 +134,7 @@ export default compose(
 
     return {
       ...props,
-      isAddButtonVisible,
+      isControlButtonsVisible,
       isActionsAvailable,
       isCurrentUserCreator,
     };
