@@ -42,7 +42,7 @@ const Rewards = ({
     <div className={style.header}>
       <h3 className={style.subtitle}>{i18n.t('rewards')}</h3>
       {isControlButtonsVisible && (
-        <div>
+        <div className={style.group}>
           <button
             type="button"
             className={style.button}
