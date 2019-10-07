@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
@@ -6,7 +7,10 @@ import debounce from 'lodash/debounce';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
-import { http } from 'helpers';
+import { actions as usersActions } from 'pages/dashboard/users';
+import { actions as rewardsActions } from 'pages/dashboard/rewards';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
@@ -17,10 +21,11 @@ import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
 import TournamentInvite from 'components/tournament-invite';
-import { actions as usersActions } from 'pages/dashboard/users';
-import { actions as tournamentsActions } from 'pages/tournaments';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as notificationActions } from 'components/notification';
+
+import { http } from 'helpers';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -56,6 +61,13 @@ class Tournament extends Component {
     const { users } = await response.json();
 
     this.props.addUsers(users);
+  };
+
+  loadRewards = async () => {
+    const rewardsResponse = await http('/api/rewards/reward');
+    const { rewards } = await rewardsResponse.json();
+
+    await this.props.addRewards(rewards);
   };
 
   enableForecasting = async () => {
@@ -162,6 +174,10 @@ class Tournament extends Component {
       await this.loadUsers();
     }
 
+    if (isEmpty(this.props.rewards)) {
+      await this.loadRewards();
+    }
+
     this.setState({ isLoading: false });
   }
 
@@ -193,7 +209,7 @@ class Tournament extends Component {
       <div className={cx('tournament', 'container')}>
 
         {this.state.isLoading && (
-          <Preloader isFullScreen />
+          <Preloader isFullScreen/>
         )}
 
         <div className={style.inner_container}>
@@ -313,6 +329,7 @@ export default compose(
     {
       addTournament: tournamentsActions.addTournament,
       addUsers: usersActions.loadUsers,
+      addRewards: rewardsActions.loadRewards,
       updateTournament: tournamentsActions.updateTournament,
       toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
