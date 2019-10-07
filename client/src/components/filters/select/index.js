@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames/bind';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -16,13 +17,12 @@ const Select = ({
     {label &&
       <label className={style.label}>{ label }</label>
     }
-
-    <select name={name} defaultValue="" onChange={onChange}>
-      {defaultOption &&
+    <select name={name} value={defaultOption} onChange={onChange}>
+      {!options.map(a => a.id).includes(defaultOption) &&
         <option value="">{defaultOption}</option>
       }
-
-      {options.map(option => <option key={option._id || option.id} value={option._id || option.id}>{option.name}</option>)}
+      {console.log(options)}
+      {options.map(option => <option key={option._id || option.id} defaultValue={defaultOption.id || defaultOption} value={option._id || option.id}>{option.name}</option>)}
     </select>
   </div>
 );
