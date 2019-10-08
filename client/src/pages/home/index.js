@@ -104,6 +104,11 @@ class Start extends Component {
   };
 
   render() {
+    const locale = localStorage.getItem('_pgg_locale');
+    const linkOffer = locale === 'ru'
+      ? 'https://nikitamurashov.typeform.com/to/gwzWNv' // ru form
+      : 'https://nikitamurashov.typeform.com/to/MJeHcA'; // en form
+
     return (
       <>
         <section className={style.main}>
@@ -153,7 +158,7 @@ class Start extends Component {
                   onFailure={this.onFailureGoogleLogin}
                 />
 
-                <a target="_blank" rel="noopener noreferrer" href="https://dcversus.typeform.com/to/ZesIbS" className={style.streamer}>
+                <a target="_blank" rel="noopener noreferrer" href={linkOffer} className={style.streamer}>
                   {i18n.t('home.link_1')}
                 </a>
               </div>
@@ -355,7 +360,7 @@ class Start extends Component {
                 onFailure={this.onFailureGoogleLogin}
               />
 
-              <a target="_blank" rel="noopener noreferrer" href="https://dcversus.typeform.com/to/ZesIbS" className={style.streamer}>
+              <a target="_blank" rel="noopener noreferrer" href={linkOffer} className={style.streamer}>
                 {i18n.t('home.link_2')}
               </a>
             </div>
