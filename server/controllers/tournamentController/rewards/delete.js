@@ -34,7 +34,12 @@ const validator = [
 const handler = withValidationHandler(async (req, res) => {
   const { tournamentId, rewardId } = req.params;
 
-  const rewards = omit(req.body.rewards, String(rewardId));
+  const tournamentRewards = await Tournament
+    .findById(tournamentId)
+    .select('rewards -_id')
+    .lean();
+
+  const rewards = omit(tournamentRewards.rewards, String(rewardId));
 
   await Tournament.update({ _id: tournamentId }, { $set: { rewards } }, { new: true }).exec();
   const modifiedTournament = await Tournament

@@ -18,3 +18,35 @@
 .wrapper .modal_content :global(.row) {
   --background-color: #0c112b;
 }
+
+.button {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--row-height);
+  height: var(--row-height);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.button.danger:not(:hover) {
+  --background-color: #af3a3a;
+}
+
+.button.danger:hover {
+  --background-color: #d43131;
+}
+
+.button:not(:hover) {
+  --background-color: #101027;
+}
+
+.button:hover {
+  --background-color: #1c1c3e;
+}
+
+.button i {
+  --icon-size: 18px;
+  --icon-color: #fff;
+}

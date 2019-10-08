@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
-import { http } from 'helpers';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
-import { actions as notificationActions } from 'components/notification';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import classnames from 'classnames';
+
+import { actions as notificationActions } from 'components/notification';
 import Modal from 'components/modal';
 import Table from 'components/table';
 import Select from 'components/filters/select';
+import Icon from 'components/icon';
 
-import classnames from 'classnames';
+import { http } from 'helpers';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -113,7 +116,32 @@ class AddRewards extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  removeReward = async rewardId => {
+    const { tournamentId } = this.props.options;
+
+    try {
+      const rewardRemoveRequest = await http(`/api/tournaments/${tournamentId}/rewards/${rewardId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'DELETE',
+      });
+
+      const updatedTournament = await rewardRemoveRequest.json();
+
+      const rewardsRequest = await http(`/public/tournaments/${tournamentId}/rewards`);
+      const unfoldedRewards = await rewardsRequest.json();
+
+      this.props.updateTournament({
+        ...updatedTournament,
+        unfoldedRewards,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   onRewardsSubmit = () => {
     const { rewards } = this.state;
@@ -188,9 +216,19 @@ class AddRewards extends Component {
             onChange={event => this.onSelectChange(event, 'role')}
           />
         </div>
+
+        {isEditing && (
+          <button
+            type="button"
+            className={cx(style.button, style.danger)}
+            onClick={() => this.removeReward(item._id)}
+          >
+            <Icon name="close"/>
+          </button>
+        )}
       </div>
     );
-  }
+  };
 
   render() {
     const { isEditing } = this.props.options;
@@ -206,7 +244,20 @@ class AddRewards extends Component {
         close={this.props.close}
         className={style.modal_content}
         wrapClassName={style.wrapper}
-        actions={[
+        actions={isEditing ? [
+          {
+            text: 'Add',
+            type: 'button',
+            appearance: '_basic-accent',
+            onClick: this.onRewardsSubmit,
+          },
+          {
+            text: buttonText,
+            type: 'button',
+            appearance: '_basic-accent',
+            onClick: this.onRewardsSubmit,
+          },
+        ] : [
           {
             text: buttonText,
             type: 'button',
