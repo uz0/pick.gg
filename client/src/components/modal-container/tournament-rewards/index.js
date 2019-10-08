@@ -139,6 +139,18 @@ class AddRewards extends Component {
         unfoldedRewards,
       });
 
+      const { rewards } = updatedTournament;
+
+      const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, values]) => {
+        const [role, place] = values.split('_');
+        rewards[key] = { role, place };
+
+        return rewards;
+      }, {});
+
+      this.setState({
+        rewards: normalizedRewards,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -147,12 +159,11 @@ class AddRewards extends Component {
   onRewardsSubmit = () => {
     const { rewards } = this.state;
 
-    console.log('!!!!!' , rewards);
     const choosedRewards = Object
       .entries(rewards)
       .filter(([_, values]) => !Object.values(values).some(item => item === null));
 
-    if (choosedRewards.length === 0) {
+    if (isEmpty(choosedRewards)) {
       this.props.showNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -247,7 +258,7 @@ class AddRewards extends Component {
     };
 
     const editButton = {
-      text: 'Edit',
+      text: 'Submit',
       type: 'button',
       appearance: '_basic-accent',
       onClick: this.onRewardsSubmit,
