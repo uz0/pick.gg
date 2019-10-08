@@ -138,6 +138,7 @@ class AddRewards extends Component {
         ...updatedTournament,
         unfoldedRewards,
       });
+
     } catch (error) {
       console.log(error);
     }
@@ -146,6 +147,7 @@ class AddRewards extends Component {
   onRewardsSubmit = () => {
     const { rewards } = this.state;
 
+    console.log('!!!!!' , rewards);
     const choosedRewards = Object
       .entries(rewards)
       .filter(([_, values]) => !Object.values(values).some(item => item === null));
@@ -236,7 +238,20 @@ class AddRewards extends Component {
     const rewards = isEditing ? this.props.tournament.unfoldedRewards : Object.values(this.props.rewardsList);
 
     const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
-    const buttonText = isEditing ? 'Edit' : 'Add';
+
+    const addButton = {
+      text: 'Add',
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.onRewardsSubmit,
+    };
+
+    const editButton = {
+      text: 'Edit',
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.onRewardsSubmit,
+    };
 
     return (
       <Modal
@@ -245,25 +260,10 @@ class AddRewards extends Component {
         className={style.modal_content}
         wrapClassName={style.wrapper}
         actions={isEditing ? [
-          {
-            text: 'Add',
-            type: 'button',
-            appearance: '_basic-accent',
-            onClick: this.onRewardsSubmit,
-          },
-          {
-            text: buttonText,
-            type: 'button',
-            appearance: '_basic-accent',
-            onClick: this.onRewardsSubmit,
-          },
+          addButton,
+          editButton,
         ] : [
-          {
-            text: buttonText,
-            type: 'button',
-            appearance: '_basic-accent',
-            onClick: this.onRewardsSubmit,
-          },
+          addButton,
         ]}
       >
         <div>
