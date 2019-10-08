@@ -1,16 +1,9 @@
-import pick from 'lodash/pick';
-import pickBy from 'lodash/pickBy';
-import negate from 'lodash/negate';
-import difference from 'lodash/difference'
-import isUndefined from 'lodash/isUndefined';
-
 import { param, body, check } from 'express-validator/check';
-import { sanitizeBody } from 'express-validator/filter';
 
 import Tournament from '../../../models/tournament';
+import Reward from '../../../models/reward';
 
 import {
-  isRequestHasCorrectFields,
   isUserHasToken,
   isEntityExists
 } from '../../validators';
@@ -35,16 +28,17 @@ const validator = [
       }
 
       return true;
-    })
+    }),
 ];
 
 const handler = withValidationHandler(async (req, res) => {
-  const { tournamentId } = req.params;
+  const { id } = req.params;
   const { rewards } = req.body;
 
-  await Tournament.update({ _id: tournamentId }, { $set: { rewards } }, { new: true }).exec();
+  await Tournament.update({ _id: id }, { $set: { rewards } }, { new: true }).exec();
+
   const modifiedTournament = await Tournament
-    .findById(tournamentId)
+    .findById(id)
     .populate('creatorId')
     .populate('applicants')
     .populate('matches')
@@ -52,7 +46,6 @@ const handler = withValidationHandler(async (req, res) => {
     .exec();
 
   res.json(modifiedTournament);
-  console.log('updated')
 });
 
 export { validator, handler };

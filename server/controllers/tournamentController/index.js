@@ -4,8 +4,6 @@ import get from './get';
 import * as create from './create';
 import * as attend from './attend';
 import * as view from './view';
-import * as editRewards from './rewards/edit';
-import * as getRewards from './rewards/get';
 import * as getById from './getById';
 import * as edit from './edit';
 import * as forecastStatus from './forecastStatus';
@@ -14,6 +12,7 @@ import * as finalize from './finalize';
 import * as applicantStatus from './applicantStatus';
 
 import matchController from './match';
+import rewardController from './rewards'
 
 let router = express.Router();
 
@@ -23,8 +22,6 @@ const TournamentController = io => {
   router.post('/', create.validator, create.handler);
 
   router.get('/:id', getById.validator, getById.handler);
-
-  router.get('/:id/rewards', getRewards.validator, getRewards.handler);
 
   router.patch('/:id', edit.validator, edit.handler);
 
@@ -40,9 +37,9 @@ const TournamentController = io => {
 
   router.patch('/:id/finalize', finalize.validator, finalize.handler);
 
-  router.patch('/:id/rewards', editRewards.validator, editRewards.handler);
-
   router.use('/:tournamentId/matches', matchController());
+
+  router.use('/:tournamentId/rewards', rewardController());
 
   return router;
 };

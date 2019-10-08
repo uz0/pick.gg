@@ -6,7 +6,7 @@ import match from "../../../models/match";
 
 export const validator = [
     param('tournamentId').custom(id => isEntityExists(id, tournament)),
-    param('matchId').custom(id => isEntityExists(id< match))
+    param('matchId').custom(id => isEntityExists(id, match))
 ]
 
 export const handler = withValidationHandler(async (req,res) => {
