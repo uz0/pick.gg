@@ -100,8 +100,6 @@
   text-overflow: ellipsis;
 }
 
-/* .rewards .content .prizes .list {} */
-
 .rewards .content .prizes .list .item {
   height: 50px;
   padding-left: 8px;
