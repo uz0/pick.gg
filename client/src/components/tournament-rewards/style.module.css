@@ -26,10 +26,6 @@
   text-overflow: ellipsis;
 }
 
-.rewards .header .group {
-  margin-left: auto;
-}
-
 .rewards .header .button {
   flex-shrink: 0;
   height: var(--rewards-header-height);

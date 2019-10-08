@@ -42,22 +42,13 @@ const Rewards = ({
     <div className={style.header}>
       <h3 className={style.subtitle}>{i18n.t('rewards')}</h3>
       {isControlButtonsVisible && (
-        <div className={style.group}>
-          <button
-            type="button"
-            className={style.button}
-            onClick={addRewards}
-          >
-            {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : <Icon name="plus"/>}
-          </button>
-          <button
-            type="button"
-            className={style.button}
-            onClick={editRewards}
-          >
-            {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : <Icon name="edit"/>}
-          </button>
-        </div>
+        <button
+          type="button"
+          className={style.button}
+          onClick={editRewards}
+        >
+          {tournament.rewards ? <Icon name="edit"/> : i18n.t('add')}
+        </button>
       )}
     </div>
 

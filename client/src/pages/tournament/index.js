@@ -63,13 +63,6 @@ class Tournament extends Component {
     this.props.addUsers(users);
   };
 
-  loadRewards = async () => {
-    const rewardsResponse = await http('/api/rewards/reward');
-    const { rewards } = await rewardsResponse.json();
-
-    await this.props.addRewards(rewards);
-  };
-
   enableForecasting = async () => {
     const response = await http(`/api/tournaments/${this.props.match.params.id}/forecastStatus`, { method: 'PATCH' });
     const tournament = await response.json();
@@ -172,10 +165,6 @@ class Tournament extends Component {
 
     if (isEmpty(this.props.users)) {
       await this.loadUsers();
-    }
-
-    if (isEmpty(this.props.rewards)) {
-      await this.loadRewards();
     }
 
     this.setState({ isLoading: false });
