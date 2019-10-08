@@ -14,18 +14,16 @@ import { withValidationHandler } from '../../helpers';
 const validator = [
   check().custom((value, { req }) => isUserHasToken(value, req)),
   param('tournamentId').custom(id => isEntityExists(id, Tournament)),
-  body().custom(async (tournamentId, { req }) => {
-      const { tournamentId } = req.params;
-      const tournamentRewards = await Tournament
-        .findById(tournamentId)
-        .select('rewards');
+  body().custom(async (id, { req }) => {
+    const { tournamentId } = req.params;
+    const tournamentRewards = await Tournament.findById(tournamentId).select('rewards');
 
-      if(isEmpty(tournamentRewards)){
-        return true;
-      }
-
+    if(isEmpty(tournamentRewards)){
       return true;
-    }),
+    }
+
+    return true;
+  }),
 ];
 
 const handler = withValidationHandler(async (req, res) => {

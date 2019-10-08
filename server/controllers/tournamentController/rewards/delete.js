@@ -1,7 +1,7 @@
 import { param, body, check } from 'express-validator/check';
+import omit from 'lodash/omit'
 
 import Tournament from '../../../models/tournament';
-import Reward from '../../../models/reward';
 
 import {
   isUserHasToken,
@@ -28,17 +28,17 @@ const validator = [
       }
 
       return true;
-    }),
+    })
 ];
 
 const handler = withValidationHandler(async (req, res) => {
-  const { id } = req.params;
-  const { rewards } = req.body;
+  const { tournamentId, rewardId } = req.params;
 
-  await Tournament.update({ _id: id }, { $set: { rewards } }, { new: true }).exec();
+  const rewards = omit(req.body.rewards, String(rewardId));
 
+  await Tournament.update({ _id: tournamentId }, { $set: { rewards } }, { new: true }).exec();
   const modifiedTournament = await Tournament
-    .findById(id)
+    .findById(tournamentId)
     .populate('creatorId')
     .populate('applicants')
     .populate('matches')
@@ -46,6 +46,7 @@ const handler = withValidationHandler(async (req, res) => {
     .exec();
 
   res.json(modifiedTournament);
+  console.log('updated')
 });
 
 export { validator, handler };
