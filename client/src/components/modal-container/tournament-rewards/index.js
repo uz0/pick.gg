@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames';
@@ -11,6 +12,7 @@ import { actions as notificationActions } from 'components/notification';
 import Modal from 'components/modal';
 import Table from 'components/table';
 import Select from 'components/filters/select';
+import Button from 'components/button';
 
 import { http } from 'helpers';
 
@@ -49,7 +51,7 @@ const placeOptions = [
 class AddRewards extends Component {
   state = {
     rewards: {},
-  }
+  };
 
   async componentDidMount() {
     const { rewards } = this.props.tournament;
@@ -116,7 +118,7 @@ class AddRewards extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   onRewardsSubmit = () => {
     const { rewards } = this.state;
@@ -125,7 +127,7 @@ class AddRewards extends Component {
       .entries(rewards)
       .filter(([_, values]) => !Object.values(values).some(item => item === null));
 
-    if (choosedRewards.length === 0) {
+    if (isEmpty(choosedRewards)) {
       this.props.showNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -151,6 +153,13 @@ class AddRewards extends Component {
       [field]: value,
     };
     this.setState({ rewards });
+  };
+
+  onRewardRemove = rewardId => {
+    const { rewards } = this.state;
+
+    this.setState({ rewards: omit(rewards, rewardId) });
+    this.forceUpdate();
   };
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
@@ -191,17 +200,40 @@ class AddRewards extends Component {
             onChange={event => this.onSelectChange(event, 'role')}
           />
         </div>
+
+        {isEditing && (
+          <Button
+            icon="close"
+            className={cx(style.button, style.danger)}
+            onClick={() => this.onRewardRemove(item._id)}
+          />
+        )}
       </div>
     );
-  }
+  };
 
   render() {
     const { isEditing } = this.props.options;
 
     const rewards = isEditing ? this.props.tournament.unfoldedRewards : Object.values(this.props.rewardsList);
-
     const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
-    const buttonText = isEditing ? 'Edit' : 'Add';
+    const buttonText = isEditing ? 'Submit' : 'Add';
+
+    const submitButton = {
+      text: buttonText,
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.onRewardsSubmit,
+    };
+
+    const cancelButton = {
+      text: 'Cancel',
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.props.close,
+    };
+
+    const modalButtons = isEditing ? [submitButton, cancelButton] : [submitButton];
 
     return (
       <Modal
@@ -209,14 +241,7 @@ class AddRewards extends Component {
         close={this.props.close}
         className={style.modal_content}
         wrapClassName={style.wrapper}
-        actions={[
-          {
-            text: buttonText,
-            type: 'button',
-            appearance: '_basic-accent',
-            onClick: this.onRewardsSubmit,
-          },
-        ]}
+        actions={modalButtons}
       >
         <div>
           <Table
