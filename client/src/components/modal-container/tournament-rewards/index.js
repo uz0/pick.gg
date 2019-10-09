@@ -159,7 +159,6 @@ class AddRewards extends Component {
     const { rewards } = this.state;
 
     this.setState({ rewards: omit(rewards, rewardId) });
-    this.forceUpdate();
   };
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
