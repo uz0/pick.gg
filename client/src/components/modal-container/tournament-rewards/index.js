@@ -89,6 +89,7 @@ class AddRewards extends Component {
       map[reward._id] = {
         role: null,
         place: null,
+        description: reward.description,
       };
 
       return map;
@@ -224,7 +225,7 @@ class AddRewards extends Component {
   render() {
     const { isEditing } = this.props.options;
 
-    const rewards = isEditing ? Object.entries(this.state.rewards) : Object.values(this.props.rewardsList);
+    const rewards = Object.entries(this.state.rewards);
     const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
     const buttonText = isEditing ? 'Submit' : 'Add';
 
