@@ -276,7 +276,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
-                <a className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join to matchup</a>
               </div>
 
               <div className={style.player}>
@@ -293,7 +293,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
-                <a className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join to matchup</a>
               </div>
 
               <div className={style.player}>
@@ -310,7 +310,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
-                <a className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join to matchup</a>
               </div>
 
               <div className={style.player}>
@@ -327,7 +327,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
-                <a className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join to matchup</a>
               </div>
             </div>
           </div>
