@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
+import merge from 'lodash/merge';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames';
@@ -49,12 +50,13 @@ const placeOptions = [
 ];
 
 class AddRewards extends Component {
-  state = {
-    rewards: {},
-  };
+  constructor(props) {
+    super(props);
+    this.state = { rewards: {} };
+  }
 
-  async componentDidMount() {
-    const { rewards } = this.props.tournament;
+  componentDidMount() {
+    const { rewards, unfoldedRewards } = this.props.tournament;
 
     if (isEmpty(rewards)) {
       this.loadRewards();
@@ -69,7 +71,13 @@ class AddRewards extends Component {
       return rewards;
     }, {});
 
-    this.setState({ rewards: normalizedRewards });
+    const unfoldedNormalizedRewards = Object.entries(unfoldedRewards).reduce((acc, [_, value]) => {
+      const { _id, description } = value;
+      acc[_id] = { description };
+      return acc;
+    }, {});
+
+    this.setState({ rewards: merge(normalizedRewards, unfoldedNormalizedRewards) });
   }
 
   loadRewards = async () => {
@@ -163,6 +171,7 @@ class AddRewards extends Component {
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
     const { rewards } = this.state;
+    const [rewardId, rewardProps] = item;
 
     const rewardDescription = { '--width': captions.rewardDescription.width };
     const role = { '--width': captions.role.width };
@@ -173,14 +182,14 @@ class AddRewards extends Component {
     const placeholderRole = 'choose role';
 
     return (
-      <div key={item._id} className={cx(className, 'row')}>
+      <div key={rewardId} className={cx(className, 'row')}>
         <div className={itemClass} style={rewardDescription}>
-          <span className={textClass}>{item.description}</span>
+          <span className={textClass}>{rewardProps.description}</span>
         </div>
 
         <div className={itemClass} style={place}>
           <Select
-            name={item._id}
+            name={rewardId}
             className={style.select}
             value={defaultPlace}
             placeholder={placeholderPlace}
@@ -191,7 +200,7 @@ class AddRewards extends Component {
 
         <div className={itemClass} style={role}>
           <Select
-            name={item._id}
+            name={rewardId}
             className={style.select}
             value={defaultRole}
             placeholder={placeholderRole}
@@ -205,7 +214,7 @@ class AddRewards extends Component {
             appearance="danger"
             icon="close"
             className={style.button}
-            onClick={() => this.onRewardRemove(item._id)}
+            onClick={() => this.onRewardRemove(rewardId)}
           />
         )}
       </div>
@@ -215,7 +224,7 @@ class AddRewards extends Component {
   render() {
     const { isEditing } = this.props.options;
 
-    const rewards = isEditing ? this.props.tournament.unfoldedRewards : Object.values(this.props.rewardsList);
+    const rewards = isEditing ? Object.entries(this.state.rewards) : Object.values(this.props.rewardsList);
     const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
     const buttonText = isEditing ? 'Submit' : 'Add';
 
