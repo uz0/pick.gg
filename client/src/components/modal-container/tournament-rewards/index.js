@@ -202,8 +202,9 @@ class AddRewards extends Component {
 
         {isEditing && (
           <Button
+            appearance="danger"
             icon="close"
-            className={cx(style.button, style.danger)}
+            className={style.button}
             onClick={() => this.onRewardRemove(item._id)}
           />
         )}
@@ -232,15 +233,16 @@ class AddRewards extends Component {
       onClick: this.props.close,
     };
 
-    const modalButtons = isEditing ? [submitButton, cancelButton] : [submitButton];
-
     return (
       <Modal
         title={modalTitle}
         close={this.props.close}
         className={style.modal_content}
         wrapClassName={style.wrapper}
-        actions={modalButtons}
+        actions={[
+          submitButton,
+          cancelButton,
+        ]}
       >
         <div>
           <Table

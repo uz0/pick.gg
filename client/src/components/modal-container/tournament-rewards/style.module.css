@@ -26,27 +26,4 @@
   align-items: center;
   width: var(--row-height);
   height: var(--row-height);
-  background-color: var(--background-color);
-  transition-property: background-color;
-}
-
-.wrapper .modal_content .button.danger:not(:hover) {
-  --background-color: #af3a3a;
-}
-
-.wrapper .modal_content .button.danger:hover {
-  --background-color: #d43131;
-}
-
-.wrapper .modal_content .button:not(:hover) {
-  --background-color: #101027;
-}
-
-.wrapper .modal_content .button:hover {
-  --background-color: #1c1c3e;
-}
-
-.wrapper .modal_content .button i {
-  --icon-size: 18px;
-  --icon-color: #fff;
 }
