@@ -221,10 +221,10 @@ class Start extends Component {
 
         <section className={style.tournaments}>
           <div className={style.wrap}>
-            <h2>Tournaments</h2>
+            <h2>Predictions</h2>
             <p>
-              Aside from training, we also hold tournaments among our users.
-              Join and get a chance to win awesome prizes.
+              We reward your attention and fighting spirit.
+              Compete alongside your favourite players and win awesome prizes.
             </p>
 
             <div className={style.tournament_items}>
@@ -242,7 +242,7 @@ class Start extends Component {
                 </div>
                 <div className={style.title_item}>10</div>
                 <div className={style.undertitle_item}>
-                  IMMORTAL ITEMS A WEEK
+                  HOTTEST ITEMS A WEEK
                 </div>
               </div>
 
@@ -276,7 +276,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
-                <a href="#" className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join matchup</a>
               </div>
 
               <div className={style.player}>
@@ -293,7 +293,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
-                <a href="#" className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join matchup</a>
               </div>
 
               <div className={style.player}>
@@ -310,7 +310,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
-                <a href="#" className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join matchup</a>
               </div>
 
               <div className={style.player}>
@@ -327,7 +327,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
-                <a href="#" className={style.join_link}>Join to matchup</a>
+                <a href="#" className={style.join_link}>Join matchup</a>
               </div>
             </div>
           </div>
