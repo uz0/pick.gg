@@ -49,38 +49,42 @@ const placeOptions = [
   { id: 'third', name: 'third' },
 ];
 
+const actions = { addToExist: 'ADD_TO_EXIST', add: 'ADD', edit: 'EDIT' };
+
 class AddRewards extends Component {
   constructor(props) {
     super(props);
-    this.state = { rewards: {} };
+
+    const { isEditing } = this.props.options;
+    this.state = {
+      tournamentRewards: {},
+      userRewards: {},
+      mergedRewards: {},
+      isEditing: isEditing ? actions.edit : actions.add,
+    };
   }
 
   componentDidMount() {
-    const { rewards, unfoldedRewards } = this.props.tournament;
-
-    if (isEmpty(rewards)) {
-      this.loadRewards();
-
-      return;
-    }
-
-    const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, values]) => {
-      const [role, place] = values.split('_');
-      rewards[key] = { role, place };
-
-      return rewards;
-    }, {});
-
-    const unfoldedNormalizedRewards = Object.entries(unfoldedRewards).reduce((acc, [_, value]) => {
-      const { _id, description } = value;
-      acc[_id] = { description };
-      return acc;
-    }, {});
-
-    this.setState({ rewards: merge(normalizedRewards, unfoldedNormalizedRewards) });
+    this.handleChangeMode();
   }
 
-  loadRewards = async () => {
+  getCurrentRewards() {
+    const { isEditing, userRewards, tournamentRewards, mergedRewards } = this.state;
+
+    if (isEditing === actions.edit) {
+      return tournamentRewards;
+    }
+
+    if (isEditing === actions.add) {
+      return userRewards;
+    }
+
+    if (isEditing === actions.addToExist) {
+      return mergedRewards;
+    }
+  }
+
+  loadUserRewards = async () => {
     const response = await http('/api/rewards/reward/streamer?isClaimed=false');
     const { rewards } = await response.json();
     this.props.loadRewards(rewards);
@@ -96,7 +100,7 @@ class AddRewards extends Component {
     }, {});
 
     this.setState({
-      rewards: normalizedRewards,
+      userRewards: normalizedRewards,
     });
   };
 
@@ -130,7 +134,11 @@ class AddRewards extends Component {
   };
 
   onRewardsSubmit = () => {
-    const { rewards } = this.state;
+    let rewards = this.getCurrentRewards();
+
+    if (!isEmpty(this.state.mergedRewards)) {
+      rewards = this.state.mergedRewards;
+    }
 
     const choosedRewards = Object
       .entries(rewards)
@@ -155,23 +163,44 @@ class AddRewards extends Component {
   };
 
   onSelectChange = (event, field) => {
-    const { rewards } = this.state;
+    const rewards = this.getCurrentRewards();
+    const { isEditing } = this.state;
     const { value, name } = event.target;
-    rewards[name] = {
-      ...rewards[name],
-      [field]: value,
+
+    const mergeRewardWithProp = reward => {
+      reward[name] = {
+        ...reward[name],
+        [field]: value,
+      };
+      return reward;
     };
-    this.setState({ rewards });
+
+    if (isEditing === actions.edit) {
+      this.setState({ tournamentRewards: mergeRewardWithProp(rewards) });
+    }
+
+    if (isEditing === actions.add) {
+      const { tournamentRewards } = this.state;
+      const addedRewards = mergeRewardWithProp(rewards);
+
+      const mergedRewards = merge(tournamentRewards, addedRewards);
+      console.log(mergedRewards);
+      this.setState({ mergedRewards });
+    }
   };
 
   onRewardRemove = rewardId => {
-    const { rewards } = this.state;
+    const { isEditing } = this.state;
+    if (isEditing === actions.edit) {
+      const rewards = this.getCurrentRewards();
 
-    this.setState({ rewards: omit(rewards, rewardId) });
+      this.setState({ tournamentRewards: omit(rewards, rewardId) });
+    }
   };
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
-    const { rewards } = this.state;
+    const { isEditing } = this.state;
+    const rewards = this.getCurrentRewards();
     const [rewardId, rewardProps] = item;
 
     const rewardDescription = { '--width': captions.rewardDescription.width };
@@ -210,7 +239,7 @@ class AddRewards extends Component {
           />
         </div>
 
-        {isEditing && (
+        {isEditing === actions.edit && (
           <Button
             appearance="danger"
             icon="close"
@@ -222,15 +251,60 @@ class AddRewards extends Component {
     );
   };
 
-  render() {
-    const { isEditing } = this.props.options;
+  handleChangeMode = () => {
+    const { isEditing } = this.state;
 
-    const rewards = Object.entries(this.state.rewards);
-    const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
-    const buttonText = isEditing ? 'Submit' : 'Add';
+    if (isEditing === actions.add) {
+      this.loadUserRewards();
+      return;
+    }
+
+    if (isEditing === actions.edit) {
+      const { rewards, unfoldedRewards } = this.props.tournament;
+
+      const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, value]) => {
+        const [role, place] = value.split('_');
+        rewards[key] = { role, place };
+        return rewards;
+      }, {});
+
+      const unfoldedNormalizedRewards = Object.entries(unfoldedRewards).reduce((rewards, [_, value]) => {
+        const { _id, description } = value;
+        rewards[_id] = { description };
+        return rewards;
+      }, {});
+
+      this.setState({ tournamentRewards: merge(normalizedRewards, unfoldedNormalizedRewards) });
+    }
+  }
+
+  changeMode = () => {
+    const { isEditing } = this.state;
+    if (isEditing === actions.add) {
+      this.setState({ isEditing: actions.edit }, () => this.handleChangeMode());
+    }
+
+    if (isEditing === actions.edit) {
+      this.setState({ isEditing: actions.add }, () => this.handleChangeMode());
+    }
+  }
+
+  render() {
+    const { isEditing } = this.state;
+    const rewards = Object.entries(this.getCurrentRewards());
+
+    const modalTitle = isEditing === actions.edit ? 'Edit tournament rewards' : 'Add tournament rewards';
+    const buttonText = isEditing === actions.edit ? 'Add' : 'Edit';
+
+    const addOrEditButton = {
+      text: buttonText,
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.changeMode,
+    };
 
     const submitButton = {
-      text: buttonText,
+      text: 'Submit',
       type: 'button',
       appearance: '_basic-accent',
       onClick: this.onRewardsSubmit,
@@ -250,6 +324,7 @@ class AddRewards extends Component {
         className={style.modal_content}
         wrapClassName={style.wrapper}
         actions={[
+          addOrEditButton,
           submitButton,
           cancelButton,
         ]}
