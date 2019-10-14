@@ -11,16 +11,15 @@ const Select = ({
   className,
   options,
   onChange,
-  defaultOption,
+  value,
+  placeholder,
 }) => (
   <div className={cx('container', className)}>
     {label &&
       <label className={style.label}>{ label }</label>
     }
-    <select name={name} value={defaultOption} onChange={onChange}>
-      {!options.map(a => a.id).includes(defaultOption) &&
-        <option value="">{defaultOption}</option>
-      }
+    <select name={name} value={value || ''} onChange={onChange}>
+      <option disabled hidden value="">{placeholder}</option>
       {options.map(option => <option key={option._id || option.id} value={option._id || option.id}>{option.name}</option>)}
     </select>
   </div>

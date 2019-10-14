@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
-import { http } from 'helpers';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
-import { actions as notificationActions } from 'components/notification';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import classnames from 'classnames';
+
+import { actions as notificationActions } from 'components/notification';
 import Modal from 'components/modal';
 import Table from 'components/table';
 import Select from 'components/filters/select';
 
-import classnames from 'classnames';
+import { http } from 'helpers';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -143,25 +146,23 @@ class AddRewards extends Component {
   onSelectChange = (event, field) => {
     const { rewards } = this.state;
     const { value, name } = event.target;
-
     rewards[name] = {
       ...rewards[name],
       [field]: value,
     };
-
     this.setState({ rewards });
   };
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
-    const { isEditing } = this.props.options;
     const { rewards } = this.state;
 
     const rewardDescription = { '--width': captions.rewardDescription.width };
     const role = { '--width': captions.role.width };
     const place = { '--width': captions.place.width };
-
-    const defaultPlace = (isEditing && !isEmpty(rewards)) ? rewards[item._id].place : 'choose place';
-    const defaultRole = (isEditing && !isEmpty(rewards)) ? rewards[item._id].role : 'choose role';
+    const defaultPlace = get(rewards, `${item._id}.place`);
+    const defaultRole = get(rewards, `${item._id}.role`);
+    const placeholderPlace = 'choose place';
+    const placeholderRole = 'choose role';
 
     return (
       <div key={item._id} className={cx(className, 'row')}>
@@ -173,7 +174,8 @@ class AddRewards extends Component {
           <Select
             name={item._id}
             className={style.select}
-            defaultOption={defaultPlace}
+            value={defaultPlace}
+            placeholder={placeholderPlace}
             options={placeOptions}
             onChange={event => this.onSelectChange(event, 'place')}
           />
@@ -183,7 +185,8 @@ class AddRewards extends Component {
           <Select
             name={item._id}
             className={style.select}
-            defaultOption={defaultRole}
+            value={defaultRole}
+            placeholder={placeholderRole}
             options={roleOptions}
             onChange={event => this.onSelectChange(event, 'role')}
           />
