@@ -200,14 +200,14 @@ class AddRewards extends Component {
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
     const { isEditing } = this.state;
-    const rewards = this.getCurrentRewards();
     const [rewardId, rewardProps] = item;
 
     const rewardDescription = { '--width': captions.rewardDescription.width };
     const role = { '--width': captions.role.width };
     const place = { '--width': captions.place.width };
-    const defaultPlace = get(rewards, `${item._id}.place`);
-    const defaultRole = get(rewards, `${item._id}.role`);
+
+    const defaultPlace = get(rewardProps, 'place');
+    const defaultRole = get(rewardProps, 'role');
     const placeholderPlace = 'choose place';
     const placeholderRole = 'choose role';
 
