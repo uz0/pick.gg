@@ -1,4 +1,5 @@
 import { createReducer } from 'redux-starter-kit';
+
 import actions from './actions';
 
 const initialState = {
@@ -9,6 +10,7 @@ const initialState = {
 
 export default createReducer(initialState, {
   [actions.loadUsers]: (state, action) => {
+    state.ids = [];
     action.payload.forEach(user => {
       state.ids.push(user._id);
       state.list[user._id] = user;

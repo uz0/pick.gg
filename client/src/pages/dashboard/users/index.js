@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { http } from 'helpers';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+
 import Preloader from 'components/preloader';
 import { actions as modalActions } from 'components/modal-container';
+
+import { http } from 'helpers';
+
 import actions from './actions';
 import style from './style.module.css';
 
@@ -23,9 +26,7 @@ class Users extends Component {
   };
 
   async componentDidMount() {
-    if (!this.props.isLoading && !this.props.usersList) {
-      this.loadUsers();
-    }
+    this.loadUsers();
   }
 
   openUserModal = (isEditing = false, user = {}) => this.props.toggleModal({
