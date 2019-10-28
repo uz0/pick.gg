@@ -18,3 +18,12 @@
 .wrapper .modal_content :global(.row) {
   --background-color: #0c112b;
 }
+
+.wrapper .modal_content .button {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--row-height);
+  height: var(--row-height);
+}

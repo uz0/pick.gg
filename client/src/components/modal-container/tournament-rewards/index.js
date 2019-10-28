@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
+import merge from 'lodash/merge';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames';
@@ -11,6 +13,7 @@ import { actions as notificationActions } from 'components/notification';
 import Modal from 'components/modal';
 import Table from 'components/table';
 import Select from 'components/filters/select';
+import Button from 'components/button';
 
 import { http } from 'helpers';
 
@@ -46,31 +49,42 @@ const placeOptions = [
   { id: 'third', name: 'third' },
 ];
 
+const actions = { addToExist: 'ADD_TO_EXIST', add: 'ADD', edit: 'EDIT' };
+
 class AddRewards extends Component {
-  state = {
-    rewards: {},
+  constructor(props) {
+    super(props);
+
+    const { isEditing } = this.props.options;
+    this.state = {
+      tournamentRewards: {},
+      userRewards: {},
+      mergedRewards: {},
+      isEditing: isEditing ? actions.edit : actions.add,
+    };
   }
 
-  async componentDidMount() {
-    const { rewards } = this.props.tournament;
+  componentDidMount() {
+    this.handleChangeMode();
+  }
 
-    if (isEmpty(rewards)) {
-      this.loadRewards();
+  getCurrentRewards() {
+    const { isEditing, userRewards, tournamentRewards, mergedRewards } = this.state;
 
-      return;
+    if (isEditing === actions.edit) {
+      return tournamentRewards;
     }
 
-    const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, values]) => {
-      const [role, place] = values.split('_');
-      rewards[key] = { role, place };
+    if (isEditing === actions.add) {
+      return userRewards;
+    }
 
-      return rewards;
-    }, {});
-
-    this.setState({ rewards: normalizedRewards });
+    if (isEditing === actions.addToExist) {
+      return mergedRewards;
+    }
   }
 
-  loadRewards = async () => {
+  loadUserRewards = async () => {
     const response = await http('/api/rewards/reward/streamer?isClaimed=false');
     const { rewards } = await response.json();
     this.props.loadRewards(rewards);
@@ -79,13 +93,14 @@ class AddRewards extends Component {
       map[reward._id] = {
         role: null,
         place: null,
+        description: reward.description,
       };
 
       return map;
     }, {});
 
     this.setState({
-      rewards: normalizedRewards,
+      userRewards: normalizedRewards,
     });
   };
 
@@ -116,16 +131,20 @@ class AddRewards extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   onRewardsSubmit = () => {
-    const { rewards } = this.state;
+    let rewards = this.getCurrentRewards();
+
+    if (!isEmpty(this.state.mergedRewards)) {
+      rewards = this.state.mergedRewards;
+    }
 
     const choosedRewards = Object
       .entries(rewards)
       .filter(([_, values]) => !Object.values(values).some(item => item === null));
 
-    if (choosedRewards.length === 0) {
+    if (isEmpty(choosedRewards)) {
       this.props.showNotification({
         type: 'error',
         shouldBeAddedToSidebar: false,
@@ -144,35 +163,63 @@ class AddRewards extends Component {
   };
 
   onSelectChange = (event, field) => {
-    const { rewards } = this.state;
+    const rewards = this.getCurrentRewards();
+    const { isEditing } = this.state;
     const { value, name } = event.target;
-    rewards[name] = {
-      ...rewards[name],
-      [field]: value,
+
+    const mergeRewardWithProp = reward => {
+      reward[name] = {
+        ...reward[name],
+        [field]: value,
+      };
+      return reward;
     };
-    this.setState({ rewards });
+
+    if (isEditing === actions.edit) {
+      this.setState({ tournamentRewards: mergeRewardWithProp(rewards) });
+    }
+
+    if (isEditing === actions.add) {
+      const { tournamentRewards } = this.state;
+      const addedRewards = mergeRewardWithProp(rewards);
+
+      const mergedRewards = merge(tournamentRewards, addedRewards);
+      console.log(mergedRewards);
+      this.setState({ mergedRewards });
+    }
+  };
+
+  onRewardRemove = rewardId => {
+    const { isEditing } = this.state;
+    if (isEditing === actions.edit) {
+      const rewards = this.getCurrentRewards();
+
+      this.setState({ tournamentRewards: omit(rewards, rewardId) });
+    }
   };
 
   renderRow = ({ className, itemClass, textClass, item, captions }) => {
-    const { rewards } = this.state;
+    const { isEditing } = this.state;
+    const [rewardId, rewardProps] = item;
 
     const rewardDescription = { '--width': captions.rewardDescription.width };
     const role = { '--width': captions.role.width };
     const place = { '--width': captions.place.width };
-    const defaultPlace = get(rewards, `${item._id}.place`);
-    const defaultRole = get(rewards, `${item._id}.role`);
+
+    const defaultPlace = get(rewardProps, 'place');
+    const defaultRole = get(rewardProps, 'role');
     const placeholderPlace = 'choose place';
     const placeholderRole = 'choose role';
 
     return (
-      <div key={item._id} className={cx(className, 'row')}>
+      <div key={rewardId} className={cx(className, 'row')}>
         <div className={itemClass} style={rewardDescription}>
-          <span className={textClass}>{item.description}</span>
+          <span className={textClass}>{rewardProps.description}</span>
         </div>
 
         <div className={itemClass} style={place}>
           <Select
-            name={item._id}
+            name={rewardId}
             className={style.select}
             value={defaultPlace}
             placeholder={placeholderPlace}
@@ -183,7 +230,7 @@ class AddRewards extends Component {
 
         <div className={itemClass} style={role}>
           <Select
-            name={item._id}
+            name={rewardId}
             className={style.select}
             value={defaultRole}
             placeholder={placeholderRole}
@@ -191,17 +238,84 @@ class AddRewards extends Component {
             onChange={event => this.onSelectChange(event, 'role')}
           />
         </div>
+
+        {isEditing === actions.edit && (
+          <Button
+            appearance="danger"
+            icon="close"
+            className={style.button}
+            onClick={() => this.onRewardRemove(rewardId)}
+          />
+        )}
       </div>
     );
+  };
+
+  handleChangeMode = () => {
+    const { isEditing } = this.state;
+
+    if (isEditing === actions.add) {
+      this.loadUserRewards();
+      return;
+    }
+
+    if (isEditing === actions.edit) {
+      const { rewards, unfoldedRewards } = this.props.tournament;
+
+      const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, value]) => {
+        const [role, place] = value.split('_');
+        rewards[key] = { role, place };
+        return rewards;
+      }, {});
+
+      const unfoldedNormalizedRewards = Object.entries(unfoldedRewards).reduce((rewards, [_, value]) => {
+        const { _id, description } = value;
+        rewards[_id] = { description };
+        return rewards;
+      }, {});
+
+      this.setState({ tournamentRewards: merge(normalizedRewards, unfoldedNormalizedRewards) });
+    }
+  }
+
+  changeMode = () => {
+    const { isEditing } = this.state;
+    if (isEditing === actions.add) {
+      this.setState({ isEditing: actions.edit }, () => this.handleChangeMode());
+    }
+
+    if (isEditing === actions.edit) {
+      this.setState({ isEditing: actions.add }, () => this.handleChangeMode());
+    }
   }
 
   render() {
-    const { isEditing } = this.props.options;
+    const { isEditing } = this.state;
+    const rewards = Object.entries(this.getCurrentRewards());
 
-    const rewards = isEditing ? this.props.tournament.unfoldedRewards : Object.values(this.props.rewardsList);
+    const modalTitle = isEditing === actions.edit ? 'Edit tournament rewards' : 'Add tournament rewards';
+    const buttonText = isEditing === actions.edit ? 'Add' : 'Edit';
 
-    const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
-    const buttonText = isEditing ? 'Edit' : 'Add';
+    const addOrEditButton = {
+      text: buttonText,
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.changeMode,
+    };
+
+    const submitButton = {
+      text: 'Submit',
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.onRewardsSubmit,
+    };
+
+    const cancelButton = {
+      text: 'Cancel',
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: this.props.close,
+    };
 
     return (
       <Modal
@@ -210,12 +324,9 @@ class AddRewards extends Component {
         className={style.modal_content}
         wrapClassName={style.wrapper}
         actions={[
-          {
-            text: buttonText,
-            type: 'button',
-            appearance: '_basic-accent',
-            onClick: this.onRewardsSubmit,
-          },
+          addOrEditButton,
+          submitButton,
+          cancelButton,
         ]}
       >
         <div>
