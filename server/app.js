@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import socketIO from 'socket.io';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import fs from 'fs'
 
 import {
   UsersController,
@@ -65,9 +66,41 @@ app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 
+app.get('/tournaments/:id', (req, res) => {
+  const { id } = req.params
+  const filePath = path.join(process.cwd(), 'client', 'build', 'index.html');
+
+  const insertToHead = (str, data) => {
+    const [start, end] = str.split('<head>')
+    return start + '<head>' + data + end
+  } 
+
+  async function getTournament(id) {
+    const tournament = 'tournament'
+    return tournament
+  }
+
+  fs.readFile(filePath, 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+   
+    const tournament = getTournament(id)
+    const str =
+    `<meta name="description" content="${tournament.description}" />` + 
+    `<meta property="og:title" content="${tournament.name}" />` + 
+    `<meta property="og:description" content="${tournament.description}" />` +
+    `<meta property="og:image" content="${tournament.imageUrl}" />`
+    
+    const result = insertToHead(data, str)
+
+    res.send(result);
+  });
+});
+
 // express will serve up index.html if it doesn't recognize the route
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), '..', 'client', 'build', 'index.html'));
+  res.sendFile(path.join(process.cwd(), 'client', 'build', 'index.html'));
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
