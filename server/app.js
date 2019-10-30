@@ -67,7 +67,7 @@ app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 
 // express will serve up index.html if it doesn't recognize the route
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'client', 'build', 'index.html'));
+  res.sendFile(path.join(process.cwd(), '..', 'client', 'build', 'index.html'));
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
