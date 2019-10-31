@@ -23,6 +23,8 @@ import {
   PublicRatingController,
 } from './controllers/public';
 
+import { getHomePageIndexFile, getTournamentIndexFile } from './controllers/metaTagController'
+
 import { AuthVerifyMiddleware, AdminVerifyMiddleware, setupMock } from './middlewares';
 import config from './config';
 
@@ -66,37 +68,9 @@ app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 
-app.get('/tournaments/:id', (req, res) => {
-  const { id } = req.params
-  const filePath = path.join(process.cwd(), 'client', 'build', 'index.html');
+app.get('/home', getHomePageIndexFile)
 
-  const insertToHead = (str, data) => {
-    const [start, end] = str.split('<head>')
-    return start + '<head>' + data + end
-  } 
-
-  async function getTournament(id) {
-    const tournament = 'tournament'
-    return tournament
-  }
-
-  fs.readFile(filePath, 'utf8', function (err,data) {
-    if (err) {
-      return console.log(err);
-    }
-   
-    const tournament = getTournament(id)
-    const str =
-    `<meta name="description" content="${tournament.description}" />` + 
-    `<meta property="og:title" content="${tournament.name}" />` + 
-    `<meta property="og:description" content="${tournament.description}" />` +
-    `<meta property="og:image" content="${tournament.imageUrl}" />`
-    
-    const result = insertToHead(data, str)
-
-    res.send(result);
-  });
-});
+app.get('/tournaments/:id', getTournamentIndexFile)
 
 // express will serve up index.html if it doesn't recognize the route
 app.get('/*', (req, res) => {
