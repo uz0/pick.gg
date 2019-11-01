@@ -5,7 +5,7 @@ import { filePath, getMetaTagsString, insertToHead  } from './helpers'
 
 const getTournament = async id => {
   try {
-    const response = await fetch(`https://pick.gg/public/tournaments/5d9f665baa31620017493516`);
+    const response = await fetch(`https://pick.gg/public/tournaments/${id}`);
     const json = await response.json();
     return json;
   } catch (error) {
