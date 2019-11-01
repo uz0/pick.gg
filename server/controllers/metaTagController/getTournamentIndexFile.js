@@ -16,18 +16,24 @@ const getTournament = async id => {
 const getTournamentIndexFile = (req, res) => {
   const { id } = req.params;
 
-  fs.readFile(filePath, 'utf8', function (err, data) {
+  fs.readFile(filePath, 'utf8', function (err, indexFileData) {
     if (err) {
       return console.log(err);
     }
 
     getTournament(id).then(tournament => {
-      console.log('name',tournament.name)
-    });
-
-    const meta = getMetaTagsString('tournament.title', "tournament.description", 'tournament.imageUrl')
-    const result = insertToHead(data, meta);
-    res.send(result);
+      if (tournament) {
+        const meta = getMetaTagsString(
+          tournament.name,
+          tournament.description,
+          tournament.imageUrl
+        )
+        const result = insertToHead(indexFileData, meta);
+        res.send(result);
+      } else {
+        res.send(indexFileData)
+      }
+    }).catch(err => console.log(err));
   });
 }
 
