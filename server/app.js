@@ -90,7 +90,7 @@ app.get('/home', (req, res) => {
   });
 });
 
-app.use('/tournaments/:id', (req, res) => {
+app.get('/tournaments/:id', (req, res) => {
   const { id } = req.params;
 
   try {
