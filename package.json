@@ -21,8 +21,7 @@
     }
   },
   "dependencies": {
-    "dotenv": "^8.0.0",
-    "ejs": "^2.7.1"
+    "dotenv": "^8.0.0"
   },
   "devDependencies": {
     "clean-dir": "^1.0.3",
