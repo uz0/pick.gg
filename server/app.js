@@ -72,7 +72,7 @@ app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 app.use('/home', (req, res, next) => {
   req.meta = [];
 
-  req.title = `<title>Pick.gg</title>`;
+  req.title = 'Pick.gg';
 
   req.meta.push('<meta name="description" content="Сервис для проведения турниров по лиге легенд между стримерами" />');
   req.meta.push('<meta property="og:title" content="Pick.gg" />');
@@ -100,7 +100,7 @@ app.use('/tournaments/:id', async (req, res, next) => {
       .populate('creator', '_id username summonerName')
       .exec();
 
-    req.title = `<title>${tournament.name}</title>`;
+    req.title = tournament.name;
     
     req.meta.push(`<meta name="description" content="${tournament.description}" />`);
     req.meta.push(`<meta property="og:title" content="${tournament.name}" />`);
@@ -119,20 +119,17 @@ app.use('/tournaments/:id', async (req, res, next) => {
 
 app.get('/*', (req, res) => {
   const filepath = path.join(process.cwd(), 'client', 'build', 'index.html');
+  const $ = cheerio.load(fs.readFileSync(filepath));
+
+  if (req.title) {
+    $('head').find('title').replaceWith(`<title>${req.title}</title>`);
+  } 
 
   if (req.meta) {
-    const $ = cheerio.load(fs.readFileSync(filepath));
-
-    if (req.title) {
-      $('head').find('title').replaceWith(req.title);
-    } 
-
     req.meta.map(tag => $('head').append(tag));
-
-    res.send($.html());
-  } else {
-    res.sendFile(filepath);
   }
+  
+  res.send($.html());
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
