@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import socketIO from 'socket.io';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import cheerio from 'cheerio'
+import fs from 'fs'
 
 import {
   UsersController,
@@ -24,6 +26,8 @@ import {
 
 import { AuthVerifyMiddleware, AdminVerifyMiddleware, setupMock } from './middlewares';
 import config from './config';
+
+import TournamentModel from './models/tournament'
 
 const app = express();
 let server = http.Server(app);
@@ -65,9 +69,67 @@ app.use('/api/rewards', RewardController());
 
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 
-// express will serve up index.html if it doesn't recognize the route
+app.use('/home', (req, res, next) => {
+  req.meta = [];
+
+  req.title = 'Pick.gg';
+
+  req.meta.push('<meta name="description" content="Сервис для проведения турниров по лиге легенд между стримерами" />');
+  req.meta.push('<meta property="og:title" content="Pick.gg" />');
+  req.meta.push('<meta property="og:description" content="Сервис для проведения турниров по лиге легенд между стримерами" />');
+
+  req.meta.push('<meta property="og:image" content="url" />');
+  req.meta.push('<meta property="og:image:type" content="image/png">');
+  req.meta.push('<meta property="og:image:width" content="320">');
+  req.meta.push('<meta property="og:image:height" content="240">');
+
+  next();
+});
+
+app.use('/tournaments/:id', async (req, res, next) => {
+  const { id } = req.params;
+  req.meta = [];
+
+  try {
+    const tournament = await TournamentModel
+      .findById(id)
+      .populate('winner')
+      .populate('creatorId')
+      .populate('applicants')
+      .populate('matches')
+      .populate('creator', '_id username summonerName')
+      .exec();
+
+    req.title = tournament.name;
+    
+    req.meta.push(`<meta name="description" content="${tournament.description}" />`);
+    req.meta.push(`<meta property="og:title" content="${tournament.name}" />`);
+    req.meta.push(`<meta property="og:description" content="${tournament.description}" />`);
+    req.meta.push(`<meta property="og:image" content="${tournament.imageUrl}" />`);
+    req.meta.push('<meta property="og:image:type" content="image/png">');
+    req.meta.push('<meta property="og:image:width" content="320">');
+    req.meta.push('<meta property="og:image:height" content="240">');
+
+  } catch (error) {
+    res.json({ error });
+  }
+
+  next();
+});
+
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'client', 'build', 'index.html'));
+  const filepath = path.join(process.cwd(), 'client', 'build', 'index.html');
+  const $ = cheerio.load(fs.readFileSync(filepath));
+
+  if (req.title) {
+    $('head').find('title').replaceWith(`<title>${req.title}</title>`);
+  } 
+
+  if (req.meta) {
+    req.meta.map(tag => $('head').append(tag));
+  }
+  
+  res.send($.html());
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
