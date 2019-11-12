@@ -291,6 +291,7 @@
     "date_tournament": "Tournament date",
     "is_winner": "is the winner",
     "tournament_is_end": "Tournament have ended",
+    "game": "Game",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
