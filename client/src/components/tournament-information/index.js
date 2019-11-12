@@ -5,13 +5,17 @@ import compose from 'recompose/compose';
 import get from 'lodash/get';
 import moment from 'moment';
 import classnames from 'classnames';
+
 import Icon from 'components/icon';
-import style from './style.module.css';
+
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
 const Information = props => {
+  const game = get(props, 'tournament.game');
   const creator = get(props, 'tournament.creator');
   const createdAt = moment(get(props, 'tournament.createdAt', '')).format('D MMMM');
   const description = get(props, 'tournament.description');
@@ -78,6 +82,11 @@ const Information = props => {
 
       <div className={style.content}>
         <div className={style.info}>
+          <div className={style.item}>
+            <div className={style.key}>{i18n.t('game')}:</div>
+            <div className={style.value}>{game}</div>
+          </div>
+
           <div className={style.item}>
             <div className={style.key}>{i18n.t('date_tournament')}:</div>
             <div className={style.value}>{createdAt}</div>
