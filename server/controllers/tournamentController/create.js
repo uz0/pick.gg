@@ -3,13 +3,15 @@ import defaults from 'lodash/defaults';
 import { check, validationResult } from 'express-validator/check';
 
 import TournamentModel from '../../models/tournament';
+import { GAMES } from '../../../common/constants'
 
 const validator = [
   check('game')
     .isString()
     .not()
     .isEmpty()
-    .withMessage('Enter game'),
+    .withMessage('Enter game')
+    .isIn(GAMES),
   check('name')
     .isString()
     .not()
