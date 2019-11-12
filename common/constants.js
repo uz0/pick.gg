@@ -10,3 +10,5 @@ export const RULES = [{
   name: 'assists',
   range: [0, 10],
 }];
+
+export const GAMES = ['LOL', 'PUBG'];
