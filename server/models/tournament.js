@@ -1,12 +1,14 @@
 import mongoose from 'mongoose';
 import isEmpty from 'lodash/isEmpty';
 
+import { GAMES } from '../../common/constants';
+
 const Schema = mongoose.Schema;
 
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName });
 
 const schema = new Schema(
-  {
+{
     name: String,
     description: String,
     url: String,
@@ -62,6 +64,7 @@ const schema = new Schema(
         }
       }
     ],
+    game: { type: String, enum: GAMES, default: '' },
     viewers: [
       {
         userId: String,
