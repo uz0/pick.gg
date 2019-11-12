@@ -11,7 +11,8 @@ const validator = [
     .not()
     .isEmpty()
     .withMessage('Enter game')
-    .isIn(GAMES),
+    .isIn(GAMES)
+    .withMessage('Choose valid game name'),
   check('name')
     .isString()
     .not()
