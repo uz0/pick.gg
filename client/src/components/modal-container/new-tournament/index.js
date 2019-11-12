@@ -16,10 +16,14 @@ import i18n from 'i18n';
 
 import modalActions from '../actions';
 import style from './style.module.css';
+import { GAMES } from '../../../constants';
 
 const date = new Date();
 
 const validationSchema = Yup.object().shape({
+  game: Yup.string()
+    .oneOf(GAMES)
+    .required('Required'),
   name: Yup.string()
     .min(4)
     .max(60)
@@ -57,6 +61,13 @@ const NewTournament = props => {
       }]}
     >
       <Form className={style.form}>
+        <Field
+          component={FormInput}
+          label="Game"
+          name="game"
+          className={style.field}
+        />
+
         <Field
           component={FormInput}
           label="Name"
@@ -110,6 +121,7 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: () => ({
+      game: '',
       name: '',
       description: '',
       url: '',

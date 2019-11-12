@@ -5,6 +5,11 @@ import { check, validationResult } from 'express-validator/check';
 import TournamentModel from '../../models/tournament';
 
 const validator = [
+  check('game')
+    .isString()
+    .not()
+    .isEmpty()
+    .withMessage('Enter game'),
   check('name')
     .isString()
     .not()
@@ -33,6 +38,7 @@ const handler = withValidationHandler(async (req, res) => {
     const newTournament = await TournamentModel.create(
       defaults(
         pick(req.body, [
+          'game',
           'name',
           'description',
           'startAt',
