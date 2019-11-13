@@ -41,6 +41,7 @@ const validator = [
 
       return true;
     }),
+  
   body().custom(body => isRequestHasCorrectFields(body, Tournament)),
   body().custom(({ summoners }) => {
     if(!summoners){
@@ -53,12 +54,12 @@ const validator = [
 
     return true;
   }),
-  body().custom(({ rules }) => {
+  body().custom(({ rules, game }) => {
     if(!rules){
       return true;
     }
 
-    const RULES_NAMES = RULES.map(rule => rule.name);
+    const RULES_NAMES = Object.keys(RULES[game]);
     const rulesDiff = difference(Object.keys(rules), RULES_NAMES);
 
     if(rulesDiff.length > 0){
