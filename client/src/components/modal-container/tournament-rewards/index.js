@@ -49,8 +49,6 @@ const placeOptions = [
   { id: 'third', name: 'third' },
 ];
 
-const actions = { addToExist: 'ADD_TO_EXIST', add: 'ADD', edit: 'EDIT' };
-
 class AddRewards extends Component {
   constructor(props) {
     super(props);
@@ -59,28 +57,43 @@ class AddRewards extends Component {
     this.state = {
       tournamentRewards: {},
       userRewards: {},
-      mergedRewards: {},
-      isEditing: isEditing ? actions.edit : actions.add,
+      isEditing,
     };
   }
 
   componentDidMount() {
-    this.handleChangeMode();
+    const { isEditing } = this.state;
+
+    if (isEditing) {
+      const { rewards, unfoldedRewards } = this.props.tournament;
+
+      const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, value]) => {
+        const [role, place] = value.split('_');
+        rewards[key] = { role, place };
+        return rewards;
+      }, {});
+
+      const unfoldedNormalizedRewards = Object.entries(unfoldedRewards).reduce((rewards, [_, value]) => {
+        const { _id, description } = value;
+        rewards[_id] = { description };
+        return rewards;
+      }, {});
+
+      this.setState({ tournamentRewards: merge(normalizedRewards, unfoldedNormalizedRewards) });
+    }
+
+    this.loadUserRewards();
   }
 
   getCurrentRewards() {
-    const { isEditing, userRewards, tournamentRewards, mergedRewards } = this.state;
+    const { isEditing, userRewards, tournamentRewards } = this.state;
 
-    if (isEditing === actions.edit) {
+    if (isEditing) {
       return tournamentRewards;
     }
 
-    if (isEditing === actions.add) {
+    if (!isEditing) {
       return userRewards;
-    }
-
-    if (isEditing === actions.addToExist) {
-      return mergedRewards;
     }
   }
 
@@ -133,11 +146,11 @@ class AddRewards extends Component {
     }
   };
 
-  onRewardsSubmit = () => {
+  onEditSubmit = () => {
     let rewards = this.getCurrentRewards();
 
-    if (!isEmpty(this.state.mergedRewards)) {
-      rewards = this.state.mergedRewards;
+    if (!isEmpty(this.state.tournamentRewards)) {
+      rewards = this.state.tournamentRewards;
     }
 
     const choosedRewards = Object
@@ -162,9 +175,27 @@ class AddRewards extends Component {
     this.addRewards(normalizedRewards);
   };
 
+  onAddSubmit = () => {
+    const { isEditing, tournamentRewards, userRewards } = this.state;
+
+    const choosedRewards = Object
+      .entries(userRewards)
+      .filter(([_, values]) => !Object.values(values).some(item => item === null));
+
+    const normalizedRewards = choosedRewards.reduce((rewards, [rewardKey, values]) => {
+      rewards[rewardKey] = values;
+      return rewards;
+    }, {});
+
+    this.setState({
+      tournamentRewards: merge(tournamentRewards, normalizedRewards),
+      userRewards: omit(userRewards, Object.keys(normalizedRewards)),
+      isEditing: !isEditing,
+    });
+  }
+
   onSelectChange = (event, field) => {
     const rewards = this.getCurrentRewards();
-    const { isEditing } = this.state;
     const { value, name } = event.target;
 
     const mergeRewardWithProp = reward => {
@@ -175,26 +206,22 @@ class AddRewards extends Component {
       return reward;
     };
 
-    if (isEditing === actions.edit) {
-      this.setState({ tournamentRewards: mergeRewardWithProp(rewards) });
-    }
-
-    if (isEditing === actions.add) {
-      const { tournamentRewards } = this.state;
-      const addedRewards = mergeRewardWithProp(rewards);
-
-      const mergedRewards = merge(tournamentRewards, addedRewards);
-      console.log(mergedRewards);
-      this.setState({ mergedRewards });
-    }
+    this.setState({ [rewards]: mergeRewardWithProp(rewards) });
   };
 
   onRewardRemove = rewardId => {
-    const { isEditing } = this.state;
-    if (isEditing === actions.edit) {
+    const { isEditing, userRewards } = this.state;
+    if (isEditing) {
       const rewards = this.getCurrentRewards();
 
-      this.setState({ tournamentRewards: omit(rewards, rewardId) });
+      const removedReward = rewards[rewardId];
+      removedReward.place = null;
+      removedReward.role = null;
+
+      this.setState({
+        tournamentRewards: omit(rewards, rewardId),
+        userRewards: merge(userRewards, { [rewardId]: removedReward }),
+      });
     }
   };
 
@@ -239,7 +266,7 @@ class AddRewards extends Component {
           />
         </div>
 
-        {isEditing === actions.edit && (
+        {isEditing && (
           <Button
             appearance="danger"
             icon="close"
@@ -251,63 +278,25 @@ class AddRewards extends Component {
     );
   };
 
-  handleChangeMode = () => {
-    const { isEditing } = this.state;
-
-    if (isEditing === actions.add) {
-      this.loadUserRewards();
-      return;
-    }
-
-    if (isEditing === actions.edit) {
-      const { rewards, unfoldedRewards } = this.props.tournament;
-
-      const normalizedRewards = Object.entries(rewards).reduce((rewards, [key, value]) => {
-        const [role, place] = value.split('_');
-        rewards[key] = { role, place };
-        return rewards;
-      }, {});
-
-      const unfoldedNormalizedRewards = Object.entries(unfoldedRewards).reduce((rewards, [_, value]) => {
-        const { _id, description } = value;
-        rewards[_id] = { description };
-        return rewards;
-      }, {});
-
-      this.setState({ tournamentRewards: merge(normalizedRewards, unfoldedNormalizedRewards) });
-    }
-  }
-
-  changeMode = () => {
-    const { isEditing } = this.state;
-    if (isEditing === actions.add) {
-      this.setState({ isEditing: actions.edit }, () => this.handleChangeMode());
-    }
-
-    if (isEditing === actions.edit) {
-      this.setState({ isEditing: actions.add }, () => this.handleChangeMode());
-    }
-  }
-
   render() {
     const { isEditing } = this.state;
     const rewards = Object.entries(this.getCurrentRewards());
 
-    const modalTitle = isEditing === actions.edit ? 'Edit tournament rewards' : 'Add tournament rewards';
-    const buttonText = isEditing === actions.edit ? 'Add' : 'Edit';
+    const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
+    const buttonText = isEditing ? 'Add' : 'Edit';
 
-    const addOrEditButton = {
+    const addButton = {
       text: buttonText,
       type: 'button',
       appearance: '_basic-accent',
-      onClick: this.changeMode,
+      onClick: () => this.setState({ isEditing: !isEditing }),
     };
 
     const submitButton = {
       text: 'Submit',
       type: 'button',
       appearance: '_basic-accent',
-      onClick: this.onRewardsSubmit,
+      onClick: isEditing ? this.onEditSubmit : this.onAddSubmit,
     };
 
     const cancelButton = {
@@ -317,17 +306,24 @@ class AddRewards extends Component {
       onClick: this.props.close,
     };
 
+    const backButton = {
+      text: 'Back',
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: () => this.setState({ isEditing: !isEditing }),
+    };
+
+    const buttons = isEditing ?
+      [addButton, submitButton, cancelButton] :
+      [submitButton, backButton];
+
     return (
       <Modal
         title={modalTitle}
         close={this.props.close}
         className={style.modal_content}
         wrapClassName={style.wrapper}
-        actions={[
-          addOrEditButton,
-          submitButton,
-          cancelButton,
-        ]}
+        actions={buttons}
       >
         <div>
           <Table
