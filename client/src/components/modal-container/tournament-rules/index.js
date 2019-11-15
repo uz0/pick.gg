@@ -49,20 +49,21 @@ const enhance = compose(
     }
   ),
   withProps(props => {
-    if (props.tournament.game === 'LOL') {
-      return ({
-        RulesForm: LolRules.RulesForm,
-        validationSchema: LolRules.validationSchema,
-        defaultRules: LolRules.defaultRules,
-      });
-    }
-
-    if (props.tournament.game === 'PUBG') {
-      return ({
-        RulesForm: PubgRules.RulesForm,
-        validationSchema: PubgRules.validationSchema,
-        defaultRules: PubgRules.defaultRules,
-      });
+    switch (props.tournament.game) {
+      case 'LOL':
+        return {
+          RulesForm: LolRules.RulesForm,
+          validationSchema: LolRules.validationSchema,
+          defaultRules: LolRules.defaultRules,
+        };
+      case 'PUBG':
+        return {
+          RulesForm: PubgRules.RulesForm,
+          validationSchema: PubgRules.validationSchema,
+          defaultRules: PubgRules.defaultRules,
+        };
+      default:
+        break;
     }
   }),
   withFormik({
