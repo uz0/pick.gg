@@ -54,7 +54,6 @@ class MyTournaments extends Component {
   }
 
   renderRow = ({ className, itemClass, textClass, item }) => {
-    console.log(item);
     const formattedDate = moment(item.startAt).format('MMM DD');
     const viewersLength = item.viewers && item.viewers.length;
 
