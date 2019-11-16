@@ -105,9 +105,9 @@ class Start extends Component {
 
   render() {
     const locale = localStorage.getItem('_pgg_locale');
-    const linkOffer = locale === 'ru'
-      ? 'https://nikitamurashov.typeform.com/to/gwzWNv' // ru form
-      : 'https://nikitamurashov.typeform.com/to/MJeHcA'; // en form
+    const linkOffer = locale === 'ru' ?
+      'https://nikitamurashov.typeform.com/to/gwzWNv' : // Ru form
+      'https://nikitamurashov.typeform.com/to/MJeHcA'; // En form
 
     return (
       <>
@@ -276,6 +276,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a href="#" className={style.join_link}>Join matchup</a>
               </div>
 
@@ -293,6 +294,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a href="#" className={style.join_link}>Join matchup</a>
               </div>
 
@@ -310,6 +312,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a href="#" className={style.join_link}>Join matchup</a>
               </div>
 
@@ -327,6 +330,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a href="#" className={style.join_link}>Join matchup</a>
               </div>
             </div>
