@@ -25,12 +25,12 @@ const cx = classnames.bind(style);
 class Tournaments extends Component {
   state = {
     isLoading: false,
-    game: 'ALL',
+    game: '',
   };
 
   loadTournaments = async () => {
     this.setState({ isLoading: true });
-    const response = await http('/public/tournaments');
+    const response = await http(`/public/tournaments/${this.state.game}`);
     const { tournaments } = await response.json();
     this.props.loadTournaments(tournaments);
     this.setState({ isLoading: false });
@@ -51,21 +51,9 @@ class Tournaments extends Component {
     const tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
     const filterTournamentList = tournamentList.filter(tournament => !tournament.isFinalized);
 
-    const filterByGame = tournament => {
-      const game = get(tournament, 'game');
-      if (this.state.game === 'ALL') {
-        return true;
-      }
-
-      if (this.state.game === game) {
-        return true;
-      }
-
-      return false;
-    };
-
-    const setGame = game => {
-      this.setState({ game });
+    const setGame = async game => {
+      await this.setState({ game });
+      await this.loadTournaments(game);
     };
 
     return (
@@ -75,7 +63,7 @@ class Tournaments extends Component {
             <Button
               text="Clear filter"
               className={style.game_button}
-              onClick={() => setGame('ALL')}
+              onClick={() => setGame('')}
             />
             <Button
               text="PUBG"
@@ -91,7 +79,7 @@ class Tournaments extends Component {
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
             {isTournaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
 
-            {filterTournamentList.filter(t => filterByGame(t)).map(tournament => {
+            {filterTournamentList.map(tournament => {
               // Const tournament = this.props.tournamentsList[id];
               const dateMonth = moment(tournament.startAt).format('MMM');
               const dateDay = moment(tournament.startAt).format('DD');
