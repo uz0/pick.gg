@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import classnames from 'classnames/bind';
 import moment from 'moment';
+import querystring from 'querystring';
 
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
@@ -25,22 +26,44 @@ const cx = classnames.bind(style);
 class Tournaments extends Component {
   state = {
     isLoading: false,
-    game: '',
   };
 
-  loadTournaments = async () => {
-    this.setState({ isLoading: true });
-    const response = await http(`/public/tournaments/${this.state.game}`);
-    const { tournaments } = await response.json();
-    this.props.loadTournaments(tournaments);
-    this.setState({ isLoading: false });
-  };
-
-  async componentDidMount() {
+  componentDidMount() {
     if (!this.props.isLoaded) {
       this.loadTournaments();
     }
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      this.loadTournaments();
+    }
+  }
+
+  loadTournaments = async () => {
+    // Querystring doesnt trim '?'
+    const { game } = querystring.parse(this.props.location.search.slice(1));
+
+    this.setState({ isLoading: true });
+    const response = await http(
+      game ?
+        `/public/tournaments/game/${game}` :
+        '/public/tournaments'
+    );
+    const { tournaments } = await response.json();
+    try {
+      this.props.loadTournaments(tournaments);
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.setState({ isLoading: false });
+  };
+
+  setGame = async game => {
+    await this.props.history.push(`/tournaments${game ? '?game=' + game : ''}`);
+    await this.loadTournaments();
+  };
 
   render() {
     const isTournaments = this.props.tournamentsIds.length === 0;
@@ -51,11 +74,6 @@ class Tournaments extends Component {
     const tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
     const filterTournamentList = tournamentList.filter(tournament => !tournament.isFinalized);
 
-    const setGame = async game => {
-      await this.setState({ game });
-      await this.loadTournaments(game);
-    };
-
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={style.wrap_tournaments}>
@@ -63,17 +81,17 @@ class Tournaments extends Component {
             <Button
               text="Clear filter"
               className={style.game_button}
-              onClick={() => setGame('')}
+              onClick={() => this.setGame('')}
             />
             <Button
               text="PUBG"
               className={style.game_button}
-              onClick={() => setGame('PUBG')}
+              onClick={() => this.setGame('PUBG')}
             />
             <Button
               text="LOL"
               className={style.game_button}
-              onClick={() => setGame('LOL')}
+              onClick={() => this.setGame('LOL')}
             />
           </div>
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>

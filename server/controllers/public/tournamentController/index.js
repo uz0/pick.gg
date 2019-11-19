@@ -13,7 +13,7 @@ const PublicTournamentController = () => {
 
   router.get('/', get);
 
-  router.get('/:game', getByGame.validator, getByGame.handler);
+  router.get('/game/:game', getByGame.validator, getByGame.handler);
 
   router.get('/:id', getById.validator, getById.handler);
 

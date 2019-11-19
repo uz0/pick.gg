@@ -25,7 +25,7 @@ const TournamentController = io => {
 
   router.get('/:id', getById.validator, getById.handler);
 
-  router.get('/:game', getByGame.validator, getByGame.handler);
+  router.get('/game/:game', getByGame.validator, getByGame.handler);
 
   router.get('/:id/rewards', getRewards.validator, getRewards.handler);
 
