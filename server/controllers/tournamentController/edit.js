@@ -59,13 +59,6 @@ const validator = [
       return true;
     }
 
-    const RULES_NAMES = Object.keys(RULES[game]);
-    const rulesDiff = difference(Object.keys(rules), RULES_NAMES);
-
-    if(rulesDiff.length > 0){
-      throw new Error(`Rules object can\'t contain fields: ${rulesDiff.join(' ')}`);
-    }
-
     return true;
   }),
   sanitizeBody().customSanitizer(values => pickBy(values, negate(isUndefined)))

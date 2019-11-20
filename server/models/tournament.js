@@ -24,11 +24,7 @@ const schema = new Schema(
       of: String,
       default: {},
     },
-    rules: {
-      type: Map,
-      of: Number,
-      default: {},
-    },
+    rules: String,
     isForecastingActive: {
       type: Boolean,
       default: false

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
 import { withFormik } from 'formik';
+import * as Yup from 'yup';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Modal from 'components/modal';
+import TextArea from 'components/text-area';
 
 import { http } from 'helpers';
 
@@ -14,9 +16,16 @@ import i18n from 'i18n';
 import style from './style.module.css';
 import * as LolRules from './lol';
 import * as PubgRules from './pubg';
+import { RULESTEMPLATE } from '../../../constants';
 
 const AddRules = props => {
-  const { RulesForm } = props;
+  const [rules, setRules] = useState({});
+
+  const handleInputChange = e => {
+    const { value } = e.target;
+    setRules({ ruleString: value });
+  };
+
   return (
     <Modal
       title={props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules')}
@@ -28,12 +37,15 @@ const AddRules = props => {
           text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
           type: 'button',
           appearance: '_basic-accent',
-          onClick: props.submitForm,
+          onClick: props.handleSubmit,
           disabled: props.isSubmitting,
         },
       ]}
     >
-      <RulesForm/>
+      <TextArea
+        value={rules}
+        onChange={handleInputChange}
+      />
     </Modal>
   );
 };
@@ -48,36 +60,37 @@ const enhance = compose(
       updateTournament: tournamentsActions.updateTournament,
     }
   ),
-  withProps(props => {
-    switch (props.tournament.game) {
-      case 'LOL':
-        return {
-          RulesForm: LolRules.RulesForm,
-          validationSchema: LolRules.validationSchema,
-          defaultRules: LolRules.defaultRules,
-        };
-      case 'PUBG':
-        return {
-          RulesForm: PubgRules.RulesForm,
-          validationSchema: PubgRules.validationSchema,
-          defaultRules: PubgRules.defaultRules,
-        };
-      default:
-        break;
-    }
-  }),
   withFormik({
-    validationSchema: props => {
-      return props.validationSchema;
-    },
     mapPropsToValues: props => {
+      console.log(props, 'popopopopo')
       if (isEmpty(props.tournament.rules)) {
-        return props.defaultRules;
+        return '+kills*5';
       }
 
       return props.tournament.rules;
     },
-    handleSubmit: async (values, { props }) => {
+    validate: props => {
+      const errors = {};
+      const rulesRegex = RULESTEMPLATE;
+      const rules = [];
+      console.log(props)
+      if (!isEmpty(props)) {
+        const rulesString = props.matchAll(rulesRegex);
+        // There is a bug in chrome?? groups is undefined
+        for (const item of rulesString) {
+          // Const rule = Object.entries(item.groups).map(([key, value]) => ({ [key]: value }));
+          rules.push({ [item[1] + item[2]]: item[3] });
+        }
+      }
+
+      if (isEmpty(rules)) {
+        errors.rules = 'FUCK';
+        console.log('FU')
+      }
+
+      return errors;
+    },
+    handleSubmit: async (ruleString, { props }) => {
       const { tournamentId } = props.options;
       const { game } = props.tournament;
 
@@ -87,12 +100,12 @@ const enhance = compose(
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify({ rules: values, game }),
+          body: JSON.stringify({ rules: ruleString, game }),
         });
 
         props.updateTournament({
           _id: props.tournament._id,
-          rules: values,
+          rules: ruleString,
         });
 
         props.close();

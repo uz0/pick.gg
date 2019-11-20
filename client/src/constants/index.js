@@ -5,6 +5,8 @@ export const REGIONS = ['BR', 'EUNE', 'EUW', 'JP', 'KR', 'LAN', 'LAS', 'NA', 'OC
 
 export const GAMES = ['LOL', 'PUBG'];
 
+export const RULESTEMPLATE = /(?<sign>[-+*/])(?<rule>[a-z]+)[-+*/](?<value>\d)[ ]?/g;
+
 export const REWARD_POSITIONS = {
   'summoner_first': {
     role: 'summoner',

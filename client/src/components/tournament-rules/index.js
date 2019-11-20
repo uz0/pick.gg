@@ -4,13 +4,17 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames/bind';
+
 import Table from 'components/table';
 import Button from 'components/button';
 import Icon from 'components/icon';
+
 import { withCaptions } from 'hoc';
-import style from './style.module.css';
 
 import i18n from 'i18n';
+
+import style from './style.module.css';
+import { RULESTEMPLATE } from '../../constants';
 
 const cx = classnames.bind(style);
 
@@ -111,21 +115,20 @@ export default compose(
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
     const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin;
 
-    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
-      Object.keys(props.tournament.rules).length > 0 &&
-      !props.tournament.isStarted;
-
-    if (isEmpty(props.tournament.rules)) {
-      return {
-        ...props,
-        isCurrentUserCanEditRules,
-        isCurrentUserCreator,
-        isEditingAvailable,
-        rules: [],
-      };
+    const rulesRegex = RULESTEMPLATE;
+    const rules = [];
+    if (!isEmpty(props.tournament.rules)) {
+      const rulesString = props.tournament.rules.matchAll(rulesRegex);
+      // There is a bug in chrome?? groups is undefined
+      for (const item of rulesString) {
+        // Const rule = Object.entries(item.groups).map(([key, value]) => ({ [key]: value }));
+        rules.push({ [item[1] + item[2]]: item[3] });
+      }
     }
 
-    const rules = Object.entries(props.tournament.rules).map(([key, value]) => ({ [key]: value }));
+    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
+      !isEmpty(rules) &&
+      !props.tournament.isStarted;
 
     return {
       ...props,
