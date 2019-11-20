@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+
 import RewardCard from 'components/reward-card';
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import modalActions from 'components/modal-container/actions';
-import UserFilter from './filters/user-filter';
-import ClaimFilter from './filters/claim-filter';
+
 import { http } from 'helpers';
-import actions from './actions';
+
 import i18n from 'i18n';
 
+import UserFilter from './filters/user-filter';
+import ClaimFilter from './filters/claim-filter';
+import actions from './actions';
 import style from './style.module.css';
 
 class Rewards extends Component {
   state = {
     isLoading: false,
+    userFilter: null,
+    claimFilter: null,
   };
 
   async componentDidMount() {
@@ -38,27 +43,28 @@ class Rewards extends Component {
     this.setState({ isLoading: false });
   };
 
-  filterRewardsByUser = userId => {
-    if (!userId) {
-      this.loadRewards();
-      return;
-    }
-
-    this.props.filterRewardsByUser(userId);
+  filterRewardsByUser = async userId => {
+    await this.setState({ userFilter: userId });
+    this.filter();
   }
 
-  filterRewardsByClaim = option => {
-    if (!option) {
-      this.loadRewards();
-      return;
+  filterRewardsByClaim = async option => {
+    await this.setState({ claimFilter: option ? option.value : null });
+    this.filter();
+  }
+
+  filter = async () => {
+    const { userFilter, claimFilter } = this.state;
+
+    await this.loadRewards();
+
+    if (userFilter) {
+      this.props.filterRewardsByUser(userFilter);
     }
 
-    if (!option.value) {
-      this.props.filterRewardsByClaim(false);
-      return;
+    if (claimFilter !== null) {
+      this.props.filterRewardsByClaim(claimFilter);
     }
-
-    this.props.filterRewardsByClaim(true);
   }
 
   render() {
@@ -88,7 +94,7 @@ class Rewards extends Component {
         </div>
         <div className={style.rewards}>
           {this.props.rewardsIds.length === 0 &&
-            <p>There is no any rewards</p>
+            <p>There is no any reward</p>
           }
 
           {this.props.rewardsIds.map(id => {
