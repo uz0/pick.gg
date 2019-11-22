@@ -1,17 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import pick from 'lodash/pick';
-import Modal from 'components/modal';
 import { compose, withProps } from 'recompose';
 import { Field, withFormik } from 'formik';
 import * as Yup from 'yup';
-import { FormInput } from 'components/form/input';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
 import FileInput from 'components/form/input-file';
 import notificationActions from 'components/notification/actions';
-import { actions as tournamentsActions } from 'pages/tournaments';
-import style from './style.module.css';
+import Modal from 'components/modal';
+import { FormInput } from 'components/form/input';
+
 import { http } from 'helpers';
+
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   resultsFile: Yup.mixed()
@@ -180,10 +184,10 @@ export default compose(
         const matchRequest = await http(request.url, { ...request.headers });
         const match = await matchRequest.json();
 
-        if(match.error){
+        if (match.error) {
           props.showNotification({
             type: 'error',
-            message: match.updatedMatch.error,
+            message: match.error,
           });
 
           formikBag.setFieldValue('resultsFile', '');
@@ -193,14 +197,6 @@ export default compose(
 
         const { matches } = props.tournament;
 
-        for (let i = 0; i < matches.length; i++) {
-          if (match.updatedMatch._id === matches[i]._id) {
-            matches[i] = {
-              ...match.updatedMatch,
-            };
-          }
-        }
-
         props.updateTournament({
           _id: tournamentId,
           matches,
@@ -209,7 +205,7 @@ export default compose(
         props.showNotification({
           type: 'success',
           shouldBeAddedToSidebar: false,
-          message: `Результаты матча успешно обновлены для игроков ${match.users.join(', ')}`,
+          message: 'Результаты матча успешно обновлены',
         });
 
         props.close();
