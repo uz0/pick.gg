@@ -5,7 +5,7 @@ import withProps from 'recompose/withProps';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames/bind';
 
-import Table from 'components/table';
+// Import Table from 'components/table';
 import Button from 'components/button';
 import Icon from 'components/icon';
 
@@ -14,7 +14,6 @@ import { withCaptions } from 'hoc';
 import i18n from 'i18n';
 
 import style from './style.module.css';
-import { RULESTEMPLATE } from '../../constants';
 
 const cx = classnames.bind(style);
 
@@ -30,30 +29,30 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const renderRow = ({ className, itemClass, textClass, item, captions }) => {
-  const valueStyle = { '--width': captions.value.width };
-  const ruleStyle = { '--width': captions.rule.width };
+// Const renderRow = ({ className, itemClass, textClass, item, captions }) => {
+//   const valueStyle = { '--width': captions.value.width };
+//   const ruleStyle = { '--width': captions.rule.width };
 
-  const [ruleName] = Object.keys(item);
+//   const [ruleName] = Object.keys(item);
 
-  return (
-    <div key={ruleName} className={cx(className, style.row)}>
-      <div className={itemClass} style={ruleStyle}>
-        <span className={textClass}>{ruleName}</span>
-      </div>
+//   return (
+//     <div key={ruleName} className={cx(className, style.row)}>
+//       <div className={itemClass} style={ruleStyle}>
+//         <span className={textClass}>{ruleName}</span>
+//       </div>
 
-      <div className={cx(itemClass, style.rule_value)} style={valueStyle}>
-        <span className={textClass}>{item[ruleName]}</span>
-      </div>
-    </div>
-  );
-};
+//       <div className={cx(itemClass, style.rule_value)} style={valueStyle}>
+//         <span className={textClass}>{item[ruleName]}</span>
+//       </div>
+//     </div>
+//   );
+// };
 
 const Rules = ({
   rules,
   isEditingAvailable,
   isCurrentUserCanEditRules,
-  captions,
+  // Captions,
   addRules,
   editRules,
   className,
@@ -87,15 +86,16 @@ const Rules = ({
       )}
 
       {rules.length > 0 && (
-        <Table
-          noCaptions
-          captions={captions}
-          items={rules}
-          renderRow={renderRow}
-          isLoading={false}
-          className={style.table}
-          emptyMessage={i18n.t('no_rules_yet')}
-        />
+        <div className={style.info}>{rules}</div>
+        // <Table
+        //   noCaptions
+        //   captions={captions}
+        //   items={rules}
+        //   renderRow={renderRow}
+        //   isLoading={false}
+        //   className={style.table}
+        //   emptyMessage={i18n.t('no_rules_yet')}
+        // />
       )}
     </div>
   </div>
@@ -115,16 +115,7 @@ export default compose(
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
     const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin;
 
-    const rulesRegex = RULESTEMPLATE;
-    const rules = [];
-    if (!isEmpty(props.tournament.rules)) {
-      const rulesString = props.tournament.rules.matchAll(rulesRegex);
-      // There is a bug in chrome?? groups is undefined
-      for (const item of rulesString) {
-        // Const rule = Object.entries(item.groups).map(([key, value]) => ({ [key]: value }));
-        rules.push({ [item[1] + item[2]]: item[3] });
-      }
-    }
+    const { rules } = props.tournament;
 
     const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
       !isEmpty(rules) &&

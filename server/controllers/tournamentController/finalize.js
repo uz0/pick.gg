@@ -1,4 +1,5 @@
 import { param } from 'express-validator/check';
+import isEmpty from 'lodash/isEmpty';
 
 import User from '../../models/user';
 import Reward from '../../models/reward';
@@ -37,12 +38,6 @@ export const handler = withValidationHandler(async (req, res) => {
     viewers,
   } = tournament;
 
-  const viewersIds = tournament.viewers.map(item => String(item.userId));
-
-  const users = await User
-    .find({ _id: { $in: [...viewersIds, ...summoners] }})
-    .select('_id summonerName');
-
   const summonersResults = calcSummonersPoints(summoners, matches, rules);
   const viewersResults = calcViewersPoints(viewers, summonersResults);
 
@@ -62,9 +57,18 @@ export const handler = withValidationHandler(async (req, res) => {
     const [ role, placeId ] = roleAndPlace.split('_');
     const place = placesMap[placeId];
 
-    const winnerId = role === 'summoner'
-      ? topSummonersResults[place - 1].summoner
-      : topViewersResults[place - 1].viewerId;
+    const winnerId = (() => {
+      if (role === 'summoner') {
+        return !isEmpty(topSummonersResults) ? topSummonersResults[place - 1].summoner : null;
+      }
+      if (role === 'viewer') {
+        return !isEmpty(topViewersResults) ? topViewersResults[place - 1].viewerId : null
+      }
+    })();
+
+    if (!winnerId) {
+      continue;
+    }
 
     await Reward.findByIdAndUpdate(rewardId, { $set: { userId: winnerId } });
 

@@ -4,8 +4,6 @@ import negate from 'lodash/negate';
 import difference from 'lodash/difference'
 import isUndefined from 'lodash/isUndefined';
 
-import { RULES } from '../../../common/constants';
-
 import { param, body, check } from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
