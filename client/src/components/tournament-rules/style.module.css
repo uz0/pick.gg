@@ -78,7 +78,7 @@
 
 .rules .content {
   flex-grow: 1;
-  display: flex;
+  display: inline-block;
 }
 
 .rules .content .button {
@@ -91,13 +91,16 @@
 
   min-width: 100%;
   display: flex;
-  height: var(--row-height);
   border-radius: 2px;
   background: var(--background-color);
   box-shadow: 0 1px 1px #000;
   text-decoration: none;
   transition-property: background-color;
+}
+
+.rules .content .info .rulestring {
   color: var(--caption-color);
+  margin: 10px;
 }
 
 .rules .content .table .row {

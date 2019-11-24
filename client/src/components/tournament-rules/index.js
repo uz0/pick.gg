@@ -5,11 +5,8 @@ import withProps from 'recompose/withProps';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames/bind';
 
-// Import Table from 'components/table';
 import Button from 'components/button';
 import Icon from 'components/icon';
-
-import { withCaptions } from 'hoc';
 
 import i18n from 'i18n';
 
@@ -17,42 +14,10 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const tableCaptions = ({ t, isMobile }) => ({
-  rule: {
-    text: t('rules'),
-    width: isMobile ? 75 : 160,
-  },
-
-  value: {
-    text: t('values'),
-    width: isMobile ? 75 : 80,
-  },
-});
-
-// Const renderRow = ({ className, itemClass, textClass, item, captions }) => {
-//   const valueStyle = { '--width': captions.value.width };
-//   const ruleStyle = { '--width': captions.rule.width };
-
-//   const [ruleName] = Object.keys(item);
-
-//   return (
-//     <div key={ruleName} className={cx(className, style.row)}>
-//       <div className={itemClass} style={ruleStyle}>
-//         <span className={textClass}>{ruleName}</span>
-//       </div>
-
-//       <div className={cx(itemClass, style.rule_value)} style={valueStyle}>
-//         <span className={textClass}>{item[ruleName]}</span>
-//       </div>
-//     </div>
-//   );
-// };
-
 const Rules = ({
   rules,
   isEditingAvailable,
   isCurrentUserCanEditRules,
-  // Captions,
   addRules,
   editRules,
   className,
@@ -86,16 +51,9 @@ const Rules = ({
       )}
 
       {rules.length > 0 && (
-        <div className={style.info}>{rules}</div>
-        // <Table
-        //   noCaptions
-        //   captions={captions}
-        //   items={rules}
-        //   renderRow={renderRow}
-        //   isLoading={false}
-        //   className={style.table}
-        //   emptyMessage={i18n.t('no_rules_yet')}
-        // />
+        <div className={style.info}>
+          <span className={style.rulestring}>{rules}</span>
+        </div>
       )}
     </div>
   </div>
@@ -109,7 +67,6 @@ export default compose(
       tournament: state.tournaments.list[props.id],
     }),
   ),
-  withCaptions(tableCaptions),
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;

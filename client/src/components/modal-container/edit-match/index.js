@@ -16,6 +16,7 @@ import { http } from 'helpers';
 import i18n from 'i18n';
 
 import style from './style.module.css';
+import { RULES } from '../../../constants';
 
 const validationSchema = Yup.object().shape({
   resultsFile: Yup.mixed()
@@ -31,6 +32,7 @@ const validationSchema = Yup.object().shape({
 const EditMatch = ({
   close,
   summoners,
+  playerRules,
   setFieldValue,
   isSubmitting,
   errors,
@@ -51,6 +53,7 @@ const EditMatch = ({
       className={style.content}
     >
       <Field
+        disabled
         label={i18n.t('match_name')}
         name="name"
         component={FormInput}
@@ -73,29 +76,16 @@ const EditMatch = ({
         <div key={summoner._id} className={style.summoner}>
           <h3 className={style.name}>{summoner.summonerName}</h3>
 
-          <Field
-            label="Kills"
-            name={`summoners[${index}].results.kills`}
-            type="number"
-            component={FormInput}
-            className={style.kda}
-          />
-
-          <Field
-            label="Deaths"
-            name={`summoners[${index}].results.deaths`}
-            type="number"
-            component={FormInput}
-            className={style.kda}
-          />
-
-          <Field
-            label="Assists"
-            name={`summoners[${index}].results.assists`}
-            type="number"
-            component={FormInput}
-            className={style.kda}
-          />
+          {playerRules.map(rule => (
+            // eslint-disable-next-line react/jsx-key
+            <Field
+              label={rule}
+              name={`summoners[${index}].results.${rule}`}
+              type="number"
+              component={FormInput}
+              className={style.result_field}
+            />
+          ))}
         </div>
       ))}
     </Modal>
@@ -116,6 +106,8 @@ export default compose(
   ),
   withProps(props => {
     const { matchId } = props.options;
+    const { game } = props.tournament;
+    const playerRules = RULES[game].player;
 
     const match = props.tournament.matches.find(match => match._id === matchId);
 
@@ -123,11 +115,11 @@ export default compose(
       const summoner = Object.values(props.users).find(item => item._id === summonerId);
       const summonerResults = match.playersResults.find(item => item.userId === summonerId);
 
-      const results = {
-        kills: summonerResults ? summonerResults.results.kills : 0,
-        deaths: summonerResults ? summonerResults.results.deaths : 0,
-        assists: summonerResults ? summonerResults.results.assists : 0,
-      };
+      const results = summonerResults ?
+        Object.entries(summonerResults.results).reduce((results, [key, val]) => {
+          return { ...results, [key]: val };
+        }, {}) :
+        RULES[game].player.reduce((rules, rule) => ({ ...rules, [rule]: 0 }), {});
 
       return {
         ...pick(summoner, ['_id', 'summonerName']),
@@ -138,6 +130,7 @@ export default compose(
     return {
       match,
       summoners,
+      playerRules,
     };
   }),
   withFormik({

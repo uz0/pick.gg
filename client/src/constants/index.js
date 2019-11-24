@@ -5,7 +5,16 @@ export const REGIONS = ['BR', 'EUNE', 'EUW', 'JP', 'KR', 'LAN', 'LAS', 'NA', 'OC
 
 export const GAMES = ['LOL', 'PUBG'];
 
-export const RULESTEMPLATE = /(?<sign>[-+*/])(?<rule>[a-z]+)[-+*/](?<value>\d)[ ]?/g;
+export const RULES = {
+  LOL: {
+    player: ['kills', 'assists', 'deaths'],
+    match: ['time'],
+  },
+  PUBG: {
+    player: ['kills', 'assists', 'loot'],
+    match: ['time'],
+  },
+};
 
 export const REWARD_POSITIONS = {
   'summoner_first': {
