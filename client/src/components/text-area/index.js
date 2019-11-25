@@ -13,7 +13,7 @@ const TextArea = ({
   placeholder,
   onChange,
 }) => (
-  <div className={cx('container')}>
+  <div className={style.container}>
     {label &&
       <label className={style.label}>{label}</label>
     }
@@ -22,7 +22,7 @@ const TextArea = ({
       name={name}
       value={value}
       placeholder={placeholder}
-      className={className}
+      className={cx('textfield', className)}
       onChange={onChange}
     />
   </div>

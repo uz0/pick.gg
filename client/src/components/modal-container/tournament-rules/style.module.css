@@ -10,8 +10,7 @@
   margin-top: 12px;
 }
 
-.wrapper .modal_content .textarea {
+.wrapper .modal_content .rulearea {
   width: 100%;
   resize: vertical;
-  border-radius: 5px;
 }

@@ -62,8 +62,9 @@ const AddRules = props => {
     >
       <TextArea
         name="rules"
+        label="Rules. Learn more"
         value={rules}
-        className={style.textarea}
+        className={style.rulearea}
         onChange={handleInputChange}
       />
     </Modal>
