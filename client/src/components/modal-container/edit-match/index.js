@@ -77,8 +77,8 @@ const EditMatch = ({
           <h3 className={style.name}>{summoner.summonerName}</h3>
 
           {playerRules.map(rule => (
-            // eslint-disable-next-line react/jsx-key
             <Field
+              key={`${summoner.summonerName}_${rule}`}
               label={rule}
               name={`summoners[${index}].results.${rule}`}
               type="number"
@@ -107,7 +107,7 @@ export default compose(
   withProps(props => {
     const { matchId } = props.options;
     const { game } = props.tournament;
-    const playerRules = RULES[game].player;
+    const playerRules = RULES[game].player.reduce((rules, rule) => ([...rules, rule.ruleName]), []);
 
     const match = props.tournament.matches.find(match => match._id === matchId);
 
@@ -119,7 +119,7 @@ export default compose(
         Object.entries(summonerResults.results).reduce((results, [key, val]) => {
           return { ...results, [key]: val };
         }, {}) :
-        RULES[game].player.reduce((rules, rule) => ({ ...rules, [rule]: 0 }), {});
+        RULES[game].player.reduce((rules, rule) => ({ ...rules, [rule.ruleName]: 0 }), {});
 
       return {
         ...pick(summoner, ['_id', 'summonerName']),

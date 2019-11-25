@@ -7,12 +7,44 @@ export const GAMES = ['LOL', 'PUBG'];
 
 export const RULES = {
   LOL: {
-    player: ['kills', 'assists', 'deaths'],
-    match: ['time'],
+    player: [
+      {
+        ruleName: 'kills',
+        description: 'Foes killed',
+      }, {
+        ruleName: 'assists',
+        description: 'Assists count',
+      }, {
+        ruleName: 'deaths',
+        description: 'Aw, snap',
+      },
+    ],
+    match: [
+      {
+        ruleName: 'time',
+        description: 'Match time',
+      },
+    ],
   },
   PUBG: {
-    player: ['kills', 'assists', 'loot'],
-    match: ['time'],
+    player: [
+      {
+        ruleName: 'kills',
+        description: 'Foes killed',
+      }, {
+        ruleName: 'assists',
+        description: 'Assists count',
+      }, {
+        ruleName: 'loot',
+        description: 'How many bullets',
+      },
+    ],
+    match: [
+      {
+        ruleName: 'time',
+        description: 'Match time',
+      },
+    ],
   },
 };
 

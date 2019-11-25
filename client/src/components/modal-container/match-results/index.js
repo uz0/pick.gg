@@ -2,47 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
-import i18n from 'i18n';
+import classnames from 'classnames/bind';
+
 import Modal from 'components/modal';
 import Table from 'components/table';
-import classnames from 'classnames/bind';
+
+import i18n from 'i18n';
+
 import style from './style.module.css';
-
-const tableCaptions = {
-  player: {
-    text: i18n.t('player'),
-    width: window.innerWidth < 480 ? 120 : 150,
-  },
-
-  kills: {
-    text: i18n.t('kills'),
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-
-  deaths: {
-    text: i18n.t('deaths'),
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-
-  assists: {
-    text: i18n.t('assists'),
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-
-  total: {
-    text: i18n.t('assists'),
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-};
+import { RULES } from '../../../constants';
 
 const cx = classnames.bind(style);
 
-const renderRow = ({ className, itemClass, textClass, props, item }) => {
-  const playerStyle = { '--width': tableCaptions.player.width };
-  const killsStyle = { '--width': tableCaptions.kills.width };
-  const deathsStyle = { '--width': tableCaptions.deaths.width };
-  const assistsStyle = { '--width': tableCaptions.assists.width };
-  const totalStyle = { '--width': tableCaptions.total.width };
+const renderRow = ({ className, itemClass, textClass, item, captions }) => {
+  const playerStyle = { '--width': captions.player.width };
+  const ruleStyle = rule => ({ '--width': captions[rule].width });
 
   const { results } = item;
 
@@ -51,27 +25,16 @@ const renderRow = ({ className, itemClass, textClass, props, item }) => {
       <div className={itemClass} style={playerStyle}>
         <span className={textClass}>{item.summonerName}</span>
       </div>
-
-      <div className={itemClass} style={killsStyle}>
-        <span className={textClass}>{results.kills}x{props.kills}</span>
-      </div>
-
-      <div className={itemClass} style={deathsStyle}>
-        <span className={textClass}>{results.deaths}x{props.deaths}</span>
-      </div>
-
-      <div className={itemClass} style={assistsStyle}>
-        <span className={textClass}>{results.assists}x{props.assists}</span>
-      </div>
-
-      <div className={itemClass} style={totalStyle}>
-        <span className={textClass}>{results.assists}x{props.assists}</span>
-      </div>
+      {Object.entries(results).map(([rule, result]) => (
+        <div key={`${rule}_${result}`} className={itemClass} style={ruleStyle(rule)}>
+          <span className={textClass}>{result}</span>
+        </div>
+      ))}
     </div>
   );
 };
 
-const MatchResults = ({ results, rules, close }) => (
+const MatchResults = ({ results, rules, close, tableCaptions }) => (
   <Modal
     title={i18n.t('match_results')}
     close={close}
@@ -103,18 +66,32 @@ export default compose(
 
     const match = props.tournament.matches.find(match => match._id === matchId);
 
-    const results = match.playersResults.map(item => {
-      const { summonerName } = props.users[item.userId];
+    const results = match.playersResults.map(result => {
+      const { summonerName } = props.users[result.userId];
 
       return {
-        ...item,
+        ...result,
         summonerName,
       };
+    });
+
+    const tableCaptions = RULES[props.tournament.game].player.reduce((acc, { ruleName }) => ({
+      ...acc,
+      [ruleName]: {
+        text: ruleName,
+        width: window.innerWidth < 480 ? 50 : 75,
+      },
+    }), {
+      player: {
+        text: i18n.t('player'),
+        width: window.innerWidth < 480 ? 120 : 150,
+      },
     });
 
     return {
       results,
       rules,
+      tableCaptions,
     };
   })
 )(MatchResults);

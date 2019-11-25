@@ -1,16 +1,51 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import classnames from 'classnames/bind';
 
 import Modal from 'components/modal';
-import TextArea from 'components/text-area';
+import TextArea from 'components/form/text-area';
+import Table from 'components/table';
 
 import { http } from 'helpers';
 
 import i18n from 'i18n';
 
 import style from './style.module.css';
+import { RULES } from '../../../constants';
+
+const cx = classnames.bind(style);
+
+const tableCaptions = {
+  rule: {
+    text: i18n.t('rule_name'),
+    width: window.innerWidth < 480 ? 120 : 150,
+  },
+
+  description: {
+    text: i18n.t('description'),
+    width: window.innerWidth < 480 ? 75 : 100,
+  },
+};
+
+const renderRow = ({ className, itemClass, textClass, item, captions }) => {
+  const ruleStyle = { '--width': captions.rule.width };
+  const descriptionStyle = { '--width': captions.description.width };
+
+  return (
+
+    <div key={item.rule} className={cx(className, style.row)}>
+      <div className={cx(itemClass, style.number)} style={ruleStyle}>
+        <span className={textClass}>{item.rule}</span>
+      </div>
+
+      <div className={itemClass} style={descriptionStyle}>
+        <span className={textClass}>{item.description}</span>
+      </div>
+    </div>
+  );
+};
 
 const AddRules = props => {
   const [rules, setRules] = useState(props.tournament.rules);
@@ -44,29 +79,63 @@ const AddRules = props => {
     }
   };
 
+  const [isHelpShown, setIsHelpShown] = useState(false);
+
+  const buttons = (() => {
+    if (!isHelpShown) {
+      return [{
+        text: i18n.t('help'),
+        type: 'button',
+        appearance: '_basic-accent',
+        onClick: () => setIsHelpShown(!isHelpShown),
+        disabled: props.isSubmitting,
+      }, {
+        text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
+        type: 'button',
+        appearance: '_basic-accent',
+        onClick: handleSubmit,
+        disabled: props.isSubmitting,
+      }];
+    }
+
+    if (isHelpShown) {
+      return [{
+        text: i18n.t('back'),
+        type: 'button',
+        appearance: '_basic-accent',
+        onClick: () => setIsHelpShown(!isHelpShown),
+        disabled: props.isSubmitting,
+      }];
+    }
+  })();
+
   return (
     <Modal
       title={props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
-      actions={[
-        {
-          text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
-          type: 'button',
-          appearance: '_basic-accent',
-          onClick: handleSubmit,
-          disabled: props.isSubmitting,
-        },
-      ]}
+      actions={buttons}
     >
-      <TextArea
-        name="rules"
-        label="Rules. Learn more"
-        value={rules}
-        className={style.rulearea}
-        onChange={handleInputChange}
-      />
+      {isHelpShown ? (
+        <Table
+          captions={tableCaptions}
+          items={props.ruleNames}
+          renderRow={renderRow}
+          isLoading={false}
+          className={style.table}
+          emptyMessage={i18n.t('no_game_rules_help')}
+        />
+      ) :
+        (
+          <TextArea
+            name="rules"
+            label="Write your rules below"
+            value={rules}
+            className={style.rulearea}
+            onChange={handleInputChange}
+          />
+        ) }
     </Modal>
   );
 };
@@ -80,7 +149,21 @@ const enhance = compose(
     {
       updateTournament: tournamentsActions.updateTournament,
     }
-  )
+  ),
+  withProps(props => {
+    const normalizedRules = Object.entries(RULES[props.tournament.game])
+      .reduce((acc, [key, rules]) => ([
+        ...acc,
+        ...rules.map(item => ({
+          rule: `${key}.${item.ruleName}`,
+          description: item.description,
+        })),
+      ]), []);
+
+    return {
+      ruleNames: normalizedRules,
+    };
+  })
 );
 
 export default enhance(AddRules);

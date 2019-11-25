@@ -292,6 +292,10 @@
     "is_winner": "is the winner",
     "tournament_is_end": "Tournament have ended",
     "game": "Game",
+    "help": "Help",
+    "back": "Back",
+    "description": "Description",
+    "no_game_rules_help": "There is no help for current game",
     "home": {
       "under_title": "Where streamers and viewers play together",
       "how_it_work": "How does it work?",
