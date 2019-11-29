@@ -29,12 +29,12 @@ const UsersController = () => {
   router.post('/me', async (req, res) => {
     const userId = req.decoded._id;
 
-    const { username, email, lolApiKey, photo, about, summonerName } = req.body;
+    const { username, email, lolApiKey, photo, about, gameSpecificName } = req.body;
 
     let streamerAccountId = '';
 
-    // if (summonerName != ''){
-    //   let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${summonerName}`);
+    // if (gameSpecificName != ''){
+    //   let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${gameSpecificName}`);
     //   accountInfo = await accountInfo.json();
 
     //   if (accountInfo.status && accountInfo.status.status_code === 404){
@@ -55,7 +55,7 @@ const UsersController = () => {
       about,
       username,
       lolApiKey,
-      summonerName,
+      gameSpecificName,
       streamerAccountId
     }
 

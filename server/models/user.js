@@ -16,7 +16,11 @@ export default mongoose.model('User', new Schema({
   isVerified: { type: Boolean, default: false },
   canProvideTournaments: { type: Boolean, default: false },
   twitchAccount: { type: String, default: '' },
-  summonerName: { type: String, default: '' },
+  gameSpecificName: {
+    type: Map,
+    of: String,
+    default: {},
+  },
   contact: {
     type: String,
     default: ''

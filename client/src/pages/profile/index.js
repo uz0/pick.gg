@@ -1,20 +1,26 @@
 import React from 'react';
-import { http, getChangedFormFields } from 'helpers';
-
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { Form, withFormik, Field } from 'formik';
 import * as Yup from 'yup';
-import { actions as storeActions } from 'store';
-import { FormInput } from 'components/form/input';
+import classnames from 'classnames/bind';
+
 import PositionSelect from 'components/form/selects/select';
 import RegionSelect from 'components/form/selects/region-select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
+import { FormInput } from 'components/form/input';
 
-import classnames from 'classnames/bind';
-import style from './style.module.css';
+import { http, getChangedFormFields } from 'helpers';
+
 import i18n from 'i18n';
+
+import { actions as storeActions } from 'store';
+
+import style from './style.module.css';
+import { RULES } from '../../constants';
+
+const GAMES = Object.keys(RULES);
 
 const cx = classnames.bind(style);
 
@@ -54,12 +60,15 @@ const Profile = () => {
           className={style.field}
         />
 
-        <Field
-          component={FormInput}
-          label={i18n.t('summoner_name')}
-          name="summonerName"
-          className={style.field}
-        />
+        {GAMES.map(game => (
+          <Field
+            key={`${game}_username`}
+            component={FormInput}
+            label={i18n.t(`${game}_username`)}
+            name={`gameSpecificName.${game}`}
+            className={style.field}
+          />
+        ))}
 
         <div className={style.position}>
           <Field
@@ -144,7 +153,7 @@ const enhance = compose(
         _id,
         username,
         email,
-        summonerName,
+        gameSpecificName,
         imageUrl,
         about,
         twitchAccount,
@@ -157,7 +166,7 @@ const enhance = compose(
         _id,
         username,
         email,
-        summonerName,
+        gameSpecificName,
         imageUrl,
         about,
         twitchAccount,
