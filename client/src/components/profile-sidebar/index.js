@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import isEmpty from 'lodash/isEmpty';
+
+import i18n from 'i18n';
 
 import Avatar from './avatar';
 import style from './style.module.css';
-import i18n from 'i18n';
+import { RULES } from '../../constants';
 
+const GAMES = Object.keys(RULES);
 class ProfileSidebar extends Component {
   render() {
-    const { nickname, description, summonerName, preferredPosition, source } = this.props;
+    const { nickname, description, gameSpecificName, preferredPosition, source } = this.props;
     return (
       <aside className={style.sidebar}>
         <Avatar source={source}/>
@@ -14,11 +18,13 @@ class ProfileSidebar extends Component {
         <div className={style.content}>
           {nickname && <div className={style.nickname}>{nickname}</div>}
 
-          {summonerName && (
-            <div className={style.wrap_info}>
-              <label className={style.label}>{i18n.t('summonername')}:</label>
-              <p className={style.text}>{summonerName}</p>
-            </div>
+          {!isEmpty(gameSpecificName) && GAMES.map(game =>
+            gameSpecificName[game] ? (
+              <div className={style.wrap_info}>
+                <label className={style.label}>{i18n.t(`${game}_username`)}:</label>
+                <p className={style.text}>{gameSpecificName[game]}</p>
+              </div>
+            ) : null
           )}
 
           {preferredPosition && (
