@@ -1,6 +1,6 @@
 module.exports = {
   launch: {
-    headless: true,
+    headless: true
   },
   server: {
     command: `node server/build/main.js --mocked`,
