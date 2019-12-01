@@ -115,6 +115,7 @@ class Tournament extends Component {
       tournamentId: this.props.match.params.id,
       selectedSummoners: this.props.tournament.summoners,
       summoners: this.props.users,
+      game: this.props.tournament.game,
     },
   });
 
