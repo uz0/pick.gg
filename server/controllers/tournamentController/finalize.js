@@ -36,6 +36,7 @@ export const handler = withValidationHandler(async (req, res) => {
     summoners,
     rewards,
     viewers,
+    game,
   } = tournament;
 
   const summonersResults = calcSummonersPoints(summoners, matches, rules);
@@ -59,10 +60,10 @@ export const handler = withValidationHandler(async (req, res) => {
 
     const winnerId = (() => {
       if (role === 'summoner') {
-        return !isEmpty(topSummonersResults) ? topSummonersResults[place - 1].summoner : null;
+        return !isEmpty(topSummonersResults) && topSummonersResults[place - 1] ? topSummonersResults[place - 1].summoner : null;
       }
       if (role === 'viewer') {
-        return !isEmpty(topViewersResults) ? topViewersResults[place - 1].viewerId : null
+        return !isEmpty(topViewersResults) && topViewersResults[place - 1] ? topViewersResults[place - 1].viewerId : null
       }
     })();
 

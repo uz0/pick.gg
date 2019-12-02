@@ -74,11 +74,11 @@ const EditMatch = ({
 
       {summoners.map((summoner, index) => (
         <div key={summoner._id} className={style.summoner}>
-          <h3 className={style.name}>{summoner.summonerName}</h3>
+          <h3 className={style.name}>{summoner.nickname}</h3>
 
           {playerRules.map(rule => (
             <Field
-              key={`${summoner.summonerName}_${rule}`}
+              key={`${summoner.nickname}_${rule}`}
               label={rule}
               name={`summoners[${index}].results.${rule}`}
               type="number"
@@ -121,8 +121,10 @@ export default compose(
         }, {}) :
         RULES[game].player.reduce((rules, rule) => ({ ...rules, [rule.ruleName]: 0 }), {});
 
+      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
       return {
-        ...pick(summoner, ['_id', 'summonerName']),
+        _id: normalizedSummoner._id,
+        nickname: normalizedSummoner.gameSpecificName[game],
         results,
       };
     });

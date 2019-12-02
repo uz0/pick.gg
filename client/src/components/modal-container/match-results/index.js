@@ -23,7 +23,7 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
   return (
     <div key={item.userId} className={cx(className, 'row')}>
       <div className={itemClass} style={playerStyle}>
-        <span className={textClass}>{item.summonerName}</span>
+        <span className={textClass}>{item.nickname}</span>
       </div>
       {Object.entries(results).map(([rule, result]) => (
         <div key={`${rule}_${result}`} className={itemClass} style={ruleStyle(rule)}>
@@ -67,11 +67,11 @@ export default compose(
     const match = props.tournament.matches.find(match => match._id === matchId);
 
     const results = match.playersResults.map(result => {
-      const { summonerName } = props.users[result.userId];
+      const user = props.users[result.userId];
 
       return {
         ...result,
-        summonerName,
+        nickname: user.gameSpecificName[props.tournament.game],
       };
     });
 
