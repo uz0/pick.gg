@@ -13,4 +13,5 @@
 .wrapper .modal_content .rulearea {
   width: 100%;
   resize: vertical;
+  margin-top: 10px;
 }

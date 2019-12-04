@@ -79,63 +79,35 @@ const AddRules = props => {
     }
   };
 
-  const [isHelpShown, setIsHelpShown] = useState(false);
-
-  const buttons = (() => {
-    if (!isHelpShown) {
-      return [{
-        text: i18n.t('help'),
-        type: 'button',
-        appearance: '_basic-accent',
-        onClick: () => setIsHelpShown(!isHelpShown),
-        disabled: props.isSubmitting,
-      }, {
-        text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
-        type: 'button',
-        appearance: '_basic-accent',
-        onClick: handleSubmit,
-        disabled: props.isSubmitting,
-      }];
-    }
-
-    if (isHelpShown) {
-      return [{
-        text: i18n.t('back'),
-        type: 'button',
-        appearance: '_basic-accent',
-        onClick: () => setIsHelpShown(!isHelpShown),
-        disabled: props.isSubmitting,
-      }];
-    }
-  })();
-
   return (
     <Modal
       title={props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
-      actions={buttons}
+      actions={[{
+        text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
+        type: 'button',
+        appearance: '_basic-accent',
+        onClick: handleSubmit,
+        disabled: props.isSubmitting,
+      }]}
     >
-      {isHelpShown ? (
-        <Table
-          captions={tableCaptions}
-          items={props.ruleNames}
-          renderRow={renderRow}
-          isLoading={false}
-          className={style.table}
-          emptyMessage={i18n.t('no_game_rules_help')}
-        />
-      ) :
-        (
-          <TextArea
-            name="rules"
-            label="Write your rules below"
-            value={rules}
-            className={style.rulearea}
-            onChange={handleInputChange}
-          />
-        ) }
+      <Table
+        captions={tableCaptions}
+        items={props.ruleNames}
+        renderRow={renderRow}
+        isLoading={false}
+        className={style.table}
+        emptyMessage={i18n.t('no_game_rules_help')}
+      />
+      <TextArea
+        name="rules"
+        label="Write your rules below"
+        value={rules}
+        className={style.rulearea}
+        onChange={handleInputChange}
+      />
     </Modal>
   );
 };
