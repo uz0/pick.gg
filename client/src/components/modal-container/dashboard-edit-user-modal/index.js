@@ -11,12 +11,13 @@ import Select from 'components/form/selects/select';
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
 
+import { RULES } from 'constants/index';
+
 import { http, getChangedFormFields } from 'helpers';
 
 import i18n from 'i18n';
 
 import style from './style.module.css';
-import { RULES } from '../../../constants';
 
 const GAMES = Object.keys(RULES);
 

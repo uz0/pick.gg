@@ -3,14 +3,19 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+
+import RewardPlaceholder from 'assets/trophy.svg';
+
 import Button from 'components/button';
 import Icon from 'components/icon';
-import RewardPlaceholder from 'assets/trophy.svg';
+
+import { REWARD_POSITIONS } from 'constants/index';
+
 import { withCaptions } from 'hoc';
-import { REWARD_POSITIONS } from '../../constants';
+
+import i18n from 'i18next';
 
 import style from './style.module.css';
-import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 

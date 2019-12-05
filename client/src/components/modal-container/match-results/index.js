@@ -7,10 +7,11 @@ import classnames from 'classnames/bind';
 import Modal from 'components/modal';
 import Table from 'components/table';
 
+import { RULES } from 'constants/index';
+
 import i18n from 'i18n';
 
 import style from './style.module.css';
-import { RULES } from '../../../constants';
 
 const cx = classnames.bind(style);
 

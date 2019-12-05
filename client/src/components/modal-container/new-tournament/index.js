@@ -9,6 +9,7 @@ import moment from 'moment';
 
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
+import Select from 'components/form/selects/game-select';
 
 import { http } from 'helpers';
 
@@ -16,14 +17,11 @@ import i18n from 'i18n';
 
 import modalActions from '../actions';
 import style from './style.module.css';
-import { GAMES } from '../../../constants';
 
 const date = new Date();
 
 const validationSchema = Yup.object().shape({
-  game: Yup.string()
-    .oneOf(GAMES)
-    .required('Required'),
+  game: Yup.object(),
   name: Yup.string()
     .min(4)
     .max(60)
@@ -62,8 +60,8 @@ const NewTournament = props => {
     >
       <Form className={style.form}>
         <Field
-          component={FormInput}
-          label="Game"
+          component={Select}
+          label={i18n.t('game')}
           name="game"
           className={style.field}
         />
@@ -121,7 +119,6 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: () => ({
-      game: '',
       name: '',
       description: '',
       url: '',
@@ -130,6 +127,7 @@ const enhance = compose(
       startAt: today,
     }),
     handleSubmit: async (values, formikBag) => {
+      const normalizedValues = Object.assign(values, { game: values.game.value });
       const createTournamentRequest = async () => {
         try {
           const request = await http('/api/tournaments', {
@@ -137,7 +135,7 @@ const enhance = compose(
               'Content-Type': 'application/json',
             },
             method: 'POST',
-            body: JSON.stringify(values),
+            body: JSON.stringify(normalizedValues),
           });
 
           return request.json();

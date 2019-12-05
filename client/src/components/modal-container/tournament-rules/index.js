@@ -8,12 +8,13 @@ import Modal from 'components/modal';
 import TextArea from 'components/form/text-area';
 import Table from 'components/table';
 
+import { RULES } from 'constants/index';
+
 import { http } from 'helpers';
 
 import i18n from 'i18n';
 
 import style from './style.module.css';
-import { RULES } from '../../../constants';
 
 const cx = classnames.bind(style);
 

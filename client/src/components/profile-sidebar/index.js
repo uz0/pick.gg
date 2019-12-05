@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
 
+import { RULES } from 'constants/index';
+
 import i18n from 'i18n';
 
 import Avatar from './avatar';
 import style from './style.module.css';
-import { RULES } from '../../constants';
 
 const GAMES = Object.keys(RULES);
 class ProfileSidebar extends Component {

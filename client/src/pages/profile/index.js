@@ -11,6 +11,8 @@ import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 import { FormInput } from 'components/form/input';
 
+import { RULES } from 'constants/index';
+
 import { http, getChangedFormFields } from 'helpers';
 
 import i18n from 'i18n';
@@ -18,7 +20,6 @@ import i18n from 'i18n';
 import { actions as storeActions } from 'store';
 
 import style from './style.module.css';
-import { RULES } from '../../constants';
 
 const GAMES = Object.keys(RULES);
 
