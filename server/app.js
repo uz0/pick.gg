@@ -40,7 +40,7 @@ app.set('superSecret', config.secret);
 
 const port = process.env.PORT || 3001;
 
-if (process.argv[2] === '--mocked') {
+if (process.argv[2] === '--mocked' || process.env.NODE_ENV === 'testing') {
   console.log('MOCKED MODE ENABLED');
   app.use(setupMock(app));
 }

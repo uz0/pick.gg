@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store, { actions as storeActions } from 'store';
-import { isLogged, http } from 'helpers';
 import MobileDetect from 'mobile-detect';
-
 import moment from 'moment';
+
+import { isLogged, http } from 'helpers';
+
+import store, { actions as storeActions } from 'store';
 import 'moment/locale/ru';
 
 import 'typeface-roboto';
@@ -21,6 +22,10 @@ const isMobile = Boolean(md.mobile());
 store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
 
 const init = async () => {
+  if (process.env.NODE_ENV === 'testing') {
+    localStorage.setItem('auth-test-username', 'test1');
+  }
+
   if (isLogged()) {
     let response = await http('/api/users/me');
     response = await response.json();

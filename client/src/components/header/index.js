@@ -18,6 +18,10 @@ import style from './style.module.css';
 import UserBox from './userbox';
 
 const Header = ({ setCurrentUser, currentUser, history }) => {
+  const setTestUserToLocalStorage = user => () => {
+    localStorage.setItem('auth-test-username', user);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('JWS_TOKEN');
 
@@ -27,6 +31,8 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
 
     ym('reachGoal', 'user_logged_out');
   };
+
+  const isTesting = process.env.NODE_ENV === 'testing';
 
   return (
     <div className={style.top_menu}>
@@ -40,6 +46,41 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
           <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
           <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
         </div>
+
+        {isTesting && (
+          <DropDown
+            className={style.mobile_hidden}
+            placeholder={<p className={style.test_username}>test1</p>}
+          >
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('test1')}
+            >test1
+            </button>
+
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('test2')}
+            >test2
+            </button>
+
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('admin1')}
+            >admin1
+            </button>
+
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('streamer1')}
+            >streamer1
+            </button>
+          </DropDown>
+        )}
 
         {currentUser && (
           <>
