@@ -4,15 +4,15 @@ import { compose } from 'recompose';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import pick from 'lodash/pick';
-import { http, getChangedFormFields } from 'helpers';
-
-import { actions as notificationActions } from 'components/notification';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 
+import { actions as notificationActions } from 'components/notification';
 import Modal from 'components/modal';
 import Button from 'components/button';
 import Select from 'components/form/selects/user-select';
 import { FormInput } from 'components/form/input';
+
+import { http, getChangedFormFields } from 'helpers';
 
 import i18n from 'i18n';
 

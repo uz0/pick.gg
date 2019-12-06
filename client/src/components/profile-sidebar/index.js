@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
+import i18n from 'i18n';
+
 import Avatar from './avatar';
 import style from './style.module.css';
-import i18n from 'i18n';
 
 class ProfileSidebar extends Component {
   render() {

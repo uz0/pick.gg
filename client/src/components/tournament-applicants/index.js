@@ -7,11 +7,14 @@ import ym from 'react-yandex-metrika';
 import classnames from 'classnames/bind';
 import pick from 'lodash/pick';
 import debounce from 'lodash/debounce';
-import { http } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
+
 import notificationActions from 'components/notification/actions';
 import Button from 'components/button';
 import Table from 'components/table';
+
+import { http } from 'helpers';
+
 import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';

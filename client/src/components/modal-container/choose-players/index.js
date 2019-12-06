@@ -10,12 +10,13 @@ import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
-import i18n from 'i18n';
-
-import { http } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Modal from 'components/modal';
+
+import { http } from 'helpers';
+
+import i18n from 'i18n';
 
 import style from './style.module.css';
 

@@ -6,7 +6,9 @@ import debounce from 'lodash/debounce';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
-import { http } from 'helpers';
+import { actions as usersActions } from 'pages/dashboard/users';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
 import Button from 'components/button';
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
@@ -17,10 +19,10 @@ import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
 import TournamentInvite from 'components/tournament-invite';
-import { actions as usersActions } from 'pages/dashboard/users';
-import { actions as tournamentsActions } from 'pages/tournaments';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as notificationActions } from 'components/notification';
+
+import { http } from 'helpers';
 
 import i18n from 'i18next';
 
@@ -196,7 +198,7 @@ class Tournament extends Component {
       <div className={cx('tournament', 'container')}>
 
         {this.state.isLoading && (
-          <Preloader isFullScreen />
+          <Preloader isFullScreen/>
         )}
 
         <div className={style.inner_container}>

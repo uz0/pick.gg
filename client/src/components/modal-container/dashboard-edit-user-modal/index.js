@@ -1,17 +1,21 @@
 import React from 'react';
-import { http, getChangedFormFields } from 'helpers';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import Modal from 'components/modal';
 import { Form, withFormik, Field } from 'formik';
+import * as Yup from 'yup';
+import actions from 'pages/dashboard/users/actions';
+
+import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
 import Select from 'components/form/selects/select';
 import Button from 'components/button';
-import * as Yup from 'yup';
-import style from './style.module.css';
 import notificationActions from 'components/notification/actions';
-import actions from 'pages/dashboard/users/actions';
+
+import { http, getChangedFormFields } from 'helpers';
+
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const normalizePositionsField = obj => {
   if (obj.preferredPosition) {

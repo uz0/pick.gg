@@ -5,9 +5,12 @@ import compose from 'recompose/compose';
 import get from 'lodash/get';
 import moment from 'moment';
 import classnames from 'classnames';
+
 import Icon from 'components/icon';
-import style from './style.module.css';
+
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 

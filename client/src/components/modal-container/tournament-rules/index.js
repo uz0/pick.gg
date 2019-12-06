@@ -4,15 +4,16 @@ import { compose } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
-
-import { http } from 'helpers';
+import { actions as tournamentsActions } from 'pages/tournaments';
 
 import { FormInput } from 'components/form/input';
 import Modal from 'components/modal';
 
-import style from './style.module.css';
-import { actions as tournamentsActions } from 'pages/tournaments';
+import { http } from 'helpers';
+
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   kills: Yup.number()
@@ -32,13 +33,13 @@ const validationSchema = Yup.object().shape({
 const AddRules = props => {
   return (
     <Modal
-      title={props.options.isEditing ? i18n.t('modal.edit_rules')  : i18n.t('modal.add_rules') }
+      title={props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
       actions={[
         {
-          text: props.options.isEditing ? i18n.t('edit') : i18n.t('add') ,
+          text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
           type: 'button',
           appearance: '_basic-accent',
           onClick: props.submitForm,

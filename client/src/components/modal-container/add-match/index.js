@@ -3,16 +3,17 @@ import { connect } from 'react-redux';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import isEmpty from 'lodash/isEmpty';
+import { compose } from 'recompose';
+import { actions as tournamentsActions } from 'pages/tournaments';
 
 import { FormInput } from 'components/form/input';
 import Modal from 'components/modal';
 
 import { http } from 'helpers';
 
-import style from './style.module.css';
-import { compose } from 'recompose';
-import { actions as tournamentsActions } from 'pages/tournaments';
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Required'),

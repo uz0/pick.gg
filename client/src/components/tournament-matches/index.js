@@ -3,17 +3,22 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
-import { http } from 'helpers';
+import classnames from 'classnames/bind';
+import { actions as tournamentsActions } from 'pages/tournaments';
+import moment from 'moment';
+
 import Table from 'components/table';
 import Button from 'components/button';
 import Icon from 'components/icon';
-import classnames from 'classnames/bind';
-import { withCaptions } from 'hoc';
 import { actions as modalActions } from 'components/modal-container';
-import { actions as tournamentsActions } from 'pages/tournaments';
-import moment from 'moment';
-import style from './style.module.css';
+
+import { http } from 'helpers';
+
+import { withCaptions } from 'hoc';
+
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 

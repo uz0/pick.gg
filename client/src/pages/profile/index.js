@@ -1,20 +1,23 @@
 import React from 'react';
-import { http, getChangedFormFields } from 'helpers';
-
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { Form, withFormik, Field } from 'formik';
 import * as Yup from 'yup';
-import { actions as storeActions } from 'store';
+import classnames from 'classnames/bind';
+
 import { FormInput } from 'components/form/input';
 import PositionSelect from 'components/form/selects/select';
 import RegionSelect from 'components/form/selects/region-select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 
-import classnames from 'classnames/bind';
-import style from './style.module.css';
+import { http, getChangedFormFields } from 'helpers';
+
 import i18n from 'i18n';
+
+import { actions as storeActions } from 'store';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 

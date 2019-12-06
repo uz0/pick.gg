@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import { actions as rewardsActions } from 'pages/dashboard/rewards';
 
 import modalActions from 'components/modal-container/actions';
-import { actions as rewardsActions } from 'pages/dashboard/rewards';
-import { http } from 'helpers';
-
 import RewardCard from 'components/reward-card';
 import Preloader from 'components/preloader';
 
-import style from './style.module.css';
+import { http } from 'helpers';
+
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 class Rewards extends Component {
   state = {

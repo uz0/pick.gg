@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store, { actions as storeActions } from 'store';
-import { isLogged, http } from 'helpers';
 import MobileDetect from 'mobile-detect';
-
 import moment from 'moment';
+
+import { isLogged, http } from 'helpers';
+
+import store, { actions as storeActions } from 'store';
 import 'moment/locale/ru';
 
 import 'typeface-roboto';

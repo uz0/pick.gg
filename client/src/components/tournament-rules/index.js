@@ -4,13 +4,16 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames/bind';
+
 import Table from 'components/table';
 import Button from 'components/button';
 import Icon from 'components/icon';
+
 import { withCaptions } from 'hoc';
-import style from './style.module.css';
 
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 

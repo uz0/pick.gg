@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
-import i18n from 'i18n';
+import classnames from 'classnames/bind';
+
 import Modal from 'components/modal';
 import Table from 'components/table';
-import classnames from 'classnames/bind';
+
+import i18n from 'i18n';
+
 import style from './style.module.css';
 
 const tableCaptions = {
