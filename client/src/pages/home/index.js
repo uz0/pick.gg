@@ -130,7 +130,7 @@ class Start extends Component {
             </header>
 
             <div className={style.main_content}>
-              <h2>Where streamers and viewers <span className={style.orange}>play together</span></h2>
+              <h2>{i18n.t('home.under_title')}<span className={style.orange}>{i18n.t('home.under_title_2')}</span></h2>
 
               <div className={style.logos}>
                 <img src={wasd} alt="logo wasd"/>
@@ -168,7 +168,7 @@ class Start extends Component {
 
         <section className={style.work}>
           <div className={style.wrap}>
-            <h2><span className={style.orange}>How</span> does it work? </h2>
+            <h2><span className={style.orange}>{i18n.t('home.how_it_work')}</span> {i18n.t('home.how_it_work_2')}</h2>
             <div className={style.games}>
               <img src={pubgLogo} alt="logo pubg"/>
               <img src={lolLogo} alt="logo lol"/>
@@ -221,11 +221,8 @@ class Start extends Component {
 
         <section className={style.tournaments}>
           <div className={style.wrap}>
-            <h2>Predictions</h2>
-            <p>
-              We reward your attention and fighting spirit.
-              Compete alongside your favourite players and win awesome prizes.
-            </p>
+            <h2>{i18n.t('home.predictions')}</h2>
+            <p>{i18n.t('home.text_predictions')}</p>
 
             <div className={style.tournament_items}>
               <div className={style.tournament_item}>
@@ -233,7 +230,7 @@ class Start extends Component {
                   <img src={chestIcon} alt="chest"/>
                 </div>
                 <div className={style.title_item}>$20 000</div>
-                <div className={style.undertitle_item}>PRIZE POOL</div>
+                <div className={style.undertitle_item}>{i18n.t('home.prize_pool')}</div>
               </div>
 
               <div className={style.tournament_item}>
@@ -242,7 +239,7 @@ class Start extends Component {
                 </div>
                 <div className={style.title_item}>10</div>
                 <div className={style.undertitle_item}>
-                  HOTTEST ITEMS A WEEK
+                  {i18n.t('home.hottest_items')}
                 </div>
               </div>
 
@@ -251,7 +248,7 @@ class Start extends Component {
                   <img src={cupIcon} alt="cup"/>
                 </div>
                 <div className={style.title_item}>ARCANA</div>
-                <div className={style.undertitle_item}>EVERY WEEK</div>
+                <div className={style.undertitle_item}>{i18n.t('home.every_week')}</div>
               </div>
             </div>
           </div>
@@ -259,7 +256,7 @@ class Start extends Component {
 
         <section className={style.jump_section}>
           <div className={style.wrap}>
-            <h2>Jump into the <span className={style.orange}>action</span></h2>
+            <h2>{i18n.t('home.jump_in_action')} <span className={style.orange}>{i18n.t('home.jump_in_action_2')}</span></h2>
 
             <div className={style.players}>
               <div className={style.player}>
@@ -277,7 +274,7 @@ class Start extends Component {
                 <div className={style.status_on}>online</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>Join matchup</a>
+                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
               </div>
 
               <div className={style.player}>
@@ -295,7 +292,7 @@ class Start extends Component {
                 <div className={style.status_off}>offline</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>Join matchup</a>
+                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
               </div>
 
               <div className={style.player}>
@@ -313,7 +310,7 @@ class Start extends Component {
                 <div className={style.status_on}>online</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>Join matchup</a>
+                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
               </div>
 
               <div className={style.player}>
@@ -331,7 +328,7 @@ class Start extends Component {
                 <div className={style.status_off}>offline</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>Join matchup</a>
+                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
               </div>
             </div>
           </div>
@@ -339,7 +336,7 @@ class Start extends Component {
 
         <section className={style.team_goals}>
           <div className={style.wrap}>
-            <h2>Team <span className={style.orange}>goals</span></h2>
+            <h2>{i18n.t('home.footer_title')} <span className={style.orange}>{i18n.t('home.footer_title_2')}</span></h2>
 
             <p>{i18n.t('home.footer_undertitle_1')}</p>
 
@@ -373,7 +370,7 @@ class Start extends Component {
 
         <section className={style.contact}>
           <div className={style.wrap}>
-            <h2>Contact Us!</h2>
+            <h2>{i18n.t('home.contact_us')}</h2>
 
             <div className={style.contacts}>
               <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pickforgg/">
@@ -405,7 +402,7 @@ class Start extends Component {
             <div className={style.info}>
               <div className={style.copyright}>
                 <div className={style.logo}>PICK.GG</div>
-                <p>© {new Date().getFullYear()} All right reserved</p>
+                <p>© {new Date().getFullYear()} {i18n.t('home.all_rights')}</p>
               </div>
 
               <div className={style.adress}>
