@@ -291,6 +291,9 @@
     "date_tournament": "Tournament date",
     "is_winner": "is the winner",
     "tournament_is_end": "Tournament have ended",
+    "key": "Key",
+    "image": "Image",
+    "is_claimed": "Is claimed",
     "home": {
       "under_title": "Where streamers and viewers",
       "under_title_2": " play together",
@@ -322,6 +325,13 @@
       "jump_in_action_2": " action",
       "join_matchup": "Join matchup"
     },
+    "tournament_page": {
+      "no_applicants": "There is no applicants yet",
+      "applicants": "Applicants",
+      "add_rewards": "Add tournament rewards",
+      "edit_rewards": "Edit tournament rewards",
+      "accepted_summoner": "is already accepted as summoner"
+    },
     "modal": {
       "step": "Step",
       "of": "of",
@@ -329,7 +339,7 @@
       "can_provide_tournaments": "Provide tournaments",
       "choose_your_summoners": "Choose your summoners",
       "edit_tournament": "Edit tournament",
-      "tournament_image": "Tournament Image",
+      "tournament_image": "Image tournament",
       "description": "Description",
       "add_rules": "Add rules",
       "edit_rules": "Edit rules",
@@ -337,7 +347,15 @@
       "choose_tournament_summoners": "Choose tournament summoners",
       "contacts": "Contact (VK, Facebook, Discord, or email link)",
       "results_file": "Results file",
-      "create_new_tournament": "Create new tournament"
+      "create_new_tournament": "Create new tournament",
+      "stream_link": "Stream link",
+      "required": "Required",
+      "date_after": "Tournament date should be after",
+      "add_new_reward": "Add new reward",
+      "edit_new_reward": "Edit new reward",
+      "description_required": "Description field is required!",
+      "user_required": "UserId field is required!",
+      "key_required": "Key field is required!"
     },
     "match_modal": {
       "modal_title": "Edit match {{name}}",
@@ -399,7 +417,13 @@
     },
     "button": {
       "submit": "Submit",
-      "delete_user": "Delete user"
+      "delete_user": "Delete user",
+      "back": "back",
+      "cancel": "cancel",
+      "delete": "delete"
+    },
+    "empty_message": {
+      "no_claimed_rewards": "You don't have any not claimed rewards"
     }
   }
 }

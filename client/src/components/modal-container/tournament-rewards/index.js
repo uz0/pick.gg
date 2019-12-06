@@ -17,6 +17,8 @@ import Button from 'components/button';
 
 import { http } from 'helpers';
 
+import i18n from 'i18next';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -282,8 +284,8 @@ class AddRewards extends Component {
     const { isEditing } = this.state;
     const rewards = Object.entries(this.getCurrentRewards());
 
-    const modalTitle = isEditing ? 'Edit tournament rewards' : 'Add tournament rewards';
-    const buttonText = isEditing ? 'Add' : 'Edit';
+    const modalTitle = isEditing ? i18n.t('tournament_page.edit_rewards') : i18n.t('tournament_page.add_rewards');
+    const buttonText = isEditing ? i18n.t('add') : i18n.t('edit');
 
     const addButton = {
       text: buttonText,
@@ -293,21 +295,21 @@ class AddRewards extends Component {
     };
 
     const submitButton = {
-      text: 'Submit',
+      text: i18n.t('button.submit'),
       type: 'button',
       appearance: '_basic-accent',
       onClick: isEditing ? this.onEditSubmit : this.onAddSubmit,
     };
 
     const cancelButton = {
-      text: 'Cancel',
+      text: i18n.t('button.cancel'),
       type: 'button',
       appearance: '_basic-accent',
       onClick: this.props.close,
     };
 
     const backButton = {
-      text: 'Back',
+      text: i18n.t('button.back'),
       type: 'button',
       appearance: '_basic-accent',
       onClick: () => this.setState({ isEditing: !isEditing }),
@@ -331,7 +333,7 @@ class AddRewards extends Component {
             items={rewards}
             renderRow={this.renderRow}
             className={style.rewards}
-            emptyMessage="You don't have any not claimed rewards"
+            emptyMessage={i18n.t('empty_message.no_claimed_rewards')}
           />
         </div>
       </Modal>

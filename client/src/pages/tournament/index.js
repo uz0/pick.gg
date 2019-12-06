@@ -21,6 +21,9 @@ import { actions as usersActions } from 'pages/dashboard/users';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as notificationActions } from 'components/notification';
+
+import i18n from 'i18next';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -212,7 +215,7 @@ class Tournament extends Component {
 
             {isCurrentUserAdminOrCreator && isForecastingActive && (
               <Button
-                text="Start tournament"
+                text={i18n.t('start_tournament')}
                 appearance="_basic-accent"
                 onClick={this.startMatches}
               />
