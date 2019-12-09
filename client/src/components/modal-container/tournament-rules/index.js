@@ -11,6 +11,7 @@ import Table from 'components/table';
 import { RULES } from 'constants/index';
 
 import { http } from 'helpers';
+import { calcRule } from 'helpers/calc-summoners-points';
 
 import i18n from 'i18n';
 
@@ -35,7 +36,6 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
   const descriptionStyle = { '--width': captions.description.width };
 
   return (
-
     <div key={item.rule} className={cx(className, style.row)}>
       <div className={cx(itemClass, style.number)} style={ruleStyle}>
         <span className={textClass}>{item.rule}</span>
@@ -50,15 +50,45 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
 
 const AddRules = props => {
   const [rules, setRules] = useState(props.tournament.rules);
+  const [error, setError] = useState('');
 
   const handleInputChange = e => {
     const { value } = e.target;
     setRules(value);
   };
 
+  const handleInputFocus = () => {
+    setError('');
+  };
+
   const handleSubmit = async () => {
     const { tournamentId } = props.options;
     const { game } = props.tournament;
+
+    // Validating rules
+    const resultStub = {
+      player: {
+        kills: 2,
+        deaths: 2,
+        assists: 2,
+        loot: 3,
+      },
+      match: {
+        time: 5000,
+      },
+    };
+
+    try {
+      const result = calcRule(rules, resultStub);
+
+      if (!result) {
+        setError('Expression is not correct');
+        return;
+      }
+    } catch (error_) {
+      setError('Expression is not correct');
+      return;
+    }
 
     try {
       await http(`/api/tournaments/${tournamentId}`, {
@@ -75,24 +105,30 @@ const AddRules = props => {
       });
 
       props.close();
-    } catch (error) {
-      console.log(error);
+    } catch (error_) {
+      console.log(error_);
     }
   };
 
   return (
     <Modal
-      title={props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules')}
+      title={
+        props.options.isEditing ?
+          i18n.t('modal.edit_rules') :
+          i18n.t('modal.add_rules')
+      }
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
-      actions={[{
-        text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
-        type: 'button',
-        appearance: '_basic-accent',
-        onClick: handleSubmit,
-        disabled: props.isSubmitting,
-      }]}
+      actions={[
+        {
+          text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
+          type: 'button',
+          appearance: '_basic-accent',
+          onClick: handleSubmit,
+          disabled: props.isSubmitting,
+        },
+      ]}
     >
       <Table
         captions={tableCaptions}
@@ -106,8 +142,10 @@ const AddRules = props => {
         name="rules"
         label="Write your rules below"
         value={rules}
+        error={error}
         className={style.rulearea}
         onChange={handleInputChange}
+        onFocus={handleInputFocus}
       />
     </Modal>
   );
@@ -124,14 +162,16 @@ const enhance = compose(
     }
   ),
   withProps(props => {
-    const normalizedRules = Object.entries(RULES[props.tournament.game])
-      .reduce((acc, [key, rules]) => ([
+    const normalizedRules = Object.entries(RULES[props.tournament.game]).reduce(
+      (acc, [key, rules]) => [
         ...acc,
         ...rules.map(item => ({
           rule: `${key}.${item.ruleName}`,
           description: item.description,
         })),
-      ]), []);
+      ],
+      []
+    );
 
     return {
       ruleNames: normalizedRules,
