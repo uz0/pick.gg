@@ -12,6 +12,8 @@ const TextArea = ({
   className,
   placeholder,
   onChange,
+  onFocus,
+  error,
   ...props
 }) => (
   <div className={cx(style.container, className)}>
@@ -25,8 +27,13 @@ const TextArea = ({
       placeholder={placeholder}
       className={cx('textfield')}
       onChange={onChange}
+      onFocus={onFocus}
       {...props}
     />
+
+    {error &&
+      <p className={style.error}>{error}</p>
+    }
   </div>
 );
 

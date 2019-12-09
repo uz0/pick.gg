@@ -1,4 +1,4 @@
-const calcRule = (ruleString, { match, player }) => {
+export const calcRule = (ruleString, { match, player }) => {
   // eslint-disable-next-line no-eval
   return eval(`({ match, player }) => ${ruleString}`)({ match, player });
 };
