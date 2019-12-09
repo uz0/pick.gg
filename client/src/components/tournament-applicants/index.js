@@ -7,12 +7,16 @@ import ym from 'react-yandex-metrika';
 import classnames from 'classnames/bind';
 import pick from 'lodash/pick';
 import debounce from 'lodash/debounce';
-import { http } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
+
 import notificationActions from 'components/notification/actions';
 import Button from 'components/button';
 import Table from 'components/table';
+
+import { http } from 'helpers';
+
 import { withCaptions } from 'hoc';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -42,7 +46,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, captions, pro
 
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>
-          {item.summonerName}
+          {item.nickname}
           <span className={cx(style.status, { [style.accepted]: item.status === 'ACCEPTED' }, { [style.rejected]: item.status === 'REJECTED' })}>{` (${item.status})`}</span>
         </span>
       </div>
@@ -117,6 +121,7 @@ export default compose(
   withProps(props => {
     const users = Object.values(props.users);
     const currentUserId = props.currentUser._id;
+    const { game } = props.tournament;
 
     const isCurrentUserCreator = props.tournament.creator._id === currentUserId;
 
@@ -130,8 +135,11 @@ export default compose(
     const applicants = props.tournament.applicants.map(({ user, status }) => {
       const applicant = users.find(item => item._id === user);
 
+      const normalizedApplicant = pick(applicant, ['_id', 'gameSpecificName']);
+
       return {
-        ...pick(applicant, ['_id', 'summonerName']),
+        _id: normalizedApplicant._id,
+        nickname: normalizedApplicant.gameSpecificName[game],
         status,
       };
     });
@@ -143,7 +151,7 @@ export default compose(
     };
   }),
   withHandlers({
-    acceptApplicant: props => item => async event => {
+    acceptApplicant: props => item => async () => {
       const tournamentId = props.id;
       const applicantId = item._id;
 
@@ -151,7 +159,7 @@ export default compose(
         props.showNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: `${item.summonerName} is already accepted as summoner`,
+          message: `${item.gameSpecificName[props.tournament.game]} is already accepted as summoner`,
         });
       }
 
@@ -183,7 +191,7 @@ export default compose(
         console.log(error);
       }
     },
-    rejectApplicant: props => item => async event => {
+    rejectApplicant: props => item => async () => {
       const tournamentId = props.id;
       const applicantId = item._id;
 

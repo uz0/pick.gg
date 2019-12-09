@@ -6,16 +6,18 @@ import partition from 'lodash/partition';
 import flatten from 'lodash/flatten';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
+import isEmpty from 'lodash/isEmpty';
 import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
-import i18n from 'i18n';
-
-import { http } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Modal from 'components/modal';
+
+import { http } from 'helpers';
+
+import i18n from 'i18n';
 
 import style from './style.module.css';
 
@@ -33,8 +35,9 @@ const enhance = compose(
     ({ options }) => {
       const summoners = Object
         .values(options.summoners)
-        .filter(summoner => summoner.summonerName !== '')
-        .sort((summoner, nextsummoner) => summoner.summonerName.localeCompare(nextsummoner.summonerName));
+        .filter(summoner => !isEmpty(summoner.gameSpecificName[options.game]))
+        .sort((summoner, nextsummoner) => summoner.gameSpecificName[options.game]
+          .localeCompare(nextsummoner.gameSpecificName[options.game]));
 
       return {
         selectedSummoners: options.selectedSummoners.length > 0 ? options.selectedSummoners : [],
@@ -97,11 +100,12 @@ const enhance = compose(
 
 export default enhance(props => {
   const { isSubmitting, summonersList } = props;
+  const { game } = props.options;
 
   const summoners = filter(summonersList, summoner =>
-    summoner.summonerName.toLowerCase().startsWith(props.filter.toLowerCase())
+    summoner.gameSpecificName[game].toLowerCase().startsWith(props.filter.toLowerCase())
   );
-  const group = groupBy(summoners, summoner => summoner.summonerName[0]);
+  const group = groupBy(summoners, summoner => summoner.gameSpecificName[game][0]);
 
   const isSelectedSummoners = props.selectedSummoners.length > 0;
   const isFiltering = props.filter.length > 0;
@@ -127,7 +131,7 @@ export default enhance(props => {
             const summoner = find(summoners, { _id: id });
             return (
               <p key={summoner._id} className={style.summoner}>
-                {index + 1}. {summoner.summonerName}
+                {index + 1}. {summoner.gameSpecificName[game]}
               </p>
             );
           })
@@ -167,7 +171,7 @@ export default enhance(props => {
                     type="button"
                     onClick={() => props.toggleSelectSummoner(summoner._id)}
                   >
-                    {summoner.summonerName}
+                    {summoner.gameSpecificName[game]}
                   </button>
                 ))}
               </div>
@@ -189,7 +193,7 @@ export default enhance(props => {
                       type="button"
                       onClick={() => props.toggleSelectSummoner(summoner._id)}
                     >
-                      {summoner.summonerName}
+                      {summoner.gameSpecificName[game]}
                     </button>
                   ))}
                 </div>

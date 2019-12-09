@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
@@ -6,8 +7,9 @@ import debounce from 'lodash/debounce';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
-import { http } from 'helpers';
-import Button from 'components/button';
+import { actions as usersActions } from 'pages/dashboard/users';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
 import TournamentMatches from 'components/tournament-matches';
@@ -17,10 +19,12 @@ import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
 import TournamentInvite from 'components/tournament-invite';
-import { actions as usersActions } from 'pages/dashboard/users';
-import { actions as tournamentsActions } from 'pages/tournaments';
+import Button from 'components/button';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as notificationActions } from 'components/notification';
+
+import { http } from 'helpers';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -111,6 +115,7 @@ class Tournament extends Component {
       tournamentId: this.props.match.params.id,
       selectedSummoners: this.props.tournament.summoners,
       summoners: this.props.users,
+      game: this.props.tournament.game,
     },
   });
 
@@ -193,7 +198,7 @@ class Tournament extends Component {
       <div className={cx('tournament', 'container')}>
 
         {this.state.isLoading && (
-          <Preloader isFullScreen />
+          <Preloader isFullScreen/>
         )}
 
         <div className={style.inner_container}>

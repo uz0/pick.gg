@@ -3,8 +3,16 @@ import defaults from 'lodash/defaults';
 import { check, validationResult } from 'express-validator/check';
 
 import TournamentModel from '../../models/tournament';
+import { GAMES } from '../../../common/constants'
 
 const validator = [
+  check('game')
+    .isString()
+    .not()
+    .isEmpty()
+    .withMessage('Enter game')
+    .isIn(GAMES)
+    .withMessage('Choose valid game name'),
   check('name')
     .isString()
     .not()
@@ -33,6 +41,7 @@ const handler = withValidationHandler(async (req, res) => {
     const newTournament = await TournamentModel.create(
       defaults(
         pick(req.body, [
+          'game',
           'name',
           'description',
           'startAt',
@@ -47,6 +56,7 @@ const handler = withValidationHandler(async (req, res) => {
           imageUrl: '',
           summoners: [],
           rewards: [],
+          rules: '',
           createdAt: Date.now(),
           creator: req.decoded._id
         }

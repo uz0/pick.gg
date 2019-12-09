@@ -6,12 +6,14 @@
 
 .rules .header {
   --rules-header-height: 28px;
+
   display: flex;
   align-items: center;
 }
 
 .rules .header .subtitle {
   --height: 28px;
+
   flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
@@ -55,12 +57,14 @@
   --color: #e88c00;
 }
 
-.rules .header+.content, .rules .header+.empty {
+.rules .header + .content,
+.rules .header + .empty {
   margin-top: 16px;
 }
 
 .rules .empty {
   --height: 24px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -74,15 +78,29 @@
 
 .rules .content {
   flex-grow: 1;
-  display: flex;
+  display: inline-block;
 }
 
 .rules .content .button {
   margin: auto;
 }
 
-.rules .content .table {
-  width: 100%;
+.rules .content .info {
+  --row-height: 50px;
+  --bg-color: linear-gradient(180deg, rgba(80, 92, 120, 0.1), rgba(49, 54, 68, 0.1));
+
+  min-width: 100%;
+  display: flex;
+  border-radius: 2px;
+  background: var(--background-color);
+  box-shadow: 0 1px 1px #000;
+  text-decoration: none;
+  transition-property: background-color;
+}
+
+.rules .content .info .rulestring {
+  color: var(--caption-color);
+  margin: 10px;
 }
 
 .rules .content .table .row {

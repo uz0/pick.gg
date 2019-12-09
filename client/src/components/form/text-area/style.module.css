@@ -1,0 +1,48 @@
+html {
+  --default-textarea-height: 80px;
+  --default-textarea-border: 10px;
+  --default-textarea-padding: 8px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container .label {
+  --height: 20px;
+
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: #fff;
+  font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.container .label + textarea {
+  margin-top: 4px;
+}
+
+.container .textfield {
+  --input-height:
+    calc(
+      var(--default-textarea-height) - (var(--default-textarea-border) * 2)
+    );
+
+  height: var(--input-height);
+  border-radius: 4px;
+  padding-left: var(--default-textarea-padding);
+  padding-right: var(--default-textarea-padding);
+  color: var(--caption-color);
+  font-size: 16px;
+  border: var(--default-input-border) solid var(--background-color);
+  background-color: var(--primary-color);
+}
+
+.container input::placeholder {
+  color: var(--accent-color);
+}

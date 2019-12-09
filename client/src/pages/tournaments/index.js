@@ -6,15 +6,20 @@ import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import classnames from 'classnames/bind';
+import moment from 'moment';
+import querystring from 'querystring';
+
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
 import Preloader from 'components/preloader';
-import moment from 'moment';
 import modalActions from 'components/modal-container/actions';
+
 import { http } from 'helpers';
+
+import i18n from 'i18next';
+
 import actions from './actions';
 import style from './style.module.css';
-import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
@@ -23,22 +28,45 @@ class Tournaments extends Component {
     isLoading: false,
   };
 
-  loadTournaments = async () => {
-    this.setState({ isLoading: true });
-    const response = await http('/public/tournaments');
-    const { tournaments } = await response.json();
-    this.props.loadTournaments(tournaments);
-    this.setState({ isLoading: false });
-  };
-
-  async componentDidMount() {
+  componentDidMount() {
     if (!this.props.isLoaded) {
       this.loadTournaments();
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      this.loadTournaments();
+    }
+  }
+
+  loadTournaments = async () => {
+    // Querystring doesnt trim '?'
+    const { game } = querystring.parse(this.props.location.search.slice(1));
+
+    this.setState({ isLoading: true });
+    const response = await http(
+      game ?
+        `/public/tournaments/game/${game}` :
+        '/public/tournaments'
+    );
+    const { tournaments } = await response.json();
+    try {
+      this.props.loadTournaments(tournaments);
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.setState({ isLoading: false });
+  };
+
+  setGame = async game => {
+    await this.props.history.push(`/tournaments${game ? '?game=' + game : ''}`);
+    await this.loadTournaments();
+  };
+
   render() {
-    const isTounaments = this.props.tournamentsIds.length === 0;
+    const isTournaments = this.props.tournamentsIds.length === 0;
 
     const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
     const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
@@ -49,11 +77,28 @@ class Tournaments extends Component {
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={style.wrap_tournaments}>
+          <div className={style.game}>
+            <Button
+              text="Clear filter"
+              className={style.game_button}
+              onClick={() => this.setGame('')}
+            />
+            <Button
+              text="PUBG"
+              className={style.game_button}
+              onClick={() => this.setGame('PUBG')}
+            />
+            <Button
+              text="LOL"
+              className={style.game_button}
+              onClick={() => this.setGame('LOL')}
+            />
+          </div>
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
-            {isTounaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
+            {isTournaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
 
             {filterTournamentList.map(tournament => {
-              // const tournament = this.props.tournamentsList[id];
+              // Const tournament = this.props.tournamentsList[id];
               const dateMonth = moment(tournament.startAt).format('MMM');
               const dateDay = moment(tournament.startAt).format('DD');
               const championsLength = tournament.viewers && tournament.viewers.length;

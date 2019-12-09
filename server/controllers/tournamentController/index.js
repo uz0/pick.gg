@@ -7,6 +7,7 @@ import * as view from './view';
 import * as editRewards from './rewards/edit';
 import * as getRewards from './rewards/get';
 import * as getById from './getById';
+import * as getByGame from './getByGame'
 import * as edit from './edit';
 import * as forecastStatus from './forecastStatus';
 import * as start from './start';
@@ -23,6 +24,8 @@ const TournamentController = io => {
   router.post('/', create.validator, create.handler);
 
   router.get('/:id', getById.validator, getById.handler);
+
+  router.get('/game/:game', getByGame.validator, getByGame.handler);
 
   router.get('/:id/rewards', getRewards.validator, getRewards.handler);
 
