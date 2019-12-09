@@ -10,14 +10,14 @@ const initialState = {
 
 export default createReducer(initialState, {
   [actions.loadTournaments]: (state, action) => {
-    action.payload.forEach(tournament => {
-      if (!state.ids.includes(tournament._id)) {
-        state.ids.push(tournament._id);
-        state.list[tournament._id] = tournament;
-      }
-    });
-
     state.isLoaded = true;
+
+    const res = action.payload.reduce((acc, tournament) => ({
+      ids: [...acc.ids, tournament._id],
+      list: { ...acc.list, [tournament._id]: tournament },
+    }), initialState);
+
+    return Object.assign(state, res);
   },
 
   [actions.addTournament]: (state, action) => {

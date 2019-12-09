@@ -9,6 +9,7 @@ import moment from 'moment';
 
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
+import Select from 'components/form/selects/game-select';
 
 import { http } from 'helpers';
 
@@ -20,6 +21,7 @@ import style from './style.module.css';
 const date = new Date();
 
 const validationSchema = Yup.object().shape({
+  game: Yup.object(),
   name: Yup.string()
     .min(4)
     .max(60)
@@ -57,6 +59,13 @@ const NewTournament = props => {
       }]}
     >
       <Form className={style.form}>
+        <Field
+          component={Select}
+          label={i18n.t('game')}
+          name="game"
+          className={style.field}
+        />
+
         <Field
           component={FormInput}
           label={i18n.t('name')}
@@ -118,6 +127,7 @@ const enhance = compose(
       startAt: today,
     }),
     handleSubmit: async (values, formikBag) => {
+      const normalizedValues = Object.assign(values, { game: values.game.value });
       const createTournamentRequest = async () => {
         try {
           const request = await http('/api/tournaments', {
@@ -125,7 +135,7 @@ const enhance = compose(
               'Content-Type': 'application/json',
             },
             method: 'POST',
-            body: JSON.stringify(values),
+            body: JSON.stringify(normalizedValues),
           });
 
           return request.json();

@@ -11,6 +11,8 @@ import RegionSelect from 'components/form/selects/region-select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 
+import { RULES } from 'constants/index';
+
 import { http, getChangedFormFields } from 'helpers';
 
 import i18n from 'i18n';
@@ -18,6 +20,8 @@ import i18n from 'i18n';
 import { actions as storeActions } from 'store';
 
 import style from './style.module.css';
+
+const GAMES = Object.keys(RULES);
 
 const cx = classnames.bind(style);
 
@@ -57,12 +61,15 @@ const Profile = () => {
           className={style.field}
         />
 
-        <Field
-          component={FormInput}
-          label={i18n.t('summoner_name')}
-          name="summonerName"
-          className={style.field}
-        />
+        {GAMES.map(game => (
+          <Field
+            key={`${game}_username`}
+            component={FormInput}
+            label={i18n.t(`${game}_username`)}
+            name={`gameSpecificName.${game}`}
+            className={style.field}
+          />
+        ))}
 
         <div className={style.position}>
           <Field
@@ -147,7 +154,7 @@ const enhance = compose(
         _id,
         username,
         email,
-        summonerName,
+        gameSpecificName,
         imageUrl,
         about,
         twitchAccount,
@@ -160,7 +167,7 @@ const enhance = compose(
         _id,
         username,
         email,
-        summonerName,
+        gameSpecificName,
         imageUrl,
         about,
         twitchAccount,

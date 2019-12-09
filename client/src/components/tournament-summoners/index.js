@@ -5,6 +5,7 @@ import ym from 'react-yandex-metrika';
 import pick from 'lodash/pick';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
+import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames/bind';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import uuid from 'uuid';
@@ -45,7 +46,6 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
-
   const isSummonerWinner = props.find(summoner => summoner.id === item._id);
 
   return (
@@ -56,7 +56,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
 
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>
-          {item.summonerName}
+          {item.nickname}
           {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
         </span>
       </div>
@@ -196,7 +196,7 @@ export default compose(
     },
   }),
   withProps(props => {
-    const { _id: tournamentId, creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
+    const { _id: tournamentId, game, creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
     const currentUserId = props.currentUser && props.currentUser._id;
 
@@ -214,27 +214,16 @@ export default compose(
 
     const isUserCanApply = !isCurrentUserCreatorOrAdmin && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
 
-    if (props.tournament.summoners.length === 0) {
-      return {
-        ...props,
-        tournamentId,
-        winners,
-        isCurrentUserCreator,
-        isEditingAvailable,
-        isApplicationsAvailable,
-        isCurrentUserCreatorOrAdmin,
-        isUserCanApply,
-        isAlreadyApplicant,
-        isApplicantRejected,
-        isAlreadySummoner,
-        summoners: [],
-      };
-    }
-
     let summoners = props.tournament.summoners.map(summonerId => {
       const summoner = users.find(user => user._id === summonerId);
 
-      return pick(summoner, ['_id', 'summonerName']);
+      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
+
+      // There is no summoner data until loadUsers redux
+      return isEmpty(normalizedSummoner) ? {} : {
+        _id: normalizedSummoner._id,
+        nickname: normalizedSummoner.gameSpecificName[game],
+      };
     });
 
     if (!isApplicationsAvailable) {
@@ -253,7 +242,7 @@ export default compose(
       isApplicantRejected,
       isAlreadyApplicant,
       isAlreadySummoner,
-      summoners,
+      summoners: summoners || [],
     };
   }),
 )(Summoners);

@@ -9,11 +9,12 @@ import RewardPlaceholder from 'assets/trophy.svg';
 import Button from 'components/button';
 import Icon from 'components/icon';
 
+import { REWARD_POSITIONS } from 'constants/index';
+
 import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
 
-import { REWARD_POSITIONS } from '../../constants';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);

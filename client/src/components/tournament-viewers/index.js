@@ -119,7 +119,7 @@ const Viewers = ({
                   </div>
                   <div className={style.info}>
                     <div className={style.name}>
-                      {summoner.summonerName}
+                      {summoner.gameSpecificName[tournament.game]}
                     </div>
                     {summoner.preferredPosition && (
                       <div className={style.position}>

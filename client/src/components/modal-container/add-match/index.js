@@ -38,6 +38,7 @@ const Match = props => {
     >
       <Form>
         <Field
+          autoFocus
           component={FormInput}
           label={i18n.t('match_name')}
           name="name"
