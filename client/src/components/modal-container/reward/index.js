@@ -4,23 +4,24 @@ import { compose } from 'recompose';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import pick from 'lodash/pick';
-import { http, getChangedFormFields } from 'helpers';
-
-import { actions as notificationActions } from 'components/notification';
 import { actions as rewardsActions } from 'pages/dashboard/rewards';
 
+import { actions as notificationActions } from 'components/notification';
 import Modal from 'components/modal';
 import Button from 'components/button';
 import Select from 'components/form/selects/user-select';
 import { FormInput } from 'components/form/input';
 
+import { http, getChangedFormFields } from 'helpers';
+
 import i18n from 'i18n';
+
 import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
-  key: Yup.string().required('Key field is required!'),
-  userId: Yup.string().required('UserId field is required!'),
-  description: Yup.string().required('Description field is required!'),
+  key: Yup.string().required(i18n.t('modal.key_required')),
+  userId: Yup.string().required(i18n.t('modal.user_required')),
+  description: Yup.string().required(i18n.t('modal.descripton_required')),
 });
 
 const normalizeUserField = obj => {
@@ -35,7 +36,7 @@ const normalizeUserField = obj => {
 };
 
 const Reward = props => {
-  const modalTitle = props.options.isEditing ? 'Edit reward' : 'Add new reward';
+  const modalTitle = props.options.isEditing ? 'Edit reward' : i18n.t('add_new_reward');
 
   const deleteReward = async rewardId => {
     try {
@@ -66,14 +67,14 @@ const Reward = props => {
       <Form>
         <Field
           component={FormInput}
-          label="Key"
+          label={i18n.t('key')}
           name="key"
           className={style.field}
         />
 
         <Field
           component={Select}
-          label="User"
+          label={i18n.t('player')}
           name="userId"
           className={style.field}
         />
@@ -81,34 +82,34 @@ const Reward = props => {
         <Field
           component={FormInput}
           type="checkbox"
-          label="Is claimed"
+          label={i18n.t('is_claimed')}
           name="isClaimed"
           className={style.field}
         />
 
         <Field
           component={FormInput}
-          label="Description"
+          label={i18n.t('modal.description')}
           name="description"
           className={style.field}
         />
 
         <Field
           component={FormInput}
-          label="Image"
+          label={i18n.t('image')}
           name="image"
           className={style.field}
         />
         <div className={style.wrap_buttons}>
           <Button
-            text="Delete"
+            text={i18n.t('button.delete')}
             appearance="_basic-danger"
             onClick={() => deleteReward(props.options.reward._id)}
           />
           <Button
             className={style.submit}
             type="submit"
-            text="Submit"
+            text={i18n.t('button.submit')}
             appearance="_basic-accent"
           />
         </div>

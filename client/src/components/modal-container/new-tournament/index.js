@@ -25,20 +25,20 @@ const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(4)
     .max(60)
-    .required('Required'),
+    .required(i18n.t('modal.required')),
   description: Yup.string()
     .min(4)
     .max(120)
-    .required('Required'),
+    .required(i18n.t('modal.required')),
   url: Yup.string()
     .max(200)
-    .required('Required')
+    .required(i18n.t('modal.required'))
     .url(i18n.t('new_tournament.enter_valid_url')),
   imageUrl: Yup.string()
-    .required(),
+    .required(i18n.t('modal.required')),
   startAt: Yup.date()
-    .min(date, `Tournament date should be after: ${moment(date).format('DD MMM')}`)
-    .required('Required'),
+    .min(date, `${i18n.t('modal.date_after')}: ${moment(date).format('DD MMM')}`)
+    .required(i18n.t('modal.required')),
 });
 
 const today = moment().format('YYYY-MM-DD');
@@ -46,13 +46,13 @@ const today = moment().format('YYYY-MM-DD');
 const NewTournament = props => {
   return (
     <Modal
-      title="Create new tournament"
+      title={i18n.t('modal.create_new_tournament')}
       close={props.close}
       wrapClassName="align-modal-center"
       className={style.modal_content}
       actions={[{
         type: 'submit',
-        text: 'Create tournament',
+        text: i18n.t('create_tournament'),
         appearance: '_basic-accent',
         disabled: props.isSubmitting,
         onClick: props.submitForm,
@@ -68,28 +68,28 @@ const NewTournament = props => {
 
         <Field
           component={FormInput}
-          label="Name"
+          label={i18n.t('name')}
           name="name"
           className={style.field}
         />
 
         <Field
           component={FormInput}
-          label="Description"
+          label={i18n.t('modal.description')}
           name="description"
           className={style.field}
         />
 
         <Field
           component={FormInput}
-          label="Stream link"
+          label={i18n.t('modal.stream_link')}
           name="url"
           className={style.field}
         />
 
         <Field
           component={FormInput}
-          label="Image tournament (500x150)"
+          label={`${i18n.t('modal.tournament_image')} (500x150)`}
           name="imageUrl"
           className={style.field}
         />
@@ -97,7 +97,7 @@ const NewTournament = props => {
         <Field
           component={FormInput}
           type="date"
-          label="Date"
+          label={i18n.t('date')}
           name="startAt"
           min={today}
           className={style.field}
