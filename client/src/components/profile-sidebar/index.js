@@ -5,8 +5,6 @@ import { RULES } from 'constants/index';
 
 import i18n from 'i18n';
 
-import i18n from 'i18n';
-
 import Avatar from './avatar';
 import style from './style.module.css';
 
