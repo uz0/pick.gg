@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classnames from 'classnames/bind';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -25,7 +26,8 @@ class DropDown extends Component {
         <div ref={userbox => {
           this.userbox = userbox;
         }
-        }
+        }gi
+        // eslint-disable-next-line react/jsx-indent-props
         className={style.userbox}
         >
           {this.props.placeholder}

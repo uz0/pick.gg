@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
+import i18n from 'i18n';
+
 import Users from './users';
 import Rewards from './rewards';
 import style from './style.module.css';
-import i18n from 'i18n';
 
 class Dashboard extends Component {
   render() {

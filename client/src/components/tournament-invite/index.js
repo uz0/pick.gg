@@ -3,8 +3,10 @@ import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import classnames from 'classnames/bind';
-import style from './style.module.css';
+
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 

@@ -57,7 +57,7 @@ const Rewards = ({
       <p className={style.empty}>{i18n.t('add_rewards')}</p>
     )}
 
-    <div className={style.content}>
+    <div className={cx(style.content, { [style.empty]: isActionsAvailable })}>
       {isActionsAvailable && (
         <Button
           appearance="_circle-accent"

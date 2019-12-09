@@ -1,4 +1,5 @@
 import { Component } from 'react';
+
 import { isLogged } from 'helpers';
 
 class Start extends Component {

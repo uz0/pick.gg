@@ -1,5 +1,6 @@
-import actions from './actions';
 import { createReducer } from 'redux-starter-kit';
+
+import actions from './actions';
 
 const initialState = {
   ids: [],

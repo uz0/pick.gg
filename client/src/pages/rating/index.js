@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import i18n from 'i18n';
-import { http } from 'helpers';
+import classnames from 'classnames/bind';
 
-import Table from 'components/table';
 import cardTwo from 'assets/card-2.png';
 import cardThree from 'assets/card-3.png';
 import cardFour from 'assets/card-4.png';
 import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
 
+import Table from 'components/table';
+
+import { http } from 'helpers';
+
+import i18n from 'i18n';
+
 import style from './style.module.css';
-import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 

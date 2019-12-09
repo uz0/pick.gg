@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import store from 'store';
+
 import Start from './start';
 import Layout from './layout';
 import Home from './pages/home';
@@ -14,8 +16,6 @@ import MyTournaments from './pages/mytournaments';
 import Rewards from './pages/reward';
 import Rating from './pages/rating';
 import NotFound from './pages/404';
-
-import store from 'store';
 
 export default () => (
   <Provider store={store}>
