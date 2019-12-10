@@ -105,6 +105,8 @@ class Start extends Component {
 
   render() {
     const isAutoloadGoogleLogin = Boolean(this.tournamentId) && !process.env.MOCK_USER;
+    console.log('is mock', process.env.MOCK_USER);
+    console.log(isAutoloadGoogleLogin);
 
     const locale = localStorage.getItem('_pgg_locale');
     const linkOffer = locale === 'ru' ?
