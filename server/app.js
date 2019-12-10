@@ -35,7 +35,8 @@ server.timeout = 999999;
 let io = socketIO(server);
 
 mongoose.Promise = Promise;
-mongoose.connect(config.database);
+mongoose.connect(config.database, config.options);
+
 app.set('superSecret', config.secret);
 
 const port = process.env.PORT || 3001;
