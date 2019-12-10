@@ -25,6 +25,8 @@ import { actions as notificationActions } from 'components/notification';
 
 import { http } from 'helpers';
 
+import i18n from 'i18next';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -217,7 +219,7 @@ class Tournament extends Component {
 
             {isCurrentUserAdminOrCreator && isForecastingActive && (
               <Button
-                text="Start tournament"
+                text={i18n.t('start_tournament')}
                 appearance="_basic-accent"
                 onClick={this.startMatches}
               />

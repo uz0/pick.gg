@@ -48,3 +48,10 @@ html {
 .container input::placeholder {
   color: var(--accent-color);
 }
+
+.container .error {
+  line-height: 1.5;
+  font-size: 12px;
+  margin-top: 4px;
+  color: var(--danger-color);
+}

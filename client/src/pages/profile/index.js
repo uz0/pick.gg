@@ -5,11 +5,11 @@ import { Form, withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import classnames from 'classnames/bind';
 
+import { FormInput } from 'components/form/input';
 import PositionSelect from 'components/form/selects/select';
 import RegionSelect from 'components/form/selects/region-select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
-import { FormInput } from 'components/form/input';
 
 import { RULES } from 'constants/index';
 

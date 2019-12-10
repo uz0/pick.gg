@@ -17,6 +17,8 @@ import { http } from 'helpers';
 
 import { withCaptions } from 'hoc';
 
+import i18n from 'i18next';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -82,7 +84,7 @@ const Applicants = ({
 }) => (
   <div className={cx(style.applicants, className)}>
     <div className={style.header}>
-      <h3 className={style.subtitle}>Applicants</h3>
+      <h3 className={style.subtitle}>{i18n.t('tournament_page.applicants')}</h3>
     </div>
 
     <div className={style.content}>
@@ -98,7 +100,7 @@ const Applicants = ({
           acceptApplicant,
           rejectApplicant,
         }}
-        emptyMessage="There is no applicants yet"
+        emptyMessage={i18n.t('tournament_page.no_applicants')}
       />
     </div>
   </div>
@@ -159,7 +161,7 @@ export default compose(
         props.showNotification({
           type: 'error',
           shouldBeAddedToSidebar: false,
-          message: `${item.gameSpecificName[props.tournament.game]} is already accepted as summoner`,
+          message: `${item.summonerName} ${i18n.t('tournament_page.accepted_summoner')}`,
         });
       }
 
