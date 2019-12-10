@@ -82,7 +82,8 @@ class Start extends Component {
     this.props.history.push(url);
   };
 
-  onFailureGoogleLogin = () => {
+  onFailureGoogleLogin = event => {
+    console.log(event);
     this.props.showNotification({
       type: 'error',
       shouldBeAddedToSidebar: false,
