@@ -53,5 +53,5 @@ html {
   line-height: 1.5;
   font-size: 12px;
   margin-top: 4px;
-  color: var(--danger-color);
+  color: var(--danger-secondary-color);
 }
