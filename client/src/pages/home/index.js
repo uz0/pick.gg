@@ -145,7 +145,7 @@ class Start extends Component {
 
               <div className={style.buttons}>
                 <GoogleLogin
-                  autoLoad={isAutoloadGoogleLogin}
+                  {...isAutoloadGoogleLogin ? { autoLoad: true } : {}}
                   render={renderProperties => (
                     <button
                       type="button"
@@ -351,7 +351,7 @@ class Start extends Component {
 
             <div className={style.buttons}>
               <GoogleLogin
-                autoLoad={isAutoloadGoogleLogin}
+                {...isAutoloadGoogleLogin ? { autoLoad: true } : {}}
                 render={renderProperties => (
                   <button
                     type="button"
