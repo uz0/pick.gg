@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
+import includes from 'lodash/includes';
 import moment from 'moment';
 import classnames from 'classnames';
 
@@ -24,6 +25,7 @@ const Information = props => {
 
   const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
   const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
+  const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
 
   const isEmpty = get(props, 'tournament.isEmpty');
   const isApplicationsAvailable = get(props, 'tournament.isApplicationsAvailable');
@@ -31,7 +33,9 @@ const Information = props => {
   const isStarted = get(props, 'tournament.isStarted');
   const isFinalized = get(props, 'tournament.isFinalized');
 
-  const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) && !isStarted;
+  const isEditingAvailable = (
+    isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator
+  ) && !isStarted;
 
   const getTournamentStatus = () => {
     if (isCurrentUserCreator) {

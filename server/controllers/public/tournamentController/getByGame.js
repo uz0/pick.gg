@@ -10,6 +10,7 @@ export const handler = withValidationHandler(async (req, res) => {
     .populate('winner')
     .populate('creatorId')
     .populate('summoners')
+    .populate('moderators')
     .populate('applicants')
     .populate('matches')
     .exec();

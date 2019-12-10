@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 import classnames from 'classnames/bind';
 
 import Button from 'components/button';
@@ -70,11 +71,12 @@ export default compose(
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
-    const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin;
+    const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
+    const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const { rules } = props.tournament;
 
-    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
+    const isEditingAvailable = isCurrentUserCanEditRules &&
       !isEmpty(rules) &&
       !props.tournament.isStarted;
 

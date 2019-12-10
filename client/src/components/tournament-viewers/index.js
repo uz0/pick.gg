@@ -165,7 +165,7 @@ export default compose(
 
     const isCurrentUserCreator = (currentUser && tournament.creator) && tournament.creator._id === currentUser._id;
     const isCurrentUserSummoner = currentUser && tournament.summoners.includes(currentUser._id);
-    const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserSummoner;
+    const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserSummoner && !isCurrentUserCreator;
 
     const viewers = tournament.viewers
       .map(({ userId, summoners }) => {

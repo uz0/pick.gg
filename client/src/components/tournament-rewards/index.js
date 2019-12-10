@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import includes from 'lodash/includes';
 
 import RewardPlaceholder from 'assets/trophy.svg';
 
@@ -114,13 +115,14 @@ export default compose(
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
+    const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
 
-    const isAddButtonVisible = (isCurrentUserCreator || isCurrentUserAdmin) &&
+    const isAddButtonVisible = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) &&
       !props.tournament.isStarted &&
       props.tournament.unfoldedRewards &&
       props.tournament.unfoldedRewards.length > 0;
 
-    const isActionsAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
+    const isActionsAvailable = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) &&
       props.tournament.unfoldedRewards &&
       props.tournament.unfoldedRewards.length === 0;
 
