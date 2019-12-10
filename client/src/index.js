@@ -22,10 +22,7 @@ const isMobile = Boolean(md.mobile());
 store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
 
 const init = async () => {
-  console.log('init');
-  console.log(process.env);
-  if (process.env.NODE_ENV === 'testing') {
-    console.log('testing');
+  if (process.env.MOCK_USER) {
     localStorage.setItem('auth-test-username', 'test1');
   }
 
