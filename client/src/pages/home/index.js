@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-// Import GoogleLogin from 'react-google-login';
+import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import ym from 'react-yandex-metrika';
-// Import config from 'config';
+import config from 'config';
 
 import { ReactComponent as LogoIcon } from 'assets/home/p-logo.svg';
 import wasd from 'assets/home/wasd.svg';
@@ -27,8 +27,7 @@ import email from 'assets/home/email.svg';
 
 import { actions as notificationActions } from 'components/notification';
 
-// Import { isLogged, http } from 'helpers';
-import { http } from 'helpers';
+import { isLogged, http } from 'helpers';
 
 import i18n from 'i18next';
 
@@ -145,25 +144,23 @@ class Start extends Component {
               </div>
 
               <div className={style.buttons}>
-                {
-                  // <GoogleLogin
-                  //   {...isAutoloadGoogleLogin ? { autoLoad: true } : {}}
-                  //   render={renderProperties => (
-                  //     <button
-                  //       type="button"
-                  //       className={style.button}
-                  //       onClick={() =>
-                  //         isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
-                  //       }
-                  //     >
-                  //       <span>{i18n.t('home.button_1')}</span>
-                  //     </button>
-                  //   )}
-                  //   clientId={config.googleClientId}
-                  //   onSuccess={this.onSuccessGoogleLogin}
-                  //   onFailure={this.onFailureGoogleLogin}
-                  // />
-                }
+                <GoogleLogin
+                  autoLoad={isAutoloadGoogleLogin}
+                  render={renderProperties => (
+                    <button
+                      type="button"
+                      className={style.button}
+                      onClick={() =>
+                        isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
+                      }
+                    >
+                      <span>{i18n.t('home.button_1')}</span>
+                    </button>
+                  )}
+                  clientId={config.googleClientId}
+                  onSuccess={this.onSuccessGoogleLogin}
+                  onFailure={this.onFailureGoogleLogin}
+                />
 
                 <a target="_blank" rel="noopener noreferrer" href={linkOffer} className={style.streamer}>
                   {i18n.t('home.link_1')}
@@ -353,25 +350,23 @@ class Start extends Component {
             <p>{i18n.t('home.footer_undertitle_2')}</p>
 
             <div className={style.buttons}>
-              {
-                // <GoogleLogin
-                //   {...isAutoloadGoogleLogin ? { autoLoad: true } : {}}
-                //   render={renderProperties => (
-                //     <button
-                //       type="button"
-                //       className={style.button}
-                //       onClick={() =>
-                //         isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
-                //       }
-                //     >
-                //       <span>{i18n.t('home.button_2')}</span>
-                //     </button>
-                //   )}
-                //   clientId={config.googleClientId}
-                //   onSuccess={this.onSuccessGoogleLogin}
-                //   onFailure={this.onFailureGoogleLogin}
-                // />
-              }
+              <GoogleLogin
+                autoLoad={isAutoloadGoogleLogin}
+                render={renderProperties => (
+                  <button
+                    type="button"
+                    className={style.button}
+                    onClick={() =>
+                      isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
+                    }
+                  >
+                    <span>{i18n.t('home.button_2')}</span>
+                  </button>
+                )}
+                clientId={config.googleClientId}
+                onSuccess={this.onSuccessGoogleLogin}
+                onFailure={this.onFailureGoogleLogin}
+              />
 
               <a target="_blank" rel="noopener noreferrer" href={linkOffer} className={style.streamer}>
                 {i18n.t('home.link_2')}
