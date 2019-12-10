@@ -1,18 +1,14 @@
 {
   "controllers/**/*.js": [
     "standard --fix",
-    "git add"
   ],
   "middleware/**/*.js": [
     "standard --fix",
-    "git add"
   ],
   "models/**/*.js": [
     "standard --fix",
-    "git add"
   ],
   "./*.js": [
     "standard --fix",
-    "git add"
   ]
 }
