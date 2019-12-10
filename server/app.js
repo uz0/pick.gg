@@ -148,7 +148,7 @@ app.get('/*', (req, res) => {
 
   if (req.meta) {
     const meta = req.meta.join('');
-    $('head').append(meta)
+    $('head').append(meta);
   }
   
   res.send($.html());
