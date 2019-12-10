@@ -82,8 +82,7 @@ class Start extends Component {
     this.props.history.push(url);
   };
 
-  onFailureGoogleLogin = event => {
-    console.log(event);
+  onFailureGoogleLogin = () => {
     this.props.showNotification({
       type: 'error',
       shouldBeAddedToSidebar: false,
@@ -105,6 +104,8 @@ class Start extends Component {
   };
 
   render() {
+    const isAutoloadGoogleLogin = Boolean(this.tournamentId) && !process.env.MOCK_USER;
+
     const locale = localStorage.getItem('_pgg_locale');
     const linkOffer = locale === 'ru' ?
       'https://nikitamurashov.typeform.com/to/gwzWNv' : // Ru form
@@ -142,7 +143,7 @@ class Start extends Component {
 
               <div className={style.buttons}>
                 <GoogleLogin
-                  autoLoad={Boolean(this.tournamentId)}
+                  autoLoad={isAutoloadGoogleLogin}
                   render={renderProperties => (
                     <button
                       type="button"
@@ -348,7 +349,7 @@ class Start extends Component {
 
             <div className={style.buttons}>
               <GoogleLogin
-                autoLoad={Boolean(this.tournamentId)}
+                autoLoad={isAutoloadGoogleLogin}
                 render={renderProperties => (
                   <button
                     type="button"
