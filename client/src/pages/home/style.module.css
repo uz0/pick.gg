@@ -44,7 +44,8 @@
   height: 100%;
 }
 
-.work h2, .footer h2 {
+.work h2,
+.footer h2 {
   font-size: 50px;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   color: #fafafa;
@@ -54,7 +55,7 @@
   padding-bottom: 24px;
 }
 
-.main:before {
+.main::before {
   content: '';
   display: block;
   height: 100%;
@@ -62,7 +63,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: url('assets/home/main-girl.svg'), linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
+  background: url('assets/home/main-girl.svg'), linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.png');
   background-repeat: no-repeat;
   background-size: contain, cover, cover;
   background-position: 100% top, center, center;
@@ -74,7 +75,7 @@
   height: 110vh;
   display: flex;
   flex-direction: column;
-  padding: 0px 64px;
+  padding: 0 64px;
   overflow: hidden;
 }
 
@@ -131,7 +132,7 @@
   height: 68px;
 }
 
-.buttons .button:after {
+.buttons .button::after {
   position: absolute;
   display: block;
   content: "";
@@ -145,10 +146,10 @@
   transform: translateX(0%) translateY(-50%);
 }
 
-.buttons .button:hover:after {
+.buttons .button:hover::after {
   height: 120%;
   opacity: 1;
-  color: #FFF;
+  color: #fff;
   background-color: transparent;
   transform: translateX(0%) translateY(-50%);
 }
@@ -177,7 +178,7 @@
   padding: 0 48px;
 }
 
-.buttons .streamer:after {
+.buttons .streamer::after {
   position: absolute;
   display: block;
   content: "";
@@ -191,10 +192,10 @@
   transform: translateX(0%) translateY(-50%);
 }
 
-.buttons .streamer:hover:after {
+.buttons .streamer:hover::after {
   height: 120%;
   opacity: 1;
-  color: #FFF;
+  color: #fff;
   transform: translateX(0%) translateY(-50%);
 }
 
@@ -207,7 +208,7 @@
   background-size: 100%;
 }
 
-.work:before {
+.work::before {
   content: '';
   display: block;
   width: 100%;
@@ -222,7 +223,7 @@
   z-index: -1;
 }
 
-.work:after {
+.work::after {
   content: '';
   display: block;
   width: 100%;
@@ -286,8 +287,8 @@
   line-height: 60px;
   left: -12px;
   top: 24px;
-  padding: 0px 24px 0px 36px;
-  background: linear-gradient(#79BA78, #659C64);
+  padding: 0 24px 0 36px;
+  background: linear-gradient(rgb(121, 186, 120), rgb(101, 156, 100));
   border-radius: 4px;
   text-align: right;
   box-sizing: border-box;
@@ -309,14 +310,14 @@
 }
 
 .tournaments {
-  background: linear-gradient(#79BA78, #659C64);
+  background: linear-gradient(rgb(121, 186, 120), rgb(101, 156, 100));
 }
 
 .tournaments .wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 96px 0 0px;
+  padding: 96px 0 0;
 }
 
 .tournaments .wrap h2 {
@@ -342,7 +343,7 @@
 }
 
 .tournaments .wrap .tournament_items .tournament_item {
-  background: linear-gradient(#79BA78, #659C64);
+  background: linear-gradient(#79ba78, #659c64);
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   display: flex;
@@ -387,7 +388,7 @@
   position: relative;
 }
 
-.jump_section:before {
+.jump_section::before {
   content: '';
   display: block;
   width: 100%;
@@ -464,18 +465,18 @@ h2 .orange {
   background: #171717;
   padding: 6px 12px 6px 24px;
   border-radius: 20px;
-  color: #6FCF97;
+  color: #6fcf97;
   position: relative;
 }
 
-.jump_section .wrap .players .player .status_on:before {
+.jump_section .wrap .players .player .status_on::before {
   content: '';
   position: absolute;
   display: block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #6FCF97;
+  background: #6fcf97;
   left: 12px;
   top: 12px;
 }
@@ -485,18 +486,18 @@ h2 .orange {
   background: #171717;
   padding: 6px 12px 6px 24px;
   border-radius: 20px;
-  color: #F23642;
+  color: #f23642;
   position: relative;
 }
 
-.jump_section .wrap .players .player .status_off:before {
+.jump_section .wrap .players .player .status_off::before {
   content: '';
   position: absolute;
   display: block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #F23642;
+  background: #f23642;
   left: 12px;
   top: 12px;
 }
@@ -518,6 +519,17 @@ h2 .orange {
   font-size: 15px;
 }
 
+.jump_section .wrap .players .player button {
+  color: var(--accent-color);
+  background: #fafafa;
+  border-radius: 4px;
+  font-weight: 900;
+  padding: 12px 36px;
+  display: block;
+  margin-top: 12px;
+  font-size: 15px;
+}
+
 .lang_settings button {
   font-size: 16px;
   background-color: transparent;
@@ -526,7 +538,7 @@ h2 .orange {
   font-weight: bold;
 }
 
-.lang_settings button+button {
+.lang_settings button + button {
   margin-left: 8px;
 }
 
@@ -541,13 +553,13 @@ h2 .orange {
   position: relative;
 }
 
-.team_goals:before {
+.team_goals::before {
   position: absolute;
   display: block;
   width: 100%;
   height: 100%;
   content: '';
-  background: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
+  background: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.png');
   left: 0;
   top: 0;
   z-index: -2;
@@ -578,7 +590,7 @@ h2 .orange {
   padding: 208px 0 48px;
 }
 
-.contact:before {
+.contact::before {
   content: '';
   display: block;
   width: 100%;
@@ -593,7 +605,7 @@ h2 .orange {
   z-index: 0;
 }
 
-.contact:after {
+.contact::after {
   content: '';
   display: block;
   width: 730px;
@@ -602,7 +614,7 @@ h2 .orange {
   background-image: url('../../assets/home/zed-lol.png');
   background-repeat: no-repeat;
   background-size: contain;
-  right: 0px;
+  right: 0;
   top: -780px;
   z-index: 0;
 }
@@ -647,7 +659,7 @@ h2 .orange {
   margin-left: 36px;
   transition: 0.2s;
   margin-right: 12px;
-  background: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95)), url('assets/home/cyberpop.png');
+  background: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.png');
 }
 
 .contact .wrap .contacts .icon img {
@@ -657,7 +669,7 @@ h2 .orange {
 }
 
 .contact .wrap .contacts a:nth-child(2) .icon {
-  background: #0077B5;
+  background: #0077b5;
 }
 
 .contact .wrap .contacts a:nth-child(3) .icon {
@@ -683,7 +695,7 @@ h2 .orange {
 .footer .wrap .logo {
   font-weight: 600;
   font-size: 22px;
-  color: #7E8082;
+  color: #7e8082;
   margin-right: 12px;
 }
 
@@ -713,7 +725,9 @@ h2 .orange {
   transition: all 0.3s;
 }
 
-.footer .wrap .info, .footer .wrap .info .copyright, .footer .wrap .info .contacts {
+.footer .wrap .info,
+.footer .wrap .info .copyright,
+.footer .wrap .info .contacts {
   display: flex;
   align-items: center;
 }
@@ -730,7 +744,7 @@ h2 .orange {
 .footer .wrap .info p {
   margin-right: 16px;
   font-size: 12px;
-  color: #7E8082;
+  color: #7e8082;
   white-space: nowrap;
 }
 
@@ -738,45 +752,58 @@ h2 .orange {
   .wrap {
     max-width: 1150px;
   }
+
   .main h2 {
     font-size: 40px;
     line-height: 40px;
     padding-top: 8px;
   }
-  .work .wrap h2, .team_goals .wrap h2, .tournaments .wrap h2, .jump_section h2 {
+
+  .work .wrap h2,
+  .team_goals .wrap h2,
+  .tournaments .wrap h2,
+  .jump_section h2 {
     font-size: 40px;
   }
+
   .work .cards .card {
     margin-bottom: 24px;
     padding: 24px 24px 24px 118px;
   }
+
   .work .cards .card .title {
     font-size: 14px;
     line-height: 20px;
     padding-bottom: 8px;
   }
+
   .work .cards .card .undertitle {
     font-size: 14px;
     line-height: 20px;
   }
+
   .work h2 {
     margin-bottom: 27px;
     font-size: 30px;
   }
+
   .footer p {
     font-size: 16px;
     line-height: 22px;
   }
-  .main:before {
+
+  .main::before {
     background-size: contain, cover, cover;
     background-position: 100% top, center, center;
   }
+
   .main .main_content {
     height: 90%;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
   .main .wrap .main_content .logo_back {
     position: absolute;
     left: -180px;
@@ -785,33 +812,41 @@ h2 .orange {
     transform: rotate(-90deg);
     opacity: 0.6;
   }
+
   .buttons {
     padding-top: 40px;
   }
+
   .work .cards .card .num {
     font-size: 40px;
   }
-  .contact:after {
+
+  .contact::after {
     width: 600px;
     height: 1000px;
     top: -700px;
   }
+
   .contact .wrap h2 {
     font-size: 30px;
   }
+
   .contact .wrap .contacts a {
     font-size: 12px;
   }
+
   .tournaments .wrap .tournament_items .tournament_item {
     min-width: 300px;
   }
+
   .tournaments .wrap .tournament_items .tournament_item .img {
     width: 250px;
     height: 250px;
     margin-top: -12px;
   }
+
   .tournaments .wrap .tournament_items {
-    max-width: 1000px
+    max-width: 1000px;
   }
 }
 
@@ -819,39 +854,49 @@ h2 .orange {
   .wrap {
     max-width: 1000px;
   }
+
   .jump_section .wrap .players {
     overflow: hidden;
     overflow-x: scroll;
     padding: 0 12px;
-    /* margin: 0 0 -24px; */
+    margin: 0 0 -24px;
   }
+
   .jump_section .wrap .players .player {
     margin: 0 12px;
     min-width: 250px;
   }
+
   .jump_section .wrap .players .player a {
     padding: 12px 30px;
   }
+
   .tournaments .wrap .tournament_items {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .tournaments .wrap .tournament_items .tournament_item {
     margin: 12px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
   }
+
   .tournaments .wrap p {
     width: 80%;
   }
+
   .contact .wrap {
     flex-wrap: wrap;
   }
+
   .contact .wrap .contacts {
     padding-top: 24px;
   }
+
   .contact .wrap .contacts a {
     margin-right: 24px;
   }
+
   .contact .wrap .contacts .icon {
     margin-left: 0;
   }
@@ -861,18 +906,22 @@ h2 .orange {
   .main {
     padding: 0 24px;
   }
-  .main:before {
+
+  .main::before {
     background-position: 100% top, center, center;
   }
+
   .work {
     padding-bottom: 360px;
     background-size: 45%;
   }
+
   .work .cards .card {
     height: auto;
     width: 100%;
     padding: 24px 24px 24px 118px;
   }
+
   .wrap {
     max-width: 100%;
     padding: 0 24px;
@@ -883,25 +932,28 @@ h2 .orange {
   .contact .wrap .contacts {
     flex-wrap: wrap;
   }
+
   .contact .wrap .contacts a {
     margin-right: 24px;
     margin-bottom: 24px;
   }
+
   .work .wrap h2 {
     width: 100%;
   }
+
   .work .games {
     width: 100%;
   }
+
   .buttons {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
-  /* .buttons .button, .buttons .streamer {
-    min-width: 300px;
-  } */
-  .main .buttons .button, .main .buttons .streamer {
+
+  .main .buttons .button,
+  .main .buttons .streamer {
     width: 100%;
     min-width: 100px;
     max-width: 100%;
@@ -914,163 +966,204 @@ h2 .orange {
     align-items: center;
     justify-content: center;
   }
+
   .team_goals .buttons {
     flex-wrap: wrap;
   }
+
   .main h2 {
     width: 100%;
   }
+
   .tournaments .wrap .tournament_items .tournament_item {
     min-width: 260px;
   }
+
   .tournaments .wrap .tournament_items .tournament_item .img {
     width: 250px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
+
   .jump_section h2 {
     padding: 0 24px 24px;
     font-size: 24px;
   }
+
   .jump_section .wrap {
     padding: 0;
   }
 }
 
 @media (max-width: 480px) {
-  .work:before {
+  .work::before {
     top: -5%;
   }
+
   .work .cards .card {
     padding: 24px 12px 24px 100px;
   }
+
   .work .cards .card .title {
     font-size: 12px;
     line-height: 1.3;
     padding-bottom: 6px;
   }
+
   .work .cards .card .undertitle {
     font-size: 12px;
     line-height: 1.3;
   }
+
   .work .cards .card .num {
     left: -6px;
     top: 20px;
     font-size: 26px;
-    padding: 0px 24px 0px 36px;
+    padding: 0 24px 0 36px;
     line-height: 36px;
   }
+
   .work {
     padding: 0;
     background-image: none;
     padding-bottom: 300px;
   }
-  .work:after {
+
+  .work::after {
     width: 85%;
-    top: 70%;
+    top: 75%;
   }
-  .work h2, .team_goals h2 {
+
+  .work h2,
+  .team_goals h2 {
     font-size: 27px;
     margin-bottom: 12px;
     padding-left: 0;
   }
+
   .main {
     height: 100vh;
     padding: 0;
   }
-  .main:before {
+
+  .main::before {
     background-size: cover, cover, cover;
     background-position: 50% top, center, center;
   }
+
   .main .main_content {
     justify-content: flex-end;
     padding-bottom: 50px;
   }
+
   .main .main_content .logo_back {
     display: none;
   }
+
   .main h2 {
     font-size: 26px;
     width: auto;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
   }
+
   .main .logos img {
     width: 20%;
   }
+
   .jump_section h2 {
     align-self: flex-start;
   }
-  .footer p {
-    width: 100%;
-  }
+
   .footer p {
     font-size: 16px;
     line-height: 24px;
+    width: 100%;
   }
+
   .team_goals {
     padding: 140px 0 120px;
   }
+
   .team_goals .wrap p {
     width: 100%;
     font-size: 12px;
     line-height: 16px;
   }
+
   .team_goals .wrap h2 {
     font-size: 30px;
   }
+
   .team_goals .buttons {
     padding-top: 24px;
   }
+
   .footer .wrap .info {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .tournaments .wrap h2 {
     font-size: 30px;
+    padding-left: 36px;
   }
+
   .tournaments .wrap p {
     font-size: 12px;
   }
+
   .tournaments .wrap .tournament_items .tournament_item .title_item {
     font-size: 30px;
   }
+
   .tournaments .wrap .tournament_items .tournament_item .undertitle_item {
     font-size: 12px;
   }
+
   .work .games {
     justify-content: space-between;
   }
+
   .work .games img {
     width: 40%;
   }
+
   .work .cards {
     margin-bottom: 0;
   }
+
   .contact {
     padding-top: 100px;
   }
+
   .contact h2 {
     font-size: 30px;
   }
-  .contact:before {
+
+  .contact::before {
     top: -10%;
   }
+
   .contact::after {
-    width: 520px;
-    height: 700px;
+    width: 220px;
+    height: 300px;
     top: -300px;
-    right: -60%;
+    right: -20px;
     display: none;
   }
+
   .contact .wrap .contacts a {
     font-size: 12px;
     flex-basis: 100%;
   }
+
   .contact .wrap .contacts .icon {
     width: 48px;
     height: 48px;
     padding: 12px;
   }
-  .buttons .button, .buttons .streamer {
+
+  .buttons .button,
+  .buttons .streamer {
     font-size: 10px;
     height: 48px;
     line-height: 16px;
@@ -1084,7 +1177,8 @@ h2 .orange {
   .work {
     padding-bottom: 200px;
   }
-  .work:after {
-    top: 80%;
+
+  .work::after {
+    top: 84%;
   }
 }

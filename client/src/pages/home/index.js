@@ -274,7 +274,23 @@ class Start extends Component {
                 <div className={style.status_on}>online</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleLogin
+                  autoLoad={Boolean(this.tournamentId)}
+                  render={renderProperties => (
+                    <button
+                      type="button"
+                      className={style.join_link}
+                      onClick={() =>
+                        isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
+                      }
+                    >
+                      <span>{i18n.t('home.join_matchup')}</span>
+                    </button>
+                  )}
+                  clientId={config.googleClientId}
+                  onSuccess={this.onSuccessGoogleLogin}
+                  onFailure={this.onFailureGoogleLogin}
+                />
               </div>
 
               <div className={style.player}>
@@ -292,7 +308,23 @@ class Start extends Component {
                 <div className={style.status_off}>offline</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleLogin
+                  autoLoad={Boolean(this.tournamentId)}
+                  render={renderProperties => (
+                    <button
+                      type="button"
+                      className={style.join_link}
+                      onClick={() =>
+                        isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
+                      }
+                    >
+                      <span>{i18n.t('home.join_matchup')}</span>
+                    </button>
+                  )}
+                  clientId={config.googleClientId}
+                  onSuccess={this.onSuccessGoogleLogin}
+                  onFailure={this.onFailureGoogleLogin}
+                />
               </div>
 
               <div className={style.player}>
@@ -310,7 +342,23 @@ class Start extends Component {
                 <div className={style.status_on}>online</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleLogin
+                  autoLoad={Boolean(this.tournamentId)}
+                  render={renderProperties => (
+                    <button
+                      type="button"
+                      className={style.join_link}
+                      onClick={() =>
+                        isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
+                      }
+                    >
+                      <span>{i18n.t('home.join_matchup')}</span>
+                    </button>
+                  )}
+                  clientId={config.googleClientId}
+                  onSuccess={this.onSuccessGoogleLogin}
+                  onFailure={this.onFailureGoogleLogin}
+                />
               </div>
 
               <div className={style.player}>
@@ -328,7 +376,23 @@ class Start extends Component {
                 <div className={style.status_off}>offline</div>
 
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleLogin
+                  autoLoad={Boolean(this.tournamentId)}
+                  render={renderProperties => (
+                    <button
+                      type="button"
+                      className={style.join_link}
+                      onClick={() =>
+                        isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
+                      }
+                    >
+                      <span>{i18n.t('home.join_matchup')}</span>
+                    </button>
+                  )}
+                  clientId={config.googleClientId}
+                  onSuccess={this.onSuccessGoogleLogin}
+                  onFailure={this.onFailureGoogleLogin}
+                />
               </div>
             </div>
           </div>
