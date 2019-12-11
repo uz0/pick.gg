@@ -11,10 +11,10 @@ const schema = new Schema(
 {
     name: String,
     description: String,
-    url: String,
     imageUrl: String,
     createdAt: Date,
     startAt: Date,
+    dateDetails: String,
     price: {
       type: Number,
       min: 0
@@ -24,6 +24,7 @@ const schema = new Schema(
       of: String,
       default: {},
     },
+    rulesTitle: String,
     rules: String,
     isForecastingActive: {
       type: Boolean,

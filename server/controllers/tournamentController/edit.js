@@ -31,7 +31,7 @@ const validator = [
       }
 
       if (isReady) {
-        const fieldsToExclude = ['name', 'description', 'url', 'imageUrl', 'summoners', 'rules'];
+        const fieldsToExclude = ['name', 'description', 'imageUrl', 'summoners', 'rules'];
         const extraField = difference(Object.keys(req.body),fieldsToExclude)
         
         if(!extraField.length) throw new Error(`You can\'t edit next fields in ready tournament: ${extraField.join(', ')}`)
@@ -72,7 +72,6 @@ const handler = withValidationHandler(async (req, res) => {
         'name',
         'description',
         'imageUrl',
-        'url',
         'price',
         'rules',
         'summoners'
