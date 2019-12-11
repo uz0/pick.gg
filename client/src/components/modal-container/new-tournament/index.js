@@ -9,6 +9,7 @@ import moment from 'moment';
 
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
+import { FormTextArea } from 'components/form/text-area';
 import Select from 'components/form/selects/game-select';
 
 import { http } from 'helpers';
@@ -28,12 +29,11 @@ const validationSchema = Yup.object().shape({
     .required(i18n.t('modal.required')),
   description: Yup.string()
     .min(4)
+    .max(2000)
+    .required(i18n.t('modal.required')),
+  dateDetails: Yup.string()
     .max(120)
     .required(i18n.t('modal.required')),
-  url: Yup.string()
-    .max(200)
-    .required(i18n.t('modal.required'))
-    .url(i18n.t('new_tournament.enter_valid_url')),
   imageUrl: Yup.string()
     .required(i18n.t('modal.required')),
   startAt: Yup.date()
@@ -74,16 +74,9 @@ const NewTournament = props => {
         />
 
         <Field
-          component={FormInput}
+          component={FormTextArea}
           label={i18n.t('modal.description')}
           name="description"
-          className={style.field}
-        />
-
-        <Field
-          component={FormInput}
-          label={i18n.t('modal.stream_link')}
-          name="url"
           className={style.field}
         />
 
@@ -100,6 +93,13 @@ const NewTournament = props => {
           label={i18n.t('date')}
           name="startAt"
           min={today}
+          className={style.field}
+        />
+
+        <Field
+          component={FormInput}
+          label={i18n.t('dateDetails')}
+          name="dateDetails"
           className={style.field}
         />
       </Form>
@@ -121,10 +121,10 @@ const enhance = compose(
     mapPropsToValues: () => ({
       name: '',
       description: '',
-      url: '',
       imageUrl: '',
       price: 0,
       startAt: today,
+      dateDetails: '',
     }),
     handleSubmit: async (values, formikBag) => {
       const normalizedValues = Object.assign(values, { game: values.game.value });
