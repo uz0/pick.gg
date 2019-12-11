@@ -100,7 +100,7 @@
 
 .button[appearance$="transparent"]:not(:hover) {
   --background-color: transparent;
-  --color: #9fa2be;
+  --color: #fff;
 }
 
 .button[appearance$="transparent"]:hover {
