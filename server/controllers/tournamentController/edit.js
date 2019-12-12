@@ -74,6 +74,7 @@ const handler = withValidationHandler(async (req, res) => {
         'imageUrl',
         'price',
         'rules',
+        'rulesTitle',
         'summoners'
       ])
     },

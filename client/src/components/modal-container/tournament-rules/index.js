@@ -5,6 +5,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames/bind';
 
 import Modal from 'components/modal';
+import Input from 'components/form/input';
 import TextArea from 'components/form/text-area';
 import Table from 'components/table';
 
@@ -50,11 +51,53 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
 
 const AddRules = props => {
   const [rules, setRules] = useState(props.tournament.rules);
+  const [rulesTitle, setRulesTitle] = useState(props.tournament.rulesTitle);
   const [error, setError] = useState('');
+  const { isCurrentUserAdminOrCreator } = props.options;
 
-  const handleInputChange = e => {
+  const modalActions = [];
+
+  if (isCurrentUserAdminOrCreator) {
+    modalActions.push({
+      text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: handleSubmit,
+      disabled: props.isSubmitting,
+    });
+  }
+
+  console.log(props.options, 'props.options');
+  console.log(isCurrentUserAdminOrCreator, 'isCurrentUserAdminOrCreator');
+
+  const getModalTitle = () => {
+    let title = 'Tournament rules';
+
+    if (isCurrentUserAdminOrCreator) {
+      title = props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules');
+    }
+
+    return title;
+  };
+
+  const getTextAreaTitle = () => {
+    let title = 'Rules formula';
+
+    if (isCurrentUserAdminOrCreator) {
+      title = 'Write your rules below';
+    }
+
+    return title;
+  };
+
+  const handleRulesInputChange = e => {
     const { value } = e.target;
     setRules(value);
+  };
+
+  const handleRulesTitleInputChange = e => {
+    const { value } = e.target;
+    setRulesTitle(value);
   };
 
   const handleInputFocus = () => {
@@ -96,12 +139,13 @@ const AddRules = props => {
           'Content-Type': 'application/json',
         },
         method: 'PATCH',
-        body: JSON.stringify({ rules, game }),
+        body: JSON.stringify({ rules, rulesTitle, game }),
       });
 
       props.updateTournament({
         _id: props.tournament._id,
         rules,
+        rulesTitle,
       });
 
       props.close();
@@ -112,24 +156,22 @@ const AddRules = props => {
 
   return (
     <Modal
-      title={
-        props.options.isEditing ?
-          i18n.t('modal.edit_rules') :
-          i18n.t('modal.add_rules')
-      }
+      title={getModalTitle()}
       close={props.close}
-      className={style.modal_content}
+      className={cx(style.modal_content, { [style.withFooterPadding]: !isCurrentUserAdminOrCreator })}
       wrapClassName={style.wrapper}
-      actions={[
-        {
-          text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
-          type: 'button',
-          appearance: '_basic-accent',
-          onClick: handleSubmit,
-          disabled: props.isSubmitting,
-        },
-      ]}
+      actions={modalActions}
     >
+      <Input
+        disabled={!isCurrentUserAdminOrCreator}
+        name="rulesTitle"
+        label="Rules type (FFA, Bo3)"
+        value={rulesTitle}
+        error={error}
+        className={style.rulearea}
+        onChange={handleRulesTitleInputChange}
+        onFocus={handleInputFocus}
+      />
       <Table
         captions={tableCaptions}
         items={props.ruleNames}
@@ -139,12 +181,13 @@ const AddRules = props => {
         emptyMessage={i18n.t('no_game_rules_help')}
       />
       <TextArea
+        disabled={!isCurrentUserAdminOrCreator}
         name="rules"
-        label="Write your rules below"
+        label={getTextAreaTitle()}
         value={rules}
         error={error}
         className={style.rulearea}
-        onChange={handleInputChange}
+        onChange={handleRulesInputChange}
         onFocus={handleInputFocus}
       />
     </Modal>

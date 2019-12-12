@@ -15,7 +15,7 @@ import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
 // Import TournamentMatches from 'components/tournament-matches';
 // Import TournamentRewards from 'components/tournament-rewards';
-// Import TournamentRules from 'components/tournament-rules';
+// import TournamentRules from 'components/tournament-rules';
 // Import TournamentSummoners from 'components/tournament-summoners';
 // Import TournamentViewers from 'components/tournament-viewers';
 // Import TournamentApplicants from 'components/tournament-applicants';
@@ -95,18 +95,20 @@ class Tournament extends Component {
     });
   };
 
-  addRules = () => this.props.toggleModal({
+  addRules = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rules-modal',
 
     options: {
+      isCurrentUserAdminOrCreator,
       tournamentId: this.props.match.params.id,
     },
   });
 
-  editRules = () => this.props.toggleModal({
+  editRules = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rules-modal',
 
     options: {
+      isCurrentUserAdminOrCreator,
       tournamentId: this.props.match.params.id,
       isEditing: true,
     },
@@ -278,7 +280,11 @@ class Tournament extends Component {
                 <TournamentInformation
                   id={this.props.match.params.id}
                   className={style.information_widget}
-                  // EditTournament={this.editTournament}
+                  isCurrentUserAdminOrCreator={isCurrentUserAdminOrCreator}
+                  addRewards={this.addRewards}
+                  editRewards={this.editRewards}
+                  addRules={this.addRules}
+                  editRules={this.editRules}
                 />
 
                 {/* <TournamentRules

@@ -22,6 +22,7 @@ const Information = props => {
   const creator = get(props, 'tournament.creator');
   const className = get(props, 'className');
 
+  const rules = get(props, 'tournament.rules');
   const shortDescription = get(props, 'tournament.description').substr(0, 255);
   const fullDescription = get(props, 'tournament.description');
 
@@ -32,6 +33,8 @@ const Information = props => {
   const isForecastingActive = get(props, 'tournament.isForecastingActive');
   const isStarted = get(props, 'tournament.isStarted');
   const isFinalized = get(props, 'tournament.isFinalized');
+
+  const rulesAction = () => rules ? props.editRules(props.isCurrentUserAdminOrCreator) : props.addRules(props.isCurrentUserAdminOrCreator);
 
   const readMoreText = isFullDescriptionShown ? 'Скрыть' : '...Подробнее';
 
@@ -71,10 +74,12 @@ const Information = props => {
     <div className={cx(style.information, className)}>
       <div className={style.controls}>
         <StatusControl status={getTournamentStatus()}/>
-        <Control>
+        <Control onClick={props.addRewards}>
           <Icon name="trophy"/>
         </Control>
-        <Control>FFA</Control>
+        <Control onClick={rulesAction}>
+          {props.tournament.rulesTitle || 'SET ME'}
+        </Control>
       </div>
       <div className={style.description}>
         {!isFullDescriptionShown && <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(shortDescription) }}/>}
