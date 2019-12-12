@@ -24,9 +24,11 @@ const validator = [
     .custom(async (tournamentId, { req }) => {
       const { _id, isAdmin } = req.decoded;
 
-      const { creator, isReady } = await Tournament.findById(tournamentId);
+      const { creator, isReady, moderators } = await Tournament.findById(tournamentId);
 
-      if (!isAdmin && String(creator) !== String(_id)) {
+      const isModerator = moderators.includes(_id)
+
+      if (!isAdmin && !isModerator && String(creator) !== String(_id)) {
         throw new Error('You are not allowed to edit this tournament');
       }
 
@@ -75,7 +77,8 @@ const handler = withValidationHandler(async (req, res) => {
         'url',
         'price',
         'rules',
-        'summoners'
+        'summoners',
+        'moderators',
       ])
     },
     {
