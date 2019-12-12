@@ -40,7 +40,7 @@ const Rules = ({
       <p className={style.empty}>{i18n.t('add_rules')}</p>
     )}
 
-    <div className={style.content}>
+    <div className={cx(style.content, { [style.empty]: isCurrentUserCanEditRules && rules.length === 0 })}>
       {isCurrentUserCanEditRules && rules.length === 0 && (
         <Button
           appearance="_circle-accent"

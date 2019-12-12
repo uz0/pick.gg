@@ -102,7 +102,7 @@ const Information = props => {
           </div>
 
           <div className={style.item}>
-            <div className={style.key}>{i18n.t('stream')}</div>
+            <div className={style.key}>{i18n.t('stream')}:</div>
             <div className={style.value}>
               <a target="blank" href={url}>{i18n.t('link')}</a>
             </div>

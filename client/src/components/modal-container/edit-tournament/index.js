@@ -57,13 +57,6 @@ class EditTournament extends Component {
         />
 
         <Field
-          label={i18n.t('price')}
-          name="price"
-          component={FormInput}
-          className={style.field}
-        />
-
-        <Field
           label={i18n.t('date')}
           name="startAt"
           type="date"

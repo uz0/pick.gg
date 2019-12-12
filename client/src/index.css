@@ -6,7 +6,9 @@
 @font-face {
   font-family: 'Gotham Pro';
   src: url('assets/fonts/GothamPro.eot');
-  src: local('Gotham Pro'), local('GothamPro'),
+  src:
+    local('Gotham Pro'),
+    local('GothamPro'),
     url('assets/fonts/GothamPro.eot?#iefix') format('embedded-opentype'),
     url('assets/fonts/GothamPro.woff') format('woff'),
     url('assets/fonts/GothamPro.ttf') format('truetype');
@@ -17,7 +19,9 @@
 @font-face {
   font-family: 'Gotham Pro';
   src: url('assets/fonts/GothamPro-Bold.eot');
-  src: local('Gotham Pro Bold'), local('GothamPro-Bold'),
+  src:
+    local('Gotham Pro Bold'),
+    local('GothamPro-Bold'),
     url('assets/fonts/GothamPro-Bold.eot?#iefix') format('embedded-opentype'),
     url('assets/fonts/GothamPro-Bold.woff') format('woff'),
     url('assets/fonts/GothamPro-Bold.ttf') format('truetype');
@@ -28,7 +32,9 @@
 @font-face {
   font-family: 'Gotham Pro';
   src: url('assets/fonts/GothamPro-Italic.eot');
-  src: local('Gotham Pro Italic'), local('GothamPro-Italic'),
+  src:
+    local('Gotham Pro Italic'),
+    local('GothamPro-Italic'),
     url('assets/fonts/GothamPro-Italic.eot?#iefix') format('embedded-opentype'),
     url('assets/fonts/GothamPro-Italic.woff') format('woff'),
     url('assets/fonts/GothamPro-Italic.ttf') format('truetype');
@@ -39,7 +45,9 @@
 @font-face {
   font-family: 'Gotham Pro';
   src: url('assets/fonts/GothamPro-Light.eot');
-  src: local('Gotham Pro Light'), local('GothamPro-Light'),
+  src:
+    local('Gotham Pro Light'),
+    local('GothamPro-Light'),
     url('assets/fonts/GothamPro-Light.eot?#iefix') format('embedded-opentype'),
     url('assets/fonts/GothamPro-Light.woff') format('woff'),
     url('assets/fonts/GothamPro-Light.ttf') format('truetype');
@@ -50,18 +58,18 @@
 :root {
   --font-family-title: montserrat, sans-serif;
   --font-family-base: 'Gotham Pro';
-
   --font-weight-regular: 400;
   --font-weight-bold: 700;
-
   --accent-color: #f2994a;
   --danger-color: #fb4343;
+  --danger-secondary-color: #ffc777;
+
   /* --background-color: #252532; */
   --background-color: #151534;
   --primary-color: #060916;
   --caption-color: #e3e3e6;
-  --header-color: #eeeeee;
-  --background-gradient: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, 1));
+  --header-color: #eee;
+  --background-gradient: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 1));
   --header-height: 60px;
   --footer-height: 60px;
   --layout-padding: 20px;
@@ -109,7 +117,7 @@ h3,
 h4,
 h5,
 p {
-  margin: 0em;
+  margin: 0;
 }
 
 input:focus,
@@ -130,8 +138,8 @@ select {
   }
 }
 
-@media screen and (max-width: 480px){
-  :global(.container){
+@media screen and (max-width: 480px) {
+  :global(.container) {
     background-size: cover;
   }
 }

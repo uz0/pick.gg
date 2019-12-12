@@ -6,12 +6,14 @@
 
 .rewards .header {
   --rewards-header-height: 28px;
+
   display: flex;
   align-items: center;
 }
 
 .rewards .header .subtitle {
   --height: 28px;
+
   flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
@@ -62,6 +64,7 @@
 
 .rewards .empty {
   --height: 24px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -78,11 +81,16 @@
   flex-grow: 1;
 }
 
+.rewards .content.empty {
+  flex-grow: 1;
+}
+
 .rewards .content .button {
   margin: auto;
 }
 
 .rewards .content .prizes {
+  width: 100%;
   padding: 12px;
   background-color: var(--background-color);
   border-radius: 2px;
@@ -90,6 +98,7 @@
 
 .rewards .content .prizes .title {
   --height: 30px;
+
   flex-grow: 1;
   overflow: hidden;
   min-width: 0;
@@ -102,12 +111,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-.rewards .content .prizes {
-  width: 100%;
-}
-
-.rewards .content .prizes .list {}
 
 .rewards .content .prizes .list .item {
   height: 50px;
