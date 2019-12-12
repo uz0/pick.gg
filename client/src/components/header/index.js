@@ -61,7 +61,13 @@ const Header = ({
         {process.env.MOCK_USER && (
           <DropDown
             className={style.mobile_hidden}
-            placeholder={<p className={style.test_username}>{currentMockedUser}</p>}
+
+            placeholder={(
+              <UserBox
+                userpic="/static/media/avatar-placeholder.svg"
+                username={currentMockedUser}
+              />
+            )}
           >
             <button
               className={style.test_user_dropdown_item}

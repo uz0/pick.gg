@@ -7,6 +7,7 @@ module.exports = function override(config, env) {
 
   config.plugins.push(
     new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || 'development',
       'process.env.MOCK_USER': JSON.stringify(true),
     }),
   );
