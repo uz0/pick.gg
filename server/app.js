@@ -70,21 +70,7 @@ app.use('/api/rewards', RewardController());
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 
 app.use('/home', (req, res, next) => {
-  const getLang = str => {
-    if(str === '*'){
-      return 'en';
-    }
-
-    if(str.length === 2) {
-      return str;
-    }
-
-    if(str.length >= 5) {
-      return str.substr(0, 2);
-    }
-  }
-
-  const lang = req.headers['accept-language'] ? getLang(req.headers['accept-language']) : 'en';
+  const lang = req.hostname.includes('ru.pick.gg') ? 'ru' : 'en';
 
   const description = {
     ru: 'Сервис для проведения турниров по лиге легенд между стримерами',
@@ -95,9 +81,9 @@ app.use('/home', (req, res, next) => {
 
   req.title = 'Pick.gg';
 
-  req.meta.push(`<meta name="description" content="${description[lang] ? description[lang] : description['en']}" />`);
+  req.meta.push(`<meta name="description" content="${description[lang]}" />`);
   req.meta.push('<meta property="og:title" content="Pick.gg" />');
-  req.meta.push(`<meta property="og:description" content="${description[lang] ? description[lang] : description['en']}" />`);
+  req.meta.push(`<meta property="og:description" content="${description[lang]}" />`);
 
   req.meta.push('<meta property="og:image" content="url" />');
   req.meta.push('<meta property="og:image:type" content="image/png">');
