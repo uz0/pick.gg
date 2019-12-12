@@ -992,6 +992,10 @@ h2 .orange {
   .jump_section .wrap {
     padding: 0;
   }
+
+  .footer {
+    padding: 46px 0;
+  }
 }
 
 @media (max-width: 480px) {
