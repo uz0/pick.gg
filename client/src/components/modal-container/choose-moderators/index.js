@@ -126,7 +126,7 @@ export default enhance(props => {
       <div className={style.sidebar}>
         <h3 className={style.title}>Choosen moderators</h3>
 
-        {(isSelectedModerators && !isFiltering) ? (
+        {(isSelectedModerators && !isFiltering) && (
           props.selectedModerators.map((id, index) => {
             const moderator = find(moderators, { _id: id });
             return (
@@ -134,8 +134,9 @@ export default enhance(props => {
                 {index + 1}. {moderator.gameSpecificName[game]}
               </p>
             );
-          })
-        ) : (
+          }))}
+
+        {!(isSelectedModerators && !isFiltering) && (
           <p className={style.empty}>You haven`t chosen any moderators yet</p>
         )}
       </div>
