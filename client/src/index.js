@@ -24,6 +24,8 @@ store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
 const init = async () => {
   if (process.env.MOCK_USER) {
     localStorage.setItem('auth-test-username', 'test1');
+  } else if (localStorage.getItem('auth-test-username')) {
+    localStorage.removeItem('auth-test-username');
   }
 
   if (isLogged()) {
