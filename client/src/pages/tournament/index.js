@@ -209,10 +209,10 @@ class Tournament extends Component {
     const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
-    const isSummonersWidgetVisible = !isEmpty;
-    const isModeratorsWidgetVisible = isEditingAvailable && !isEmpty;
-    const isViewersWidgetVisible = isForecastingActive || isStarted;
-    const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
+    // Const isSummonersWidgetVisible = !isEmpty;
+    // Const isModeratorsWidgetVisible = isEditingAvailable && !isEmpty;
+    // Const isViewersWidgetVisible = isForecastingActive || isStarted;
+    // Const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
     const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);

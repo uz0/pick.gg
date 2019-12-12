@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import showdown from 'showdown';
-import includes from 'lodash/includes';
+// Import includes from 'lodash/includes';
 import classnames from 'classnames';
 
 import Icon from 'components/icon';
@@ -28,8 +28,8 @@ const Information = props => {
   const fullDescription = get(props, 'tournament.description');
 
   const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
-  const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
-  const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
+  // Const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
+  // Const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
 
   const isEmpty = get(props, 'tournament.isEmpty');
   const isApplicationsAvailable = get(props, 'tournament.isApplicationsAvailable');
@@ -41,9 +41,7 @@ const Information = props => {
 
   const readMoreText = isFullDescriptionShown ? 'Скрыть' : '...Подробнее';
 
-  const isEditingAvailable = (
-    isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator
-  ) && !isStarted;
+  // Сonst isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) && !isStarted;
 
   const getTournamentStatus = () => {
     if (isCurrentUserCreator) {
