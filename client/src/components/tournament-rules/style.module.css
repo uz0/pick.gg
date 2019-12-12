@@ -77,8 +77,11 @@
 }
 
 .rules .content {
+  display: flex;
+}
+
+.rules .content.empty {
   flex-grow: 1;
-  display: inline-block;
 }
 
 .rules .content .button {
