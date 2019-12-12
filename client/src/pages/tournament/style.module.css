@@ -43,6 +43,7 @@
 .tournament .inner_container .info .date .createdAt {
   --height: 40px;
 
+  overflow: hidden;
   height: var(--height);
   margin: 0;
   line-height: var(--height);
@@ -118,7 +119,7 @@
   font-size: 18px;
 }
 
-.tournament .inner_container .tournament_section .actions .button:nth-of-type(n+2) {
+.tournament .inner_container .tournament_section .actions .button:nth-of-type(n + 2) {
   margin-left: 10px;
 }
 
@@ -161,7 +162,7 @@
   min-width: 0;
 }
 
-.tournament .inner_container .list .item:nth-of-type(n+2)::before {
+.tournament .inner_container .list .item:nth-of-type(n + 2)::before {
   content: "";
   position: absolute;
   left: -10px;
@@ -284,13 +285,18 @@
   grid-area: summoners;
 }
 
+/*
+.tournament .inner_container .widgets .moderators_widget {
+  grid-area: moderators;
+} */
+
 .tournament .inner_container .widgets .viewers_widget {
   grid-area: viewers;
 }
 
 .tournament .inner_container .widgets .applicants_widget {
   grid-area: applicants;
-} */
+}
 
 .tournament .inner_container .widgets > * {
   min-width: 0;

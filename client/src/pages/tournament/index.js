@@ -4,6 +4,7 @@ import compose from 'recompose/compose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
+import includes from 'lodash/includes';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -125,6 +126,17 @@ class Tournament extends Component {
     },
   });
 
+  addModerators = () => this.props.toggleModal({
+    id: 'add-moderators-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      selectedModerators: this.props.tournament.moderators,
+      moderators: this.props.users,
+      game: this.props.tournament.game,
+    },
+  });
+
   addRewards = () => this.props.toggleModal({
     id: 'tournament-rewards',
 
@@ -183,6 +195,7 @@ class Tournament extends Component {
     const dateDetails = get(this.props, 'tournament.dateDetails');
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
+    const moderators = get(this.props, 'tournament.moderators');
 
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
@@ -192,14 +205,14 @@ class Tournament extends Component {
 
     const isCurrentUserCreator = (creator && currentUser) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserAdminOrCreator = isCurrentUserCreator || isCurrentUserAdmin;
-
-    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) && !isStarted;
+    const isCurrentUserModerator = includes(moderators, currentUser._id);
+    const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
-    // Const isSummonersWidgetVisible = !isEmpty;
-    // Const isViewersWidgetVisible = isForecastingActive || isStarted;
-    // Const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
+    const isSummonersWidgetVisible = !isEmpty;
+    const isModeratorsWidgetVisible = isEditingAvailable && !isEmpty;
+    const isViewersWidgetVisible = isForecastingActive || isStarted;
+    const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
     const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);
@@ -239,7 +252,7 @@ class Tournament extends Component {
               onClick={this.enableForecasting}
             />
 
-            {isCurrentUserAdminOrCreator && isApplicationsAvailable && (
+            {isEditingAvailable && isApplicationsAvailable && (
               <Button
                 disabled={isAllowForecastButtonDisabled}
                 text="Allow forecasts"
@@ -248,7 +261,7 @@ class Tournament extends Component {
               />
             )}
 
-            {isCurrentUserAdminOrCreator && isForecastingActive && (
+            {isEditingAvailable && isForecastingActive && (
               <Button
                 text={i18n.t('start_tournament')}
                 appearance="_basic-accent"
@@ -256,7 +269,7 @@ class Tournament extends Component {
               />
             )}
 
-            {isCurrentUserAdminOrCreator && isStarted && !isFinalized && (
+            {isEditingAvailable && isStarted && !isFinalized && (
               <Button
                 disabled={isFinalizeButtonDisabled}
                 text="Finalize tournament"
@@ -280,7 +293,7 @@ class Tournament extends Component {
                 <TournamentInformation
                   id={this.props.match.params.id}
                   className={style.information_widget}
-                  isCurrentUserAdminOrCreator={isCurrentUserAdminOrCreator}
+                  isCurrentUserAdminOrCreator={isEditingAvailable}
                   addRewards={this.addRewards}
                   editRewards={this.editRewards}
                   addRules={this.addRules}
@@ -326,6 +339,14 @@ class Tournament extends Component {
                     id={this.props.match.params.id}
                     className={style.viewers_widget}
                     joinTournament={this.joinTournament}
+                  />
+                )}
+
+                {isModeratorsWidgetVisible && (
+                  <TournamentModerators
+                    id={this.props.match.params.id}
+                    className={style.moderators_widget}
+                    addModerators={this.addModerators}
                   />
                 )}
 

@@ -109,6 +109,28 @@ class Start extends Component {
       'https://nikitamurashov.typeform.com/to/gwzWNv' : // Ru form
       'https://nikitamurashov.typeform.com/to/MJeHcA'; // En form
 
+    const GoogleButton = ({ text }) => {
+      return (
+        <GoogleLogin
+          autoLoad={Boolean(this.tournamentId)}
+          render={renderProperties => (
+            <button
+              type="button"
+              className={style.button}
+              onClick={() =>
+                isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
+              }
+            >
+              <span>{text}</span>
+            </button>
+          )}
+          clientId={config.googleClientId}
+          onSuccess={this.onSuccessGoogleLogin}
+          onFailure={this.onFailureGoogleLogin}
+        />
+      );
+    };
+
     return (
       <>
         <section className={style.main}>
@@ -140,23 +162,7 @@ class Start extends Component {
               </div>
 
               <div className={style.buttons}>
-                <GoogleLogin
-                  autoLoad={Boolean(this.tournamentId)}
-                  render={renderProperties => (
-                    <button
-                      type="button"
-                      className={style.button}
-                      onClick={() =>
-                        isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
-                      }
-                    >
-                      <span>{i18n.t('home.button_1')}</span>
-                    </button>
-                  )}
-                  clientId={config.googleClientId}
-                  onSuccess={this.onSuccessGoogleLogin}
-                  onFailure={this.onFailureGoogleLogin}
-                />
+                <GoogleButton text={i18n.t('home.button_1')}/>
 
                 <a target="_blank" rel="noopener noreferrer" href={linkOffer} className={style.streamer}>
                   {i18n.t('home.link_1')}
@@ -273,8 +279,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleButton text={i18n.t('home.join_matchup')}/>
               </div>
 
               <div className={style.player}>
@@ -291,8 +296,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleButton text={i18n.t('home.join_matchup')}/>
               </div>
 
               <div className={style.player}>
@@ -309,8 +313,7 @@ class Start extends Component {
 
                 <div className={style.status_on}>online</div>
 
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleButton text={i18n.t('home.join_matchup')}/>
               </div>
 
               <div className={style.player}>
@@ -327,8 +330,7 @@ class Start extends Component {
 
                 <div className={style.status_off}>offline</div>
 
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className={style.join_link}>{i18n.t('home.join_matchup')}</a>
+                <GoogleButton text={i18n.t('home.join_matchup')}/>
               </div>
             </div>
           </div>
@@ -343,23 +345,7 @@ class Start extends Component {
             <p>{i18n.t('home.footer_undertitle_2')}</p>
 
             <div className={style.buttons}>
-              <GoogleLogin
-                autoLoad={Boolean(this.tournamentId)}
-                render={renderProperties => (
-                  <button
-                    type="button"
-                    className={style.button}
-                    onClick={() =>
-                      isLogged() ? this.redirectToTournaments() : renderProperties.onClick()
-                    }
-                  >
-                    <span>{i18n.t('home.button_2')}</span>
-                  </button>
-                )}
-                clientId={config.googleClientId}
-                onSuccess={this.onSuccessGoogleLogin}
-                onFailure={this.onFailureGoogleLogin}
-              />
+              <GoogleButton text={i18n.t('home.button_2')}/>
 
               <a target="_blank" rel="noopener noreferrer" href={linkOffer} className={style.streamer}>
                 {i18n.t('home.link_2')}

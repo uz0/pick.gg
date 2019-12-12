@@ -51,6 +51,7 @@ const schema = new Schema(
     ],
     creator: refTo('User'),
     summoners: [refTo('User')],
+    moderators: [refTo('User')],
     applicants: [
       {
         user: refTo('User'),

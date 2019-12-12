@@ -27,6 +27,7 @@ class DropDown extends Component {
           this.userbox = userbox;
         }
         }
+        // eslint-disable-next-line react/jsx-indent-props
         className={style.userbox}
         >
           {this.props.placeholder}

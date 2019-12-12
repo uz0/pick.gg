@@ -55,6 +55,7 @@ const handler = withValidationHandler(async (req, res) => {
           imageUrl: '',
           dateDetails: '',
           summoners: [],
+          moderators: [],
           rewards: [],
           rules: '',
           createdAt: Date.now(),

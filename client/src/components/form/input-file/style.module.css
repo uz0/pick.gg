@@ -5,6 +5,7 @@
 
 .wrapper .caption {
   --height: 20px;
+
   overflow: hidden;
   display: block;
   height: var(--height);
@@ -14,10 +15,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   margin-bottom: 6px;
-  
 }
 
-.wrapper .caption+.field {
+.wrapper .caption + .field {
   margin-top: 4px;
 }
 
@@ -43,7 +43,8 @@
   width: 24px;
 }
 
-.wrapper .field[type="date"]::-webkit-inner-spin-button, .wrapper .field[type="date"]::-webkit-clear-button {
+.wrapper .field[type="date"]::-webkit-inner-spin-button,
+.wrapper .field[type="date"]::-webkit-clear-button {
   -webkit-appearance: none;
 }
 
@@ -80,5 +81,5 @@
   line-height: 1.5;
   font-size: 12px;
   margin-top: 4px;
-  color: var(--danger-color);
+  color: var(--danger-secondary-color);
 }
