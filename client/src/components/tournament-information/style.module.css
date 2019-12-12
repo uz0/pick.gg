@@ -4,7 +4,56 @@
   flex-direction: column;
 }
 
-.information .header {
+.information .controls {
+  display: flex;
+}
+
+.information .controls > button:not(:first-of-type) {
+  margin-left: 12px;
+}
+
+.information .description {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  color: #fff;
+}
+
+.information .description code {
+  display: flex;
+  white-space: normal;
+  font-size: 14px;
+  font-family: var(--font-family-base);
+}
+
+.information .description p {
+  font-size: 14px;
+}
+
+.information .description a {
+  opacity: 1;
+  color: var(--accent-color);
+}
+
+.information .description h1 {
+  font-size: 18px;
+}
+
+.information .description h2,
+.information .description h3,
+.information .description h4 {
+  font-size: 16px;
+}
+
+.information .description .readmore {
+  margin-top: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: var(--accent-color);
+}
+
+/* .information .header {
   --information-header-height: 28px;
   display: flex;
   align-items: center;
@@ -57,7 +106,7 @@
 
 .information .header+.content, .information .header+.empty {
   margin-top: 16px;
-}
+} */
 
 .information .content {
   flex-grow: 1;
@@ -73,12 +122,13 @@
   display: flex;
 }
 
-.information .content .info .item+.item {
+.information .content .info .item + .item {
   margin-top: 8px;
 }
 
 .information .content .info .item .key {
   --height: 20px;
+
   font-weight: 400;
   font-size: 16px;
   overflow: hidden;
@@ -91,6 +141,9 @@
 
 .information .content .info .item .value {
   --height: 20px;
+
+  position: relative;
+  padding-right: 16px;
   font-size: 16px;
   margin-left: 8px;
   overflow: hidden;
@@ -101,18 +154,15 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 .information .content .info .item.status .key {
   white-space: nowrap;
   overflow: visible;
 }
+
 .information .content .info .item.status .value {
   white-space: pre-wrap;
   height: auto;
-}
-
-.information .content .info .item .value {
-  position: relative;
-  padding-right: 16px;
 }
 
 .information .content .info .item .value a:not(:hover) {
@@ -126,6 +176,7 @@
 .information .content .info .item .value a i {
   --icon-size: 12px;
   --icon-color: #ffd120;
+
   position: absolute;
   top: 0;
   right: 0;
@@ -133,6 +184,7 @@
 
 .information .content .info .text {
   --height: 24px;
+
   overflow: hidden;
   position: relative;
   height: var(--height);

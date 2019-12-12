@@ -6,20 +6,22 @@ import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import classnames from 'classnames/bind';
 import { actions as usersActions } from 'pages/dashboard/users';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
-import TournamentMatches from 'components/tournament-matches';
-import TournamentRewards from 'components/tournament-rewards';
-import TournamentRules from 'components/tournament-rules';
-import TournamentSummoners from 'components/tournament-summoners';
-import TournamentViewers from 'components/tournament-viewers';
-import TournamentApplicants from 'components/tournament-applicants';
-import TournamentInvite from 'components/tournament-invite';
+// Import TournamentMatches from 'components/tournament-matches';
+// Import TournamentRewards from 'components/tournament-rewards';
+// Import TournamentRules from 'components/tournament-rules';
+// Import TournamentSummoners from 'components/tournament-summoners';
+// Import TournamentViewers from 'components/tournament-viewers';
+// Import TournamentApplicants from 'components/tournament-applicants';
+// Import TournamentInvite from 'components/tournament-invite';
 import Button from 'components/button';
+import Icon from 'components/icon';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as notificationActions } from 'components/notification';
 
@@ -175,6 +177,8 @@ class Tournament extends Component {
   render() {
     const tournament = get(this.props, 'tournament');
     const name = get(this.props, 'tournament.name');
+    const createdAt = moment(get(this.props, 'tournament.createdAt', '')).format('D MMMM');
+    const dateDetails = get(this.props, 'tournament.dateDetails');
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
 
@@ -188,10 +192,12 @@ class Tournament extends Component {
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
     const isCurrentUserAdminOrCreator = isCurrentUserCreator || isCurrentUserAdmin;
 
+    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) && !isStarted;
+
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
-    const isSummonersWidgetVisible = !isEmpty;
-    const isViewersWidgetVisible = isForecastingActive || isStarted;
-    const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
+    // Const isSummonersWidgetVisible = !isEmpty;
+    // Const isViewersWidgetVisible = isForecastingActive || isStarted;
+    // Const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
     const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);
@@ -206,7 +212,30 @@ class Tournament extends Component {
         <div className={style.inner_container}>
 
           <div className={style.tournament_section}>
-            <h2 className={style.title}>{name}</h2>
+            <div className={style.info}>
+              <div className={style.date}>
+                <h2 className={style.createdAt}>{createdAt}</h2>
+                {dateDetails && <p className={style.dateDetails}>{dateDetails}</p>}
+
+                {isEditingAvailable && (
+                  <button
+                    type="button"
+                    className={style.button}
+                    onClick={this.editTournament}
+                  >
+                    <Icon name="edit"/>
+                  </button>
+                )}
+              </div>
+              <h3 className={style.title}>{name}</h3>
+            </div>
+
+            <Button
+              disabled={isAllowForecastButtonDisabled}
+              text="Allow forecasts"
+              appearance="_basic-accent"
+              onClick={this.enableForecasting}
+            />
 
             {isCurrentUserAdminOrCreator && isApplicationsAvailable && (
               <Button
@@ -249,17 +278,17 @@ class Tournament extends Component {
                 <TournamentInformation
                   id={this.props.match.params.id}
                   className={style.information_widget}
-                  editTournament={this.editTournament}
+                  // EditTournament={this.editTournament}
                 />
 
-                <TournamentRules
+                {/* <TournamentRules
                   id={this.props.match.params.id}
                   className={style.rules_widget}
                   addRules={this.addRules}
                   editRules={this.editRules}
-                />
+                /> */}
 
-                <TournamentRewards
+                {/* <TournamentRewards
                   id={this.props.match.params.id}
                   className={style.rewards_widget}
                   addRewards={this.addRewards}
@@ -284,9 +313,9 @@ class Tournament extends Component {
                     className={style.summoners_widget}
                     addSummoners={this.addSummoners}
                   />
-                )}
+                )} */}
 
-                {isViewersWidgetVisible && (
+                {/* {isViewersWidgetVisible && (
                   <TournamentViewers
                     id={this.props.match.params.id}
                     className={style.viewers_widget}
@@ -299,7 +328,7 @@ class Tournament extends Component {
                     id={this.props.match.params.id}
                     className={style.applicants_widget}
                   />
-                )}
+                )} */}
               </div>
             </>
           )}

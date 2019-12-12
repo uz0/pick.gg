@@ -12,6 +12,12 @@ import { ReactComponent as ListIcon } from 'assets/icons/list.svg';
 import { ReactComponent as CoinIcon } from 'assets/icons/coin.svg';
 import { ReactComponent as PlayIcon } from 'assets/icons/play.svg';
 import { ReactComponent as StopIcon } from 'assets/icons/stop.svg';
+import { ReactComponent as TrophyIcon } from 'assets/icons/trophy.svg';
+import { ReactComponent as TournamentGoingOn } from 'assets/icons/status/status_going_on.svg';
+import { ReactComponent as TournamentMakeBet } from 'assets/icons/status/status_make_bet.svg';
+import { ReactComponent as TournamentPreparing } from 'assets/icons/status/status_preparing.svg';
+import { ReactComponent as TournamentIsOver } from 'assets/icons/status/status_tournament_over.svg';
+import { ReactComponent as TournamentWaitingSummoners } from 'assets/icons/status/status_waiting_summoners.svg';
 
 import style from './style.module.css';
 
@@ -30,6 +36,12 @@ const Icon = ({ name, className }) => {
     coin: CoinIcon,
     play: PlayIcon,
     stop: StopIcon,
+    trophy: TrophyIcon,
+    tournamentGoingOn: TournamentGoingOn,
+    tournamentMakeBet: TournamentMakeBet,
+    tournamentPreparing: TournamentPreparing,
+    tournamentIsOver: TournamentIsOver,
+    tournamentWaitingSummoners: TournamentWaitingSummoners,
   })[name];
 
   return (
