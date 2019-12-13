@@ -11,7 +11,7 @@
 
 .card .date {
   color: #fafafa;
-  background: linear-gradient(0deg, rgba(81, 147, 84, .95), rgba(81, 147, 84, .95));
+  background: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95));
   width: 60px;
   height: 60px;
   text-align: center;
@@ -21,7 +21,7 @@
   border-radius: 4px;
   margin-right: 24px;
   z-index: 1;
-  transition: .25s ease-in;
+  transition: 0.25s ease-in;
   flex-shrink: 0;
 }
 
@@ -45,7 +45,7 @@
 .card .content {
   padding: 24px;
   z-index: 2;
-  background-image: linear-gradient( 120deg, rgba(7, 7, 22, 0.2), rgba(4, 4, 14, 0.3), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(120deg, rgba(7, 7, 22, 0.2), rgba(4, 4, 14, 0.3), rgba(0, 0, 0, 0));
   background-size: 150%;
   display: flex;
   transition: 0.3s ease-in;
@@ -54,6 +54,7 @@
 
 .card .content .name {
   --height: 48px;
+
   overflow: hidden;
   min-height: var(--height);
   max-height: var(--height);
@@ -77,14 +78,16 @@
 .card .content .info i {
   --icon-size: 20px;
   --icon-color: var(--accent-color);
+
   flex-shrink: 0;
 }
 
 .card .content .info .name {
   --height: 20px;
-  flex-shrink: 0;
+
   height: var(--height);
   line-height: var(--height);
+  flex-shrink: 0;
   font-size: 14px;
   font-weight: 600;
   color: var(--accent-color);
@@ -93,6 +96,7 @@
 
 .card .content .info .value {
   --height: 20px;
+
   height: var(--height);
   margin-left: 8px;
   line-height: var(--height);
@@ -107,6 +111,7 @@
     margin: 6px auto;
     max-width: 480px;
   }
+
   .card .content .name {
     font-size: 18px;
   }
@@ -114,18 +119,19 @@
 
 @media (max-width: 480px) {
   .card {
-    width: 340px;
+    width: 100%;
   }
 }
 
 @media (max-width: 320px) {
   .card {
-    width: 270px;
     min-height: 130px;
   }
+
   .card .content {
     padding: 12px;
   }
+
   .card .content {
     min-height: 130px;
   }

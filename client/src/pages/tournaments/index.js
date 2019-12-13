@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
+import filter from 'lodash/filter';
 import classnames from 'classnames/bind';
 import moment from 'moment';
 import querystring from 'querystring';
@@ -26,6 +27,7 @@ const cx = classnames.bind(style);
 class Tournaments extends Component {
   state = {
     isLoading: false,
+    filter: 'now',
   };
 
   componentDidMount() {
@@ -46,9 +48,7 @@ class Tournaments extends Component {
 
     this.setState({ isLoading: true });
     const response = await http(
-      game ?
-        `/public/tournaments/game/${game}` :
-        '/public/tournaments'
+      game ? `/public/tournaments/game/${game}` : '/public/tournaments'
     );
     const { tournaments } = await response.json();
     try {
@@ -65,19 +65,63 @@ class Tournaments extends Component {
     await this.loadTournaments();
   };
 
+  setFilterGame = text => {
+    console.log(text);
+    this.setState({ filter: text });
+  };
+
   render() {
     const isTournaments = this.props.tournamentsIds.length === 0;
 
     const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
-    const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
-    const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
-    const tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
-    const filterTournamentList = tournamentList.filter(tournament => !tournament.isFinalized);
+    const isCurrentUserStreamer = get(
+      this.props,
+      'currentUser.canProvideTournaments'
+    );
+    const isCurrentUserAdminOrStreamer =
+      isCurrentUserStreamer || isCurrentUserAdmin;
+    let tournamentList = sortBy(
+      this.props.tournamentsList,
+      tournament => tournament.startAt
+    );
+
+    if (this.state.filter === 'now') {
+      tournamentList = filter(
+        tournamentList,
+        tournament =>
+          moment(tournament.startAt).format('DD-MM') ===
+          moment().format('DD-MM')
+      );
+    }
+
+    if (this.state.filter === 'past') {
+      tournamentList = filter(
+        tournamentList,
+        tournament =>
+          moment(tournament.startAt).format('DD-MM') < moment().format('DD-MM')
+      );
+    }
+
+    if (this.state.filter === 'upcoming') {
+      tournamentList = filter(
+        tournamentList,
+        tournament =>
+          moment(tournament.startAt).format('DD-MM') > moment().format('DD-MM')
+      );
+    }
+
+    const nowTournaments = tournamentList.length === 0;
 
     return (
       <div className={cx('tournaments', 'container')}>
+        <div className={cx('tournaments_sidebar')}>
+          <Button text="Now!" onClick={() => this.setFilterGame('now')}/>
+          <Button text="Upcoming" onClick={() => this.setFilterGame('upcoming')}/>
+          <Button text="Past" onClick={() => this.setFilterGame('past')}/>
+        </div>
+
         <div className={style.wrap_tournaments}>
-          <div className={style.game}>
+          {/* <div className={style.game}>
             <Button
               text="Clear filter"
               className={style.game_button}
@@ -93,20 +137,36 @@ class Tournaments extends Component {
               className={style.game_button}
               onClick={() => this.setGame('LOL')}
             />
-          </div>
+          </div> */}
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
-            {isTournaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
+            {(isTournaments || nowTournaments) && (
+              <span className={style.no_tournaments}>
+                {i18n.t('not_yet_tournaments')}
+              </span>
+            )}
 
-            {filterTournamentList.map(tournament => {
+            {/* {nowTournaments && (
+              <span className={style.no_tournaments}>
+                {i18n.t('not_yet_tournaments')}
+              </span>
+            )} */}
+
+            {tournamentList.map(tournament => {
               // Const tournament = this.props.tournamentsList[id];
               const dateMonth = moment(tournament.startAt).format('MMM');
               const dateDay = moment(tournament.startAt).format('DD');
-              const championsLength = tournament.viewers && tournament.viewers.length;
+              const championsLength =
+                tournament.viewers && tournament.viewers.length;
               const tournamentName = tournament.name || i18n.t('no_name');
-              const price = tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
+              const price =
+                tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
 
               return (
-                <Link key={tournament._id} to={`/tournaments/${tournament._id}`} className={style.item}>
+                <Link
+                  key={tournament._id}
+                  to={`/tournaments/${tournament._id}`}
+                  className={style.item}
+                >
                   <TournamentCard
                     name={tournamentName}
                     dateDay={dateDay}
@@ -119,7 +179,6 @@ class Tournaments extends Component {
                 </Link>
               );
             })}
-
           </div>
 
           {isCurrentUserAdminOrStreamer && (
@@ -131,9 +190,7 @@ class Tournaments extends Component {
             />
           )}
 
-          {this.state.isLoading && (
-            <Preloader isFullScreen/>
-          )}
+          {this.state.isLoading && <Preloader isFullScreen/>}
         </div>
       </div>
     );
@@ -152,10 +209,11 @@ export default compose(
     {
       loadTournaments: actions.loadTournaments,
       toggleModal: modalActions.toggleModal,
-    },
+    }
   ),
   withHandlers({
-    openNewTournamentModal: props => () => props.toggleModal({ id: 'new-tournament-modal' }),
+    openNewTournamentModal: props => () =>
+      props.toggleModal({ id: 'new-tournament-modal' }),
   })
 )(Tournaments);
 
