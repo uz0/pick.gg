@@ -24,6 +24,7 @@ const Information = props => {
   const className = get(props, 'className');
 
   const rules = get(props, 'tournament.rules');
+  const rewards = get(props, 'tournament.rewards');
   const shortDescription = get(props, 'tournament.description').substr(0, 255);
   const fullDescription = get(props, 'tournament.description');
 
@@ -38,6 +39,7 @@ const Information = props => {
   const isFinalized = get(props, 'tournament.isFinalized');
 
   const rulesAction = () => rules ? props.editRules(props.isCurrentUserAdminOrCreator) : props.addRules(props.isCurrentUserAdminOrCreator);
+  const rewardsAction = () => rewards ? props.editRewards(props.isCurrentUserAdminOrCreator) : props.addRewards(props.isCurrentUserAdminOrCreator);
 
   const readMoreText = isFullDescriptionShown ? 'Скрыть' : '...Подробнее';
 
@@ -79,7 +81,7 @@ const Information = props => {
     <div className={cx(style.information, className)}>
       <div className={style.controls}>
         <StatusControl status={getTournamentStatus()}/>
-        <Control onClick={props.addRewards}>
+        <Control onClick={rewardsAction}>
           <Icon name="trophy"/>
         </Control>
         <Control onClick={rulesAction}>

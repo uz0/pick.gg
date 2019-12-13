@@ -257,9 +257,9 @@
     "matches matches ."; */
 }
 
-.tournament .inner_container .widgets.is_empty .information_widget {
+/* .tournament .inner_container .widgets.is_empty .information_widget {
   width: 50%;
-}
+} */
 
 /* .tournament .inner_container .widgets .information_widget {
   grid-area: information;

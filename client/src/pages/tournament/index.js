@@ -16,7 +16,7 @@ import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
 // Import TournamentMatches from 'components/tournament-matches';
 // Import TournamentRewards from 'components/tournament-rewards';
-// import TournamentRules from 'components/tournament-rules';
+// Import TournamentRules from 'components/tournament-rules';
 // Import TournamentSummoners from 'components/tournament-summoners';
 // Import TournamentViewers from 'components/tournament-viewers';
 // Import TournamentApplicants from 'components/tournament-applicants';
@@ -137,18 +137,20 @@ class Tournament extends Component {
     },
   });
 
-  addRewards = () => this.props.toggleModal({
+  addRewards = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rewards',
 
     options: {
+      isCurrentUserAdminOrCreator,
       tournamentId: this.props.match.params.id,
     },
   });
 
-  editRewards = () => this.props.toggleModal({
+  editRewards = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rewards',
 
     options: {
+      isCurrentUserAdminOrCreator,
       isEditing: true,
       tournamentId: this.props.match.params.id,
     },
@@ -205,7 +207,7 @@ class Tournament extends Component {
 
     const isCurrentUserCreator = (creator && currentUser) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserModerator = includes(moderators, currentUser._id);
+    const isCurrentUserModerator = currentUser && includes(moderators, currentUser._id);
     const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
@@ -245,12 +247,12 @@ class Tournament extends Component {
               <h3 className={style.title}>{name}</h3>
             </div>
 
-            <Button
+            {/* <Button
               disabled={isAllowForecastButtonDisabled}
               text="Allow forecasts"
               appearance="_basic-accent"
               onClick={this.enableForecasting}
-            />
+            /> */}
 
             {isEditingAvailable && isApplicationsAvailable && (
               <Button
@@ -299,6 +301,13 @@ class Tournament extends Component {
                   addRules={this.addRules}
                   editRules={this.editRules}
                 />
+
+                {/* <TournamentRewards
+                  id={this.props.match.params.id}
+                  className={style.rewards_widget}
+                  addRewards={this.addRewards}
+                  editRewards={this.editRewards}
+                /> */}
 
                 {/* <TournamentRules
                   id={this.props.match.params.id}

@@ -1,14 +1,9 @@
 import React from 'react';
 import compose from 'recompose/compose';
-import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import includes from 'lodash/includes';
 
 import RewardPlaceholder from 'assets/trophy.svg';
-
-import Button from 'components/button';
-import Icon from 'components/icon';
 
 import { REWARD_POSITIONS } from 'constants/index';
 
@@ -34,39 +29,10 @@ const tableCaptions = ({ t, isMobile }) => ({
 
 const Rewards = ({
   tournament,
-  isAddButtonVisible,
-  isActionsAvailable,
-  addRewards,
-  editRewards,
   className,
 }) => (
   <div className={cx(style.rewards, className)}>
-    <div className={style.header}>
-      <h3 className={style.subtitle}>{i18n.t('rewards')}</h3>
-      {isAddButtonVisible && (
-        <button
-          type="button"
-          className={style.button}
-          onClick={editRewards}
-        >
-          {Object.keys(tournament.rewards).length === 0 ? i18n.t('add') : <Icon name="edit"/>}
-        </button>
-      )}
-    </div>
-
-    {isActionsAvailable && (
-      <p className={style.empty}>{i18n.t('add_rewards')}</p>
-    )}
-
-    <div className={cx(style.content, { [style.empty]: isActionsAvailable })}>
-      {isActionsAvailable && (
-        <Button
-          appearance="_circle-accent"
-          icon="plus"
-          className={style.button}
-          onClick={addRewards}
-        />
-      )}
+    <div className={cx(style.content)}>
 
       {tournament.unfoldedRewards && tournament.unfoldedRewards.length !== 0 && (
         <div className={style.prizes}>
@@ -112,26 +78,5 @@ export default compose(
       tournament: state.tournaments.list[props.id],
     }),
   ),
-  withProps(props => {
-    const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
-    const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
-    const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
-
-    const isAddButtonVisible = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) &&
-      !props.tournament.isStarted &&
-      props.tournament.unfoldedRewards &&
-      props.tournament.unfoldedRewards.length > 0;
-
-    const isActionsAvailable = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) &&
-      props.tournament.unfoldedRewards &&
-      props.tournament.unfoldedRewards.length === 0;
-
-    return {
-      ...props,
-      isAddButtonVisible,
-      isActionsAvailable,
-      isCurrentUserCreator,
-    };
-  }),
   withCaptions(tableCaptions),
 )(Rewards);

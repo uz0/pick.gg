@@ -10,6 +10,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames';
 
 import { actions as notificationActions } from 'components/notification';
+import TournamentRewards from 'components/tournament-rewards';
 import Modal from 'components/modal';
 import Table from 'components/table';
 import Select from 'components/filters/select';
@@ -282,10 +283,12 @@ class AddRewards extends Component {
 
   render() {
     const { isEditing } = this.state;
+    const { tournamentId, isCurrentUserAdminOrCreator } = this.props.options;
     const rewards = Object.entries(this.getCurrentRewards());
 
-    const modalTitle = isEditing ? i18n.t('tournament_page.edit_rewards') : i18n.t('tournament_page.add_rewards');
+    let modalTitle = 'View rewards';
     const buttonText = isEditing ? i18n.t('add') : i18n.t('edit');
+    const modalButtons = [];
 
     const addButton = {
       text: buttonText,
@@ -315,26 +318,41 @@ class AddRewards extends Component {
       onClick: () => this.setState({ isEditing: !isEditing }),
     };
 
-    const buttons = isEditing ?
-      [addButton, submitButton, cancelButton] :
-      [submitButton, backButton];
+    if (isCurrentUserAdminOrCreator) {
+      if (isEditing) {
+        modalTitle = i18n.t('tournament_page.edit_rewards');
+        modalButtons.push(...[addButton, submitButton, cancelButton]);
+      } else {
+        modalTitle = i18n.t('tournament_page.add_rewards');
+        modalButtons.push(...[submitButton, backButton]);
+      }
+    }
 
     return (
       <Modal
         title={modalTitle}
         close={this.props.close}
-        className={style.modal_content}
+        className={cx(style.modal_content, { [style.withFooterPadding]: !isCurrentUserAdminOrCreator })}
         wrapClassName={style.wrapper}
-        actions={buttons}
+        actions={modalButtons}
       >
         <div>
-          <Table
-            captions={tableCaptions}
-            items={rewards}
-            renderRow={this.renderRow}
-            className={style.rewards}
-            emptyMessage={i18n.t('empty_message.no_claimed_rewards')}
-          />
+          {isCurrentUserAdminOrCreator && (
+            <Table
+              captions={tableCaptions}
+              items={rewards}
+              renderRow={this.renderRow}
+              className={style.rewards}
+              emptyMessage={i18n.t('empty_message.no_claimed_rewards')}
+            />
+          )}
+
+          {!isCurrentUserAdminOrCreator && (
+            <TournamentRewards
+              id={tournamentId}
+              className={style.rewards_widget}
+            />
+          )}
         </div>
       </Modal>
     );
