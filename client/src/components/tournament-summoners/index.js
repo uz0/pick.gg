@@ -10,6 +10,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 import uuid from 'uuid';
 
 import notificationActions from 'components/notification/actions';
+import { actions as modalActions } from 'components/modal-container';
 import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
@@ -84,11 +85,23 @@ const Summoners = ({
   isAlreadySummoner,
   addSummoners,
   applyTournament,
+  openNewTeamModal,
 }) => {
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
         <h3 className={style.subtitle}>{i18n.t('summoners')}</h3>
+
+        {isEditingAvailable && summoners.length > 0 && (
+          <button
+            type="button"
+            className={style.button}
+            onClick={openNewTeamModal}
+          >
+            {i18n.t('new_team')}
+          </button>
+        )}
+
         {isEditingAvailable && summoners.length > 0 && (
           <button
             type="button"
@@ -161,10 +174,13 @@ export default compose(
     {
       showNotification: notificationActions.showNotification,
       updateTournament: tournamentsActions.updateTournament,
+      toggleModal: modalActions.toggleModal,
     }
   ),
   withCaptions(tableCaptions),
   withHandlers({
+    openNewTeamModal: props => props.toggleModal({ id: 'new-team-modal' }),
+
     applyTournament: props => async () => {
       const tournamentId = props.id;
       const currentUserId = props.currentUser._id;

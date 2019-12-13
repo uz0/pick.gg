@@ -1,11 +1,14 @@
+/* stylelint-disable no-descending-specificity */
 .summoners .header {
   --summoners-header-height: 28px;
+
   display: flex;
   align-items: center;
 }
 
 .summoners .header .subtitle {
   --height: 28px;
+
   flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
@@ -18,16 +21,23 @@
   text-overflow: ellipsis;
 }
 
+.summoners .header .subtitle + .button {
+  margin-left: auto;
+}
+
 .summoners .header .button {
   flex-shrink: 0;
   height: var(--summoners-header-height);
-  margin-left: auto;
   line-height: var(--summoners-header-height);
   font-size: 15px;
   color: var(--color);
   font-weight: 600;
   background-color: transparent;
   transition-property: color;
+}
+
+.summoners .header .button + .button {
+  margin-left: 12px;
 }
 
 .summoners .header .button:not(:hover) {
@@ -45,6 +55,7 @@
 
 .summoners .empty {
   --height: 24px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -98,3 +109,4 @@
     font-size: 20px;
   }
 }
+/* stylelint-enable no-descending-specificity */
