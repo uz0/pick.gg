@@ -106,6 +106,13 @@
   text-transform: uppercase;
 }
 
+.card .content .description {
+  font-size: 14px;
+  color: #fff;
+  max-height: 50px;
+  overflow: hidden;
+}
+
 @media (max-width: 768px) {
   .card {
     margin: 6px auto;
@@ -130,9 +137,6 @@
 
   .card .content {
     padding: 12px;
-  }
-
-  .card .content {
     min-height: 130px;
   }
 }

@@ -66,7 +66,6 @@ class Tournaments extends Component {
   };
 
   setFilterGame = text => {
-    console.log(text);
     this.setState({ filter: text });
   };
 
@@ -111,6 +110,7 @@ class Tournaments extends Component {
     }
 
     const nowTournaments = tournamentList.length === 0;
+    console.log(tournamentList);
 
     return (
       <div className={cx('tournaments', 'container')}>
@@ -145,12 +145,6 @@ class Tournaments extends Component {
               </span>
             )}
 
-            {/* {nowTournaments && (
-              <span className={style.no_tournaments}>
-                {i18n.t('not_yet_tournaments')}
-              </span>
-            )} */}
-
             {tournamentList.map(tournament => {
               // Const tournament = this.props.tournamentsList[id];
               const dateMonth = moment(tournament.startAt).format('MMM');
@@ -174,6 +168,7 @@ class Tournaments extends Component {
                     price={price}
                     people={championsLength || 0}
                     imageUrl={tournament.imageUrl}
+                    description={tournament.description}
                     className={style.card}
                   />
                 </Link>
