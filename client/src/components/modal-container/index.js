@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import NewTournament from './new-tournament';
 import MatchResults from './match-results';
 import ChoosePlayers from './choose-players';
+import ChooseModerators from './choose-moderators';
 import AddMatch from './add-match';
 import AddRules from './tournament-rules';
 import AddRewards from './tournament-rewards';
@@ -21,6 +22,7 @@ const modals = {
   'new-tournament-modal': NewTournament,
   'match-results-modal': MatchResults,
   'add-summoners-modal': ChoosePlayers,
+  'add-moderators-modal': ChooseModerators,
   'reward-modal': Reward,
   'add-match-modal': AddMatch,
   'tournament-rules-modal': AddRules,

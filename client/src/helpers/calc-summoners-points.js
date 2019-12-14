@@ -1,4 +1,9 @@
-export default (summoners, matches = [], rules = {}) => {
+export const calcRule = (ruleString, { match, player }) => {
+  // eslint-disable-next-line no-eval
+  return eval(`({ match, player }) => ${ruleString}`)({ match, player });
+};
+
+export default (summoners, matches = [], rules = '') => {
   if (matches.length === 0) {
     return summoners.map(summoner => ({ ...summoner, points: 0 }));
   }
@@ -14,13 +19,9 @@ export default (summoners, matches = [], rules = {}) => {
       continue;
     }
 
-    for (const result of match.playersResults) {
-      const summonerPoints = Object.entries(result.results).reduce((points, [key, value]) => {
-        points += rules[key] * value;
-        return points;
-      }, 0);
-
-      points[result.userId] += summonerPoints;
+    for (const playerResult of match.playersResults) {
+      const summonerPoints = calcRule(rules, { match, player: playerResult.results });
+      points[playerResult.userId] += summonerPoints;
     }
   }
 

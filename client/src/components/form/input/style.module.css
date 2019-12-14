@@ -5,6 +5,7 @@
 
 .wrapper .caption {
   --height: 20px;
+
   overflow: hidden;
   display: block;
   height: var(--height);
@@ -56,5 +57,5 @@
   line-height: 1.5;
   font-size: 12px;
   margin-top: 4px;
-  color: var(--danger-color);
+  color: var(--danger-secondary-color);
 }

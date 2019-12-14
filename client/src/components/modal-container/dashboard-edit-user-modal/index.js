@@ -1,17 +1,25 @@
 import React from 'react';
-import { http, getChangedFormFields } from 'helpers';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import Modal from 'components/modal';
 import { Form, withFormik, Field } from 'formik';
-import { FormInput } from 'components/form/input';
-import Select from 'components/form/selects/select';
-import Button from 'components/button';
 import * as Yup from 'yup';
-import style from './style.module.css';
-import notificationActions from 'components/notification/actions';
 import actions from 'pages/dashboard/users/actions';
+
+import notificationActions from 'components/notification/actions';
+import Button from 'components/button';
+import Select from 'components/form/selects/select';
+import Modal from 'components/modal';
+import { FormInput } from 'components/form/input';
+
+import { RULES } from 'constants/index';
+
+import { http, getChangedFormFields } from 'helpers';
+
 import i18n from 'i18n';
+
+import style from './style.module.css';
+
+const GAMES = Object.keys(RULES);
 
 const normalizePositionsField = obj => {
   if (obj.preferredPosition) {
@@ -66,12 +74,17 @@ const User = props => {
           className={style.field}
         />
 
-        <Field
-          component={FormInput}
-          label={i18n.t('summonername')}
-          name="summonerName"
-          className={style.field}
-        />
+        {GAMES.map(game => {
+          return (
+            <Field
+              key={`${game}_username`}
+              component={FormInput}
+              label={i18n.t(`${game}_username`)}
+              name={`gameSpecificName.${game}`}
+              className={style.field}
+            />
+          );
+        })}
 
         <Field
           component={Select}
@@ -126,8 +139,8 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: ({ options }) => {
-      const { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin } = options.user;
-      return { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin };
+      const { _id, username, gameSpecificName, preferredPosition, canProvideTournaments, isAdmin } = options.user;
+      return { _id, username, gameSpecificName, preferredPosition, canProvideTournaments, isAdmin };
     },
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;

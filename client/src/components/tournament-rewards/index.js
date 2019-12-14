@@ -3,14 +3,20 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import includes from 'lodash/includes';
+
+import RewardPlaceholder from 'assets/trophy.svg';
+
 import Button from 'components/button';
 import Icon from 'components/icon';
-import RewardPlaceholder from 'assets/trophy.svg';
+
+import { REWARD_POSITIONS } from 'constants/index';
+
 import { withCaptions } from 'hoc';
-import { REWARD_POSITIONS } from '../../constants';
+
+import i18n from 'i18next';
 
 import style from './style.module.css';
-import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
@@ -52,7 +58,7 @@ const Rewards = ({
       <p className={style.empty}>{i18n.t('add_rewards')}</p>
     )}
 
-    <div className={style.content}>
+    <div className={cx(style.content, { [style.empty]: isActionsAvailable })}>
       {isActionsAvailable && (
         <Button
           appearance="_circle-accent"
@@ -109,13 +115,14 @@ export default compose(
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
+    const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
 
-    const isAddButtonVisible = (isCurrentUserCreator || isCurrentUserAdmin) &&
+    const isAddButtonVisible = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) &&
       !props.tournament.isStarted &&
       props.tournament.unfoldedRewards &&
       props.tournament.unfoldedRewards.length > 0;
 
-    const isActionsAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
+    const isActionsAvailable = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) &&
       props.tournament.unfoldedRewards &&
       props.tournament.unfoldedRewards.length === 0;
 

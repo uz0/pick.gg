@@ -9,7 +9,7 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const TournamentCard = ({ name, dateDay, dateMonth, people, price, className, imageUrl }) => {
+const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl }) => {
   const isBackground = imageUrl ? imageUrl : defaultBackground;
   return (
     <div style={{ backgroundImage: `url(${isBackground})` }} className={cx('card', className)}>

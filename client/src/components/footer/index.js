@@ -21,7 +21,7 @@ const Footer = () => {
         <div className={style.info}>
           <div className={style.copyright}>
             <p>PICK.GG</p>
-            <p>{new Date().getFullYear()} All right reserved</p>
+            <p>{new Date().getFullYear()} {i18n.t('home.all_rights')}</p>
           </div>
         </div>
 

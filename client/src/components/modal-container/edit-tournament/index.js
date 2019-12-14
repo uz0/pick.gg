@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { Field, withFormik } from 'formik';
 import moment from 'moment';
 import compose from 'recompose/compose';
-import { http } from 'helpers';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
-import { actions as tournamentsActions } from 'pages/tournaments';
-import style from './style.module.css';
+
+import { http } from 'helpers';
+
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 class EditTournament extends Component {
   render() {
@@ -48,13 +52,6 @@ class EditTournament extends Component {
         <Field
           label={i18n.t('modal.tournament_image')}
           name="imageUrl"
-          component={FormInput}
-          className={style.field}
-        />
-
-        <Field
-          label={i18n.t('price')}
-          name="price"
           component={FormInput}
           className={style.field}
         />

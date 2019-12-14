@@ -1,13 +1,16 @@
+/* eslint-disable complexity */
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
+import includes from 'lodash/includes';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
-import { http } from 'helpers';
-import Button from 'components/button';
+import { actions as usersActions } from 'pages/dashboard/users';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
 import TournamentMatches from 'components/tournament-matches';
@@ -17,10 +20,15 @@ import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
 import TournamentInvite from 'components/tournament-invite';
-import { actions as usersActions } from 'pages/dashboard/users';
-import { actions as tournamentsActions } from 'pages/tournaments';
+import TournamentModerators from 'components/tournament-moderators';
+import Button from 'components/button';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as notificationActions } from 'components/notification';
+
+import { http } from 'helpers';
+
+import i18n from 'i18next';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -111,6 +119,18 @@ class Tournament extends Component {
       tournamentId: this.props.match.params.id,
       selectedSummoners: this.props.tournament.summoners,
       summoners: this.props.users,
+      game: this.props.tournament.game,
+    },
+  });
+
+  addModerators = () => this.props.toggleModal({
+    id: 'add-moderators-modal',
+
+    options: {
+      tournamentId: this.props.match.params.id,
+      selectedModerators: this.props.tournament.moderators,
+      moderators: this.props.users,
+      game: this.props.tournament.game,
     },
   });
 
@@ -170,6 +190,7 @@ class Tournament extends Component {
     const name = get(this.props, 'tournament.name');
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
+    const moderators = get(this.props, 'tournament.moderators');
 
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
@@ -179,10 +200,12 @@ class Tournament extends Component {
 
     const isCurrentUserCreator = (creator && currentUser) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserAdminOrCreator = isCurrentUserCreator || isCurrentUserAdmin;
+    const isCurrentUserModerator = includes(moderators, currentUser._id);
+    const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
+    const isModeratorsWidgetVisible = isEditingAvailable && !isEmpty;
     const isViewersWidgetVisible = isForecastingActive || isStarted;
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
@@ -193,7 +216,7 @@ class Tournament extends Component {
       <div className={cx('tournament', 'container')}>
 
         {this.state.isLoading && (
-          <Preloader isFullScreen />
+          <Preloader isFullScreen/>
         )}
 
         <div className={style.inner_container}>
@@ -201,7 +224,7 @@ class Tournament extends Component {
           <div className={style.tournament_section}>
             <h2 className={style.title}>{name}</h2>
 
-            {isCurrentUserAdminOrCreator && isApplicationsAvailable && (
+            {isEditingAvailable && isApplicationsAvailable && (
               <Button
                 disabled={isAllowForecastButtonDisabled}
                 text="Allow forecasts"
@@ -210,15 +233,15 @@ class Tournament extends Component {
               />
             )}
 
-            {isCurrentUserAdminOrCreator && isForecastingActive && (
+            {isEditingAvailable && isForecastingActive && (
               <Button
-                text="Start tournament"
+                text={i18n.t('start_tournament')}
                 appearance="_basic-accent"
                 onClick={this.startMatches}
               />
             )}
 
-            {isCurrentUserAdminOrCreator && isStarted && !isFinalized && (
+            {isEditingAvailable && isStarted && !isFinalized && (
               <Button
                 disabled={isFinalizeButtonDisabled}
                 text="Finalize tournament"
@@ -284,6 +307,14 @@ class Tournament extends Component {
                     id={this.props.match.params.id}
                     className={style.viewers_widget}
                     joinTournament={this.joinTournament}
+                  />
+                )}
+
+                {isModeratorsWidgetVisible && (
+                  <TournamentModerators
+                    id={this.props.match.params.id}
+                    className={style.moderators_widget}
+                    addModerators={this.addModerators}
                   />
                 )}
 

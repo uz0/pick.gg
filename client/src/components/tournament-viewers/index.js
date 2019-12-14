@@ -4,15 +4,20 @@ import withProps from 'recompose/withProps';
 import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
+
+import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
+
 import Table from 'components/table';
 import Button from 'components/button';
 import { check } from 'components/dropin-auth/check';
-import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
-import { withCaptions } from 'hoc';
-import style from './style.module.css';
+
 import { calcSummonersPoints } from 'helpers';
 
+import { withCaptions } from 'hoc';
+
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -114,7 +119,7 @@ const Viewers = ({
                   </div>
                   <div className={style.info}>
                     <div className={style.name}>
-                      {summoner.summonerName}
+                      {summoner.gameSpecificName[tournament.game]}
                     </div>
                     {summoner.preferredPosition && (
                       <div className={style.position}>
@@ -160,7 +165,7 @@ export default compose(
 
     const isCurrentUserCreator = (currentUser && tournament.creator) && tournament.creator._id === currentUser._id;
     const isCurrentUserSummoner = currentUser && tournament.summoners.includes(currentUser._id);
-    const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserSummoner;
+    const isUserCanMakeForecast = tournament.isForecastingActive && !isCurrentUserSummoner && !isCurrentUserCreator;
 
     const viewers = tournament.viewers
       .map(({ userId, summoners }) => {

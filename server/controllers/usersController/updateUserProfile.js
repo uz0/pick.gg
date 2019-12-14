@@ -23,7 +23,7 @@ const handler = withValidationHandler(async (req, res) => {
         'imageUrl',
         'about',
         'twitchAccount',
-        'summonerName',
+        'gameSpecificName',
         'regionId',
         'preferredPosition',
         'contact',

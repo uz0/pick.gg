@@ -21,19 +21,19 @@
     }
   },
   "dependencies": {
-    "dotenv": "^8.0.0"
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "clean-dir": "^1.0.3",
     "concurrently": "^3.5.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^5.2.1",
     "expect-puppeteer": "^4.1.1",
     "husky": "^2.4.0",
     "jest": "^23.6.0",
     "jest-puppeteer": "^4.1.1",
     "morgan": "^1.9.0",
-    "nodemon": "^1.18.10",
+    "nodemon": "^1.19.4",
     "npm-run-all": "^4.1.2",
-    "puppeteer": "^1.14.0"
+    "puppeteer": "^1.20.0"
   }
 }

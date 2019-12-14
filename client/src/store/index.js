@@ -1,6 +1,7 @@
 import { configureStore } from 'redux-starter-kit';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
+
 import rootReducer from './reducers';
 
 export { default as actions } from './actions';

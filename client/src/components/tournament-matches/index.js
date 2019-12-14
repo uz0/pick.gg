@@ -1,19 +1,26 @@
+/* eslint-disable complexity */
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
-import { http } from 'helpers';
+import includes from 'lodash/includes';
+import classnames from 'classnames/bind';
+import { actions as tournamentsActions } from 'pages/tournaments';
+import moment from 'moment';
+
 import Table from 'components/table';
 import Button from 'components/button';
 import Icon from 'components/icon';
-import classnames from 'classnames/bind';
-import { withCaptions } from 'hoc';
 import { actions as modalActions } from 'components/modal-container';
-import { actions as tournamentsActions } from 'pages/tournaments';
-import moment from 'moment';
-import style from './style.module.css';
+
+import { http } from 'helpers';
+
+import { withCaptions } from 'hoc';
+
 import i18n from 'i18next';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -116,6 +123,7 @@ class Matches extends Component {
     const tournamentId = get(this.props, 'tournament._id');
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
+    const tournament = get(this.props, 'tournament');
 
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isStarted = get(this.props, 'tournament.isStarted');
@@ -127,7 +135,8 @@ class Matches extends Component {
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserCreatorOrAdmin = isCurrentUserCreator || isCurrentUserAdmin;
+    const isCurrentUserModerator = includes(tournament.moderators, currentUser._id);
+    const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
 
@@ -160,7 +169,7 @@ class Matches extends Component {
           </div>
         )}
 
-        {isCurrentUserCreatorOrAdmin && isStarted && !isMatchOver && !isMatchActive && (
+        {isEditingAvailable && isStarted && !isMatchOver && !isMatchActive && (
           <button
             type="button"
             className={style.button}
@@ -171,7 +180,7 @@ class Matches extends Component {
           </button>
         )}
 
-        {isCurrentUserCreatorOrAdmin && isStarted && isMatchActive && (
+        {isEditingAvailable && isStarted && isMatchActive && (
           <button
             type="button"
             className={style.button}
@@ -182,7 +191,7 @@ class Matches extends Component {
           </button>
         )}
 
-        {isCurrentUserCreatorOrAdmin && isStarted && isMatchOver && (
+        {isEditingAvailable && isStarted && isMatchOver && (
           <button
             type="button"
             className={style.button}
@@ -199,7 +208,7 @@ class Matches extends Component {
           </button>
         )}
 
-        {isCurrentUserCreatorOrAdmin && isDeleteButtonShown && (
+        {isEditingAvailable && isDeleteButtonShown && (
           <button
             type="button"
             className={cx(style.button, style.danger)}
@@ -216,6 +225,7 @@ class Matches extends Component {
     const {
       currentUser,
       className,
+      tournament,
     } = this.props;
 
     const matches = get(this.props, 'tournament.matches')
@@ -226,10 +236,10 @@ class Matches extends Component {
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserAdminOrCreator = isCurrentUserCreator || isCurrentUserAdmin;
+    const isCurrentUserModerator = includes(tournament.moderators, currentUser._id);
+    const isCurrentUserCanEdit = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
-    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) && matches.length > 0 && !isStarted;
-
+    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) && matches.length > 0 && !isStarted;
     return (
       <div className={cx(style.matches, className)}>
         <div className={style.header}>
@@ -245,12 +255,12 @@ class Matches extends Component {
           )}
         </div>
 
-        {isCurrentUserAdminOrCreator && matches.length === 0 && (
+        {isCurrentUserCanEdit && matches.length === 0 && (
           <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>
         )}
 
         <div className={style.content}>
-          {isCurrentUserAdminOrCreator && matches.length === 0 && (
+          {isCurrentUserCanEdit && matches.length === 0 && (
             <Button
               appearance="_circle-accent"
               icon="plus"

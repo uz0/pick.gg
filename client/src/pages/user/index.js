@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { actions as usersActions } from 'pages/dashboard/users';
-import { http } from 'helpers';
 import findIndex from 'lodash/findIndex';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+import classnames from 'classnames/bind';
+
+import defaultBackground from 'assets/play-with.jpg';
 
 import ProfileSidebar from 'components/profile-sidebar';
 import Preloader from 'components/preloader';
-import defaultBackground from 'assets/play-with.jpg';
-import moment from 'moment';
+
+import { http } from 'helpers';
+
+import i18n from 'i18n';
 
 import style from './style.module.css';
-import i18n from 'i18n';
-import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 
@@ -63,7 +66,7 @@ class User extends Component {
     const userId = this.props.match.params.id;
     const currentUser = this.props.users[userId] || {};
 
-    const { about, imageUrl, summonerName, preferredPosition, username } = currentUser;
+    const { about, imageUrl, gameSpecificName, preferredPosition, username } = currentUser;
     const { applicants, streamers, viewers, lastGames } = this.state;
 
     const placeApplicants = findIndex(applicants, item => item.username === username) + 1;
@@ -90,7 +93,7 @@ class User extends Component {
             source={imageUrl}
             nickname={username}
             description={about}
-            summonerName={summonerName}
+            gameSpecificName={gameSpecificName}
             preferredPosition={preferredPosition}
           />
 
@@ -157,7 +160,7 @@ class User extends Component {
         </div>
 
         {this.state.isLoading &&
-          <Preloader />
+          <Preloader/>
         }
       </div>
     );

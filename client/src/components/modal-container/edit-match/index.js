@@ -1,17 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import pick from 'lodash/pick';
-import Modal from 'components/modal';
 import { compose, withProps } from 'recompose';
 import { Field, withFormik } from 'formik';
 import * as Yup from 'yup';
-import { FormInput } from 'components/form/input';
+import { actions as tournamentsActions } from 'pages/tournaments';
+
 import FileInput from 'components/form/input-file';
 import notificationActions from 'components/notification/actions';
-import { actions as tournamentsActions } from 'pages/tournaments';
-import style from './style.module.css';
+import Modal from 'components/modal';
+import { FormInput } from 'components/form/input';
+
+import { RULES } from 'constants/index';
+
 import { http } from 'helpers';
+
 import i18n from 'i18n';
+
+import style from './style.module.css';
 
 const validationSchema = Yup.object().shape({
   resultsFile: Yup.mixed()
@@ -27,6 +33,7 @@ const validationSchema = Yup.object().shape({
 const EditMatch = ({
   close,
   summoners,
+  playerRules,
   setFieldValue,
   isSubmitting,
   errors,
@@ -47,6 +54,7 @@ const EditMatch = ({
       className={style.content}
     >
       <Field
+        disabled
         label={i18n.t('match_name')}
         name="name"
         component={FormInput}
@@ -67,31 +75,18 @@ const EditMatch = ({
 
       {summoners.map((summoner, index) => (
         <div key={summoner._id} className={style.summoner}>
-          <h3 className={style.name}>{summoner.summonerName}</h3>
+          <h3 className={style.name}>{summoner.nickname}</h3>
 
-          <Field
-            label="Kills"
-            name={`summoners[${index}].results.kills`}
-            type="number"
-            component={FormInput}
-            className={style.kda}
-          />
-
-          <Field
-            label="Deaths"
-            name={`summoners[${index}].results.deaths`}
-            type="number"
-            component={FormInput}
-            className={style.kda}
-          />
-
-          <Field
-            label="Assists"
-            name={`summoners[${index}].results.assists`}
-            type="number"
-            component={FormInput}
-            className={style.kda}
-          />
+          {playerRules.map(rule => (
+            <Field
+              key={`${summoner.nickname}_${rule}`}
+              label={rule}
+              name={`summoners[${index}].results.${rule}`}
+              type="number"
+              component={FormInput}
+              className={style.result_field}
+            />
+          ))}
         </div>
       ))}
     </Modal>
@@ -112,6 +107,8 @@ export default compose(
   ),
   withProps(props => {
     const { matchId } = props.options;
+    const { game } = props.tournament;
+    const playerRules = RULES[game].player.reduce((rules, rule) => ([...rules, rule.ruleName]), []);
 
     const match = props.tournament.matches.find(match => match._id === matchId);
 
@@ -119,14 +116,16 @@ export default compose(
       const summoner = Object.values(props.users).find(item => item._id === summonerId);
       const summonerResults = match.playersResults.find(item => item.userId === summonerId);
 
-      const results = {
-        kills: summonerResults ? summonerResults.results.kills : 0,
-        deaths: summonerResults ? summonerResults.results.deaths : 0,
-        assists: summonerResults ? summonerResults.results.assists : 0,
-      };
+      const results = summonerResults ?
+        Object.entries(summonerResults.results).reduce((results, [key, val]) => {
+          return { ...results, [key]: val };
+        }, {}) :
+        RULES[game].player.reduce((rules, rule) => ({ ...rules, [rule.ruleName]: 0 }), {});
 
+      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
       return {
-        ...pick(summoner, ['_id', 'summonerName']),
+        _id: normalizedSummoner._id,
+        nickname: normalizedSummoner.gameSpecificName[game],
         results,
       };
     });
@@ -134,6 +133,7 @@ export default compose(
     return {
       match,
       summoners,
+      playerRules,
     };
   }),
   withFormik({
@@ -180,10 +180,10 @@ export default compose(
         const matchRequest = await http(request.url, { ...request.headers });
         const match = await matchRequest.json();
 
-        if(match.error){
+        if (match.error) {
           props.showNotification({
             type: 'error',
-            message: match.updatedMatch.error,
+            message: match.error,
           });
 
           formikBag.setFieldValue('resultsFile', '');
@@ -193,14 +193,6 @@ export default compose(
 
         const { matches } = props.tournament;
 
-        for (let i = 0; i < matches.length; i++) {
-          if (match.updatedMatch._id === matches[i]._id) {
-            matches[i] = {
-              ...match.updatedMatch,
-            };
-          }
-        }
-
         props.updateTournament({
           _id: tournamentId,
           matches,
@@ -209,7 +201,7 @@ export default compose(
         props.showNotification({
           type: 'success',
           shouldBeAddedToSidebar: false,
-          message: `Результаты матча успешно обновлены для игроков ${match.users.join(', ')}`,
+          message: 'Результаты матча успешно обновлены',
         });
 
         props.close();

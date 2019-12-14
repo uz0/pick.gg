@@ -31,6 +31,7 @@
 
 .tournaments .list .item .name {
   --height: 30px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -48,10 +49,20 @@
 
 .tournaments .button {
   --height: 50px;
+
   position: fixed;
   right: 28%;
   bottom: calc(var(--layout-padding) * 4);
   border-radius: calc(var(--height) / 2);
+}
+
+.tournaments .game {
+  display: flex;
+}
+
+.tournaments .game .game_button {
+  margin-right: 20px;
+  color: white;
 }
 
 @media (max-width: 1920px) {
