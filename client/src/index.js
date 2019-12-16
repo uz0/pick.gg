@@ -22,6 +22,12 @@ const isMobile = Boolean(md.mobile());
 store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
 
 const init = async () => {
+  if (process.env.MOCK_USER) {
+    localStorage.setItem('auth-test-username', 'test1');
+  } else if (localStorage.getItem('auth-test-username')) {
+    localStorage.removeItem('auth-test-username');
+  }
+
   if (isLogged()) {
     let response = await http('/api/users/me');
     response = await response.json();

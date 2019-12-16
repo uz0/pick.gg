@@ -164,7 +164,6 @@
   text-decoration: none;
   border: 5px solid var(--accent-color);
   width: auto;
-  font-weight: bold;
   color: #fff;
   text-align: center;
   transition: 0.35s background;
