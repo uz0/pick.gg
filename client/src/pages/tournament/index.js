@@ -14,11 +14,15 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
+import TournamentTabs from 'components/tournament-tabs';
+import TournamentMatchesTimeline from 'components/tournament-matches-timeline';
+import TournamentSummoners from 'components/tournament-summoners';
+
 // Import TournamentMatches from 'components/tournament-matches';
 // Import TournamentRewards from 'components/tournament-rewards';
 // Import TournamentRules from 'components/tournament-rules';
 // Import TournamentSummoners from 'components/tournament-summoners';
-// Import TournamentViewers from 'components/tournament-viewers';
+import TournamentViewers from 'components/tournament-viewers';
 // Import TournamentApplicants from 'components/tournament-applicants';
 // Import TournamentInvite from 'components/tournament-invite';
 import Button from 'components/button';
@@ -246,8 +250,8 @@ class Tournament extends Component {
               </div>
               <h3 className={style.title}>{name}</h3>
             </div>
-
-            {/* <Button
+            {/*
+            <Button
               disabled={isAllowForecastButtonDisabled}
               text="Allow forecasts"
               appearance="_basic-accent"
@@ -292,29 +296,34 @@ class Tournament extends Component {
                 { [style.is_started]: isStarted }
               )}
               >
-                <TournamentInformation
-                  id={this.props.match.params.id}
-                  className={style.information_widget}
-                  isCurrentUserAdminOrCreator={isEditingAvailable}
-                  addRewards={this.addRewards}
-                  editRewards={this.editRewards}
-                  addRules={this.addRules}
-                  editRules={this.editRules}
+                <div>
+                  <TournamentInformation
+                    id={this.props.match.params.id}
+                    className={style.information_widget}
+                    isCurrentUserAdminOrCreator={isEditingAvailable}
+                    addRewards={this.addRewards}
+                    editRewards={this.editRewards}
+                    addRules={this.addRules}
+                    editRules={this.editRules}
+                  />
+
+                  <TournamentViewers
+                    id={this.props.match.params.id}
+                    className={style.viewers_widget}
+                    joinTournament={this.joinTournament}
+                  />
+                </div>
+
+                <TournamentTabs
+                  matchesTab={<TournamentMatchesTimeline id={this.props.match.params.id}/>}
+                  playersTab={(
+                    <TournamentSummoners
+                      id={this.props.match.params.id}
+                      className={style.summoners_widget}
+                      addSummoners={this.addSummoners}
+                    />
+                  )}
                 />
-
-                {/* <TournamentRewards
-                  id={this.props.match.params.id}
-                  className={style.rewards_widget}
-                  addRewards={this.addRewards}
-                  editRewards={this.editRewards}
-                /> */}
-
-                {/* <TournamentRules
-                  id={this.props.match.params.id}
-                  className={style.rules_widget}
-                  addRules={this.addRules}
-                  editRules={this.editRules}
-                /> */}
 
                 {/* <TournamentRewards
                   id={this.props.match.params.id}
@@ -329,11 +338,6 @@ class Tournament extends Component {
                     showNotification={this.props.showNotification}
                   />
                 )}
-
-                <TournamentMatches
-                  className={style.matches_widget}
-                  id={this.props.match.params.id}
-                />
 
                 {isSummonersWidgetVisible && (
                   <TournamentSummoners

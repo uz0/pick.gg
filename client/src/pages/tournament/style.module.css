@@ -202,7 +202,7 @@
   display: grid;
   grid-row-gap: 30px;
   grid-column-gap: 16px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr;
   grid-template-rows: minmax(10px, 1fr);
 
   /* grid-template-areas:
@@ -214,7 +214,7 @@
 }
 
 .tournament .inner_container .widgets.is_empty {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr;
 
   /* grid-template-areas:
     "information information information"
@@ -222,7 +222,7 @@
 }
 
 .tournament .inner_container .widgets.applications_available.applications_available_streamer {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr;
 
   /* grid-template-areas:
     "information information invite invite"
@@ -231,7 +231,7 @@
 }
 
 .tournament .inner_container .widgets.applications_available {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr;
 
   /* grid-template-areas:
     "information information invite invite"
@@ -240,7 +240,7 @@
 }
 
 .tournament .inner_container .widgets.forecasting_is_available {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr;
 
   /* grid-template-areas:
     "information information invite invite"
@@ -249,7 +249,7 @@
 }
 
 .tournament .inner_container .widgets.is_started {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr;
 
   /* grid-template-areas:
     "information information summoners"
