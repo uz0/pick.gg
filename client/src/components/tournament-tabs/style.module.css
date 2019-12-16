@@ -1,0 +1,23 @@
+.tabs .header {
+  margin-left: 70px;
+}
+
+.tabs .header button {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+  background-color: transparent;
+}
+
+.tabs .header button + button {
+  margin-left: 32px;
+}
+
+.tabs .header button.active {
+  color: var(--accent-color);
+}
+
+.tabs .content {
+  margin-top: 40px;
+}
