@@ -1,0 +1,159 @@
+.widget .header {
+  margin-left: 70px;
+  margin-bottom: 24px;
+}
+
+.widget .header .empty {
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.widget .matches {
+  position: relative;
+}
+
+.widget .matches::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  left: 55px;
+  width: 2px;
+  background-color: #e3e3e6;
+  opacity: 0.5;
+}
+
+.widget .matches .list {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.widget .matches .match {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.widget .matches .match .time {
+  min-width: 32px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.widget .matches .match .status {
+  --size: 32px;
+  --icon-size: 18px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: calc(var(--size) / 4);
+  margin-right: calc(var(--size) / 2);
+  width: var(--size);
+  height: var(--size);
+  background-color: var(--color);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.widget .matches .match .status.pending {
+  --color: #e3e3e6;
+}
+
+.widget .matches .match .status.active {
+  --color: var(--accent-color);
+}
+
+.widget .matches .match .status.finished {
+  --color: green;
+}
+
+.widget .matches .match .battle {
+  flex-grow: 1;
+}
+
+.widget .matches .match .battle .title {
+  display: flex;
+  align-items: center;
+}
+
+.widget .matches .match .battle .title h4 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex-grow: 1;
+  margin: 30px 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  color: #fff;
+}
+
+.widget .matches .match .battle .title .controls {
+  display: flex;
+  align-items: center;
+}
+
+.widget .matches .match .battle .title .control {
+  --size: 24px;
+  --icon-size: 12px;
+  --color: var(--accent-color);
+  --icon-color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size);
+  height: var(--size);
+  background-color: var(--color);
+  border-radius: 50%;
+}
+
+.widget .matches .match .battle .title .control.delete {
+  --color: #af3a3a;
+}
+
+.widget .matches .match .battle .title .control.statusControl,
+.widget .matches .match .battle .title .control.results {
+  --icon-color: #000;
+}
+
+.widget .matches .match .battle .title .control + .control {
+  margin-left: 8px;
+}
+
+.widget .matches .match .battle .team {
+  display: flex;
+  justify-content: space-between;
+}
+
+.widget .matches .match .battle .team .player {
+  display: flex;
+  flex-direction: column;
+  max-width: 100px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+}
+
+.widget .matches .match .battle .team .player .avatar {
+  --size: 40px;
+
+  width: var(--size);
+  height: var(--size);
+  margin: 0 auto;
+  border-radius: 50%;
+  background-position: center;
+  background-size: contain;
+}
+
+.widget .matches .match .battle .team .player .name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.widget .matches .match .battle .team .player .role {
+  font-size: 12px;
+}
