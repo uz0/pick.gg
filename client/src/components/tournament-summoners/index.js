@@ -27,14 +27,9 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
-  number: {
-    text: t('number'),
-    width: isMobile ? 55 : 60,
-  },
-
   name: {
     text: t('name'),
-    width: isMobile ? 100 : 300,
+    width: isMobile ? 75 : 200,
   },
 
   points: {
@@ -44,20 +39,15 @@ const tableCaptions = ({ t, isMobile }) => ({
 });
 
 const renderRow = ({ className, itemClass, textClass, index, item, props, captions }) => {
-  const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
   const isSummonerWinner = props.find(summoner => summoner.id === item._id);
 
   return (
     <div key={uuid()} className={cx(className, style.row)}>
-      <div className={cx(itemClass, style.cell)} style={numberStyle}>
-        <span className={textClass}>{index + 1}</span>
-      </div>
-
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>
-          {item.nickname}
+          <span className={textClass}>{index + 1}</span>. {item.nickname}
           {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
         </span>
       </div>
@@ -89,7 +79,6 @@ const Summoners = ({
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
-        <h3 className={style.subtitle}>{i18n.t('summoners')}</h3>
         {isEditingAvailable && summoners.length > 0 && (
           <button
             type="button"
@@ -101,23 +90,23 @@ const Summoners = ({
         )}
       </div>
 
-      {isCurrentUserCanEdit && summoners.length === 0 && (
-        <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
-      )}
-
-      {isUserCanApply && (
-        <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
-      )}
-
-      {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
-        <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
-      )}
-
       <div className={style.content}>
         {isCurrentUserCanEdit && summoners.length === 0 && (
+          <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
+        )}
+
+        {isUserCanApply && (
+          <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
+        )}
+
+        {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
+          <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
+        )}
+
+        {isCurrentUserCanEdit && summoners.length === 0 && (
           <Button
-            appearance="_circle-accent"
-            icon="plus"
+            appearance="_small-accent"
+            text="Choose summoners"
             className={style.button}
             onClick={addSummoners}
           />
@@ -216,17 +205,18 @@ export default compose(
 
     const isUserCanApply = !isCurrentUserCanEdit && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
 
-    let summoners = props.tournament.summoners.map(summonerId => {
-      const summoner = users.find(user => user._id === summonerId);
+    let summoners = props.tournament.summoners
+      .map(summonerId => {
+        const summoner = users.find(user => user._id === summonerId);
+        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
 
-      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
-
-      // There is no summoner data until loadUsers redux
-      return isEmpty(normalizedSummoner) ? {} : {
-        _id: normalizedSummoner._id,
-        nickname: normalizedSummoner.gameSpecificName[game],
-      };
-    });
+        // There is no summoner data until loadUsers redux
+        return isEmpty(normalizedSummoner) ? {} : {
+          _id: normalizedSummoner._id,
+          nickname: normalizedSummoner.gameSpecificName[game],
+        };
+      })
+      .filter(summoner => summoner._id);
 
     if (!isApplicationsAvailable) {
       summoners = calcSummonersPoints(summoners, matches, rules);
