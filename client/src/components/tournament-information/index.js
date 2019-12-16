@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import showdown from 'showdown';
-// Import includes from 'lodash/includes';
 import classnames from 'classnames';
 
 import Icon from 'components/icon';
@@ -29,8 +28,6 @@ const Information = props => {
   const fullDescription = get(props, 'tournament.description');
 
   const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
-  // Const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
-  // Const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
 
   const isEmpty = get(props, 'tournament.isEmpty');
   const isApplicationsAvailable = get(props, 'tournament.isApplicationsAvailable');
@@ -42,8 +39,6 @@ const Information = props => {
   const rewardsAction = () => rewards ? props.editRewards(props.isCurrentUserAdminOrCreator) : props.addRewards(props.isCurrentUserAdminOrCreator);
 
   const readMoreText = isFullDescriptionShown ? 'Скрыть' : '...Подробнее';
-
-  // Сonst isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) && !isStarted;
 
   const getTournamentStatus = () => {
     if (isCurrentUserCreator) {
@@ -92,7 +87,14 @@ const Information = props => {
         {!isFullDescriptionShown && <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(shortDescription) }}/>}
         {isFullDescriptionShown && <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(fullDescription) }}/>}
 
-        <div className={style.readmore} onClick={() => toggleDescription(!isFullDescriptionShown)}>{readMoreText}</div>
+        {fullDescription.length >= 255 && (
+          <div
+            className={style.readmore}
+            onClick={() => toggleDescription(!isFullDescriptionShown)}
+          >
+            {readMoreText}
+          </div>
+        )}
       </div>
     </div>
   );
