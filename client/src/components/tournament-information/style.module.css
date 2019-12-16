@@ -1,5 +1,6 @@
 .information {
   min-height: 200px;
+  margin-bottom: 32px;
   display: flex;
   flex-direction: column;
 }
