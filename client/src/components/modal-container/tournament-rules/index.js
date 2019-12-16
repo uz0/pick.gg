@@ -57,19 +57,6 @@ const AddRules = props => {
 
   const modalActions = [];
 
-  if (isCurrentUserAdminOrCreator) {
-    modalActions.push({
-      text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
-      type: 'button',
-      appearance: '_basic-accent',
-      onClick: handleSubmit,
-      disabled: props.isSubmitting,
-    });
-  }
-
-  console.log(props.options, 'props.options');
-  console.log(isCurrentUserAdminOrCreator, 'isCurrentUserAdminOrCreator');
-
   const getModalTitle = () => {
     let title = 'Tournament rules';
 
@@ -153,6 +140,16 @@ const AddRules = props => {
       console.log(error_);
     }
   };
+
+  if (isCurrentUserAdminOrCreator) {
+    modalActions.push({
+      text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
+      type: 'button',
+      appearance: '_basic-accent',
+      onClick: handleSubmit,
+      disabled: props.isSubmitting,
+    });
+  }
 
   return (
     <Modal
