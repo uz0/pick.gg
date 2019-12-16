@@ -1,0 +1,14 @@
+{
+  "controllers/**/*.js": [
+    "semistandard --fix",
+  ],
+  "middleware/**/*.js": [
+    "semistandard --fix",
+  ],
+  "models/**/*.js": [
+    "semistandard --fix",
+  ],
+  "./*.js": [
+    "semistandard --fix",
+  ]
+}

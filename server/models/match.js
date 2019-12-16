@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
 
@@ -17,13 +17,13 @@ export default mongoose.model('Match',
     }],
     isActive: {
       type: Boolean,
-      default: false,
+      default: false
     },
     startedAt: Date,
     endAt: Date,
-    updatedAt: Date,
+    updatedAt: Date
   },
-    {
-      toObject: { virtuals: true },
-    }
-  ));
+  {
+    toObject: { virtuals: true }
+  }
+  ))

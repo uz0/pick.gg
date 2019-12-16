@@ -7,7 +7,6 @@ export default {
   options: {
     useFindAndModify: false,
     useUnifiedTopology: true,
-    useNewUrlParser: true,
+    useNewUrlParser: true
   }
-}
-
+};
