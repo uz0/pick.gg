@@ -115,7 +115,7 @@ const Summoners = ({
 
         {!isCurrentUserCanEdit && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
           <Button
-            appearance="_basic-accent"
+            appearance="_small-accent"
             text={i18n.t('apply_summoner')}
             className={style.button}
             onClick={debounce(check(applyTournament, {
