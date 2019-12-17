@@ -23,7 +23,7 @@ import TournamentSummoners from 'components/tournament-summoners';
 // Import TournamentRules from 'components/tournament-rules';
 // Import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
-// Import TournamentApplicants from 'components/tournament-applicants';
+import TournamentApplicants from 'components/tournament-applicants';
 // Import TournamentInvite from 'components/tournament-invite';
 import Button from 'components/button';
 import Icon from 'components/icon';
@@ -215,7 +215,7 @@ class Tournament extends Component {
     const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
-    // Const isSummonersWidgetVisible = !isEmpty;
+    const isSummonersWidgetVisible = !isEmpty;
     // Const isModeratorsWidgetVisible = isEditingAvailable && !isEmpty;
     // Const isViewersWidgetVisible = isForecastingActive || isStarted;
     // Const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
@@ -317,12 +317,24 @@ class Tournament extends Component {
                 <TournamentTabs
                   matchesTab={<TournamentMatchesTimeline id={this.props.match.params.id}/>}
                   playersTab={(
-                    <TournamentSummoners
-                      id={this.props.match.params.id}
-                      className={style.summoners_widget}
-                      addSummoners={this.addSummoners}
-                    />
-                  )}
+                    <div className={style.playersWidgets}>
+                      {isSummonersWidgetVisible && (
+                        <TournamentSummoners
+                          id={this.props.match.params.id}
+                          className={style.summoners_widget}
+                          addSummoners={this.addSummoners}
+                        />
+                      )}
+
+                      {isApplicantsWidgetVisible && (
+                        <TournamentApplicants
+                          id={this.props.match.params.id}
+                          className={style.applicants_widget}
+                        />
+                      )}
+                    </div>
+                  )
+                  }
                 />
 
                 {/* <TournamentRewards

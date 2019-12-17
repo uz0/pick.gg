@@ -196,32 +196,18 @@
 }
 
 .tournament .inner_container .widgets {
+  width: 100%;
   display: grid;
-  grid-row-gap: 30px;
   grid-column-gap: 16px;
-  grid-template-columns: 1fr 1.25fr;
-  grid-template-rows: minmax(10px, 1fr);
+  grid-template-columns: 1fr 1.15fr;
   margin-top: 40px;
 }
 
-.tournament .inner_container .widgets.is_empty {
-  grid-template-columns: 1fr 1.25fr;
-}
-
-.tournament .inner_container .widgets.applications_available.applications_available_streamer {
-  grid-template-columns: 1fr 1.25fr;
-}
-
-.tournament .inner_container .widgets.applications_available {
-  grid-template-columns: 1fr 1.25fr;
-}
-
-.tournament .inner_container .widgets.forecasting_is_available {
-  grid-template-columns: 1fr 1.25fr;
-}
-
-.tournament .inner_container .widgets.is_started {
-  grid-template-columns: 1fr 1.25fr;
+.tournament .inner_container .widgets .playersWidgets {
+  margin-left: 55px;
+  display: grid;
+  grid-row-gap: 30px;
+  grid-column: auto;
 }
 
 .tournament .inner_container .widgets > * {
