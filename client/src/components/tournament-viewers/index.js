@@ -36,7 +36,6 @@ const tableCaptions = ({ t, isMobile }) => ({
 const renderRow = ({ className, itemClass, textClass, index, item, props: tournament, captions }) => {
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
-
   const isViewerWinner = tournament.winners.find(winner => winner.id === item.userId);
 
   return (
@@ -48,11 +47,9 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
         </span>
       </div>
 
-      {/* {tournament.isStarted && ( */}
       <div className={itemClass} style={pointsStyle}>
         <span className={cx(textClass, style.points)}>{item.points}</span>
       </div>
-      {/* )} */}
     </div>
   );
 };

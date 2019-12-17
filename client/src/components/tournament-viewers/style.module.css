@@ -167,7 +167,6 @@
 
 .viewers .content .table .row .is_winner {
   color: #4ccc4c;
-  font-weight: 400;
 }
 
 @media (max-width: 480px) {
