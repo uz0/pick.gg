@@ -29,6 +29,7 @@
 
 .information .description p {
   font-size: 14px;
+  line-height: 1.5;
 }
 
 .information .description p:not(:first-of-type) {
@@ -44,9 +45,11 @@
   font-size: 18px;
 }
 
+.information .description h1,
 .information .description h2,
 .information .description h3,
 .information .description h4 {
+  margin-bottom: 12px;
   font-size: 16px;
 }
 
