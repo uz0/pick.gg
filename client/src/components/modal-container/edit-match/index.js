@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import pick from 'lodash/pick';
+import merge from 'lodash/merge';
 import { compose, withProps } from 'recompose';
 import { Field, withFormik } from 'formik';
-import pick from 'lodash/pick';
 import findIndex from 'lodash/findIndex';
 import * as Yup from 'yup';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import FileInput from 'components/form/input-file';
+import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
@@ -34,8 +36,11 @@ const validationSchema = Yup.object().shape({
 const EditMatch = ({
   close,
   summoners,
+  game,
   playerRules,
   setFieldValue,
+  loadResults,
+  setValues,
   isSubmitting,
   errors,
   touched,
@@ -48,6 +53,13 @@ const EditMatch = ({
   const actions = [
     { text: i18n.t('edit'), appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
   ];
+
+  const handlePubgAutoLoad = async () => {
+    const loadedResults = await loadResults(summoners[0].nickname);
+    const resolvedNames = values.summoners.map(i => i.nickname);
+    const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
+    setValues(merge(values, { summoners: filtered }));
+  };
 
   return (
     <Modal
@@ -66,17 +78,35 @@ const EditMatch = ({
         className={style.field}
       />
 
-      <FileInput
-        label={i18n.t('modal.results_file')}
-        name="resultsFile"
-        file={values.resultsFile}
-        error={errors.resultsFile}
-        isTouched={touched.resultsFile}
-        className={style.field}
-        onChange={event => {
-          setFieldValue('resultsFile', event.currentTarget.files[0]);
-        }}
-      />
+      {
+        (function () {
+          if (game === 'LOL') {
+            return (
+              <FileInput
+                label={i18n.t('modal.results_file')}
+                name="resultsFile"
+                file={values.resultsFile}
+                error={errors.resultsFile}
+                isTouched={touched.resultsFile}
+                className={style.field}
+                onChange={event => {
+                  setFieldValue('resultsFile', event.currentTarget.files[0]);
+                }}
+              />
+            );
+          }
+
+          if (game === 'PUBG') {
+            return (
+              <Button
+                text={i18n.t('button.load_auto')}
+                appearance="_basic-accent"
+                onClick={() => handlePubgAutoLoad()}
+              />
+            );
+          }
+        })()
+      }
 
       {isLol && (
         <div className={style.teams}>
@@ -192,12 +222,21 @@ export default compose(
       };
     });
 
+    const loadResults = async name => {
+      const loadedValues = await http(`/external/pubg/lastMatch/${name}`);
+      const summoners = await loadedValues.json();
+
+      return summoners;
+    };
+
     return {
       match,
+      game,
       summoners,
       teams,
       game,
       playerRules,
+      loadResults,
     };
   }),
   withFormik({

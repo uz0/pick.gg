@@ -464,7 +464,8 @@
       "delete_user": "Delete user",
       "back": "back",
       "cancel": "cancel",
-      "delete": "delete"
+      "delete": "delete",
+      "load_auto": "Load automagically"
     },
     "empty_message": {
       "no_claimed_rewards": "You don't have any not claimed rewards"

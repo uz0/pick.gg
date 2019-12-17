@@ -13,7 +13,7 @@ import Table from 'components/table';
 import { RULES, DEFAULT_RULES } from 'constants/index';
 
 import { http } from 'helpers';
-import { calcRule } from 'helpers/calc-summoners-points';
+// import { calcRule } from 'helpers/calc-summoners-points';
 
 import i18n from 'i18n';
 
@@ -95,35 +95,30 @@ const AddRules = props => {
     const { tournamentId } = props.options;
     const { game } = props.tournament;
 
-    // Validating rules
-    const resultStub = {
-      player: {
-        kills: 2,
-        deaths: 2,
-        assists: 2,
-        loot: 3,
-      },
-      match: {
-        time: 5000,
-      },
-    };
+    // // Validating rules
+    // const resultStub = {
+    //   player: {
+    //     kills: 2,
+    //     deaths: 2,
+    //     assists: 2,
+    //     loot: 3,
+    //   },
+    //   match: {
+    //     time: 5000,
+    //   },
+    // };
 
-    try {
-      const result = calcRule(rules, resultStub);
+    // try {
+    //   const result = calcRule(rules, resultStub);
 
-      if (!result) {
-        setRulesError('Expression is not correct');
-        return;
-      }
-    } catch (error) {
-      setRulesError('Expression is not correct');
-      return;
-    }
-
-    if (rulesTitle.length > 5) {
-      setRulesTitleError('Rules title should be less than 5 chars');
-      return;
-    }
+    //   if (!result) {
+    //     setError('Expression is not correct');
+    //     return;
+    //   }
+    // } catch (error_) {
+    //   setError('Expression is not correct');
+    //   return;
+    // }
 
     try {
       await http(`/api/tournaments/${tournamentId}`, {
