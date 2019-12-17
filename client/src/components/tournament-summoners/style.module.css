@@ -1,5 +1,5 @@
 .summoners {
-  margin-left: 70px;
+  margin-left: 55px;
 }
 
 .summoners .header {
@@ -7,6 +7,11 @@
 
   display: flex;
   align-items: center;
+}
+
+.summoners .header h4 {
+  font-size: 18px;
+  color: #fff;
 }
 
 .summoners .header .button {
@@ -28,13 +33,41 @@
 }
 
 .summoners .content {
-  /* flex-grow: 1; */
-
-  /* display: flex; */
-
-  /* flex-direction: column; */
+  margin-top: 12px;
 }
 
 .summoners .content .table {
   margin-left: -16px;
+}
+
+.summoners .content .table .row {
+  --row-height: 30px;
+  --bg-color: transparent;
+  --background-color: transparent;
+
+  box-shadow: none;
+}
+
+.summoners .content .table .row .item {
+  flex-grow: 0;
+}
+
+.summoners .content .table .row .is_winner {
+  color: var(--accent-color);
+  font-weight: var(--font-weight-regular);
+}
+
+.summoners .content .table .row .item:not(:last-of-type) {
+  box-shadow: none;
+}
+
+.summoners .content .table .row .points {
+  margin-left: auto;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  border-radius: 4px;
+  color: var(--primary-color);
+  background-color: var(--accent-color);
 }

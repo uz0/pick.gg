@@ -29,12 +29,12 @@ const cx = classnames.bind(style);
 const tableCaptions = ({ t, isMobile }) => ({
   name: {
     text: t('name'),
-    width: isMobile ? 75 : 200,
+    width: isMobile ? 75 : 340,
   },
 
   points: {
     text: t('points'),
-    width: isMobile ? 80 : 80,
+    width: isMobile ? 40 : 80,
   },
 });
 
@@ -45,15 +45,15 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
 
   return (
     <div key={uuid()} className={cx(className, style.row)}>
-      <div className={itemClass} style={nameStyle}>
+      <div className={cx(itemClass, style.item)} style={nameStyle}>
         <span className={textClass}>
           <span className={textClass}>{index + 1}</span>. {item.nickname}
-          {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
+          {isSummonerWinner && <span className={style.is_winner}> {`(${i18n.t('is_winner')})`}</span>}
         </span>
       </div>
 
       {item.points > 0 && (
-        <div className={cx(itemClass, style.cell)} style={pointsStyle}>
+        <div className={cx(itemClass, style.item)} style={pointsStyle}>
           <span className={cx(textClass, style.points)}>{item.points}</span>
         </div>
       )}
@@ -79,6 +79,7 @@ const Summoners = ({
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
+        <h4>Участники турнира</h4>
         {isEditingAvailable && summoners.length > 0 && (
           <button
             type="button"
