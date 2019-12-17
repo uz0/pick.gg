@@ -1,10 +1,10 @@
 .table .empty {
-  --height: 24px;
+  --height: 16px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
-  font-weight: var(--font-weight-bold);
-  font-size: 18px;
+  font-size: 16px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -29,6 +29,7 @@
 
 .table .captions > .cell > .text {
   --height: 16px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -45,7 +46,8 @@
 
 .table .row {
   --row-height: 50px;
-  --bg-color: linear-gradient(180deg,rgba(80,92,120,.1),rgba(49,54,68,.1));
+  --bg-color: linear-gradient(180deg, rgba(80, 92, 120, 0.1), rgba(49, 54, 68, 0.1));
+
   display: flex;
   align-items: center;
   min-width: 100%;
@@ -74,6 +76,7 @@
 
 .table .row[href]:hover {
   background: var(--accent-color);
+
   --text-color: #000;
 }
 
@@ -97,11 +100,14 @@
 
 .table .row > .item > .text {
   --height: 24px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
   font-size: 16px;
+
   --text-color: var(--caption-color);
+
   color: var(--text-color);
   font-weight: var(--font-weight-bold);
   white-space: nowrap;
@@ -121,8 +127,8 @@
   }
 }
 
-@media (max-width: 480px){
-  .table .row > .item > .text{
+@media (max-width: 480px) {
+  .table .row > .item > .text {
     font-size: 12px;
   }
 }
