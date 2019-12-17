@@ -193,6 +193,13 @@ export default compose(
 
         const { matches } = props.tournament;
 
+        for (const item of matches) {
+          if (item._id === matchId) {
+            item.playersResults = [...match.playersResults];
+            break;
+          }
+        }
+
         props.updateTournament({
           _id: tournamentId,
           matches,
