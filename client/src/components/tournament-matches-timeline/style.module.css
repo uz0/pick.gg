@@ -17,7 +17,7 @@
   content: '';
   position: absolute;
   height: 100%;
-  left: 55px;
+  left: 57px;
   width: 2px;
   background-color: #e3e3e6;
   opacity: 0.5;
@@ -34,6 +34,10 @@
   align-items: center;
 }
 
+.widget .matches .match.isActive {
+  margin: 48px 0;
+}
+
 .widget .matches .match .time {
   min-width: 32px;
   font-size: 14px;
@@ -44,6 +48,7 @@
   --size: 32px;
   --icon-size: 18px;
 
+  flex-shrink: 0;
   position: relative;
   display: flex;
   align-items: center;
@@ -65,8 +70,29 @@
   --color: var(--accent-color);
 }
 
+.widget .matches .match .status.active svg {
+  animation-duration: 3s;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.25;
+  }
+}
+
 .widget .matches .match .status.finished {
-  --color: green;
+  --color: #569659;
+  --icon-color: #fff;
 }
 
 .widget .matches .match .battle {
@@ -96,7 +122,7 @@
 .widget .matches .match .battle .title .control {
   --size: 24px;
   --icon-size: 12px;
-  --color: var(--accent-color);
+  --color: #e3e3e6;
   --icon-color: #fff;
 
   display: flex;

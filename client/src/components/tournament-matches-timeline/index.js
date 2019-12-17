@@ -114,167 +114,126 @@ class TournamentMatchesTimeline extends Component {
     return new Date(prev.startedAt) - new Date(next.startedAt);
   };
 
-  renderMatch = ({ className, itemClass, textClass, item, captions }) => {
-    const nameStyle = { '--width': captions.name.width };
-
-    const { _id, name } = item;
+  renderMatch = match => {
+    let matchStatus = '';
 
     const tournamentId = get(this.props, 'tournament._id');
     const creator = get(this.props, 'tournament.creator');
     const currentUser = get(this.props, 'currentUser');
     const tournament = get(this.props, 'tournament');
-
     const isEmpty = get(this.props, 'tournament.isEmpty');
     const isStarted = get(this.props, 'tournament.isStarted');
+
     const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
-    const isMatchActive = item.isActive;
-    const isMatchOver = item.endAt;
-    const startMatchTime = moment(item.startedAt).format('hh:mm');
-    const endMatchTime = moment(isMatchOver).format('hh:mm');
+    const isMatchActive = match.isActive;
+    const isMatchOver = match.endAt;
+    const startMatchTime = moment(match.startedAt).format('HH:mm');
+    const endMatchTime = moment(isMatchOver).format('HH:mm');
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
     const isCurrentUserModerator = includes(tournament.moderators, currentUser._id);
     const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
-    const isDeleteButtonShown = (isApplicationsAvailable || isEmpty);
+    const isDeleteButtonShown = isApplicationsAvailable || isEmpty;
 
-    return (
-      <div key={_id} className={cx(className, { [style.is_active]: isMatchActive }, { [style.is_over]: isMatchOver })}>
-        <div className={itemClass} style={nameStyle}>
-          <span className={textClass}>{name}</span>
-        </div>
-
-        {isMatchOver && (
-          <div>
-            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
-              <span className={cx(textClass, style.time_match)}>{startMatchTime} - {endMatchTime}</span>
-            </div>
-
-            <div className={style.status_match}>
-              <span className={textClass}>{i18n.t('is_over_match')}</span>
-            </div>
-          </div>
-        )}
-
-        {isMatchActive && (
-          <div>
-            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
-              <span className={cx(textClass, style.time_match)}>{startMatchTime}</span>
-            </div>
-            <div className={cx(style.status_match, { [style.is_active_match]: isMatchActive })}>
-              <span className={textClass}>{i18n.t('is_active_match')}</span>
-            </div>
-          </div>
-        )}
-
-        {isEditingAvailable && isStarted && !isMatchOver && !isMatchActive && (
-          <button
-            type="button"
-            className={style.button}
-            title="Start match"
-            onClick={() => this.startMatch(tournamentId, _id)}
-          >
-            <Icon name="play"/>
-          </button>
-        )}
-
-        {isEditingAvailable && isStarted && isMatchActive && (
-          <button
-            type="button"
-            className={style.button}
-            title="End match"
-            onClick={() => this.endMatch(tournamentId, _id)}
-          >
-            <Icon name="stop"/>
-          </button>
-        )}
-
-        {isEditingAvailable && isStarted && isMatchOver && (
-          <button
-            type="button"
-            className={style.button}
-            title="Add match results"
-            onClick={() => this.openEditMatch(_id)}
-          >
-            <Icon name="info"/>
-          </button>
-        )}
-
-        {isMatchOver && (
-          <button className={style.button} type="button" onClick={() => this.openMatchResults(_id)}>
-            <Icon name="list"/>
-          </button>
-        )}
-
-        {isEditingAvailable && isDeleteButtonShown && (
-          <button
-            type="button"
-            className={cx(style.button, style.danger)}
-            onClick={() => this.deleteMatch(tournamentId, _id)}
-          >
-            <Icon name="close"/>
-          </button>
-        )}
-      </div>
-    );
-  };
-
-  renderNewMatch = match => {
-    let matchStatus = '';
-    const tournamentId = get(this.props, 'tournament._id');
-
-    if (matchStatus.isActive) {
+    if (match.isActive) {
       matchStatus = 'active';
-    } else if (matchStatus.endAt) {
+    } else if (match.endAt && endMatchTime) {
       matchStatus = 'finished';
     } else {
       matchStatus = 'pending';
     }
 
     return (
-      <li className={style.match}>
-        <div className={style.time}>{match.startedAt && match.startedAt}</div>
+      <li className={cx(style.match, { [style.isActive]: match.isActive })}>
+        <div className={style.time}>{match.startedAt && startMatchTime}</div>
         <div className={cx(style.status, style[matchStatus])} title={i18n.t(`match_${matchStatus}`)}>
           <Icon name={`match_${matchStatus}`}/>
         </div>
         <div className={style.battle}>
-          {/* <div className={style.team}>
-            {[1, 2, 3, 4, 5].map(match => (
-              <a key={match} href="#" className={style.player}>
-                <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
-                <div className={style.name}>Player Name {match === 1 ? 'asdasdasdasdasdasdasdasdasd' : ''}</div>
-                <div className={style.role}>Cool support</div>
-              </a>
-            ))
-            }
-          </div> */}
+          {match.isActive && (
+            <div className={style.team}>
+              {[1, 2, 3, 4, 5].map(match => (
+                <a key={match} href="#" className={style.player}>
+                  <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
+                  <div className={style.name}>Player Name {match === 1 ? 'asdasdasdasdasdasdasdasdasd' : ''}</div>
+                  <div className={style.role}>Cool support</div>
+                </a>
+              ))
+              }
+            </div>
+          )}
 
           <div className={style.title}>
             <h4>{match.name}</h4>
             <div className={style.controls}>
-              <button type="button" className={cx('control', style.statusControl)} onClick={() => {}}>
-                <Icon name="play"/>
-              </button>
-              <button type="button" className={cx('control', style.results)} onClick={() => this.openMatchResults(match._id)}>
-                <Icon name="list"/>
-              </button>
-              <button type="button" className={cx('control', style.delete)} onClick={() => this.deleteMatch(tournamentId, match._id)}>
-                <Icon name="close"/>
-              </button>
+              {isEditingAvailable && isStarted && !isMatchOver && !isMatchActive && (
+                <button
+                  type="button"
+                  className={cx('control', style.statusControl)}
+                  onClick={() => this.startMatch(tournamentId, match._id)}
+                >
+                  <Icon name="play"/>
+                </button>
+              )}
+
+              {isEditingAvailable && isStarted && isMatchActive && (
+                <button
+                  type="button"
+                  className={cx('control', style.statusControl)}
+                  onClick={() => this.endMatch(tournamentId, match._id)}
+                >
+                  <Icon name="stop"/>
+                </button>
+              )}
+
+              {isEditingAvailable && isStarted && isMatchOver && (
+                <button
+                  type="button"
+                  className={cx('control', style.results)}
+                  title="Add match results"
+                  onClick={() => this.openEditMatch(match._id)}
+                >
+                  <Icon name="info"/>
+                </button>
+              )}
+
+              {isEditingAvailable && isDeleteButtonShown && (
+                <button
+                  type="button"
+                  className={cx(style.button, style.danger)}
+                  onClick={() => this.deleteMatch(tournamentId, match._id)}
+                >
+                  <Icon name="close"/>
+                </button>
+              )}
+
+              {isMatchOver && (
+                <button
+                  type="button"
+                  className={cx('control', style.results)}
+                  onClick={() => this.openMatchResults(match._id)}
+                >
+                  <Icon name="list"/>
+                </button>
+              )}
+
             </div>
           </div>
 
-          {/* <div className={style.team}>
-            {[1, 2, 3, 4, 5].map(match => (
-              <a key={match} href="#" className={style.player}>
-                <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
-                <div className={style.name}>Player Name</div>
-                <div className={style.role}>Cool support</div>
-              </a>
-            ))
-            }
-          </div> */}
+          {match.isActive && (
+            <div className={style.team}>
+              {[1, 2, 3, 4, 5].map(match => (
+                <a key={match} href="#" className={style.player}>
+                  <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
+                  <div className={style.name}>Player Name</div>
+                  <div className={style.role}>Cool support</div>
+                </a>
+              ))
+              }
+            </div>
+          )}
         </div>
       </li>
     );
@@ -287,27 +246,18 @@ class TournamentMatchesTimeline extends Component {
     } = this.props;
 
     const matches = get(this.props, 'tournament.matches').sort(this.sortMatches);
-
-    const creator = get(this.props, 'tournament.creator');
     const isStarted = get(this.props, 'tournament.isStarted');
 
-    const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserModerator = includes(tournament.moderators, currentUser._id);
+    const isCurrentUserModerator = currentUser && includes(tournament.moderators, currentUser._id);
     const isCurrentUserCanEdit = isCurrentUserAdmin || isCurrentUserModerator;
-
-    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator) && matches.length > 0 && !isStarted;
-
-    console.log(isEditingAvailable, 'isEditingAvailable');
-    console.log(matches.length, 'matches.length');
-    console.log(!isStarted, '!isStarted');
 
     return (
       <div className={style.widget}>
         <div className={style.header}>
-          {isCurrentUserCanEdit && <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>}
+          {isCurrentUserCanEdit && !isStarted && <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>}
 
-          {isCurrentUserCanEdit && (
+          {isCurrentUserCanEdit && !isStarted && (
             <Button
               appearance="_small-accent"
               text="Add match"
@@ -317,20 +267,10 @@ class TournamentMatchesTimeline extends Component {
           )}
         </div>
 
-        {/* {isEditingAvailable && (
-          <button
-            type="button"
-            className={style.button}
-            onClick={this.addMatch}
-          >
-            {i18n.t('add')}
-          </button>
-        )} */}
-
         {matches.length > 0 && (
           <div className={style.matches}>
             <ul className={style.list}>
-              {matches.map(match => this.renderNewMatch(match))}
+              {matches.map(match => this.renderMatch(match))}
             </ul>
           </div>
         )
