@@ -13,7 +13,7 @@ import Table from 'components/table';
 import { RULES, DEFAULT_RULES } from 'constants/index';
 
 import { http } from 'helpers';
-// import { calcRule } from 'helpers/calc-summoners-points';
+// Import { calcRule } from 'helpers/calc-summoners-points';
 
 import i18n from 'i18n';
 
