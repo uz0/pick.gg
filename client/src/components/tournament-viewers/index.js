@@ -22,11 +22,6 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
-  number: {
-    text: t('number'),
-    width: isMobile ? 55 : 60,
-  },
-
   name: {
     text: t('name'),
     width: isMobile ? 150 : 300,
@@ -34,12 +29,11 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   points: {
     text: t('points'),
-    width: isMobile ? 80 : 80,
+    width: isMobile ? 40 : 50,
   },
 });
 
 const renderRow = ({ className, itemClass, textClass, index, item, props: tournament, captions }) => {
-  const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
 
@@ -47,22 +41,18 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
 
   return (
     <div key={item.userId} className={cx(className, style.row)}>
-      <div className={cx(itemClass, style.position)} style={numberStyle}>
-        <span className={textClass}>{index + 1}</span>
-      </div>
-
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>
-          {item.user && item.user.username}
+          {index + 1}. {item.user && item.user.username}
           {isViewerWinner && <span className={style.is_winner}> is winner</span>}
         </span>
       </div>
 
-      {tournament.isStarted && (
-        <div className={itemClass} style={pointsStyle}>
-          <span className={cx(textClass, style.points)}>{item.points}</span>
-        </div>
-      )}
+      {/* {tournament.isStarted && ( */}
+      <div className={itemClass} style={pointsStyle}>
+        <span className={cx(textClass, style.points)}>{item.points}</span>
+      </div>
+      {/* )} */}
     </div>
   );
 };
@@ -76,18 +66,15 @@ const Viewers = ({
   currentUserSummoners,
   className,
   captions,
+  currentUser,
 }) => (
   <div className={cx(style.viewers, className)}>
-    <div className={style.header}>
-      <h3 className={style.subtitle}>{i18n.t('viewers')}</h3>
-    </div>
-
     <div className={style.content}>
       {isUserCanMakeForecast && currentUserSummoners.length === 0 && (
         <div className={style.attend}>
           <Button
             text={i18n.t('join_tournament')}
-            appearance="_basic-accent"
+            appearance="_small-accent"
             className={style.button}
             onClick={debounce(check(joinTournament, {
               title: 'Make forecast',
@@ -103,12 +90,12 @@ const Viewers = ({
 
       {currentUserSummoners.length > 0 && (
         <div className={style.forecast}>
-          <div className={style.title}>{i18n.t('your_summoners')}:</div>
+          <div className={style.summonerName}>{currentUser.summonerName}</div>
           <div className={style.list}>
             {currentUserSummoners.map(summoner => {
               return (
                 <div key={summoner._id} className={style.item}>
-                  <div className={style.avatar}>
+                  <div className={style.avatar} title={summoner.gameSpecificName[tournament.game]}>
                     <img
                       src={summoner.imageUrl}
                       alt="Summoner avatar"
@@ -117,21 +104,12 @@ const Viewers = ({
                       }}
                     />
                   </div>
-                  <div className={style.info}>
-                    <div className={style.name}>
-                      {summoner.gameSpecificName[tournament.game]}
-                    </div>
-                    {summoner.preferredPosition && (
-                      <div className={style.position}>
-                        {summoner.preferredPosition}
-                      </div>
-                    )}
-                  </div>
                 </div>
               );
             })
             }
           </div>
+          <div className={style.points}>123</div>
         </div>
       )}
 

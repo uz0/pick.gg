@@ -1,13 +1,13 @@
-.viewers {}
-
 .viewers .header {
   --viewers-header-height: 28px;
+
   display: flex;
   align-items: center;
 }
 
 .viewers .header .subtitle {
   --height: 28px;
+
   flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
@@ -58,18 +58,16 @@
 }
 
 .viewers .content .attend {
-  height: 80px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--background-color);
   border-radius: 2px;
 }
 
 .viewers .content .forecast {
-  padding: 12px;
-  background-color: var(--background-color);
+  padding: 8px 16px;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  background-color: #569659;
 }
 
 .viewers .content .attend + .forecast,
@@ -78,35 +76,38 @@
   margin-top: 12px;
 }
 
-.viewers .content .forecast .title {
-  --height: 30px;
-  flex-grow: 1;
-  overflow: hidden;
-  min-width: 0;
-  max-width: 100%;
-  height: var(--height);
-  line-height: var(--height);
-  color: var(--caption-color);
-  font-size: 18px;
-  font-weight: var(--font-weight-bold);
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.viewers .content .table .row {
+  --row-height: 30px;
+  --bg-color: transparent;
+  --background-color: transparent;
+
+  box-shadow: none;
 }
 
-.viewers .content .forecast .list {}
+.viewers .content .table .row > .item {
+  padding-left: 0;
+  padding-right: 0;
+}
 
-.viewers .content .forecast .list .item {
-  height: 50px;
-  padding-left: 8px;
-  padding-right: 8px;
+.viewers .content .forecast .summonerName,
+.viewers .content .forecast .points {
+  font-size: 14px;
+  color: #fff;
+}
+
+.viewers .content .forecast .points {
+  margin-left: auto;
+  font-weight: var(--font-weight-bold);
+}
+
+.viewers .content .forecast .list {
+  margin-left: 12px;
   display: flex;
   align-items: center;
-  border-radius: 4px;
-  background-color: #0a0a1f;
 }
 
 .viewers .content .forecast .list .item + .item {
-  margin-top: 4px;
+  margin-left: 8px;
 }
 
 .viewers .content .forecast .list .item .avatar {
@@ -154,9 +155,11 @@
 }
 
 .viewers .content .table .row .points {
+  margin-left: auto;
+  padding: 2px 4px;
   display: flex;
   align-items: center;
-  padding: 4px;
+  font-size: 14px;
   border-radius: 4px;
   color: var(--primary-color);
   background-color: var(--accent-color);
