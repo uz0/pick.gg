@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
 
+import Avatar from 'components/avatar';
+
 import { RULES } from 'constants/index';
 
 import i18n from 'i18n';
 
-import Avatar from './avatar';
 import style from './style.module.css';
 
 const GAMES = Object.keys(RULES);
@@ -14,7 +15,7 @@ class ProfileSidebar extends Component {
     const { nickname, description, gameSpecificName, source } = this.props;
     return (
       <aside className={style.sidebar}>
-        <Avatar source={source}/>
+        <Avatar source={source} className={style.avatar}/>
 
         <div className={style.content}>
           {nickname && <div className={style.nickname}>{nickname}</div>}

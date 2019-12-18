@@ -1,0 +1,14 @@
+.avatar {
+  --avatar-size: 48px;
+
+  width: var(--avatar-size);
+  overflow: hidden;
+}
+
+.avatar svg,
+.avatar img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: calc(var(--avatar-size) / 2);
+  object-fit: cover;
+}
