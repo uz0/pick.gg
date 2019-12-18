@@ -15,6 +15,7 @@ import notificationActions from 'components/notification/actions';
 import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
+import Icon from 'components/icon';
 
 import { http, calcSummonersPoints } from 'helpers';
 
@@ -43,12 +44,19 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
   const pointsStyle = { '--width': captions.points.width };
   const isSummonerWinner = props.find(summoner => summoner.id === item._id);
 
+  console.log(item.isStreamer, 'item.isStreamer');
+
   return (
     <div key={uuid()} className={cx(className, style.row)}>
       <div className={cx(itemClass, style.item)} style={nameStyle}>
-        <span className={textClass}>
+        <span className={cx(textClass, style.text)}>
           <span className={textClass}>{index + 1}</span>. {item.nickname}
           {isSummonerWinner && <span className={style.is_winner}> {`(${i18n.t('is_winner')})`}</span>}
+          {item.isStreamer && (
+            <span title="streamer" className={style.is_streamer}>
+              <Icon name="star"/>
+            </span>
+          )}
         </span>
       </div>
 
@@ -209,12 +217,13 @@ export default compose(
     let summoners = props.tournament.summoners
       .map(summonerId => {
         const summoner = users.find(user => user._id === summonerId);
-        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
+        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName', 'canProvideTournaments']);
 
         // There is no summoner data until loadUsers redux
         return isEmpty(normalizedSummoner) ? {} : {
           _id: normalizedSummoner._id,
           nickname: normalizedSummoner.gameSpecificName[game],
+          isStreamer: normalizedSummoner.canProvideTournaments,
         };
       })
       .filter(summoner => summoner._id);

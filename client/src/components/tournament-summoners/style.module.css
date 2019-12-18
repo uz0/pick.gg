@@ -48,9 +48,21 @@
   flex-grow: 0;
 }
 
+.summoners .content .table .row .item .text {
+  display: flex;
+  align-items: center;
+}
+
 .summoners .content .table .row .is_winner {
   color: var(--accent-color);
   font-weight: var(--font-weight-regular);
+}
+
+.summoners .content .table .row .is_streamer {
+  --icon-size: 12px;
+  --icon-color: var(--accent-color);
+
+  margin-left: 4px;
 }
 
 .summoners .content .table .row .item:not(:last-of-type) {
