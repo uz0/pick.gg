@@ -10,7 +10,6 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl, description, status }) => {
-
   return (
     <div style={{ backgroundImage: `url(${imageUrl})` }} className={cx('card', className)}>
       <div className={style.content}>

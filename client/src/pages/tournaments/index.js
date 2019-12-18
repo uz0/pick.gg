@@ -113,13 +113,12 @@ class Tournaments extends Component {
     const nowTournaments = tournamentList.length === 0;
     console.log(tournamentList);
 
-
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={cx('tournaments_sidebar')}>
-          <Button className={cx({'active': filterGame === 'now'})} text="Now!" onClick={() => this.setFilterGame('now')}/>
-          <Button className={cx({'active': filterGame === 'upcoming'})} text="Upcoming" onClick={() => this.setFilterGame('upcoming')}/>
-          <Button className={cx({'active': filterGame === 'past'})} text="Past" onClick={() => this.setFilterGame('past')}/>
+          <Button className={cx({ active: filterGame === 'now' })} text="Now!" onClick={() => this.setFilterGame('now')}/>
+          <Button className={cx({ active: filterGame === 'upcoming' })} text="Upcoming" onClick={() => this.setFilterGame('upcoming')}/>
+          <Button className={cx({ active: filterGame === 'past' })} text="Past" onClick={() => this.setFilterGame('past')}/>
         </div>
 
         <div className={style.wrap_tournaments}>
@@ -156,7 +155,7 @@ class Tournaments extends Component {
               const tournamentName = tournament.name || i18n.t('no_name');
               const price =
                 tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
-              console.log(getTournamentStatus(tournament))
+              console.log(getTournamentStatus(tournament));
               return (
                 <Link
                   key={tournament._id}
