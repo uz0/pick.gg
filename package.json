@@ -6,14 +6,15 @@
     "client:build": "cd client && npm run build",
     "server:start": "cd server && npm run start",
     "server:build": "cd server && npm run build",
-    "build": "cross-env NODE_ENV=production concurrently --kill-others-on-fail \"npm run server:build\" \"npm run client:build\"",
+    "build": "concurrently --kill-others-on-fail \"npm run server:build\" \"npm run client:build\"",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail \"npm run server:start\" \"npm run client:start\"",
     "start": "node server/build/main.js",
     "test": "npm-run-all test:*",
     "test:client": "jest --testPathPattern=\"client/.*__tests__/.*(test.js)\"",
     "test:server": "jest --testPathPattern=\"server/.*__tests__/.*(test.js)\"",
     "postinstall": "cd client && npm i && cd ../server && npm i && cd .. && npm run build",
-    "lint:client": "cd client && npm run pre-commit"
+    "lint:client": "cd client && npm run pre-commit",
+    "lint:server": "cd server && npm run pre-commit"
   },
   "husky": {
     "hooks": {
