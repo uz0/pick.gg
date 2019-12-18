@@ -2,6 +2,7 @@
   --avatar-size: 48px;
 
   width: var(--avatar-size);
+  height: var(--avatar-size);
   overflow: hidden;
 }
 
