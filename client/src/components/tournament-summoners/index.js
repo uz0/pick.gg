@@ -45,8 +45,13 @@ const renderRow = ({ className, itemClass, textClass, index, item, props, captio
   const pointsStyle = { '--width': captions.points.width };
   const isSummonerWinner = props.winners.find(summoner => summoner.id === item._id);
 
+  const summonerInfo = {
+    ...item,
+    position: index + 1,
+  };
+
   return (
-    <div key={uuid()} className={cx(className, style.row)} onClick={() => props.openPlayerInfoModal()}>
+    <div key={uuid()} className={cx(className, style.row)} onClick={() => props.openPlayerInfoModal(summonerInfo)}>
       <div className={cx(itemClass, style.item)} style={nameStyle}>
         <span className={cx(textClass, style.text)}>
           <span className={textClass}>{index + 1}</span>. {item.nickname}
@@ -194,12 +199,12 @@ export default compose(
         console.log(error);
       }
     },
-    openPlayerInfoModal: props => tournamentId => {
+    openPlayerInfoModal: props => playerInfo => {
       props.toggleModal({
         id: 'player-info',
 
         options: {
-          tournamentId,
+          playerInfo,
         },
       });
     },
@@ -227,13 +232,15 @@ export default compose(
     let summoners = props.tournament.summoners
       .map(summonerId => {
         const summoner = users.find(user => user._id === summonerId);
-        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName', 'canProvideTournaments']);
+        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName', 'canProvideTournaments', 'about', 'imageUrl']);
 
         // There is no summoner data until loadUsers redux
         return isEmpty(normalizedSummoner) ? {} : {
           _id: normalizedSummoner._id,
           nickname: normalizedSummoner.gameSpecificName[game],
           isStreamer: normalizedSummoner.canProvideTournaments,
+          about: normalizedSummoner.about,
+          imageUrl: normalizedSummoner.imageUrl,
         };
       })
       .filter(summoner => summoner._id);
