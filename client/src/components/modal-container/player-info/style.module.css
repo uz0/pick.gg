@@ -1,0 +1,22 @@
+.wrapper {
+  --width: 400px;
+}
+
+.wrapper .modal_content {
+  padding-top: var(--layout-padding);
+  padding-bottom: var(--layout-padding);
+}
+
+.wrapper .modal_content.withFooterPadding {
+  padding-bottom: var(--layout-padding);
+}
+
+.wrapper .modal_content .field:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
+.wrapper .modal_content .rulearea {
+  width: 100%;
+  resize: vertical;
+  margin-top: 10px;
+}
