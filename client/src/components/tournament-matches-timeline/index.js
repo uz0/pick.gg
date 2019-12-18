@@ -157,7 +157,7 @@ class TournamentMatchesTimeline extends Component {
           {match.isActive && (
             <div className={cx(style.team, style.topTeam)}>
               {[1, 2, 3, 4, 5].map(match => (
-                <a key={match} href="#" className={style.player}>
+                <a key={match} href="/player" className={style.player}>
                   <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
                   <div className={style.name}>Player Name {match === 1 ? 'asdasdasdasdasdasdasdasdasd' : ''}</div>
                   <div className={style.role}>Cool support</div>
@@ -227,7 +227,7 @@ class TournamentMatchesTimeline extends Component {
           {match.isActive && (
             <div className={cx(style.team, style.bottomTeam)}>
               {[1, 2, 3, 4, 5].map(match => (
-                <a key={match} href="#" className={style.player}>
+                <a key={match} href="/player" className={style.player}>
                   <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
                   <div className={style.name}>Player Name</div>
                   <div className={style.role}>Cool support</div>
