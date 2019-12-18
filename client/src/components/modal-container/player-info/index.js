@@ -1,18 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames/bind';
 
 import Modal from 'components/modal';
-
-// Import { http } from 'helpers';
+import Avatar from 'components/avatar';
 
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
 const PlayerInfo = props => {
+  const {
+    position,
+    nickname,
+    imageUrl,
+    about,
+    points,
+  } = props.options.playerInfo;
+
   return (
     <Modal
       title="Player info"
@@ -20,21 +24,35 @@ const PlayerInfo = props => {
       className={cx(style.modal_content)}
       wrapClassName={style.wrapper}
     >
-      <h1>Player modal</h1>
+      <div className={style.player}>
+        <div className={style.meta}>
+          <Avatar source={imageUrl} className={style.avatar}/>
+          <div className={style.info}>
+            <div className={style.name}>
+              {nickname}
+            </div>
+            {about && <div className={style.about}>{about}</div>}
+          </div>
+        </div>
+
+        <div className={style.statistics}>
+          {position && (
+            <div className={style.item}>
+              <div className={style.key}>Позиция в турнире:</div>
+              <div className={style.value}>{position}</div>
+            </div>
+          )}
+
+          {points !== 0 && (
+            <div className={style.item}>
+              <div className={style.key}>Очки за текущий турнир:</div>
+              <div className={style.value}>{points}</div>
+            </div>
+          )}
+        </div>
+      </div>
     </Modal>
   );
 };
 
-const enhance = compose(
-  connect(
-    (state, props) => ({
-      tournament: state.tournaments.list[props.options.tournamentId],
-    }),
-
-    {
-      updateTournament: tournamentsActions.updateTournament,
-    }
-  ),
-);
-
-export default enhance(PlayerInfo);
+export default PlayerInfo;
