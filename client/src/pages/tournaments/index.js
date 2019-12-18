@@ -15,7 +15,7 @@ import TournamentCard from 'components/tournament-card';
 import Preloader from 'components/preloader';
 import modalActions from 'components/modal-container/actions';
 
-import { http } from 'helpers';
+import { http, getTournamentStatus } from 'helpers';
 
 import i18n from 'i18next';
 
@@ -156,42 +156,7 @@ class Tournaments extends Component {
               const tournamentName = tournament.name || i18n.t('no_name');
               const price =
                 tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
-
-              const isEmpty = tournament.isEmpty;
-              const isApplicationsAvailable = tournament.isApplicationsAvailable;
-              const isForecastingActive = tournament.isForecastingActive;
-              const isStarted = tournament.isStarted;
-              const isFinalized = tournament.isFinalized;
-
-              const getTournamentStatus = () => {
-                if (isEmpty) {
-                  return i18n.t('creating_tournament');
-                }
-          
-                if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
-                  return i18n.t('creating_tournament');
-                }
-          
-                if ((!isApplicationsAvailable && !isFinalized) && isForecastingActive) {
-                  return i18n.t('creating_tournament');
-                }
-                if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
-                  return i18n.t('waiting_applicants');
-                }
-              
-                if (isForecastingActive) {
-                  return i18n.t('waiting_viewers');
-                }
-              
-                if (isStarted && !isFinalized) {
-                  return i18n.t('tournament_go');
-                }
-              
-                if (isFinalized) {
-                  return i18n.t('is_over');
-                }
-              };
-              // console.log("test:",getTournamentStatus())
+              console.log(getTournamentStatus(tournament))
               return (
                 <Link
                   key={tournament._id}
@@ -207,7 +172,7 @@ class Tournaments extends Component {
                     imageUrl={tournament.imageUrl}
                     description={tournament.description}
                     className={style.card}
-                    status={getTournamentStatus()}
+                    status={getTournamentStatus(tournament)}
                   />
                 </Link>
               );
