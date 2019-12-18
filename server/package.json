@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "start": "npx backpack dev",
-    "build": "npx backpack build"
+    "build": "npx backpack build",
+    "pre-commit": "lint-staged"
   },
   "author": "",
   "license": "MIT",
@@ -30,6 +31,8 @@
     "uws": "10.148.1"
   },
   "devDependencies": {
-    "backpack-core": "^0.8.4"
+    "backpack-core": "^0.8.4",
+    "lint-staged": "^10.0.0-beta.7",
+    "semistandard": "^14.2.0"
   }
 }

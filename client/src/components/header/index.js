@@ -5,10 +5,13 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import ym from 'react-yandex-metrika';
 import compose from 'recompose/compose';
+import withState from 'recompose/withState';
 
 import { ReactComponent as LogoIcon } from 'assets/home/p-logo.svg';
 
 import DropDown from 'components/dropdown';
+
+import { http } from 'helpers';
 
 import i18n from 'i18n';
 
@@ -17,7 +20,21 @@ import { actions as storeActions } from 'store';
 import style from './style.module.css';
 import UserBox from './userbox';
 
-const Header = ({ setCurrentUser, currentUser, history }) => {
+const Header = ({
+  setCurrentUser,
+  currentUser,
+  history,
+  currentMockedUser,
+  setCurrentMockedUser,
+}) => {
+  const setTestUserToLocalStorage = user => async () => {
+    setCurrentMockedUser(user);
+    localStorage.setItem('auth-test-username', user);
+    let response = await http('/api/users/me');
+    response = await response.json();
+    setCurrentUser(response);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('JWS_TOKEN');
 
@@ -40,6 +57,47 @@ const Header = ({ setCurrentUser, currentUser, history }) => {
           <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
           <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
         </div>
+
+        {process.env.MOCK_USER && (
+          <DropDown
+            className={style.mobile_hidden}
+
+            placeholder={(
+              <UserBox
+                userpic="/static/media/avatar-placeholder.svg"
+                username={currentMockedUser}
+              />
+            )}
+          >
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('test1')}
+            >test1
+            </button>
+
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('test2')}
+            >test2
+            </button>
+
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('admin1')}
+            >admin1
+            </button>
+
+            <button
+              className={style.test_user_dropdown_item}
+              type="button"
+              onClick={setTestUserToLocalStorage('streamer1')}
+            >streamer1
+            </button>
+          </DropDown>
+        )}
 
         {currentUser && (
           <>
@@ -151,4 +209,6 @@ export default compose(
       setCurrentUser: storeActions.setCurrentUser,
     }
   ),
+
+  withState('currentMockedUser', 'setCurrentMockedUser', localStorage.getItem('auth-test-username')),
 )(Header);

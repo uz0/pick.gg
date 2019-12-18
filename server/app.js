@@ -41,7 +41,7 @@ app.set('superSecret', config.secret);
 
 const port = process.env.PORT || 3001;
 
-if (process.argv[2] === '--mocked') {
+if (process.argv[2] === '--mocked' || process.env.MOCK_USER) {
   console.log('MOCKED MODE ENABLED');
   app.use(setupMock(app));
 }
@@ -109,7 +109,7 @@ app.use('/tournaments/:id', async (req, res, next) => {
       .exec();
 
     req.title = tournament.name;
-    
+
     req.meta.push(`<meta name="description" content="${tournament.description}" />`);
     req.meta.push(`<meta property="og:title" content="${tournament.name}" />`);
     req.meta.push(`<meta property="og:description" content="${tournament.description}" />`);
@@ -131,13 +131,13 @@ app.get('/*', (req, res) => {
 
   if (req.title) {
     $('head').find('title').replaceWith(`<title>${req.title}</title>`);
-  } 
+  }
 
   if (req.meta) {
     const meta = req.meta.join('');
     $('head').append(meta);
   }
-  
+
   res.send($.html());
 });
 

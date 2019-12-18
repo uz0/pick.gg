@@ -104,7 +104,9 @@ class Start extends Component {
   };
 
   render() {
+    const isAutoloadGoogleLogin = Boolean(this.tournamentId) && !process.env.MOCK_USER;
     const locale = localStorage.getItem('_pgg_locale');
+
     const linkOffer = locale === 'ru' ?
       'https://nikitamurashov.typeform.com/to/gwzWNv' : // Ru form
       'https://nikitamurashov.typeform.com/to/MJeHcA'; // En form
@@ -112,7 +114,7 @@ class Start extends Component {
     const GoogleButton = ({ text }) => {
       return (
         <GoogleLogin
-          autoLoad={Boolean(this.tournamentId)}
+          autoLoad={isAutoloadGoogleLogin}
           render={renderProperties => (
             <button
               type="button"
