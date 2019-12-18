@@ -71,6 +71,7 @@ class Tournaments extends Component {
 
   render() {
     const isTournaments = this.props.tournamentsIds.length === 0;
+    const filterGame = this.state.filter;
 
     const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
     const isCurrentUserStreamer = get(
@@ -84,7 +85,7 @@ class Tournaments extends Component {
       tournament => tournament.startAt
     );
 
-    if (this.state.filter === 'now') {
+    if (filterGame === 'now') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -93,7 +94,7 @@ class Tournaments extends Component {
       );
     }
 
-    if (this.state.filter === 'past') {
+    if (filterGame === 'past') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -101,7 +102,7 @@ class Tournaments extends Component {
       );
     }
 
-    if (this.state.filter === 'upcoming') {
+    if (filterGame === 'upcoming') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -112,12 +113,13 @@ class Tournaments extends Component {
     const nowTournaments = tournamentList.length === 0;
     console.log(tournamentList);
 
+
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={cx('tournaments_sidebar')}>
-          <Button text="Now!" onClick={() => this.setFilterGame('now')}/>
-          <Button text="Upcoming" onClick={() => this.setFilterGame('upcoming')}/>
-          <Button text="Past" onClick={() => this.setFilterGame('past')}/>
+          <Button className={cx({'active': filterGame === 'now'})} text="Now!" onClick={() => this.setFilterGame('now')}/>
+          <Button className={cx({'active': filterGame === 'upcoming'})} text="Upcoming" onClick={() => this.setFilterGame('upcoming')}/>
+          <Button className={cx({'active': filterGame === 'past'})} text="Past" onClick={() => this.setFilterGame('past')}/>
         </div>
 
         <div className={style.wrap_tournaments}>
@@ -155,6 +157,41 @@ class Tournaments extends Component {
               const price =
                 tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
 
+              const isEmpty = tournament.isEmpty;
+              const isApplicationsAvailable = tournament.isApplicationsAvailable;
+              const isForecastingActive = tournament.isForecastingActive;
+              const isStarted = tournament.isStarted;
+              const isFinalized = tournament.isFinalized;
+
+              const getTournamentStatus = () => {
+                if (isEmpty) {
+                  return i18n.t('creating_tournament');
+                }
+          
+                if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
+                  return i18n.t('creating_tournament');
+                }
+          
+                if ((!isApplicationsAvailable && !isFinalized) && isForecastingActive) {
+                  return i18n.t('creating_tournament');
+                }
+                if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
+                  return i18n.t('waiting_applicants');
+                }
+              
+                if (isForecastingActive) {
+                  return i18n.t('waiting_viewers');
+                }
+              
+                if (isStarted && !isFinalized) {
+                  return i18n.t('tournament_go');
+                }
+              
+                if (isFinalized) {
+                  return i18n.t('is_over');
+                }
+              };
+              // console.log("test:",getTournamentStatus())
               return (
                 <Link
                   key={tournament._id}
@@ -170,6 +207,7 @@ class Tournaments extends Component {
                     imageUrl={tournament.imageUrl}
                     description={tournament.description}
                     className={style.card}
+                    status={getTournamentStatus()}
                   />
                 </Link>
               );
