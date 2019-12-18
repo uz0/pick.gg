@@ -305,6 +305,7 @@
     "back": "Back",
     "description": "Description",
     "no_game_rules_help": "There is no help for current game",
+    "creating_tournament": "Creating a tournament",
     "home": {
       "under_title": "Where streamers and viewers",
       "under_title_2": " play together",
