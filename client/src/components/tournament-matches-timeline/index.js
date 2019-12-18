@@ -132,7 +132,7 @@ class TournamentMatchesTimeline extends Component {
 
     const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
     const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserModerator = includes(tournament.moderators, currentUser._id);
+    const isCurrentUserModerator = currentUser && includes(tournament.moderators, currentUser._id);
     const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
     const isDeleteButtonShown = isApplicationsAvailable || isEmpty;
