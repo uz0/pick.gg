@@ -40,8 +40,14 @@
   --row-height: 30px;
   --bg-color: transparent;
   --background-color: transparent;
+  --color: #fff;
 
   box-shadow: none;
+  cursor: pointer;
+}
+
+.summoners .content .table .row:hover {
+  --color: var(--accent-color);
 }
 
 .summoners .content .table .row .item {
@@ -49,6 +55,7 @@
 }
 
 .summoners .content .table .row .item .text {
+  color: var(--color);
   display: flex;
   align-items: center;
 }

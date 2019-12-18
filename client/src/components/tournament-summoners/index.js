@@ -11,6 +11,7 @@ import classnames from 'classnames/bind';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import uuid from 'uuid';
 
+import { actions as modalActions } from 'components/modal-container';
 import notificationActions from 'components/notification/actions';
 import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
@@ -42,12 +43,10 @@ const tableCaptions = ({ t, isMobile }) => ({
 const renderRow = ({ className, itemClass, textClass, index, item, props, captions }) => {
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
-  const isSummonerWinner = props.find(summoner => summoner.id === item._id);
-
-  console.log(item.isStreamer, 'item.isStreamer');
+  const isSummonerWinner = props.winners.find(summoner => summoner.id === item._id);
 
   return (
-    <div key={uuid()} className={cx(className, style.row)}>
+    <div key={uuid()} className={cx(className, style.row)} onClick={() => props.openPlayerInfoModal()}>
       <div className={cx(itemClass, style.item)} style={nameStyle}>
         <span className={cx(textClass, style.text)}>
           <span className={textClass}>{index + 1}</span>. {item.nickname}
@@ -83,6 +82,7 @@ const Summoners = ({
   isAlreadySummoner,
   addSummoners,
   applyTournament,
+  openPlayerInfoModal,
 }) => {
   return (
     <div className={cx(style.summoners, className)}>
@@ -138,7 +138,7 @@ const Summoners = ({
             noCaptions
             captions={captions}
             items={summoners}
-            withProps={winners}
+            withProps={{ winners, openPlayerInfoModal }}
             renderRow={renderRow}
             isLoading={false}
             className={style.table}
@@ -158,6 +158,7 @@ export default compose(
     }),
 
     {
+      toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
       updateTournament: tournamentsActions.updateTournament,
     }
@@ -192,6 +193,15 @@ export default compose(
       } catch (error) {
         console.log(error);
       }
+    },
+    openPlayerInfoModal: props => tournamentId => {
+      props.toggleModal({
+        id: 'player-info',
+
+        options: {
+          tournamentId,
+        },
+      });
     },
   }),
   withProps(props => {
