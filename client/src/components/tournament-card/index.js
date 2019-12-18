@@ -28,7 +28,7 @@ const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl,
         <div className={style.basic}>
           <div className={style.header}>
             <div className={style.icon} aria-label={status}>
-              <img src={SwordIcon}/>
+              <img src={SwordIcon} alt="icon status"/>
             </div>
             <h4 className={style.name}>{name}</h4>
           </div>
