@@ -13,64 +13,72 @@
   position: relative;
 }
 
-.widget .matches::before {
-  content: '';
-  position: absolute;
-  height: 100%;
-  left: 57px;
-  width: 2px;
-  background-color: #e3e3e6;
-  opacity: 0.5;
-}
-
 .widget .matches .list {
   padding-left: 0;
   margin-left: 0;
 }
 
 .widget .matches .match {
+  --team-padding: 48px;
+
   list-style: none;
   display: flex;
   align-items: center;
 }
 
-.widget .matches .match.isActive {
-  margin: 48px 0;
-}
-
 .widget .matches .match .time {
-  min-width: 32px;
+  min-width: 38px;
   font-size: 14px;
   color: #fff;
 }
 
-.widget .matches .match .status {
-  --size: 32px;
+.widget .matches .match .statusContainer {
+  --status-size: 32px;
+  --divider-size: 2px;
   --icon-size: 18px;
 
+  align-self: stretch;
+  margin-left: calc(var(--status-size) / 4);
+  margin-right: calc(var(--status-size) / 2);
+  position: relative;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.widget .matches .match .statusContainer::after,
+.widget .matches .match .statusContainer::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: var(--divider-size);
+  left: calc(var(--status-size) / 2 - var(--divider-size) / 2);
+  background-color: #e3e3e6;
+  opacity: 0.5;
+}
+
+.widget .matches .match .statusContainer .status {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: calc(var(--size) / 4);
-  margin-right: calc(var(--size) / 2);
-  width: var(--size);
-  height: var(--size);
+  width: var(--status-size);
+  height: var(--status-size);
   background-color: var(--color);
   border-radius: 50%;
   z-index: 2;
 }
 
-.widget .matches .match .status.pending {
+.widget .matches .match .statusContainer .status.pending {
   --color: #e3e3e6;
 }
 
-.widget .matches .match .status.active {
+.widget .matches .match .statusContainer .status.active {
   --color: var(--accent-color);
 }
 
-.widget .matches .match .status.active svg {
+.widget .matches .match .statusContainer .status.active svg {
   animation-duration: 3s;
   animation-name: blink;
   animation-iteration-count: infinite;
@@ -150,6 +158,14 @@
 .widget .matches .match .battle .team {
   display: flex;
   justify-content: space-between;
+}
+
+.widget .matches .match .battle .team.topTeam {
+  padding-top: var(--team-padding);
+}
+
+.widget .matches .match .battle .team.bottomTeam {
+  padding-bottom: var(--team-padding);
 }
 
 .widget .matches .match .battle .team .player {

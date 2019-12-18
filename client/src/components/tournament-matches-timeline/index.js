@@ -148,12 +148,14 @@ class TournamentMatchesTimeline extends Component {
     return (
       <li className={cx(style.match, { [style.isActive]: match.isActive })}>
         <div className={style.time}>{match.startedAt && startMatchTime}</div>
-        <div className={cx(style.status, style[matchStatus])} title={i18n.t(`match_${matchStatus}`)}>
-          <Icon name={`match_${matchStatus}`}/>
+        <div className={style.statusContainer} title={i18n.t(`match_${matchStatus}`)}>
+          <div className={cx(style.status, style[matchStatus])}>
+            <Icon name={`match_${matchStatus}`}/>
+          </div>
         </div>
         <div className={style.battle}>
           {match.isActive && (
-            <div className={style.team}>
+            <div className={cx(style.team, style.topTeam)}>
               {[1, 2, 3, 4, 5].map(match => (
                 <a key={match} href="#" className={style.player}>
                   <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
@@ -223,7 +225,7 @@ class TournamentMatchesTimeline extends Component {
           </div>
 
           {match.isActive && (
-            <div className={style.team}>
+            <div className={cx(style.team, style.bottomTeam)}>
               {[1, 2, 3, 4, 5].map(match => (
                 <a key={match} href="#" className={style.player}>
                   <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
