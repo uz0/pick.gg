@@ -150,10 +150,6 @@ export default enhance(props => {
 
             <div className={style.info}>
               <p className={style.name}>{summoner.summonerName}</p>
-
-              {summoner.preferredPosition && (
-                <p className={style.position}>Position: {summoner.preferredPosition}</p>
-              )}
             </div>
           </button>
         );

@@ -25,10 +25,9 @@ const handler = withValidationHandler(async (req, res) => {
         'twitchAccount',
         'gameSpecificName',
         'regionId',
-        'preferredPosition',
-        'contact',
+        'contact'
       ]),
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json(user);

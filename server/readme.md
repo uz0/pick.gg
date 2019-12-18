@@ -15,7 +15,6 @@ Response:<br/>
     username: string,
     summonerName: string,
     regionId: regionId,
-    preferredPosition: 'adc' | 'mid' | 'top' | 'jungle' | 'supp',
   }
 ```
 
@@ -28,7 +27,6 @@ Body:<br/>
   imageUrl: string,
   about: string,
   regionId: regionId,
-  prefferedPosition: 'adc' | 'mid' | 'top' | 'jungle' | 'supp',
 ```
 
 ## TOURNAMENTS
@@ -116,7 +114,6 @@ Body:<br/>
     summonerName: string,
     roles: 'admin' | 'streamer',
     regionId: regionId,
-    preferredPosition: 'adc' | 'mid' | 'top' | 'jungle' | 'supp',
   }
 ```
 ### Удалить пользователя

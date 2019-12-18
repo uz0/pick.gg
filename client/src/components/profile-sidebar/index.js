@@ -11,7 +11,7 @@ import style from './style.module.css';
 const GAMES = Object.keys(RULES);
 class ProfileSidebar extends Component {
   render() {
-    const { nickname, description, gameSpecificName, preferredPosition, source } = this.props;
+    const { nickname, description, gameSpecificName, source } = this.props;
     return (
       <aside className={style.sidebar}>
         <Avatar source={source}/>
@@ -26,13 +26,6 @@ class ProfileSidebar extends Component {
                 <p className={style.text}>{gameSpecificName[game]}</p>
               </div>
             ) : null
-          )}
-
-          {preferredPosition && (
-            <div className={style.wrap_info}>
-              <label className={style.label}>{i18n.t('position')}:</label>
-              <p className={style.text}>{preferredPosition}</p>
-            </div>
           )}
 
           {description && (

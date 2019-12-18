@@ -14,7 +14,7 @@ const validator = [
     .isEmpty()
     .withMessage("Username field shouldn't be empty")
     .isLength({ min: 1, max: 20 })
-    .withMessage("username should contain more than 1 char and less than 20")
+    .withMessage('username should contain more than 1 char and less than 20')
     .custom(value => isPropertyValueUnique({ username: value }, UserModel)),
   check('email')
     .isString()
@@ -22,21 +22,18 @@ const validator = [
     .isEmpty()
     .withMessage("Email field shouldn't be empty")
     .isEmail()
-    .withMessage("Invalid email format")
+    .withMessage('Invalid email format')
     .isLength({ min: 5, max: 30 })
-    .withMessage("Email should contain more than 5 chars and less than 30")
+    .withMessage('Email should contain more than 5 chars and less than 30')
     .custom(value => isPropertyValueUnique({ email: value }, UserModel)),
-    check('summonerName')
+  check('summonerName')
     .custom(value => isPropertyValueUnique({ summonerName: value }, UserModel)),
   check('regionId')
     .isIn(REGIONS)
-    .withMessage("Invalid region"),
+    .withMessage('Invalid region'),
   check('role')
     .isIn(['user', 'admin', 'streamer'])
-    .withMessage("Invalid user role"),
-  check('preferredPosition')
-    .isIn(['adc', 'mid', 'top', 'jungle', 'supp'])
-    .withMessage("Invalid preffered position")
+    .withMessage('Invalid user role')
 ];
 
 const handler = withValidationHandler(async (req, res) => {
@@ -50,16 +47,14 @@ const handler = withValidationHandler(async (req, res) => {
           'about',
           'role',
           'summonerName',
-          'regionId',
-          'preferredPosition',
+          'regionId'
         ]),
         {
           imageUrl: '',
           about: '',
           role: '',
           summonerName: '',
-          regionId: '',
-          preferredPosition: '',
+          regionId: ''
         }
       )
     );

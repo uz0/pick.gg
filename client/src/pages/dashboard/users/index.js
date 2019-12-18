@@ -42,7 +42,7 @@ class Users extends Component {
       <div className={style.users}>
         {this.props.usersIds.map(id => {
           const user = this.props.usersList[id];
-          const { _id, username, gameSpecificName, preferredPosition, canProvideTournaments, isAdmin } = user;
+          const { _id, username, gameSpecificName, canProvideTournaments, isAdmin } = user;
 
           return (
             <div
@@ -52,7 +52,6 @@ class Users extends Component {
                 _id,
                 username,
                 gameSpecificName,
-                preferredPosition,
                 canProvideTournaments,
                 isAdmin,
               })}
