@@ -5,18 +5,12 @@ import SwordIcon from 'assets/icons/battle_flat.svg';
 
 import Icon from 'components/icon';
 
-import { TOURNAMENT_IMAGES } from '../../constants';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-function arrayRandElement(arr) {
-  const rand = Math.floor(Math.random() * arr.length);
-  return arr[rand];
-}
-
 const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl, description, status }) => {
-  const isBackground = imageUrl ? imageUrl : arrayRandElement(TOURNAMENT_IMAGES);
+
   return (
     <div style={{ backgroundImage: `url(${imageUrl})` }} className={cx('card', className)}>
       <div className={style.content}>
