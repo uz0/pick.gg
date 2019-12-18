@@ -88,6 +88,8 @@
 .summoners .table .row .cell {
   flex-grow: 0;
   flex-shrink: 0;
+  height: 100%;
+  background-color: var(--color);
 }
 
 .summoners .table .row .is_winner {
@@ -102,6 +104,15 @@
   border-radius: 4px;
   color: var(--primary-color);
   background-color: var(--accent-color);
+}
+
+.summoners .table .row .action {
+  flex-shrink: 0;
+}
+
+.summoners .table .row .action i circle {
+  fill: var(--color);
+  transition-property: fill;
 }
 
 @media (max-width: 480px) {

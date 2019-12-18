@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames/bind';
-import style from './style.module.css';
 
 import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
@@ -13,6 +12,11 @@ import { ReactComponent as ListIcon } from 'assets/icons/list.svg';
 import { ReactComponent as CoinIcon } from 'assets/icons/coin.svg';
 import { ReactComponent as PlayIcon } from 'assets/icons/play.svg';
 import { ReactComponent as StopIcon } from 'assets/icons/stop.svg';
+import { ReactComponent as DotsIcon } from 'assets/icons/dots.svg';
+import { ReactComponent as MarkIcon } from 'assets/icons/mark.svg';
+import { ReactComponent as DeleteIcon } from 'assets/icons/delete.svg';
+
+import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
@@ -29,6 +33,9 @@ const Icon = ({ name, className }) => {
     coin: CoinIcon,
     play: PlayIcon,
     stop: StopIcon,
+    dots: DotsIcon,
+    mark: MarkIcon,
+    delete: DeleteIcon,
   })[name];
 
   return (

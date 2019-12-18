@@ -10,12 +10,13 @@ import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
 import withHandlers from 'recompose/withHandlers';
-import i18n from 'i18n';
-
-import { http } from 'helpers';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Modal from 'components/modal';
+
+import { http } from 'helpers';
+
+import i18n from 'i18n';
 
 import style from './style.module.css';
 
@@ -71,7 +72,7 @@ const enhance = compose(
       const { tournamentId } = props.options;
 
       try {
-        await http(`/api/tournaments/${tournamentId}`, {
+        const response = await http(`/api/tournaments/${tournamentId}`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -79,11 +80,8 @@ const enhance = compose(
           body: JSON.stringify({ summoners: selectedSummoners }),
         });
 
-        props.updateTournament({
-          _id: tournamentId,
-          summoners: selectedSummoners,
-        });
-
+        const { tournament } = await response.json();
+        props.updateTournament(tournament);
         props.close();
       } catch (error) {
         console.log(error);

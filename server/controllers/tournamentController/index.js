@@ -14,6 +14,7 @@ import * as finalize from './finalize';
 import * as applicantStatus from './applicantStatus';
 
 import matchController from './match';
+import teamsController from './teams';
 
 let router = express.Router();
 
@@ -43,6 +44,7 @@ const TournamentController = io => {
   router.patch('/:id/rewards', editRewards.validator, editRewards.handler);
 
   router.use('/:tournamentId/matches', matchController());
+  router.use('/:tournamentId/teams', teamsController());
 
   return router;
 };

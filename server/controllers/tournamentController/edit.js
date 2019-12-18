@@ -9,6 +9,7 @@ import { RULES } from '../../../common/constants';
 import { param, body, check } from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
+import TeamModel from '../../models/team';
 import Tournament from '../../models/tournament';
 
 import {
@@ -35,7 +36,7 @@ const validator = [
       if (isReady) {
         const fieldsToExclude = ['name', 'description', 'url', 'imageUrl', 'summoners', 'rules'];
         const extraField = difference(Object.keys(req.body),fieldsToExclude)
-        
+
         if(!extraField.length) throw new Error(`You can\'t edit next fields in ready tournament: ${extraField.join(', ')}`)
       }
 
@@ -73,6 +74,16 @@ const validator = [
 const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
 
+  // как то доделать - если впервые добавили саммонеров
+  if (req.body.summoners) {
+    await TeamModel.create({
+      tournamentId: id,
+      name: 'Team',
+      color: 'black',
+      users: req.body.summoners,
+    });
+  }
+
   Tournament.findByIdAndUpdate(
     id,
     {
@@ -90,8 +101,13 @@ const handler = withValidationHandler(async (req, res) => {
       new: true
     }
   )
+    .populate('creatorId')
+    .populate('applicants')
+    .populate('matches')
+    .populate('teams')
+    .populate('creator', '_id username summonerName')
     .exec()
-    .then(res.json)
+    .then(tournament => res.json({ tournament }))
     .catch(error => res.json({ error }));
 });
 

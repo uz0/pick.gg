@@ -8,6 +8,7 @@ export default async (req, res) => {
     .populate('summoners')
     .populate('applicants')
     .populate('matches')
+    .populate('teams')
     .exec();
 
   res.json({ tournaments });

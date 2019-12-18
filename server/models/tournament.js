@@ -75,6 +75,12 @@ const schema = new Schema(
   }
 );
 
+schema.virtual('teams', {
+  ref: 'Team',
+  localField: '_id',
+  foreignField: 'tournamentId'
+});
+
 schema.virtual('matches', {
   ref: 'Match',
   localField: '_id',

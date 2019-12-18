@@ -18,15 +18,15 @@ export const validator = [
       try {
         // const tournament = await Tournament.find({ _id: id });
         // const isAlreadyViewer = tournament.viewers.find(viewer => viewer.userId === userId);
-  
+
         // if (isAlreadyViewer) {
         //   throw new Error('User already is a viewer');
         // }
-  
+
         // if(!summoners){
         //   throw new Error("You can't apply as an viewer without choosing summoners");
         // }
-  
+
         // if(summoners.length > 5){
         //   throw new Error("You can't choose more than 5 summoners");
         // }
@@ -53,6 +53,7 @@ export const handler = withValidationHandler(async (req, res) => {
     .populate('creatorId')
     .populate('applicants')
     .populate('matches')
+    .populate('teams')
     .populate('creator', '_id username summonerName')
     .exec();
 

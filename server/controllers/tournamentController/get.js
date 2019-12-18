@@ -9,7 +9,10 @@ export default async (req, res) => {
       .populate('summoners')
       .populate('applicants')
       .populate('matches')
+      .populate('teams')
       .exec();
-    
+
+    const teams = await TeamsModel.find({});
+
     res.json({ tournaments });
 }

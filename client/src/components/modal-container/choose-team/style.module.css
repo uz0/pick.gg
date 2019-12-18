@@ -1,0 +1,69 @@
+.content {
+  padding-top: var(--layout-padding);
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  padding-left: 12px;
+  padding-right: 12px;
+  text-align: left;
+  border-radius: 4px;
+  background-color: var(--background-color);
+}
+
+.team + .team {
+  margin-top: 10px;
+}
+
+.team:not(._is-active):not(:hover) {
+  --icon-color: transparent;
+  --circle-color: transparent;
+}
+
+.team:not(._is-active):hover {
+  --icon-color: #fff;
+  --circle-color: transparent;
+}
+
+.team._is-active {
+  --icon-color: #000;
+  --circle-color: #fff;
+}
+
+.team .circle {
+  --size: 30px;
+
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border: 2px solid #fff;
+  background-color: var(--circle-color);
+  border-radius: calc(var(--size) / 2);
+  transition-property: background-color;
+}
+
+.team .circle i {
+  --icon-size: 16px;
+}
+
+.team .name {
+  --height: 20px;
+
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
