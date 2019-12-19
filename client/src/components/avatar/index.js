@@ -7,11 +7,11 @@ import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-const Avatar = ({ source, className }) => {
+const Avatar = ({ source, className, title }) => {
   const AvatarComponent = () => source ? <img src={source} alt="avatar"/> : <AvatarPlaceholder/>;
 
   return (
-    <div className={cx(style.avatar, className)}>
+    <div className={cx(style.avatar, className)} title={title}>
       <AvatarComponent/>
     </div>
   );

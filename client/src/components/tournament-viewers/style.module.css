@@ -111,17 +111,7 @@
 }
 
 .viewers .content .forecast .list .item .avatar {
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-}
-
-.viewers .content .forecast .list .item .avatar img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  --avatar-size: 32px;
 }
 
 .viewers .content .forecast .list .item .info {

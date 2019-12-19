@@ -5,8 +5,7 @@ import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 
-import AvatarPlaceholder from 'assets/avatar-placeholder.svg';
-
+import Avatar from 'components/avatar';
 import Table from 'components/table';
 import Button from 'components/button';
 import { check } from 'components/dropin-auth/check';
@@ -92,15 +91,11 @@ const Viewers = ({
             {currentUserSummoners.map(summoner => {
               return (
                 <div key={summoner._id} className={style.item}>
-                  <div className={style.avatar} title={summoner.gameSpecificName[tournament.game]}>
-                    <img
-                      src={summoner.imageUrl}
-                      alt="Summoner avatar"
-                      onError={e => {
-                        e.currentTarget.src = AvatarPlaceholder;
-                      }}
-                    />
-                  </div>
+                  <Avatar
+                    source={summoner.imageUrl}
+                    className={style.avatar}
+                    title={summoner.gameSpecificName[tournament.game]}
+                  />
                 </div>
               );
             })
