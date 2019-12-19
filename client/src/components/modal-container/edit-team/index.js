@@ -103,8 +103,6 @@ export default compose(
   ),
 
   withHandlers({
-    setColor: props => color => props.setFieldValue('color', color),
-
     create: props => async values => {
       try {
         const response = await http(`/api/tournaments/${props.options.tournamentId}/teams`, {
@@ -191,5 +189,9 @@ export default compose(
 
       props.create(values, props);
     },
+  }),
+
+  withHandlers({
+    setColor: props => color => props.setFieldValue('color', color),
   }),
 )(EditTeam);
