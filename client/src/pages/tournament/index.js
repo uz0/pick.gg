@@ -14,7 +14,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
-import TournamentTabs from 'components/tournament-tabs';
+import { Tabs, Tab, Panel } from 'components/tournament-tabs';
 import TournamentMatchesTimeline from 'components/tournament-matches-timeline';
 import TournamentSummoners from 'components/tournament-summoners';
 
@@ -314,28 +314,39 @@ class Tournament extends Component {
                   />
                 </div>
 
-                <TournamentTabs
-                  matchesTab={<TournamentMatchesTimeline id={this.props.match.params.id}/>}
-                  playersTab={(
-                    <div className={style.playersWidgets}>
-                      {isSummonersWidgetVisible && (
-                        <TournamentSummoners
-                          id={this.props.match.params.id}
-                          className={style.summoners_widget}
-                          addSummoners={this.addSummoners}
-                        />
-                      )}
+                <Tabs>
+                  <Tab>Матчи</Tab>
+                  <Tab>Игроки</Tab>
+                  {isEditingAvailable && <Tab>Модераторы</Tab>}
 
-                      {isApplicantsWidgetVisible && (
-                        <TournamentApplicants
-                          id={this.props.match.params.id}
-                          className={style.applicants_widget}
-                        />
-                      )}
-                    </div>
+                  <Panel>
+                    <TournamentMatchesTimeline id={this.props.match.params.id}/>
+                  </Panel>
+
+                  <Panel>
+                    {isSummonersWidgetVisible && (
+                      <TournamentSummoners
+                        id={this.props.match.params.id}
+                        className={style.summoners_widget}
+                        addSummoners={this.addSummoners}
+                      />
+                    )}
+
+                    {isApplicantsWidgetVisible && (
+                      <TournamentApplicants
+                        id={this.props.match.params.id}
+                        className={style.applicants_widget}
+                      />
+                    )}
+                  </Panel>
+
+                  {isEditingAvailable && (
+                    <Panel>
+                      <div>Таб для модеров</div>
+                    </Panel>
                   )
                   }
-                />
+                </Tabs>
 
                 {/* <TournamentRewards
                   id={this.props.match.params.id}

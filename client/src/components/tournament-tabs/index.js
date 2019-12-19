@@ -1,57 +1,58 @@
-import React, { Component } from 'react';
+import React, { Children, useState, cloneElement } from 'react';
 import classnames from 'classnames/bind';
 
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
 
-class TournamentTabs extends Component {
-  state = {
-    activeTabIndex: 0,
-  }
+export const Tab = ({ children, tabIndex, activeTabIndex, setActiveTab }) => (
+  <button
+    type="button"
+    className={cx({ [style.active]: tabIndex === activeTabIndex })}
+    onClick={() => setActiveTab(tabIndex)}
+  >
+    {children}
+  </button>
+);
 
-  setTab(index) {
-    this.setState({ activeTabIndex: index });
-  }
+export const Panel = ({ children, panelIndex, activeTabIndex }) => {
+  return activeTabIndex === panelIndex ? children : null;
+};
 
-  render() {
-    const { activeTabIndex } = this.state;
+export const Tabs = ({ children }) => {
+  const [activeTabIndex, setActiveTab] = useState(0);
 
-    return (
-      <div className={style.tabs}>
-        <div className={style.header}>
-          <button
-            type="button"
-            className={cx({ [style.active]: activeTabIndex === 0 })}
-            onClick={() => this.setTab(0)}
-          >
-            Матчи
-          </button>
+  const tabs = Children.toArray(children).filter(child => child.type.name === 'Tab');
+  const panels = Children.toArray(children).filter(child => child.type.name === 'Panel');
 
-          <button
-            type="button"
-            className={cx({ [style.active]: activeTabIndex === 1 })}
-            onClick={() => this.setTab(1)}
-          >
-            Игроки
-          </button>
-        </div>
-        <div className={style.content}>
-          {activeTabIndex === 0 && (
-            <div>
-              {this.props.matchesTab}
-            </div>
-          )}
+  const renderTab = (child, index) => {
+    const tabProps = {
+      ...child.props,
+      tabIndex: index,
+      activeTabIndex,
+      setActiveTab: () => setActiveTab(index),
+    };
 
-          {activeTabIndex === 1 && (
-            <div>
-              {this.props.playersTab}
-            </div>
-          )}
-        </div>
+    return cloneElement(child, tabProps);
+  };
+
+  const renderPanel = (child, index) => {
+    const panelProps = {
+      ...child.props,
+      activeTabIndex,
+      panelIndex: index,
+    };
+
+    return cloneElement(child, panelProps);
+  };
+
+  return (
+    <div className={style.tabs}>
+      {tabs.map((tab, index) => renderTab(tab, index))}
+
+      <div className={style.content}>
+        {panels.map((panel, index) => renderPanel(panel, index))}
       </div>
-    );
-  }
-}
-
-export default TournamentTabs;
+    </div>
+  );
+};
