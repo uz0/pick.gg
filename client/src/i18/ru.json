@@ -91,6 +91,8 @@
     "tournament_over": "Турнир завершён! Победитель - {{winner}}.",
     "he_got_prize": "Он получил {{prize}} приз.",
     "match": "Матч",
+    "match_results": "Результаты матча",
+    "no_matches_results": "Результатов ещё нет",
     "match_pending": "Матч ещё не начался",
     "match_active": "Матч идёт прямо сейчас",
     "match_finished": "Матч окончен",
