@@ -9,7 +9,3 @@
 .modal .modal_content .table {
   padding-bottom: var(--layout-padding);
 }
-
-.modal .modal_content .table .row {
-  --background-color: rgba(0, 0, 0, 0.2);
-}
