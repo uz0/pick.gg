@@ -18,10 +18,6 @@ import { Tabs, Tab, Panel } from 'components/tournament-tabs';
 import TournamentMatchesTimeline from 'components/tournament-matches-timeline';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentModerators from 'components/tournament-moderators';
-// Import TournamentMatches from 'components/tournament-matches';
-// Import TournamentRewards from 'components/tournament-rewards';
-// Import TournamentRules from 'components/tournament-rules';
-// Import TournamentSummoners from 'components/tournament-summoners';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
 // Import TournamentInvite from 'components/tournament-invite';
@@ -250,13 +246,6 @@ class Tournament extends Component {
               </div>
               <h3 className={style.title}>{name}</h3>
             </div>
-            {/*
-            <Button
-              disabled={isAllowForecastButtonDisabled}
-              text="Allow forecasts"
-              appearance="_basic-accent"
-              onClick={this.enableForecasting}
-            /> */}
 
             {isEditingAvailable && isApplicationsAvailable && (
               <Button
@@ -352,42 +341,10 @@ class Tournament extends Component {
                   }
                 </Tabs>
 
-                {/* <TournamentRewards
-                  id={this.props.match.params.id}
-                  className={style.rewards_widget}
-                  addRewards={this.addRewards}
-                  editRewards={this.editRewards}
-                />
-
-                {isInviteWidgetVisible && (
+                {/* {isInviteWidgetVisible && (
                   <TournamentInvite
                     className={style.invite_widget}
                     showNotification={this.props.showNotification}
-                  />
-                )}
-
-                {isSummonersWidgetVisible && (
-                  <TournamentSummoners
-                    id={this.props.match.params.id}
-                    className={style.summoners_widget}
-                    addSummoners={this.addSummoners}
-                  />
-                )} */}
-
-                {/* {isViewersWidgetVisible && (
-                  <TournamentViewers
-                    id={this.props.match.params.id}
-                    className={style.viewers_widget}
-                    joinTournament={this.joinTournament}
-                  />
-                )}
-
-
-
-                {isApplicantsWidgetVisible && (
-                  <TournamentApplicants
-                    id={this.props.match.params.id}
-                    className={style.applicants_widget}
                   />
                 )} */}
               </div>
