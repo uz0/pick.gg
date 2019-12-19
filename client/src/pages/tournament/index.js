@@ -17,7 +17,7 @@ import TournamentInformation from 'components/tournament-information';
 import { Tabs, Tab, Panel } from 'components/tournament-tabs';
 import TournamentMatchesTimeline from 'components/tournament-matches-timeline';
 import TournamentSummoners from 'components/tournament-summoners';
-
+import TournamentModerators from 'components/tournament-moderators';
 // Import TournamentMatches from 'components/tournament-matches';
 // Import TournamentRewards from 'components/tournament-rewards';
 // Import TournamentRules from 'components/tournament-rules';
@@ -342,7 +342,11 @@ class Tournament extends Component {
 
                   {isEditingAvailable && (
                     <Panel>
-                      <div>Таб для модеров</div>
+                      <TournamentModerators
+                        id={this.props.match.params.id}
+                        className={style.moderators_widget}
+                        addModerators={this.addModerators}
+                      />
                     </Panel>
                   )
                   }
@@ -378,13 +382,7 @@ class Tournament extends Component {
                   />
                 )}
 
-                {isModeratorsWidgetVisible && (
-                  <TournamentModerators
-                    id={this.props.match.params.id}
-                    className={style.moderators_widget}
-                    addModerators={this.addModerators}
-                  />
-                )}
+
 
                 {isApplicantsWidgetVisible && (
                   <TournamentApplicants
