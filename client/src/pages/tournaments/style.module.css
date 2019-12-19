@@ -14,11 +14,11 @@
   padding: 12px;
   margin-bottom: 12px;
   width: 100%;
-  background: rgba(81, 147, 84, 0.95);
+  background: #519354;
   border-radius: 4px;
   text-transform: uppercase;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   transition: 0.2s;
 }
 
@@ -42,7 +42,7 @@
 
 .tournaments .no_tournaments {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: var(--accent-color);
   padding-top: 10px;
   padding-left: 24px;
@@ -67,7 +67,7 @@
   transition: 0.3s;
 }
 
-.tournaments .list .item .name {
+/* .tournaments .list .item .name {
   --height: 30px;
 
   overflow: hidden;
@@ -78,7 +78,10 @@
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+} */
 
 .tournaments .list .item .card {
   margin-top: 12px;

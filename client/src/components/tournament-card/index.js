@@ -1,8 +1,6 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 
-import SwordIcon from 'assets/icons/battle_flat.svg';
-
 import Icon from 'components/icon';
 
 import style from './style.module.css';
@@ -28,7 +26,7 @@ const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl,
         <div className={style.basic}>
           <div className={style.header}>
             <div className={style.icon} aria-label={status}>
-              <img src={SwordIcon} alt="icon status"/>
+              <Icon name="battle"/>
             </div>
             <h4 className={style.name}>{name}</h4>
           </div>

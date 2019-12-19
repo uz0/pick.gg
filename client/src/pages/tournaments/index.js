@@ -69,6 +69,34 @@ class Tournaments extends Component {
     this.setState({ filter: text });
   };
 
+  renderTournamentCards = tournament => {
+    const dateMonth = moment(tournament.startAt).format('MMM');
+    const dateDay = moment(tournament.startAt).format('DD');
+    const championsLength = tournament.viewers && tournament.viewers.length;
+    const tournamentName = tournament.name || i18n.t('no_name');
+    const price = tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
+
+    return (
+      <Link
+        key={tournament._id}
+        to={`/tournaments/${tournament._id}`}
+        className={style.item}
+      >
+        <TournamentCard
+          name={tournamentName}
+          dateDay={dateDay}
+          dateMonth={dateMonth}
+          price={price}
+          people={championsLength || 0}
+          imageUrl={tournament.imageUrl}
+          description={tournament.description}
+          className={style.card}
+          status={getTournamentStatus(tournament)}
+        />
+      </Link>
+    );
+  }
+
   render() {
     const isTournaments = this.props.tournamentsIds.length === 0;
     const filterGame = this.state.filter;
@@ -111,34 +139,23 @@ class Tournaments extends Component {
     }
 
     const nowTournaments = tournamentList.length === 0;
-    console.log(tournamentList);
+    const statusList = ['now', 'upcoming', 'past'];
 
     return (
       <div className={cx('tournaments', 'container')}>
         <div className={cx('tournaments_sidebar')}>
-          <Button className={cx({ active: filterGame === 'now' })} text="Now!" onClick={() => this.setFilterGame('now')}/>
-          <Button className={cx({ active: filterGame === 'upcoming' })} text="Upcoming" onClick={() => this.setFilterGame('upcoming')}/>
-          <Button className={cx({ active: filterGame === 'past' })} text="Past" onClick={() => this.setFilterGame('past')}/>
+          {statusList.map(status => (
+            <Button
+              key={status}
+              className={cx({ active: filterGame === status })}
+              text={status}
+              onClick={() => this.setFilterGame(status)}
+            />
+          )
+          )}
         </div>
 
         <div className={style.wrap_tournaments}>
-          {/* <div className={style.game}>
-            <Button
-              text="Clear filter"
-              className={style.game_button}
-              onClick={() => this.setGame('')}
-            />
-            <Button
-              text="PUBG"
-              className={style.game_button}
-              onClick={() => this.setGame('PUBG')}
-            />
-            <Button
-              text="LOL"
-              className={style.game_button}
-              onClick={() => this.setGame('LOL')}
-            />
-          </div> */}
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
             {(isTournaments || nowTournaments) && (
               <span className={style.no_tournaments}>
@@ -146,36 +163,7 @@ class Tournaments extends Component {
               </span>
             )}
 
-            {tournamentList.map(tournament => {
-              // Const tournament = this.props.tournamentsList[id];
-              const dateMonth = moment(tournament.startAt).format('MMM');
-              const dateDay = moment(tournament.startAt).format('DD');
-              const championsLength =
-                tournament.viewers && tournament.viewers.length;
-              const tournamentName = tournament.name || i18n.t('no_name');
-              const price =
-                tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
-              console.log(getTournamentStatus(tournament));
-              return (
-                <Link
-                  key={tournament._id}
-                  to={`/tournaments/${tournament._id}`}
-                  className={style.item}
-                >
-                  <TournamentCard
-                    name={tournamentName}
-                    dateDay={dateDay}
-                    dateMonth={dateMonth}
-                    price={price}
-                    people={championsLength || 0}
-                    imageUrl={tournament.imageUrl}
-                    description={tournament.description}
-                    className={style.card}
-                    status={getTournamentStatus(tournament)}
-                  />
-                </Link>
-              );
-            })}
+            {tournamentList.map(tournament => this.renderTournamentCards(tournament))}
           </div>
 
           {isCurrentUserAdminOrStreamer && (
