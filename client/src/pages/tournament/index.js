@@ -212,8 +212,6 @@ class Tournament extends Component {
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
-    // Const isModeratorsWidgetVisible = isEditingAvailable && !isEmpty;
-    // Const isViewersWidgetVisible = isForecastingActive || isStarted;
     // Const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
