@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Pick.gg",
+    "description": "Сервис для проведения турниров между стримерами и игроками по игре League of Legends.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://pick.gg"
+    }
+  ],
+  "tags": [
+    {
+      "name": "tournaments"
+    }
+  ],
+  "paths": {
+    "/tournaments": {
+      "get": {
+        "tags": [
+          "tournaments"
+        ],
+        "summary": "Returns list tournaments",
+        "description": "Returns a map of status codes to quantities",
+        "operationId": "getInventory",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  }
+}

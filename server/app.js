@@ -6,14 +6,16 @@ import cookieParser from 'cookie-parser';
 import socketIO from 'socket.io';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import cheerio from 'cheerio'
-import fs from 'fs'
+import cheerio from 'cheerio';
+import fs from 'fs';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json';
 
 import {
   UsersController,
   TournamentController,
   AdminController,
-  RewardController,
+  RewardController
 } from './controllers';
 
 import AuthenticationController from './controllers/authenticationController';
@@ -21,18 +23,20 @@ import AuthenticationController from './controllers/authenticationController';
 import {
   PublicUsersController,
   PublicTournamentController,
-  PublicRatingController,
+  PublicRatingController
 } from './controllers/public';
 
 import { AuthVerifyMiddleware, AdminVerifyMiddleware, setupMock } from './middlewares';
 import config from './config';
 
-import TournamentModel from './models/tournament'
+import TournamentModel from './models/tournament';
 
 const app = express();
-let server = http.Server(app);
+const server = http.Server(app);
 server.timeout = 999999;
-let io = socketIO(server);
+const io = socketIO(server);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 mongoose.Promise = Promise;
 mongoose.connect(config.database, config.options);
@@ -75,8 +79,8 @@ app.use('/home', (req, res, next) => {
 
   const description = {
     ru: 'Сервис для проведения турниров по лиге легенд между стримерами',
-    en: 'Service for holding tournaments in a League of Legends between streamers',
-  }
+    en: 'Service for holding tournaments in a League of Legends between streamers'
+  };
 
   req.meta = [];
 
@@ -117,7 +121,6 @@ app.use('/tournaments/:id', async (req, res, next) => {
     req.meta.push('<meta property="og:image:type" content="image/png">');
     req.meta.push('<meta property="og:image:width" content="320">');
     req.meta.push('<meta property="og:image:height" content="240">');
-
   } catch (error) {
     res.json({ error });
   }

@@ -28,6 +28,8 @@
     "node-sass": "^4.13.0",
     "password-hash": "^1.2.2",
     "socket.io": "^2.3.0",
+    "swagger-jsdoc": "^3.5.0",
+    "swagger-ui-express": "^4.1.2",
     "uws": "10.148.1"
   },
   "devDependencies": {
