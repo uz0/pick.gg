@@ -47,9 +47,10 @@ class Tournaments extends Component {
     const { game } = querystring.parse(this.props.location.search.slice(1));
 
     this.setState({ isLoading: true });
-    const response = await http(
-      game ? `/public/tournaments/game/${game}` : '/public/tournaments'
-    );
+
+    const queryUrl = game ? `/public/tournaments/game/${game}` : '/public/tournaments';
+    const response = await http(queryUrl);
+
     const { tournaments } = await response.json();
     try {
       this.props.loadTournaments(tournaments);
@@ -99,21 +100,15 @@ class Tournaments extends Component {
 
   render() {
     const isTournaments = this.props.tournamentsIds.length === 0;
-    const filterGame = this.state.filter;
+    const filterType = this.state.filter;
 
     const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
-    const isCurrentUserStreamer = get(
-      this.props,
-      'currentUser.canProvideTournaments'
-    );
-    const isCurrentUserAdminOrStreamer =
-      isCurrentUserStreamer || isCurrentUserAdmin;
-    let tournamentList = sortBy(
-      this.props.tournamentsList,
-      tournament => tournament.startAt
-    );
+    const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
+    const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
 
-    if (filterGame === 'now') {
+    let tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
+
+    if (filterType === 'now') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -122,7 +117,7 @@ class Tournaments extends Component {
       );
     }
 
-    if (filterGame === 'past') {
+    if (filterType === 'past') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -130,7 +125,7 @@ class Tournaments extends Component {
       );
     }
 
-    if (filterGame === 'upcoming') {
+    if (filterType === 'upcoming') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -138,7 +133,7 @@ class Tournaments extends Component {
       );
     }
 
-    const nowTournaments = tournamentList.length === 0;
+    const isTournamentsList = tournamentList.length === 0;
     const statusList = ['now', 'upcoming', 'past'];
 
     return (
@@ -147,7 +142,7 @@ class Tournaments extends Component {
           {statusList.map(status => (
             <Button
               key={status}
-              className={cx({ active: filterGame === status })}
+              className={cx({ active: filterType === status })}
               text={status}
               onClick={() => this.setFilterGame(status)}
             />
@@ -157,7 +152,7 @@ class Tournaments extends Component {
 
         <div className={style.wrap_tournaments}>
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
-            {(isTournaments || nowTournaments) && (
+            {(isTournaments || isTournamentsList) && (
               <span className={style.no_tournaments}>
                 {i18n.t('not_yet_tournaments')}
               </span>
