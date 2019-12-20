@@ -48,7 +48,9 @@ export const Tabs = ({ children }) => {
 
   return (
     <div className={style.tabs}>
-      {tabs.map((tab, index) => renderTab(tab, index))}
+      <div className={style.header}>
+        {tabs.map((tab, index) => renderTab(tab, index))}
+      </div>
 
       <div className={style.content}>
         {panels.map((panel, index) => renderPanel(panel, index))}

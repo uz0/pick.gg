@@ -204,10 +204,16 @@
 }
 
 .tournament .inner_container .widgets .playersWidgets {
-  margin-left: 55px;
   display: grid;
   grid-row-gap: 30px;
   grid-column: auto;
+}
+
+.tournament .inner_container .widgets .playersWidgets,
+.tournament .inner_container .widgets .summoners_widget,
+.tournament .inner_container .widgets .applicants_widget,
+.tournament .inner_container .widgets .moderators_widget {
+  margin-left: 55px;
 }
 
 .tournament .inner_container .widgets > * {

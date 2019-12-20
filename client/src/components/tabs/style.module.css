@@ -1,9 +1,6 @@
 
-.tabs {
+.tabs .header button {
   margin-left: 55px;
-}
-
-.tabs button {
   font-size: 18px;
   text-transform: uppercase;
   font-weight: var(--font-weight-bold);
@@ -11,11 +8,11 @@
   background-color: transparent;
 }
 
-.tabs button + button {
+.tabs .header button + button {
   margin-left: 32px;
 }
 
-.tabs button.active {
+.tabs .header button.active {
   color: var(--accent-color);
 }
 
