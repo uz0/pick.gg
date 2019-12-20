@@ -9,7 +9,7 @@ import bodyParser from 'body-parser';
 import cheerio from 'cheerio';
 import fs from 'fs';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json';
+import swaggerJSDoc from 'swagger-jsdoc';
 
 import {
   UsersController,
@@ -36,7 +36,21 @@ const server = http.Server(app);
 server.timeout = 999999;
 const io = socketIO(server);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Pick.gg',
+      version: '1.0.0'
+    }
+  },
+  apis: ['./app.js'],
+  tags: ['api']
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 mongoose.Promise = Promise;
 mongoose.connect(config.database, config.options);
@@ -68,7 +82,51 @@ app.use('/public/rating', PublicRatingController());
 app.use('/public/tournaments', PublicTournamentController());
 
 app.use('/api', AuthVerifyMiddleware(app));
+
+/**
+ * @swagger
+ *
+ * /api/users:
+ *   get:
+ *     tags:
+ *     - API
+ *     description: Get users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: user
+ *         description: User object
+ *         in:  body
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: users
+ */
+
 app.use('/api/users', UsersController());
+
+/**
+ * @swagger
+ *
+ * /api/tournaments:
+ *   get:
+ *     tags:
+ *     - API
+ *     description: Get tournament
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: tournament
+ *         description: Tournament object
+ *         in:  body
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: tournaments
+ */
+
 app.use('/api/tournaments', TournamentController(io));
 app.use('/api/rewards', RewardController());
 
