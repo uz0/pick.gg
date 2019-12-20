@@ -137,6 +137,7 @@ const Summoners = ({
   addSummoners,
   applyTournament,
   deleteTeam,
+  randomizeUsers,
   openNewTeamModal,
   usersList,
   openChooseTeamModal,
@@ -157,13 +158,21 @@ const Summoners = ({
         )}
 
         {isEditingAvailable && summoners.length > 0 && (
-          <button
-            type="button"
+          <Button
+            appearance="_icon-transparent"
+            icon="refresh"
+            className={style.button}
+            onClick={randomizeUsers}
+          />
+        )}
+
+        {isEditingAvailable && summoners.length > 0 && (
+          <Button
+            appearance="_icon-transparent"
+            icon="edit"
             className={style.button}
             onClick={addSummoners}
-          >
-            {i18n.t('edit')}
-          </button>
+          />
         )}
       </div>
 
@@ -239,7 +248,9 @@ export default compose(
       toggleModal: modalActions.toggleModal,
     }
   ),
+
   withCaptions(tableCaptions),
+
   withHandlers({
     openNewTeamModal: props => () => props.toggleModal({
       id: 'edit-team-modal',
@@ -267,6 +278,19 @@ export default compose(
         tournamentId: props.id,
       },
     }),
+
+    randomizeUsers: props => async () => {
+      try {
+        const response = await http(`/api/tournaments/${props.id}/teams/random`, {
+          method: 'PATCH',
+        });
+
+        const qwe = await response.json();
+        console.log(qwe);
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
     deleteTeam: props => teamId => async () => {
       try {
