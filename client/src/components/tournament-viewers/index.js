@@ -1,24 +1,24 @@
 import React from 'react';
 import compose from 'recompose/compose';
+import withHandlers from 'recompose/withHandlers';
 import withProps from 'recompose/withProps';
 import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 
+import { actions as modalActions } from 'components/modal-container';
 import Avatar from 'components/avatar';
 import Table from 'components/table';
+
 import Button from 'components/button';
 import { check } from 'components/dropin-auth/check';
 
 import { calcSummonersPoints } from 'helpers';
-
 import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
 
 import style from './style.module.css';
-
-const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
   name: {
@@ -32,6 +32,8 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
+const cx = classnames.bind(style);
+
 const renderRow = ({ className, itemClass, textClass, index, item, props: tournament, captions }) => {
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
@@ -41,7 +43,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
     <div key={item.userId} className={cx(className, style.row)}>
       <div className={itemClass} style={nameStyle}>
         <span className={textClass}>
-          {index + 1}. {item.user && item.user.username}
+          {index + 1}. {item.user && item.user.gameSpecificName[tournament.game]}
           {isViewerWinner && <span className={style.is_winner}> is winner</span>}
         </span>
       </div>
@@ -60,6 +62,11 @@ const Viewers = ({
   isCurrentUserSummoner,
   isUserCanMakeForecast,
   currentUserSummoners,
+  currentViewerPoints,
+  currentViewerPosition,
+  summonersWithPoints,
+  openPlayerInfoModal,
+  sortedSummonersWithPoints,
   className,
   captions,
   currentUser,
@@ -86,11 +93,23 @@ const Viewers = ({
 
       {currentUserSummoners.length > 0 && (
         <div className={style.forecast}>
-          <div className={style.summonerName}>{currentUser.summonerName}</div>
+          <div className={style.summonerName}>
+            {currentViewerPosition && `${currentViewerPosition}. `}
+            {currentUser.gameSpecificName[tournament.game]}
+          </div>
           <div className={style.list}>
             {currentUserSummoners.map(summoner => {
+              const summonerPoints = summonersWithPoints.find(item => summoner._id === item._id).points;
+
+              summoner = {
+                ...summoner,
+                points: summonerPoints,
+                nickname: summoner.gameSpecificName[tournament.game],
+                position: sortedSummonersWithPoints.findIndex(item => item._id === summoner._id) + 1,
+              };
+
               return (
-                <div key={summoner._id} className={style.item}>
+                <div key={summoner._id} className={style.item} onClick={() => openPlayerInfoModal(summoner)}>
                   <Avatar
                     source={summoner.imageUrl}
                     className={style.avatar}
@@ -101,7 +120,7 @@ const Viewers = ({
             })
             }
           </div>
-          <div className={style.points}>123</div>
+          <div className={style.points}>{currentViewerPoints}</div>
         </div>
       )}
 
@@ -122,16 +141,29 @@ const Viewers = ({
 
 export default compose(
   withCaptions(tableCaptions),
-
   connect(
     (state, props) => ({
       users: state.users.list,
       currentUser: state.currentUser,
       tournament: state.tournaments.list[props.id],
     }),
+    {
+      toggleModal: modalActions.toggleModal,
+    }
   ),
+  withHandlers({
+    openPlayerInfoModal: props => playerInfo => {
+      props.toggleModal({
+        id: 'player-info',
+
+        options: {
+          playerInfo,
+        },
+      });
+    },
+  }),
   withProps(props => {
-    const { tournament, currentUser, users } = props;
+    const { tournament, currentUser, users, openPlayerInfoModal } = props;
 
     const isCurrentUserCreator = (currentUser && tournament.creator) && tournament.creator._id === currentUser._id;
     const isCurrentUserSummoner = currentUser && tournament.summoners.includes(currentUser._id);
@@ -175,16 +207,22 @@ export default compose(
         isUserCanMakeForecast,
         isCurrentUserSummoner,
         currentUserSummoners: [],
+        currentViewerPoints: 0,
       };
     }
 
-    const currentUserSummoners = tournament.viewers.length > 0 &&
-      tournament.viewers.find(({ userId }) => userId === currentUser._id);
+    const currentViewer = viewers.length > 0 && viewers.find(({ userId }) => userId === currentUser._id);
+    const currentViewerPosition = currentViewer && viewers.findIndex(({ userId }) => userId === currentUser._id) + 1;
 
-    if (currentUserSummoners) {
-      const summoners = currentUserSummoners.summoners
+    if (currentViewer) {
+      const summoners = currentViewer.summoners
         .map(summonerId => Object.values(users).find(item => item._id === summonerId))
         .filter(item => item !== undefined);
+
+      const userList = Object.values(users);
+      const tournamentSummoners = tournament.summoners.map(summonerId => userList.find(item => item._id === summonerId));
+      const summonersWithPoints = calcSummonersPoints(tournamentSummoners, tournament.matches, tournament.rules);
+      const sortedSummonersWithPoints = summonersWithPoints && summonersWithPoints.sort((a, b) => b.points - a.points);
 
       return {
         ...props,
@@ -192,7 +230,12 @@ export default compose(
         isCurrentUserCreator,
         isUserCanMakeForecast,
         isCurrentUserSummoner,
+        currentViewerPosition,
+        openPlayerInfoModal,
+        summonersWithPoints,
+        sortedSummonersWithPoints,
         currentUserSummoners: summoners,
+        currentViewerPoints: currentViewer.points,
       };
     }
 
@@ -203,6 +246,7 @@ export default compose(
       isUserCanMakeForecast,
       isCurrentUserSummoner,
       currentUserSummoners: [],
+      currentViewerPoints: 0,
     };
   })
 )(Viewers);

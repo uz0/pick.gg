@@ -89,21 +89,28 @@
   padding-right: 0;
 }
 
-.viewers .content .forecast .summonerName,
-.viewers .content .forecast .points {
-  font-size: 14px;
+.viewers .content .forecast .summonerName {
   color: #fff;
+  font-size: 14px;
 }
 
 .viewers .content .forecast .points {
   margin-left: auto;
+  font-size: 14px;
   font-weight: var(--font-weight-bold);
+  background-color: var(--accent-color);
+  padding: 2px 4px;
+  border-radius: 4px;
 }
 
 .viewers .content .forecast .list {
   margin-left: 12px;
   display: flex;
   align-items: center;
+}
+
+.viewers .content .forecast .list .item {
+  cursor: pointer;
 }
 
 .viewers .content .forecast .list .item + .item {
