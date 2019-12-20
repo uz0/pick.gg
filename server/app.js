@@ -26,7 +26,11 @@ import {
   PublicRatingController
 } from './controllers/public';
 
-import { AuthVerifyMiddleware, AdminVerifyMiddleware, setupMock } from './middlewares';
+import {
+  AuthVerifyMiddleware,
+  AdminVerifyMiddleware,
+  setupMock
+} from './middlewares';
 import config from './config';
 
 import TournamentModel from './models/tournament';
@@ -40,12 +44,14 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
+      description: '',
       title: 'Pick.gg',
       version: '1.0.0'
     }
   },
   apis: ['./app.js'],
-  tags: ['api']
+  tags: ['API(Users)'],
+  defaultschemes: ['https', 'http']
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -86,22 +92,131 @@ app.use('/api', AuthVerifyMiddleware(app));
 /**
  * @swagger
  *
+ * definitions:
+ *   User:
+ *     type: object
+ *     required:
+ *       - username
+ *       - email
+ *     properties:
+ *       username:
+ *         type: string
+ *       email:
+ *         type: string
+ *       imageUrl:
+ *         type: string
+ *       about:
+ *         type: string
+ *       isAdmin:
+ *         type: boolean
+ *       isVerified:
+ *         type: boolean
+ *       canProvideTournaments:
+ *         type: boolean
+ *       twitchAccount:
+ *         type: string
+ *       gameSpecificName:
+ *         type: object
+ *       contact:
+ *         type: string
+ *       regionId:
+ *         type: string
+ *       preferredPosition:
+ *         type: string
+ *         enum:
+ *         - ""
+ *         - "adc"
+ *         - "mid"
+ *         - "top"
+ *         - "jungle"
+ *         - "support"
+ */
+
+/**
+ * @swagger
+ *
+ * /api/users/me:
+ *   get:
+ *     tags:
+ *     - "API(Users)"
+ *     summary: "Get user"
+ *     description: getUserProfile
+ *     produces:
+ *     - "application/xml"
+ *     - "application/json"
+ *     parameters:
+ *      - in: "body"
+ *        name: "body"
+ *        description: "Get user object"
+ *        required: true
+ *        schema:
+ *          $ref: '#/definitions/User'
+ *      responses:
+ *        default:
+ *          description: "successful operation"
+ */
+
+/**
+ * @swagger
+ *
+ * /api/users/me:
+ *   patch:
+ *     tags:
+ *     - API(Users)
+ *     description: userUpdateProfile
+ *     produces:
+ *      - application/json
+ *     parameters:
+ *      - name: user
+ *        description: User object
+ *        in:  body
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/User'
+ *     responses:
+ *       200:
+ *         description: A user object.
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/User'
+ */
+
+/**
+ * @swagger
+ *
  * /api/users:
  *   get:
  *     tags:
- *     - API
- *     description: Get users
+ *     - API(Users)
+ *     description: getAllUsers
  *     produces:
- *       - application/json
- *     parameters:
- *       - name: user
- *         description: User object
- *         in:  body
- *         required: true
- *         type: string
+ *      - application/json
  *     responses:
  *       200:
- *         description: users
+ *         description: A user array.
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/User'
+ */
+
+/**
+ * @swagger
+ *
+ * /api/users/:id:
+ *   get:
+ *     tags:
+ *     - API(Users)
+ *     description: getUserById
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: A user object.
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/User'
  */
 
 app.use('/api/users', UsersController());
@@ -112,7 +227,7 @@ app.use('/api/users', UsersController());
  * /api/tournaments:
  *   get:
  *     tags:
- *     - API
+ *     - API(Tournaments)
  *     description: Get tournament
  *     produces:
  *       - application/json
@@ -137,7 +252,8 @@ app.use('/home', (req, res, next) => {
 
   const description = {
     ru: 'Сервис для проведения турниров по лиге легенд между стримерами',
-    en: 'Service for holding tournaments in a League of Legends between streamers'
+    en:
+      'Service for holding tournaments in a League of Legends between streamers'
   };
 
   req.meta = [];
@@ -146,7 +262,9 @@ app.use('/home', (req, res, next) => {
 
   req.meta.push(`<meta name="description" content="${description[lang]}" />`);
   req.meta.push('<meta property="og:title" content="Pick.gg" />');
-  req.meta.push(`<meta property="og:description" content="${description[lang]}" />`);
+  req.meta.push(
+    `<meta property="og:description" content="${description[lang]}" />`
+  );
 
   req.meta.push('<meta property="og:image" content="url" />');
   req.meta.push('<meta property="og:image:type" content="image/png">');
@@ -161,8 +279,7 @@ app.use('/tournaments/:id', async (req, res, next) => {
   req.meta = [];
 
   try {
-    const tournament = await TournamentModel
-      .findById(id)
+    const tournament = await TournamentModel.findById(id)
       .populate('winner')
       .populate('creatorId')
       .populate('applicants')
@@ -172,10 +289,16 @@ app.use('/tournaments/:id', async (req, res, next) => {
 
     req.title = tournament.name;
 
-    req.meta.push(`<meta name="description" content="${tournament.description}" />`);
+    req.meta.push(
+      `<meta name="description" content="${tournament.description}" />`
+    );
     req.meta.push(`<meta property="og:title" content="${tournament.name}" />`);
-    req.meta.push(`<meta property="og:description" content="${tournament.description}" />`);
-    req.meta.push(`<meta property="og:image" content="${tournament.imageUrl}" />`);
+    req.meta.push(
+      `<meta property="og:description" content="${tournament.description}" />`
+    );
+    req.meta.push(
+      `<meta property="og:image" content="${tournament.imageUrl}" />`
+    );
     req.meta.push('<meta property="og:image:type" content="image/png">');
     req.meta.push('<meta property="og:image:width" content="320">');
     req.meta.push('<meta property="og:image:height" content="240">');
@@ -191,7 +314,9 @@ app.get('/*', (req, res) => {
   const $ = cheerio.load(fs.readFileSync(filepath));
 
   if (req.title) {
-    $('head').find('title').replaceWith(`<title>${req.title}</title>`);
+    $('head')
+      .find('title')
+      .replaceWith(`<title>${req.title}</title>`);
   }
 
   if (req.meta) {
