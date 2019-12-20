@@ -98,17 +98,8 @@ class Tournaments extends Component {
     );
   }
 
-  render() {
-    const isTournaments = this.props.tournamentsIds.length === 0;
-    const filterType = this.state.filter;
-
-    const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
-    const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
-    const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
-
-    let tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
-
-    if (filterType === 'now') {
+  filterMode = (filterGame, tournamentList) => {
+    if (filterGame === 'now') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -117,7 +108,7 @@ class Tournaments extends Component {
       );
     }
 
-    if (filterType === 'past') {
+    if (filterGame === 'past') {
       tournamentList = filter(
         tournamentList,
         tournament =>
@@ -125,13 +116,28 @@ class Tournaments extends Component {
       );
     }
 
-    if (filterType === 'upcoming') {
+    if (filterGame === 'upcoming') {
       tournamentList = filter(
         tournamentList,
         tournament =>
           moment(tournament.startAt).format('DD-MM') > moment().format('DD-MM')
       );
     }
+
+    return tournamentList;
+  }
+
+  render() {
+    const isTournaments = this.props.tournamentsIds.length === 0;
+    const filterType = this.state.filter;
+
+    const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
+    const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
+    const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
+
+    const tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
+
+    const filteredTournaments = this.filterMode(filterType, tournamentList);
 
     const isTournamentsList = tournamentList.length === 0;
     const statusList = ['now', 'upcoming', 'past'];
@@ -158,7 +164,7 @@ class Tournaments extends Component {
               </span>
             )}
 
-            {tournamentList.map(tournament => this.renderTournamentCards(tournament))}
+            {filteredTournaments.map(tournament => this.renderTournamentCards(tournament))}
           </div>
 
           {isCurrentUserAdminOrStreamer && (
