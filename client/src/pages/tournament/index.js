@@ -14,7 +14,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
-import { Tabs, Tab, Panel } from 'components/tournament-tabs';
+import { Tabs, Tab, Panel } from 'components/tabs';
 import TournamentMatchesTimeline from 'components/tournament-matches-timeline';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentModerators from 'components/tournament-moderators';
