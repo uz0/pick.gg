@@ -101,6 +101,7 @@ const EditMatch = ({
               <Button
                 text={i18n.t('button.load_auto')}
                 appearance="_basic-accent"
+                className={style.button}
                 onClick={() => handlePubgAutoLoad()}
               />
             );
