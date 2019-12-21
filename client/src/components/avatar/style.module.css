@@ -1,9 +1,19 @@
 .avatar {
-  --avatar-size: 48px;
-
   width: var(--avatar-size);
   height: var(--avatar-size);
+  position: relative;
   overflow: hidden;
+}
+
+.avatar .streamerBorder {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.avatar .streamerBorder svg {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
 }
 
 .avatar svg,

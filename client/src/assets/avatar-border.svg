@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Слой_1" 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 52 52" style="enable-background:new 0 0 52 52;" xml:space="preserve">
+	<path fill="#F2994A" d="M26,2C12.7,2,2,12.7,2,26s10.7,24,24,24v2C11.6,52,0,40.4,0,26S11.6,0,26,0V2z"/>
+	<path fill="#7C7CE5" d="M26,50c13.3,0,24-10.7,24-24h2c0,14.4-11.6,26-26,26V50z"/>
+	<path fill="#FFDD4D" d="M50,26C50,12.7,39.3,2,26,2V0c14.4,0,26,11.6,26,26H50z"/>
+</svg>

@@ -1,12 +1,13 @@
 .avatar {
-  border-radius: 50%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
 }
 
 .user_data {
   display: flex;
   flex-direction: column; 
   pointer-events: none;
+  margin-left: 8px;
 }
 
 .user_data.is_loading {

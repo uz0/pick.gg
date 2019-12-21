@@ -64,6 +64,9 @@
   --danger-color: #fb4343;
   --danger-secondary-color: #ffc777;
 
+  --base-color: #549557;
+  --base-secondary-color: #5b925d;
+
   /* --background-color: #252532; */
   --background-color: #151534;
   --primary-color: #060916;
@@ -123,6 +126,8 @@ p {
 a,
 button {
   transition-duration: 0.3s;
+  transition-property: all;
+  transition-timing-function: ease;
 }
 
 input:focus,
