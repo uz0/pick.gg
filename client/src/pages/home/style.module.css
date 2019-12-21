@@ -533,7 +533,6 @@ h2 .orange {
   font-size: 16px;
   background-color: transparent;
   color: var(--accent-color);
-  transition: 0.3s ease;
   font-weight: bold;
 }
 

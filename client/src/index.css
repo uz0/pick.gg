@@ -120,6 +120,11 @@ p {
   margin: 0;
 }
 
+a,
+button {
+  transition-duration: 0.3s;
+}
+
 input:focus,
 textarea:focus,
 select:focus,

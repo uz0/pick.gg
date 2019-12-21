@@ -67,7 +67,6 @@
   font-size: 16px;
   background-color: transparent;
   color: var(--caption-color);
-  transition: 0.3s ease;
 }
 
 .footer .container .lang_settings button + button {
