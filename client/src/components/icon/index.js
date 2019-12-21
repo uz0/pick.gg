@@ -22,6 +22,7 @@ import { ReactComponent as TournamentWaitingSummoners } from 'assets/icons/tourn
 import { ReactComponent as MatchIsActive } from 'assets/icons/match_status/battle.svg';
 import { ReactComponent as MatchIsFinished } from 'assets/icons/match_status/finished.svg';
 import { ReactComponent as MatchIsPending } from 'assets/icons/match_status/pending.svg';
+import { ReactComponent as BattleIcon } from 'assets/icons/battle.svg';
 
 import style from './style.module.css';
 
@@ -49,6 +50,7 @@ const Icon = ({ name, className }) => {
     match_pending: MatchIsPending,
     match_active: MatchIsActive,
     match_finished: MatchIsFinished,
+    battle: BattleIcon,
   })[name];
 
   return (

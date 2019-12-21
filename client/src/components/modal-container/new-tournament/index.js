@@ -34,8 +34,10 @@ const validationSchema = Yup.object().shape({
   dateDetails: Yup.string()
     .max(120)
     .required(i18n.t('modal.required')),
-  imageUrl: Yup.string()
-    .required(i18n.t('modal.required')),
+  url: Yup.string()
+    .max(200)
+    .required(i18n.t('modal.required'))
+    .url(i18n.t('new_tournament.enter_valid_url')),
   startAt: Yup.date()
     .min(date, `${i18n.t('modal.date_after')}: ${moment(date).format('DD MMM')}`)
     .required(i18n.t('modal.required')),
