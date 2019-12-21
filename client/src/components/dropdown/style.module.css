@@ -11,6 +11,7 @@
 
 .userbox {
   --avatar-size: 40px;
+
   height: var(--header-height);
   padding-left: 16px;
   padding-right: 16px;
