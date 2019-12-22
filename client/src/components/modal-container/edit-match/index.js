@@ -88,15 +88,14 @@ const EditMatch = ({
     const resolvedNames = values.summoners.map(i => i.nickname);
     const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
     setValues(merge(values, { summoners: filtered }));
-    setIsResultChoosed(true)
+    setIsResultChoosed(true);
   };
 
   const handleMatchesLoad = async () => {
     const loadedMatches = await loadMatches(values.resultsTargetPlayer);
     setPlayerLastMatches(loadedMatches);
-    setIsResultChoosed(false)
+    setIsResultChoosed(false);
   };
-
 
   const renderRow = ({ className, itemClass, textClass, item, captions }) => {
     const chooseButton = { '--width': captions.chooseButton.width };
@@ -180,7 +179,7 @@ const EditMatch = ({
                     onClick={() => handleMatchesLoad()}
                   />
                 </div>
-                {!isResultChoosed &&
+                {!isResultChoosed && (
                   <Table
                     captions={lastMatchesCaptions}
                     items={playerLastMatches}
@@ -188,7 +187,7 @@ const EditMatch = ({
                     className={style.table}
                     emptyMessage={i18n.t('no_matches_results')}
                   />
-                }
+                )}
               </>
             );
           }
