@@ -7,7 +7,9 @@ import { Field, withFormik } from 'formik';
 import findIndex from 'lodash/findIndex';
 import * as Yup from 'yup';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import classnames from 'classnames';
 
+import Table from 'components/table';
 import FileInput from 'components/form/input-file';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
@@ -22,6 +24,8 @@ import i18n from 'i18n';
 
 import style from './style.module.css';
 
+const cx = classnames.bind(style);
+
 const validationSchema = Yup.object().shape({
   resultsFile: Yup.mixed()
     .test('fileType', 'Unsupported File Format', value => {
@@ -32,6 +36,27 @@ const validationSchema = Yup.object().shape({
       return value.type === 'text/html';
     }),
 });
+
+const lastMatchesCaptions = {
+  chooseButton: {
+    text: 'Press to choose',
+    width: window.innerWidth < 480 ? 75 : 100,
+  },
+  createdAt: {
+    text: 'Created',
+    width: window.innerWidth < 480 ? 120 : 150,
+  },
+
+  duration: {
+    text: 'Duration',
+    width: window.innerWidth < 480 ? 75 : 100,
+  },
+
+  gameMode: {
+    text: 'Mode',
+    width: window.innerWidth < 480 ? 75 : 100,
+  },
+};
 
 const EditMatch = ({
   close,
@@ -56,17 +81,51 @@ const EditMatch = ({
   ];
 
   const [playerLastMatches, setPlayerLastMatches] = useState([]);
+  const [isResultChoosed, setIsResultChoosed] = useState(true);
 
   const handleResultsLoad = async matchId => {
     const loadedResults = await loadResults(matchId);
     const resolvedNames = values.summoners.map(i => i.nickname);
     const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
     setValues(merge(values, { summoners: filtered }));
+    setIsResultChoosed(true)
   };
 
   const handleMatchesLoad = async () => {
     const loadedMatches = await loadMatches(values.resultsTargetPlayer);
     setPlayerLastMatches(loadedMatches);
+    setIsResultChoosed(false)
+  };
+
+
+  const renderRow = ({ className, itemClass, textClass, item, captions }) => {
+    const chooseButton = { '--width': captions.chooseButton.width };
+    const createdAt = { '--width': captions.createdAt.width };
+    const duration = { '--width': captions.duration.width };
+    const gameMode = { '--width': captions.gameMode.width };
+
+    return (
+      <div key={item.id} className={cx(className, 'row')}>
+
+        <div className={itemClass} style={chooseButton}>
+          <Button
+            appearance="_basic-accent"
+            icon="plus"
+            className={style.button}
+            onClick={() => handleResultsLoad(item.id)}
+          />
+        </div>
+        <div className={itemClass} style={createdAt}>
+          <span className={textClass}>{item.createdAt}</span>
+        </div>
+        <div className={itemClass} style={duration}>
+          <span className={textClass}>{item.duration}</span>
+        </div>
+        <div className={itemClass} style={gameMode}>
+          <span className={textClass}>{item.gameMode}</span>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -121,22 +180,15 @@ const EditMatch = ({
                     onClick={() => handleMatchesLoad()}
                   />
                 </div>
-                {playerLastMatches.map(match => {
-                  return (
-                    <div key={match.id} className={style.last_matches}>
-                      <Button
-                        key={match.id}
-                        text="->"
-                        appearance="_basic-accent"
-                        className={style.button}
-                        onClick={() => handleResultsLoad(match.id)}
-                      />
-                      <div>Date: {match.createdAt}; </div>
-                      <div>Dur: {match.duration}; </div>
-                      <div>Mode: {match.gameMode}</div>
-                    </div>
-                  );
-                })}
+                {!isResultChoosed &&
+                  <Table
+                    captions={lastMatchesCaptions}
+                    items={playerLastMatches}
+                    renderRow={renderRow}
+                    className={style.table}
+                    emptyMessage={i18n.t('no_matches_results')}
+                  />
+                }
               </>
             );
           }

@@ -2,15 +2,10 @@
   padding-top: var(--layout-padding);
 }
 
-.wrapper .content .button {
-  margin-bottom: 10px;
-}
-
 .wrapper .content .fetch {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  margin-bottom: 30px;
 }
 
 .wrapper .content .fetch .field {
@@ -20,6 +15,14 @@
 .wrapper .content .fetch .button {
   margin-bottom: 12px;
   margin-left: auto;
+}
+
+.wrapper .content .table {
+  margin-bottom: 30px;
+}
+
+.wrapper .content .table .row {
+  --background-color: rgba(0, 0, 0, 0.2);
 }
 
 .wrapper .content .last_matches {

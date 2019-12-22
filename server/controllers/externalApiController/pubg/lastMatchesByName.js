@@ -6,7 +6,7 @@ const client = new pubg.Client(
 );
 
 const constructDate = date => {
-  return `${date.getDay()}.${date.getMonth()}.${date.getFullYear()}, ${date.getHours()}:${
+  return `${date.getDay()}/${date.getMonth()}, ${date.getHours()}:${
     (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
     }`;
 };
