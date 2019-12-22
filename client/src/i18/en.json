@@ -419,6 +419,7 @@
       "action_button_text": "Add results",
       "drag_and_drop_file": "You can drag and drop file",
       "upload_file_button_text": "or click here",
+      "show_last_matches_of_player": "Choose from last matches of player",
       "error": {
         "multiple_files_upload": "You can\"t upload multiple files",
         "choose_file_first": "You should choose file first",
@@ -465,7 +466,7 @@
       "back": "back",
       "cancel": "cancel",
       "delete": "delete",
-      "load_auto": "Load automagically"
+      "load": "Load"
     },
     "empty_message": {
       "no_claimed_rewards": "You don't have any not claimed rewards"

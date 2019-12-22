@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import pick from 'lodash/pick';
 import merge from 'lodash/merge';
@@ -40,6 +40,7 @@ const EditMatch = ({
   playerRules,
   setFieldValue,
   loadResults,
+  loadMatches,
   setValues,
   isSubmitting,
   errors,
@@ -54,11 +55,18 @@ const EditMatch = ({
     { text: i18n.t('edit'), appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
   ];
 
-  const handlePubgAutoLoad = async () => {
-    const loadedResults = await loadResults(summoners[0].nickname);
+  const [playerLastMatches, setPlayerLastMatches] = useState([]);
+
+  const handleResultsLoad = async matchId => {
+    const loadedResults = await loadResults(matchId);
     const resolvedNames = values.summoners.map(i => i.nickname);
     const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
     setValues(merge(values, { summoners: filtered }));
+  };
+
+  const handleMatchesLoad = async () => {
+    const loadedMatches = await loadMatches(values.resultsTargetPlayer);
+    setPlayerLastMatches(loadedMatches);
   };
 
   return (
@@ -98,12 +106,38 @@ const EditMatch = ({
 
           if (game === 'PUBG') {
             return (
-              <Button
-                text={i18n.t('button.load_auto')}
-                appearance="_basic-accent"
-                className={style.button}
-                onClick={() => handlePubgAutoLoad()}
-              />
+              <>
+                <div className={style.fetch}>
+                  <Field
+                    label={i18n.t('result_modal.show_last_matches_of_player')}
+                    name="resultsTargetPlayer"
+                    component={FormInput}
+                    className={style.field}
+                  />
+                  <Button
+                    text={i18n.t('button.load')}
+                    appearance="_basic-accent"
+                    className={style.button}
+                    onClick={() => handleMatchesLoad()}
+                  />
+                </div>
+                {playerLastMatches.map(match => {
+                  return (
+                    <div key={match.id} className={style.last_matches}>
+                      <Button
+                        key={match.id}
+                        text="->"
+                        appearance="_basic-accent"
+                        className={style.button}
+                        onClick={() => handleResultsLoad(match.id)}
+                      />
+                      <div>Date: {match.createdAt}; </div>
+                      <div>Dur: {match.duration}; </div>
+                      <div>Mode: {match.gameMode}</div>
+                    </div>
+                  );
+                })}
+              </>
             );
           }
         })()
@@ -223,11 +257,18 @@ export default compose(
       };
     });
 
-    const loadResults = async name => {
-      const loadedValues = await http(`/external/pubg/lastMatch/${name}`);
-      const summoners = await loadedValues.json();
+    const loadResults = async matchId => {
+      const loadedValues = await http(`/external/pubg/match/${matchId}`);
+      const results = await loadedValues.json();
 
-      return summoners;
+      return results;
+    };
+
+    const loadMatches = async name => {
+      const loadedValues = await http(`/external/pubg/lastMatches/${name}`);
+      const matches = await loadedValues.json();
+
+      return matches;
     };
 
     return {
@@ -238,6 +279,7 @@ export default compose(
       game,
       playerRules,
       loadResults,
+      loadMatches,
     };
   }),
   withFormik({
