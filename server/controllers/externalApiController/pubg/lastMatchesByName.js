@@ -8,11 +8,12 @@ const client = new pubg.Client(
 const constructDate = date => {
   return `${date.getDay()}.${date.getMonth()}.${date.getFullYear()}, ${date.getHours()}:${
     (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
-  }`;
+    }`;
 };
 
-const fmtMSS = (s) => {return(s-(s%=60))/60+(9<s?':':':0')+s}
-
+const fmtMSS = (s) => {
+  return (s - (s %= 60)) / 60 + (s > 9 ? ':' : ':0') + s;
+};
 
 export default async (req, res) => {
   const { nickname } = req.params;
@@ -26,7 +27,7 @@ export default async (req, res) => {
     return {
       id: match.id,
       createdAt: constructDate(matchData.attributes.createdAt),
-      duration: (matchData.attributes.duration / 60).toFixed(2),
+      duration: fmtMSS(matchData.attributes.duration),
       gameMode: matchData.attributes.gameMode
     };
   });
