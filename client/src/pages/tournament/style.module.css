@@ -1,6 +1,6 @@
 .tournament {
-  padding-top: var(--layout-padding);
-  padding-bottom: var(--layout-padding);
+  padding-top: calc(var(--layout-padding) * 2);
+  padding-bottom: calc(var(--layout-padding) * 2);
 }
 
 .tournament .inner_container {
@@ -22,17 +22,17 @@
 }
 
 .tournament .inner_container .info .title {
-  --height: 24px;
+  --height: 26px;
 
   height: var(--height);
   margin: 20px 0 0 0;
   line-height: var(--height);
   font-family: var(--font-family-title);
-  font-weight: var(--font-weight-regular);
   color: var(--caption-color);
-  font-size: 24px;
+  font-size: 26px;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-transform: uppercase;
 }
 
 .tournament .inner_container .info .date {
@@ -52,6 +52,7 @@
   font-size: 40px;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-transform: uppercase;
 }
 
 .tournament .inner_container .info .date .dateDetails {
@@ -189,7 +190,6 @@
   margin-top: 4px;
   line-height: var(--height);
   font-size: 15px;
-  font-weight: var(--font-weight-bold);
   color: var(--header-color);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -198,22 +198,15 @@
 .tournament .inner_container .widgets {
   width: 100%;
   display: grid;
-  grid-column-gap: 16px;
+  grid-column-gap: 48px;
   grid-template-columns: 1fr 1.15fr;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .tournament .inner_container .widgets .playersWidgets {
   display: grid;
   grid-row-gap: 30px;
   grid-column: auto;
-}
-
-.tournament .inner_container .widgets .playersWidgets,
-.tournament .inner_container .widgets .summoners_widget,
-.tournament .inner_container .widgets .applicants_widget,
-.tournament .inner_container .widgets .moderators_widget {
-  margin-left: 55px;
 }
 
 .tournament .inner_container .widgets > * {

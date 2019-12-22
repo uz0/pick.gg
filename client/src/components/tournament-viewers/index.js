@@ -41,14 +41,14 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
 
   return (
     <div key={item.userId} className={cx(className, style.row)}>
-      <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>
+      <div className={cx(itemClass, style.item)} style={nameStyle}>
+        <span className={cx(textClass, style.name)}>
           {index + 1}. {item.user && item.user.gameSpecificName[tournament.game]}
           {isViewerWinner && <span className={style.is_winner}> is winner</span>}
         </span>
       </div>
 
-      <div className={itemClass} style={pointsStyle}>
+      <div className={cx(itemClass, style.item)} style={pointsStyle}>
         <span className={cx(textClass, style.points)}>{item.points}</span>
       </div>
     </div>
@@ -72,6 +72,10 @@ const Viewers = ({
   currentUser,
 }) => (
   <div className={cx(style.viewers, className)}>
+    <div className={style.header}>
+      <h4 className={style.subtitle}>Прогнозы зрителей</h4>
+    </div>
+
     <div className={style.content}>
       {isUserCanMakeForecast && currentUserSummoners.length === 0 && (
         <div className={style.attend}>

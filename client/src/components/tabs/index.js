@@ -19,7 +19,7 @@ export const Panel = ({ children, panelIndex, activeTabIndex }) => {
   return activeTabIndex === panelIndex ? children : null;
 };
 
-export const Tabs = ({ children }) => {
+export const Tabs = ({ children, className }) => {
   const [activeTabIndex, setActiveTab] = useState(0);
 
   const tabs = Children.toArray(children).filter(child => child.type.name === 'Tab');
@@ -47,7 +47,7 @@ export const Tabs = ({ children }) => {
   };
 
   return (
-    <div className={style.tabs}>
+    <div className={cx(style.tabs, className)}>
       <div className={style.header}>
         {tabs.map((tab, index) => renderTab(tab, index))}
       </div>

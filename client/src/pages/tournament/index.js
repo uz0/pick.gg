@@ -230,7 +230,7 @@ class Tournament extends Component {
             <div className={style.info}>
               <div className={style.date}>
                 <h2 className={style.createdAt}>{createdAt}</h2>
-                {dateDetails && <p className={style.dateDetails}>{dateDetails}</p>}
+                {dateDetails && <p className={style.dateDetails}>({dateDetails})</p>}
 
                 {isEditingAvailable && (
                   <button

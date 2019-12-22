@@ -1,15 +1,16 @@
 .control {
-  --height: 48px;
+  --height: 40px;
   --icon-size: 30px;
   --icon-color: #fff;
 
+  min-width: 80px;
   padding-left: 10px;
   padding-right: 10px;
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   height: var(--height);
-  border-radius: 6px;
   text-transform: uppercase;
   font-weight: var(--font-weight-bold);
   background-color: #569659;
