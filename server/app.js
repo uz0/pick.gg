@@ -45,10 +45,11 @@ const options = {
     openapi: '3.0.0',
     info: {
       description: '',
-      title: 'Pick.gg',
+      title: 'PICK.GG',
       version: '1.0.0'
     }
   },
+  customCss: '.swagger-ui .topbar { display: none }',
   apis: ['./app.js'],
   tags: ['API(Users)'],
   defaultschemes: ['https', 'http']
@@ -56,7 +57,7 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, options));
 
 mongoose.Promise = Promise;
 mongoose.connect(config.database, config.options);
@@ -130,6 +131,83 @@ app.use('/api', AuthVerifyMiddleware(app));
  *         - "top"
  *         - "jungle"
  *         - "support"
+ *     xml:
+ *       name: "Order"
+ *   Tournament:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *       description:
+ *         type: string
+ *       url:
+ *         type: string
+ *       imageUrl:
+ *         type: string
+ *       createdAt:
+ *         type: date
+ *       rewards:
+ *         type: object
+ *         items:
+ *           $ref: '#/definitions/Reward'
+ *       rules:
+ *         type: string
+ *       isForecastingActive:
+ *         type: boolean
+ *         default: false
+ *       isStarted:
+ *         type: boolean
+ *         default: false
+ *       isFinalized:
+ *         type: boolean
+ *         default: false
+ *       winners:
+ *         type: array
+ *         items:
+ *           type: object
+ *           properties:
+ *             _id:
+ *               type: boolean
+ *             id:
+ *               $ref: '#/definitions/User'
+ *             position:
+ *               type: string
+ *               enum:
+ *                 - summoner
+ *                 - viewer
+ *       creator:
+ *         $ref: '#/definitions/User'
+ *       summoners:
+ *         type: array
+ *         $ref: '#/definitions/User'
+ *       moderators:
+ *         type: array
+ *         $ref: '#/definitions/User'
+ *       applicants:
+ *         type: array
+ *       game:
+ *         type: string
+ *         default: ''
+ *       viewers:
+ *         type: array
+ *         items:
+ *           type: object
+ *           properties:
+ *             userId
+ *               type: string
+ *             summoners:
+ *               type: string
+ *   Reward:
+ *     type: object
+ *     properties:
+ *       key:
+ *         type: string
+ *       isClaimed:
+ *         type: boolean
+ *       description:
+ *         type: string
+ *       image:
+ *         type: string
  */
 
 /**
@@ -150,10 +228,14 @@ app.use('/api', AuthVerifyMiddleware(app));
  *        description: "Get user object"
  *        required: true
  *        schema:
+ *          type: object
  *          $ref: '#/definitions/User'
- *      responses:
- *        default:
- *          description: "successful operation"
+ *     responses:
+ *       200:
+ *         description: A user object.
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/User'
  */
 
 /**
@@ -204,7 +286,7 @@ app.use('/api', AuthVerifyMiddleware(app));
 /**
  * @swagger
  *
- * /api/users/:id:
+ * /api/users/{id}:
  *   get:
  *     tags:
  *     - API(Users)
