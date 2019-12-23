@@ -1,14 +1,14 @@
-import express from "express";
-import UserModel from "../../models/user";
+import express from 'express';
+import UserModel from '../../models/user';
 
-let router = express.Router();
+const router = express.Router();
 
 const PublicUsersController = () => {
   router.get('/', async (req, res) => {
     const users = await UserModel.find().select('-isAdmin');
 
     res.json({
-      users,
+      users
     });
   });
 
@@ -20,6 +20,6 @@ const PublicUsersController = () => {
   });
 
   return router;
-}
+};
 
 export default PublicUsersController;

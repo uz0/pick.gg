@@ -3,7 +3,7 @@ import defaults from 'lodash/defaults';
 import { check, validationResult } from 'express-validator/check';
 
 import TournamentModel from '../../models/tournament';
-import { GAMES, TOURNAMENT_IMAGES } from '../../../common/constants'
+import { GAMES, TOURNAMENT_IMAGES } from '../../../common/constants';
 
 const validator = [
   check('game')
@@ -58,7 +58,7 @@ const handler = withValidationHandler(async (req, res) => {
           'startAt',
           'price',
           'url',
-          'imageUrl',
+          'imageUrl'
         ]),
         {
           isReady: false,

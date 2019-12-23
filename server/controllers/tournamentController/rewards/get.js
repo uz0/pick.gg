@@ -15,15 +15,15 @@ const validator = [
   check().custom((value, { req }) => isUserHasToken(value, req)),
   param('id').custom(id => isEntityExists(id, Tournament)),
   body().custom(async (tournamentId, { req }) => {
-      const { id } = req.params;
-      const tournamentRewards = await Tournament.findById(id).select('rewards');
+    const { id } = req.params;
+    const tournamentRewards = await Tournament.findById(id).select('rewards');
 
-      if(isEmpty(tournamentRewards)){
-        return true;
-      }
-
+    if (isEmpty(tournamentRewards)) {
       return true;
-    }),
+    }
+
+    return true;
+  })
 ];
 
 const handler = withValidationHandler(async (req, res) => {
@@ -34,7 +34,7 @@ const handler = withValidationHandler(async (req, res) => {
     .select('rewards')
     .lean();
 
-  if(isEmpty(tournamentRewards)){
+  if (isEmpty(tournamentRewards)) {
     res.send({
       rewards: []
     });

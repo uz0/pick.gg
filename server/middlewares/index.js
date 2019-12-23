@@ -1,9 +1,9 @@
-import AuthVerifyMiddleware from "./authVerifyMiddleware";
-import AdminVerifyMiddleware from "./adminVerifyMiddleware";
-import setupMock from "./setupMock";
+import AuthVerifyMiddleware from './authVerifyMiddleware';
+import AdminVerifyMiddleware from './adminVerifyMiddleware';
+import setupMock from './setupMock';
 
 export {
   AuthVerifyMiddleware,
   AdminVerifyMiddleware,
-  setupMock,
+  setupMock
 };

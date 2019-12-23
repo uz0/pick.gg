@@ -2,7 +2,7 @@ import express from 'express';
 
 import oauth from './oauth';
 
-let router = express.Router();
+const router = express.Router();
 
 const AuthenticationController = (app) => {
   router.post('/oauth', oauth(app));

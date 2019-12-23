@@ -20,9 +20,9 @@ const handler = withValidationHandler(async (req, res) => {
         'userId',
         'isClaimed',
         'description',
-        'image',
+        'image'
       ]),
-      {new: true},
+      { new: true }
     );
 
     res.status(200).json(reward);

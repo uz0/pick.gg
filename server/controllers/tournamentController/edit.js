@@ -1,7 +1,7 @@
 import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import negate from 'lodash/negate';
-import difference from 'lodash/difference'
+import difference from 'lodash/difference';
 import isUndefined from 'lodash/isUndefined';
 
 import { param, body, check } from 'express-validator/check';
@@ -26,7 +26,7 @@ const validator = [
 
       const { creator, isReady, moderators } = await Tournament.findById(tournamentId);
 
-      const isModerator = moderators.includes(_id)
+      const isModerator = moderators.includes(_id);
 
       if (!isAdmin && !isModerator && String(creator) !== String(_id)) {
         throw new Error('You are not allowed to edit this tournament');
@@ -34,28 +34,28 @@ const validator = [
 
       if (isReady) {
         const fieldsToExclude = ['name', 'description', 'url', 'imageUrl', 'summoners', 'rules'];
-        const extraField = difference(Object.keys(req.body),fieldsToExclude)
-        
-        if(!extraField.length) throw new Error(`You can\'t edit next fields in ready tournament: ${extraField.join(', ')}`)
+        const extraField = difference(Object.keys(req.body), fieldsToExclude);
+
+        if (!extraField.length) throw new Error(`You can't edit next fields in ready tournament: ${extraField.join(', ')}`);
       }
 
       return true;
     }),
-  
+
   body().custom(body => isRequestHasCorrectFields(body, Tournament)),
   body().custom(({ summoners }) => {
-    if(!summoners){
+    if (!summoners) {
       return true;
     }
 
-    if(summoners.length > 10){
+    if (summoners.length > 10) {
       throw new Error('You can\'t add more than 10 summoners');
     }
 
     return true;
   }),
   body().custom(({ rules, game }) => {
-    if(!rules){
+    if (!rules) {
       return true;
     }
 
@@ -78,7 +78,7 @@ const handler = withValidationHandler(async (req, res) => {
         'price',
         'rules',
         'summoners',
-        'moderators',
+        'moderators'
       ])
     },
     {
