@@ -135,10 +135,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--size);
+  min-width: var(--size);
   height: var(--size);
   background-color: var(--color);
-  border-radius: 50%;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.widget .matches .match .battle .title .control.results {
+  padding-left: 4px;
+  padding-right: 4px;
+  background-color: var(--accent-color);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold);
 }
 
 .widget .matches .match .battle .title .control.delete {
@@ -151,7 +160,7 @@
 }
 
 .widget .matches .match .battle .title .control + .control {
-  margin-left: 8px;
+  margin-left: 4px;
 }
 
 .widget .matches .match .battle .team {
@@ -171,6 +180,8 @@
   display: flex;
   flex-direction: column;
   max-width: 100px;
+  padding-left: 2px;
+  padding-right: 2px;
   color: #fff;
   text-decoration: none;
   text-align: center;
@@ -192,9 +203,5 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 8px;
-  font-size: 14px;
-}
-
-.widget .matches .match .battle .team .player .role {
   font-size: 12px;
 }

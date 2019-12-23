@@ -160,7 +160,6 @@ class TournamentMatchesTimeline extends Component {
                 <a key={match} href="/player" className={style.player}>
                   <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
                   <div className={style.name}>Player Name {match === 1 ? 'asdasdasdasdasdasdasdasdasd' : ''}</div>
-                  <div className={style.role}>Cool support</div>
                 </a>
               ))
               }
@@ -190,17 +189,6 @@ class TournamentMatchesTimeline extends Component {
                 </button>
               )}
 
-              {isEditingAvailable && isStarted && isMatchOver && (
-                <button
-                  type="button"
-                  className={cx('control', style.results)}
-                  title="Add match results"
-                  onClick={() => this.openEditMatch(match._id)}
-                >
-                  <Icon name="info"/>
-                </button>
-              )}
-
               {isEditingAvailable && isDeleteButtonShown && (
                 <button
                   type="button"
@@ -217,7 +205,7 @@ class TournamentMatchesTimeline extends Component {
                   className={cx('control', style.results)}
                   onClick={() => this.openMatchResults(match._id)}
                 >
-                  <Icon name="list"/>
+                  Результаты
                 </button>
               )}
 
@@ -230,7 +218,6 @@ class TournamentMatchesTimeline extends Component {
                 <a key={match} href="/player" className={style.player}>
                   <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
                   <div className={style.name}>Player Name</div>
-                  <div className={style.role}>Cool support</div>
                 </a>
               ))
               }
