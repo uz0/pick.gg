@@ -139,7 +139,7 @@ class Tournaments extends Component {
 
     const filteredTournaments = this.filterMode(filterType, tournamentList);
 
-    const isTournamentsList = tournamentList.length === 0;
+    const isTournamentsList = filteredTournaments.length === 0;
     const statusList = ['now', 'upcoming', 'past'];
 
     return (
