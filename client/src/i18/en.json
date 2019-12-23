@@ -310,6 +310,13 @@
     "description": "Description",
     "no_game_rules_help": "There is no help for current game",
     "creating_tournament": "Creating a tournament",
+    "faq": {
+      "waiting_applicants": "Waiting for people who want to participate in matches",
+      "add_rules_matches_rewards": "Waiting for rules, matches and rewards being added",
+      "let_viewers_make_forecasts": "People can make their forecast",
+      "tournament_go": "Tournament started and goind on",
+      "is_over": "Tournament is over"
+    },
     "home": {
       "under_title": "Where streamers and viewers",
       "under_title_2": " play together",

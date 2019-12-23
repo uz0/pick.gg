@@ -314,6 +314,13 @@
     "description": "Описание",
     "no_game_rules_help": "Для данной игры нет подсказок",
     "creating_tournament": "Создание турнира",
+    "faq": {
+      "waiting_applicants": "Ждём претендентов на участие в матчах турнира",
+      "add_rules_matches_rewards": "Ждём пока будут добавлены правила, награды и созданые матчи",
+      "let_viewers_make_forecasts": "Зрители могут сделать прогнозы",
+      "tournament_go": "Турнир идёт прямо сейчас",
+      "is_over": "Турнир окончен"
+    },
     "home": {
       "under_title": "Где стримеры и зрители",
       "under_title_2": " играют вместе",

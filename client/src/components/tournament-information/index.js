@@ -5,6 +5,7 @@ import compose from 'recompose/compose';
 import get from 'lodash/get';
 import showdown from 'showdown';
 import classnames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import Icon from 'components/icon';
 import Control from 'components/tournament-information/controls';
@@ -37,6 +38,7 @@ const Information = props => {
 
   const rulesAction = () => rules ? props.editRules(props.isCurrentUserAdminOrCreator) : props.addRules(props.isCurrentUserAdminOrCreator);
   const rewardsAction = () => rewards ? props.editRewards(props.isCurrentUserAdminOrCreator) : props.addRewards(props.isCurrentUserAdminOrCreator);
+  const statusControlAction = () => props.history.replace('/faq');
 
   const readMoreText = isFullDescriptionShown ? 'Скрыть' : '...Подробнее';
 
@@ -75,7 +77,7 @@ const Information = props => {
   return (
     <div className={cx(style.information, className)}>
       <div className={style.controls}>
-        <StatusControl status={getTournamentStatus()}/>
+        <StatusControl status={getTournamentStatus()} onClick={statusControlAction}/>
         <Control onClick={rewardsAction}>
           <Icon name="trophy"/>
         </Control>
@@ -107,4 +109,6 @@ export default compose(
       tournament: state.tournaments.list[props.id],
     }),
   ),
+
+  withRouter,
 )(Information);

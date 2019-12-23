@@ -18,7 +18,7 @@ const StatusControl = props => {
   };
 
   return (
-    <Control title={i18n.t(props.status)}>
+    <Control title={i18n.t(props.status)} {...props}>
       <Icon name={icons[props.status]}/>
     </Control>
   );
