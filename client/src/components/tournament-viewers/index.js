@@ -9,11 +9,11 @@ import classnames from 'classnames/bind';
 import { actions as modalActions } from 'components/modal-container';
 import Avatar from 'components/avatar';
 import Table from 'components/table';
-
 import Button from 'components/button';
 import { check } from 'components/dropin-auth/check';
 
 import { calcSummonersPoints } from 'helpers';
+
 import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
@@ -128,17 +128,15 @@ const Viewers = ({
         </div>
       )}
 
-      {viewers.length > 0 && (
-        <Table
-          noCaptions
-          captions={captions}
-          items={viewers}
-          withProps={tournament}
-          renderRow={renderRow}
-          className={style.table}
-          emptyMessage={i18n.t('no_viewers_yet')}
-        />
-      )}
+      <Table
+        noCaptions
+        captions={captions}
+        items={viewers}
+        withProps={tournament}
+        renderRow={renderRow}
+        className={style.table}
+        emptyMessage={i18n.t('no_viewers_yet')}
+      />
     </div>
   </div>
 );

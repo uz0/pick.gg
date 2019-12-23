@@ -61,7 +61,6 @@ const Moderators = ({
   return (
     <div className={cx(style.moderators, className)}>
       <div className={style.header}>
-        <h4>{i18n.t('moderators')}</h4>
         {isEditingAvailable && moderators.length > 0 && (
           <button
             type="button"

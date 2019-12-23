@@ -6,6 +6,7 @@
 }
 
 .moderators .header h4 {
+  text-transform: uppercase;
   font-size: 18px;
   color: #fff;
 }
@@ -36,13 +37,12 @@
 }
 
 .moderators .empty {
-  --height: 24px;
+  --height: 16px;
 
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
-  font-weight: var(--font-weight-bold);
-  font-size: 18px;
+  font-size: 16px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;

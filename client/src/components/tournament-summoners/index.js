@@ -92,7 +92,6 @@ const Summoners = ({
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
-        <h4>Участники турнира</h4>
         {isEditingAvailable && summoners.length > 0 && (
           <button
             type="button"

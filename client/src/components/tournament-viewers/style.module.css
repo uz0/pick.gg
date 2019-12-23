@@ -6,7 +6,7 @@
 }
 
 .viewers .header .subtitle {
-  --height: 24px;
+  --height: 18px;
 
   flex-shrink: 0;
   overflow: hidden;
@@ -15,7 +15,7 @@
   line-height: var(--height);
   font-family: var(--font-family-title);
   color: var(--caption-color);
-  font-size: 24px;
+  font-size: 18px;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-transform: uppercase;
