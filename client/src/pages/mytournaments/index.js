@@ -17,17 +17,17 @@ import style from './style.module.css';
 const tournamentsTableCaptions = {
   name: {
     text: i18n.t('name'),
-    width: 100,
+    width: window.innerWidth < 480 ? 100 : 250,
   },
 
   date: {
     text: i18n.t('date'),
-    width: window.innerWidth < 480 ? 75 : 100,
+    width: window.innerWidth < 480 ? 75 : 75,
   },
 
   viewers: {
     text: i18n.t('viewers'),
-    width: window.innerWidth < 480 ? 75 : 100,
+    width: window.innerWidth < 480 ? 75 : 75,
   },
 };
 

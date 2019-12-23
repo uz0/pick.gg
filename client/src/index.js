@@ -13,7 +13,8 @@ import './index.css';
 
 import Routes from './routes';
 
-const lang = localStorage.getItem('_pgg_locale') || 'en';
+const lang = localStorage.getItem('_pgg_locale') || window.location.hostname.includes('ru.pick.gg') ? 'ru' : 'en';
+
 moment.locale(lang);
 
 const md = new MobileDetect(window.navigator.userAgent);
