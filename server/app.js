@@ -35,7 +35,8 @@ server.timeout = 999999;
 let io = socketIO(server);
 
 mongoose.Promise = Promise;
-mongoose.connect(config.database);
+mongoose.connect(config.database, config.options);
+
 app.set('superSecret', config.secret);
 
 const port = process.env.PORT || 3001;
@@ -70,13 +71,20 @@ app.use('/api/rewards', RewardController());
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
 
 app.use('/home', (req, res, next) => {
+  const lang = req.hostname.includes('ru.pick.gg') ? 'ru' : 'en';
+
+  const description = {
+    ru: 'Сервис для проведения турниров по лиге легенд между стримерами',
+    en: 'Service for holding tournaments in a League of Legends between streamers',
+  }
+
   req.meta = [];
 
   req.title = 'Pick.gg';
 
-  req.meta.push('<meta name="description" content="Сервис для проведения турниров по лиге легенд между стримерами" />');
+  req.meta.push(`<meta name="description" content="${description[lang]}" />`);
   req.meta.push('<meta property="og:title" content="Pick.gg" />');
-  req.meta.push('<meta property="og:description" content="Сервис для проведения турниров по лиге легенд между стримерами" />');
+  req.meta.push(`<meta property="og:description" content="${description[lang]}" />`);
 
   req.meta.push('<meta property="og:image" content="url" />');
   req.meta.push('<meta property="og:image:type" content="image/png">');
@@ -126,7 +134,8 @@ app.get('/*', (req, res) => {
   }
 
   if (req.meta) {
-    req.meta.map(tag => $('head').append(tag));
+    const meta = req.meta.join('');
+    $('head').append(meta);
   }
 
   res.send($.html());

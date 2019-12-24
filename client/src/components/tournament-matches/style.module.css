@@ -1,13 +1,17 @@
-.matches {}
+.matches {
+  --varrr: 1;
+}
 
 .matches .header {
   --matches-header-height: 28px;
+
   display: flex;
   align-items: center;
 }
 
 .matches .empty {
   --height: 24px;
+
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -53,7 +57,9 @@
   --color: #e88c00;
 }
 
-.matches .header+.table, .matches .header+.content, .matches .header+.empty {
+.matches .header + .table,
+.matches .header + .content,
+.matches .header + .empty {
   margin-top: 16px;
 }
 
@@ -73,6 +79,7 @@
 
 .matches .content .table .points {
   --height: 24px;
+
   overflow: hidden;
   height: var(--height);
   padding-left: 8px;
@@ -90,6 +97,7 @@
   100% {
     background-position: right;
   }
+
   0% {
     background-position: left;
   }

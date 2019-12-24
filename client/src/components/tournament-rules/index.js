@@ -3,53 +3,22 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 import classnames from 'classnames/bind';
-import Table from 'components/table';
+
 import Button from 'components/button';
 import Icon from 'components/icon';
-import { withCaptions } from 'hoc';
-import style from './style.module.css';
 
 import i18n from 'i18n';
 
+import style from './style.module.css';
+
 const cx = classnames.bind(style);
-
-const tableCaptions = ({ t, isMobile }) => ({
-  rule: {
-    text: t('rules'),
-    width: isMobile ? 75 : 160,
-  },
-
-  value: {
-    text: t('values'),
-    width: isMobile ? 75 : 80,
-  },
-});
-
-const renderRow = ({ className, itemClass, textClass, item, captions }) => {
-  const valueStyle = { '--width': captions.value.width };
-  const ruleStyle = { '--width': captions.rule.width };
-
-  const [ruleName] = Object.keys(item);
-
-  return (
-    <div key={ruleName} className={cx(className, style.row)}>
-      <div className={itemClass} style={ruleStyle}>
-        <span className={textClass}>{ruleName}</span>
-      </div>
-
-      <div className={cx(itemClass, style.rule_value)} style={valueStyle}>
-        <span className={textClass}>{item[ruleName]}</span>
-      </div>
-    </div>
-  );
-};
 
 const Rules = ({
   rules,
   isEditingAvailable,
   isCurrentUserCanEditRules,
-  captions,
   addRules,
   editRules,
   className,
@@ -72,7 +41,7 @@ const Rules = ({
       <p className={style.empty}>{i18n.t('add_rules')}</p>
     )}
 
-    <div className={style.content}>
+    <div className={cx(style.content, { [style.empty]: isCurrentUserCanEditRules && rules.length === 0 })}>
       {isCurrentUserCanEditRules && rules.length === 0 && (
         <Button
           appearance="_circle-accent"
@@ -83,15 +52,9 @@ const Rules = ({
       )}
 
       {rules.length > 0 && (
-        <Table
-          noCaptions
-          captions={captions}
-          items={rules}
-          renderRow={renderRow}
-          isLoading={false}
-          className={style.table}
-          emptyMessage={i18n.t('no_rules_yet')}
-        />
+        <div className={style.info}>
+          <span className={style.rulestring}>{rules}</span>
+        </div>
       )}
     </div>
   </div>
@@ -105,27 +68,17 @@ export default compose(
       tournament: state.tournaments.list[props.id],
     }),
   ),
-  withCaptions(tableCaptions),
   withProps(props => {
     const isCurrentUserCreator = props.currentUser && props.currentUser._id === props.tournament.creator._id;
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
-    const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin;
+    const isCurrentUserModerator = includes(props.tournament.moderators, props.currentUser._id);
+    const isCurrentUserCanEditRules = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
-    const isEditingAvailable = (isCurrentUserCreator || isCurrentUserAdmin) &&
-      Object.keys(props.tournament.rules).length > 0 &&
+    const { rules } = props.tournament;
+
+    const isEditingAvailable = isCurrentUserCanEditRules &&
+      !isEmpty(rules) &&
       !props.tournament.isStarted;
-
-    if (isEmpty(props.tournament.rules)) {
-      return {
-        ...props,
-        isCurrentUserCanEditRules,
-        isCurrentUserCreator,
-        isEditingAvailable,
-        rules: [],
-      };
-    }
-
-    const rules = Object.entries(props.tournament.rules).map(([key, value]) => ({ [key]: value }));
 
     return {
       ...props,

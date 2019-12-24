@@ -8,11 +8,20 @@
   padding-right: var(--layout-padding);
   padding-bottom: 20px;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  justify-content: center;
 }
 
 .my_tournaments .no_tournaments {
   font-weight: 700;
   color: var(--accent-color);
+}
+
+.my_tournaments .table {
+  width: 480px;
+}
+
+@media (max-width: 480px) {
+  .my_tournaments .table {
+    width: 300px;
+  }
 }

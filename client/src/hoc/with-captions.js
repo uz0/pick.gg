@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import i18n from 'i18n';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+
+import i18n from 'i18n';
 
 export default getCaptions => WrappedComponent => {
   class Wrapped extends Component {

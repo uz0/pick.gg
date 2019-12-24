@@ -1,82 +1,152 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import isEmpty from 'lodash/isEmpty';
-import { Form, Field, withFormik } from 'formik';
-import * as Yup from 'yup';
+import { compose, withProps } from 'recompose';
+import { actions as tournamentsActions } from 'pages/tournaments';
+import classnames from 'classnames/bind';
+
+import Modal from 'components/modal';
+import TextArea from 'components/form/text-area';
+import Table from 'components/table';
+
+import { RULES } from 'constants/index';
 
 import { http } from 'helpers';
+import { calcRule } from 'helpers/calc-summoners-points';
 
-import { FormInput } from 'components/form/input';
-import Modal from 'components/modal';
-
-import style from './style.module.css';
-import { actions as tournamentsActions } from 'pages/tournaments';
 import i18n from 'i18n';
 
-const validationSchema = Yup.object().shape({
-  kills: Yup.number()
-    .min(0)
-    .max(10)
-    .required('Required'),
-  deaths: Yup.number()
-    .min(0)
-    .max(10)
-    .required('Required'),
-  assists: Yup.number()
-    .min(0)
-    .max(10)
-    .required('Required'),
-});
+import style from './style.module.css';
+
+const cx = classnames.bind(style);
+
+const tableCaptions = {
+  rule: {
+    text: i18n.t('rule_name'),
+    width: window.innerWidth < 480 ? 120 : 150,
+  },
+
+  description: {
+    text: i18n.t('description'),
+    width: window.innerWidth < 480 ? 75 : 100,
+  },
+};
+
+const renderRow = ({ className, itemClass, textClass, item, captions }) => {
+  const ruleStyle = { '--width': captions.rule.width };
+  const descriptionStyle = { '--width': captions.description.width };
+
+  return (
+    <div key={item.rule} className={cx(className, style.row)}>
+      <div className={cx(itemClass, style.number)} style={ruleStyle}>
+        <span className={textClass}>{item.rule}</span>
+      </div>
+
+      <div className={itemClass} style={descriptionStyle}>
+        <span className={textClass}>{item.description}</span>
+      </div>
+    </div>
+  );
+};
 
 const AddRules = props => {
+  const [rules, setRules] = useState(props.tournament.rules);
+  const [error, setError] = useState('');
+
+  const handleInputChange = e => {
+    const { value } = e.target;
+    setRules(value);
+  };
+
+  const handleInputFocus = () => {
+    setError('');
+  };
+
+  const handleSubmit = async () => {
+    const { tournamentId } = props.options;
+    const { game } = props.tournament;
+
+    // Validating rules
+    const resultStub = {
+      player: {
+        kills: 2,
+        deaths: 2,
+        assists: 2,
+        loot: 3,
+      },
+      match: {
+        time: 5000,
+      },
+    };
+
+    try {
+      const result = calcRule(rules, resultStub);
+
+      if (!result) {
+        setError('Expression is not correct');
+        return;
+      }
+    } catch (error_) {
+      setError('Expression is not correct');
+      return;
+    }
+
+    try {
+      await http(`/api/tournaments/${tournamentId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'PATCH',
+        body: JSON.stringify({ rules, game }),
+      });
+
+      props.updateTournament({
+        _id: props.tournament._id,
+        rules,
+      });
+
+      props.close();
+    } catch (error_) {
+      console.log(error_);
+    }
+  };
+
   return (
     <Modal
-      title={props.options.isEditing ? i18n.t('modal.edit_rules')  : i18n.t('modal.add_rules') }
+      title={
+        props.options.isEditing ?
+          i18n.t('modal.edit_rules') :
+          i18n.t('modal.add_rules')
+      }
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
       actions={[
         {
-          text: props.options.isEditing ? i18n.t('edit') : i18n.t('add') ,
+          text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
           type: 'button',
           appearance: '_basic-accent',
-          onClick: props.submitForm,
+          onClick: handleSubmit,
           disabled: props.isSubmitting,
         },
       ]}
     >
-      <Form>
-        <Field
-          component={FormInput}
-          className={style.field}
-          label="Kills"
-          name="kills"
-          type="number"
-          min="0"
-          max="10"
-        />
-
-        <Field
-          component={FormInput}
-          className={style.field}
-          label="Deaths"
-          name="deaths"
-          type="number"
-          min="0"
-          max="10"
-        />
-
-        <Field
-          component={FormInput}
-          className={style.field}
-          label="Assists"
-          name="assists"
-          type="number"
-          min="0"
-          max="10"
-        />
-      </Form>
+      <Table
+        captions={tableCaptions}
+        items={props.ruleNames}
+        renderRow={renderRow}
+        isLoading={false}
+        className={style.table}
+        emptyMessage={i18n.t('no_game_rules_help')}
+      />
+      <TextArea
+        name="rules"
+        label="Write your rules below"
+        value={rules}
+        error={error}
+        className={style.rulearea}
+        onChange={handleInputChange}
+        onFocus={handleInputFocus}
+      />
     </Modal>
   );
 };
@@ -91,41 +161,21 @@ const enhance = compose(
       updateTournament: tournamentsActions.updateTournament,
     }
   ),
-  withFormik({
-    validationSchema,
-    mapPropsToValues: props => {
-      if (isEmpty(props.tournament.rules)) {
-        return {
-          kills: 0,
-          deaths: 0,
-          assists: 0,
-        };
-      }
+  withProps(props => {
+    const normalizedRules = Object.entries(RULES[props.tournament.game]).reduce(
+      (acc, [key, rules]) => [
+        ...acc,
+        ...rules.map(item => ({
+          rule: `${key}.${item.ruleName}`,
+          description: item.description,
+        })),
+      ],
+      []
+    );
 
-      return props.tournament.rules;
-    },
-    handleSubmit: async (values, { props }) => {
-      const { tournamentId } = props.options;
-
-      try {
-        await http(`/api/tournaments/${tournamentId}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'PATCH',
-          body: JSON.stringify({ rules: values }),
-        });
-
-        props.updateTournament({
-          _id: props.tournament._id,
-          rules: values,
-        });
-
-        props.close();
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    return {
+      ruleNames: normalizedRules,
+    };
   })
 );
 

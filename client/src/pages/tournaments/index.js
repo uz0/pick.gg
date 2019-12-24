@@ -5,76 +5,166 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
+import filter from 'lodash/filter';
 import classnames from 'classnames/bind';
+import moment from 'moment';
+import querystring from 'querystring';
+
 import Button from 'components/button';
 import TournamentCard from 'components/tournament-card';
 import Preloader from 'components/preloader';
-import moment from 'moment';
 import modalActions from 'components/modal-container/actions';
-import { http } from 'helpers';
+
+import { http, getTournamentStatus } from 'helpers';
+
+import i18n from 'i18next';
+
 import actions from './actions';
 import style from './style.module.css';
-import i18n from 'i18next';
 
 const cx = classnames.bind(style);
 
 class Tournaments extends Component {
   state = {
     isLoading: false,
+    filter: 'now',
   };
 
-  loadTournaments = async () => {
-    this.setState({ isLoading: true });
-    const response = await http('/public/tournaments');
-    const { tournaments } = await response.json();
-    this.props.loadTournaments(tournaments);
-    this.setState({ isLoading: false });
-  };
-
-  async componentDidMount() {
+  componentDidMount() {
     if (!this.props.isLoaded) {
       this.loadTournaments();
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      this.loadTournaments();
+    }
+  }
+
+  loadTournaments = async () => {
+    // Querystring doesnt trim '?'
+    const { game } = querystring.parse(this.props.location.search.slice(1));
+
+    this.setState({ isLoading: true });
+
+    const queryUrl = game ? `/public/tournaments/game/${game}` : '/public/tournaments';
+    const response = await http(queryUrl);
+
+    const { tournaments } = await response.json();
+    try {
+      this.props.loadTournaments(tournaments);
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.setState({ isLoading: false });
+  };
+
+  setGame = async game => {
+    await this.props.history.push(`/tournaments${game ? '?game=' + game : ''}`);
+    await this.loadTournaments();
+  };
+
+  setFilterGame = text => {
+    this.setState({ filter: text });
+  };
+
+  renderTournamentCards = tournament => {
+    const dateMonth = moment(tournament.startAt).format('MMM');
+    const dateDay = moment(tournament.startAt).format('DD');
+    const championsLength = tournament.viewers && tournament.viewers.length;
+    const tournamentName = tournament.name || i18n.t('no_name');
+    const price = tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
+
+    return (
+      <Link
+        key={tournament._id}
+        to={`/tournaments/${tournament._id}`}
+        className={style.item}
+      >
+        <TournamentCard
+          name={tournamentName}
+          dateDay={dateDay}
+          dateMonth={dateMonth}
+          price={price}
+          people={championsLength || 0}
+          imageUrl={tournament.imageUrl}
+          description={tournament.description}
+          className={style.card}
+          status={getTournamentStatus(tournament)}
+        />
+      </Link>
+    );
+  }
+
+  filterMode = (filterGame, tournamentList) => {
+    if (filterGame === 'now') {
+      tournamentList = filter(
+        tournamentList,
+        tournament =>
+          moment(tournament.startAt).format('DD-MM') ===
+          moment().format('DD-MM')
+      );
+    }
+
+    if (filterGame === 'past') {
+      tournamentList = filter(
+        tournamentList,
+        tournament =>
+          moment(tournament.startAt).format('DD-MM') < moment().format('DD-MM')
+      );
+    }
+
+    if (filterGame === 'upcoming') {
+      tournamentList = filter(
+        tournamentList,
+        tournament =>
+          moment(tournament.startAt).format('DD-MM') > moment().format('DD-MM')
+      );
+    }
+
+    return tournamentList;
+  }
+
   render() {
-    const isTounaments = this.props.tournamentsIds.length === 0;
+    const isTournaments = this.props.tournamentsIds.length === 0;
+    const filterType = this.state.filter;
 
     const isCurrentUserAdmin = get(this.props, 'currentUser.isAdmin');
     const isCurrentUserStreamer = get(this.props, 'currentUser.canProvideTournaments');
     const isCurrentUserAdminOrStreamer = isCurrentUserStreamer || isCurrentUserAdmin;
+
     const tournamentList = sortBy(this.props.tournamentsList, tournament => tournament.startAt);
-    const filterTournamentList = tournamentList.filter(tournament => !tournament.isFinalized);
+
+    const filteredTournaments = this.filterMode(filterType, tournamentList);
+
+    const isTournamentsList = tournamentList.length === 0;
+    const statusList = ['now', 'upcoming', 'past'];
 
     return (
       <div className={cx('tournaments', 'container')}>
+        <div className={cx('tournaments_sidebar')}>
+          {statusList.map(status => (
+            <Button
+              key={status}
+              className={cx({ active: filterType === status })}
+              text={status}
+              onClick={() => this.setFilterGame(status)}
+            />
+          )
+          )}
+        </div>
+
         <div className={style.wrap_tournaments}>
           <div className={cx('list', { '_is-loading': this.state.isLoading })}>
-            {isTounaments && <span className={style.no_tournaments}>{i18n.t('not_yet_tournaments')}</span>}
+            {(isTournaments || isTournamentsList) && (
+              <span className={style.no_tournaments}>
+                {i18n.t('not_yet_tournaments')}
+              </span>
+            )}
 
-            {filterTournamentList.map(tournament => {
-              // const tournament = this.props.tournamentsList[id];
-              const dateMonth = moment(tournament.startAt).format('MMM');
-              const dateDay = moment(tournament.startAt).format('DD');
-              const championsLength = tournament.viewers && tournament.viewers.length;
-              const tournamentName = tournament.name || i18n.t('no_name');
-              const price = tournament.price === 0 ? i18n.t('free') : `$${tournament.price}`;
-
-              return (
-                <Link key={tournament._id} to={`/tournaments/${tournament._id}`} className={style.item}>
-                  <TournamentCard
-                    name={tournamentName}
-                    dateDay={dateDay}
-                    dateMonth={dateMonth}
-                    price={price}
-                    people={championsLength || 0}
-                    imageUrl={tournament.imageUrl}
-                    className={style.card}
-                  />
-                </Link>
-              );
-            })}
-
+            {filteredTournaments.map(tournament => this.renderTournamentCards(tournament))}
           </div>
 
           {isCurrentUserAdminOrStreamer && (
@@ -86,9 +176,7 @@ class Tournaments extends Component {
             />
           )}
 
-          {this.state.isLoading && (
-            <Preloader isFullScreen/>
-          )}
+          {this.state.isLoading && <Preloader isFullScreen/>}
         </div>
       </div>
     );
@@ -107,10 +195,11 @@ export default compose(
     {
       loadTournaments: actions.loadTournaments,
       toggleModal: modalActions.toggleModal,
-    },
+    }
   ),
   withHandlers({
-    openNewTournamentModal: props => () => props.toggleModal({ id: 'new-tournament-modal' }),
+    openNewTournamentModal: props => () =>
+      props.toggleModal({ id: 'new-tournament-modal' }),
   })
 )(Tournaments);
 

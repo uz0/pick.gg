@@ -16,6 +16,7 @@ import { ReactComponent as DotsIcon } from 'assets/icons/dots.svg';
 import { ReactComponent as MarkIcon } from 'assets/icons/mark.svg';
 import { ReactComponent as DeleteIcon } from 'assets/icons/delete.svg';
 import { ReactComponent as RefreshIcon } from 'assets/icons/refresh.svg';
+import { ReactComponent as BattleIcon } from 'assets/icons/battle.svg';
 
 import style from './style.module.css';
 
@@ -38,6 +39,7 @@ const Icon = ({ name, className }) => {
     mark: MarkIcon,
     delete: DeleteIcon,
     refresh: RefreshIcon,
+    battle: BattleIcon,
   })[name];
 
   return (

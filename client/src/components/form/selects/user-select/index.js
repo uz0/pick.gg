@@ -66,8 +66,8 @@ class Select extends Component {
           onInputChange={this.handleInputChange}
         />
 
-        {errors && errors['userId'] &&
-          <p className={style.error}>{errors['userId']}</p>
+        {errors && errors.userId &&
+          <p className={style.error}>{errors.userId}</p>
         }
       </div>
     );

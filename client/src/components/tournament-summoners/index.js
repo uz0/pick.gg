@@ -5,6 +5,8 @@ import ym from 'react-yandex-metrika';
 import pick from 'lodash/pick';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
+import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 import debounce from 'lodash/debounce';
 import classnames from 'classnames/bind';
 import { actions as tournamentsActions } from 'pages/tournaments';
@@ -130,7 +132,7 @@ const Summoners = ({
   openEditTeamModal,
   isEditingAvailable,
   isApplicationsAvailable,
-  isCurrentUserCreatorOrAdmin,
+  isCurrentUserCanEdit,
   isApplicantRejected,
   isAlreadyApplicant,
   isAlreadySummoner,
@@ -176,7 +178,7 @@ const Summoners = ({
         )}
       </div>
 
-      {isCurrentUserCreatorOrAdmin && summoners.length === 0 && (
+      {isCurrentUserCanEdit && summoners.length === 0 && (
         <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
       )}
 
@@ -189,7 +191,7 @@ const Summoners = ({
       )}
 
       <div className={style.content}>
-        {isCurrentUserCreatorOrAdmin && summoners.length === 0 && (
+        {isCurrentUserCanEdit && summoners.length === 0 && (
           <Button
             appearance="_circle-accent"
             icon="plus"
@@ -198,7 +200,7 @@ const Summoners = ({
           />
         )}
 
-        {!isCurrentUserCreatorOrAdmin && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
+        {!isCurrentUserCanEdit && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
           <Button
             appearance="_basic-accent"
             text={i18n.t('apply_summoner')}
@@ -350,45 +352,35 @@ export default compose(
     },
   }),
   withProps(props => {
-    const { _id: tournamentId, creator, matches, rules, teams, isApplicationsAvailable } = props.tournament;
+    const { _id: tournamentId, game, creator, matches, rules, teams, winners, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
     const currentUserId = props.currentUser && props.currentUser._id;
 
     const isCurrentUserCreator = (props.currentUser && creator) && props.currentUser._id === creator._id;
     const isCurrentUserAdmin = props.currentUser && props.currentUser.isAdmin;
+    const isCurrentUserModerator = includes(props.tournament.moderators, currentUserId);
 
-    const isCurrentUserCreatorOrAdmin = isCurrentUserCreator || isCurrentUserAdmin;
+    const isCurrentUserCanEdit = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
 
-    const isEditingAvailable = isCurrentUserCreatorOrAdmin && !props.tournament.isStarted;
+    const isEditingAvailable = isCurrentUserCanEdit && !props.tournament.isStarted;
 
     const isAlreadyApplicant = find(props.tournament.applicants, { user: currentUserId });
     const isAlreadySummoner = props.tournament.summoners.includes(currentUserId);
     const isAlreadySummonerOrApplicant = isAlreadyApplicant || isAlreadySummoner;
     const isApplicantRejected = find(props.tournament.applicants, { user: currentUserId, status: 'REJECTED' });
 
-    const isUserCanApply = !isCurrentUserCreatorOrAdmin && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
-
-    if (props.tournament.summoners.length === 0) {
-      return {
-        ...props,
-        tournamentId,
-        teams,
-        isCurrentUserCreator,
-        isEditingAvailable,
-        isApplicationsAvailable,
-        isCurrentUserCreatorOrAdmin,
-        isUserCanApply,
-        isAlreadyApplicant,
-        isApplicantRejected,
-        isAlreadySummoner,
-        summoners: [],
-      };
-    }
+    const isUserCanApply = !isCurrentUserCanEdit && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
 
     let summoners = props.tournament.summoners.map(summonerId => {
       const summoner = users.find(user => user._id === summonerId);
 
-      return pick(summoner, ['_id', 'summonerName']);
+      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
+
+      // There is no summoner data until loadUsers redux
+      return isEmpty(normalizedSummoner) ? {} : {
+        _id: normalizedSummoner._id,
+        nickname: normalizedSummoner.gameSpecificName[game],
+      };
     });
 
     if (!isApplicationsAvailable) {
@@ -398,16 +390,17 @@ export default compose(
     return {
       ...props,
       tournamentId,
-      teams,
+      winners,
       isCurrentUserCreator,
       isEditingAvailable,
       isApplicationsAvailable,
-      isCurrentUserCreatorOrAdmin,
+      isCurrentUserCanEdit,
       isUserCanApply,
       isApplicantRejected,
       isAlreadyApplicant,
       isAlreadySummoner,
-      summoners,
+      teams,
+      summoners: summoners || [],
     };
   }),
 )(Summoners);

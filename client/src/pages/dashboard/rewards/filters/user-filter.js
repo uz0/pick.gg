@@ -1,10 +1,11 @@
 import React from 'react';
-import { http } from 'helpers';
 import debounce from 'lodash/debounce';
 import compose from 'recompose/compose';
-
 import AsyncSelect from 'react-select/async';
+
 import withStyles from 'components/form/selects/hoc/with-styles';
+
+import { http } from 'helpers';
 
 const enhance = compose(
   withStyles,

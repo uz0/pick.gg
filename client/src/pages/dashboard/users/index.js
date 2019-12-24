@@ -42,13 +42,20 @@ class Users extends Component {
       <div className={style.users}>
         {this.props.usersIds.map(id => {
           const user = this.props.usersList[id];
-          const { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin } = user;
+          const { _id, username, gameSpecificName, preferredPosition, canProvideTournaments, isAdmin } = user;
 
           return (
             <div
               key={_id}
               className={style.row}
-              onClick={() => this.openUserModal(true, { _id, username, summonerName, preferredPosition, canProvideTournaments, isAdmin })}
+              onClick={() => this.openUserModal(true, {
+                _id,
+                username,
+                gameSpecificName,
+                preferredPosition,
+                canProvideTournaments,
+                isAdmin,
+              })}
             >
               {username}
             </div>

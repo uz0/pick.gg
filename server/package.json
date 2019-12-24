@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "start": "npx backpack dev",
-    "build": "npx backpack build"
+    "build": "npx backpack build",
+    "pre-commit": "lint-staged"
   },
   "author": "",
   "license": "MIT",
@@ -14,22 +15,24 @@
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
     "cookie-parser": "^1.4.4",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "mongoose": "^5.5.14",
+    "mongoose": "^5.8.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "node-fetch": "^2.6.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.0",
     "password-hash": "^1.2.2",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.3.0",
     "uws": "10.148.1"
   },
   "devDependencies": {
-    "backpack-core": "^0.8.4"
+    "backpack-core": "^0.8.4",
+    "lint-staged": "^10.0.0-beta.7",
+    "semistandard": "^14.2.0"
   }
 }

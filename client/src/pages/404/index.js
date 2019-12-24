@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import classnames from 'classnames/bind';
+
 import logo from '../../assets/lulu.png';
 import style from './style.module.css';
-import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 

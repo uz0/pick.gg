@@ -4,8 +4,6 @@ import negate from 'lodash/negate';
 import difference from 'lodash/difference'
 import isUndefined from 'lodash/isUndefined';
 
-import { RULES } from '../../../common/constants';
-
 import { param, body, check } from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
@@ -27,9 +25,11 @@ const validator = [
     .custom(async (tournamentId, { req }) => {
       const { _id, isAdmin } = req.decoded;
 
-      const { creator, isReady } = await Tournament.findById(tournamentId);
+      const { creator, isReady, moderators } = await Tournament.findById(tournamentId);
 
-      if (!isAdmin && String(creator) !== String(_id)) {
+      const isModerator = moderators.includes(_id)
+
+      if (!isAdmin && !isModerator && String(creator) !== String(_id)) {
         throw new Error('You are not allowed to edit this tournament');
       }
 
@@ -42,6 +42,7 @@ const validator = [
 
       return true;
     }),
+  
   body().custom(body => isRequestHasCorrectFields(body, Tournament)),
   body().custom(({ summoners }) => {
     if(!summoners){
@@ -54,16 +55,9 @@ const validator = [
 
     return true;
   }),
-  body().custom(({ rules }) => {
+  body().custom(({ rules, game }) => {
     if(!rules){
       return true;
-    }
-
-    const RULES_NAMES = RULES.map(rule => rule.name);
-    const rulesDiff = difference(Object.keys(rules), RULES_NAMES);
-
-    if(rulesDiff.length > 0){
-      throw new Error(`Rules object can\'t contain fields: ${rulesDiff.join(' ')}`);
     }
 
     return true;
@@ -95,7 +89,8 @@ const handler = withValidationHandler(async (req, res) => {
         'url',
         'price',
         'rules',
-        'summoners'
+        'summoners',
+        'moderators',
       ])
     },
     {

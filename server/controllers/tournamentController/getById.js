@@ -1,13 +1,8 @@
 import { check, validationResult } from 'express-validator/check';
 import TournamentModel from '../../models/tournament';
 
-const withValidationHandler = handler => (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    return handler(req, res);
-  };
+import withValidationHandler from '../helpers/withValidationHandler'
+
 
 export const handler = withValidationHandler(async (req, res) => {
     const { id } = req.params;
