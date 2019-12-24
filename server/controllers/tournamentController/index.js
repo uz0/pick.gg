@@ -236,7 +236,6 @@ const TournamentController = io => {
  *     tags:
  *     - API(Tournaments)
  *     summary: Attend a tournament
- *     summary: Attend a tournament
  *     description: Tournament attend
  *     responses:
  *       200:
