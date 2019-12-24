@@ -74,8 +74,9 @@ const validator = [
 const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
 
-  // как то доделать - если впервые добавили саммонеров
   if (req.body.summoners) {
+    await TeamModel.remove({ tournamentId: id });
+
     await TeamModel.create({
       tournamentId: id,
       name: 'Team',
