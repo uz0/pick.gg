@@ -33,8 +33,8 @@ const RewardController = () => {
  *     summary: "Get reward"
  *     description: getUserRewards
  *     parameters:
- *      - in: "body"
- *        name: "body"
+ *      - in: "reward"
+ *        name: "query"
  *        description: "Get reward object"
  *        required: true
  *        schema:
@@ -60,8 +60,8 @@ const RewardController = () => {
  *     summary: "Get reward streamer"
  *     description: getStreamerRewards
  *     parameters:
- *      - in: "body"
- *        name: "body"
+ *      - in: "rewardStreamer"
+ *        name: "query"
  *        description: "Get reward object"
  *        required: true
  *        schema:

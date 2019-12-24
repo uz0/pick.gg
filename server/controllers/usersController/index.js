@@ -67,9 +67,9 @@ const UsersController = () => {
  *     - "application/xml"
  *     - "application/json"
  *     parameters:
- *      - in: "body"
- *        name: "body"
- *        description: "Get user object"
+ *      - name: user
+ *        description: get user
+ *        in: "query"
  *        required: true
  *        schema:
  *          type: object
@@ -80,17 +80,10 @@ const UsersController = () => {
  *         schema:
  *           type: object
  *           $ref: '#/definitions/User'
- */
-
-  router.get('/me', getUserProfileValidator, getUserProfile);
-
-  /**
- * @swagger
- *
- * /api/users/me:
  *   patch:
  *     tags:
  *     - API(Users)
+ *     summary: Update user profile
  *     description: userUpdateProfile
  *     produces:
  *      - application/json
@@ -110,6 +103,7 @@ const UsersController = () => {
  *           $ref: '#/definitions/User'
  */
 
+  router.get('/me', getUserProfileValidator, getUserProfile);
   router.patch('/me', userUpdateValidator, updateUserHandler);
 
   /**
@@ -119,9 +113,19 @@ const UsersController = () => {
  *   get:
  *     tags:
  *     - API(Users)
+ *     summary: Get all users
  *     description: getAllUsers
  *     produces:
  *      - application/json
+ *     parameters:
+ *      - name: allUsers
+ *        description: Users
+ *        in: "query"
+ *        required: true
+ *        type: array
+ *        items:
+ *          type: object
+ *          $ref: '#/definitions/User'
  *     responses:
  *       200:
  *         description: A user array.
@@ -140,9 +144,18 @@ const UsersController = () => {
  *   get:
  *     tags:
  *     - API(Users)
+ *     summary: User by ID
  *     description: getUserById
  *     produces:
  *      - application/json
+ *     parameters:
+ *      - name: userById
+ *        description: User by ID
+ *        in: "query"
+ *        required: true
+ *        schema:
+ *          type: object
+ *          $ref: '#/definitions/User'
  *     responses:
  *       200:
  *         description: A user object.

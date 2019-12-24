@@ -108,13 +108,14 @@ const TournamentController = io => {
  *   get:
  *     tags:
  *     - "API(Tournaments)"
+ *     summary: Get a tournament
  *     description: Get tournament
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: body
+ *       - name: tournament
  *         description: Tournament object
- *         in: body
+ *         in: query
  *         required: true
  *         schema:
  *           type: object
@@ -156,8 +157,8 @@ const TournamentController = io => {
  *     produces:
  *       - application/json
  *     parameters:
- *     - in: "body"
- *       name: "body"
+ *     - name: "tournamentId"
+ *       in: "query"
  *       schema:
  *         type: object
  *         $ref: "#/definitions/Tournament"
@@ -180,8 +181,8 @@ const TournamentController = io => {
  *     produces:
  *       - application/json
  *     parameters:
- *     - in: "body"
- *       name: "body"
+ *     - name: "tournamentGame"
+ *       in: "query"
  *       schema:
  *         type: array
  *         items:
@@ -206,8 +207,8 @@ const TournamentController = io => {
  *     produces:
  *     - application/json
  *     parameters:
- *     - in: "body"
- *       name: "body"
+ *     - name: "tournamentRewards"
+ *       in: "query"
  *       schema:
  *         type: array
  *         items:
