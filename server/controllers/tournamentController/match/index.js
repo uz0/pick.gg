@@ -39,6 +39,6 @@ const MatchController = () => {
   router.put('/:matchId/results', validateEditResults, editResults);
 
   return router;
-}
+};
 
 export default MatchController;

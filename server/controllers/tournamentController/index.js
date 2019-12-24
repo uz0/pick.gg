@@ -7,7 +7,7 @@ import * as view from './view';
 import * as editRewards from './rewards/edit';
 import * as getRewards from './rewards/get';
 import * as getById from './getById';
-import * as getByGame from './getByGame'
+import * as getByGame from './getByGame';
 import * as edit from './edit';
 import * as forecastStatus from './forecastStatus';
 import * as start from './start';
@@ -16,7 +16,7 @@ import * as applicantStatus from './applicantStatus';
 
 import matchController from './match';
 
-let router = express.Router();
+const router = express.Router();
 
 const TournamentController = io => {
   router.get('/', get);

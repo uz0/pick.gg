@@ -1,5 +1,3 @@
-import UserModel from '../models/user';
-
 const AdminVerifyMiddleware = (req, res, next) => {
   const isAdmin = req.decoded.isAdmin;
 
@@ -9,6 +7,6 @@ const AdminVerifyMiddleware = (req, res, next) => {
   }
 
   next();
-}
+};
 
 export default AdminVerifyMiddleware;

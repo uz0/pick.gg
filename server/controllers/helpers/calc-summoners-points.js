@@ -1,6 +1,7 @@
 const calcRule = (ruleString, { match, player }) => {
+  // eslint-disable-next-line
   return eval(`({ match, player }) => ${ruleString}`)({ match, player });
-}
+};
 
 export default (summoners, matches = [], rules = '') => {
   if (matches.length === 0) {

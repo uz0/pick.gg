@@ -19,16 +19,16 @@ export default mongoose.model('User', new Schema({
   gameSpecificName: {
     type: Map,
     of: String,
-    default: {},
+    default: {}
   },
   contact: {
     type: String,
     default: ''
   },
   regionId: { type: String, enum: ['', ...REGIONS], default: '' },
-  preferredPosition: { type: String, enum: ['', 'adc', 'mid', 'top', 'jungle', 'support'], default: '' },
+  preferredPosition: { type: String, enum: ['', 'adc', 'mid', 'top', 'jungle', 'support'], default: '' }
 },
-  {
-    toObject: { virtuals: true },
-  }
+{
+  toObject: { virtuals: true }
+}
 ));

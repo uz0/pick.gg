@@ -28,4 +28,4 @@ export default async (req, res) => {
   rewards = rewards.filter(item => !tournamentsRewardsIds.includes(String(item._id)));
 
   res.json({ rewards });
-}
+};

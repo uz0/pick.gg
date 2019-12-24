@@ -1,5 +1,5 @@
 export default model => {
-  let fields = [];
+  const fields = [];
   model.schema.eachPath(path => fields.push(path));
   return fields;
-}
+};

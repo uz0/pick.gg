@@ -1,14 +1,13 @@
 import { param } from 'express-validator/check';
 import isEmpty from 'lodash/isEmpty';
 
-import User from '../../models/user';
 import Reward from '../../models/reward';
 import Tournament from '../../models/tournament';
 import { isEntityExists } from '../validators';
 import {
   withValidationHandler,
   calcSummonersPoints,
-  calcViewersPoints,
+  calcViewersPoints
 } from '../helpers';
 
 export const validator = [
@@ -35,8 +34,7 @@ export const handler = withValidationHandler(async (req, res) => {
     matches,
     summoners,
     rewards,
-    viewers,
-    game,
+    viewers
   } = tournament;
 
   const summonersResults = calcSummonersPoints(summoners, matches, rules);
@@ -46,16 +44,16 @@ export const handler = withValidationHandler(async (req, res) => {
   const topViewersResults = viewersResults.slice(0, 3);
 
   const placesMap = {
-    'first': 1,
-    'second': 2,
-    'third': 3,
+    first: 1,
+    second: 2,
+    third: 3
   };
 
   const normalizedRewards = Object.entries(rewards);
   const tournamentWinners = [];
 
-  for(const [ rewardId, roleAndPlace ] of normalizedRewards){
-    const [ role, placeId ] = roleAndPlace.split('_');
+  for (const [rewardId, roleAndPlace] of normalizedRewards) {
+    const [role, placeId] = roleAndPlace.split('_');
     const place = placesMap[placeId];
 
     const winnerId = (() => {
@@ -63,7 +61,7 @@ export const handler = withValidationHandler(async (req, res) => {
         return !isEmpty(topSummonersResults) && topSummonersResults[place - 1] ? topSummonersResults[place - 1].summoner : null;
       }
       if (role === 'viewer') {
-        return !isEmpty(topViewersResults) && topViewersResults[place - 1] ? topViewersResults[place - 1].viewerId : null
+        return !isEmpty(topViewersResults) && topViewersResults[place - 1] ? topViewersResults[place - 1].viewerId : null;
       }
     })();
 
@@ -76,7 +74,7 @@ export const handler = withValidationHandler(async (req, res) => {
     tournamentWinners.push({
       id: winnerId,
       position: role,
-      place,
+      place
     });
   }
 
