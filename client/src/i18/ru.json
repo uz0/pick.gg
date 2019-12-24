@@ -249,6 +249,7 @@
     "twich_account": "Аккаунт Twich",
     "profile_photo": "Аватар",
     "summoner_name": "Имя призывателя",
+    "no_summoners_yet": "В турнире ещё нет призывателей",
     "no_name": "Нет имени",
     "price": "Цена",
     "add_rules_matches_rewards": "Добавить правила, матчи и награды",

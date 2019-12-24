@@ -1,3 +1,7 @@
+.summoners {
+  max-width: 410px;
+}
+
 .summoners .header {
   --summoners-header-height: 28px;
 
@@ -31,10 +35,6 @@
 
 .summoners .content {
   margin-top: 12px;
-}
-
-.summoners .content .table {
-  max-width: 410px;
 }
 
 .summoners .content .table .row {

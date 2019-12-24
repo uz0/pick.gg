@@ -243,6 +243,7 @@
     "twich_account": "Twitch account",
     "profile_photo": "Profile photo",
     "summoner_name": "Summoner name",
+    "no_summoners_yet": "There's no any summoners yet",
     "no_name": "No name",
     "price": "Price",
     "add_rules_matches_rewards": "Add rules, matches and rewards",
