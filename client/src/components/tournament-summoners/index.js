@@ -97,7 +97,7 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
 
             <div className={itemClass} style={nameStyle}>
               <span className={textClass}>
-                {summoner.summonerName}
+                {summoner.nickname}
                 {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
               </span>
             </div>
