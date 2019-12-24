@@ -38,7 +38,7 @@ const Information = props => {
 
   const rulesAction = () => rules ? props.editRules(props.isCurrentUserAdminOrCreator) : props.addRules(props.isCurrentUserAdminOrCreator);
   const rewardsAction = () => rewards ? props.editRewards(props.isCurrentUserAdminOrCreator) : props.addRewards(props.isCurrentUserAdminOrCreator);
-  const statusControlAction = () => props.history.replace('/faq');
+  const statusControlAction = () => props.history.push('/faq');
 
   const readMoreText = isFullDescriptionShown ? 'Скрыть' : '...Подробнее';
 
