@@ -34,22 +34,11 @@
   height: var(--size);
   margin-left: var(--gap);
   margin-top: var(--gap);
+  background-color: var(--color);
 }
 
 .modal_content .form .colors_list > button._is-active {
   box-shadow: 0 0 6px #000;
-}
-
-.modal_content .form .colors_list > button.red {
-  background-color: red;
-}
-
-.modal_content .form .colors_list > button.blue {
-  background-color: blue;
-}
-
-.modal_content .form .colors_list > button.grey {
-  background-color: grey;
 }
 
 .modal_content .form .colors_list > button.black {

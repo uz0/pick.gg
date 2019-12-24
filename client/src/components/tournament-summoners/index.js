@@ -163,6 +163,7 @@ const Summoners = ({
           <Button
             appearance="_icon-transparent"
             icon="refresh"
+            title={i18n.t('redistribution_players_by_teams')}
             className={style.button}
             onClick={randomizeUsers}
           />
