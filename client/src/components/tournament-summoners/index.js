@@ -285,8 +285,14 @@ export default compose(
           method: 'PATCH',
         });
 
-        const qwe = await response.json();
-        console.log(qwe);
+        const { tournament } = await response.json();
+
+        if (tournament) {
+          props.updateTournament({
+            _id: props.id,
+            teams: tournament.teams,
+          });
+        }
       } catch (error) {
         console.error(error);
       }

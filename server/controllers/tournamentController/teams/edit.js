@@ -1,20 +1,16 @@
 import pick from 'lodash/pick';
 import defaults from 'lodash/defaults';
-import { check, validationResult } from 'express-validator/check';
+import { param, body, check, validationResult } from 'express-validator/check';
 
 import TeamModel from '../../../models/team';
+import { isEntityExists, isRequestHasCorrectFields } from '../../validators';
+import { withValidationHandler } from '../../helpers';
 
 const validator = [
+  param('teamId').custom(id => isEntityExists(id, TeamModel)),
+  body().not().isEmpty(),
+  body().custom(values => isRequestHasCorrectFields(values, match)),
 ];
-
-const withValidationHandler = handler => (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  return handler(req, res);
-};
 
 const handler = withValidationHandler(async (req, res) => {
   try {
