@@ -122,14 +122,6 @@ const TournamentController = io => {
  *     responses:
  *       200:
  *         description: get tournaments
- */
-
-  router.get('/', get);
-
-  /**
- * @swagger
- *
- * /api/tournaments:
  *   post:
  *     tags:
  *     - API(Tournaments)
@@ -148,6 +140,8 @@ const TournamentController = io => {
  *         description: Created tournament
  */
 
+  router.get('/', get);
+
   router.post('/', create.validator, create.handler);
 
   /**
@@ -162,11 +156,11 @@ const TournamentController = io => {
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: tournament
- *         description: Tournament object
- *         in:  body
- *         required: true
- *         type: string
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         $ref: "#/definitions/Tournament"
  *     responses:
  *       200:
  *         description: Get tournament by id
@@ -185,6 +179,14 @@ const TournamentController = io => {
  *     description: Get tournament game
  *     produces:
  *       - application/json
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: array
+ *         items:
+ *           type: object
+ *           $ref: "#/definitions/Tournament"
  *     responses:
  *       200:
  *         description: tournaments
@@ -202,7 +204,14 @@ const TournamentController = io => {
  *     summary: Get tournament rewards
  *     description: Get tournament rewards
  *     produces:
- *       - application/json
+ *     - application/json
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: array
+ *         items:
+ *           $ref: '#/definitions/Reward'
  *     responses:
  *       200:
  *         description: Get tournament rewards
@@ -220,7 +229,29 @@ const TournamentController = io => {
  *     summary: Edit tournament
  *     description: Edit tournament
  *     produces:
- *       - application/json
+ *     - application/json
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         properties:
+ *           name:
+ *             type: string
+ *           description:
+ *             type: string
+ *           imageUrl:
+ *             type: string
+ *           url:
+ *             type: string
+ *           rules:
+ *             type: string
+ *           summoners:
+ *             type: array
+ *             $ref: '#/definitions/User'
+ *           moderators:
+ *             type: array
+ *             $ref: '#/definitions/User'
  *     responses:
  *       200:
  *         description: Edited tournament
@@ -237,6 +268,14 @@ const TournamentController = io => {
  *     - API(Tournaments)
  *     summary: Attend a tournament
  *     description: Tournament attend
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         properties:
+ *           user:
+ *             type: string
  *     responses:
  *       200:
  *         description: Attended a tournament
@@ -253,6 +292,16 @@ const TournamentController = io => {
  *     - API(Tournaments)
  *     summary: Update applicant status
  *     description: Update applicant status
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         properties:
+ *           userId:
+ *             type: string
+ *           newStatus:
+ *             type: string
  *     responses:
  *       200:
  *         description: tournaments
@@ -269,6 +318,14 @@ const TournamentController = io => {
  *     - API(Tournaments)
  *     summary: Update forecast status
  *     description: Update applicant status
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         properties:
+ *           isForecastingActive:
+ *             type: boolean
  *     responses:
  *       200:
  *         description: tournaments
@@ -285,6 +342,14 @@ const TournamentController = io => {
  *     - API(Tournaments)
  *     summary: Update view
  *     description: Update view
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         properties:
+ *           summoners:
+ *             type: object
  *     responses:
  *       200:
  *         description: Updated view
@@ -301,6 +366,18 @@ const TournamentController = io => {
  *     - API(Tournaments)
  *     summary: Start tournament
  *     description: Start tournament
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         properties:
+ *           isStarted:
+ *             type: boolean
+ *             default: true
+ *           isForecastingActive:
+ *             type: boolean
+ *             default: false
  *     responses:
  *       200:
  *         description: Started tournament
@@ -317,6 +394,14 @@ const TournamentController = io => {
  *     - API(Tournaments)
  *     summary: finalize tournament
  *     description: finalize tournament
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: object
+ *         properties:
+ *           summoners:
+ *             type: object
  *     responses:
  *       200:
  *         description: finalized tournament
@@ -333,6 +418,14 @@ const TournamentController = io => {
  *     - API(Tournaments)
  *     summary: edit rewards tournament
  *     description: edit rewards tournament
+ *     parameters:
+ *     - in: "body"
+ *       name: "body"
+ *       schema:
+ *         type: array
+ *         properties:
+ *           type: object
+ *           $ref: '#/definitions/Reward'
  *     responses:
  *       200:
  *         description: edited rewards of tournament
