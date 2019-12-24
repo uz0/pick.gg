@@ -63,7 +63,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: url('assets/home/main-girl.svg'), linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.png');
+  background: url('assets/home/main-girl.png'), linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.jpg');
   background-repeat: no-repeat;
   background-size: contain, cover, cover;
   background-position: 100% top, center, center;
@@ -229,7 +229,7 @@
   height: 120%;
   position: absolute;
   background-repeat: no-repeat;
-  background-image: url("../../assets/home/lol-girl.svg");
+  background-image: url("../../assets/home/lol-girl.png");
   background-size: contain;
   left: -5%;
   top: -15%;
