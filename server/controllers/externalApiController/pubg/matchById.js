@@ -1,9 +1,11 @@
 import pubg from 'pubg.js';
 import omit from 'lodash/omit';
 
+import config from '../../../config';
+
 const client = new pubg.Client(
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwNmEyMDQwMC1mZmQ0LTAxMzctNTg0Ni0xNTY5OGE1NTgzYjciLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTc2MjQwOTgyLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Im92Y2hpbmd1cy1nbWFpIn0.i-ZLR8F6WM3rnXlTOQLRCCzA5qt9dAiF9T1woicHxu8',
-  'pc-na'
+  config.pubg.apiKey,
+  config.pubg.apiRegion
 );
 
 export default async (req, res) => {
@@ -13,10 +15,10 @@ export default async (req, res) => {
 
   res.json({
     summoners: match.relationships.rosters
-      .map(i =>
-        i.relationships.participants.map(p => ({
-          results: { ...omit(p.attributes.stats, ['deathType', 'name', 'playerId']) },
-          nickname: p.attributes.stats.name
+      .map(roster =>
+        roster.relationships.participants.map(player => ({
+          results: { ...omit(player.attributes.stats, ['deathType', 'name', 'playerId']) },
+          nickname: player.attributes.stats.name
         }))
       )
       .flat()

@@ -37,27 +37,6 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-const lastMatchesCaptions = {
-  chooseButton: {
-    text: 'Press to choose',
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-  createdAt: {
-    text: 'Created',
-    width: window.innerWidth < 480 ? 120 : 150,
-  },
-
-  duration: {
-    text: 'Duration',
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-
-  gameMode: {
-    text: 'Mode',
-    width: window.innerWidth < 480 ? 75 : 100,
-  },
-};
-
 const EditMatch = ({
   close,
   summoners,
@@ -72,7 +51,7 @@ const EditMatch = ({
   touched,
   teams,
   values,
-  game,
+  lastMatchesCaptions
 }) => {
   const isLol = game === 'LOL';
 
@@ -81,20 +60,20 @@ const EditMatch = ({
   ];
 
   const [playerLastMatches, setPlayerLastMatches] = useState([]);
-  const [isResultChoosed, setIsResultChoosed] = useState(true);
+  const [isLastMatchesShown, setIsLastMatchesShown] = useState(false)
 
   const handleResultsLoad = async matchId => {
     const loadedResults = await loadResults(matchId);
     const resolvedNames = values.summoners.map(i => i.nickname);
     const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
     setValues(merge(values, { summoners: filtered }));
-    setIsResultChoosed(true);
+    setIsLastMatchesShown(false)
   };
 
   const handleMatchesLoad = async () => {
     const loadedMatches = await loadMatches(values.resultsTargetPlayer);
     setPlayerLastMatches(loadedMatches);
-    setIsResultChoosed(false);
+    setIsLastMatchesShown(true)
   };
 
   const renderRow = ({ className, itemClass, textClass, item, captions }) => {
@@ -179,7 +158,7 @@ const EditMatch = ({
                     onClick={() => handleMatchesLoad()}
                   />
                 </div>
-                {!isResultChoosed && (
+                {isLastMatchesShown && (
                   <Table
                     captions={lastMatchesCaptions}
                     items={playerLastMatches}
@@ -276,6 +255,7 @@ export default compose(
     (state, props) => ({
       tournament: state.tournaments.list[props.options.tournamentId],
       users: state.users.list,
+      device: state.device,
     }),
 
     {
@@ -284,6 +264,7 @@ export default compose(
     }
   ),
   withProps(props => {
+    const isMobile = props.device === 'touch'
     const { matchId } = props.options;
     const { game, teams } = props.tournament;
     const playerRules = RULES[game].player.reduce((rules, rule) => ([...rules, rule.ruleName]), []);
@@ -322,6 +303,27 @@ export default compose(
       return matches;
     };
 
+    const lastMatchesCaptions = {
+      chooseButton: {
+        text: 'Press to choose',
+        width: isMobile ? 75 : 100,
+      },
+      createdAt: {
+        text: 'Created',
+        width: isMobile ? 120 : 150,
+      },
+    
+      duration: {
+        text: 'Duration',
+        width: isMobile ? 75 : 100,
+      },
+    
+      gameMode: {
+        text: 'Mode',
+        width: isMobile ? 75 : 100,
+      },
+    };
+
     return {
       match,
       game,
@@ -331,6 +333,7 @@ export default compose(
       playerRules,
       loadResults,
       loadMatches,
+      lastMatchesCaptions
     };
   }),
   withFormik({

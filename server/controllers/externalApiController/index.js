@@ -5,7 +5,7 @@ import getMatch from './pubg/matchById';
 
 const router = express.Router();
 
-const ExternalApiContoller = io => {
+const ExternalApiContoller = () => {
   router.get('/pubg/lastMatches/:nickname', getLastMatchesByName);
 
   router.get('/pubg/match/:id', getMatch);
