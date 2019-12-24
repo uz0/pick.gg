@@ -80,7 +80,7 @@
 .viewers .content .table .row {
   --row-height: 40px;
   --bg-color: transparent;
-  --background-color: #18181b;
+  --background-color: #3c3c3c;
 
   box-shadow: none;
 }

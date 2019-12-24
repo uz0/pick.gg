@@ -199,6 +199,17 @@ class TournamentMatchesTimeline extends Component {
                 </button>
               )}
 
+              {isEditingAvailable && isStarted && isMatchOver && (
+                <button
+                  type="button"
+                  className={cx('control')}
+                  title="Add match results"
+                  onClick={() => this.openEditMatch(match._id)}
+                >
+                  <Icon name="edit"/>
+                </button>
+              )}
+
               {isMatchOver && (
                 <button
                   type="button"

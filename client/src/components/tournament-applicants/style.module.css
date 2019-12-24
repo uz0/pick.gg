@@ -16,6 +16,7 @@
   font-size: 18px;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-transform: uppercase;
 }
 
 .applicants .header .button {
