@@ -146,7 +146,7 @@ class TournamentMatchesTimeline extends Component {
     }
 
     return (
-      <li className={cx(style.match, { [style.isActive]: match.isActive })}>
+      <li key={match._id} className={cx(style.match, { [style.isActive]: match.isActive })}>
         <div className={style.time}>{match.startedAt && startMatchTime}</div>
         <div className={style.statusContainer} title={i18n.t(`match_${matchStatus}`)}>
           <div className={cx(style.status, style[matchStatus])}>
