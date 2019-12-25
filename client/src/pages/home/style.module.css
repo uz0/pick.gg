@@ -558,7 +558,7 @@ h2 .orange {
   width: 100%;
   height: 100%;
   content: '';
-  background: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.png');
+  background: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.jpg');
   left: 0;
   top: 0;
   z-index: -2;
@@ -658,7 +658,7 @@ h2 .orange {
   margin-left: 36px;
   transition: 0.2s;
   margin-right: 12px;
-  background: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.png');
+  background: linear-gradient(0deg, rgba(81, 147, 84, 0.95), rgba(81, 147, 84, 0.95)), url('assets/home/cyberpop.jpg');
 }
 
 .contact .wrap .contacts .icon img {
