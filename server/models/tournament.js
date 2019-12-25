@@ -88,7 +88,7 @@ schema.virtual('matches', {
 });
 
 schema.virtual('isEmpty').get(function () {
-  if (isEmpty(this.rules) || isEmpty(this.rewards) || this.matches.length === 0) {
+  if (isEmpty(this.rules) || isEmpty(this.rewards) || (!this.matches || this.matches.length === 0)) {
     return true;
   }
 

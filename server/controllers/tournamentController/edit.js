@@ -70,14 +70,41 @@ const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
 
   if (req.body.summoners) {
-    await TeamModel.remove({ tournamentId: id });
+    const tournamentBefore = await Tournament.findById(id).populate('teams').exec();
+    const summonersBefore = [...tournamentBefore.summoners].map(item => `${item}`);
+    const summonersAfter = [...req.body.summoners].map(item => `${item}`);
+    const teams = [...tournamentBefore.teams];
 
-    await TeamModel.create({
-      tournamentId: id,
-      name: 'Team',
-      color: 'black',
-      users: req.body.summoners
-    });
+    if (!teams || teams.length === 0) {
+      await TeamModel.create({
+        tournamentId: id,
+        name: 'Team',
+        color: 'black',
+        users: req.body.summoners
+      });
+    } else {
+      if (summonersAfter.length < summonersBefore.length) {
+        const diff = difference(summonersBefore, summonersAfter);
+
+        for (let i = 0; i < teams.length; i++) {
+          for (let j = 0; j < teams[i].users.length; j++) {
+            if (diff.includes(teams[i].users[j])) {
+              await TeamModel.findByIdAndUpdate(teams[i]._id, {
+                $pull: { users: teams[i].users[j] }
+              });
+            }
+          }
+        }
+      }
+
+      if (req.body.summoners.length > tournamentBefore.summoners.length) {
+        const diff = difference(summonersAfter, summonersBefore);
+
+        await TeamModel.findByIdAndUpdate(teams[0]._id, {
+          $push: { users: diff }
+        });
+      }
+    }
   }
 
   Tournament.findByIdAndUpdate(
