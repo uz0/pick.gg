@@ -33,19 +33,16 @@ const RewardController = () => {
  *     summary: "Get reward"
  *     description: getUserRewards
  *     parameters:
- *      - in: "reward"
- *        name: "query"
- *        description: "Get reward object"
- *        required: true
- *        schema:
- *          type: object
- *          $ref: '#/definitions/Reward'
+ *     - in: "reward"
+ *       name: "query"
+ *       description: "Get reward object"
  *     responses:
  *       200:
  *         description: A reward object.
- *         schema:
- *           type: object
- *           $ref: '#/definitions/Reward'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/Reward'
  */
 
   router.get('/reward', getUserRewards);
@@ -60,19 +57,16 @@ const RewardController = () => {
  *     summary: "Get reward streamer"
  *     description: getStreamerRewards
  *     parameters:
- *      - in: "rewardStreamer"
- *        name: "query"
- *        description: "Get reward object"
- *        required: true
- *        schema:
- *          type: object
- *          $ref: '#/definitions/Reward'
+ *     - in: "rewardStreamer"
+ *       name: "query"
+ *       description: "Get reward object"
  *     responses:
  *       200:
  *         description: A reward object.
- *         schema:
- *           type: object
- *           $ref: '#/definitions/Reward'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/Reward'
  */
 
   router.get('/reward/streamer', getStreamerRewards);

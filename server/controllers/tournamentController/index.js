@@ -123,6 +123,10 @@ const TournamentController = io => {
  *     responses:
  *       200:
  *         description: get tournaments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/Tournament'
  *   post:
  *     tags:
  *     - API(Tournaments)
@@ -148,7 +152,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}:
+ * /api/tournaments/{tournamentId}:
  *   get:
  *     tags:
  *     - API(Tournaments)
@@ -158,13 +162,17 @@ const TournamentController = io => {
  *       - application/json
  *     parameters:
  *     - name: "tournamentId"
- *       in: "query"
+ *       in: "path"
  *       schema:
  *         type: object
  *         $ref: "#/definitions/Tournament"
  *     responses:
  *       200:
  *         description: Get tournament by id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/Tournament'
  */
 
   router.get('/:id', getById.validator, getById.handler);
@@ -181,16 +189,17 @@ const TournamentController = io => {
  *     produces:
  *       - application/json
  *     parameters:
- *     - name: "tournamentGame"
+ *     - name: "game"
  *       in: "query"
- *       schema:
- *         type: array
- *         items:
- *           type: object
- *           $ref: "#/definitions/Tournament"
  *     responses:
  *       200:
  *         description: tournaments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Tournament'
  */
 
   router.get('/game/:game', getByGame.validator, getByGame.handler);
@@ -198,7 +207,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/rewards:
+ * /api/tournaments/{tournamentId}/rewards:
  *   get:
  *     tags:
  *     - API(Tournaments)
@@ -207,15 +216,17 @@ const TournamentController = io => {
  *     produces:
  *     - application/json
  *     parameters:
- *     - name: "tournamentRewards"
+ *     - name: "tournamentId"
  *       in: "query"
- *       schema:
- *         type: array
- *         items:
- *           $ref: '#/definitions/Reward'
  *     responses:
  *       200:
  *         description: Get tournament rewards
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Reward'
  */
 
   router.get('/:id/rewards', getRewards.validator, getRewards.handler);
@@ -223,7 +234,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}:
+ * /api/tournaments/{tournamentId}:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -233,7 +244,7 @@ const TournamentController = io => {
  *     - application/json
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: object
  *         properties:
@@ -263,7 +274,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/attend:
+ * /api/tournaments/{tournamentId}/attend:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -271,7 +282,7 @@ const TournamentController = io => {
  *     description: Tournament attend
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: object
  *         properties:
@@ -287,7 +298,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/applicantStatus:
+ * /api/tournaments/{tournamentId}/applicantStatus:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -295,7 +306,7 @@ const TournamentController = io => {
  *     description: Update applicant status
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: object
  *         properties:
@@ -313,7 +324,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/forecastStatus:
+ * /api/tournaments/{tournamentId}/forecastStatus:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -321,7 +332,7 @@ const TournamentController = io => {
  *     description: Update applicant status
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: object
  *         properties:
@@ -337,7 +348,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/view:
+ * /api/tournaments/{tournamentId}/view:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -345,7 +356,7 @@ const TournamentController = io => {
  *     description: Update view
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: object
  *         properties:
@@ -361,7 +372,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/start:
+ * /api/tournaments/{tournamentId}/start:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -369,7 +380,7 @@ const TournamentController = io => {
  *     description: Start tournament
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: object
  *         properties:
@@ -389,7 +400,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/finalize:
+ * /api/tournaments/{tournamentId}/finalize:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -397,7 +408,7 @@ const TournamentController = io => {
  *     description: finalize tournament
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: object
  *         properties:
@@ -413,7 +424,7 @@ const TournamentController = io => {
   /**
  * @swagger
  *
- * /api/tournaments/{id}/rewards:
+ * /api/tournaments/{tournamentId}/rewards:
  *   patch:
  *     tags:
  *     - API(Tournaments)
@@ -421,7 +432,7 @@ const TournamentController = io => {
  *     description: edit rewards tournament
  *     parameters:
  *     - in: "body"
- *       name: "body"
+ *       name: "tournamentId"
  *       schema:
  *         type: array
  *         properties:

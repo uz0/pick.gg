@@ -70,16 +70,13 @@ const UsersController = () => {
  *      - name: user
  *        description: get user
  *        in: "query"
- *        required: true
- *        schema:
- *          type: object
- *          $ref: '#/definitions/User'
  *     responses:
  *       200:
  *         description: A user object.
- *         schema:
- *           type: object
- *           $ref: '#/definitions/User'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/User'
  *   patch:
  *     tags:
  *     - API(Users)
@@ -98,9 +95,14 @@ const UsersController = () => {
  *     responses:
  *       200:
  *         description: A user object.
+ *         parameters:
+ *         - name: user
+ *           description: User object
+ *           in:  body
+ *           required: true
+ *           type: string
  *         schema:
- *           type: object
- *           $ref: '#/definitions/User'
+ *          $ref: '#/definitions/User'
  */
 
   router.get('/me', getUserProfileValidator, getUserProfile);
@@ -129,10 +131,12 @@ const UsersController = () => {
  *     responses:
  *       200:
  *         description: A user array.
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/User'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/User'
  */
 
   router.get('/', getAllUsers);
@@ -140,28 +144,26 @@ const UsersController = () => {
   /**
  * @swagger
  *
- * /api/users/{id}:
+ * /api/users/{userId}:
  *   get:
  *     tags:
  *     - API(Users)
  *     summary: User by ID
- *     description: getUserById
+ *     description: get user by ID
  *     produces:
  *      - application/json
  *     parameters:
- *      - name: userById
+ *      - name: userId
  *        description: User by ID
- *        in: "query"
+ *        in: "path"
  *        required: true
- *        schema:
- *          type: object
- *          $ref: '#/definitions/User'
  *     responses:
  *       200:
- *         description: A user object.
- *         schema:
- *           type: object
- *           $ref: '#/definitions/User'
+ *         description: A user object by ID.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/User'
  */
 
   router.get('/:id', getUserByIdValidator, getUserByIdHandler);
