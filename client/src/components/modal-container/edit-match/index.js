@@ -123,19 +123,21 @@ const EditMatch = ({
         className={style.field}
       />
 
-      {game === 'LOL' && <FileInput
-        label={i18n.t('modal.results_file')}
-        name="resultsFile"
-        file={values.resultsFile}
-        error={errors.resultsFile}
-        isTouched={touched.resultsFile}
-        className={style.field}
-        onChange={event => {
-          setFieldValue('resultsFile', event.currentTarget.files[0]);
-        }}
-      />}
+      {game === 'LOL' && (
+        <FileInput
+          label={i18n.t('modal.results_file')}
+          name="resultsFile"
+          file={values.resultsFile}
+          error={errors.resultsFile}
+          isTouched={touched.resultsFile}
+          className={style.field}
+          onChange={event => {
+            setFieldValue('resultsFile', event.currentTarget.files[0]);
+          }}
+        />
+      )}
 
-      {game === 'PUBG' &&
+      {game === 'PUBG' && (
         <>
           <div className={style.fetch}>
             <Field
@@ -160,7 +162,7 @@ const EditMatch = ({
               emptyMessage={i18n.t('no_matches_results')}
             />
           )}
-        </>
+        </>)
       }
 
       {isLol && (
