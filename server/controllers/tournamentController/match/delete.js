@@ -14,7 +14,7 @@ export const validator = [
     const { matches } = await TournamentModel.findById(tournamentId).populate('matches').exec();
 
     if (!matches.find(match => String(match._id) === String(matchId))) throw new Error("Match don't exist on this tournament");
-  }),
+  })
 ];
 
 export const handler = withValidationHandler(async (req, res) => {

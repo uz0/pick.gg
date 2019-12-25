@@ -13,6 +13,7 @@ export const validator = [
       .exec()
       .then(
         ({ isReady }) =>
+        // eslint-disable-next-line
           !isReady || Promise.reject("Can't attend ready tournament")
       )
   ),
@@ -36,9 +37,9 @@ export const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
   const { _id: userId } = req.decoded;
 
-    const modifiedTournament = await Tournament.findByIdAndUpdate(id, {
-      $push: { applicants: { user: userId } }
-    });
+  const modifiedTournament = await Tournament.findByIdAndUpdate(id, {
+    $push: { applicants: { user: userId } }
+  });
 
   await modifiedTournament.save();
 

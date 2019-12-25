@@ -12,15 +12,15 @@ export default async (req, res) => {
     .populate('matches')
     .populate('teams')
     .populate('creator', '_id username summonerName')
-    .lean()
+    .lean();
 
   const users = await UserModel.find();
 
   const rating = {
     streamersRating: getStreamersRating(tournaments, users),
     viewersRating: getViewersRating(tournaments, users),
-    applicantsRating: getApplicantsRating(tournaments, users),
-  }
+    applicantsRating: getApplicantsRating(tournaments, users)
+  };
 
   res.json(rating);
-}
+};

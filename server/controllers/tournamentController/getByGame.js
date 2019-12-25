@@ -1,12 +1,12 @@
 import { check } from 'express-validator/check';
 
-import { GAMES } from '../../../common/constants'
+import { GAMES } from '../../../common/constants';
 
 import TournamentModel from '../../models/tournament';
-import withValidationHandler from '../helpers/withValidationHandler'
+import withValidationHandler from '../helpers/withValidationHandler';
 
 export const handler = withValidationHandler(async (req, res) => {
-  const { game } = req.params
+  const { game } = req.params;
   const tournaments = await TournamentModel
     .find({ game })
     .populate('winner')
@@ -18,8 +18,8 @@ export const handler = withValidationHandler(async (req, res) => {
     .exec();
 
   res.json({ tournaments });
-})
+});
 
 export const validator = [
   check('game').isIn(GAMES)
-]
+];

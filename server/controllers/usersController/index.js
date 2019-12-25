@@ -8,7 +8,7 @@ import { validator as userUpdateValidator, handler as updateUserHandler } from '
 
 import { validator as getUserByIdValidator, handler as getUserByIdHandler } from './getUserById';
 
-let router = express.Router();
+const router = express.Router();
 
 const UsersController = () => {
   router.get('/me', getUserProfileValidator, getUserProfile);

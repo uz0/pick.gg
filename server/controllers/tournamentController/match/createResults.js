@@ -27,7 +27,7 @@ export const handler = withValidationHandler(async (req, res) => {
   const { matchId } = req.params;
   const rawResults = req.body;
 
-  const results = normaliseResults(rawResults)
+  const results = normaliseResults(rawResults);
 
   const newMatch = await match.findByIdAndUpdate(
     matchId,
@@ -43,4 +43,3 @@ export const handler = withValidationHandler(async (req, res) => {
 
   res.json(newMatch);
 });
-

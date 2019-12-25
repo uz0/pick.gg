@@ -9,7 +9,7 @@ export default (tournaments, users) => {
     list[streamer] = streamerTournaments;
 
     return list;
-  },{});
+  }, {});
 
   const rating = streamersIds.reduce((rating, streamer) => {
     const { _id, summonerName, username, imageUrl } = streamers.find(item => String(item._id) === String(streamer));
@@ -24,12 +24,12 @@ export default (tournaments, users) => {
       imageUrl,
       username,
       summonerName,
-      points: totalViewers,
+      points: totalViewers
     });
 
     return rating;
   }, [])
-  .sort((prev, next) => next.points - prev.points);
+    .sort((prev, next) => next.points - prev.points);
 
   return rating;
 };

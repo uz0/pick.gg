@@ -3,10 +3,10 @@ import express from 'express';
 import get from './get';
 import getUserTournaments from './getUserTournaments';
 import * as getById from './getById';
-import * as getByGame from './getByGame'
+import * as getByGame from './getByGame';
 import * as getRewards from './rewards/get';
 
-let router = express.Router();
+const router = express.Router();
 
 const PublicTournamentController = () => {
   router.get('/user/:userId', getUserTournaments);

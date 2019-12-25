@@ -7,11 +7,13 @@ export default async (req, res) => {
   const tournamentLimit = quantity ? Number(quantity) : 6;
 
   const tournaments = await TournamentModel
-    .find({ $or: [
-      { creator: userId },
-      { summoners: { $in: [userId] } },
-      { viewers: { $elemMatch: { userId } } },
-    ]})
+    .find({
+      $or: [
+        { creator: userId },
+        { summoners: { $in: [userId] } },
+        { viewers: { $elemMatch: { userId } } }
+      ]
+    })
     .populate('winner')
     .populate('creatorId')
     .populate('summoners')
@@ -23,4 +25,4 @@ export default async (req, res) => {
     .lean();
 
   res.json({ tournaments });
-}
+};

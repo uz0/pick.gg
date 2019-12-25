@@ -6,11 +6,11 @@ export default async (req, res) => {
 
   let rewards;
 
-  if(isClaimedFilter){
+  if (isClaimedFilter) {
     rewards = await RewardModel.find({ userId: _id, isClaimed: isClaimedFilter });
   } else {
     rewards = await RewardModel.find({ userId: _id });
   }
 
   res.json({ rewards });
-}
+};

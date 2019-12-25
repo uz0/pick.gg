@@ -19,7 +19,7 @@ export const handler = withValidationHandler(async (req, res) => {
   const results = req.body;
 
   const newMatch = await match
-    .findByIdAndUpdate(matchId, { $set: { playersResults: results }}, { new: true, upsert: false })
+    .findByIdAndUpdate(matchId, { $set: { playersResults: results } }, { new: true, upsert: false })
     .exec();
 
   res.json(newMatch);

@@ -2,21 +2,21 @@ import UserModel from '../../../models/user';
 
 export default async (req, res) => {
   const { username } = req.params;
-  const regexp = new RegExp('^'+ username);
+  const regexp = new RegExp('^' + username);
 
-  if(username === ''){
+  if (username === '') {
     res.json({
-      users: [],
+      users: []
     });
-    
+
     return;
   }
 
   const users = await UserModel
     .find({ username: { $regex: regexp, $options: 'i' } })
-    .select('-password')
+    .select('-password');
 
   res.json({
-    users,
+    users
   });
-}
+};

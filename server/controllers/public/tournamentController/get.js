@@ -13,4 +13,4 @@ export default async (req, res) => {
     .exec();
 
   res.json({ tournaments });
-}
+};

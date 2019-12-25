@@ -1,16 +1,7 @@
-import pick from 'lodash/pick';
-import pickBy from 'lodash/pickBy';
-import negate from 'lodash/negate';
-import difference from 'lodash/difference'
-import isUndefined from 'lodash/isUndefined';
-
-import { param, body, check } from 'express-validator/check';
-import { sanitizeBody } from 'express-validator/filter';
-
+import { param, check } from 'express-validator/check';
 import Tournament from '../../../models/tournament';
 
 import {
-  isRequestHasCorrectFields,
   isUserHasToken,
   isEntityExists
 } from '../../validators';

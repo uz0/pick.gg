@@ -11,7 +11,7 @@ export const handler = withValidationHandler(async (req, res) => {
   const { matchId } = req.params;
   const parsedMatchResults = {};
 
-  if(!req.file){
+  if (!req.file) {
     res.send(null);
   }
 
@@ -25,7 +25,7 @@ export const handler = withValidationHandler(async (req, res) => {
       parsedMatchResults[name] = { kills, deaths, assists };
     });
 
-    if(isEmpty(parsedMatchResults)){
+    if (isEmpty(parsedMatchResults)) {
       res.send({
         error: 'В html файле отстутствуют результаты'
       });
@@ -39,10 +39,10 @@ export const handler = withValidationHandler(async (req, res) => {
       .lean();
 
     const usersMap = usersQuery.reduce((users, user) => ({ ...users, [user.summonerName]: user._id }), {});
-    const userNamesMap = Object.entries(usersMap).reduce((users, [ name, id ]) => ({ ...users, [id]: name }), {});
+    const userNamesMap = Object.entries(usersMap).reduce((users, [name, id]) => ({ ...users, [id]: name }), {});
 
     const results = Object.keys(parsedMatchResults).reduce((results, username) => {
-      if(!usersMap[username]){
+      if (!usersMap[username]) {
         return results;
       }
 
@@ -58,13 +58,13 @@ export const handler = withValidationHandler(async (req, res) => {
 
     const updatedMatch = await Match.findByIdAndUpdate(
       { _id: matchId },
-      { $set: { playersResults: results }},
+      { $set: { playersResults: results } },
       { new: true, upsert: false }
     );
 
     res.send({
       updatedMatch,
-      users: updatedResultsUsernames,
+      users: updatedResultsUsernames
     });
   });
 });
