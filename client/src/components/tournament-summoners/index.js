@@ -129,7 +129,7 @@ const Summoners = ({
           <Button
             appearance="_small-accent"
             text={i18n.t('apply_summoner')}
-            className={style.button}
+            className={cx(style.button, style.applyButton)}
             onClick={debounce(check(applyTournament, {
               title: 'Apply as summoner',
               action: applyTournament,

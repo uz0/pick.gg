@@ -9,6 +9,10 @@
   align-items: center;
 }
 
+.summoners .applyButton {
+  margin-bottom: 16px;
+}
+
 .summoners .header h4 {
   text-transform: uppercase;
   font-size: 18px;
@@ -33,16 +37,8 @@
   color: #fff;
 }
 
-.summoners .content {
-  margin-top: 12px;
-}
-
 .summoners .content .table .row {
-  --row-height: 40px;
-  --background-color: #3c3c3c;
-  --color: #fff;
-
-  box-shadow: none;
+  --color: var(--caption-color);
   cursor: pointer;
 }
 
@@ -50,15 +46,8 @@
   --color: var(--accent-color);
 }
 
-.summoners .content .table .row .item {
-  flex-grow: 0;
-}
-
 .summoners .content .table .row .item .text {
   color: var(--color);
-  display: flex;
-  align-items: center;
-  font-weight: var(--font-weight-regular);
 }
 
 .summoners .content .table .row .is_winner {

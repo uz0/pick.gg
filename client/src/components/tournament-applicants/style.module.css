@@ -1,3 +1,7 @@
+.applicants {
+  max-width: 410px;
+}
+
 .applicants .header {
   --matches-header-height: 28px;
 

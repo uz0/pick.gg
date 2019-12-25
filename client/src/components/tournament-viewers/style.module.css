@@ -54,8 +54,8 @@
 
 .viewers .content .message {
   font-size: 16px;
-  font-weight: 700;
   color: var(--accent-color);
+  margin-bottom: 12px;
 }
 
 .viewers .content .attend {
