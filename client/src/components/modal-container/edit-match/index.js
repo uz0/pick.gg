@@ -51,7 +51,7 @@ const EditMatch = ({
   touched,
   teams,
   values,
-  lastMatchesCaptions
+  lastMatchesCaptions,
 }) => {
   const isLol = game === 'LOL';
 
@@ -60,20 +60,20 @@ const EditMatch = ({
   ];
 
   const [playerLastMatches, setPlayerLastMatches] = useState([]);
-  const [isLastMatchesShown, setIsLastMatchesShown] = useState(false)
+  const [isLastMatchesShown, setIsLastMatchesShown] = useState(false);
 
   const handleResultsLoad = async matchId => {
     const loadedResults = await loadResults(matchId);
     const resolvedNames = values.summoners.map(i => i.nickname);
     const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
     setValues(merge(values, { summoners: filtered }));
-    setIsLastMatchesShown(false)
+    setIsLastMatchesShown(false);
   };
 
   const handleMatchesLoad = async () => {
     const loadedMatches = await loadMatches(values.resultsTargetPlayer);
     setPlayerLastMatches(loadedMatches);
-    setIsLastMatchesShown(true)
+    setIsLastMatchesShown(true);
   };
 
   const renderRow = ({ className, itemClass, textClass, item, captions }) => {
@@ -123,54 +123,44 @@ const EditMatch = ({
         className={style.field}
       />
 
-      {
-        (function () {
-          if (game === 'LOL') {
-            return (
-              <FileInput
-                label={i18n.t('modal.results_file')}
-                name="resultsFile"
-                file={values.resultsFile}
-                error={errors.resultsFile}
-                isTouched={touched.resultsFile}
-                className={style.field}
-                onChange={event => {
-                  setFieldValue('resultsFile', event.currentTarget.files[0]);
-                }}
-              />
-            );
-          }
+      {game === 'LOL' && <FileInput
+        label={i18n.t('modal.results_file')}
+        name="resultsFile"
+        file={values.resultsFile}
+        error={errors.resultsFile}
+        isTouched={touched.resultsFile}
+        className={style.field}
+        onChange={event => {
+          setFieldValue('resultsFile', event.currentTarget.files[0]);
+        }}
+      />}
 
-          if (game === 'PUBG') {
-            return (
-              <>
-                <div className={style.fetch}>
-                  <Field
-                    label={i18n.t('result_modal.show_last_matches_of_player')}
-                    name="resultsTargetPlayer"
-                    component={FormInput}
-                    className={style.field}
-                  />
-                  <Button
-                    text={i18n.t('button.load')}
-                    appearance="_basic-accent"
-                    className={style.button}
-                    onClick={() => handleMatchesLoad()}
-                  />
-                </div>
-                {isLastMatchesShown && (
-                  <Table
-                    captions={lastMatchesCaptions}
-                    items={playerLastMatches}
-                    renderRow={renderRow}
-                    className={style.table}
-                    emptyMessage={i18n.t('no_matches_results')}
-                  />
-                )}
-              </>
-            );
-          }
-        })()
+      {game === 'PUBG' &&
+        <>
+          <div className={style.fetch}>
+            <Field
+              label={i18n.t('result_modal.show_last_matches_of_player')}
+              name="resultsTargetPlayer"
+              component={FormInput}
+              className={style.field}
+            />
+            <Button
+              text={i18n.t('button.load')}
+              appearance="_basic-accent"
+              className={style.button}
+              onClick={() => handleMatchesLoad()}
+            />
+          </div>
+          {isLastMatchesShown && (
+            <Table
+              captions={lastMatchesCaptions}
+              items={playerLastMatches}
+              renderRow={renderRow}
+              className={style.table}
+              emptyMessage={i18n.t('no_matches_results')}
+            />
+          )}
+        </>
       }
 
       {isLol && (
@@ -264,7 +254,7 @@ export default compose(
     }
   ),
   withProps(props => {
-    const isMobile = props.device === 'touch'
+    const isMobile = props.device === 'touch';
     const { matchId } = props.options;
     const { game, teams } = props.tournament;
     const playerRules = RULES[game].player.reduce((rules, rule) => ([...rules, rule.ruleName]), []);
@@ -312,12 +302,12 @@ export default compose(
         text: 'Created',
         width: isMobile ? 120 : 150,
       },
-    
+
       duration: {
         text: 'Duration',
         width: isMobile ? 75 : 100,
       },
-    
+
       gameMode: {
         text: 'Mode',
         width: isMobile ? 75 : 100,
@@ -333,7 +323,7 @@ export default compose(
       playerRules,
       loadResults,
       loadMatches,
-      lastMatchesCaptions
+      lastMatchesCaptions,
     };
   }),
   withFormik({
