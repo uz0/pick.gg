@@ -38,6 +38,7 @@ const Table = ({
 
       {list.length > 0 &&
         list.map((item, index) => renderRow({
+          items,
           item,
           index,
           captions,

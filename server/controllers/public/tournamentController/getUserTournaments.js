@@ -20,6 +20,7 @@ export default async (req, res) => {
     .populate('moderators')
     .populate('applicants')
     .populate('matches')
+    .populate('teams')
     .limit(tournamentLimit)
     .lean();
 

@@ -75,6 +75,12 @@ const schema = new Schema(
   }
 );
 
+schema.virtual('teams', {
+  ref: 'Team',
+  localField: '_id',
+  foreignField: 'tournamentId'
+});
+
 schema.virtual('matches', {
   ref: 'Match',
   localField: '_id',
@@ -82,7 +88,7 @@ schema.virtual('matches', {
 });
 
 schema.virtual('isEmpty').get(function () {
-  if (isEmpty(this.rules) || isEmpty(this.rewards) || this.matches.length === 0) {
+  if (isEmpty(this.rules) || isEmpty(this.rewards) || (!this.matches || this.matches.length === 0)) {
     return true;
   }
 
