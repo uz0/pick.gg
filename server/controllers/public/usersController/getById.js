@@ -15,10 +15,10 @@ export const handler = withValidationHandler(async (req, res) => {
     const user = await UserModel.findOne({ _id: id });
     res.json(user);
   } catch (error) {
-    res.json({ error })
+    res.json({ error });
   }
-})
+});
 
 export const validator = [
   check('id').isMongoId()
-]
+];

@@ -25,7 +25,8 @@ export default mongoose.model('User', new Schema({
     type: String,
     default: ''
   },
-  regionId: { type: String, enum: ['', ...REGIONS], default: '' }
+  regionId: { type: String, enum: ['', ...REGIONS], default: '' },
+  preferredPosition: { type: String, enum: ['', 'adc', 'mid', 'top', 'jungle', 'support'], default: '' }
 },
 {
   toObject: { virtuals: true }

@@ -19,8 +19,8 @@ const validator = [
 
       const reward = await RewardModel.findOne({ key }).lean();
 
-      if(!isEmpty(reward)){
-        throw new Error(`Reward with key ${key} is already exists`);;
+      if (!isEmpty(reward)) {
+        throw new Error(`Reward with key ${key} is already exists`);
       }
 
       return true;
@@ -35,13 +35,13 @@ const handler = withValidationHandler(async (req, res) => {
           'key',
           'description',
           'userId',
-          'image',
+          'image'
         ]),
         {
           key: '',
           isClaimed: false,
           description: '',
-          image: '',
+          image: ''
         }
       )
     );

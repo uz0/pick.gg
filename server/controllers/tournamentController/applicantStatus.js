@@ -1,4 +1,4 @@
-import { param, check, body } from 'express-validator/check';
+import { param, check } from 'express-validator/check';
 
 import Tournament from '../../models/tournament';
 
@@ -7,7 +7,7 @@ import { withValidationHandler } from '../helpers';
 
 const validator = [
   check().custom((value, { req }) => isUserHasToken(value, req)),
-  param('id').custom(id => isEntityExists(id, Tournament)),
+  param('id').custom(id => isEntityExists(id, Tournament))
 ];
 
 const handler = withValidationHandler(async (req, res) => {
@@ -18,8 +18,8 @@ const handler = withValidationHandler(async (req, res) => {
     const newTournament = await Tournament
       .update(
         { _id: id },
-        { $set: { [`applicants.$[element].status`]: newStatus } },
-        { arrayFilters: [{ 'element.user': userId }] },
+        { $set: { 'applicants.$[element].status': newStatus } },
+        { arrayFilters: [{ 'element.user': userId }] }
       )
       .exec();
 
@@ -27,7 +27,7 @@ const handler = withValidationHandler(async (req, res) => {
       await Tournament
         .update(
           { _id: id },
-          { $push: { summoners: userId } },
+          { $push: { summoners: userId } }
         )
         .exec();
     }
@@ -35,7 +35,7 @@ const handler = withValidationHandler(async (req, res) => {
     res.send(newTournament);
   } catch (error) {
     console.log(error);
-    res.status(400).send({})
+    res.status(400).send({});
   }
 });
 

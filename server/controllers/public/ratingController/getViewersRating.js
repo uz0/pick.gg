@@ -2,7 +2,7 @@ import find from 'lodash/find';
 import pick from 'lodash/pick';
 import {
   calcSummonersPoints,
-  calcViewerPoints,
+  calcViewerPoints
 } from '../../helpers';
 
 export default (tournaments, users) => {
@@ -30,16 +30,16 @@ export default (tournaments, users) => {
 
       return points;
     }, {
-        _id,
-        summonerName,
-        imageUrl,
-        username,
-        points: 0
-      });
+      _id,
+      summonerName,
+      imageUrl,
+      username,
+      points: 0
+    });
 
     return rating;
   })
-  .sort((prev, next) => next.points - prev.points);
+    .sort((prev, next) => next.points - prev.points);
 
   return rating;
 };

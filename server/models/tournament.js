@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName });
 
 const schema = new Schema(
-{
+  {
     name: String,
     description: String,
     imageUrl: String,
@@ -22,7 +22,7 @@ const schema = new Schema(
     rewards: {
       type: Map,
       of: String,
-      default: {},
+      default: {}
     },
     rulesTitle: String,
     rules: String,
@@ -44,9 +44,9 @@ const schema = new Schema(
         id: refTo('User'),
         position: {
           type: String,
-          enum: ['summoner', 'viewer'],
+          enum: ['summoner', 'viewer']
         },
-        place: Number,
+        place: Number
       }
     ],
     creator: refTo('User'),
@@ -82,7 +82,7 @@ schema.virtual('matches', {
   foreignField: 'tournamentId'
 });
 
-schema.virtual('isEmpty').get(function() {
+schema.virtual('isEmpty').get(function () {
   if (isEmpty(this.rules) || isEmpty(this.rewards) || this.matches.length === 0) {
     return true;
   }
@@ -90,7 +90,7 @@ schema.virtual('isEmpty').get(function() {
   return false;
 });
 
-schema.virtual('isApplicationsAvailable').get(function() {
+schema.virtual('isApplicationsAvailable').get(function () {
   if (!this.isEmpty && !this.isForecastingActive && !this.isStarted) {
     return true;
   }
@@ -99,4 +99,3 @@ schema.virtual('isApplicationsAvailable').get(function() {
 });
 
 export default mongoose.model('Tournament', schema);
-

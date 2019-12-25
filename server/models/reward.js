@@ -11,18 +11,18 @@ const schema = new Schema({
   userId: refTo('User'),
   key: {
     type: String,
-    unique: true,
+    unique: true
   },
   isClaimed: {
     type: Boolean,
-    default: false,
+    default: false
   },
   description: {
-    type: String,
+    type: String
   },
   image: {
-    type: String,
-  },
+    type: String
+  }
 });
 
 export default mongoose.model('Reward', schema);

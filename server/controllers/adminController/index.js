@@ -14,7 +14,7 @@ import { validator as validateUserCreate, handler as createUserHandler } from '.
 import { validator as validateUserDelete, handler as deleteUserHandler } from './user/delete';
 import { validator as validateUserUpdate, handler as updateUserHandler } from './user/update';
 
-let router = express.Router();
+const router = express.Router();
 
 const AdminController = () => {
   router.get('/reward', getRewards);
