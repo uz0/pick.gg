@@ -203,6 +203,11 @@
   margin-top: 30px;
 }
 
+.tournament .inner_container .widgets .widgetsColumn {
+  display: grid;
+  grid-row-gap: 32px;
+}
+
 .tournament .inner_container .widgets .playersWidgets {
   display: grid;
   grid-row-gap: 30px;

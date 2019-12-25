@@ -20,7 +20,7 @@ import TournamentSummoners from 'components/tournament-summoners';
 import TournamentModerators from 'components/tournament-moderators';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
-// Import TournamentInvite from 'components/tournament-invite';
+import TournamentInvite from 'components/tournament-invite';
 import Button from 'components/button';
 import Icon from 'components/icon';
 import { actions as modalActions } from 'components/modal-container';
@@ -212,7 +212,7 @@ class Tournament extends Component {
 
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
     const isSummonersWidgetVisible = !isEmpty;
-    // Const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
+    const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
     const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);
@@ -283,7 +283,7 @@ class Tournament extends Component {
                 { [style.is_started]: isStarted }
               )}
               >
-                <div>
+                <div className={style.widgetsColumn}>
                   <TournamentInformation
                     id={this.props.match.params.id}
                     className={style.information_widget}
@@ -299,6 +299,13 @@ class Tournament extends Component {
                     className={style.viewers_widget}
                     joinTournament={this.joinTournament}
                   />
+
+                  {isInviteWidgetVisible && (
+                    <TournamentInvite
+                      className={style.invite_widget}
+                      showNotification={this.props.showNotification}
+                    />
+                  )}
                 </div>
 
                 <Tabs>
@@ -338,13 +345,6 @@ class Tournament extends Component {
                   )
                   }
                 </Tabs>
-
-                {/* {isInviteWidgetVisible && (
-                  <TournamentInvite
-                    className={style.invite_widget}
-                    showNotification={this.props.showNotification}
-                  />
-                )} */}
               </div>
             </>
           )}
