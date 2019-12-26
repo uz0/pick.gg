@@ -105,7 +105,7 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
               </div>
 
               {summoner.points > 0 && (
-                <div className={cx(itemClass, style.cell)} style={pointsStyle}>
+                <div className={cx(itemClass)} style={pointsStyle}>
                   <span className={cx(textClass, style.points)}>{summoner.points}</span>
                 </div>
               )}

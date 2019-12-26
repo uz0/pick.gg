@@ -114,7 +114,7 @@ export default enhance(props => {
     isSubmitting,
     currentUser,
     attend,
-    game
+    game,
   } = props;
 
   const addPlayersButtonAction = tournamentCreator._id === currentUser._id ? props.close : attend;
