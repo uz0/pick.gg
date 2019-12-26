@@ -10,8 +10,10 @@ const cx = classnames.bind(style);
 
 const PlayerInfo = props => {
   const {
-    position,
     nickname,
+    game,
+    gameSpecificName,
+    position,
     imageUrl,
     about,
     points,
@@ -29,7 +31,7 @@ const PlayerInfo = props => {
           <Avatar source={imageUrl} className={style.avatar}/>
           <div className={style.info}>
             <div className={style.name}>
-              {nickname}
+              {nickname || gameSpecificName[game]}
             </div>
             {about && <div className={style.about}>{about}</div>}
           </div>
@@ -43,7 +45,7 @@ const PlayerInfo = props => {
             </div>
           )}
 
-          {points !== 0 && (
+          {points > 0 && (
             <div className={style.item}>
               <div className={style.key}>Очки за текущий турнир:</div>
               <div className={style.value}>{points}</div>

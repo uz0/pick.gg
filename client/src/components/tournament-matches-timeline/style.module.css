@@ -26,7 +26,7 @@
 }
 
 .widget .matches .match .time {
-  min-width: 38px;
+  min-width: 40px;
   font-size: 14px;
   color: #fff;
 }
@@ -167,7 +167,6 @@
 
 .widget .matches .match .battle .team {
   display: flex;
-  justify-content: space-between;
 }
 
 .widget .matches .match .battle .team.topTeam {
@@ -188,6 +187,10 @@
   text-decoration: none;
   text-align: center;
   background-color: transparent;
+}
+
+.widget .matches .match .battle .team .player + .player {
+  margin-left: 4px;
 }
 
 .widget .matches .match .battle .team .player .avatar {

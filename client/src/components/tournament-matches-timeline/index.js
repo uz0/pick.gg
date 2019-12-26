@@ -4,6 +4,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
+import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
 import classnames from 'classnames/bind';
 import { actions as tournamentsActions } from 'pages/tournaments';
@@ -131,22 +132,71 @@ class TournamentMatchesTimeline extends Component {
     return new Date(prev.startedAt) - new Date(next.startedAt);
   };
 
+  renderTeam = (team, className) => {
+    const { game } = get(this.props, 'tournament', '');
+
+    return (
+      <div className={cx(style.team, className)}>
+        {team.users.map(user => {
+          return (
+            <button
+              key={user._id}
+              type="button"
+              href="/player"
+              className={style.player}
+              onClick={this.openPlayerInfoModal({
+                game,
+                ...user,
+              })}
+            >
+              <Avatar
+                source={user.imageUrl}
+                className={style.avatar}
+              />
+
+              <div className={style.name}>{user.gameSpecificName[game]}</div>
+            </button>
+          );
+        })
+        }
+      </div>
+    );
+  }
+
   renderMatch = match => {
     const {
       _id: tournamentId,
-      isEmpty,
+      game,
+      teams,
+      isEmpty: isTournamentEmpty,
       isStarted,
       isApplicationsAvailable,
     } = get(this.props, 'tournament');
 
     const { isCurrentUserCanEdit } = getUserPermissions(this.props.currentUser, this.props.tournament);
 
+    const matchesTeamsIds = Object.values(match.teams[game]);
+
+    let [blueTeam, redTeam] = filter(teams, team => includes(matchesTeamsIds, team._id));
+
+    if (!isEmpty(this.props.users.list)) {
+      blueTeam = {
+        ...blueTeam,
+        users: blueTeam.users.map(userId => this.props.users.list[userId]),
+      };
+
+      redTeam = {
+        ...redTeam,
+        users: redTeam.users.map(userId => this.props.users.list[userId]),
+      };
+    }
+
     const isMatchActive = match.isActive;
     const isMatchOver = match.endAt;
     const matchStatus = this.getMatchStatus(match);
     const startMatchTime = moment(match.startedAt).format('HH:mm');
 
-    const isDeleteButtonShown = isApplicationsAvailable || isEmpty;
+    const isDeleteButtonShown = isApplicationsAvailable || isTournamentEmpty;
 
     return (
       <li key={match._id} className={cx(style.match, { [style.isActive]: match.isActive })}>
@@ -157,38 +207,7 @@ class TournamentMatchesTimeline extends Component {
           </div>
         </div>
         <div className={style.battle}>
-          {match.isActive && (
-            <div className={cx(style.team, style.topTeam)}>
-              {[1, 2, 3, 4, 5].map(userId => {
-                const user = this.props.currentUser;
-
-                const options = {
-                  nickname: 'nick',
-                  imageUrl: user.imageUrl,
-                  about: 'about',
-                  points: 11,
-                };
-
-                return (
-                  <button
-                    key={userId}
-                    type="button"
-                    href="/player"
-                    className={style.player}
-                    onClick={this.openPlayerInfoModal(options)}
-                  >
-                    <Avatar
-                      source={user.imageUrl}
-                      className={style.avatar}
-                    />
-
-                    <div className={style.name}>{user.username}</div>
-                  </button>
-                );
-              })
-              }
-            </div>
-          )}
+          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(blueTeam, style.topTeam)}
 
           <div className={style.title}>
             <h4>{match.name}</h4>
@@ -247,25 +266,7 @@ class TournamentMatchesTimeline extends Component {
             </div>
           </div>
 
-          {match.isActive && (
-            <div className={cx(style.team, style.bottomTeam)}>
-              {[1, 2, 3, 4, 5].map(userId => {
-                const user = this.props.currentUser;
-
-                return (
-                  <button key={userId} type="button" href="/player" className={style.player}>
-                    <Avatar
-                      source={user.imageUrl}
-                      className={style.avatar}
-                    />
-
-                    <div className={style.name}>{user.username}</div>
-                  </button>
-                );
-              })
-              }
-            </div>
-          )}
+          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(redTeam, style.bottomTeam)}
         </div>
       </li>
     );
@@ -277,17 +278,17 @@ class TournamentMatchesTimeline extends Component {
       tournament,
     } = this.props;
 
-    const matches = get(this.props, 'tournament.matches').sort(this.sortMatches);
-    const isStarted = get(this.props, 'tournament.isStarted');
+    const { isCurrentUserCanEdit } = getUserPermissions(currentUser, tournament);
+    const isStarted = tournament && tournament.isStarted;
 
-    const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserModerator = currentUser && includes(tournament.moderators, currentUser._id);
-    const isCurrentUserCanEdit = isCurrentUserAdmin || isCurrentUserModerator;
+    const matches = get(this.props, 'tournament.matches').sort(this.sortMatches);
 
     return (
       <div className={style.widget}>
         <div className={style.header}>
-          {isCurrentUserCanEdit && !isStarted && <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>}
+          {isCurrentUserCanEdit && !isStarted && (
+            <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>
+          )}
 
           {isCurrentUserCanEdit && !isStarted && (
             <Button
@@ -317,6 +318,7 @@ export default compose(
 
   connect(
     (state, props) => ({
+      users: state.users,
       tournament: state.tournaments.list[props.id],
       currentUser: state.currentUser,
     }),
