@@ -81,44 +81,44 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
       </div>
 
       {isTeamExistUsers &&
-      item.users.map(userId => {
-        const summoner = find(props.summoners, { _id: userId });
+        item.users.map(userId => {
+          const summoner = find(props.summoners, { _id: userId });
 
-        if (!summoner) {
-          return null;
-        }
+          if (!summoner) {
+            return null;
+          }
 
-        const isSummonerWinner = props.tournament.winners.find(user => user.id === summoner._id);
+          const isSummonerWinner = props.tournament.winners.find(user => user.id === summoner._id);
 
-        return (
-          <div key={summoner._id} className={cx(className, style.row)}>
-            <div
-              className={cx('user-image', itemClass, style.cell)}
-              style={{ ...numberStyle, backgroundImage: `url(${summoner.imageUrl})` }}
-            />
+          return (
+            <div key={summoner._id} className={cx(className, style.row)}>
+              <div
+                className={cx('user-image', itemClass, style.cell)}
+                style={{ ...numberStyle, backgroundImage: `url(${summoner.imageUrl})` }}
+              />
 
-            <div className={itemClass} style={nameStyle}>
-              <span className={textClass}>
-                {summoner.nickname}
-                {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
-              </span>
-            </div>
-
-            {summoner.points > 0 && (
-              <div className={cx(itemClass, style.cell)} style={pointsStyle}>
-                <span className={cx(textClass, style.points)}>{summoner.points}</span>
+              <div className={itemClass} style={nameStyle}>
+                <span className={textClass}>
+                  {summoner.nickname}
+                  {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
+                </span>
               </div>
-            )}
 
-            <Button
-              appearance="_icon-transparent"
-              icon="dots"
-              className={style.action}
-              onClick={props.openChooseTeamModal(summoner._id)}
-            />
-          </div>
-        );
-      })
+              {summoner.points > 0 && (
+                <div className={cx(itemClass, style.cell)} style={pointsStyle}>
+                  <span className={cx(textClass, style.points)}>{summoner.points}</span>
+                </div>
+              )}
+
+              <Button
+                appearance="_icon-transparent"
+                icon="dots"
+                className={style.action}
+                onClick={props.openChooseTeamModal(summoner._id)}
+              />
+            </div>
+          );
+        })
       }
     </Fragment>
   );
@@ -150,7 +150,7 @@ const Summoners = ({
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
-        <h3 className={style.subtitle}>{i18n.t('summoners')}</h3>
+        <h4 className={style.subtitle}>{i18n.t('summoners')}</h4>
 
         {isEditingAvailable && summoners.length > 0 && (
           <button
