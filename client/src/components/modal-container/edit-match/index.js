@@ -37,6 +37,22 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
+const mergeByNicknames = (objValue, srcValue) => {
+  const summoners = []
+  if (objValue && objValue.summoners && srcValue && srcValue.summoners) {
+    for (let objSummoner of objValue.summoners) {
+      for (let srcSummoner of srcValue.summoners) {
+        if (objSummoner.nickname === srcSummoner.nickname) {
+          summoners.push(srcSummoner)
+        } else {
+          summoners.push(objSummoner)
+        }
+      }
+    }
+    return merge(objValue, {summoners});
+  }
+};
+
 const EditMatch = ({
   close,
   summoners,
@@ -66,7 +82,7 @@ const EditMatch = ({
     const loadedResults = await loadResults(matchId);
     const resolvedNames = values.summoners.map(i => i.nickname);
     const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
-    setValues(merge(values, { summoners: filtered }));
+    setValues(mergeByNicknames(values, { summoners: filtered }));
     setIsLastMatchesShown(false);
   };
 
@@ -84,7 +100,6 @@ const EditMatch = ({
 
     return (
       <div key={item.id} className={cx(className, 'row')}>
-
         <div className={itemClass} style={chooseButton}>
           <Button
             appearance="_basic-accent"
