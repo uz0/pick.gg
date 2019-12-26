@@ -115,7 +115,7 @@ const enhance = compose(
     },
     handleSubmit: async (values, { props }) => {
       const { tournamentId } = props.options;
-      const { rules, rewards, isForecastingActive, game, isStarted } = props.tournament;
+      const { game } = props.tournament;
 
       try {
         const matchRequest = await http(`/api/tournaments/${tournamentId}/matches`, {
@@ -133,12 +133,8 @@ const enhance = compose(
         const newMatch = await matchRequest.json();
         const matches = [...props.tournament.matches, newMatch];
 
-        const isTournamentEmpty = isEmpty(rules) || isEmpty(rewards) || matches.length === 0;
-        const isApplicationsAvailable = !isTournamentEmpty && !isForecastingActive && !isStarted;
-
         props.updateTournament({
           ...props.tournament,
-          isApplicationsAvailable,
           matches,
         });
 
