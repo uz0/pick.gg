@@ -1,0 +1,26 @@
+.wrapper {
+  display: block;
+  width: 100%;
+}
+
+.caption {
+  --height: 20px;
+
+  margin-top: 4px;
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+
+.error {
+  line-height: 1.5;
+  font-size: 12px;
+  margin-top: 4px;
+  color: var(--danger-secondary-color);
+}
