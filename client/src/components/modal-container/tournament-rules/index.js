@@ -129,9 +129,12 @@ const AddRules = props => {
         body: JSON.stringify({ rules, rulesTitle, game }),
       });
 
+      const isEmpty = props.tournament.rewards.length > 0;
+
       props.updateTournament({
         _id: props.tournament._id,
         rules,
+        isEmpty,
         rulesTitle,
       });
 

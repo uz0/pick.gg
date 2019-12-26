@@ -137,10 +137,13 @@ class AddRewards extends Component {
       const rewardsRequest = await http(`/public/tournaments/${tournamentId}/rewards`);
       const unfoldedRewards = await rewardsRequest.json();
 
+      const isEmpty = this.props.tournament.rules.length === 0;
+
       this.props.updateTournament({
         ...updatedTournament,
-        unfoldedRewards,
+        isEmpty,
         rewards,
+        unfoldedRewards,
       });
 
       this.props.close();
