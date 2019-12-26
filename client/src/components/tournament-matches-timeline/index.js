@@ -14,7 +14,7 @@ import Avatar from 'components/avatar';
 import Icon from 'components/icon';
 import { actions as modalActions } from 'components/modal-container';
 
-import { http } from 'helpers';
+import { http, getUserPermissions } from 'helpers';
 
 import { withCaptions } from 'hoc';
 
@@ -120,23 +120,20 @@ class TournamentMatchesTimeline extends Component {
   renderMatch = match => {
     let matchStatus = '';
 
-    const tournamentId = get(this.props, 'tournament._id');
-    const creator = get(this.props, 'tournament.creator');
-    const currentUser = get(this.props, 'currentUser');
-    const tournament = get(this.props, 'tournament');
-    const isEmpty = get(this.props, 'tournament.isEmpty');
-    const isStarted = get(this.props, 'tournament.isStarted');
+    const {
+      _id: tournamentId,
+      isEmpty,
+      isStarted,
+      isApplicationsAvailable,
+    } = get(this.props, 'tournament');
 
-    const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
+    const { isCurrentUserCanEdit } = getUserPermissions(this.props.currentUser, this.props.tournament);
+
     const isMatchActive = match.isActive;
     const isMatchOver = match.endAt;
-    const startMatchTime = moment(match.startedAt).format('HH:mm');
-    const endMatchTime = moment(isMatchOver).format('HH:mm');
 
-    const isCurrentUserCreator = (currentUser && creator) && creator._id === currentUser._id;
-    const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserModerator = currentUser && includes(tournament.moderators, currentUser._id);
-    const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
+    const startMatchTime = moment(match.startedAt).format('HH:mm');
+    const endMatchTime = moment(match.endAt).format('HH:mm');
 
     const isDeleteButtonShown = isApplicationsAvailable || isEmpty;
 
@@ -163,7 +160,6 @@ class TournamentMatchesTimeline extends Component {
                 const user = this.props.currentUser;
 
                 const options = {
-                  position: 'pos',
                   nickname: 'nick',
                   imageUrl: user.imageUrl,
                   about: 'about',
@@ -194,7 +190,7 @@ class TournamentMatchesTimeline extends Component {
           <div className={style.title}>
             <h4>{match.name}</h4>
             <div className={style.controls}>
-              {isEditingAvailable && isStarted && !isMatchOver && !isMatchActive && (
+              {isCurrentUserCanEdit && isStarted && !isMatchOver && !isMatchActive && (
                 <button
                   type="button"
                   className={cx('control', style.statusControl)}
@@ -204,7 +200,7 @@ class TournamentMatchesTimeline extends Component {
                 </button>
               )}
 
-              {isEditingAvailable && isStarted && isMatchActive && (
+              {isCurrentUserCanEdit && isStarted && isMatchActive && (
                 <button
                   type="button"
                   className={cx('control', style.statusControl)}
@@ -214,7 +210,7 @@ class TournamentMatchesTimeline extends Component {
                 </button>
               )}
 
-              {isEditingAvailable && isDeleteButtonShown && (
+              {isCurrentUserCanEdit && isDeleteButtonShown && (
                 <button
                   type="button"
                   className={cx(style.button, style.danger)}
@@ -224,7 +220,7 @@ class TournamentMatchesTimeline extends Component {
                 </button>
               )}
 
-              {isEditingAvailable && isStarted && isMatchOver && (
+              {isCurrentUserCanEdit && isStarted && isMatchOver && (
                 <button
                   type="button"
                   className={cx('control')}
