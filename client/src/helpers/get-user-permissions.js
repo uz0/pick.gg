@@ -20,7 +20,7 @@ export default (currentUser, tournament) => {
   const isCurrentUserAdmin = currentUser.isAdmin;
   const isCurrentUserCreator = isEqual(currentUserId, tournamentCreatorId);
   const isCurrentUserModerator = includes(tournamentModerators, currentUserId);
-  const isCurrentUserCanEdit = some([isCurrentUserCreator, isCurrentUserAdmin, isCurrentUserModerator], true);
+  const isCurrentUserCanEdit = some([isCurrentUserCreator, isCurrentUserAdmin, isCurrentUserModerator], item => item);
 
   return {
     isCurrentUserAdmin,
