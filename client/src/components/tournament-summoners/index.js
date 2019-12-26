@@ -29,6 +29,11 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
+  number: {
+    text: t('number'),
+    width: isMobile ? 55 : 60,
+  },
+
   name: {
     text: t('name'),
     width: isMobile ? 75 : 340,
@@ -349,6 +354,7 @@ export default compose(
         console.log(error);
       }
     },
+
     openPlayerInfoModal: props => playerInfo => {
       props.toggleModal({
         id: 'player-info',
