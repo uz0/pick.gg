@@ -10,6 +10,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 import moment from 'moment';
 
 import Button from 'components/button';
+import Avatar from 'components/avatar';
 import Icon from 'components/icon';
 import { actions as modalActions } from 'components/modal-container';
 
@@ -81,6 +82,8 @@ class TournamentMatchesTimeline extends Component {
       console.log(error, 'error');
     }
   };
+
+  openPlayerInfoModal = playerInfo => () => this.props.toggleModal({ id: 'player-info', options: { playerInfo } });
 
   deleteMatch = async (tournamentId, matchId) => {
     try {
@@ -156,12 +159,34 @@ class TournamentMatchesTimeline extends Component {
         <div className={style.battle}>
           {match.isActive && (
             <div className={cx(style.team, style.topTeam)}>
-              {[1, 2, 3, 4, 5].map(match => (
-                <a key={match} href="/player" className={style.player}>
-                  <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
-                  <div className={style.name}>Player Name {match === 1 ? 'asdasdasdasdasdasdasdasdasd' : ''}</div>
-                </a>
-              ))
+              {[1, 2, 3, 4, 5].map(userId => {
+                const user = this.props.currentUser;
+
+                const options = {
+                  position: 'pos',
+                  nickname: 'nick',
+                  imageUrl: user.imageUrl,
+                  about: 'about',
+                  points: 11,
+                };
+
+                return (
+                  <button
+                    key={userId}
+                    type="button"
+                    href="/player"
+                    className={style.player}
+                    onClick={this.openPlayerInfoModal(options)}
+                  >
+                    <Avatar
+                      source={user.imageUrl}
+                      className={style.avatar}
+                    />
+
+                    <div className={style.name}>{user.username}</div>
+                  </button>
+                );
+              })
               }
             </div>
           )}
@@ -225,12 +250,20 @@ class TournamentMatchesTimeline extends Component {
 
           {match.isActive && (
             <div className={cx(style.team, style.bottomTeam)}>
-              {[1, 2, 3, 4, 5].map(match => (
-                <a key={match} href="/player" className={style.player}>
-                  <div className={style.avatar} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a-/AAuE7mDaFmmgPUop7zXorRQKrlRdXgMCLJNogOpyKUMChQ=s96-c)' }}/>
-                  <div className={style.name}>Player Name</div>
-                </a>
-              ))
+              {[1, 2, 3, 4, 5].map(userId => {
+                const user = this.props.currentUser;
+
+                return (
+                  <button key={userId} type="button" href="/player" className={style.player}>
+                    <Avatar
+                      source={user.imageUrl}
+                      className={style.avatar}
+                    />
+
+                    <div className={style.name}>{user.username}</div>
+                  </button>
+                );
+              })
               }
             </div>
           )}

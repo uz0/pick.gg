@@ -230,6 +230,14 @@
   .tournament .inner_container .widgets {
     grid-template-columns: 1fr;
   }
+
+  .tournament .inner_container .widgets .tabs {
+    margin-top: 12px;
+  }
+
+  .tournament .inner_container .widgets .tabs > div {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 480px) {
