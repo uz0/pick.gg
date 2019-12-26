@@ -101,6 +101,20 @@ class TournamentMatchesTimeline extends Component {
     });
   }
 
+  getMatchStatus = match => {
+    let status = '';
+
+    if (match.isActive) {
+      status = 'active';
+    } else if (match.endAt) {
+      status = 'finished';
+    } else {
+      status = 'pending';
+    }
+
+    return status;
+  }
+
   sortMatches = (prev, next) => {
     if (!prev.startedAt && !next.startedAt) {
       return 1;
@@ -118,8 +132,6 @@ class TournamentMatchesTimeline extends Component {
   };
 
   renderMatch = match => {
-    let matchStatus = '';
-
     const {
       _id: tournamentId,
       isEmpty,
@@ -131,19 +143,10 @@ class TournamentMatchesTimeline extends Component {
 
     const isMatchActive = match.isActive;
     const isMatchOver = match.endAt;
-
+    const matchStatus = this.getMatchStatus(match);
     const startMatchTime = moment(match.startedAt).format('HH:mm');
-    const endMatchTime = moment(match.endAt).format('HH:mm');
 
     const isDeleteButtonShown = isApplicationsAvailable || isEmpty;
-
-    if (match.isActive) {
-      matchStatus = 'active';
-    } else if (match.endAt && endMatchTime) {
-      matchStatus = 'finished';
-    } else {
-      matchStatus = 'pending';
-    }
 
     return (
       <li key={match._id} className={cx(style.match, { [style.isActive]: match.isActive })}>
