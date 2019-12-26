@@ -110,6 +110,12 @@
   background-color: var(--color);
 }
 
+.summoners .table .row .cell.user-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .summoners .content .table .row .item:not(:last-of-type) {
   box-shadow: none;
 }

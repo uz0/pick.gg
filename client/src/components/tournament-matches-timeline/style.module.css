@@ -104,6 +104,7 @@
 
 .widget .matches .match .battle {
   flex-grow: 1;
+  min-width: 0;
 }
 
 .widget .matches .match .battle .title {
@@ -186,17 +187,14 @@
   color: #fff;
   text-decoration: none;
   text-align: center;
+  background-color: transparent;
 }
 
 .widget .matches .match .battle .team .player .avatar {
-  --size: 40px;
+  --avatar-size: 34px;
 
-  width: var(--size);
-  height: var(--size);
-  margin: 0 auto;
   border-radius: 50%;
-  background-position: center;
-  background-size: contain;
+  margin: 0 auto;
 }
 
 .widget .matches .match .battle .team .player .name {
@@ -205,4 +203,19 @@
   text-overflow: ellipsis;
   margin-top: 8px;
   font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .widget .matches .match {
+    --team-padding: 20px;
+  }
+
+  .widget .matches .match .battle .team {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .widget .matches .match .battle .team .player + .player {
+    margin-top: 12px;
+  }
 }

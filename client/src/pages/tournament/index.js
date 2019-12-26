@@ -308,7 +308,7 @@ class Tournament extends Component {
                   )}
                 </div>
 
-                <Tabs>
+                <Tabs className={style.tabs}>
                   <Tab>Матчи</Tab>
                   <Tab>Игроки</Tab>
                   {isEditingAvailable && <Tab>Модераторы</Tab>}

@@ -29,6 +29,11 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
+  number: {
+    text: t('number'),
+    width: isMobile ? 55 : 60,
+  },
+
   name: {
     text: t('name'),
     width: isMobile ? 75 : 340,
@@ -44,7 +49,7 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
-  const colorStyle = { ...numberStyle, '--color': item.color };
+  const colorStyle = { '--width': captions.number.width, '--color': item.color };
 
   const isTeamExistUsers = item.users.length > 0;
   const isDeleteTeamButtonShown = !isTeamExistUsers && items.length !== 1;
@@ -76,7 +81,7 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
       </div>
 
       {isTeamExistUsers &&
-      item.users.map((userId, userIndex) => {
+      item.users.map(userId => {
         const summoner = find(props.summoners, { _id: userId });
 
         if (!summoner) {
@@ -87,9 +92,10 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
 
         return (
           <div key={summoner._id} className={cx(className, style.row)}>
-            <div className={cx(itemClass, style.cell)} style={numberStyle}>
-              <span className={textClass}>{userIndex + 1}</span>
-            </div>
+            <div
+              className={cx('user-image', itemClass, style.cell)}
+              style={{ ...numberStyle, backgroundImage: `url(${summoner.imageUrl})` }}
+            />
 
             <div className={itemClass} style={nameStyle}>
               <span className={textClass}>
