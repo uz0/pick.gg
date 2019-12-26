@@ -27,6 +27,7 @@ export const handler = withValidationHandler(async (req, res) => {
   const tournament = await Tournament
     .findById(id)
     .populate('matches')
+    .populate('teams')
     .lean();
 
   const {
@@ -85,6 +86,7 @@ export const handler = withValidationHandler(async (req, res) => {
     .populate('creatorId')
     .populate('applicants')
     .populate('matches')
+    .populate('teams')
     .populate('creator', '_id username summonerName')
     .exec();
 

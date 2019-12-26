@@ -13,6 +13,7 @@ const Button = ({
   icon,
   className,
   disabled,
+  title,
   appearance,
   type = 'button',
 }) => {
@@ -27,6 +28,7 @@ const Button = ({
       className={cx('button', className)}
       appearance={appearance}
       disabled={disabled}
+      title={title}
       onClick={onClick}
     >
       {isComponentIcon &&

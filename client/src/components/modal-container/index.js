@@ -14,8 +14,10 @@ import EditTournament from './edit-tournament';
 import DropinAuth from './dropin-auth';
 import JoinTournamentPlayers from './join-tournament-players';
 import EditUser from './dashboard-edit-user-modal';
+import ChooseTeam from './choose-team';
 import EditMatch from './edit-match';
 import PlayerInfo from './player-info';
+import EditTeam from './edit-team';
 import Reward from './reward';
 import modalActions from './actions';
 
@@ -31,6 +33,8 @@ const modals = {
   'join-tournament-players-modal': JoinTournamentPlayers,
   'edit-match-modal': EditMatch,
   'edit-tournament-modal': EditTournament,
+  'choose-team-modal': ChooseTeam,
+  'edit-team-modal': EditTeam,
   'user-modal': EditUser,
   'player-info': PlayerInfo,
   'dropin-auth': DropinAuth,

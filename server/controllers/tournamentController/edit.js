@@ -7,6 +7,7 @@ import isUndefined from 'lodash/isUndefined';
 import { param, body, check } from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
+import TeamModel from '../../models/team';
 import Tournament from '../../models/tournament';
 
 import {
@@ -34,6 +35,7 @@ const validator = [
 
       if (isReady) {
         const fieldsToExclude = ['name', 'description', 'url', 'imageUrl', 'summoners', 'rules'];
+
         const extraField = difference(Object.keys(req.body), fieldsToExclude);
 
         if (!extraField.length) throw new Error(`You can't edit next fields in ready tournament: ${extraField.join(', ')}`);
@@ -67,6 +69,44 @@ const validator = [
 const handler = withValidationHandler(async (req, res) => {
   const { id } = req.params;
 
+  if (req.body.summoners) {
+    const tournamentBefore = await Tournament.findById(id).populate('teams').exec();
+    const summonersBefore = [...tournamentBefore.summoners].map(item => `${item}`);
+    const summonersAfter = [...req.body.summoners].map(item => `${item}`);
+    const teams = [...tournamentBefore.teams];
+
+    if (!teams || teams.length === 0) {
+      await TeamModel.create({
+        tournamentId: id,
+        name: 'Team',
+        color: 'black',
+        users: req.body.summoners
+      });
+    } else {
+      if (summonersAfter.length < summonersBefore.length) {
+        const diff = difference(summonersBefore, summonersAfter);
+
+        for (let i = 0; i < teams.length; i++) {
+          for (let j = 0; j < teams[i].users.length; j++) {
+            if (diff.includes(teams[i].users[j])) {
+              await TeamModel.findByIdAndUpdate(teams[i]._id, {
+                $pull: { users: teams[i].users[j] }
+              });
+            }
+          }
+        }
+      }
+
+      if (req.body.summoners.length > tournamentBefore.summoners.length) {
+        const diff = difference(summonersAfter, summonersBefore);
+
+        await TeamModel.findByIdAndUpdate(teams[0]._id, {
+          $push: { users: diff }
+        });
+      }
+    }
+  }
+
   Tournament.findByIdAndUpdate(
     id,
     {
@@ -86,8 +126,13 @@ const handler = withValidationHandler(async (req, res) => {
       new: true
     }
   )
+    .populate('creatorId')
+    .populate('applicants')
+    .populate('matches')
+    .populate('teams')
+    .populate('creator', '_id username summonerName')
     .exec()
-    .then(res.json)
+    .then(tournament => res.json({ tournament }))
     .catch(error => res.json({ error }));
 });
 

@@ -10,6 +10,7 @@ export default async (req, res) => {
     .find({ isFinalized: true })
     .populate('applicants')
     .populate('matches')
+    .populate('teams')
     .populate('creator', '_id username summonerName')
     .lean();
 

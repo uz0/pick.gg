@@ -1,0 +1,46 @@
+.modal_content .form {
+  padding-top: var(--layout-padding);
+}
+
+.modal_content .form .color_label {
+  --height: 20px;
+
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: #fff;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal_content .form .colors_list {
+  --gap: 10px;
+
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--gap) * -1);
+  margin-top: calc((var(--gap) - 4px) * -1);
+  padding-bottom: 3px;
+}
+
+.modal_content .form .colors_list > button {
+  --size: 20px;
+
+  width: var(--size);
+  height: var(--size);
+  margin-left: var(--gap);
+  margin-top: var(--gap);
+  background-color: var(--color);
+}
+
+.modal_content .form .colors_list > button._is-active {
+  box-shadow: 0 0 6px #000;
+}
+
+.modal_content .form .colors_list > button.black {
+  background-color: #000;
+}
