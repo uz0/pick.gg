@@ -11,6 +11,8 @@ import Icon from 'components/icon';
 import Control from 'components/tournament-information/controls';
 import StatusControl from 'components/tournament-information/controls/status-control';
 
+import { getUserPermissions, getTournamentStatus } from 'helpers';
+
 import style from './style.module.css';
 
 const converter = new showdown.Converter();
@@ -20,64 +22,23 @@ const cx = classnames.bind(style);
 const Information = props => {
   const [isFullDescriptionShown, toggleDescription] = useState(false);
 
-  const creator = get(props, 'tournament.creator');
-  const className = get(props, 'className');
+  const { rules, rewards, description } = get(props, 'tournament');
 
-  const rules = get(props, 'tournament.rules');
-  const rewards = get(props, 'tournament.rewards');
-  const shortDescription = get(props, 'tournament.description').substr(0, 255);
-  const fullDescription = get(props, 'tournament.description');
+  const { isCurrentUserCanEdit } = getUserPermissions(props.currentUser, props.tournament);
 
-  const isCurrentUserCreator = props.currentUser && props.currentUser._id === creator._id;
-
-  const isEmpty = get(props, 'tournament.isEmpty');
-  const isApplicationsAvailable = get(props, 'tournament.isApplicationsAvailable');
-  const isForecastingActive = get(props, 'tournament.isForecastingActive');
-  const isStarted = get(props, 'tournament.isStarted');
-  const isFinalized = get(props, 'tournament.isFinalized');
-
-  const rulesAction = () => rules ? props.editRules(props.isCurrentUserAdminOrCreator) : props.addRules(props.isCurrentUserAdminOrCreator);
-  const rewardsAction = () => rewards ? props.editRewards(props.isCurrentUserAdminOrCreator) : props.addRewards(props.isCurrentUserAdminOrCreator);
+  const rulesAction = () => rules ? props.editRules(isCurrentUserCanEdit) : props.addRules(isCurrentUserCanEdit);
+  const rewardsAction = () => rewards ? props.editRewards(isCurrentUserCanEdit) : props.addRewards(isCurrentUserCanEdit);
   const statusControlAction = () => props.history.push('/faq');
 
+  const shortDescription = description.substr(0, 255);
   const readMoreText = isFullDescriptionShown ? 'Скрыть' : '...Подробнее';
 
-  const getTournamentStatus = () => {
-    if (isCurrentUserCreator) {
-      if (isEmpty) {
-        return 'add_rules_matches_rewards';
-      }
-
-      if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
-        return 'add_summoners_applicants';
-      }
-
-      if ((!isApplicationsAvailable && !isFinalized) && isForecastingActive) {
-        return 'let_viewers_make_forecasts';
-      }
-    }
-
-    if ((!isForecastingActive && !isEmpty) && isApplicationsAvailable) {
-      return 'waiting_applicants';
-    }
-
-    if (isForecastingActive) {
-      return 'waiting_viewers';
-    }
-
-    if (isStarted && !isFinalized) {
-      return 'tournament_go';
-    }
-
-    if (isFinalized) {
-      return 'is_over';
-    }
-  };
+  const tournamentStatus = getTournamentStatus(props.tournament);
 
   return (
-    <div className={cx(style.information, className)}>
+    <div className={cx(style.information, props.className)}>
       <div className={style.controls}>
-        <StatusControl status={getTournamentStatus()} onClick={statusControlAction}/>
+        <StatusControl status={tournamentStatus} onClick={statusControlAction}/>
         <Control onClick={rewardsAction}>
           <Icon name="trophy"/>
         </Control>
@@ -87,9 +48,9 @@ const Information = props => {
       </div>
       <div className={style.description}>
         {!isFullDescriptionShown && <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(shortDescription) }}/>}
-        {isFullDescriptionShown && <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(fullDescription) }}/>}
+        {isFullDescriptionShown && <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(description) }}/>}
 
-        {fullDescription.length >= 255 && (
+        {description.length >= 255 && (
           <div
             className={style.readmore}
             onClick={() => toggleDescription(!isFullDescriptionShown)}

@@ -8,11 +8,9 @@ import i18n from 'i18next';
 
 const StatusControl = props => {
   const icons = {
-    add_rules_matches_rewards: 'tournamentPreparing',
-    add_summoners_applicants: 'tournamentPreparing',
-    let_viewers_make_forecasts: 'tournamentMakeBet',
-    waiting_applicants: 'tournamentWaitingSummoners',
-    waiting_viewers: 'tournamentWaitingSummoners',
+    creating_tournament: 'tournamentPreparing',
+    waiting_applicants: 'tournamentPreparing',
+    waiting_viewers: 'tournamentMakeBet',
     tournament_go: 'tournamentGoingOn',
     is_over: 'tournamentIsOver',
   };
