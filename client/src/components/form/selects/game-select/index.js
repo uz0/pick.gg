@@ -21,12 +21,12 @@ const positionsSelectConfig = GAMES.map(game => ({
   label: game,
 }));
 
-const PositionSelect = props => {
+const GameSelect = props => {
   const setField = ({ label, value }) => {
     props.form.setFieldValue('game', { label, value });
   };
 
-  const errorsGame = props.form.errors.game;
+  const errorGame = props.form.errors.game;
 
   return (
     <div className={cx('wrapper', props.className)}>
@@ -40,11 +40,11 @@ const PositionSelect = props => {
         placeholder={i18n.t('choose_game')}
         onChange={setField}
       />
-      {errorsGame &&
-        <p className={style.error}>{errorsGame}</p>
+      {errorGame &&
+        <p className={style.error}>{errorGame}</p>
       }
     </div>
   );
 };
 
-export default enhance(PositionSelect);
+export default enhance(GameSelect);
