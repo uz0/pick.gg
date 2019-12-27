@@ -51,28 +51,22 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
 };
 
 const AddRules = props => {
+  const { isCurrentUserAdminOrCreator } = props.options;
+
   const [rules, setRules] = useState(props.initialRules);
   const [rulesTitle, setRulesTitle] = useState(props.tournament.rulesTitle);
-  const [error, setError] = useState('');
-  const { isCurrentUserAdminOrCreator } = props.options;
+  const [rulesTitleInputTouched, setRulesTitleInputTouched] = useState(false);
+  const [rulesTitleError, setRulesTitleError] = useState('');
+  const [rulesError, setRulesError] = useState('');
 
   const modalActions = [];
 
+  const textAreaLabel = isCurrentUserAdminOrCreator ? i18n.t('modal.add_rules_label') : i18n.t('modal.rules_formula_label');
   const getModalTitle = () => {
     let title = 'Tournament rules';
 
     if (isCurrentUserAdminOrCreator) {
       title = props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules');
-    }
-
-    return title;
-  };
-
-  const getTextAreaTitle = () => {
-    let title = 'Rules formula';
-
-    if (isCurrentUserAdminOrCreator) {
-      title = 'Write your rules below';
     }
 
     return title;
@@ -86,10 +80,15 @@ const AddRules = props => {
   const handleRulesTitleInputChange = e => {
     const { value } = e.target;
     setRulesTitle(value);
+
+    if (!rulesTitleInputTouched) {
+      setRulesTitleInputTouched(true);
+    }
   };
 
   const handleInputFocus = () => {
-    setError('');
+    setRulesError('');
+    setRulesTitleError('');
   };
 
   const handleSubmit = async () => {
@@ -113,11 +112,16 @@ const AddRules = props => {
       const result = calcRule(rules, resultStub);
 
       if (!result) {
-        setError('Expression is not correct');
+        setRulesError('Expression is not correct');
         return;
       }
-    } catch (error_) {
-      setError('Expression is not correct');
+    } catch (error) {
+      setRulesError('Expression is not correct');
+      return;
+    }
+
+    if (rulesTitle.length > 5) {
+      setRulesTitleError('Rules title should be less than 5 chars');
       return;
     }
 
@@ -130,18 +134,18 @@ const AddRules = props => {
         body: JSON.stringify({ rules, rulesTitle, game }),
       });
 
-      const isEmpty = props.tournament.rewards.length > 0;
+      const isTournamentEmpty = isEmpty(props.tournament.rewards);
 
       props.updateTournament({
         _id: props.tournament._id,
+        isEmpty: isTournamentEmpty,
         rules,
-        isEmpty,
         rulesTitle,
       });
 
       props.close();
-    } catch (error_) {
-      console.log(error_);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -164,11 +168,12 @@ const AddRules = props => {
       actions={modalActions}
     >
       <Input
+        isTouched={rulesTitleInputTouched}
         disabled={!isCurrentUserAdminOrCreator}
         name="rulesTitle"
-        label="Rules type (FFA, Bo3)"
+        label={i18n.t('modal.rules_type')}
         value={rulesTitle}
-        error={error}
+        error={rulesTitleError}
         className={style.rulearea}
         onChange={handleRulesTitleInputChange}
         onFocus={handleInputFocus}
@@ -184,9 +189,9 @@ const AddRules = props => {
       <TextArea
         disabled={!isCurrentUserAdminOrCreator}
         name="rules"
-        label={getTextAreaTitle()}
+        label={textAreaLabel}
         value={rules}
-        error={error}
+        error={rulesError}
         className={style.rulearea}
         onChange={handleRulesInputChange}
         onFocus={handleInputFocus}

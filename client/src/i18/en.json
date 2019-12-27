@@ -248,7 +248,7 @@
     "no_summoners_yet": "There's no any summoners yet",
     "no_name": "No name",
     "price": "Price",
-    "add_rules_matches_rewards": "Add rules, matches and rewards",
+    "add_rules_matches_rewards": "Add rules and rewards",
     "add_summoners_applicants": "Add summoners or approve applicants",
     "let_viewers_make_forecasts": "Let your viewers make forecasts",
     "waiting_applicants": "Waiting for applicants and summoners",
@@ -315,7 +315,7 @@
     "creating_tournament": "Creating a tournament",
     "faq": {
       "waiting_applicants": "Waiting for people who want to participate in matches",
-      "add_rules_matches_rewards": "Waiting for rules, matches and rewards being added",
+      "add_rules_matches_rewards": "Waiting for rules and rewards being added",
       "let_viewers_make_forecasts": "People can make their forecast",
       "tournament_go": "Tournament started and goind on",
       "is_over": "Tournament is over"
@@ -369,6 +369,9 @@
       "description": "Description",
       "add_rules": "Add rules",
       "edit_rules": "Edit rules",
+      "rules_type": "Rules type (FFA, Bo3, Bo5)",
+      "add_rules_label": "Write your rules below",
+      "rules_formula_label": "Rules formula",
       "find_summoner_name": "Find a summoner by name",
       "find_moderator_name": "Find a moderator by name",
       "choose_tournament_summoners": "Choose tournament summoners",

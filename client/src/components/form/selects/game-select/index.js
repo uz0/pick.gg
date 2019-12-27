@@ -28,7 +28,7 @@ const PositionSelect = props => {
 
   return (
     <div className={cx('wrapper', props.className)}>
-      <label className={style.caption}>Game</label>
+      <label className={style.caption}>{props.label}</label>
       <Select
         {...props}
         {...props.field}

@@ -254,7 +254,7 @@
     "no_summoners_yet": "В турнире ещё нет призывателей",
     "no_name": "Нет имени",
     "price": "Цена",
-    "add_rules_matches_rewards": "Добавить правила, матчи и награды",
+    "add_rules_matches_rewards": "Добавить правила и награды",
     "add_summoners_applicants": "Добавить призывателей или одобрить заявителей",
     "let_viewers_make_forecasts": "Пусть ваши зрители делают прогнозы",
     "waiting_applicants": "В ожидании заявителей и призывателей",
@@ -319,7 +319,7 @@
     "creating_tournament": "Создание турнира",
     "faq": {
       "waiting_applicants": "Ждём претендентов на участие в матчах турнира",
-      "add_rules_matches_rewards": "Ждём пока будут добавлены правила, награды и созданые матчи",
+      "add_rules_matches_rewards": "Ждём пока будут добавлены правила и награды",
       "let_viewers_make_forecasts": "Зрители могут сделать прогнозы",
       "tournament_go": "Турнир идёт прямо сейчас",
       "is_over": "Турнир окончен"
@@ -373,6 +373,9 @@
       "description": "Описание",
       "add_rules": "Добавить правила",
       "edit_rules": "Редактировать правила",
+      "rules_type": "Формат правил (FFA, Bo3, Bo5)",
+      "add_rules_label": "Правила турнира",
+      "rules_formula_label": "Формула подсчёта результатов",
       "find_summoner_name": "Найти призывателя по имени",
       "find_moderator_name": "Найти по имени",
       "choose_tournament_summoners": "Выберите турнирных призывателей",
