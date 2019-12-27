@@ -8,11 +8,11 @@ import find from 'lodash/find';
 import classnames from 'classnames/bind';
 
 import Table from 'components/table';
+import { actions as modalActions } from 'components/modal-container';
 
 import { calcSummonersPoints } from 'helpers';
 
 import { withCaptions } from 'hoc';
-import { actions as modalActions } from 'components/modal-container';
 
 import style from './style.module.css';
 
@@ -42,10 +42,10 @@ const renderRow = ({ className, itemClass, textClass, item, index, props, captio
 
   return (
     <button
-      type="button"
       key={item._id}
-      onClick={props.handleUserClick(item._id)}
+      type="button"
       className={cx(className, 'row')}
+      onClick={props.handleUserClick(item._id)}
     >
       <div className={cx(itemClass)} style={numberInline}>
         <span className={textClass}>{index + 1}</span>
@@ -120,7 +120,7 @@ export default compose(
 
   withHandlers({
     handleUserClick: props => id => () => {
-      const user = find(props.modifiedSummoners, {_id: id});
+      const user = find(props.modifiedSummoners, { _id: id });
 
       props.toggleModal({
         id: 'player-info',
