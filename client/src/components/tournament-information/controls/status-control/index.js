@@ -10,7 +10,7 @@ const StatusControl = props => {
   const icons = {
     creating_tournament: 'tournamentPreparing',
     waiting_applicants: 'tournamentPreparing',
-    waiting_viewers: 'tournamentMakeBet',
+    let_viewers_make_forecasts: 'tournamentMakeBet',
     tournament_go: 'tournamentGoingOn',
     is_over: 'tournamentIsOver',
   };

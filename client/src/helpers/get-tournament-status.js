@@ -17,6 +17,10 @@ export default ({
     return 'is_over';
   }
 
+  if (isForecastingActive) {
+    return 'let_viewers_make_forecasts';
+  }
+
   if (!isForecastingActive && !isEmpty && !isApplicationsAvailable) {
     return 'creating_tournament';
   }

@@ -13,7 +13,6 @@ const cx = classnames.bind(style);
 const FAQ = () => {
   const statusList = {
     waiting_applicants: 'Ждём аппликантов',
-    add_rules_matches_rewards: 'Турнир создаётся',
     let_viewers_make_forecasts: 'Зрители могут сделать прогноз',
     tournament_go: 'Турнир начался',
     is_over: 'Турнир завершен',
