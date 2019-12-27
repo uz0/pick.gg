@@ -203,6 +203,7 @@ class TournamentMatchesTimeline extends Component {
     const startMatchTime = moment(match.startedAt).format('HH:mm');
 
     const isDeleteButtonShown = isApplicationsAvailable || isTournamentEmpty;
+    const isTeamsShowed = isMatchActive || isMatchOver;
 
     return (
       <li key={match._id} className={cx(style.match, { [style.isActive]: match.isActive })}>
@@ -213,7 +214,7 @@ class TournamentMatchesTimeline extends Component {
           </div>
         </div>
         <div className={style.battle}>
-          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(match, blueTeam, style.topTeam)}
+          {isTeamsShowed && !isEmpty(this.props.users.list) && this.renderTeam(match, blueTeam, style.topTeam)}
 
           <div className={style.title}>
             <h4>{match.name}</h4>
@@ -272,7 +273,7 @@ class TournamentMatchesTimeline extends Component {
             </div>
           </div>
 
-          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(match, redTeam, style.bottomTeam)}
+          {isTeamsShowed && !isEmpty(this.props.users.list) && this.renderTeam(match, redTeam, style.bottomTeam)}
         </div>
       </li>
     );
@@ -285,18 +286,18 @@ class TournamentMatchesTimeline extends Component {
     } = this.props;
 
     const { isCurrentUserCanEdit } = getUserPermissions(currentUser, tournament);
-    const isStarted = tournament && tournament.isStarted;
+    const isFinalized = tournament && tournament.isFinalized;
 
     const matches = get(this.props, 'tournament.matches').sort(this.sortMatches);
 
     return (
       <div className={style.widget}>
         <div className={style.header}>
-          {isCurrentUserCanEdit && !isStarted && (
+          {isCurrentUserCanEdit && !isFinalized && (
             <p className={style.empty}>{i18n.t('you_can_add_matches')}</p>
           )}
 
-          {isCurrentUserCanEdit && !isStarted && (
+          {isCurrentUserCanEdit && !isFinalized && (
             <Button
               appearance="_small-accent"
               text="Add match"

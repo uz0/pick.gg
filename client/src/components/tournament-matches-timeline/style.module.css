@@ -18,7 +18,7 @@
 }
 
 .widget .matches .match {
-  --team-padding: 48px;
+  --team-padding: 18px;
 
   list-style: none;
   display: flex;

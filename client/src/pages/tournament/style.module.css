@@ -217,6 +217,7 @@
 
 .tournament .inner_container .widgets .widgetsColumn {
   display: grid;
+  grid-template-rows: min-content;
   grid-row-gap: 32px;
 }
 
