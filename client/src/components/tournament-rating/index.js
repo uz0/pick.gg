@@ -21,7 +21,7 @@ const cx = classnames.bind(style);
 const tableCaptions = ({ t, isMobile }) => ({
   number: {
     text: t('number'),
-    width: isMobile ? 55 : 60,
+    width: isMobile ? 50 : 50,
   },
 
   name: {
@@ -47,12 +47,12 @@ const renderRow = ({ className, itemClass, textClass, item, index, props, captio
       className={cx(className, 'row')}
       onClick={props.handleUserClick(item._id)}
     >
-      <div className={cx(itemClass)} style={numberInline}>
-        <span className={textClass}>{index + 1}</span>
+      <div className={cx(itemClass, 'number')} style={numberInline}>
+        <span className={cx(textClass)}>{index + 1}.</span>
       </div>
 
-      <div className={itemClass} style={nameInline}>
-        <span className={textClass}>{item.nickname}</span>
+      <div className={cx(itemClass, 'name')} style={nameInline}>
+        <span className={cx(textClass)}>{item.nickname}</span>
       </div>
 
       <div className={itemClass} style={pointsInline}>
