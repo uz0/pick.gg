@@ -27,7 +27,7 @@ export const handler = withValidationHandler(async (req, res) => {
   }
 
   // В будущем переписать через try catch, провалидировать ошибки
-  await MatchModel.create(match);
+  const newMatch = await MatchModel.create(match);
 
-  res.status(200).json(req.body);
+  res.status(200).json(newMatch);
 });
