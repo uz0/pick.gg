@@ -39,11 +39,13 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
   const pointsStyle = { '--width': captions.points.width };
   const isViewerWinner = tournament.winners.find(winner => winner.id === item.userId);
 
+  const name = item.user && (item.user.gameSpecificName[tournament.game] || item.user.username);
+
   return (
     <div key={item.userId} className={cx(className, style.row)}>
       <div className={cx(itemClass, style.item)} style={nameStyle}>
         <span className={cx(textClass, style.name)}>
-          {index + 1}. {item.user && item.user.gameSpecificName[tournament.game]}
+          {index + 1}. {name}
           {isViewerWinner && <span className={style.is_winner}> is winner</span>}
         </span>
       </div>
@@ -72,10 +74,6 @@ const Viewers = ({
   currentUser,
 }) => (
   <div className={cx(style.viewers, className)}>
-    <div className={style.header}>
-      <h4 className={style.subtitle}>Прогнозы зрителей</h4>
-    </div>
-
     <div className={style.content}>
       {isUserCanMakeForecast && currentUserSummoners.length === 0 && (
         <div className={style.attend}>
@@ -96,6 +94,10 @@ const Viewers = ({
       )}
 
       {currentUserSummoners.length > 0 && (
+        <h4 className={style.subtitle}>Моя статистика</h4>
+      )}
+
+      {currentUserSummoners.length > 0 && (
         <div className={style.forecast}>
           <div className={style.summonerName}>
             {currentViewerPosition && `${currentViewerPosition}. `}
@@ -103,13 +105,13 @@ const Viewers = ({
           </div>
           <div className={style.list}>
             {currentUserSummoners.map(summoner => {
-              const summonerPoints = summonersWithPoints.find(item => summoner._id === item._id).points;
+              const summonerPoints = summonersWithPoints && summonersWithPoints.find(item => summoner._id === item._id).points;
 
               summoner = {
                 ...summoner,
                 points: summonerPoints,
                 nickname: summoner.gameSpecificName[tournament.game],
-                position: sortedSummonersWithPoints.findIndex(item => item._id === summoner._id) + 1,
+                position: sortedSummonersWithPoints && sortedSummonersWithPoints.findIndex(item => item._id === summoner._id) + 1,
               };
 
               return (
@@ -119,6 +121,8 @@ const Viewers = ({
                     className={style.avatar}
                     title={summoner.gameSpecificName[tournament.game]}
                   />
+
+                  <p className={style.points_by_player}>{summoner.points}</p>
                 </div>
               );
             })
@@ -127,6 +131,8 @@ const Viewers = ({
           <div className={style.points}>{currentViewerPoints}</div>
         </div>
       )}
+
+      <h4 className={style.subtitle}>Участники голосования</h4>
 
       <Table
         noCaptions
