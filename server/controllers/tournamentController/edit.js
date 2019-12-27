@@ -45,17 +45,6 @@ const validator = [
     }),
 
   body().custom(body => isRequestHasCorrectFields(body, Tournament)),
-  body().custom(({ summoners }) => {
-    if (!summoners) {
-      return true;
-    }
-
-    if (summoners.length > 10) {
-      throw new Error('You can\'t add more than 10 summoners');
-    }
-
-    return true;
-  }),
   body().custom(({ rules, game }) => {
     if (!rules) {
       return true;
