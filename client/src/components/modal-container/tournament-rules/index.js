@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
+import isEmpty from 'lodash/isEmpty';
 import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames/bind';
 
@@ -9,7 +10,7 @@ import Input from 'components/form/input';
 import TextArea from 'components/form/text-area';
 import Table from 'components/table';
 
-import { RULES } from 'constants/index';
+import { RULES, DEFAULT_RULES } from 'constants/index';
 
 import { http } from 'helpers';
 import { calcRule } from 'helpers/calc-summoners-points';
@@ -50,7 +51,7 @@ const renderRow = ({ className, itemClass, textClass, item, captions }) => {
 };
 
 const AddRules = props => {
-  const [rules, setRules] = useState(props.tournament.rules);
+  const [rules, setRules] = useState(props.initialRules);
   const [rulesTitle, setRulesTitle] = useState(props.tournament.rulesTitle);
   const [error, setError] = useState('');
   const { isCurrentUserAdminOrCreator } = props.options;
@@ -205,7 +206,11 @@ const enhance = compose(
     }
   ),
   withProps(props => {
-    const normalizedRules = Object.entries(RULES[props.tournament.game]).reduce(
+    const { game, rules } = props.tournament;
+
+    const initialRules = isEmpty(rules) ? DEFAULT_RULES[game] : rules;
+
+    const normalizedRules = Object.entries(RULES[game]).reduce(
       (acc, [key, rules]) => [
         ...acc,
         ...rules.map(item => ({
@@ -217,6 +222,7 @@ const enhance = compose(
     );
 
     return {
+      initialRules,
       ruleNames: normalizedRules,
     };
   })
