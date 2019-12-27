@@ -34,6 +34,8 @@ class TeamSelect extends Component {
         )}
 
         <Select
+          isDisabled={this.props.disabled}
+          defaultInputValue={this.props.defaultInputValue}
           options={options}
           styles={this.props.styles}
           onChange={this.onChange}
