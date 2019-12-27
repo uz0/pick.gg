@@ -355,7 +355,8 @@
       "tabs": {
         "moderators": "MODERATORS",
         "players": "PLAYERS",
-        "matches": "MATCHES"
+        "matches": "MATCHES",
+        "teams": "TEAMS"
       },
       "no_applicants": "There is no applicants yet",
       "applicants": "Applicants",

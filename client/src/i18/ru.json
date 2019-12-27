@@ -359,7 +359,8 @@
       "tabs": {
         "moderators": "МОДЕРАТОРЫ",
         "players": "ИГРОКИ",
-        "matches": "МАТЧИ"
+        "matches": "МАТЧИ",
+        "teams": "КОМАНДЫ"
       },
       "no_applicants": "Претендентов ещё нет",
       "applicants": "Претенденты",

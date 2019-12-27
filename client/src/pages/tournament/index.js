@@ -19,6 +19,7 @@ import TournamentSummoners from 'components/tournament-summoners';
 import TournamentModerators from 'components/tournament-moderators';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
+import TournamentRating from 'components/tournament-rating';
 import TournamentInvite from 'components/tournament-invite';
 import Button from 'components/button';
 import Icon from 'components/icon';
@@ -313,8 +314,9 @@ class Tournament extends Component {
 
                 <Tabs defaultTabIndex={defaultTabIndex} className={style.tabs}>
                   <Tab>{i18n.t('tournament_page.tabs.matches')}</Tab>
-                  <Tab>{i18n.t('tournament_page.tabs.players')}</Tab>
+                  <Tab>{i18n.t('tournament_page.tabs.teams')}</Tab>
                   {isCurrentUserCanEdit && <Tab>{i18n.t('tournament_page.tabs.moderators')}</Tab>}
+                  <Tab>{i18n.t('tournament_page.tabs.players')}</Tab>
 
                   <Panel>
                     {!isUserCanAddMatch && isCurrentUserCanEdit && (
@@ -369,6 +371,13 @@ class Tournament extends Component {
                     </Panel>
                   )
                   }
+
+                  <Panel>
+                    <TournamentRating
+                      id={this.props.match.params.id}
+                      className={style.rating_widget}
+                    />
+                  </Panel>
                 </Tabs>
               </div>
             </>
