@@ -1,39 +1,39 @@
-import i18n from 'i18next';
-
-export default tournament => {
-  const {
-    isEmpty,
-    isApplicationsAvailable,
-    isForecastingActive,
-    isStarted,
-    isFinalized,
-  } = tournament;
-
+export default ({
+  isEmpty,
+  isApplicationsAvailable,
+  isForecastingActive,
+  isStarted,
+  isFinalized,
+}) => {
   if (isEmpty) {
-    return i18n.t('creating_tournament');
-  }
-
-  if (!isForecastingActive && !isEmpty && isApplicationsAvailable) {
-    return i18n.t('creating_tournament');
-  }
-
-  if (!isApplicationsAvailable && !isFinalized && isForecastingActive) {
-    return i18n.t('creating_tournament');
-  }
-
-  if (!isForecastingActive && !isEmpty && isApplicationsAvailable) {
-    return i18n.t('waiting_applicants');
-  }
-
-  if (isForecastingActive) {
-    return i18n.t('waiting_viewers');
+    return 'creating_tournament';
   }
 
   if (isStarted && !isFinalized) {
-    return i18n.t('tournament_go');
+    return 'tournament_go';
   }
 
   if (isFinalized) {
-    return i18n.t('is_over');
+    return 'is_over';
+  }
+
+  if (!isForecastingActive && !isEmpty && !isApplicationsAvailable) {
+    return 'creating_tournament';
+  }
+
+  if (!isForecastingActive && !isEmpty && isApplicationsAvailable) {
+    return 'creating_tournament';
+  }
+
+  if (!isApplicationsAvailable && !isFinalized && isForecastingActive) {
+    return 'creating_tournament';
+  }
+
+  if (!isForecastingActive && !isEmpty && isApplicationsAvailable) {
+    return 'waiting_applicants';
+  }
+
+  if (isForecastingActive) {
+    return 'waiting_viewers';
   }
 };
