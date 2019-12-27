@@ -15,7 +15,7 @@ import Avatar from 'components/avatar';
 import Icon from 'components/icon';
 import { actions as modalActions } from 'components/modal-container';
 
-import { http, getUserPermissions } from 'helpers';
+import { http, getUserPermissions, calcSummonersPoints } from 'helpers';
 
 import { withCaptions } from 'hoc';
 
@@ -132,12 +132,15 @@ class TournamentMatchesTimeline extends Component {
     return new Date(prev.startedAt) - new Date(next.startedAt);
   };
 
-  renderTeam = (team, className) => {
-    const { game } = get(this.props, 'tournament', '');
+  renderTeam = (match, team, className) => {
+    const { game, rules, matches } = get(this.props, 'tournament', '');
 
     return (
       <div className={cx(style.team, className)}>
         {team.users.map(user => {
+          const currentMatchPoints = get(calcSummonersPoints([user], [match], rules), '[0].points', 0);
+          const totalPoints = get(calcSummonersPoints([user], matches, rules), '[0].points', 0);
+
           return (
             <button
               key={user._id}
@@ -151,10 +154,13 @@ class TournamentMatchesTimeline extends Component {
             >
               <Avatar
                 source={user.imageUrl}
+                isStreamer={user.canProvideTournaments}
                 className={style.avatar}
               />
 
               <div className={style.name}>{user.gameSpecificName[game]}</div>
+              <p className={style.points}>За матч: {currentMatchPoints}</p>
+              <p className={style.points}>Всего: {totalPoints}</p>
             </button>
           );
         })
@@ -207,7 +213,7 @@ class TournamentMatchesTimeline extends Component {
           </div>
         </div>
         <div className={style.battle}>
-          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(blueTeam, style.topTeam)}
+          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(match, blueTeam, style.topTeam)}
 
           <div className={style.title}>
             <h4>{match.name}</h4>
@@ -266,7 +272,7 @@ class TournamentMatchesTimeline extends Component {
             </div>
           </div>
 
-          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(redTeam, style.bottomTeam)}
+          {match.isActive && !isEmpty(this.props.users.list) && this.renderTeam(match, redTeam, style.bottomTeam)}
         </div>
       </li>
     );

@@ -201,11 +201,26 @@
 }
 
 .widget .matches .match .battle .team .player .name {
+  width: 100%;
+  max-width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
   margin-top: 8px;
   font-size: 12px;
+}
+
+.widget .matches .match .battle .team .player .points {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100px;
+  margin-top: 8px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 768px) {
