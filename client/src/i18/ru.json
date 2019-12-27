@@ -17,6 +17,7 @@
     "create": "Создать",
     "choose_champion": "Выбери пять чемпионов",
     "date": "Дата",
+    "dateDetails": "Время проведения",
     "new_team": "Новая команда",
     "date_from": "Дата от",
     "syncDate": "Дата синхронизации",
@@ -92,6 +93,11 @@
     "tournament_over": "Турнир завершён! Победитель - {{winner}}.",
     "he_got_prize": "Он получил {{prize}} приз.",
     "match": "Матч",
+    "match_results": "Результаты матча",
+    "no_matches_results": "Результатов ещё нет",
+    "match_pending": "Матч ещё не начался",
+    "match_active": "Матч идёт прямо сейчас",
+    "match_finished": "Матч окончен",
     "join_tournament": "Присоединиться к турниру",
     "join_tournament_and": "Присоединяйся к турниру и выбирай своих чемпионов",
     "wait_matches": "Ожидаем результатов матчей",
@@ -245,9 +251,10 @@
     "twich_account": "Аккаунт Twich",
     "profile_photo": "Аватар",
     "summoner_name": "Имя призывателя",
+    "no_summoners_yet": "В турнире ещё нет призывателей",
     "no_name": "Нет имени",
     "price": "Цена",
-    "add_rules_matches_rewards": "Добавить правила, матчи и награды",
+    "add_rules_matches_rewards": "Добавить правила и награды",
     "add_summoners_applicants": "Добавить призывателей или одобрить заявителей",
     "let_viewers_make_forecasts": "Пусть ваши зрители делают прогнозы",
     "waiting_applicants": "В ожидании заявителей и призывателей",
@@ -310,6 +317,13 @@
     "description": "Описание",
     "no_game_rules_help": "Для данной игры нет подсказок",
     "creating_tournament": "Создание турнира",
+    "faq": {
+      "waiting_applicants": "Ждём претендентов на участие в матчах турнира",
+      "add_rules_matches_rewards": "Ждём пока будут добавлены правила и награды",
+      "let_viewers_make_forecasts": "Зрители могут сделать прогнозы",
+      "tournament_go": "Турнир идёт прямо сейчас",
+      "is_over": "Турнир окончен"
+    },
     "home": {
       "under_title": "Где стримеры и зрители",
       "under_title_2": " играют вместе",
@@ -342,11 +356,21 @@
       "join_matchup": "Присоединиться"
     },
     "tournament_page": {
+      "tabs": {
+        "moderators": "МОДЕРАТОРЫ",
+        "players": "ИГРОКИ",
+        "matches": "МАТЧИ",
+        "teams": "КОМАНДЫ"
+      },
       "no_applicants": "Претендентов ещё нет",
       "applicants": "Претенденты",
       "add_rewards": "Добавить турнирные награды",
       "edit_rewards": "Изменить турнирные награды",
-      "accepted_summoner": "уже принят в качестве призывателя"
+      "accepted_summoner": "уже принят в качестве призывателя",
+      "add_summoners_match_warning":"Вы не можете добавить матч, пока не выбрали игроков и команды",
+      "there_is_no_matches_yet":"Матчи ещё не созданы",
+      "add_rules_players_warning":"Вы не можете добавить игроков, пока не выбрали правила и награды",
+      "there_is_no_players_yet":"Игроки ещё не добавлены"
     },
     "modal": {
       "step": "Шаг",
@@ -359,6 +383,9 @@
       "description": "Описание",
       "add_rules": "Добавить правила",
       "edit_rules": "Редактировать правила",
+      "rules_type": "Формат правил (FFA, Bo3, Bo5)",
+      "add_rules_label": "Правила турнира",
+      "rules_formula_label": "Формула подсчёта результатов",
       "find_summoner_name": "Найти призывателя по имени",
       "find_moderator_name": "Найти по имени",
       "choose_tournament_summoners": "Выберите турнирных призывателей",

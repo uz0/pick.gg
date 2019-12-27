@@ -33,10 +33,7 @@ const validator = [
     .withMessage('Invalid region'),
   check('role')
     .isIn(['user', 'admin', 'streamer'])
-    .withMessage('Invalid user role'),
-  check('preferredPosition')
-    .isIn(['adc', 'mid', 'top', 'jungle', 'supp'])
-    .withMessage('Invalid preffered position')
+    .withMessage('Invalid user role')
 ];
 
 const handler = withValidationHandler(async (req, res) => {
@@ -50,16 +47,14 @@ const handler = withValidationHandler(async (req, res) => {
           'about',
           'role',
           'summonerName',
-          'regionId',
-          'preferredPosition'
+          'regionId'
         ]),
         {
           imageUrl: '',
           about: '',
           role: '',
           summonerName: '',
-          regionId: '',
-          preferredPosition: ''
+          regionId: ''
         }
       )
     );

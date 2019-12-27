@@ -1,4 +1,5 @@
 .dropdown {
+  height: var(--header-height);
   position: relative;
   font-size: 20px;
   cursor: pointer;
@@ -9,14 +10,16 @@
 }
 
 .userbox {
-  height: 50px;
-  padding-left: 12px;
-  padding-right: 12px;
+  --avatar-size: 40px;
+
+  height: var(--header-height);
+  padding-left: 16px;
+  padding-right: 16px;
   display: flex;
   align-items: center;
   font-family: var(--font-family-title);
   color: var(--header-color);
-  border-radius: 4px;
+  background-color: var(--base-secondary-color);
   transition: all 0.3s;
 }
 
@@ -28,18 +31,16 @@
   font-size: 16px;
   white-space: nowrap;
   pointer-events: none;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
-.dropdown.active .userbox, .userbox:hover {
-  background: rgba(0, 0, 0, 0.1);
+.dropdown.active .userbox,
+.userbox:hover {
   color: rgb(255, 255, 255);
   transition: all 0.3s;
 }
 
-.userbox svg, .userbox img {
-  width: 40px;
-  height: 40px;
+.userbox img {
   margin-right: 10px;
   pointer-events: none;
 }
@@ -56,7 +57,7 @@
   right: 0;
   flex-direction: column;
   background: var(--background-gradient);
-  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   opacity: 0;
   transition: all 0.3s;
@@ -68,14 +69,13 @@
   display: flex;
   opacity: 1;
   z-index: 2;
-  transform: scale(1) translateY(0px);
+  transform: scale(1) translateY(0);
 }
 
 .menu a {
   color: var(--header-color);
   line-height: 2;
   padding: 5px 0;
-  transition: 0.3s;
 }
 
 .menu a:hover {
@@ -90,11 +90,13 @@
   .userbox {
     font-size: 18px;
   }
+
   .userbox span {
     width: 25px;
     font-size: 14px;
     min-width: 25px;
   }
+
   .menu a {
     font-size: 18px;
   }
@@ -104,10 +106,12 @@
   .userbox {
     font-size: 12px;
   }
-  .userbox svg, .userbox img {
+
+  .userbox img {
     width: 35px;
     height: 35px;
   }
+
   .links a {
     font-size: 14px;
   }

@@ -1,3 +1,7 @@
+.moderators {
+  max-width: 410px;
+}
+
 .moderators .header {
   --moderators-header-height: 28px;
 
@@ -5,19 +9,10 @@
   align-items: center;
 }
 
-.moderators .header .subtitle {
-  --height: 28px;
-
-  flex-shrink: 0;
-  overflow: hidden;
-  max-width: 100%;
-  height: var(--height);
-  line-height: var(--height);
-  font-family: var(--font-family-title);
-  color: var(--caption-color);
-  font-size: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.moderators .header h4 {
+  text-transform: uppercase;
+  font-size: 18px;
+  color: #fff;
 }
 
 .moderators .header .button {
@@ -40,19 +35,13 @@
   --color: #e88c00;
 }
 
-.moderators .header + .content,
-.moderators .header + .empty {
-  margin-top: 16px;
-}
-
 .moderators .empty {
-  --height: 24px;
+  --height: 16px;
 
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
-  font-weight: var(--font-weight-bold);
-  font-size: 18px;
+  font-size: 16px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -60,13 +49,12 @@
 }
 
 .moderators .content {
-  flex-grow: 1;
   display: flex;
-  flex-direction: column;
 }
 
 .moderators .content .button {
-  margin: 20px auto;
+  margin: 12px 0;
+  flex-shrink: 1;
 }
 
 .moderators .content .table {

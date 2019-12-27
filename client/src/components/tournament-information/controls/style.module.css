@@ -1,0 +1,30 @@
+.control {
+  --height: 40px;
+  --icon-size: 30px;
+  --icon-color: #fff;
+
+  min-width: 80px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--height);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold);
+  background-color: #569659;
+  color: #fff;
+  transition-property: background-color;
+}
+
+.control svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.control svg path,
+.control svg polygon {
+  fill: var(--icon-color);
+  transition-property: fill;
+}

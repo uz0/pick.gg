@@ -22,6 +22,7 @@ const enhance = compose(
   connect(
     (state, props) => ({
       currentUser: state.currentUser,
+      game: state.tournaments.list[props.options.tournamentId].game,
       tournamentCreator: state.tournaments.list[props.options.tournamentId].creator,
     }),
 
@@ -113,6 +114,7 @@ export default enhance(props => {
     isSubmitting,
     currentUser,
     attend,
+    game,
   } = props;
 
   const addPlayersButtonAction = tournamentCreator._id === currentUser._id ? props.close : attend;
@@ -149,11 +151,7 @@ export default enhance(props => {
             </div>
 
             <div className={style.info}>
-              <p className={style.name}>{summoner.summonerName}</p>
-
-              {summoner.preferredPosition && (
-                <p className={style.position}>Position: {summoner.preferredPosition}</p>
-              )}
+              <p className={style.name}>{summoner.gameSpecificName[game]}</p>
             </div>
           </button>
         );

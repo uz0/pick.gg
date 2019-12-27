@@ -6,10 +6,19 @@
   padding-top: var(--layout-padding);
 }
 
-.modal .modal_content .table {
-  padding-bottom: var(--layout-padding);
+.modal .modal_content .team_name {
+  --height: 44px;
+
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 20px;
+  color: #fff;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.modal .modal_content .table .row {
-  --background-color: rgba(0, 0, 0, 0.2);
+.modal .modal_content .table {
+  padding-bottom: var(--layout-padding);
 }

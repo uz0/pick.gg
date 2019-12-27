@@ -28,6 +28,18 @@
   border-radius: 4px;
 }
 
+.button[appearance^="_small"] {
+  --height: 32px;
+
+  justify-content: center;
+  min-width: 64px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  border-radius: 4px;
+}
+
 .button[appearance^="_circle"] {
   --height: 40px;
 
@@ -50,7 +62,6 @@
   font-weight: bold;
   border-radius: 20px;
   opacity: 0.9;
-  transition: 0.3s;
 }
 
 /* theme */
@@ -100,7 +111,7 @@
 
 .button[appearance$="transparent"]:not(:hover) {
   --background-color: transparent;
-  --color: #9fa2be;
+  --color: #fff;
 }
 
 .button[appearance$="transparent"]:hover {

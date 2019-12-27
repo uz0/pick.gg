@@ -1,23 +1,33 @@
 import { param, body } from 'express-validator/check';
 
-import tournament from '../../../models/tournament';
-import match from '../../../models/match';
+import TournamentModel from '../../../models/tournament';
+import MatchModel from '../../../models/match';
 
-import { isEntityExists, isRequestHasCorrectFields } from '../../validators';
+import { isEntityExists } from '../../validators';
 import { withValidationHandler } from '../../helpers';
 
 export const validator = [
-  param('tournamentId').custom(id => isEntityExists(id, tournament)),
-  body().not().isEmpty(),
-  body().custom(values => isRequestHasCorrectFields(values, match))
+  param('tournamentId').custom(id => isEntityExists(id, TournamentModel)),
+  body().not().isEmpty()
 ];
 
 export const handler = withValidationHandler(async (req, res) => {
   const { tournamentId } = req.params;
-  const matchInfo = req.body;
+  const { game, name, teams } = req.body;
 
-  const newMatch = await match.create(matchInfo);
-  await tournament.findByIdAndUpdate(tournamentId, { $push: { matches: newMatch._id } }).exec();
+  const match = {
+    name,
+    tournamentId
+  };
 
-  res.json(newMatch);
+  if (game === 'LOL') {
+    match.teams = {
+      [game]: { ...teams }
+    };
+  }
+
+  // В будущем переписать через try catch, провалидировать ошибки
+  const newMatch = await MatchModel.create(match);
+
+  res.status(200).json(newMatch);
 });

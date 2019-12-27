@@ -1,0 +1,239 @@
+.widget .header {
+  margin-bottom: 24px;
+}
+
+.widget .header .empty {
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.widget .matches {
+  position: relative;
+}
+
+.widget .matches .list {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.widget .matches .match {
+  --team-padding: 18px;
+
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.widget .matches .match .time {
+  min-width: 40px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.widget .matches .match .statusContainer {
+  --status-size: 32px;
+  --divider-size: 2px;
+  --icon-size: 18px;
+
+  align-self: stretch;
+  margin-left: calc(var(--status-size) / 4);
+  margin-right: calc(var(--status-size) / 2);
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.widget .matches .match .statusContainer::after,
+.widget .matches .match .statusContainer::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: var(--divider-size);
+  left: calc(var(--status-size) / 2 - var(--divider-size) / 2);
+  background-color: #e3e3e6;
+  opacity: 0.5;
+}
+
+.widget .matches .match .statusContainer .status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--status-size);
+  height: var(--status-size);
+  background-color: var(--color);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.widget .matches .match .statusContainer .status.pending {
+  --color: #e3e3e6;
+}
+
+.widget .matches .match .statusContainer .status.active {
+  --color: var(--accent-color);
+}
+
+.widget .matches .match .statusContainer .status.active svg {
+  animation-duration: 3s;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.25;
+  }
+}
+
+.widget .matches .match .status.finished {
+  --color: #569659;
+  --icon-color: #fff;
+}
+
+.widget .matches .match .battle {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.widget .matches .match .battle .title {
+  display: flex;
+  align-items: center;
+}
+
+.widget .matches .match .battle .title h4 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex-grow: 1;
+  margin: 30px 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  color: #fff;
+}
+
+.widget .matches .match .battle .title .controls {
+  display: flex;
+  align-items: center;
+}
+
+.widget .matches .match .battle .title .control {
+  --size: 24px;
+  --icon-size: 12px;
+  --color: #e3e3e6;
+  --icon-color: #444;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--size);
+  height: var(--size);
+  background-color: var(--color);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.widget .matches .match .battle .title .control.results {
+  font-size: 10px;
+  padding-left: 4px;
+  padding-right: 4px;
+  background-color: var(--accent-color);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold);
+}
+
+.widget .matches .match .battle .title .control.delete {
+  --color: #af3a3a;
+}
+
+.widget .matches .match .battle .title .control.statusControl,
+.widget .matches .match .battle .title .control.results {
+  --icon-color: #444;
+}
+
+.widget .matches .match .battle .title .control + .control {
+  margin-left: 4px;
+}
+
+.widget .matches .match .battle .team {
+  display: flex;
+}
+
+.widget .matches .match .battle .team.topTeam {
+  padding-top: var(--team-padding);
+}
+
+.widget .matches .match .battle .team.bottomTeam {
+  padding-bottom: var(--team-padding);
+}
+
+.widget .matches .match .battle .team .player {
+  display: flex;
+  flex-direction: column;
+  max-width: 100px;
+  padding-left: 2px;
+  padding-right: 2px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  background-color: transparent;
+}
+
+.widget .matches .match .battle .team .player + .player {
+  margin-left: 4px;
+}
+
+.widget .matches .match .battle .team .player .avatar {
+  --avatar-size: 34px;
+
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.widget .matches .match .battle .team .player .name {
+  width: 100%;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.widget .matches .match .battle .team .player .points {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100px;
+  margin-top: 8px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .widget .matches .match {
+    --team-padding: 20px;
+  }
+
+  .widget .matches .match .battle .team {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .widget .matches .match .battle .team .player + .player {
+    margin-top: 12px;
+  }
+}

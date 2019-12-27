@@ -1,9 +1,22 @@
+.summoners {
+  max-width: 410px;
+}
+
 /* stylelint-disable no-descending-specificity */
 .summoners .header {
   --summoners-header-height: 28px;
 
   display: flex;
   align-items: center;
+}
+
+.summoners .applyButton {
+  margin-bottom: 16px;
+}
+
+.summoners .header h4 {
+  text-transform: uppercase;
+  font-size: 18px;
 }
 
 .summoners .header .subtitle {
@@ -16,9 +29,6 @@
   line-height: var(--height);
   font-family: var(--font-family-title);
   color: var(--caption-color);
-  font-size: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .summoners .header .subtitle + .button {
@@ -30,7 +40,7 @@
   height: var(--summoners-header-height);
   line-height: var(--summoners-header-height);
   font-size: 15px;
-  color: var(--color);
+  color: var(--accent-color);
   font-weight: 600;
   background-color: transparent;
   transition-property: color;
@@ -54,35 +64,46 @@
 }
 
 .summoners .empty {
-  --height: 24px;
+  --height: 16px;
 
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
-  font-weight: var(--font-weight-bold);
-  font-size: 18px;
+  font-size: 16px;
   color: var(--accent-color);
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align-last: left;
 }
 
-.summoners .content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
 .summoners .content .button {
-  margin: 20px auto;
+  margin-top: 8px;
 }
 
-.summoners .content .table {
-  width: 100%;
+.summoners .content .table .row {
+  --color: var(--caption-color);
+
+  cursor: pointer;
 }
 
-.summoners .subtitle + .table {
-  margin-top: 16px;
+.summoners .content .table .row:hover {
+  --color: var(--accent-color);
+}
+
+.summoners .content .table .row .item .text {
+  color: var(--color);
+}
+
+.summoners .content .table .row .is_winner {
+  margin-left: 6px;
+  color: var(--accent-color);
+}
+
+.summoners .content .table .row .is_streamer {
+  --icon-size: 12px;
+  --icon-color: var(--accent-color);
+
+  margin-left: 4px;
 }
 
 .summoners .table .row .cell {
@@ -92,15 +113,22 @@
   background-color: var(--color);
 }
 
-.summoners .table .row .is_winner {
-  color: #4ccc4c;
-  font-weight: 400;
+.summoners .table .row .cell.user-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
-.summoners .table .row .points {
+.summoners .content .table .row .item:not(:last-of-type) {
+  box-shadow: none;
+}
+
+.summoners .content .table .row .points {
+  margin-left: auto;
+  padding: 2px 4px;
   display: flex;
   align-items: center;
-  padding: 4px;
+  font-size: 14px;
   border-radius: 4px;
   color: var(--primary-color);
   background-color: var(--accent-color);

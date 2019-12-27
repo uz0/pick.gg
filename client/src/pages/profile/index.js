@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 import classnames from 'classnames/bind';
 
 import { FormInput } from 'components/form/input';
-import PositionSelect from 'components/form/selects/select';
 import RegionSelect from 'components/form/selects/region-select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
@@ -24,24 +23,6 @@ import style from './style.module.css';
 const GAMES = Object.keys(RULES);
 
 const cx = classnames.bind(style);
-
-const normalizeSelectField = obj => {
-  if (obj.preferredPosition) {
-    obj = {
-      ...obj,
-      preferredPosition: obj.preferredPosition.value,
-    };
-  }
-
-  if (obj.regionId) {
-    obj = {
-      ...obj,
-      regionId: obj.regionId.value,
-    };
-  }
-
-  return obj;
-};
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -72,13 +53,6 @@ const Profile = () => {
         ))}
 
         <div className={style.position}>
-          <Field
-            component={PositionSelect}
-            label={i18n.t('Position')}
-            name="preferredPosition"
-            className={style.field}
-          />
-
           <Field
             component={RegionSelect}
             label={i18n.t('region')}
@@ -158,7 +132,6 @@ const enhance = compose(
         imageUrl,
         about,
         twitchAccount,
-        preferredPosition,
         regionId,
         contact,
       } = currentUser;
@@ -171,7 +144,6 @@ const enhance = compose(
         imageUrl,
         about,
         twitchAccount,
-        preferredPosition,
         regionId,
         contact,
       };
@@ -186,7 +158,7 @@ const enhance = compose(
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify(normalizeSelectField(requestBody)),
+          body: JSON.stringify(requestBody),
         });
 
         const updatedProfile = await request.json();

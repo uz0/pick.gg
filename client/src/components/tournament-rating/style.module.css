@@ -1,0 +1,21 @@
+.row {
+  width: 100%;
+}
+
+.row .number {
+  padding-right: 0 !important;
+}
+
+.row .name {
+  padding-left: 0 !important;
+}
+
+.row .points {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 4px;
+  background-color: var(--accent-color);
+  color: #000 !important;
+}

@@ -1,5 +1,3 @@
-import pick from 'lodash/pick';
-import defaults from 'lodash/defaults';
 import { check, validationResult } from 'express-validator/check';
 
 import TeamModel from '../../../models/team';
@@ -14,7 +12,7 @@ const validator = [
     .isString()
     .not()
     .isEmpty()
-    .withMessage('Enter color'),
+    .withMessage('Enter color')
 ];
 
 const withValidationHandler = handler => (req, res) => {
@@ -31,7 +29,7 @@ const handler = withValidationHandler(async (req, res) => {
       tournamentId: req.params.tournamentId,
       name: req.body.name,
       color: req.body.color,
-      users: [],
+      users: []
     });
 
     res.status(200).json({ team });

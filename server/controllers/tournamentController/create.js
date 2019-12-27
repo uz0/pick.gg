@@ -55,15 +55,15 @@ const handler = withValidationHandler(async (req, res) => {
           'game',
           'name',
           'description',
+          'dateDetails',
           'startAt',
           'price',
-          'url',
           'imageUrl'
         ]),
         {
           isReady: false,
-          url: '',
           description: '',
+          dateDetails: '',
           imageUrl: image,
           summoners: [],
           moderators: [],

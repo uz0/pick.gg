@@ -15,7 +15,6 @@ Response:<br/>
     username: string,
     summonerName: string,
     regionId: regionId,
-    preferredPosition: 'adc' | 'mid' | 'top' | 'jungle' | 'supp',
   }
 ```
 
@@ -28,7 +27,6 @@ Body:<br/>
   imageUrl: string,
   about: string,
   regionId: regionId,
-  prefferedPosition: 'adc' | 'mid' | 'top' | 'jungle' | 'supp',
 ```
 
 ## TOURNAMENTS
@@ -41,7 +39,6 @@ Body:<br/>
   id: tournamentId // mongo db сама сгенерит его,
   name: string,
   description?: string,
-  url?: string,
   imageUrl?: string,
   createdAt: Date, // проставляем дату на сервере
   startAt: Date, // предположительное ВРЕМЯ начала и день КОГДА будет проходить турнир
@@ -60,7 +57,6 @@ Body:<br/>
 {
   name: string,
   description: string,
-  url: string,
   imageUrl: string,
   isReady: boolean, // отдельная кнопка
   summoners: [userId], // массив игроков, которые будут участвовать в матчах (их должно быть 10), по умолчанию [],
@@ -118,7 +114,6 @@ Body:<br/>
     summonerName: string,
     roles: 'admin' | 'streamer',
     regionId: regionId,
-    preferredPosition: 'adc' | 'mid' | 'top' | 'jungle' | 'supp',
   }
 ```
 ### Удалить пользователя

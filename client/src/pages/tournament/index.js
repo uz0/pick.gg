@@ -4,28 +4,29 @@ import compose from 'recompose/compose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
-import includes from 'lodash/includes';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import classnames from 'classnames/bind';
 import { actions as usersActions } from 'pages/dashboard/users';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
-import TournamentMatches from 'components/tournament-matches';
-import TournamentRewards from 'components/tournament-rewards';
-import TournamentRules from 'components/tournament-rules';
+import { Tabs, Tab, Panel } from 'components/tabs';
+import TournamentMatchesTimeline from 'components/tournament-matches-timeline';
 import TournamentSummoners from 'components/tournament-summoners';
+import TournamentModerators from 'components/tournament-moderators';
 import TournamentViewers from 'components/tournament-viewers';
 import TournamentApplicants from 'components/tournament-applicants';
+import TournamentRating from 'components/tournament-rating';
 import TournamentInvite from 'components/tournament-invite';
-import TournamentModerators from 'components/tournament-moderators';
 import Button from 'components/button';
+import Icon from 'components/icon';
 import { actions as modalActions } from 'components/modal-container';
 import { actions as notificationActions } from 'components/notification';
 
-import { http } from 'helpers';
+import { http, getUserPermissions } from 'helpers';
 
 import i18n from 'i18next';
 
@@ -95,18 +96,20 @@ class Tournament extends Component {
     });
   };
 
-  addRules = () => this.props.toggleModal({
+  addRules = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rules-modal',
 
     options: {
+      isCurrentUserAdminOrCreator,
       tournamentId: this.props.match.params.id,
     },
   });
 
-  editRules = () => this.props.toggleModal({
+  editRules = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rules-modal',
 
     options: {
+      isCurrentUserAdminOrCreator,
       tournamentId: this.props.match.params.id,
       isEditing: true,
     },
@@ -134,18 +137,20 @@ class Tournament extends Component {
     },
   });
 
-  addRewards = () => this.props.toggleModal({
+  addRewards = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rewards',
 
     options: {
+      isCurrentUserAdminOrCreator,
       tournamentId: this.props.match.params.id,
     },
   });
 
-  editRewards = () => this.props.toggleModal({
+  editRewards = isCurrentUserAdminOrCreator => this.props.toggleModal({
     id: 'tournament-rewards',
 
     options: {
+      isCurrentUserAdminOrCreator,
       isEditing: true,
       tournamentId: this.props.match.params.id,
     },
@@ -186,31 +191,35 @@ class Tournament extends Component {
   }
 
   render() {
-    const tournament = get(this.props, 'tournament');
-    const name = get(this.props, 'tournament.name');
-    const creator = get(this.props, 'tournament.creator');
-    const currentUser = get(this.props, 'currentUser');
-    const moderators = get(this.props, 'tournament.moderators');
+    const { currentUser, tournament } = this.props;
 
-    const isEmpty = get(this.props, 'tournament.isEmpty');
-    const isApplicationsAvailable = get(this.props, 'tournament.isApplicationsAvailable');
-    const isForecastingActive = get(this.props, 'tournament.isForecastingActive');
-    const isStarted = get(this.props, 'tournament.isStarted');
-    const isFinalized = get(this.props, 'tournament.isFinalized');
+    const {
+      name,
+      createdAt,
+      dateDetails,
+      isEmpty: isTournamentEmpty,
+      teams,
+      summoners,
+      matches,
+      isApplicationsAvailable,
+      isForecastingActive,
+      isStarted,
+      isFinalized,
+    } = get(this.props, 'tournament', '');
 
-    const isCurrentUserCreator = (creator && currentUser) && creator._id === currentUser._id;
-    const isCurrentUserAdmin = currentUser && currentUser.isAdmin;
-    const isCurrentUserModerator = includes(moderators, currentUser._id);
-    const isEditingAvailable = isCurrentUserCreator || isCurrentUserAdmin || isCurrentUserModerator;
+    const tournamentCreateDate = moment(createdAt).format('D MMMM');
 
-    const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCreator;
-    const isSummonersWidgetVisible = !isEmpty;
-    const isModeratorsWidgetVisible = isEditingAvailable && !isEmpty;
-    const isViewersWidgetVisible = isForecastingActive || isStarted;
+    const { isCurrentUserCanEdit } = getUserPermissions(currentUser, tournament);
+
+    const isUserCanAddMatch = isCurrentUserCanEdit && !isEmpty(summoners) && teams.length >= 2;
+    const isSummonersWidgetVisible = !isTournamentEmpty;
+    const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCanEdit;
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
     const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);
+
+    const defaultTabIndex = isEmpty(matches) ? 1 : 0;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -222,9 +231,25 @@ class Tournament extends Component {
         <div className={style.inner_container}>
 
           <div className={style.tournament_section}>
-            <h2 className={style.title}>{name}</h2>
+            <div className={style.info}>
+              <div className={style.date}>
+                <h2 className={style.createdAt}>{tournamentCreateDate}</h2>
+                {dateDetails && <p className={style.dateDetails}>({dateDetails})</p>}
 
-            {isEditingAvailable && isApplicationsAvailable && (
+                {isCurrentUserCanEdit && (
+                  <button
+                    type="button"
+                    className={style.button}
+                    onClick={this.editTournament}
+                  >
+                    <Icon name="edit"/>
+                  </button>
+                )}
+              </div>
+              <h3 className={style.title}>{name}</h3>
+            </div>
+
+            {isCurrentUserCanEdit && isApplicationsAvailable && (
               <Button
                 disabled={isAllowForecastButtonDisabled}
                 text="Allow forecasts"
@@ -233,7 +258,7 @@ class Tournament extends Component {
               />
             )}
 
-            {isEditingAvailable && isForecastingActive && (
+            {isCurrentUserCanEdit && isForecastingActive && (
               <Button
                 text={i18n.t('start_tournament')}
                 appearance="_basic-accent"
@@ -241,7 +266,7 @@ class Tournament extends Component {
               />
             )}
 
-            {isEditingAvailable && isStarted && !isFinalized && (
+            {isCurrentUserCanEdit && isStarted && !isFinalized && (
               <Button
                 disabled={isFinalizeButtonDisabled}
                 text="Finalize tournament"
@@ -255,75 +280,105 @@ class Tournament extends Component {
             <>
               <div className={cx(
                 style.widgets,
-                { [style.is_empty]: isEmpty },
+                { [style.is_empty]: isTournamentEmpty },
                 { [style.applications_available]: isApplicationsAvailable },
                 { [style.applications_available_streamer]: isApplicantsWidgetVisible },
                 { [style.forecasting_is_available]: isForecastingActive },
                 { [style.is_started]: isStarted }
               )}
               >
-                <TournamentInformation
-                  id={this.props.match.params.id}
-                  className={style.information_widget}
-                  editTournament={this.editTournament}
-                />
-
-                <TournamentRules
-                  id={this.props.match.params.id}
-                  className={style.rules_widget}
-                  addRules={this.addRules}
-                  editRules={this.editRules}
-                />
-
-                <TournamentRewards
-                  id={this.props.match.params.id}
-                  className={style.rewards_widget}
-                  addRewards={this.addRewards}
-                  editRewards={this.editRewards}
-                />
-
-                {isInviteWidgetVisible && (
-                  <TournamentInvite
-                    className={style.invite_widget}
-                    showNotification={this.props.showNotification}
-                  />
-                )}
-
-                <TournamentMatches
-                  className={style.matches_widget}
-                  id={this.props.match.params.id}
-                />
-
-                {isSummonersWidgetVisible && (
-                  <TournamentSummoners
+                <div className={style.widgetsColumn}>
+                  <TournamentInformation
                     id={this.props.match.params.id}
-                    className={style.summoners_widget}
-                    addSummoners={this.addSummoners}
+                    className={style.information_widget}
+                    isCurrentUserAdminOrCreator={isCurrentUserCanEdit}
+                    addRewards={this.addRewards}
+                    editRewards={this.editRewards}
+                    addRules={this.addRules}
+                    editRules={this.editRules}
                   />
-                )}
 
-                {isViewersWidgetVisible && (
                   <TournamentViewers
                     id={this.props.match.params.id}
                     className={style.viewers_widget}
                     joinTournament={this.joinTournament}
                   />
-                )}
 
-                {isModeratorsWidgetVisible && (
-                  <TournamentModerators
-                    id={this.props.match.params.id}
-                    className={style.moderators_widget}
-                    addModerators={this.addModerators}
-                  />
-                )}
+                  {isInviteWidgetVisible && (
+                    <TournamentInvite
+                      className={style.invite_widget}
+                      showNotification={this.props.showNotification}
+                    />
+                  )}
+                </div>
 
-                {isApplicantsWidgetVisible && (
-                  <TournamentApplicants
-                    id={this.props.match.params.id}
-                    className={style.applicants_widget}
-                  />
-                )}
+                <Tabs defaultTabIndex={defaultTabIndex} className={style.tabs}>
+                  <Tab>{i18n.t('tournament_page.tabs.matches')}</Tab>
+                  <Tab>{i18n.t('tournament_page.tabs.teams')}</Tab>
+                  {isCurrentUserCanEdit && <Tab>{i18n.t('tournament_page.tabs.moderators')}</Tab>}
+                  <Tab>{i18n.t('tournament_page.tabs.players')}</Tab>
+
+                  <Panel>
+                    {!isUserCanAddMatch && isCurrentUserCanEdit && (
+                      <p className={style.warning}>
+                        {i18n.t('tournament_page.add_summoners_match_warning')}
+                      </p>
+                    )}
+
+                    {!isUserCanAddMatch && !isCurrentUserCanEdit && (
+                      <p className={style.warning}>{i18n.t('tournament_page.there_is_no_matches_yet')}</p>
+                    )}
+
+                    {isUserCanAddMatch && (
+                      <TournamentMatchesTimeline id={this.props.match.params.id}/>
+                    )}
+                  </Panel>
+
+                  <Panel>
+                    {!isSummonersWidgetVisible && isCurrentUserCanEdit && (
+                      <p className={style.warning}>
+                        {i18n.t('tournament_page.add_rules_players_warning')}
+                      </p>
+                    )}
+
+                    {!isSummonersWidgetVisible && !isCurrentUserCanEdit && (
+                      <p className={style.warning}>{i18n.t('tournament_page.there_is_no_players_yet')}</p>
+                    )}
+
+                    {isSummonersWidgetVisible && (
+                      <TournamentSummoners
+                        id={this.props.match.params.id}
+                        className={style.summoners_widget}
+                        addSummoners={this.addSummoners}
+                      />
+                    )}
+
+                    {isApplicantsWidgetVisible && (
+                      <TournamentApplicants
+                        id={this.props.match.params.id}
+                        className={style.applicants_widget}
+                      />
+                    )}
+                  </Panel>
+
+                  {isCurrentUserCanEdit && (
+                    <Panel>
+                      <TournamentModerators
+                        id={this.props.match.params.id}
+                        className={style.moderators_widget}
+                        addModerators={this.addModerators}
+                      />
+                    </Panel>
+                  )
+                  }
+
+                  <Panel>
+                    <TournamentRating
+                      id={this.props.match.params.id}
+                      className={style.rating_widget}
+                    />
+                  </Panel>
+                </Tabs>
               </div>
             </>
           )}

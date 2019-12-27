@@ -49,13 +49,15 @@ const Header = ({
     <div className={style.top_menu}>
       <div className={style.menu_wrap}>
         <div className={style.links}>
-          <NavLink to="/home">
+          <NavLink to="/home" className={style.logo}>
             <LogoIcon/>
             <h2 className={style.logo}>Pick.gg</h2>
           </NavLink>
 
-          <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
-          <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
+          <div className={style.navigation}>
+            <NavLink className={style.mobile_hidden} to="/tournaments">{i18n.t('tournaments')}</NavLink>
+            <NavLink className={style.mobile_hidden} to="/rating">{i18n.t('rating')}</NavLink>
+          </div>
         </div>
 
         {process.env.MOCK_USER && (

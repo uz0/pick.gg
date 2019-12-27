@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   background-color: #0e1014;
-  border-top: 1px solid #7E8082;
+  border-top: 1px solid #7e8082;
 }
 
 .footer .container {
@@ -67,7 +67,6 @@
   font-size: 16px;
   background-color: transparent;
   color: var(--caption-color);
-  transition: 0.3s ease;
 }
 
 .footer .container .lang_settings button + button {
@@ -78,7 +77,7 @@
   color: var(--accent-color);
 }
 
-@media(max-width: 480px) {
+@media (max-width: 480px) {
   .footer {
     height: 120px;
   }

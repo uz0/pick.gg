@@ -5,13 +5,13 @@ export default mongoose.model('Team', new Schema(
   {
     tournamentId: {
       type: Schema.Types.ObjectId,
-      ref: 'Tournament',
+      ref: 'Tournament'
     },
 
     name: { type: String, required: true },
     color: { type: String, required: true },
 
-    users: [{ type: String }],
+    users: [{ type: String }]
     // users: [{
     //   type: Schema.Types.ObjectId,
     //   ref: 'User',
@@ -19,6 +19,6 @@ export default mongoose.model('Team', new Schema(
   },
 
   {
-    toObject: { virtuals: true },
-  },
+    toObject: { virtuals: true }
+  }
 ));

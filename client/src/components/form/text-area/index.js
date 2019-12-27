@@ -37,4 +37,13 @@ const TextArea = ({
   </div>
 );
 
+export const FormTextArea = ({ field, form, ...props }) => (
+  <TextArea
+    error={form.errors[field.name]}
+    isTouched={form.touched[field.name]}
+    {...props}
+    {...field}
+  />
+);
+
 export default TextArea;

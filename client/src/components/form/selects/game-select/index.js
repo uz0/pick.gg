@@ -16,30 +16,35 @@ const enhance = compose(
   withStyles,
 );
 
-const positionsSelectConfig = GAMES.map(game => ({
+const gamesSelectConfig = GAMES.map(game => ({
   value: game,
   label: game,
 }));
 
-const PositionSelect = props => {
+const GameSelect = props => {
   const setField = ({ label, value }) => {
     props.form.setFieldValue('game', { label, value });
   };
 
+  const errorGame = props.form.errors.game;
+
   return (
     <div className={cx('wrapper', props.className)}>
-      <label className={style.caption}>Game</label>
+      <label className={style.caption}>{props.label}</label>
       <Select
         {...props}
         {...props.field}
-        defaultOptions={positionsSelectConfig}
+        defaultOptions={gamesSelectConfig}
         defaultInputValue={props.field.value}
         className={style.select}
         placeholder={i18n.t('choose_game')}
         onChange={setField}
       />
+      {errorGame &&
+        <p className={style.error}>{errorGame}</p>
+      }
     </div>
   );
 };
 
-export default enhance(PositionSelect);
+export default enhance(GameSelect);

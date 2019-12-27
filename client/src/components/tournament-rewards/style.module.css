@@ -1,5 +1,4 @@
 .rewards {
-  min-height: 160px;
   display: flex;
   flex-direction: column;
 }

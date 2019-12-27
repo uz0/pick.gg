@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import classnames from 'classnames/bind';
 
@@ -12,6 +13,15 @@ import { ReactComponent as ListIcon } from 'assets/icons/list.svg';
 import { ReactComponent as CoinIcon } from 'assets/icons/coin.svg';
 import { ReactComponent as PlayIcon } from 'assets/icons/play.svg';
 import { ReactComponent as StopIcon } from 'assets/icons/stop.svg';
+import { ReactComponent as TrophyIcon } from 'assets/icons/trophy.svg';
+import { ReactComponent as TournamentGoingOn } from 'assets/icons/tournament_status/status_going_on.svg';
+import { ReactComponent as TournamentMakeBet } from 'assets/icons/tournament_status/status_make_bet.svg';
+import { ReactComponent as TournamentPreparing } from 'assets/icons/tournament_status/status_preparing.svg';
+import { ReactComponent as TournamentIsOver } from 'assets/icons/tournament_status/status_tournament_over.svg';
+import { ReactComponent as TournamentWaitingSummoners } from 'assets/icons/tournament_status/status_waiting_summoners.svg';
+import { ReactComponent as MatchIsActive } from 'assets/icons/match_status/battle.svg';
+import { ReactComponent as MatchIsFinished } from 'assets/icons/match_status/finished.svg';
+import { ReactComponent as MatchIsPending } from 'assets/icons/match_status/pending.svg';
 import { ReactComponent as DotsIcon } from 'assets/icons/dots.svg';
 import { ReactComponent as MarkIcon } from 'assets/icons/mark.svg';
 import { ReactComponent as DeleteIcon } from 'assets/icons/delete.svg';
@@ -35,6 +45,15 @@ const Icon = ({ name, className }) => {
     coin: CoinIcon,
     play: PlayIcon,
     stop: StopIcon,
+    trophy: TrophyIcon,
+    tournamentGoingOn: TournamentGoingOn,
+    tournamentMakeBet: TournamentMakeBet,
+    tournamentPreparing: TournamentPreparing,
+    tournamentIsOver: TournamentIsOver,
+    tournamentWaitingSummoners: TournamentWaitingSummoners,
+    match_pending: MatchIsPending,
+    match_active: MatchIsActive,
+    match_finished: MatchIsFinished,
     dots: DotsIcon,
     mark: MarkIcon,
     delete: DeleteIcon,

@@ -22,6 +22,7 @@
     "choose_champion": "Choose your 5 champions",
     "dashboard": "Dashboard",
     "date": "Date",
+    "dateDetails": "Date details",
     "syncDate": "Sync date",
     "date_from": "Date from",
     "deposit": "Deposit",
@@ -94,6 +95,9 @@
     "tournament_over": "Tournament is over! Winner is {{winner}}",
     "he_got_prize": "He got {{prize}} prize",
     "match": "Match",
+    "match_pending": "Match wasn't started yet",
+    "match_active": "Match is going on now",
+    "match_finished": "Match finished",
     "join_tournament": "Join Tournament",
     "finalize_tournament": "Finalize tournament",
     "start_tournament": "Start tournament",
@@ -241,9 +245,10 @@
     "twich_account": "Twitch account",
     "profile_photo": "Profile photo",
     "summoner_name": "Summoner name",
+    "no_summoners_yet": "There's no any summoners yet",
     "no_name": "No name",
     "price": "Price",
-    "add_rules_matches_rewards": "Add rules, matches and rewards",
+    "add_rules_matches_rewards": "Add rules and rewards",
     "add_summoners_applicants": "Add summoners or approve applicants",
     "let_viewers_make_forecasts": "Let your viewers make forecasts",
     "waiting_applicants": "Waiting for applicants and summoners",
@@ -308,6 +313,13 @@
     "description": "Description",
     "no_game_rules_help": "There is no help for current game",
     "creating_tournament": "Creating a tournament",
+    "faq": {
+      "waiting_applicants": "Waiting for people who want to participate in matches",
+      "add_rules_matches_rewards": "Waiting for rules and rewards being added",
+      "let_viewers_make_forecasts": "People can make their forecast",
+      "tournament_go": "Tournament started and goind on",
+      "is_over": "Tournament is over"
+    },
     "home": {
       "under_title": "Where streamers and viewers",
       "under_title_2": " play together",
@@ -340,11 +352,21 @@
       "join_matchup": "Join matchup"
     },
     "tournament_page": {
+      "tabs": {
+        "moderators": "MODERATORS",
+        "players": "PLAYERS",
+        "matches": "MATCHES",
+        "teams": "TEAMS"
+      },
       "no_applicants": "There is no applicants yet",
       "applicants": "Applicants",
       "add_rewards": "Add tournament rewards",
       "edit_rewards": "Edit tournament rewards",
-      "accepted_summoner": "is already accepted as summoner"
+      "accepted_summoner": "is already accepted as summoner",
+      "add_summoners_match_warning":"You can't add match until you have created added any teams and players",
+      "there_is_no_matches_yet":"There is not any matches yet",
+      "add_rules_players_warning":"You can't add players until you have set tournament rules",
+      "there_is_no_players_yet":"There is not any players yet"
     },
     "modal": {
       "step": "Step",
@@ -357,6 +379,9 @@
       "description": "Description",
       "add_rules": "Add rules",
       "edit_rules": "Edit rules",
+      "rules_type": "Rules type (FFA, Bo3, Bo5)",
+      "add_rules_label": "Write your rules below",
+      "rules_formula_label": "Rules formula",
       "find_summoner_name": "Find a summoner by name",
       "find_moderator_name": "Find a moderator by name",
       "choose_tournament_summoners": "Choose tournament summoners",

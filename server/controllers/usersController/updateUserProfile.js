@@ -25,7 +25,6 @@ const handler = withValidationHandler(async (req, res) => {
         'twitchAccount',
         'gameSpecificName',
         'regionId',
-        'preferredPosition',
         'contact'
       ]),
       { new: true }

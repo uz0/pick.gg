@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withProps } from 'recompose';
@@ -11,8 +12,8 @@ import debounce from 'lodash/debounce';
 import classnames from 'classnames/bind';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
-import notificationActions from 'components/notification/actions';
 import { actions as modalActions } from 'components/modal-container';
+import notificationActions from 'components/notification/actions';
 import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
@@ -35,12 +36,12 @@ const tableCaptions = ({ t, isMobile }) => ({
 
   name: {
     text: t('name'),
-    width: isMobile ? 100 : 300,
+    width: isMobile ? 75 : 340,
   },
 
   points: {
     text: t('points'),
-    width: isMobile ? 80 : 80,
+    width: isMobile ? 40 : 80,
   },
 });
 
@@ -48,7 +49,7 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
-  const colorStyle = { ...numberStyle, '--color': item.color };
+  const colorStyle = { '--width': captions.number.width, '--color': item.color };
 
   const isTeamExistUsers = item.users.length > 0;
   const isDeleteTeamButtonShown = !isTeamExistUsers && items.length !== 1;
@@ -80,43 +81,44 @@ const renderRow = ({ className, itemClass, textClass, items, item, props, captio
       </div>
 
       {isTeamExistUsers &&
-      item.users.map((userId, userIndex) => {
-        const summoner = find(props.summoners, { _id: userId });
+        item.users.map(userId => {
+          const summoner = find(props.summoners, { _id: userId });
 
-        if (!summoner) {
-          return null;
-        }
+          if (!summoner) {
+            return null;
+          }
 
-        const isSummonerWinner = props.tournament.winners.find(user => user.id === summoner._id);
+          const isSummonerWinner = props.tournament.winners.find(user => user.id === summoner._id);
 
-        return (
-          <div key={summoner._id} className={cx(className, style.row)}>
-            <div className={cx(itemClass, style.cell)} style={numberStyle}>
-              <span className={textClass}>{userIndex + 1}</span>
-            </div>
+          return (
+            <div key={summoner._id} className={cx(className, style.row)}>
+              <div
+                className={cx('user-image', itemClass, style.cell)}
+                style={{ ...numberStyle, backgroundImage: `url(${summoner.imageUrl})` }}
+              />
 
-            <div className={itemClass} style={nameStyle}>
-              <span className={textClass}>
-                {summoner.nickname}
-                {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
-              </span>
-            </div>
-
-            {summoner.points > 0 && (
-              <div className={cx(itemClass, style.cell)} style={pointsStyle}>
-                <span className={cx(textClass, style.points)}>{summoner.points}</span>
+              <div className={itemClass} style={nameStyle}>
+                <span className={textClass}>
+                  {summoner.nickname}
+                  {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
+                </span>
               </div>
-            )}
 
-            <Button
-              appearance="_icon-transparent"
-              icon="dots"
-              className={style.action}
-              onClick={props.openChooseTeamModal(summoner._id)}
-            />
-          </div>
-        );
-      })
+              {summoner.points > 0 && (
+                <div className={cx(itemClass)} style={pointsStyle}>
+                  <span className={cx(textClass, style.points)}>{summoner.points}</span>
+                </div>
+              )}
+
+              <Button
+                appearance="_icon-transparent"
+                icon="dots"
+                className={style.action}
+                onClick={props.openChooseTeamModal(summoner._id)}
+              />
+            </div>
+          );
+        })
       }
     </Fragment>
   );
@@ -138,6 +140,7 @@ const Summoners = ({
   isAlreadySummoner,
   addSummoners,
   applyTournament,
+  openPlayerInfoModal,
   deleteTeam,
   randomizeUsers,
   openNewTeamModal,
@@ -147,7 +150,7 @@ const Summoners = ({
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
-        <h3 className={style.subtitle}>{i18n.t('summoners')}</h3>
+        <h4 className={style.subtitle}>{i18n.t('summoners')}</h4>
 
         {isEditingAvailable && summoners.length > 0 && (
           <button
@@ -179,23 +182,23 @@ const Summoners = ({
         )}
       </div>
 
-      {isCurrentUserCanEdit && summoners.length === 0 && (
-        <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
-      )}
-
-      {isUserCanApply && (
-        <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
-      )}
-
-      {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
-        <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
-      )}
-
       <div className={style.content}>
         {isCurrentUserCanEdit && summoners.length === 0 && (
+          <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
+        )}
+
+        {isUserCanApply && (
+          <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
+        )}
+
+        {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
+          <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
+        )}
+
+        {isCurrentUserCanEdit && summoners.length === 0 && (
           <Button
-            appearance="_circle-accent"
-            icon="plus"
+            appearance="_small-accent"
+            text="Choose summoners"
             className={style.button}
             onClick={addSummoners}
           />
@@ -203,9 +206,9 @@ const Summoners = ({
 
         {!isCurrentUserCanEdit && !isAlreadySummoner && !isAlreadyApplicant && isApplicationsAvailable && (
           <Button
-            appearance="_basic-accent"
+            appearance="_small-accent"
             text={i18n.t('apply_summoner')}
-            className={style.button}
+            className={cx(style.button, style.applyButton)}
             onClick={debounce(check(applyTournament, {
               title: 'Apply as summoner',
               action: applyTournament,
@@ -222,6 +225,7 @@ const Summoners = ({
               tournament,
               summoners,
               openChooseTeamModal,
+              openPlayerInfoModal,
               openEditTeamModal,
               deleteTeam,
               usersList,
@@ -246,9 +250,9 @@ export default compose(
     }),
 
     {
+      toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
       updateTournament: tournamentsActions.updateTournament,
-      toggleModal: modalActions.toggleModal,
     }
   ),
 
@@ -351,6 +355,16 @@ export default compose(
         console.log(error);
       }
     },
+
+    openPlayerInfoModal: props => playerInfo => {
+      props.toggleModal({
+        id: 'player-info',
+
+        options: {
+          playerInfo,
+        },
+      });
+    },
   }),
   withProps(props => {
     const { _id: tournamentId, game, creator, matches, rules, teams, winners, isApplicationsAvailable } = props.tournament;
@@ -372,17 +386,21 @@ export default compose(
 
     const isUserCanApply = !isCurrentUserCanEdit && !isAlreadySummonerOrApplicant && !isApplicantRejected && isApplicationsAvailable;
 
-    let summoners = props.tournament.summoners.map(summonerId => {
-      const summoner = users.find(user => user._id === summonerId);
+    let summoners = props.tournament.summoners
+      .map(summonerId => {
+        const summoner = users.find(user => user._id === summonerId);
+        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName', 'canProvideTournaments', 'about', 'imageUrl']);
 
-      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
-
-      // There is no summoner data until loadUsers redux
-      return isEmpty(normalizedSummoner) ? {} : {
-        _id: normalizedSummoner._id,
-        nickname: normalizedSummoner.gameSpecificName[game],
-      };
-    });
+        // There is no summoner data until loadUsers redux
+        return isEmpty(normalizedSummoner) ? {} : {
+          _id: normalizedSummoner._id,
+          nickname: normalizedSummoner.gameSpecificName[game],
+          isStreamer: normalizedSummoner.canProvideTournaments,
+          about: normalizedSummoner.about,
+          imageUrl: normalizedSummoner.imageUrl,
+        };
+      })
+      .filter(summoner => summoner._id);
 
     if (!isApplicationsAvailable) {
       summoners = calcSummonersPoints(summoners, matches, rules);

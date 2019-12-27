@@ -141,7 +141,7 @@ export default compose(
 
       return {
         _id: normalizedApplicant._id,
-        nickname: normalizedApplicant.gameSpecificName[game],
+        nickname: normalizedApplicant.gameSpecificName && normalizedApplicant.gameSpecificName[game],
         status,
       };
     });
@@ -166,7 +166,7 @@ export default compose(
       }
 
       try {
-        await http(`/api/tournaments/${tournamentId}/applicantStatus`, {
+        const request = await http(`/api/tournaments/${tournamentId}/applicantStatus`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -174,21 +174,9 @@ export default compose(
           body: JSON.stringify({ userId: applicantId, newStatus: 'ACCEPTED' }),
         });
 
-        const applicants = props.tournament.applicants.map(item => {
-          if (item.user === applicantId) {
-            item.status = 'ACCEPTED';
-          }
+        const tournament = await request.json();
 
-          return item;
-        });
-
-        ym('reachGoal', 'accepted_as_summoner');
-
-        props.updateTournament({
-          ...props.tournament,
-          applicants,
-          summoners: [...props.tournament.summoners, applicantId],
-        });
+        props.updateTournament(tournament);
       } catch (error) {
         console.log(error);
       }

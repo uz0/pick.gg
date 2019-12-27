@@ -66,7 +66,7 @@ class User extends Component {
     const userId = this.props.match.params.id;
     const currentUser = this.props.users[userId] || {};
 
-    const { about, imageUrl, gameSpecificName, preferredPosition, username } = currentUser;
+    const { about, imageUrl, gameSpecificName, username } = currentUser;
     const { applicants, streamers, viewers, lastGames } = this.state;
 
     const placeApplicants = findIndex(applicants, item => item.username === username) + 1;
@@ -94,7 +94,6 @@ class User extends Component {
             nickname={username}
             description={about}
             gameSpecificName={gameSpecificName}
-            preferredPosition={preferredPosition}
           />
 
           <div className={style.user_statistics}>

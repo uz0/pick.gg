@@ -62,9 +62,11 @@
   --accent-color: #f2994a;
   --danger-color: #fb4343;
   --danger-secondary-color: #ffc777;
+  --base-color: #549557;
+  --base-secondary-color: #5b925d;
 
   /* --background-color: #252532; */
-  --background-color: #151534;
+  --background-color: #3c3c3c;
   --primary-color: #060916;
   --caption-color: #e3e3e6;
   --header-color: #eee;
@@ -117,6 +119,13 @@ h4,
 h5,
 p {
   margin: 0;
+}
+
+a,
+button {
+  transition-duration: 0.3s;
+  transition-property: all;
+  transition-timing-function: ease;
 }
 
 input:focus,

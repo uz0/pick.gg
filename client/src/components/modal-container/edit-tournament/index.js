@@ -7,6 +7,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
+import { FormTextArea } from 'components/form/text-area';
 
 import { http } from 'helpers';
 
@@ -45,7 +46,7 @@ class EditTournament extends Component {
         <Field
           label={i18n.t('modal.description')}
           name="description"
-          component={FormInput}
+          component={FormTextArea}
           className={style.field}
         />
 
@@ -60,6 +61,13 @@ class EditTournament extends Component {
           label={i18n.t('date')}
           name="startAt"
           type="date"
+          component={FormInput}
+          className={style.field}
+        />
+
+        <Field
+          label={i18n.t('dateDetails')}
+          name="dateDetails"
           component={FormInput}
           className={style.field}
         />
@@ -82,13 +90,13 @@ export default compose(
   withFormik({
     mapPropsToValues: ({ tournament }) => {
       const startAt = moment(tournament.startAt).format('YYYY-MM-DD');
-      const { name, description, price, imageUrl } = tournament;
+      const { name, description, dateDetails, imageUrl } = tournament;
 
       return {
         name,
-        price,
         imageUrl,
         startAt,
+        dateDetails,
         description,
       };
     },

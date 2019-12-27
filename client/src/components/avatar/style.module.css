@@ -1,0 +1,25 @@
+.avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar .streamerBorder {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.avatar .streamerBorder svg {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+}
+
+.avatar svg,
+.avatar img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: calc(var(--avatar-size) / 2);
+  object-fit: cover;
+}

@@ -21,10 +21,6 @@ import style from './style.module.css';
 const cx = classnames.bind(style);
 
 const tableCaptions = ({ t, isMobile }) => ({
-  number: {
-    text: t('number'),
-    width: isMobile ? 55 : 60,
-  },
   name: {
     text: t('name'),
     width: isMobile ? 180 : 380,
@@ -32,19 +28,12 @@ const tableCaptions = ({ t, isMobile }) => ({
 });
 
 const renderRow = ({ className, itemClass, textClass, index, item, captions }) => {
-  const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
 
   return (
     <div key={`${index}_${item.nickname}`} className={cx(className, style.row)}>
-      <div className={cx(itemClass, style.cell)} style={numberStyle}>
-        <span className={textClass}>{index + 1}</span>
-      </div>
-
       <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>
-          {item.nickname}
-        </span>
+        <span className={textClass}>{`${index + 1}. ${item.nickname}`}</span>
       </div>
     </div>
   );
@@ -61,7 +50,6 @@ const Moderators = ({
   return (
     <div className={cx(style.moderators, className)}>
       <div className={style.header}>
-        <h3 className={style.subtitle}>{i18n.t('moderators')}</h3>
         {isEditingAvailable && moderators.length > 0 && (
           <button
             type="button"
@@ -80,8 +68,8 @@ const Moderators = ({
       <div className={style.content}>
         {isCurrentUserCreatorOrAdmin && moderators.length === 0 && (
           <Button
-            appearance="_circle-accent"
-            icon="plus"
+            appearance="_small-accent"
+            text="Add moderators"
             className={style.button}
             onClick={addModerators}
           />

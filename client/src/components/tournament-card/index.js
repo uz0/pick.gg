@@ -3,6 +3,8 @@ import classnames from 'classnames/bind';
 
 import Icon from 'components/icon';
 
+import i18n from 'i18next';
+
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -25,7 +27,7 @@ const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl,
 
         <div className={style.basic}>
           <div className={style.header}>
-            <div className={style.icon} aria-label={status}>
+            <div className={style.icon} aria-label={i18n.t(status)}>
               <Icon name="battle"/>
             </div>
             <h4 className={style.name}>{name}</h4>

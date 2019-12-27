@@ -48,6 +48,11 @@ export const RULES = {
   },
 };
 
+export const DEFAULT_RULES = {
+  LOL: 'player.kills * 3 + player.assists * 2 + player.deaths * 1',
+  PUBG: 'player.kills * 3 + player.assists * 2 + player.loot * 1',
+};
+
 export const REWARD_POSITIONS = {
   'summoner_first': {
     role: 'summoner',

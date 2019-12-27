@@ -3,7 +3,7 @@ import React from 'react';
 const customStyles = {
   control: styles => ({ ...styles, backgroundColor: 'var(--primary-color)', border: 0 }),
   singleValue: styles => ({ ...styles, color: '#fff', fontSize: '15px', textTransform: 'capitalize' }),
-  placeholder: styles => ({ ...styles, color: '#fff', fontSize: '15px' }),
+  placeholder: styles => ({ ...styles, color: '#fff', opacity: '0.35', fontSize: '14px' }),
   input: styles => ({ ...styles, color: '#fff', fontSize: '15px', textTransform: 'capitalize' }),
   indicatorSeparator: styles => ({ ...styles, width: 0 }),
   menu: styles => ({ ...styles, color: 'var(--primary-color)', fontSize: '15px', textTransform: 'capitalize' }),

@@ -7,7 +7,6 @@ import actions from 'pages/dashboard/users/actions';
 
 import notificationActions from 'components/notification/actions';
 import Button from 'components/button';
-import Select from 'components/form/selects/select';
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
 
@@ -20,17 +19,6 @@ import i18n from 'i18n';
 import style from './style.module.css';
 
 const GAMES = Object.keys(RULES);
-
-const normalizePositionsField = obj => {
-  if (obj.preferredPosition) {
-    return {
-      ...obj,
-      preferredPosition: obj.preferredPosition.value,
-    };
-  }
-
-  return obj;
-};
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -86,12 +74,6 @@ const User = props => {
           );
         })}
 
-        <Field
-          component={Select}
-          label={i18n.t('Position')}
-          name="preferredPosition"
-          className={style.field}
-        />
         <div className={style.wrap_checkbox}>
           <Field
             component={FormInput}
@@ -139,8 +121,8 @@ const enhance = compose(
   withFormik({
     validationSchema,
     mapPropsToValues: ({ options }) => {
-      const { _id, username, gameSpecificName, preferredPosition, canProvideTournaments, isAdmin } = options.user;
-      return { _id, username, gameSpecificName, preferredPosition, canProvideTournaments, isAdmin };
+      const { _id, username, gameSpecificName, canProvideTournaments, isAdmin } = options.user;
+      return { _id, username, gameSpecificName, canProvideTournaments, isAdmin };
     },
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
@@ -153,7 +135,7 @@ const enhance = compose(
               'Content-Type': 'application/json',
             },
             method: 'PATCH',
-            body: JSON.stringify(normalizePositionsField(body)),
+            body: JSON.stringify(body),
           });
 
           return request.json();

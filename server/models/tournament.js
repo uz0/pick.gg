@@ -11,10 +11,10 @@ const schema = new Schema(
   {
     name: String,
     description: String,
-    url: String,
     imageUrl: String,
     createdAt: Date,
     startAt: Date,
+    dateDetails: String,
     price: {
       type: Number,
       min: 0
@@ -24,6 +24,7 @@ const schema = new Schema(
       of: String,
       default: {}
     },
+    rulesTitle: String,
     rules: String,
     isForecastingActive: {
       type: Boolean,
@@ -88,7 +89,7 @@ schema.virtual('matches', {
 });
 
 schema.virtual('isEmpty').get(function () {
-  if (isEmpty(this.rules) || isEmpty(this.rewards) || (!this.matches || this.matches.length === 0)) {
+  if (isEmpty(this.rules) || isEmpty(this.rewards)) {
     return true;
   }
 

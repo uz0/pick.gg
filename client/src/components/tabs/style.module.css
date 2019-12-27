@@ -1,0 +1,30 @@
+
+.tabs .header {
+  display: flex;
+}
+
+.tabs .header button {
+  height: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+  background-color: #3a633c;
+}
+
+.tabs .header button:not(:last-of-type) {
+  border-right: 1px solid #417043;
+}
+
+.tabs .header button.active {
+  background-color: var(--base-color);
+}
+
+.tabs .content {
+  margin-top: 30px;
+}

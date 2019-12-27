@@ -1,9 +1,4 @@
-import mongoose from 'mongoose';
-import pick from 'lodash/pick';
-import map from 'lodash/map';
-import union from 'lodash/union';
-import defaults from 'lodash/defaults';
-import { param, check, validationResult } from 'express-validator/check';
+import { param } from 'express-validator/check';
 
 import { isEntityExists } from '../../validators';
 import { withValidationHandler } from '../../helpers';
@@ -11,12 +6,12 @@ import TeamModel from '../../../models/team';
 import TournamentModel from '../../../models/tournament';
 
 const validator = [
-  param('tournamentId').custom(id => isEntityExists(id, TournamentModel)),
+  param('tournamentId').custom(id => isEntityExists(id, TournamentModel))
 ];
 
 const handler = withValidationHandler(async (req, res) => {
   try {
-    let teams = await TeamModel.find({ tournamentId: req.params.tournamentId });
+    const teams = await TeamModel.find({ tournamentId: req.params.tournamentId });
     let users = [];
 
     teams.forEach((team, index) => {
@@ -30,7 +25,7 @@ const handler = withValidationHandler(async (req, res) => {
     });
 
     for (let i = 0; i < teams.length; i++) {
-      await TeamModel.findOneAndUpdate({ _id: teams[i]._id }, { $set: {users: teams[i].users} });
+      await TeamModel.findOneAndUpdate({ _id: teams[i]._id }, { $set: { users: teams[i].users } });
     }
 
     const modifiedTournament = await TournamentModel
