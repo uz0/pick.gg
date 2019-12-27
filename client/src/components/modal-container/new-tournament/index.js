@@ -21,7 +21,8 @@ import style from './style.module.css';
 const date = new Date();
 
 const validationSchema = Yup.object().shape({
-  game: Yup.object(),
+  game: Yup.string()
+    .required(i18n.t('modal.required')),
   name: Yup.string()
     .min(4)
     .max(60)
@@ -62,6 +63,7 @@ const NewTournament = props => {
           label={i18n.t('game')}
           name="game"
           className={style.field}
+          required="true"
         />
 
         <Field
@@ -118,6 +120,7 @@ const enhance = compose(
     validationSchema,
     mapPropsToValues: () => ({
       name: '',
+      game: '',
       description: '',
       url: '',
       imageUrl: '',
