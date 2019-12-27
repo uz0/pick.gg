@@ -1,19 +1,20 @@
-describe('Index page', () => {
-  beforeAll(async () => {
-    await page.goto(global.URL);
-  });
+// eslint-disable-next-line capitalized-comments
+// describe('Index page', () => {
+//   beforeAll(async () => {
+//     await page.goto(global.URL);
+//   });
 
-  it('should display "Fantasy league"', async () => {
-    await expect(page).toMatch('Pick.gg');
-  });
+//   it('should display "Fantasy league"', async () => {
+//     await expect(page).toMatch('Pick.gg');
+//   });
 
-  it('should auth as mocked streamer', async () => {
-    await page.goto(global.URL + '/tournaments?username=streamer1');
-    await page.waitForSelector('[class*="role"]');
-    await expect(page).toMatch('streamer1');
-  })
+//   it('should auth as mocked streamer', async () => {
+//     await page.goto(global.URL + '/tournaments?username=streamer1');
+//     await page.waitForSelector('[class*="role"]');
+//     await expect(page).toMatch('streamer1');
+//   });
 
-  it('should not display "qweqwe." text on page', async () => {
-    await expect(page).not.toMatch('qweqwe');
-  });
-});
+//   it('should not display "qweqwe." text on page', async () => {
+//     await expect(page).not.toMatch('qweqwe');
+//   });
+// });
