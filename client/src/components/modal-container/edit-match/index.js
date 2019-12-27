@@ -7,7 +7,6 @@ import findIndex from 'lodash/findIndex';
 import * as Yup from 'yup';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
-import Select from 'components/form/selects/team-select';
 import FileInput from 'components/form/input-file';
 import notificationActions from 'components/notification/actions';
 import Modal from 'components/modal';
@@ -79,19 +78,22 @@ const EditMatch = ({
         }}
       />
 
-      {isLol &&
-        teams.map((team, index) => (
-          <Field
-            key={team._id}
-            disabled
-            label={index === 0 ? 'Blue team' : 'Red team'}
-            placeholder="Choose blue team"
-            component={Select}
-            defaultInputValue={team.name}
-            className={style.field}
-          />
-        ))
-      }
+      {isLol && (
+        <div className={style.teams}>
+          {teams.map((team, index) => {
+            if (index === 1) {
+              return (
+                <Fragment key={team._id}>
+                  <p className={style.delimiter}>vs</p>
+                  <p className={style.team}>{team.name}</p>
+                </Fragment>
+              );
+            }
+
+            return <p key={team._id} className={style.team}>{team.name}</p>;
+          })}
+        </div>
+      )}
 
       {isLol &&
         teams.map(team => {

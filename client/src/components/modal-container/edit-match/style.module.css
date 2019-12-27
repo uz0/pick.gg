@@ -10,6 +10,43 @@
   margin-top: 32px;
 }
 
+.wrapper .content .teams {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.wrapper .content .teams > .team {
+  --height: 40px;
+
+  overflow: hidden;
+  height: var(--height);
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: #fff;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wrapper .content .teams > .delimiter {
+  --height: 16px;
+
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .wrapper .content .team_name_wrapper {
   display: flex;
   align-items: center;
@@ -19,8 +56,9 @@
 
 .wrapper .content .team_name_wrapper .team_name {
   overflow: hidden;
-  font-size: 20px;
+  font-size: 26px;
   color: #fff;
+  font-weight: var(--font-weight-bold);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -46,4 +84,6 @@
 .wrapper .content .summoner .name {
   color: var(--caption-color);
   grid-column: 1 / -1;
+  font-size: 18px;
+  font-weight: 400;
 }
