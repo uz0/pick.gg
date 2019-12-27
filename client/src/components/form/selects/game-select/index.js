@@ -26,6 +26,8 @@ const PositionSelect = props => {
     props.form.setFieldValue('game', { label, value });
   };
 
+  const errorsGame = props.form.errors.game;
+
   return (
     <div className={cx('wrapper', props.className)}>
       <label className={style.caption}>Game</label>
@@ -38,6 +40,9 @@ const PositionSelect = props => {
         placeholder={i18n.t('choose_game')}
         onChange={setField}
       />
+      {errorsGame &&
+        <p className={style.error}>{errorsGame}</p>
+      }
     </div>
   );
 };
