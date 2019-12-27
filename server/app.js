@@ -49,14 +49,13 @@ const options = {
       version: '1.0.0'
     }
   },
-  customCss: '.swagger-ui .topbar { display: none }',
   apis: [
     './controllers/usersController/index.js',
     './controllers/tournamentController/index.js',
     './controllers/rewardController/index.js'
   ],
-  tags: ['API(Users)'],
-  defaultschemes: ['https', 'http']
+  tags: ['API(Users)', 'API(Tournaments)', 'API(Reward  )'],
+  defaultschemes: ['https']
 };
 
 const swaggerSpec = swaggerJSDoc(options);
