@@ -8,6 +8,8 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cheerio from 'cheerio';
 import fs from 'fs';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
 
 import {
   UsersController,
@@ -24,7 +26,11 @@ import {
   PublicRatingController
 } from './controllers/public';
 
-import { AuthVerifyMiddleware, AdminVerifyMiddleware, setupMock } from './middlewares';
+import {
+  AuthVerifyMiddleware,
+  AdminVerifyMiddleware,
+  setupMock
+} from './middlewares';
 import config from './config';
 
 import TournamentModel from './models/tournament';
@@ -33,6 +39,28 @@ const app = express();
 const server = http.Server(app);
 server.timeout = 999999;
 const io = socketIO(server);
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      description: '',
+      title: 'PICK.GG',
+      version: '1.0.0'
+    }
+  },
+  apis: [
+    './controllers/usersController/index.js',
+    './controllers/tournamentController/index.js',
+    './controllers/rewardController/index.js'
+  ],
+  tags: ['API(Users)', 'API(Tournaments)', 'API(Reward  )'],
+  defaultschemes: ['https']
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, options));
 
 mongoose.Promise = Promise;
 mongoose.connect(config.database, config.options);
@@ -65,6 +93,7 @@ app.use('/public/tournaments', PublicTournamentController());
 
 app.use('/api', AuthVerifyMiddleware(app));
 app.use('/api/users', UsersController());
+
 app.use('/api/tournaments', TournamentController(io));
 app.use('/api/rewards', RewardController());
 
@@ -84,7 +113,9 @@ app.use('/home', (req, res, next) => {
 
   req.meta.push(`<meta name="description" content="${description[lang]}" />`);
   req.meta.push('<meta property="og:title" content="Pick.gg" />');
-  req.meta.push(`<meta property="og:description" content="${description[lang]}" />`);
+  req.meta.push(
+    `<meta property="og:description" content="${description[lang]}" />`
+  );
 
   req.meta.push('<meta property="og:image" content="url" />');
   req.meta.push('<meta property="og:image:type" content="image/png">');
@@ -99,8 +130,7 @@ app.use('/tournaments/:id', async (req, res, next) => {
   req.meta = [];
 
   try {
-    const tournament = await TournamentModel
-      .findById(id)
+    const tournament = await TournamentModel.findById(id)
       .populate('winner')
       .populate('creatorId')
       .populate('applicants')
@@ -110,10 +140,16 @@ app.use('/tournaments/:id', async (req, res, next) => {
 
     req.title = tournament.name;
 
-    req.meta.push(`<meta name="description" content="${tournament.description}" />`);
+    req.meta.push(
+      `<meta name="description" content="${tournament.description}" />`
+    );
     req.meta.push(`<meta property="og:title" content="${tournament.name}" />`);
-    req.meta.push(`<meta property="og:description" content="${tournament.description}" />`);
-    req.meta.push(`<meta property="og:image" content="${tournament.imageUrl}" />`);
+    req.meta.push(
+      `<meta property="og:description" content="${tournament.description}" />`
+    );
+    req.meta.push(
+      `<meta property="og:image" content="${tournament.imageUrl}" />`
+    );
     req.meta.push('<meta property="og:image:type" content="image/png">');
     req.meta.push('<meta property="og:image:width" content="320">');
     req.meta.push('<meta property="og:image:height" content="240">');
@@ -129,7 +165,9 @@ app.get('/*', (req, res) => {
   const $ = cheerio.load(fs.readFileSync(filepath));
 
   if (req.title) {
-    $('head').find('title').replaceWith(`<title>${req.title}</title>`);
+    $('head')
+      .find('title')
+      .replaceWith(`<title>${req.title}</title>`);
   }
 
   if (req.meta) {
