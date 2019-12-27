@@ -45,8 +45,6 @@ const EditMatch = ({
   game,
 }) => {
   const isLol = game === 'LOL';
-  console.log(values);
-  console.log(teams);
 
   const actions = [
     { text: i18n.t('edit'), appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
