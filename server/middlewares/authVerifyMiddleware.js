@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
-let router = express.Router();
+const router = express.Router();
 
 const AuthVerifyMiddleware = (app) => {
   router.use((req, res, next) => {
@@ -29,6 +29,6 @@ const AuthVerifyMiddleware = (app) => {
   });
 
   return router;
-}
+};
 
 export default AuthVerifyMiddleware;

@@ -1,10 +1,9 @@
-import express from "express";
-import UserModel from "../models/user";
-import riotFetch from '../riotFetch';
+import express from 'express';
+import UserModel from '../models/user';
 
 import isEmpty from 'lodash/isEmpty';
 
-let router = express.Router();
+const router = express.Router();
 
 const UsersController = () => {
   router.get('/', async (req, res) => {
@@ -15,8 +14,8 @@ const UsersController = () => {
   router.get('/me', async (req, res) => {
     if (isEmpty(req.decoded)) {
       res.send({
-        user: null,
-      })
+        user: null
+      });
 
       return;
     }
@@ -31,7 +30,7 @@ const UsersController = () => {
 
     const { username, email, lolApiKey, photo, about, gameSpecificName } = req.body;
 
-    let streamerAccountId = '';
+    const streamerAccountId = '';
 
     // if (gameSpecificName != ''){
     //   let accountInfo = await riotFetch(`/lol/summoner/v4/summoners/by-name/${gameSpecificName}`);
@@ -57,7 +56,7 @@ const UsersController = () => {
       lolApiKey,
       gameSpecificName,
       streamerAccountId
-    }
+    };
 
     const updatedUser = await UserModel
       .findOneAndUpdate({ _id: userId }, fields)
@@ -65,7 +64,7 @@ const UsersController = () => {
 
     res.json({
       success: true,
-      user: updatedUser,
+      user: updatedUser
     });
   });
 
@@ -77,6 +76,6 @@ const UsersController = () => {
   });
 
   return router;
-}
+};
 
 export default UsersController;

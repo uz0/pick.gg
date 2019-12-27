@@ -104,8 +104,7 @@ app.use('/home', (req, res, next) => {
 
   const description = {
     ru: 'Сервис для проведения турниров по лиге легенд между стримерами',
-    en:
-      'Service for holding tournaments in a League of Legends between streamers'
+    en: 'Service for holding tournaments in a League of Legends between streamers'
   };
 
   req.meta = [];

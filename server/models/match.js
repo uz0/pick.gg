@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
-const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName })
+const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName });
 
 export default mongoose.model('Match',
   new Schema({
@@ -26,4 +26,4 @@ export default mongoose.model('Match',
   {
     toObject: { virtuals: true }
   }
-  ))
+  ));

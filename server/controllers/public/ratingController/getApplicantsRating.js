@@ -1,7 +1,7 @@
 import find from 'lodash/find';
 import pick from 'lodash/pick';
 import {
-  calcSummonersPoints,
+  calcSummonersPoints
 } from '../../helpers';
 
 export default (tournaments, users) => {
@@ -15,15 +15,15 @@ export default (tournaments, users) => {
     return list;
   }, {});
 
-  const resultsMap = userIds.reduce((results, userId) => ({...results, [userId]: 0}), {});
+  const resultsMap = userIds.reduce((results, userId) => ({ ...results, [userId]: 0 }), {});
 
-  for(const user of userIds) {
+  for (const user of userIds) {
     tournamentsList[user].forEach(tournament => {
       const { summoners, matches, rules } = tournament;
-  
+
       const summonersResults = calcSummonersPoints(summoners, matches, rules);
-  
-      for(const { summoner, points } of summonersResults) {
+
+      for (const { summoner, points } of summonersResults) {
         resultsMap[summoner] += points;
       }
     });
@@ -37,10 +37,10 @@ export default (tournaments, users) => {
       username,
       summonerName,
       imageUrl,
-      points,
-    }
+      points
+    };
   })
-  .sort((prev, next) => next.points - prev.points);
+    .sort((prev, next) => next.points - prev.points);
 
   return applicantsRating;
 };

@@ -3,11 +3,12 @@ export default (viewers, summonersResults = []) => {
     .reduce((map, result) => ({ ...map, [result.summoner]: result.points }), {});
 
   const viewersResults = viewers.reduce((results, viewer) => {
+    // eslint-disable-next-line
     const result = viewer.summoners.reduce((result, summoner) => result += summonersResultsMap[summoner], 0);
 
     results.push({
       viewerId: viewer.userId,
-      points: result,
+      points: result
     });
 
     return results;

@@ -21,7 +21,7 @@ const validator = [
     }
 
     return true;
-  }),
+  })
 ];
 
 const handler = withValidationHandler(async (req, res) => {

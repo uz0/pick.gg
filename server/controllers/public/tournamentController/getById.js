@@ -17,16 +17,15 @@ export const handler = withValidationHandler(async (req, res) => {
       .populate('winner')
       .populate('creatorId')
       .populate('matches')
+      .populate('teams')
       .populate('creator', '_id username summonerName')
       .exec();
     res.json(tournament);
-
   } catch (error) {
-    res.json({ error })
+    res.json({ error });
   }
-
-})
+});
 
 export const validator = [
   check('id').isMongoId()
-]
+];

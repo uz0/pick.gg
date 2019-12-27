@@ -22,7 +22,7 @@ export const handler = withValidationHandler(async (req, res) => {
 
   await Match.update(
     { _id: matchId },
-    { $set: { isActive: true, startedAt: Date.now() } },
+    { $set: { isActive: true, startedAt: Date.now() } }
   ).exec();
 
   const modifiedTournament = await Tournament
@@ -30,6 +30,7 @@ export const handler = withValidationHandler(async (req, res) => {
     .populate('creatorId')
     .populate('applicants')
     .populate('matches')
+    .populate('teams')
     .populate('creator', '_id username summonerName')
     .exec();
 

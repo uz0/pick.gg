@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 const refTo = schemaName => ({ type: Schema.Types.ObjectId, ref: schemaName });
 
 const schema = new Schema(
-{
+  {
     name: String,
     description: String,
     url: String,
@@ -22,7 +22,7 @@ const schema = new Schema(
     rewards: {
       type: Map,
       of: String,
-      default: {},
+      default: {}
     },
     rules: String,
     isForecastingActive: {
@@ -43,9 +43,9 @@ const schema = new Schema(
         id: refTo('User'),
         position: {
           type: String,
-          enum: ['summoner', 'viewer'],
+          enum: ['summoner', 'viewer']
         },
-        place: Number,
+        place: Number
       }
     ],
     creator: refTo('User'),
@@ -75,21 +75,27 @@ const schema = new Schema(
   }
 );
 
+schema.virtual('teams', {
+  ref: 'Team',
+  localField: '_id',
+  foreignField: 'tournamentId'
+});
+
 schema.virtual('matches', {
   ref: 'Match',
   localField: '_id',
   foreignField: 'tournamentId'
 });
 
-schema.virtual('isEmpty').get(function() {
-  if (isEmpty(this.rules) || isEmpty(this.rewards) || this.matches.length === 0) {
+schema.virtual('isEmpty').get(function () {
+  if (isEmpty(this.rules) || isEmpty(this.rewards) || (!this.matches || this.matches.length === 0)) {
     return true;
   }
 
   return false;
 });
 
-schema.virtual('isApplicationsAvailable').get(function() {
+schema.virtual('isApplicationsAvailable').get(function () {
   if (!this.isEmpty && !this.isForecastingActive && !this.isStarted) {
     return true;
   }
@@ -98,4 +104,3 @@ schema.virtual('isApplicationsAvailable').get(function() {
 });
 
 export default mongoose.model('Tournament', schema);
-

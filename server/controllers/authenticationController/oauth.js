@@ -1,15 +1,15 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
-import UserModel from '../../models/user'
+import UserModel from '../../models/user';
 
-import omitBy from 'lodash/omitBy'
-import isNil from 'lodash/isNil'
-import { ONE_DAY } from './constants'
+import omitBy from 'lodash/omitBy';
+import isNil from 'lodash/isNil';
+import { ONE_DAY } from './constants';
 
 export default (app) => async (req, res) => {
-  const { email, name, photo, summonerName, contact } = req.body
+  const { email, name, photo, summonerName, contact } = req.body;
 
-  const [specEmail] = email.split('@')
+  const [specEmail] = email.split('@');
   const userInfo = {
     username: specEmail,
     name,
@@ -17,15 +17,15 @@ export default (app) => async (req, res) => {
     email,
     summonerName,
     contact
-  }
+  };
 
   const user = await UserModel.findOneAndUpdate({ email }, omitBy(userInfo, isNil), {
     new: true,
     upsert: true,
     setDefaultsOnInsert: true
-  })
+  });
 
-  const { _id, username, isAdmin } = user
+  const { _id, username, isAdmin } = user;
 
   res.json({
     success: true,
@@ -38,5 +38,5 @@ export default (app) => async (req, res) => {
     }, app.get('superSecret'), {
       expiresIn: ONE_DAY
     })
-  })
-}
+  });
+};

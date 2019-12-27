@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withProps } from 'recompose';
 import ym from 'react-yandex-metrika';
 import pick from 'lodash/pick';
 import find from 'lodash/find';
-import debounce from 'lodash/debounce';
+import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
+import debounce from 'lodash/debounce';
 import classnames from 'classnames/bind';
 import { actions as tournamentsActions } from 'pages/tournaments';
-import uuid from 'uuid';
 
 import notificationActions from 'components/notification/actions';
+import { actions as modalActions } from 'components/modal-container';
 import { check } from 'components/dropin-auth/check';
 import Table from 'components/table';
 import Button from 'components/button';
@@ -43,40 +44,92 @@ const tableCaptions = ({ t, isMobile }) => ({
   },
 });
 
-const renderRow = ({ className, itemClass, textClass, index, item, props, captions }) => {
+const renderRow = ({ className, itemClass, textClass, items, item, props, captions }) => {
   const numberStyle = { '--width': captions.number.width };
   const nameStyle = { '--width': captions.name.width };
   const pointsStyle = { '--width': captions.points.width };
-  const isSummonerWinner = props.find(summoner => summoner.id === item._id);
+  const colorStyle = { ...numberStyle, '--color': item.color };
+
+  const isTeamExistUsers = item.users.length > 0;
+  const isDeleteTeamButtonShown = !isTeamExistUsers && items.length !== 1;
 
   return (
-    <div key={uuid()} className={cx(className, style.row)}>
-      <div className={cx(itemClass, style.cell)} style={numberStyle}>
-        <span className={textClass}>{index + 1}</span>
-      </div>
+    <Fragment key={item._id}>
+      <div key={item._id} className={cx(className, style.row)}>
+        <div className={cx(itemClass, style.cell)} style={colorStyle}/>
 
-      <div className={itemClass} style={nameStyle}>
-        <span className={textClass}>
-          {item.nickname}
-          {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
-        </span>
-      </div>
-
-      {item.points > 0 && (
-        <div className={cx(itemClass, style.cell)} style={pointsStyle}>
-          <span className={cx(textClass, style.points)}>{item.points}</span>
+        <div className={itemClass} style={nameStyle}>
+          <span className={textClass}>{item.name}</span>
         </div>
-      )}
-    </div>
+
+        <Button
+          appearance="_icon-transparent"
+          icon="edit"
+          className={style.action}
+          onClick={props.openEditTeamModal(item)}
+        />
+
+        {isDeleteTeamButtonShown && (
+          <Button
+            appearance="_icon-transparent"
+            icon="delete"
+            className={style.action}
+            onClick={props.deleteTeam(item._id)}
+          />
+        )}
+      </div>
+
+      {isTeamExistUsers &&
+      item.users.map((userId, userIndex) => {
+        const summoner = find(props.summoners, { _id: userId });
+
+        if (!summoner) {
+          return null;
+        }
+
+        const isSummonerWinner = props.tournament.winners.find(user => user.id === summoner._id);
+
+        return (
+          <div key={summoner._id} className={cx(className, style.row)}>
+            <div className={cx(itemClass, style.cell)} style={numberStyle}>
+              <span className={textClass}>{userIndex + 1}</span>
+            </div>
+
+            <div className={itemClass} style={nameStyle}>
+              <span className={textClass}>
+                {summoner.nickname}
+                {isSummonerWinner && <span className={style.is_winner}> {i18n.t('is_winner')}</span>}
+              </span>
+            </div>
+
+            {summoner.points > 0 && (
+              <div className={cx(itemClass, style.cell)} style={pointsStyle}>
+                <span className={cx(textClass, style.points)}>{summoner.points}</span>
+              </div>
+            )}
+
+            <Button
+              appearance="_icon-transparent"
+              icon="dots"
+              className={style.action}
+              onClick={props.openChooseTeamModal(summoner._id)}
+            />
+          </div>
+        );
+      })
+      }
+    </Fragment>
   );
 };
 
 const Summoners = ({
+  tournament,
   captions,
-  winners,
+  teams,
   summoners,
   className,
   isUserCanApply,
+  openEditTeamModal,
   isEditingAvailable,
   isApplicationsAvailable,
   isCurrentUserCanEdit,
@@ -85,19 +138,44 @@ const Summoners = ({
   isAlreadySummoner,
   addSummoners,
   applyTournament,
+  deleteTeam,
+  randomizeUsers,
+  openNewTeamModal,
+  usersList,
+  openChooseTeamModal,
 }) => {
   return (
     <div className={cx(style.summoners, className)}>
       <div className={style.header}>
         <h3 className={style.subtitle}>{i18n.t('summoners')}</h3>
+
         {isEditingAvailable && summoners.length > 0 && (
           <button
             type="button"
             className={style.button}
-            onClick={addSummoners}
+            onClick={openNewTeamModal}
           >
-            {i18n.t('edit')}
+            {i18n.t('new_team')}
           </button>
+        )}
+
+        {isEditingAvailable && summoners.length > 0 && (
+          <Button
+            appearance="_icon-transparent"
+            icon="refresh"
+            title={i18n.t('redistribution_players_by_teams')}
+            className={style.button}
+            onClick={randomizeUsers}
+          />
+        )}
+
+        {isEditingAvailable && summoners.length > 0 && (
+          <Button
+            appearance="_icon-transparent"
+            icon="edit"
+            className={style.button}
+            onClick={addSummoners}
+          />
         )}
       </div>
 
@@ -139,8 +217,15 @@ const Summoners = ({
           <Table
             noCaptions
             captions={captions}
-            items={summoners}
-            withProps={winners}
+            items={teams}
+            withProps={{
+              tournament,
+              summoners,
+              openChooseTeamModal,
+              openEditTeamModal,
+              deleteTeam,
+              usersList,
+            }}
             renderRow={renderRow}
             isLoading={false}
             className={style.table}
@@ -157,15 +242,86 @@ export default compose(
       currentUser: state.currentUser,
       users: state.users.list,
       tournament: state.tournaments.list[props.id],
+      usersList: state.users.list,
     }),
 
     {
       showNotification: notificationActions.showNotification,
       updateTournament: tournamentsActions.updateTournament,
+      toggleModal: modalActions.toggleModal,
     }
   ),
+
   withCaptions(tableCaptions),
+
   withHandlers({
+    openNewTeamModal: props => () => props.toggleModal({
+      id: 'edit-team-modal',
+
+      options: {
+        tournamentId: props.id,
+      },
+    }),
+
+    openEditTeamModal: props => team => () => props.toggleModal({
+      id: 'edit-team-modal',
+
+      options: {
+        tournamentId: props.id,
+        team,
+      },
+    }),
+
+    openChooseTeamModal: props => userId => () => props.toggleModal({
+      id: 'choose-team-modal',
+
+      options: {
+        userId,
+        teams: props.tournament.teams,
+        tournamentId: props.id,
+      },
+    }),
+
+    randomizeUsers: props => async () => {
+      try {
+        const response = await http(`/api/tournaments/${props.id}/teams/random`, {
+          method: 'PATCH',
+        });
+
+        const { tournament } = await response.json();
+
+        if (tournament) {
+          props.updateTournament({
+            _id: props.id,
+            teams: tournament.teams,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    deleteTeam: props => teamId => async () => {
+      try {
+        const response = await http(`/api/tournaments/${props.id}/teams/${teamId}`, {
+          method: 'DELETE',
+        });
+
+        const { success } = await response.json();
+
+        if (success) {
+          const teams = filter(props.tournament.teams, team => team._id !== teamId);
+
+          props.updateTournament({
+            _id: props.id,
+            teams,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     applyTournament: props => async () => {
       const tournamentId = props.id;
       const currentUserId = props.currentUser._id;
@@ -197,7 +353,7 @@ export default compose(
     },
   }),
   withProps(props => {
-    const { _id: tournamentId, game, creator, matches, rules, winners, isApplicationsAvailable } = props.tournament;
+    const { _id: tournamentId, game, creator, matches, rules, teams, winners, isApplicationsAvailable } = props.tournament;
     const users = Object.values(props.users);
     const currentUserId = props.currentUser && props.currentUser._id;
 
@@ -244,6 +400,7 @@ export default compose(
       isApplicantRejected,
       isAlreadyApplicant,
       isAlreadySummoner,
+      teams,
       summoners: summoners || [],
     };
   }),

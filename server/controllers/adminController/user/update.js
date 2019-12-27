@@ -13,7 +13,7 @@ const handler = withValidationHandler(async (req, res) => {
   try {
     const user = await UserModel.findOneAndUpdate({ _id: req.params.id },
       req.body,
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json(user);

@@ -74,7 +74,7 @@ const enhance = compose(
       const { tournamentId } = props.options;
 
       try {
-        await http(`/api/tournaments/${tournamentId}`, {
+        const response = await http(`/api/tournaments/${tournamentId}`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -82,11 +82,8 @@ const enhance = compose(
           body: JSON.stringify({ summoners: selectedSummoners }),
         });
 
-        props.updateTournament({
-          _id: tournamentId,
-          summoners: selectedSummoners,
-        });
-
+        const { tournament } = await response.json();
+        props.updateTournament(tournament);
         props.close();
       } catch (error) {
         console.log(error);

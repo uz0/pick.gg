@@ -14,7 +14,7 @@ const handler = withValidationHandler(async (req, res) => {
 
   const user = await UserModel
     .findById(id)
-    .select('-password')
+    .select('-password');
 
   res.json(user);
 });
