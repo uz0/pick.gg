@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import pick from 'lodash/pick';
 import { compose, withProps } from 'recompose';
 import { Field, withFormik } from 'formik';
+import pick from 'lodash/pick';
+import findIndex from 'lodash/findIndex';
 import * as Yup from 'yup';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
@@ -38,8 +39,12 @@ const EditMatch = ({
   isSubmitting,
   errors,
   touched,
+  teams,
   values,
+  game,
 }) => {
+  const isLol = game === 'LOL';
+
   const actions = [
     { text: i18n.t('edit'), appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
   ];
@@ -73,7 +78,64 @@ const EditMatch = ({
         }}
       />
 
-      {summoners.map((summoner, index) => (
+      {isLol && (
+        <div className={style.teams}>
+          {teams.map((team, index) => {
+            if (index === 1) {
+              return (
+                <Fragment key={team._id}>
+                  <p className={style.delimiter}>vs</p>
+                  <p className={style.team}>{team.name}</p>
+                </Fragment>
+              );
+            }
+
+            return <p key={team._id} className={style.team}>{team.name}</p>;
+          })}
+        </div>
+      )}
+
+      {isLol &&
+        teams.map(team => {
+          return (
+            <Fragment key={team._id}>
+              <div className={style.team_name_wrapper}>
+                <p className={style.team_name}>{team.name}</p>
+                <div className={style.divider}/>
+              </div>
+
+              {team.users.map(userId => {
+                const index = findIndex(summoners, { _id: userId });
+
+                if (index === -1) {
+                  return null;
+                }
+
+                const summoner = summoners[index];
+
+                return (
+                  <div key={summoner._id} className={style.summoner}>
+                    <h3 className={style.name}>{summoner.nickname}</h3>
+
+                    {playerRules.map(rule => (
+                      <Field
+                        key={`${summoner.nickname}_${rule}`}
+                        label={rule}
+                        name={`summoners[${index}].results.${rule}`}
+                        type="number"
+                        component={FormInput}
+                        className={style.result_field}
+                      />
+                    ))}
+                  </div>
+                );
+              })}
+            </Fragment>
+          );
+        })
+      }
+
+      {!isLol && summoners.map((summoner, index) => (
         <div key={summoner._id} className={style.summoner}>
           <h3 className={style.name}>{summoner.nickname}</h3>
 
@@ -107,7 +169,7 @@ export default compose(
   ),
   withProps(props => {
     const { matchId } = props.options;
-    const { game } = props.tournament;
+    const { game, teams } = props.tournament;
     const playerRules = RULES[game].player.reduce((rules, rule) => ([...rules, rule.ruleName]), []);
 
     const match = props.tournament.matches.find(match => match._id === matchId);
@@ -133,6 +195,8 @@ export default compose(
     return {
       match,
       summoners,
+      teams,
+      game,
       playerRules,
     };
   }),
