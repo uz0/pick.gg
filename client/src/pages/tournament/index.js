@@ -199,6 +199,7 @@ class Tournament extends Component {
       isEmpty: isTournamentEmpty,
       teams,
       summoners,
+      matches,
       isApplicationsAvailable,
       isForecastingActive,
       isStarted,
@@ -216,6 +217,8 @@ class Tournament extends Component {
 
     const isAllowForecastButtonDisabled = tournament && tournament.summoners.length < 2;
     const isFinalizeButtonDisabled = tournament && !tournament.matches.every(match => match.endAt);
+
+    const defaultTabIndex = isEmpty(matches) ? 1 : 0;
 
     return (
       <div className={cx('tournament', 'container')}>
@@ -308,7 +311,7 @@ class Tournament extends Component {
                   )}
                 </div>
 
-                <Tabs className={style.tabs}>
+                <Tabs defaultTabIndex={defaultTabIndex} className={style.tabs}>
                   <Tab>Матчи</Tab>
                   <Tab>Игроки</Tab>
                   {isCurrentUserCanEdit && <Tab>Модераторы</Tab>}

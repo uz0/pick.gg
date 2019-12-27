@@ -19,8 +19,8 @@ export const Panel = ({ children, panelIndex, activeTabIndex }) => {
   return activeTabIndex === panelIndex ? children : null;
 };
 
-export const Tabs = ({ children, className }) => {
-  const [activeTabIndex, setActiveTab] = useState(0);
+export const Tabs = ({ defaultTabIndex, className, children }) => {
+  const [activeTabIndex, setActiveTab] = useState(defaultTabIndex);
 
   const tabs = Children.toArray(children).filter(child => child.type.name === 'Tab');
   const panels = Children.toArray(children).filter(child => child.type.name === 'Panel');
