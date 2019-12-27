@@ -318,7 +318,9 @@ class Tournament extends Component {
 
                   <Panel>
                     {!isUserCanAddMatch && isCurrentUserCanEdit && (
-                      <p className={style.warning}>{i18n.t('tournament_page.add_summoners_match_warning')}</p>
+                      <p className={style.warning}>
+                        {i18n.t('tournament_page.add_summoners_match_warning')}
+                      </p>
                     )}
 
                     {!isUserCanAddMatch && !isCurrentUserCanEdit && (
@@ -332,7 +334,9 @@ class Tournament extends Component {
 
                   <Panel>
                     {!isSummonersWidgetVisible && isCurrentUserCanEdit && (
-                      <p className={style.warning}>{i18n.t('tournament_page.add_rules_players_warning')}</p>
+                      <p className={style.warning}>
+                        {i18n.t('tournament_page.add_rules_players_warning')}
+                      </p>
                     )}
 
                     {!isSummonersWidgetVisible && !isCurrentUserCanEdit && (
