@@ -380,7 +380,7 @@ const TournamentController = io => {
  *     summary: Start tournament
  *     description: Start tournament
  *     parameters:
- *     - in: "body"
+ *     - in: path
  *       name: "tournamentId"
  *       schema:
  *         type: object
@@ -408,7 +408,7 @@ const TournamentController = io => {
  *     summary: finalize tournament
  *     description: finalize tournament
  *     parameters:
- *     - in: "body"
+ *     - in: "query"
  *       name: "tournamentId"
  *       schema:
  *         type: object
