@@ -356,11 +356,20 @@
       "join_matchup": "Присоединиться"
     },
     "tournament_page": {
+      "tabs": {
+        "moderators": "МОДЕРАТОРЫ",
+        "players": "ИГРОКИ",
+        "matches": "МАТЧИ"
+      },
       "no_applicants": "Претендентов ещё нет",
       "applicants": "Претенденты",
       "add_rewards": "Добавить турнирные награды",
       "edit_rewards": "Изменить турнирные награды",
-      "accepted_summoner": "уже принят в качестве призывателя"
+      "accepted_summoner": "уже принят в качестве призывателя",
+      "add_summoners_match_warning":"Вы не можете добавить матч, пока не выбрали игроков и&nbsp;команды",
+      "there_is_no_matches_yet":"Матчи ещё не созданы",
+      "add_rules_players_warning":"Вы не можете добавить игроков, пока не выбрали правила и&nbsp;награды",
+      "there_is_no_players_yet":"Игроки ещё не добавлены"
     },
     "modal": {
       "step": "Шаг",

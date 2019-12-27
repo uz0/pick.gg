@@ -312,15 +312,17 @@ class Tournament extends Component {
                 </div>
 
                 <Tabs defaultTabIndex={defaultTabIndex} className={style.tabs}>
-                  <Tab>Матчи</Tab>
-                  <Tab>Игроки</Tab>
-                  {isCurrentUserCanEdit && <Tab>Модераторы</Tab>}
+                  <Tab>{i18n.t('tournament_page.tabs.matches')}</Tab>
+                  <Tab>{i18n.t('tournament_page.tabs.players')}</Tab>
+                  {isCurrentUserCanEdit && <Tab>{i18n.t('tournament_page.tabs.moderators')}</Tab>}
 
                   <Panel>
-                    {!isUserCanAddMatch && (
-                      <p className={style.warning}>
-                        Вы не можете добавить матч, пока не выбрали игроков и&nbsp;команды
-                      </p>
+                    {!isUserCanAddMatch && isCurrentUserCanEdit && (
+                      <p className={style.warning}>{i18n.t('tournament_page.add_summoners_match_warning')}</p>
+                    )}
+
+                    {!isUserCanAddMatch && !isCurrentUserCanEdit && (
+                      <p className={style.warning}>{i18n.t('tournament_page.there_is_no_matches_yet')}</p>
                     )}
 
                     {isUserCanAddMatch && (
@@ -329,10 +331,12 @@ class Tournament extends Component {
                   </Panel>
 
                   <Panel>
-                    {!isSummonersWidgetVisible && (
-                      <p className={style.warning}>
-                        Вы не можете добавить игроков, пока не выбрали правила и&nbsp;награды
-                      </p>
+                    {!isSummonersWidgetVisible && isCurrentUserCanEdit && (
+                      <p className={style.warning}>{i18n.t('tournament_page.add_rules_players_warning')}</p>
+                    )}
+
+                    {!isSummonersWidgetVisible && !isCurrentUserCanEdit && (
+                      <p className={style.warning}>{i18n.t('tournament_page.there_is_no_players_yet')}</p>
                     )}
 
                     {isSummonersWidgetVisible && (
