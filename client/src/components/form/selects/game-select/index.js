@@ -16,7 +16,7 @@ const enhance = compose(
   withStyles,
 );
 
-const positionsSelectConfig = GAMES.map(game => ({
+const gamesSelectConfig = GAMES.map(game => ({
   value: game,
   label: game,
 }));
@@ -34,7 +34,7 @@ const GameSelect = props => {
       <Select
         {...props}
         {...props.field}
-        defaultOptions={positionsSelectConfig}
+        defaultOptions={gamesSelectConfig}
         defaultInputValue={props.field.value}
         className={style.select}
         placeholder={i18n.t('choose_game')}
