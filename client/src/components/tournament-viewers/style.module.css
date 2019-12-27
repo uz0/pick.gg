@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-.viewers .header .subtitle {
+.viewers .subtitle {
   --height: 18px;
 
   flex-shrink: 0;
@@ -64,11 +64,20 @@
 }
 
 .viewers .content .forecast {
-  padding: 8px 12px;
+  padding: 4px 12px;
   border-radius: 2px;
   display: flex;
   align-items: center;
   background-color: #569659;
+}
+
+.viewers .content .subtitle + .forecast {
+  margin-top: 12px;
+}
+
+.viewers .content .forecast + .subtitle {
+  margin-top: 24px;
+  margin-bottom: 12px;
 }
 
 .viewers .content .attend + .forecast,
@@ -124,6 +133,13 @@
 
 .viewers .content .forecast .list .item .avatar {
   --avatar-size: 32px;
+}
+
+.viewers .content .forecast .list .item .points_by_player {
+  margin-top: 4px;
+  font-size: 13px;
+  text-align: center;
+  color: #fff;
 }
 
 .viewers .content .forecast .list .item .info {
