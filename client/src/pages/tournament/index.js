@@ -7,13 +7,13 @@ import debounce from 'lodash/debounce';
 import ym from 'react-yandex-metrika';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classnames from 'classnames/bind';
 import { actions as usersActions } from 'pages/dashboard/users';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Preloader from 'components/preloader';
 import TournamentInformation from 'components/tournament-information';
-import { Tabs, Tab, Panel } from 'components/tabs';
 import TournamentMatchesTimeline from 'components/tournament-matches-timeline';
 import TournamentSummoners from 'components/tournament-summoners';
 import TournamentModerators from 'components/tournament-moderators';
@@ -312,13 +312,14 @@ class Tournament extends Component {
                   )}
                 </div>
 
-                <Tabs defaultTabIndex={defaultTabIndex} className={style.tabs}>
-                  <Tab>{i18n.t('tournament_page.tabs.matches')}</Tab>
-                  <Tab>{i18n.t('tournament_page.tabs.teams')}</Tab>
-                  {isCurrentUserCanEdit && <Tab>{i18n.t('tournament_page.tabs.moderators')}</Tab>}
-                  <Tab>{i18n.t('tournament_page.tabs.players')}</Tab>
-
-                  <Panel>
+                <Tabs className={style.tabs} defaultIndex={defaultTabIndex}>
+                  <TabList className={style.tablist}>
+                    <Tab className={style.tab} selectedClassName={style.selectedTab}>{i18n.t('tournament_page.tabs.matches')}</Tab>
+                    <Tab className={style.tab} selectedClassName={style.selectedTab}>{i18n.t('tournament_page.tabs.teams')}</Tab>
+                    <Tab className={style.tab} selectedClassName={style.selectedTab}>{i18n.t('tournament_page.tabs.players')}</Tab>
+                    {isCurrentUserCanEdit && <Tab className={style.tab} selectedClassName={style.selectedTab}>{i18n.t('tournament_page.tabs.moderators')}</Tab>}
+                  </TabList>
+                  <TabPanel className={style.tabpanel}>
                     {!isUserCanAddMatch && isCurrentUserCanEdit && (
                       <p className={style.warning}>
                         {i18n.t('tournament_page.add_summoners_match_warning')}
@@ -332,9 +333,8 @@ class Tournament extends Component {
                     {isUserCanAddMatch && (
                       <TournamentMatchesTimeline id={this.props.match.params.id}/>
                     )}
-                  </Panel>
-
-                  <Panel>
+                  </TabPanel>
+                  <TabPanel className={style.tabpanel}>
                     {!isSummonersWidgetVisible && isCurrentUserCanEdit && (
                       <p className={style.warning}>
                         {i18n.t('tournament_page.add_rules_players_warning')}
@@ -359,25 +359,22 @@ class Tournament extends Component {
                         className={style.applicants_widget}
                       />
                     )}
-                  </Panel>
-
+                  </TabPanel>
                   {isCurrentUserCanEdit && (
-                    <Panel>
+                    <TabPanel className={style.tabpanel}>
                       <TournamentModerators
                         id={this.props.match.params.id}
                         className={style.moderators_widget}
                         addModerators={this.addModerators}
                       />
-                    </Panel>
-                  )
-                  }
-
-                  <Panel>
+                    </TabPanel>
+                  )}
+                  <TabPanel className={style.tabpanel}>
                     <TournamentRating
                       id={this.props.match.params.id}
                       className={style.rating_widget}
                     />
-                  </Panel>
+                  </TabPanel>
                 </Tabs>
               </div>
             </>
