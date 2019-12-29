@@ -360,6 +360,12 @@ class Tournament extends Component {
                       />
                     )}
                   </TabPanel>
+                  <TabPanel className={style.tabpanel}>
+                    <TournamentRating
+                      id={this.props.match.params.id}
+                      className={style.rating_widget}
+                    />
+                  </TabPanel>
                   {isCurrentUserCanEdit && (
                     <TabPanel className={style.tabpanel}>
                       <TournamentModerators
@@ -369,12 +375,6 @@ class Tournament extends Component {
                       />
                     </TabPanel>
                   )}
-                  <TabPanel className={style.tabpanel}>
-                    <TournamentRating
-                      id={this.props.match.params.id}
-                      className={style.rating_widget}
-                    />
-                  </TabPanel>
                 </Tabs>
               </div>
             </>
