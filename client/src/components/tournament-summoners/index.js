@@ -198,7 +198,7 @@ const Summoners = ({
         {isCurrentUserCanEdit && summoners.length === 0 && (
           <Button
             appearance="_small-accent"
-            text="Choose summoners"
+            text={i18n.t('choose_summoners')}
             className={style.button}
             onClick={addSummoners}
           />

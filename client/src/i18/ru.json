@@ -317,6 +317,9 @@
     "description": "Описание",
     "no_game_rules_help": "Для данной игры нет подсказок",
     "creating_tournament": "Создание турнира",
+    "allow_forecasts": "Начать прогнозы",
+    "add_moderators": "Добавить модераторов",
+    "choose_summoners": "Выберите призывателей",
     "faq": {
       "waiting_applicants": "Ждём претендентов на участие в матчах турнира",
       "add_rules_matches_rewards": "Ждём пока будут добавлены правила и награды",

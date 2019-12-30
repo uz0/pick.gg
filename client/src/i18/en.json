@@ -313,6 +313,9 @@
     "description": "Description",
     "no_game_rules_help": "There is no help for current game",
     "creating_tournament": "Creating a tournament",
+    "allow_forecasts": "Allow forecasts",
+    "add_moderators": "Add moderators",
+    "choose_summoners": "Choose summoners",
     "faq": {
       "waiting_applicants": "Waiting for people who want to participate in matches",
       "add_rules_matches_rewards": "Waiting for rules and rewards being added",
