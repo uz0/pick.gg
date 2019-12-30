@@ -13,8 +13,6 @@
 }
 
 .information .description {
-  display: flex;
-  flex-direction: column;
   margin-top: 30px;
   color: #fff;
 }
@@ -26,30 +24,53 @@
   font-family: var(--font-family-base);
 }
 
-.information .description p {
-  font-size: 14px;
-  line-height: 1.5;
+.information .description h1:not(:first-child),
+.information .description h2:not(:first-child),
+.information .description h3:not(:first-child),
+.information .description h4:not(:first-child),
+.information .description h5:not(:first-child),
+.information .description p:not(:first-child) {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.information .description p:not(:first-of-type) {
-  margin-top: 12px;
-}
-
-.information .description a {
-  opacity: 1;
-  color: var(--accent-color);
+.information .description h1:first-child,
+.information .description h2:first-child,
+.information .description h3:first-child,
+.information .description h4:first-child,
+.information .description h5:first-child,
+.information .description p:first-child {
+  margin-bottom: 10px;
 }
 
 .information .description h1 {
-  font-size: 18px;
+  font-size: 30px;
 }
 
-.information .description h1,
-.information .description h2,
-.information .description h3,
+.information .description h2 {
+  font-size: 26px;
+}
+
+.information .description h3 {
+  font-size: 23px;
+}
+
 .information .description h4 {
-  margin-bottom: 12px;
+  font-size: 19px;
+}
+
+.information .description h5 {
   font-size: 16px;
+}
+
+.information .description p {
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.information .description a {
+  font-size: 14px;
+  color: var(--accent-color);
 }
 
 .information .description .readmore {
