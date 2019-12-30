@@ -13,6 +13,8 @@ const cx = classnames.bind(style);
 const converter = new showdown.Converter();
 
 const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl, description, status }) => {
+  const formattedDescription = description.length > 110 ? `${description.substring(0, 110)}...` : description;
+
   return (
     <div style={{ backgroundImage: `url(${imageUrl})` }} className={cx('card', className)}>
       <div className={style.content}>
@@ -36,8 +38,8 @@ const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl,
             <h4 className={style.name}>{name}</h4>
           </div>
 
-          {description &&
-            <p className={style.description} dangerouslySetInnerHTML={{ __html: converter.makeHtml(description) }}/>
+          {formattedDescription &&
+            <p className={style.description} dangerouslySetInnerHTML={{ __html: converter.makeHtml(formattedDescription) }}/>
           }
         </div>
       </div>
