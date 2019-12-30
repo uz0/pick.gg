@@ -1,4 +1,5 @@
 .information {
+  min-width: 0;
   min-height: 200px;
   display: flex;
   flex-direction: column;
@@ -14,32 +15,35 @@
 
 .information .description {
   margin-top: 30px;
-  color: #fff;
-}
-
-.information .description code {
-  display: flex;
-  white-space: normal;
   font-size: 14px;
-  font-family: var(--font-family-base);
+  color: #fff;
+  line-height: 1.5;
 }
 
-.information .description h1:not(:first-child),
-.information .description h2:not(:first-child),
-.information .description h3:not(:first-child),
-.information .description h4:not(:first-child),
-.information .description h5:not(:first-child),
-.information .description p:not(:first-child) {
+.information .description h1:not(:first-child):not(:only-child),
+.information .description h2:not(:first-child):not(:only-child),
+.information .description h3:not(:first-child):not(:only-child),
+.information .description h4:not(:first-child):not(:only-child),
+.information .description h5:not(:first-child):not(:only-child),
+.information .description ul:not(:first-child):not(:only-child),
+.information .description ol:not(:first-child):not(:only-child),
+.information .description table:not(:first-child):not(:only-child),
+.information .description img:not(:first-child):not(:only-child),
+.information .description p:not(:first-child):not(:only-child) {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.information .description h1:first-child,
-.information .description h2:first-child,
-.information .description h3:first-child,
-.information .description h4:first-child,
-.information .description h5:first-child,
-.information .description p:first-child {
+.information .description h1:first-child:not(:only-child),
+.information .description h2:first-child:not(:only-child),
+.information .description h3:first-child:not(:only-child),
+.information .description h4:first-child:not(:only-child),
+.information .description h5:first-child:not(:only-child),
+.information .description ul:first-child:not(:only-child),
+.information .description ol:first-child:not(:only-child),
+.information .description table:first-child:not(:only-child),
+.information .description img:first-child:not(:only-child),
+.information .description p:first-child:not(:only-child) {
   margin-bottom: 10px;
 }
 
@@ -63,14 +67,33 @@
   font-size: 16px;
 }
 
-.information .description p {
-  line-height: 1.5;
-  font-size: 14px;
+.information .description table {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: block;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.information .description tr th,
+.information .description tr td {
+  padding: 4px 8px;
+  border: 1px solid var(--accent-color);
+}
+
+.information .description img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .information .description a {
-  font-size: 14px;
   color: var(--accent-color);
+}
+
+.information .description ul,
+.information .description ol {
+  padding-left: 15px;
 }
 
 .information .description .readmore {
