@@ -159,6 +159,11 @@ const Header = ({
                 {i18n.t('tournaments')}
               </NavLink>
 
+              <NavLink to="/rating">
+                <i className="material-icons">stars</i>
+                {i18n.t('rating')}
+              </NavLink>
+
               <NavLink to="/dashboard/tournaments">
                 <i className="material-icons">dashboard</i>
                 {i18n.t('dashboard')}
