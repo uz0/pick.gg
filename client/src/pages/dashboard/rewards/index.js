@@ -68,6 +68,8 @@ class Rewards extends Component {
   }
 
   render() {
+    const isRewardsExist = this.props.rewardsIds && this.props.rewardsIds.length > 0;
+
     return (
       <>
         <div className={style.controls}>
@@ -93,11 +95,11 @@ class Rewards extends Component {
 
         </div>
         <div className={style.rewards}>
-          {this.props.rewardsIds.length === 0 &&
+          {!isRewardsExist &&
             <p>There is no any reward</p>
           }
 
-          {this.props.rewardsIds.map(id => {
+          {isRewardsExist && this.props.rewardsIds.map(id => {
             const reward = this.props.rewardsList[id];
 
             const { _id, userId, key, description, image, isClaimed } = reward;
