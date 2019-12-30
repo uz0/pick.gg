@@ -1,5 +1,7 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import classnames from 'classnames/bind';
+import showdown from 'showdown';
 
 import Icon from 'components/icon';
 
@@ -8,6 +10,7 @@ import i18n from 'i18next';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
+const converter = new showdown.Converter();
 
 const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl, description, status }) => {
   return (
@@ -33,7 +36,9 @@ const TournamentCard = ({ name, dateDay, dateMonth, people, className, imageUrl,
             <h4 className={style.name}>{name}</h4>
           </div>
 
-          <p className={style.description}>{description}</p>
+          {description &&
+            <p className={style.description} dangerouslySetInnerHTML={{ __html: converter.makeHtml(description) }}/>
+          }
         </div>
       </div>
     </div>
