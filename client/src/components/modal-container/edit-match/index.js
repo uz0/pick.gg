@@ -336,7 +336,6 @@ export default compose(
       game,
       summoners,
       teams,
-      game,
       playerRules,
       loadResults,
       loadMatches,
