@@ -1,13 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
+import pick from 'lodash/pick';
+import merge from 'lodash/merge';
 import { compose, withProps } from 'recompose';
 import { Field, withFormik } from 'formik';
-import pick from 'lodash/pick';
 import findIndex from 'lodash/findIndex';
 import * as Yup from 'yup';
 import { actions as tournamentsActions } from 'pages/tournaments';
+import classnames from 'classnames';
 
+import Table from 'components/table';
 import FileInput from 'components/form/input-file';
+import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 import Modal from 'components/modal';
 import { FormInput } from 'components/form/input';
@@ -20,6 +24,8 @@ import i18n from 'i18n';
 
 import style from './style.module.css';
 
+const cx = classnames.bind(style);
+
 const validationSchema = Yup.object().shape({
   resultsFile: Yup.mixed()
     .test('fileType', 'Unsupported File Format', value => {
@@ -31,23 +37,89 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
+const mergeByNicknames = (objValue, srcValue) => {
+  const summoners = []
+  if (objValue && objValue.summoners && srcValue && srcValue.summoners) {
+    for (let objSummoner of objValue.summoners) {
+      for (let srcSummoner of srcValue.summoners) {
+        if (objSummoner.nickname === srcSummoner.nickname) {
+          summoners.push(srcSummoner)
+        } else {
+          summoners.push(objSummoner)
+        }
+      }
+    }
+    return merge(objValue, {summoners});
+  }
+};
+
 const EditMatch = ({
   close,
   summoners,
+  game,
   playerRules,
   setFieldValue,
+  loadResults,
+  loadMatches,
+  setValues,
   isSubmitting,
   errors,
   touched,
   teams,
   values,
-  game,
+  lastMatchesCaptions,
 }) => {
   const isLol = game === 'LOL';
 
   const actions = [
     { text: i18n.t('edit'), appearance: '_basic-accent', type: 'submit', disabled: isSubmitting },
   ];
+
+  const [playerLastMatches, setPlayerLastMatches] = useState([]);
+  const [isLastMatchesShown, setIsLastMatchesShown] = useState(false);
+
+  const handleResultsLoad = async matchId => {
+    const loadedResults = await loadResults(matchId);
+    const resolvedNames = values.summoners.map(i => i.nickname);
+    const filtered = loadedResults.summoners.filter(summoner => resolvedNames.includes(summoner.nickname));
+    setValues(mergeByNicknames(values, { summoners: filtered }));
+    setIsLastMatchesShown(false);
+  };
+
+  const handleMatchesLoad = async () => {
+    const loadedMatches = await loadMatches(values.resultsTargetPlayer);
+    setPlayerLastMatches(loadedMatches);
+    setIsLastMatchesShown(true);
+  };
+
+  const renderRow = ({ className, itemClass, textClass, item, captions }) => {
+    const chooseButton = { '--width': captions.chooseButton.width };
+    const createdAt = { '--width': captions.createdAt.width };
+    const duration = { '--width': captions.duration.width };
+    const gameMode = { '--width': captions.gameMode.width };
+
+    return (
+      <div key={item.id} className={cx(className, 'row')}>
+        <div className={itemClass} style={chooseButton}>
+          <Button
+            appearance="_basic-accent"
+            icon="plus"
+            className={style.button}
+            onClick={() => handleResultsLoad(item.id)}
+          />
+        </div>
+        <div className={itemClass} style={createdAt}>
+          <span className={textClass}>{item.createdAt}</span>
+        </div>
+        <div className={itemClass} style={duration}>
+          <span className={textClass}>{item.duration}</span>
+        </div>
+        <div className={itemClass} style={gameMode}>
+          <span className={textClass}>{item.gameMode}</span>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <Modal
@@ -66,17 +138,47 @@ const EditMatch = ({
         className={style.field}
       />
 
-      <FileInput
-        label={i18n.t('modal.results_file')}
-        name="resultsFile"
-        file={values.resultsFile}
-        error={errors.resultsFile}
-        isTouched={touched.resultsFile}
-        className={style.field}
-        onChange={event => {
-          setFieldValue('resultsFile', event.currentTarget.files[0]);
-        }}
-      />
+      {game === 'LOL' && (
+        <FileInput
+          label={i18n.t('modal.results_file')}
+          name="resultsFile"
+          file={values.resultsFile}
+          error={errors.resultsFile}
+          isTouched={touched.resultsFile}
+          className={style.field}
+          onChange={event => {
+            setFieldValue('resultsFile', event.currentTarget.files[0]);
+          }}
+        />
+      )}
+
+      {game === 'PUBG' && (
+        <>
+          <div className={style.fetch}>
+            <Field
+              label={i18n.t('result_modal.show_last_matches_of_player')}
+              name="resultsTargetPlayer"
+              component={FormInput}
+              className={style.field}
+            />
+            <Button
+              text={i18n.t('button.load')}
+              appearance="_basic-accent"
+              className={style.button}
+              onClick={() => handleMatchesLoad()}
+            />
+          </div>
+          {isLastMatchesShown && (
+            <Table
+              captions={lastMatchesCaptions}
+              items={playerLastMatches}
+              renderRow={renderRow}
+              className={style.table}
+              emptyMessage={i18n.t('no_matches_results')}
+            />
+          )}
+        </>)
+      }
 
       {isLol && (
         <div className={style.teams}>
@@ -160,6 +262,7 @@ export default compose(
     (state, props) => ({
       tournament: state.tournaments.list[props.options.tournamentId],
       users: state.users.list,
+      device: state.device,
     }),
 
     {
@@ -168,6 +271,7 @@ export default compose(
     }
   ),
   withProps(props => {
+    const isMobile = props.device === 'touch';
     const { matchId } = props.options;
     const { game, teams } = props.tournament;
     const playerRules = RULES[game].player.reduce((rules, rule) => ([...rules, rule.ruleName]), []);
@@ -192,12 +296,50 @@ export default compose(
       };
     });
 
+    const loadResults = async matchId => {
+      const loadedValues = await http(`/external/pubg/match/${matchId}`);
+      const results = await loadedValues.json();
+
+      return results;
+    };
+
+    const loadMatches = async name => {
+      const loadedValues = await http(`/external/pubg/lastMatches/${name}`);
+      const matches = await loadedValues.json();
+
+      return matches;
+    };
+
+    const lastMatchesCaptions = {
+      chooseButton: {
+        text: 'Press to choose',
+        width: isMobile ? 75 : 100,
+      },
+      createdAt: {
+        text: 'Created',
+        width: isMobile ? 120 : 150,
+      },
+
+      duration: {
+        text: 'Duration',
+        width: isMobile ? 75 : 100,
+      },
+
+      gameMode: {
+        text: 'Mode',
+        width: isMobile ? 75 : 100,
+      },
+    };
+
     return {
       match,
+      game,
       summoners,
       teams,
-      game,
       playerRules,
+      loadResults,
+      loadMatches,
+      lastMatchesCaptions,
     };
   }),
   withFormik({
