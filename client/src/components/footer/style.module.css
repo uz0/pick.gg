@@ -77,6 +77,10 @@
   color: var(--accent-color);
 }
 
+.footer .container .lang_settings .underline {
+  text-decoration: underline;
+}
+
 @media (max-width: 480px) {
   .footer {
     height: 120px;

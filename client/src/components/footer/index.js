@@ -15,6 +15,12 @@ const Footer = () => {
     window.location.reload();
   };
 
+  const underline = lang => {
+    if (localStorage.getItem('_pgg_locale') === lang) {
+      return style.underline;
+    }
+  };
+
   return (
     <footer className={style.footer}>
       <div className={style.container}>
@@ -26,8 +32,8 @@ const Footer = () => {
         </div>
 
         <div className={style.lang_settings}>
-          <button type="button" name="ru" onClick={changeLocale}>RU</button>
-          <button type="button" name="en" onClick={changeLocale}>EN</button>
+          <button className={underline('ru')} type="button" name="ru" onClick={changeLocale}>RU</button>
+          <button className={underline('en')} type="button" name="en" onClick={changeLocale}>EN</button>
         </div>
       </div>
     </footer>
