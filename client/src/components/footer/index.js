@@ -12,7 +12,16 @@ const Footer = () => {
     i18n.changeLanguage(event.target.name);
 
     ym('reachGoal', `choosed_${event.target.name}_locale`);
-    window.location.reload();
+
+    if (window.location.hostname.includes('pick.gg')) {
+      if (event.target.name === 'ru') {
+        window.location.hostname = 'ru.pick.gg';
+      } else {
+        window.location.hostname = 'pick.gg';
+      }
+    } else {
+      window.location.reload();
+    }
   };
 
   const underline = lang => {
