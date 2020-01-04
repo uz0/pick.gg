@@ -324,6 +324,22 @@
       "tournament_go": "Турнир идёт прямо сейчас",
       "is_over": "Турнир окончен"
     },
+    "forms": {
+      "user_settings": {
+        "general_info": "Общая информация",
+
+        "login": "Логин:",
+        "email": "Электронная почта:",
+        "contact": "Контактная информация:",
+        "twitch": "Ссылка на Twitch:",
+        "userpic": "Ссылка на аватар:",
+        "about": "Обо мне:",
+        "lol_name": "Display name в LoL:",
+        "lol_region": "Регион в LoL:",
+        "pubg_name": "Никнейм в PUBG:",
+        "pubg_region": "Регион в PUBG:"
+      }
+    },
     "home": {
       "under_title": "Где стримеры и зрители",
       "under_title_2": " играют вместе",
