@@ -27,11 +27,12 @@ const RegionSelect = props => {
   };
 
   return (
-    <div className={cx('wrapper', props.className)}>
-      <label className={style.caption}>Region</label>
+    <div className={cx(style.wrapper, { [style.alignLeft]: props.labelPosition === 'left' }, props.className)}>
+      <label className={style.caption}>{props.label}</label>
       <Select
         {...props}
         {...props.field}
+        menuPlacement="auto"
         defaultOptions={regionsSelectConfig}
         defaultInputValue={props.field.value}
         className={style.select}
