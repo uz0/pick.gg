@@ -10,6 +10,7 @@ export default (app) => async (req, res) => {
   const { email, name, photo, summonerName, contact } = req.body;
 
   const [specEmail] = email.split('@');
+
   const userInfo = {
     username: specEmail,
     name,

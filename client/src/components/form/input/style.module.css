@@ -61,9 +61,10 @@
 
 .wrapper .field:disabled {
   --icon-size: 16px;
+
   padding-right: 32px;
   background-color: #313444;
-  background-size: var(--icon-size); 
+  background-size: var(--icon-size);
   background-repeat: no-repeat;
   background-position: calc(100% - var(--icon-size) / 2) 50%;
   background-image: url('assets/icons/disabled_lock.svg');
