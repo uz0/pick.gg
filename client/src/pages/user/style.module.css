@@ -24,7 +24,7 @@
   line-height: 40px;
   font-size: 32px;
   color: var(--header-color);
-  text-shadow: 0px 1px 1px #000000;
+  text-shadow: 0 1px 1px #000;
   white-space: nowrap;
 }
 
@@ -41,6 +41,7 @@
 
 .statistics_masonry {
   --height: 160px;
+
   display: flex;
   background-color: var(--background-color);
   border-radius: 4px;
@@ -59,7 +60,7 @@
 }
 
 .statistics_masonry .item:not(:last-of-type) {
-  box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 1);
+  box-shadow: 1px 0 0 0 rgba(0, 0, 0, 1);
 }
 
 .statistics_masonry .item .key {
@@ -73,14 +74,14 @@
   font-weight: var(--font-weight-bold);
   font-size: 20px;
   color: var(--header-color);
-  text-shadow: 0px 1px 1px #000000;
+  text-shadow: 0 1px 1px #000;
 }
 
 .statistics_masonry .no_games {
   background-color: #1b1b2d !important;
 }
 
-.statistics_masonry .item+.no_games .value {
+.statistics_masonry .item + .no_games .value {
   font-size: 12px;
   color: #ccc;
   height: 20px;
@@ -91,7 +92,7 @@
   font-weight: var(--font-weight-bold);
   font-size: 12px;
   color: var(--accent-color);
-  text-shadow: 0px 1px 1px #000000;
+  text-shadow: 0 1px 1px #000;
   position: absolute;
   bottom: 10px;
   left: 10px;
@@ -131,8 +132,8 @@
   border-radius: 4px;
   margin-right: 24px;
   z-index: 1;
-  transition: .25s ease-in;
-  border: 1px solid #333333;
+  transition: 0.25s ease-in;
+  border: 1px solid #333;
   flex-shrink: 0;
 }
 
@@ -156,7 +157,7 @@
 .card .content {
   padding: 24px;
   z-index: 2;
-  background-image: linear-gradient( 120deg, rgba(48, 48, 94, 0.6), rgba(14, 14, 43, 0.8), rgba(49, 49, 116, 0.4));
+  background-image: linear-gradient(120deg, rgba(48, 48, 94, 0.6), rgba(14, 14, 43, 0.8), rgba(49, 49, 116, 0.4));
   background-size: 150%;
   display: flex;
   transition: 0.3s ease-in;
@@ -165,6 +166,7 @@
 
 .card .content .name {
   --height: 48px;
+
   overflow: hidden;
   min-height: var(--height);
   max-height: var(--height);
@@ -177,7 +179,7 @@
   padding-right: 20px;
 }
 
-.card .content .name+.info {
+.card .content .name + .info {
   margin-top: 12px;
 }
 
@@ -191,11 +193,13 @@
 .card .content .info i {
   --icon-size: 20px;
   --icon-color: var(--accent-color);
+
   flex-shrink: 0;
 }
 
 .card .content .info .name {
   --height: 20px;
+
   flex-shrink: 0;
   height: var(--height);
   line-height: var(--height);
@@ -207,6 +211,7 @@
 
 .card .content .info .value {
   --height: 20px;
+
   height: var(--height);
   margin-left: 8px;
   line-height: var(--height);
@@ -230,9 +235,11 @@
   .statistics_masonry .item .key {
     font-size: 20px;
   }
+
   .statistics_masonry .item .value {
     font-size: 18px;
   }
+
   .last_games {
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 24px;
@@ -244,77 +251,91 @@
     font-size: 12px;
     padding: 0 10px;
   }
+
   .header_tournaments {
-    margin-top: 0px;
+    margin-top: 0;
   }
+
   .header_tournaments p {
     padding: 0 10px;
   }
+
   .content {
     width: 90%;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 30px;
   }
+
   .content aside {
-    margin-top: 60px;
-    margin-right: 30px;
+    margin-top: 0;
+    margin-right: 0;
   }
+
   .statistics_masonry .item .value {
-    font-size: 16px
+    font-size: 16px;
   }
+
   .statistics_masonry .item .key {
     font-size: 20px;
     margin-bottom: 6px;
   }
+
   .last_games {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 32px;
   }
-  .content {
-    flex-direction: column;
-    padding-top: 20px;
-    padding-bottom: 30px;
-  }
-  .content aside {
-    margin-right: 0px;
-  }
+
   .content h2 {
     font-size: 27px;
   }
+
   .content .user_statistics {
     padding-top: 0;
   }
-  .content .user_statistics>div {
+
+  .content .user_statistics > div {
     padding-top: 24px;
   }
+
   .content .user_statistics .statistics_masonry {
     margin-bottom: 0;
   }
 }
 
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px) {
   .user_statistics .statistics_masonry {
     margin-bottom: 0;
   }
+
   .content .user_statistics .statistics_masonry {
-    margin-bottom: 0px;
+    margin-bottom: 0;
+
     --height: 94px;
   }
+
   .last_games {
     grid-gap: 12px;
   }
+
   .card .content {
     font-size: 12px;
   }
+
   .card .content .name {
     font-size: 16px;
   }
+
   .statistics_masonry .item .value {
-    font-size: 12px
+    font-size: 12px;
   }
+
   .statistics_masonry .item .key {
-    font-size: 14px
+    font-size: 14px;
   }
-  .statistics_masonry .item+.no_games .value {
+
+  .statistics_masonry .item + .no_games .value {
     font-size: 12px;
     height: 12px;
   }
@@ -322,14 +343,17 @@
 
 @media screen and (max-width: 320px) {
   .statistics_masonry .item .value {
-    font-size: 16px
+    font-size: 16px;
   }
+
   .statistics_masonry .item .key {
-    font-size: 14px
+    font-size: 14px;
   }
+
   .tournaments_block {
     margin-bottom: 20px;
   }
+
   .user_statistics h2 {
     margin: 0;
     padding: 10px 0 5px 0;

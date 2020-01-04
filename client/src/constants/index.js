@@ -32,11 +32,20 @@ export const RULES = {
         ruleName: 'kills',
         description: 'Foes killed',
       }, {
+        ruleName: 'timeSurvived',
+        description: 'Survived time',
+      }, {
         ruleName: 'assists',
         description: 'Assists count',
       }, {
-        ruleName: 'loot',
-        description: 'How many bullets',
+        ruleName: 'winPlace',
+        description: 'Final place',
+      }, {
+        ruleName: 'revives',
+        description: 'Revives count',
+      }, {
+        ruleName: 'weaponsAcquired',
+        description: 'Weapons acquired',
       },
     ],
     match: [

@@ -252,7 +252,7 @@ class Tournament extends Component {
             {isCurrentUserCanEdit && isApplicationsAvailable && (
               <Button
                 disabled={isAllowForecastButtonDisabled}
-                text="Allow forecasts"
+                text={i18n.t('allow_forecasts')}
                 appearance="_basic-accent"
                 onClick={this.enableForecasting}
               />
@@ -269,7 +269,7 @@ class Tournament extends Component {
             {isCurrentUserCanEdit && isStarted && !isFinalized && (
               <Button
                 disabled={isFinalizeButtonDisabled}
-                text="Finalize tournament"
+                text={i18n.t('finalize_tournament')}
                 appearance="_basic-accent"
                 onClick={debounce(this.finalizeTournament, 1000)}
               />

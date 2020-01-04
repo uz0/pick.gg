@@ -30,14 +30,18 @@ export default (tournaments, users) => {
   }
 
   const applicantsRating = Object.entries(resultsMap).map(([summonerId, points]) => {
-    const { _id, summonerName, username, imageUrl } = users.find(item => String(item._id) === String(summonerId));
+    const user = users.find(item => String(item._id) === String(summonerId));
+
+    if (!user) {
+      return;
+    }
 
     return {
-      _id,
-      username,
-      summonerName,
-      imageUrl,
-      points
+      _id: user._id,
+      username: user.username,
+      summonerName: user.summonerName,
+      imageUrl: user.imageUrl,
+      points: user.points
     };
   })
     .sort((prev, next) => next.points - prev.points);

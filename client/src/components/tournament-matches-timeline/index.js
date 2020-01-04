@@ -300,7 +300,7 @@ class TournamentMatchesTimeline extends Component {
           {isCurrentUserCanEdit && !isFinalized && (
             <Button
               appearance="_small-accent"
-              text="Add match"
+              text={i18n.t('add_match')}
               className={style.button}
               onClick={this.addMatch}
             />

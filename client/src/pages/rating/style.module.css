@@ -14,7 +14,7 @@
   font-weight: var(--font-weight-bold);
   font-size: 24px;
   color: var(--caption-color);
-  text-shadow: 0px 1px 1px #000000;
+  text-shadow: 0 1px 1px #000;
   text-align: center;
   text-transform: uppercase;
 }
@@ -39,14 +39,16 @@
 }
 
 .section .avatar_table {
-  width: 30px;
   --height: 30px !important;
+
+  width: 30px;
   display: flex;
   align-items: center;
   overflow: auto;
   margin: 0 auto;
   border-radius: 50%;
   flex-shrink: 0;
+  background: #396e3c;
 }
 
 .avatar_table img {
@@ -66,7 +68,7 @@
 
 .buttons .tab_button {
   background: #ccc;
-  color: #000000;
+  color: #000;
   padding: 6px 24px;
   margin: 6px 12px;
 }
@@ -108,21 +110,12 @@
 }
 
 .column .row_column {
-  background: #121b49;
+  background: #549557;
   margin-bottom: 8px;
   width: 100%;
 }
 
-.column .row_column .item>.text {
-  --text-color: red;
-}
-
-@media screen and (max-width: 768px) {}
-
-@media screen and (max-width: 480px) {
-}
-
-.column .row_column .item>.text {
+.column .row_column .item > .text {
   --text-color: red;
 }
 
@@ -130,6 +123,7 @@
   .main_block {
     flex-direction: column;
   }
+
   .main_block .section {
     width: 100%;
     margin-bottom: 24px;

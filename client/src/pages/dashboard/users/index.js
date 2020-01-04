@@ -38,9 +38,11 @@ class Users extends Component {
   });
 
   render() {
+    const isUsersExist = this.props.usersIds && this.props.usersIds.length > 0;
+
     return (
       <div className={style.users}>
-        {this.props.usersIds.map(id => {
+        {isUsersExist && this.props.usersIds.map(id => {
           const user = this.props.usersList[id];
           const { _id, username, gameSpecificName, canProvideTournaments, isAdmin } = user;
 

@@ -152,10 +152,11 @@
 .card .content .description {
   font-size: 14px;
   color: #fff;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.card .content .description a {
+  color: var(--accent-color);
 }
 
 @media (max-width: 768px) {

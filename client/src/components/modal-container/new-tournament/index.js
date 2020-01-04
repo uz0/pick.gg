@@ -20,6 +20,7 @@ import modalActions from '../actions';
 import style from './style.module.css';
 
 const date = new Date();
+date.setDate(date.getDate() - 1);
 
 const validationSchema = Yup.object().shape({
   game: Yup.string()

@@ -69,7 +69,7 @@ const Moderators = ({
         {isCurrentUserCreatorOrAdmin && moderators.length === 0 && (
           <Button
             appearance="_small-accent"
-            text="Add moderators"
+            text={i18n.t('add_moderators')}
             className={style.button}
             onClick={addModerators}
           />

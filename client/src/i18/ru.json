@@ -317,6 +317,9 @@
     "description": "Описание",
     "no_game_rules_help": "Для данной игры нет подсказок",
     "creating_tournament": "Создание турнира",
+    "allow_forecasts": "Начать прогнозы",
+    "add_moderators": "Добавить модераторов",
+    "choose_summoners": "Выберите призывателей",
     "faq": {
       "waiting_applicants": "Ждём претендентов на участие в матчах турнира",
       "add_rules_matches_rewards": "Ждём пока будут добавлены правила и награды",
@@ -426,6 +429,7 @@
       "results": "Результаты",
       "results_choosed": "Результаты выбраны",
       "upload_file": "Загрузить результаты",
+      "show_last_matches_of_player": "Выбрать из последних матчей игрока",
       "action_button_text": "Обновить матч",
       "notification": {
         "match_updated": "Матч {{name}} успешно обновлен"
@@ -484,7 +488,8 @@
       "delete_user": "Удалить",
       "back": "назад",
       "cancel": "отменить",
-      "delete": "удалить"
+      "delete": "удалить",
+      "load": "Загрузить"
     },
     "empty_message": {
       "no_claimed_rewards": "У вас нет никаких наград"

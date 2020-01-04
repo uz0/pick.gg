@@ -313,6 +313,9 @@
     "description": "Description",
     "no_game_rules_help": "There is no help for current game",
     "creating_tournament": "Creating a tournament",
+    "allow_forecasts": "Allow forecasts",
+    "add_moderators": "Add moderators",
+    "choose_summoners": "Choose summoners",
     "faq": {
       "waiting_applicants": "Waiting for people who want to participate in matches",
       "add_rules_matches_rewards": "Waiting for rules and rewards being added",
@@ -432,6 +435,7 @@
       "action_button_text": "Add results",
       "drag_and_drop_file": "You can drag and drop file",
       "upload_file_button_text": "or click here",
+      "show_last_matches_of_player": "Choose from last matches of player",
       "error": {
         "multiple_files_upload": "You can\"t upload multiple files",
         "choose_file_first": "You should choose file first",
@@ -477,7 +481,8 @@
       "delete_user": "Delete user",
       "back": "back",
       "cancel": "cancel",
-      "delete": "delete"
+      "delete": "delete",
+      "load": "Load"
     },
     "empty_message": {
       "no_claimed_rewards": "You don't have any not claimed rewards"
