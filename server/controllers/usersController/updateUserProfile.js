@@ -3,14 +3,13 @@ import pick from 'lodash/pick';
 
 import UserModel from '../../models/user';
 
-import { isRequestHasCorrectFields, isUserHasToken } from '../validators';
+import { isUserHasToken } from '../validators';
 
 import { withValidationHandler } from '../helpers';
 
 const validator = [
   body()
     .custom((value, { req }) => isUserHasToken(value, req))
-    .custom(value => isRequestHasCorrectFields(value, UserModel))
 ];
 
 const handler = withValidationHandler(async (req, res) => {
@@ -24,7 +23,6 @@ const handler = withValidationHandler(async (req, res) => {
         'about',
         'twitchAccount',
         'gameSpecificFields',
-        'regionId',
         'contact'
       ]),
       { new: true }
