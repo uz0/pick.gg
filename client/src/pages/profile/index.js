@@ -11,7 +11,7 @@ import RegionSelect from 'components/form/selects/region-select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 
-import { http, getChangedFormFields } from 'helpers';
+import { http } from 'helpers';
 
 import i18n from 'i18n';
 
@@ -115,14 +115,6 @@ const Profile = () => {
             component={FormInput}
             className={style.field}
           />
-
-          <Field
-            name="gameSpecificFields.PUBG.regionId"
-            label={i18n.t('forms.user_settings.pubg_region')}
-            labelPosition="left"
-            component={RegionSelect}
-            className={style.field}
-          />
         </section>
 
         <Button
@@ -160,16 +152,13 @@ const enhance = compose(
       'contact',
     ]),
     handleSubmit: async (values, formikBag) => {
-      const defaultState = formikBag.props.currentUser;
-      const requestBody = getChangedFormFields(defaultState, values);
-
       try {
         const request = await http('/api/users/me', {
           headers: {
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify(requestBody),
+          body: JSON.stringify(values),
         });
 
         const updatedProfile = await request.json();
@@ -180,7 +169,7 @@ const enhance = compose(
           message: i18n.t('notifications.success.profile_edited'),
         });
 
-        formikBag.props.setCurrentUser({ ...updatedProfile });
+        formikBag.props.setCurrentUser(updatedProfile);
       } catch (error) {
         console.log(error);
       }
