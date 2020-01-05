@@ -22,8 +22,13 @@ const regionsSelectConfig = REGIONS.map(region => ({
 }));
 
 const RegionSelect = props => {
-  const setField = ({ label, value }) => {
-    props.form.setFieldValue('regionId', { label, value });
+  const selectValue = {
+    label: props.field.value,
+    value: props.field.value,
+  };
+
+  const setField = ({ value }) => {
+    props.form.setFieldValue(props.field.name, value);
   };
 
   return (
@@ -34,7 +39,7 @@ const RegionSelect = props => {
         {...props.field}
         menuPlacement="auto"
         defaultOptions={regionsSelectConfig}
-        defaultInputValue={props.field.value}
+        value={selectValue}
         className={style.select}
         placeholder={i18n.t('choose_region')}
         onChange={setField}
