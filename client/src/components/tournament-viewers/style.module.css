@@ -8,6 +8,7 @@
 .viewers .subtitle {
   --height: 18px;
 
+  margin-bottom: 24px;
   flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
