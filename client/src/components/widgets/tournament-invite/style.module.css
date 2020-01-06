@@ -5,6 +5,7 @@
 
 .invite .content .link_wrapper .link {
   --height: 40px;
+
   display: flex;
   align-items: center;
   background-color: #0a0a1f;

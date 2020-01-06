@@ -9,7 +9,7 @@
 
 .widget .title {
   --height: 28px;
-  
+
   flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
