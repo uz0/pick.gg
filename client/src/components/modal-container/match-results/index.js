@@ -5,6 +5,7 @@ import withProps from 'recompose/withProps';
 import classnames from 'classnames/bind';
 import filter from 'lodash/filter';
 import pick from 'lodash/pick';
+
 import Modal from 'components/modal';
 import Table from 'components/table';
 
