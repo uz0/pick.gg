@@ -10,7 +10,7 @@ import { actions as tournamentsActions } from 'pages/tournaments';
 import classnames from 'classnames';
 
 import { actions as notificationActions } from 'components/notification';
-import TournamentRewards from 'components/tournament-rewards';
+import TournamentRewards from 'components/widgets/tournament-rewards';
 import Modal from 'components/modal';
 import Table from 'components/table';
 import Select from 'components/filters/select';

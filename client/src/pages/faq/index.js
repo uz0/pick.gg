@@ -2,7 +2,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 
-import StatusControl from 'components/tournament-information/controls/status-control';
+import StatusControl from 'components/widgets/tournament-information/controls/status-control';
 
 import i18n from 'i18n';
 

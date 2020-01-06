@@ -2,19 +2,6 @@
   max-width: 410px;
 }
 
-.moderators .header {
-  --moderators-header-height: 28px;
-
-  display: flex;
-  align-items: center;
-}
-
-.moderators .header h4 {
-  text-transform: uppercase;
-  font-size: 18px;
-  color: #fff;
-}
-
 .moderators .header .button {
   flex-shrink: 0;
   height: var(--moderators-header-height);
@@ -35,21 +22,10 @@
   --color: #e88c00;
 }
 
-.moderators .empty {
-  --height: 16px;
-
-  overflow: hidden;
-  height: var(--height);
-  line-height: var(--height);
-  font-size: 16px;
-  color: var(--accent-color);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-align-last: left;
-}
-
 .moderators .content {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .moderators .content .button {
@@ -82,10 +58,4 @@
   border-radius: 4px;
   color: var(--primary-color);
   background-color: var(--accent-color);
-}
-
-@media (max-width: 480px) {
-  .moderators .header .subtitle {
-    font-size: 20px;
-  }
 }
