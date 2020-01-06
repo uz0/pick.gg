@@ -285,6 +285,10 @@
     align-items: flex-start;
   }
 
+  .tournament .inner_container .info {
+    margin-bottom: 24px;
+  }
+
   .tournament .inner_container .info .date {
     flex-direction: column;
     align-items: flex-start;
