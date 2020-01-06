@@ -1,13 +1,28 @@
+.wrapper.alignLeft {
+  display: grid;
+  grid-template-columns: var(--label-width, min-content) 1fr;
+  grid-column-gap: 8px;
+  align-items: center;
+}
+
 .caption {
   --height: 20px;
-    overflow: hidden;
-    display: block;
-    height: var(--height);
-    line-height: var(--height);
-    font-size: 15px;
-    color: #fff;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    margin-bottom: 4px;
-    font-weight: bold;
+
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper.alignLeft {
+    grid-template-columns: 1fr;
+    grid-row-gap: 4px;
+  }
 }

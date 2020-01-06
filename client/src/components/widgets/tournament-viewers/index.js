@@ -40,7 +40,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
   const pointsStyle = { '--width': captions.points.width };
   const isViewerWinner = tournament.winners.find(winner => winner.id === item.userId);
 
-  const name = item.user && (item.user.gameSpecificName[tournament.game] || item.user.username);
+  const name = item.user && (item.user.gameSpecificFields[tournament.game].displayName || item.user.username);
 
   return (
     <div key={item.userId} className={cx(className, style.row)}>
@@ -104,7 +104,7 @@ const Viewers = ({
         <div className={style.forecast}>
           <div className={style.summonerName}>
             {currentViewerPosition && `${currentViewerPosition}. `}
-            {currentUser.gameSpecificName[tournament.game]}
+            {currentUser.gameSpecificFields[tournament.game].displayName}
           </div>
           <div className={style.list}>
             {currentUserSummoners.map(summoner => {
@@ -113,7 +113,7 @@ const Viewers = ({
               summoner = {
                 ...summoner,
                 points: summonerPoints,
-                nickname: summoner.gameSpecificName[tournament.game],
+                nickname: summoner.gameSpecificFields[tournament.game].displayName,
                 position: sortedSummonersWithPoints && sortedSummonersWithPoints.findIndex(item => item._id === summoner._id) + 1,
               };
 
@@ -122,7 +122,7 @@ const Viewers = ({
                   <Avatar
                     source={summoner.imageUrl}
                     className={style.avatar}
-                    title={summoner.gameSpecificName[tournament.game]}
+                    title={summoner.gameSpecificFields[tournament.game].displayName}
                   />
 
                   <p className={style.points_by_player}>{summoner.points}</p>

@@ -22,18 +22,24 @@ const regionsSelectConfig = REGIONS.map(region => ({
 }));
 
 const RegionSelect = props => {
-  const setField = ({ label, value }) => {
-    props.form.setFieldValue('regionId', { label, value });
+  const selectValue = {
+    label: props.field.value,
+    value: props.field.value,
+  };
+
+  const setField = ({ value }) => {
+    props.form.setFieldValue(props.field.name, value);
   };
 
   return (
-    <div className={cx('wrapper', props.className)}>
-      <label className={style.caption}>Region</label>
+    <div className={cx(style.wrapper, { [style.alignLeft]: props.labelPosition === 'left' }, props.className)}>
+      <label className={style.caption}>{props.label}</label>
       <Select
         {...props}
         {...props.field}
+        menuPlacement="auto"
         defaultOptions={regionsSelectConfig}
-        defaultInputValue={props.field.value}
+        value={selectValue}
         className={style.select}
         placeholder={i18n.t('choose_region')}
         onChange={setField}

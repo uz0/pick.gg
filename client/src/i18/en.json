@@ -323,6 +323,22 @@
       "tournament_go": "Tournament started and goind on",
       "is_over": "Tournament is over"
     },
+    "forms": {
+      "user_settings": {
+        "general_info": "General info",
+
+        "login": "Login:",
+        "email": "E-mail:",
+        "contact": "Contact link:",
+        "twitch": "Twitch link:",
+        "userpic": "Avatar link:",
+        "about": "About me:",
+        "lol_name": "LoL display name:",
+        "lol_region": "LoL region:",
+        "pubg_name": "PUBG nickname:",
+        "pubg_region": "PUBG region:"
+      }
+    },
     "home": {
       "under_title": "Where streamers and viewers",
       "under_title_2": " play together",

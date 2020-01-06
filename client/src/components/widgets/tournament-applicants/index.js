@@ -138,11 +138,11 @@ export default compose(
     const applicants = props.tournament.applicants.map(({ user, status }) => {
       const applicant = users.find(item => item._id === user);
 
-      const normalizedApplicant = pick(applicant, ['_id', 'gameSpecificName']);
+      const normalizedApplicant = pick(applicant, ['_id', 'gameSpecificFields']);
 
       return {
         _id: normalizedApplicant._id,
-        nickname: normalizedApplicant.gameSpecificName && normalizedApplicant.gameSpecificName[game],
+        nickname: normalizedApplicant.gameSpecificFields && normalizedApplicant.gameSpecificFields[game].displayName,
         status,
       };
     });

@@ -35,9 +35,9 @@ const enhance = compose(
     ({ options }) => {
       const moderators = Object
         .values(options.moderators)
-        .filter(moderator => !isEmpty(moderator.gameSpecificName[options.game]))
-        .sort((moderator, nextmoderator) => moderator.gameSpecificName[options.game]
-          .localeCompare(nextmoderator.gameSpecificName[options.game]));
+        .filter(moderator => !isEmpty(moderator.gameSpecificFields[options.game].displayName))
+        .sort((moderator, nextmoderator) => moderator.gameSpecificFields[options.game].displayName
+          .localeCompare(nextmoderator.gameSpecificFields[options.game].displayName));
 
       return {
         selectedModerators: options.selectedModerators.length > 0 ? options.selectedModerators : [],
@@ -103,9 +103,9 @@ export default enhance(props => {
   const { game } = props.options;
 
   const moderators = filter(moderatorsList, moderator =>
-    moderator.gameSpecificName[game].toLowerCase().startsWith(props.filter.toLowerCase())
+    moderator.gameSpecificFields[game].displayName.toLowerCase().startsWith(props.filter.toLowerCase())
   );
-  const group = groupBy(moderators, moderator => moderator.gameSpecificName[game][0]);
+  const group = groupBy(moderators, moderator => moderator.gameSpecificFields[game].displayName[0]);
 
   const isSelectedModerators = props.selectedModerators.length > 0;
   const isFiltering = props.filter.length > 0;
@@ -131,7 +131,7 @@ export default enhance(props => {
             const moderator = find(moderators, { _id: id });
             return (
               <p key={moderator._id} className={style.moderator}>
-                {index + 1}. {moderator.gameSpecificName[game]}
+                {index + 1}. {moderator.gameSpecificFields[game].displayName}
               </p>
             );
           }))}
@@ -172,7 +172,7 @@ export default enhance(props => {
                     type="button"
                     onClick={() => props.toggleSelectModerator(moderator._id)}
                   >
-                    {moderator.gameSpecificName[game]}
+                    {moderator.gameSpecificFields[game].displayName}
                   </button>
                 ))}
               </div>
@@ -194,7 +194,7 @@ export default enhance(props => {
                       type="button"
                       onClick={() => props.toggleSelectModerator(moderator._id)}
                     >
-                      {moderator.gameSpecificName[game]}
+                      {moderator.gameSpecificFields[game].displayName}
                     </button>
                   ))}
                 </div>

@@ -1,5 +1,5 @@
-import classnames from 'classnames/bind';
 import React from 'react';
+import classnames from 'classnames/bind';
 
 import style from './style.module.css';
 
@@ -7,22 +7,35 @@ const cx = classnames.bind(style);
 
 const Input = ({
   label,
-  className,
   error,
+  className,
   isTouched,
+  labelPosition,
   ...props
 }) => {
   return (
-    <div className={cx('wrapper', className)}>
+    <div className={cx('wrapper', { [style.alignLeft]: labelPosition === 'left' }, className)}>
       {label &&
         <label className={style.caption}>{label}</label>
       }
 
-      <input {...props} className={cx({ '_is-checkbox': props.type === 'checkbox' }, style.field)}/>
+      {labelPosition === 'left' && (
+        <div>
+          <input {...props} className={cx({ '_is-checkbox': props.type === 'checkbox' }, style.field)}/>
+          {error && isTouched &&
+            <p className={style.error}>{error}</p>
+          }
+        </div>
+      )}
 
-      {error && isTouched &&
-        <p className={style.error}>{error}</p>
-      }
+      {labelPosition !== 'left' && (
+        <>
+          <input {...props} className={cx({ '_is-checkbox': props.type === 'checkbox' }, style.field)}/>
+          {error && isTouched &&
+            <p className={style.error}>{error}</p>
+          }
+        </>
+      )}
     </div>
   );
 };

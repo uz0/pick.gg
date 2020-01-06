@@ -38,18 +38,19 @@ const validationSchema = Yup.object().shape({
 });
 
 const mergeByNicknames = (objValue, srcValue) => {
-  const summoners = []
+  const summoners = [];
   if (objValue && objValue.summoners && srcValue && srcValue.summoners) {
-    for (let objSummoner of objValue.summoners) {
-      for (let srcSummoner of srcValue.summoners) {
+    for (const objSummoner of objValue.summoners) {
+      for (const srcSummoner of srcValue.summoners) {
         if (objSummoner.nickname === srcSummoner.nickname) {
-          summoners.push(srcSummoner)
+          summoners.push(srcSummoner);
         } else {
-          summoners.push(objSummoner)
+          summoners.push(objSummoner);
         }
       }
     }
-    return merge(objValue, {summoners});
+
+    return merge(objValue, { summoners });
   }
 };
 
@@ -177,7 +178,8 @@ const EditMatch = ({
               emptyMessage={i18n.t('no_matches_results')}
             />
           )}
-        </>)
+        </>
+      )
       }
 
       {isLol && (
@@ -288,10 +290,10 @@ export default compose(
         }, {}) :
         RULES[game].player.reduce((rules, rule) => ({ ...rules, [rule.ruleName]: 0 }), {});
 
-      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
+      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificFields']);
       return {
         _id: normalizedSummoner._id,
-        nickname: normalizedSummoner.gameSpecificName[game],
+        nickname: normalizedSummoner.gameSpecificFields[game].displayName,
         results,
       };
     });

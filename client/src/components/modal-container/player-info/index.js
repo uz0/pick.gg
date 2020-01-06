@@ -12,7 +12,7 @@ const PlayerInfo = props => {
   const {
     nickname,
     game,
-    gameSpecificName,
+    gameSpecificFields,
     position,
     imageUrl,
     about,
@@ -31,7 +31,7 @@ const PlayerInfo = props => {
           <Avatar source={imageUrl} className={style.avatar}/>
           <div className={style.info}>
             <div className={style.name}>
-              {nickname || gameSpecificName[game]}
+              {nickname || gameSpecificFields[game].displayName}
             </div>
             {about && <div className={style.about}>{about}</div>}
           </div>

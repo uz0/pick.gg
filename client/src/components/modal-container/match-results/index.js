@@ -5,6 +5,7 @@ import withProps from 'recompose/withProps';
 import classnames from 'classnames/bind';
 import filter from 'lodash/filter';
 import pick from 'lodash/pick';
+
 import Modal from 'components/modal';
 import Table from 'components/table';
 
@@ -108,7 +109,7 @@ export default compose(
       return {
         userId: result.userId,
         results: pick(result.results, resolvedRules),
-        nickname: user.gameSpecificName[props.tournament.game],
+        nickname: user.gameSpecificFields[props.tournament.game].displayName,
       };
     });
 

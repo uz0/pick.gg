@@ -44,7 +44,7 @@ class Users extends Component {
       <div className={style.users}>
         {isUsersExist && this.props.usersIds.map(id => {
           const user = this.props.usersList[id];
-          const { _id, username, gameSpecificName, canProvideTournaments, isAdmin } = user;
+          const { _id, username, gameSpecificFields, canProvideTournaments, isAdmin } = user;
 
           return (
             <div
@@ -53,7 +53,7 @@ class Users extends Component {
               onClick={() => this.openUserModal(true, {
                 _id,
                 username,
-                gameSpecificName,
+                gameSpecificFields,
                 canProvideTournaments,
                 isAdmin,
               })}
