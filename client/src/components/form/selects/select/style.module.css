@@ -1,4 +1,9 @@
-.caption {
+.wrapper {
+  display: block;
+  width: 100%;
+}
+
+.wrapper .caption {
   --height: 20px;
 
   overflow: hidden;
@@ -10,10 +15,13 @@
   font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-bottom: 4px;
 }
 
-.error {
+.wrapper .caption + .field {
+  margin-top: 4px;
+}
+
+.wrapper .error {
   line-height: 1.5;
   font-size: 12px;
   margin-top: 4px;

@@ -6,11 +6,11 @@ import * as Yup from 'yup';
 import classnames from 'classnames/bind';
 
 import { FormInput } from 'components/form/input';
-import RegionSelect from 'components/form/selects/region-select';
+import Select from 'components/form/selects/select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 
-import { RULES } from 'constants/index';
+import { REGIONS, RULES } from 'constants/index';
 
 import { http, getChangedFormFields } from 'helpers';
 
@@ -32,6 +32,11 @@ const validationSchema = Yup.object().shape({
 });
 
 const Profile = () => {
+  const regionsSelectConfig = REGIONS.map(region => ({
+    value: region,
+    label: region,
+  }));
+
   return (
     <div className={cx('container', 'profile')}>
       <Form className={style.form}>
@@ -54,7 +59,8 @@ const Profile = () => {
 
         <div className={style.position}>
           <Field
-            component={RegionSelect}
+            component={Select}
+            defaultOptions={regionsSelectConfig}
             label={i18n.t('region')}
             name="regionId"
             className={style.field}
