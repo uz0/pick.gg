@@ -1,0 +1,42 @@
+.widget .header {
+  display: flex;
+  align-items: center;
+}
+
+.widget .header + .content {
+  margin-top: 8px;
+}
+
+.widget .title {
+  --height: 28px;
+  
+  flex-shrink: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  font-size: 20px;
+  text-transform: uppercase;
+  color: var(--caption-color);
+  margin-right: auto;
+}
+
+.widget .empty {
+  --height: 16px;
+
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--accent-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align-last: left;
+}
+
+@media (max-width: 480px) {
+  .widget .header .title {
+    font-size: 20px;
+  }
+}
