@@ -288,10 +288,10 @@ export default compose(
         }, {}) :
         RULES[game].player.reduce((rules, rule) => ({ ...rules, [rule.ruleName]: 0 }), {});
 
-      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName']);
+      const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificFields']);
       return {
         _id: normalizedSummoner._id,
-        nickname: normalizedSummoner.gameSpecificName[game],
+        nickname: normalizedSummoner.gameSpecificFields[game].displayName,
         results,
       };
     });

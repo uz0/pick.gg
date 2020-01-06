@@ -35,9 +35,9 @@ const enhance = compose(
     ({ options }) => {
       const summoners = Object
         .values(options.summoners)
-        .filter(summoner => !isEmpty(summoner.gameSpecificName[options.game]))
-        .sort((summoner, nextsummoner) => summoner.gameSpecificName[options.game]
-          .localeCompare(nextsummoner.gameSpecificName[options.game]));
+        .filter(summoner => !isEmpty(summoner.gameSpecificFields[options.game].displayName))
+        .sort((summoner, nextsummoner) => summoner.gameSpecificFields[options.game].displayName
+          .localeCompare(nextsummoner.gameSpecificFields[options.game].displayName));
 
       return {
         selectedSummoners: options.selectedSummoners.length > 0 ? options.selectedSummoners : [],
@@ -100,9 +100,9 @@ export default enhance(props => {
   const { game } = props.options;
 
   const summoners = filter(summonersList, summoner =>
-    summoner.gameSpecificName[game].toLowerCase().startsWith(props.filter.toLowerCase())
+    summoner.gameSpecificFields[game].displayName.toLowerCase().startsWith(props.filter.toLowerCase())
   );
-  const group = groupBy(summoners, summoner => summoner.gameSpecificName[game][0]);
+  const group = groupBy(summoners, summoner => summoner.gameSpecificFields[game].displayName[0]);
 
   const isSelectedSummoners = props.selectedSummoners.length > 0;
   const isFiltering = props.filter.length > 0;
@@ -128,7 +128,7 @@ export default enhance(props => {
             const summoner = find(summoners, { _id: id });
             return (
               <p key={summoner._id} className={style.summoner}>
-                {index + 1}. {summoner.gameSpecificName[game]}
+                {index + 1}. {summoner.gameSpecificFields[game].displayName}
               </p>
             );
           })
@@ -168,7 +168,7 @@ export default enhance(props => {
                     type="button"
                     onClick={() => props.toggleSelectSummoner(summoner._id)}
                   >
-                    {summoner.gameSpecificName[game]}
+                    {summoner.gameSpecificFields[game].displayName}
                   </button>
                 ))}
               </div>
@@ -190,7 +190,7 @@ export default enhance(props => {
                       type="button"
                       onClick={() => props.toggleSelectSummoner(summoner._id)}
                     >
-                      {summoner.gameSpecificName[game]}
+                      {summoner.gameSpecificFields[game].displayName}
                     </button>
                   ))}
                 </div>

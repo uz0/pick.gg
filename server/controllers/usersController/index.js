@@ -36,7 +36,7 @@ const router = express.Router();
  *         type: boolean
  *       twitchAccount:
  *         type: string
- *       gameSpecificName:
+ *       gameSpecificFields:
  *         type: object
  *       contact:
  *         type: string

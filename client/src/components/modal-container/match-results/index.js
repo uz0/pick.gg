@@ -108,7 +108,7 @@ export default compose(
       return {
         userId: result.userId,
         results: pick(result.results, resolvedRules),
-        nickname: user.gameSpecificName[props.tournament.game],
+        nickname: user.gameSpecificFields[props.tournament.game].displayName,
       };
     });
 

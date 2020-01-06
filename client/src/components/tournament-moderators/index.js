@@ -137,12 +137,12 @@ export default compose(
     const moderators = props.tournament.moderators.map(moderatorId => {
       const moderator = users.find(user => user._id === moderatorId);
 
-      const normalizedModerator = pick(moderator, ['_id', 'gameSpecificName']);
+      const normalizedModerator = pick(moderator, ['_id', 'gameSpecificFields']);
 
       // There is no moderator data until loadUsers redux
       return isEmpty(normalizedModerator) ? {} : {
         _id: normalizedModerator._id,
-        nickname: normalizedModerator.gameSpecificName[game],
+        nickname: normalizedModerator.gameSpecificFields[game].displayName,
       };
     });
 

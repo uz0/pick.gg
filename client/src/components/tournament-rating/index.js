@@ -104,7 +104,7 @@ export default compose(
 
       return {
         _id: user._id,
-        nickname: user.gameSpecificName[props.game],
+        nickname: user.gameSpecificFields[props.game].displayName,
         imageUrl: user.imageUrl,
         about: user.about,
         points: user.points,

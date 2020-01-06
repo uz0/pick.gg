@@ -7,17 +7,17 @@ import isNil from 'lodash/isNil';
 import { ONE_DAY } from './constants';
 
 export default (app) => async (req, res) => {
-  const { email, name, photo, summonerName, contact } = req.body;
+  const { email, name, photo, contact, gameSpecificFields } = req.body;
 
   const [specEmail] = email.split('@');
 
   const userInfo = {
-    username: specEmail,
     name,
-    imageUrl: photo,
     email,
-    summonerName,
-    contact
+    contact,
+    gameSpecificFields,
+    imageUrl: photo,
+    username: specEmail
   };
 
   const user = await UserModel.findOneAndUpdate({ email }, omitBy(userInfo, isNil), {

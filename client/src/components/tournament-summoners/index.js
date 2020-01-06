@@ -210,7 +210,8 @@ const Summoners = ({
             text={i18n.t('apply_summoner')}
             className={cx(style.button, style.applyButton)}
             onClick={debounce(check(applyTournament, {
-              title: 'Apply as summoner',
+              title: 'Apply as player',
+              game: tournament.game,
               action: applyTournament,
             }), 400)}
           />
@@ -389,12 +390,12 @@ export default compose(
     let summoners = props.tournament.summoners
       .map(summonerId => {
         const summoner = users.find(user => user._id === summonerId);
-        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName', 'canProvideTournaments', 'about', 'imageUrl']);
+        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificFields', 'canProvideTournaments', 'about', 'imageUrl']);
 
         // There is no summoner data until loadUsers redux
         return isEmpty(normalizedSummoner) ? {} : {
           _id: normalizedSummoner._id,
-          nickname: normalizedSummoner.gameSpecificName[game],
+          nickname: normalizedSummoner.gameSpecificFields[game].displayName,
           isStreamer: normalizedSummoner.canProvideTournaments,
           about: normalizedSummoner.about,
           imageUrl: normalizedSummoner.imageUrl,
