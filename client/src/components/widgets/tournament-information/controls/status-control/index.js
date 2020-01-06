@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
-import Control from 'components/tournament-information/controls';
+import Control from 'components/widgets/tournament-information/controls';
 import Icon from 'components/icon';
 
 import i18n from 'i18next';

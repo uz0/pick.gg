@@ -18,6 +18,7 @@ import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
 
+import widgetStyle from '../style.module.css';
 import style from './style.module.css';
 
 const tableCaptions = ({ t, isMobile }) => ({
@@ -73,8 +74,12 @@ const Viewers = ({
   captions,
   currentUser,
 }) => (
-  <div className={cx(style.viewers, className)}>
-    <div className={style.content}>
+  <div className={cx(widgetStyle.widget, style.viewers, className)}>
+    {currentUserSummoners.length > 0 && (
+      <h4 className={widgetStyle.title}>Моя статистика</h4>
+    )}
+
+    <div className={cx(widgetStyle.content, style.content)}>
       {isUserCanMakeForecast && currentUserSummoners.length === 0 && (
         <div className={style.attend}>
           <Button
@@ -89,12 +94,10 @@ const Viewers = ({
         </div>
       )}
 
+      <h4 className={widgetStyle.title}>Участники голосования</h4>
+
       {isCurrentUserSummoner && tournament.isForecastingActive && (
         <p className={style.message}>{i18n.t('summoner_cant_make_forecast')}</p>
-      )}
-
-      {currentUserSummoners.length > 0 && (
-        <h4 className={style.subtitle}>Моя статистика</h4>
       )}
 
       {currentUserSummoners.length > 0 && (
@@ -131,8 +134,6 @@ const Viewers = ({
           <div className={style.points}>{currentViewerPoints}</div>
         </div>
       )}
-
-      <h4 className={style.subtitle}>Участники голосования</h4>
 
       <Table
         noCaptions

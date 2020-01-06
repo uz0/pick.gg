@@ -2,27 +2,6 @@
   max-width: 410px;
 }
 
-.applicants .header {
-  --matches-header-height: 28px;
-
-  display: flex;
-  align-items: center;
-}
-
-.applicants .header .subtitle {
-  flex-grow: 1;
-  overflow: hidden;
-  min-width: 0;
-  max-width: 100%;
-  height: var(--matches-header-height);
-  line-height: var(--matches-header-height);
-  color: #fff;
-  font-size: 18px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-}
-
 .applicants .header .button {
   flex-shrink: 0;
   height: var(--matches-header-height);
@@ -41,11 +20,6 @@
 
 .applicants .header .button:hover {
   --color: #e88c00;
-}
-
-.applicants .header + .table,
-.applicants .header + .content {
-  margin-top: 12px;
 }
 
 .applicants .action {

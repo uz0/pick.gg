@@ -8,8 +8,8 @@ import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
 
 import Icon from 'components/icon';
-import Control from 'components/tournament-information/controls';
-import StatusControl from 'components/tournament-information/controls/status-control';
+import Control from 'components/widgets/tournament-information/controls';
+import StatusControl from 'components/widgets/tournament-information/controls/status-control';
 
 import { getUserPermissions, getTournamentStatus } from 'helpers';
 
