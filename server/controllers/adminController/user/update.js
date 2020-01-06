@@ -1,12 +1,9 @@
-import { body } from 'express-validator/check';
-import { isRequestHasCorrectFields } from '../../validators';
 import { withValidationHandler } from '../../helpers';
 
 import UserModel from '../../../models/user';
 
 const validator = [
-  body()
-    .custom(value => isRequestHasCorrectFields(value, UserModel))
+  // body().custom(value => isRequestHasCorrectFields(value, UserModel))
 ];
 
 const handler = withValidationHandler(async (req, res) => {

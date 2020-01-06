@@ -4,23 +4,22 @@ import compose from 'recompose/compose';
 import { Form, withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import classnames from 'classnames/bind';
+import pick from 'lodash/pick';
 
 import { FormInput } from 'components/form/input';
 import Select from 'components/form/selects/select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
 
-import { REGIONS, RULES } from 'constants/index';
+import { REGIONS } from 'constants/index';
 
-import { http, getChangedFormFields } from 'helpers';
+import { http } from 'helpers';
 
 import i18n from 'i18n';
 
 import { actions as storeActions } from 'store';
 
 import style from './style.module.css';
-
-const GAMES = Object.keys(RULES);
 
 const cx = classnames.bind(style);
 
@@ -40,70 +39,91 @@ const Profile = () => {
   return (
     <div className={cx('container', 'profile')}>
       <Form className={style.form}>
-        <Field
-          component={FormInput}
-          label={i18n.t('username')}
-          name="username"
-          className={style.field}
-        />
+        <section className={style.section}>
+          <h2 className={style.title}>{i18n.t('forms.user_settings.general_info')}</h2>
 
-        {GAMES.map(game => (
           <Field
-            key={`${game}_username`}
+            name="username"
+            label={i18n.t('forms.user_settings.login')}
+            labelPosition="left"
             component={FormInput}
-            label={i18n.t(`${game}_username`)}
-            name={`gameSpecificName.${game}`}
             className={style.field}
           />
-        ))}
 
-        <div className={style.position}>
           <Field
+            disabled
+            name="email"
+            label={i18n.t('forms.user_settings.email')}
+            labelPosition="left"
+            component={FormInput}
+            className={cx('email', style.field)}
+          />
+
+          <Field
+            name="contact"
+            label={i18n.t('forms.user_settings.contact')}
+            labelPosition="left"
+            component={FormInput}
+            className={style.field}
+          />
+
+          <Field
+            name="twitchAccount"
+            label={i18n.t('forms.user_settings.twitch')}
+            labelPosition="left"
+            component={FormInput}
+            className={style.field}
+          />
+
+          <Field
+            name="imageUrl"
+            label={i18n.t('forms.user_settings.userpic')}
+            labelPosition="left"
+            component={FormInput}
+            className={style.field}
+          />
+
+          <Field
+            name="about"
+            label={i18n.t('forms.user_settings.about')}
+            labelPosition="left"
+            component={FormInput}
+            className={style.field}
+          />
+        </section>
+
+        <section className={style.section}>
+          <h2 className={style.title}>LOL</h2>
+
+          <Field
+            name="gameSpecificFields.LOL.displayName"
+            label={i18n.t('forms.user_settings.lol_name')}
+            labelPosition="left"
+            component={FormInput}
+            className={style.field}
+          />
+
+          <Field
+            name="gameSpecificFields.LOL.regionId"
+            label={i18n.t('forms.user_settings.lol_region')}
+            labelPosition="left"
             component={Select}
             defaultOptions={regionsSelectConfig}
-            label={i18n.t('region')}
-            name="regionId"
             className={style.field}
           />
-        </div>
+        </section>
 
-        <Field
-          component={FormInput}
-          label="Contact"
-          name="contact"
-          className={style.field}
-        />
+        <section className={style.section}>
+          <h2 className={style.title}>PUBG</h2>
 
-        <Field
-          disabled
-          component={FormInput}
-          label={i18n.t('email')}
-          name="email"
-          className={cx('email', 'field')}
-        />
-
-        <Field
-          component={FormInput}
-          label={i18n.t('profile_photo')}
-          name="imageUrl"
-          className={style.field}
-        />
-
-        <Field
-          component={FormInput}
-          type="textarea"
-          label={i18n.t('about')}
-          name="about"
-          className={style.field}
-        />
-
-        <Field
-          component={FormInput}
-          type="textarea"
-          label={i18n.t('twich_account')}
-          name="twitchAccount"
-          className={style.field}
-        />
+          <Field
+            name="gameSpecificFields.PUBG.displayName"
+            label={i18n.t('forms.user_settings.pubg_name')}
+            labelPosition="left"
+            component={FormInput}
+            className={style.field}
+          />
+        </section>
 
         <Button
           appearance="_basic-accent"
@@ -129,42 +149,24 @@ const enhance = compose(
   ),
   withFormik({
     validationSchema,
-    mapPropsToValues: ({ currentUser }) => {
-      const {
-        _id,
-        username,
-        email,
-        gameSpecificName,
-        imageUrl,
-        about,
-        twitchAccount,
-        regionId,
-        contact,
-      } = currentUser;
-
-      return {
-        _id,
-        username,
-        email,
-        gameSpecificName,
-        imageUrl,
-        about,
-        twitchAccount,
-        regionId,
-        contact,
-      };
-    },
+    mapPropsToValues: ({ currentUser }) => pick(currentUser, [
+      '_id',
+      'email',
+      'username',
+      'imageUrl',
+      'about',
+      'gameSpecificFields',
+      'twitchAccount',
+      'contact',
+    ]),
     handleSubmit: async (values, formikBag) => {
-      const defaultState = formikBag.props.currentUser;
-      const requestBody = getChangedFormFields(defaultState, values);
-
       try {
         const request = await http('/api/users/me', {
           headers: {
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify(requestBody),
+          body: JSON.stringify(values),
         });
 
         const updatedProfile = await request.json();
@@ -175,7 +177,7 @@ const enhance = compose(
           message: i18n.t('notifications.success.profile_edited'),
         });
 
-        formikBag.props.setCurrentUser({ ...updatedProfile });
+        formikBag.props.setCurrentUser(updatedProfile);
       } catch (error) {
         console.log(error);
       }

@@ -18,6 +18,7 @@ import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
 
+import widgetStyle from '../style.module.css';
 import style from './style.module.css';
 
 const tableCaptions = ({ t, isMobile }) => ({
@@ -39,7 +40,7 @@ const renderRow = ({ className, itemClass, textClass, index, item, props: tourna
   const pointsStyle = { '--width': captions.points.width };
   const isViewerWinner = tournament.winners.find(winner => winner.id === item.userId);
 
-  const name = item.user && (item.user.gameSpecificName[tournament.game] || item.user.username);
+  const name = item.user && (item.user.gameSpecificFields[tournament.game].displayName || item.user.username);
 
   return (
     <div key={item.userId} className={cx(className, style.row)}>
@@ -73,8 +74,12 @@ const Viewers = ({
   captions,
   currentUser,
 }) => (
-  <div className={cx(style.viewers, className)}>
-    <div className={style.content}>
+  <div className={cx(widgetStyle.widget, style.viewers, className)}>
+    {currentUserSummoners.length > 0 && (
+      <h4 className={widgetStyle.title}>Моя статистика</h4>
+    )}
+
+    <div className={cx(widgetStyle.content, style.content)}>
       {isUserCanMakeForecast && currentUserSummoners.length === 0 && (
         <div className={style.attend}>
           <Button
@@ -89,19 +94,17 @@ const Viewers = ({
         </div>
       )}
 
+      <h4 className={widgetStyle.title}>Участники голосования</h4>
+
       {isCurrentUserSummoner && tournament.isForecastingActive && (
         <p className={style.message}>{i18n.t('summoner_cant_make_forecast')}</p>
-      )}
-
-      {currentUserSummoners.length > 0 && (
-        <h4 className={style.subtitle}>Моя статистика</h4>
       )}
 
       {currentUserSummoners.length > 0 && (
         <div className={style.forecast}>
           <div className={style.summonerName}>
             {currentViewerPosition && `${currentViewerPosition}. `}
-            {currentUser.gameSpecificName[tournament.game]}
+            {currentUser.gameSpecificFields[tournament.game].displayName}
           </div>
           <div className={style.list}>
             {currentUserSummoners.map(summoner => {
@@ -110,7 +113,7 @@ const Viewers = ({
               summoner = {
                 ...summoner,
                 points: summonerPoints,
-                nickname: summoner.gameSpecificName[tournament.game],
+                nickname: summoner.gameSpecificFields[tournament.game].displayName,
                 position: sortedSummonersWithPoints && sortedSummonersWithPoints.findIndex(item => item._id === summoner._id) + 1,
               };
 
@@ -119,7 +122,7 @@ const Viewers = ({
                   <Avatar
                     source={summoner.imageUrl}
                     className={style.avatar}
-                    title={summoner.gameSpecificName[tournament.game]}
+                    title={summoner.gameSpecificFields[tournament.game].displayName}
                   />
 
                   <p className={style.points_by_player}>{summoner.points}</p>
@@ -131,8 +134,6 @@ const Viewers = ({
           <div className={style.points}>{currentViewerPoints}</div>
         </div>
       )}
-
-      <h4 className={style.subtitle}>Участники голосования</h4>
 
       <Table
         noCaptions

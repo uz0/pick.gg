@@ -24,6 +24,7 @@ import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
 
+import widgetStyle from '../style.module.css';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -148,9 +149,9 @@ const Summoners = ({
   openChooseTeamModal,
 }) => {
   return (
-    <div className={cx(style.summoners, className)}>
-      <div className={style.header}>
-        <h4 className={style.subtitle}>{i18n.t('summoners')}</h4>
+    <div className={cx(widgetStyle.widget, style.summoners, className)}>
+      <div className={cx(widgetStyle.header, style.header)}>
+        <h4 className={widgetStyle.title}>{i18n.t('summoners')}</h4>
 
         {isEditingAvailable && summoners.length > 0 && (
           <button
@@ -182,17 +183,17 @@ const Summoners = ({
         )}
       </div>
 
-      <div className={style.content}>
+      <div className={cx(widgetStyle.content, style.content)}>
         {isCurrentUserCanEdit && summoners.length === 0 && (
-          <p className={style.empty}>{i18n.t('can_choose_summoners')}</p>
+          <p className={widgetStyle.empty}>{i18n.t('can_choose_summoners')}</p>
         )}
 
         {isUserCanApply && (
-          <p className={style.empty}>{i18n.t('can_apply_summoner')}</p>
+          <p className={widgetStyle.empty}>{i18n.t('can_apply_summoner')}</p>
         )}
 
         {isAlreadyApplicant && !isAlreadySummoner && !isApplicantRejected && summoners.length === 0 && (
-          <p className={style.empty}>{i18n.t('you_applied_summoner')}</p>
+          <p className={widgetStyle.empty}>{i18n.t('you_applied_summoner')}</p>
         )}
 
         {isCurrentUserCanEdit && summoners.length === 0 && (
@@ -210,7 +211,8 @@ const Summoners = ({
             text={i18n.t('apply_summoner')}
             className={cx(style.button, style.applyButton)}
             onClick={debounce(check(applyTournament, {
-              title: 'Apply as summoner',
+              title: 'Apply as player',
+              game: tournament.game,
               action: applyTournament,
             }), 400)}
           />
@@ -389,12 +391,12 @@ export default compose(
     let summoners = props.tournament.summoners
       .map(summonerId => {
         const summoner = users.find(user => user._id === summonerId);
-        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificName', 'canProvideTournaments', 'about', 'imageUrl']);
+        const normalizedSummoner = pick(summoner, ['_id', 'gameSpecificFields', 'canProvideTournaments', 'about', 'imageUrl']);
 
         // There is no summoner data until loadUsers redux
         return isEmpty(normalizedSummoner) ? {} : {
           _id: normalizedSummoner._id,
-          nickname: normalizedSummoner.gameSpecificName[game],
+          nickname: normalizedSummoner.gameSpecificFields[game].displayName,
           isStreamer: normalizedSummoner.canProvideTournaments,
           about: normalizedSummoner.about,
           imageUrl: normalizedSummoner.imageUrl,

@@ -158,7 +158,7 @@ class TournamentMatchesTimeline extends Component {
                 className={style.avatar}
               />
 
-              <div className={style.name}>{user.gameSpecificName[game]}</div>
+              <div className={style.name}>{user.gameSpecificFields[game].displayName}</div>
               <p className={style.points}>За матч: {currentMatchPoints}</p>
               <p className={style.points}>Всего: {totalPoints}</p>
             </button>

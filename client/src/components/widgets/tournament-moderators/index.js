@@ -16,6 +16,7 @@ import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
 
+import widgetStyle from '../style.module.css';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -48,8 +49,8 @@ const Moderators = ({
   addModerators,
 }) => {
   return (
-    <div className={cx(style.moderators, className)}>
-      <div className={style.header}>
+    <div className={cx(widgetStyle.widget, style.moderators, className)}>
+      <div className={widgetStyle.header}>
         {isEditingAvailable && moderators.length > 0 && (
           <button
             type="button"
@@ -61,11 +62,11 @@ const Moderators = ({
         )}
       </div>
 
-      {isCurrentUserCreatorOrAdmin && moderators.length === 0 && (
-        <p className={style.empty}>{i18n.t('can_choose_moderators')}</p>
-      )}
+      <div className={cx(widgetStyle.header, style.content)}>
+        {isCurrentUserCreatorOrAdmin && moderators.length === 0 && (
+          <p className={widgetStyle.empty}>{i18n.t('can_choose_moderators')}</p>
+        )}
 
-      <div className={style.content}>
         {isCurrentUserCreatorOrAdmin && moderators.length === 0 && (
           <Button
             appearance="_small-accent"
@@ -137,12 +138,12 @@ export default compose(
     const moderators = props.tournament.moderators.map(moderatorId => {
       const moderator = users.find(user => user._id === moderatorId);
 
-      const normalizedModerator = pick(moderator, ['_id', 'gameSpecificName']);
+      const normalizedModerator = pick(moderator, ['_id', 'gameSpecificFields']);
 
       // There is no moderator data until loadUsers redux
       return isEmpty(normalizedModerator) ? {} : {
         _id: normalizedModerator._id,
-        nickname: normalizedModerator.gameSpecificName[game],
+        nickname: normalizedModerator.gameSpecificFields[game].displayName,
       };
     });
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GoogleLogin from 'react-google-login';
-import { compose, withStateHandlers } from 'recompose';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import ym from 'react-yandex-metrika';
 import config from 'config';
@@ -19,21 +19,8 @@ import storeActions from 'store/actions';
 import style from './style.module.css';
 
 const enhance = compose(
-  withStateHandlers(
-    () => ({
-      summonerName: '',
-      contact: '',
-    }),
-
-    {
-      setSummonerName: state => event => ({ ...state, summonerName: event.target.value }),
-      setContact: state => event => ({ ...state, contact: event.target.value }),
-    }
-  ),
   connect(
-    state => ({
-      currentUser: state.currentUser,
-    }),
+    null,
 
     {
       setCurrentUser: storeActions.setCurrentUser,
@@ -43,6 +30,11 @@ const enhance = compose(
 );
 
 export default enhance(props => {
+  const [username, setUsername] = useState('');
+  const [contact, setContact] = useState('');
+
+  const usernameInputLabel = props.options.game === 'LOL' ? 'Display name (LOL)' : 'Nickname (PUBG)';
+
   const auth = async data => {
     const profile = data.getBasicProfile();
 
@@ -50,7 +42,11 @@ export default enhance(props => {
       email: profile.getEmail(),
       name: profile.getName(),
       photo: profile.getImageUrl(),
-      summonerName: props.summonerName,
+      gameSpecificFields: {
+        [props.options.game]: {
+          displayName: username,
+        },
+      },
     };
 
     let response = await http('/authentication/oauth', {
@@ -93,14 +89,14 @@ export default enhance(props => {
       actions={props.actions}
     >
       <Input
-        label={i18n.t('summonerName')}
-        value={props.summonerName}
-        onChange={props.setSummonerName}
+        label={usernameInputLabel}
+        value={username}
+        onChange={event => setUsername(event.target.value)}
       />
       <Input
         label={i18n.t('modal.contacts')}
-        value={props.contact}
-        onChange={props.setContact}
+        value={contact}
+        onChange={event => setContact(event.target.value)}
       />
       <GoogleLogin
         render={renderProperties => (
@@ -108,8 +104,8 @@ export default enhance(props => {
             text={i18n.t('home.button_1')}
             type="button"
             appearance="_basic-accent"
-            className={style.summonerName}
-            disabled={!props.summonerName.trim()}
+            className={style.button}
+            disabled={!username.trim()}
             onClick={renderProperties.onClick}
           />
         )}

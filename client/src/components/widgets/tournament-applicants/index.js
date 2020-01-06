@@ -19,6 +19,7 @@ import { withCaptions } from 'hoc';
 
 import i18n from 'i18next';
 
+import widgetStyle from '../style.module.css';
 import style from './style.module.css';
 
 const cx = classnames.bind(style);
@@ -82,12 +83,12 @@ const Applicants = ({
   acceptApplicant,
   rejectApplicant,
 }) => (
-  <div className={cx(style.applicants, className)}>
-    <div className={style.header}>
-      <h3 className={style.subtitle}>{i18n.t('tournament_page.applicants')}</h3>
+  <div className={cx(widgetStyle.widget, style.applicants, className)}>
+    <div className={widgetStyle.header}>
+      <h3 className={widgetStyle.title}>{i18n.t('tournament_page.applicants')}</h3>
     </div>
 
-    <div className={style.content}>
+    <div className={cx(widgetStyle.content, style.content)}>
       <Table
         noCaptions
         captions={captions}
@@ -137,11 +138,11 @@ export default compose(
     const applicants = props.tournament.applicants.map(({ user, status }) => {
       const applicant = users.find(item => item._id === user);
 
-      const normalizedApplicant = pick(applicant, ['_id', 'gameSpecificName']);
+      const normalizedApplicant = pick(applicant, ['_id', 'gameSpecificFields']);
 
       return {
         _id: normalizedApplicant._id,
-        nickname: normalizedApplicant.gameSpecificName && normalizedApplicant.gameSpecificName[game],
+        nickname: normalizedApplicant.gameSpecificFields && normalizedApplicant.gameSpecificFields[game].displayName,
         status,
       };
     });

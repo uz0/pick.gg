@@ -151,7 +151,7 @@ export default enhance(props => {
             </div>
 
             <div className={style.info}>
-              <p className={style.name}>{summoner.gameSpecificName[game]}</p>
+              <p className={style.name}>{summoner.gameSpecificFields[game].displayName}</p>
             </div>
           </button>
         );

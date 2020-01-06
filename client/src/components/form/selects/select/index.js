@@ -25,7 +25,7 @@ const FormikSelect = props => {
   };
 
   return (
-    <div className={cx(style.wrapper, props.className)}>
+    <div className={cx(style.wrapper, { [style.alignLeft]: props.labelPosition === 'left' }, props.className)}>
       <label className={style.caption}>{props.label}</label>
       <Select
         {...props}
