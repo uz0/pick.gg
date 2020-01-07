@@ -1,11 +1,7 @@
 import classnames from 'classnames';
 import React from 'react';
-import Select from 'react-select/async';
+import Select from 'react-select';
 import compose from 'recompose/compose';
-
-import { REGIONS } from 'constants/index';
-
-import i18n from 'i18n';
 
 import withStyles from '../hoc/with-styles';
 import style from './style.module.css';
@@ -16,16 +12,13 @@ const enhance = compose(
   withStyles,
 );
 
-const regionsSelectConfig = REGIONS.map(region => ({
-  value: region,
-  label: region,
-}));
-
-const RegionSelect = props => {
+const FormikSelect = props => {
   const selectValue = {
     label: props.field.value,
     value: props.field.value,
   };
+
+  const error = props.form.errors[props.field.name];
 
   const setField = ({ value }) => {
     props.form.setFieldValue(props.field.name, value);
@@ -37,15 +30,18 @@ const RegionSelect = props => {
       <Select
         {...props}
         {...props.field}
-        menuPlacement="auto"
-        defaultOptions={regionsSelectConfig}
         value={selectValue}
+        options={props.defaultOptions}
         className={style.select}
-        placeholder={i18n.t('choose_region')}
+        placeholder={props.placeholder}
         onChange={setField}
       />
+
+      {error &&
+        <p className={style.error}>{error}</p>
+      }
     </div>
   );
 };
 
-export default enhance(RegionSelect);
+export default enhance(FormikSelect);

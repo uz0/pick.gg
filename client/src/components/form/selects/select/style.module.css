@@ -1,3 +1,8 @@
+.wrapper {
+  display: block;
+  width: 100%;
+}
+
 .wrapper.alignLeft {
   display: grid;
   grid-template-columns: var(--label-width, min-content) 1fr;
@@ -5,7 +10,7 @@
   align-items: center;
 }
 
-.caption {
+.wrapper .caption {
   --height: 20px;
 
   overflow: hidden;
@@ -14,10 +19,20 @@
   line-height: var(--height);
   font-size: 15px;
   color: #fff;
+  font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-bottom: 4px;
-  font-weight: bold;
+}
+
+.wrapper .caption + .field {
+  margin-top: 4px;
+}
+
+.wrapper .error {
+  line-height: 1.5;
+  font-size: 12px;
+  margin-top: 4px;
+  color: var(--danger-secondary-color);
 }
 
 @media screen and (max-width: 480px) {

@@ -50,3 +50,9 @@
 .form .save {
   margin-left: auto;
 }
+
+@media screen and (max-width: 480px) {
+  .form .section .title {
+    font-size: 20px;
+  }
+}

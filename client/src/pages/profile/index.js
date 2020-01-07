@@ -7,9 +7,11 @@ import classnames from 'classnames/bind';
 import pick from 'lodash/pick';
 
 import { FormInput } from 'components/form/input';
-import RegionSelect from 'components/form/selects/region-select';
+import Select from 'components/form/selects/select';
 import Button from 'components/button';
 import notificationActions from 'components/notification/actions';
+
+import { REGIONS } from 'constants/index';
 
 import { http } from 'helpers';
 
@@ -29,6 +31,11 @@ const validationSchema = Yup.object().shape({
 });
 
 const Profile = () => {
+  const regionsSelectConfig = REGIONS.map(region => ({
+    value: region,
+    label: region,
+  }));
+
   return (
     <div className={cx('container', 'profile')}>
       <Form className={style.form}>
@@ -100,7 +107,8 @@ const Profile = () => {
             name="gameSpecificFields.LOL.regionId"
             label={i18n.t('forms.user_settings.lol_region')}
             labelPosition="left"
-            component={RegionSelect}
+            component={Select}
+            defaultOptions={regionsSelectConfig}
             className={style.field}
           />
         </section>
