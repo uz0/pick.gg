@@ -19,7 +19,9 @@ export const validator = [
       .populate('matches')
       .exec();
 
-    if (!map(matches, match => `${match._id}`).includes(matchId)) throw new Error("Match don't exist on this tournament");
+    if (!map(matches, match => `${match._id}`).includes(matchId)) {
+      throw new Error("Match don't exist on this tournament");
+    }
   }),
   body()
     .not()
