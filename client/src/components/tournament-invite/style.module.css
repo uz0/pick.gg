@@ -10,6 +10,7 @@
 
 .invite .header .subtitle {
   --height: 18px;
+
   flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
@@ -29,6 +30,7 @@
 
 .invite .content .link_wrapper .link {
   --height: 40px;
+
   display: flex;
   align-items: center;
   background-color: #0a0a1f;
@@ -78,12 +80,25 @@
 
 @media (max-width: 480px) {
   .invite .header .subtitle {
+    --height: auto;
+
+    overflow: visible;
+    line-height: 27px;
     font-size: 20px;
+    white-space: normal;
+  }
+
+  .invite .content .link_wrapper .link {
+    width: 320px;
   }
 }
 
 @media (max-width: 320px) {
   .invite .header .subtitle {
     font-size: 18px;
+  }
+
+  .invite .content .link_wrapper .link {
+    width: 280px;
   }
 }

@@ -144,8 +144,17 @@
 }
 
 @media (max-width: 480px) {
+  .summoners .header {
+    flex-wrap: wrap;
+  }
+
   .summoners .header .subtitle {
     font-size: 20px;
+    width: 100%;
+  }
+
+  .summoners .header .subtitle + .button {
+    margin-left: 0;
   }
 }
 /* stylelint-enable no-descending-specificity */
