@@ -1,3 +1,27 @@
+.viewers .header {
+  --viewers-header-height: 28px;
+
+  display: flex;
+  align-items: center;
+}
+
+.viewers .subtitle {
+  --height: 18px;
+
+  margin-bottom: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  color: var(--caption-color);
+  font-size: 18px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
 .viewers .header .button {
   flex-shrink: 0;
   height: var(--viewers-header-height);
