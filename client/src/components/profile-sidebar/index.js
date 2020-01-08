@@ -12,8 +12,8 @@ import style from './style.module.css';
 const GAMES = Object.keys(RULES);
 class ProfileSidebar extends Component {
   render() {
-    const { nickname, description, gameSpecificName, source } = this.props;
-    const isContentShown = nickname || !isEmpty(gameSpecificName) || description;
+    const { nickname, description, gameSpecificFields, source } = this.props;
+    const isContentShown = nickname || !isEmpty(gameSpecificFields) || description;
 
     return (
       <aside className={style.sidebar}>
@@ -23,11 +23,11 @@ class ProfileSidebar extends Component {
           <div className={style.content}>
             {nickname && <div className={style.nickname}>{nickname}</div>}
 
-            {!isEmpty(gameSpecificName) && GAMES.map(game =>
-              gameSpecificName[game] ? (
+            {!isEmpty(gameSpecificFields) && GAMES.map(game =>
+              gameSpecificFields[game].displayName ? (
                 <div className={style.wrap_info}>
                   <label className={style.label}>{i18n.t(`${game}_username`)}:</label>
-                  <p className={style.text}>{gameSpecificName[game]}</p>
+                  <p className={style.text}>{gameSpecificFields[game].displayName}</p>
                 </div>
               ) : null
             )}

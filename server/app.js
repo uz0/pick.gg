@@ -15,7 +15,8 @@ import {
   UsersController,
   TournamentController,
   AdminController,
-  RewardController
+  RewardController,
+  ExternalApiController
 } from './controllers';
 
 import AuthenticationController from './controllers/authenticationController';
@@ -96,8 +97,9 @@ app.use('/api/users', UsersController());
 
 app.use('/api/tournaments', TournamentController(io));
 app.use('/api/rewards', RewardController());
-
 app.use('/api/admin', AdminVerifyMiddleware, AdminController(io));
+
+app.use('/external', ExternalApiController());
 
 app.use('/home', (req, res, next) => {
   const lang = req.hostname.includes('ru.pick.gg') ? 'ru' : 'en';

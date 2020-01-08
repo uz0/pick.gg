@@ -2,6 +2,34 @@
   padding-top: var(--layout-padding);
 }
 
+.wrapper .content .fetch {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.wrapper .content .fetch .field {
+  width: 340px;
+}
+
+.wrapper .content .fetch .button {
+  margin-bottom: 12px;
+  margin-left: auto;
+}
+
+.wrapper .content .table {
+  margin-bottom: 30px;
+}
+
+.wrapper .content .table .row {
+  --background-color: rgba(0, 0, 0, 0.2);
+}
+
+.wrapper .content .last_matches {
+  display: flex;
+  align-items: center;
+}
+
 .wrapper .content .field:nth-of-type(n+2) {
   margin-top: 12px;
 }

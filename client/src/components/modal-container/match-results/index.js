@@ -4,6 +4,7 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 import classnames from 'classnames/bind';
 import filter from 'lodash/filter';
+import pick from 'lodash/pick';
 
 import Modal from 'components/modal';
 import Table from 'components/table';
@@ -103,9 +104,12 @@ export default compose(
     const results = match.playersResults.map(result => {
       const user = props.users[result.userId];
 
+      const resolvedRules = RULES[props.tournament.game].player.map(i => i.ruleName);
+
       return {
-        ...result,
-        nickname: user.gameSpecificName[props.tournament.game],
+        userId: result.userId,
+        results: pick(result.results, resolvedRules),
+        nickname: user.gameSpecificFields[props.tournament.game].displayName,
       };
     });
 

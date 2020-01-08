@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { Form, withFormik, Field } from 'formik';
 import * as Yup from 'yup';
+import pick from 'lodash/pick';
 import actions from 'pages/dashboard/users/actions';
 
 import notificationActions from 'components/notification/actions';
@@ -68,7 +69,7 @@ const User = props => {
               key={`${game}_username`}
               component={FormInput}
               label={i18n.t(`${game}_username`)}
-              name={`gameSpecificName.${game}`}
+              name={`gameSpecificFields.${game}.displayName`}
               className={style.field}
             />
           );
@@ -120,10 +121,9 @@ const enhance = compose(
   ),
   withFormik({
     validationSchema,
-    mapPropsToValues: ({ options }) => {
-      const { _id, username, gameSpecificName, canProvideTournaments, isAdmin } = options.user;
-      return { _id, username, gameSpecificName, canProvideTournaments, isAdmin };
-    },
+    mapPropsToValues: ({ options }) => pick(options.user,
+      ['_id', 'username', 'gameSpecificFields', 'canProvideTournaments', 'isAdmin']
+    ),
     handleSubmit: async (values, formikBag) => {
       const { isEditing } = formikBag.props.options;
       const defaultState = formikBag.props.options.user;

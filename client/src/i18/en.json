@@ -323,6 +323,22 @@
       "tournament_go": "Tournament started and goind on",
       "is_over": "Tournament is over"
     },
+    "forms": {
+      "user_settings": {
+        "general_info": "General info",
+
+        "login": "Login:",
+        "email": "E-mail:",
+        "contact": "Contact link:",
+        "twitch": "Twitch link:",
+        "userpic": "Avatar link:",
+        "about": "About me:",
+        "lol_name": "LoL display name:",
+        "lol_region": "LoL region:",
+        "pubg_name": "PUBG nickname:",
+        "pubg_region": "PUBG region:"
+      }
+    },
     "home": {
       "under_title": "Where streamers and viewers",
       "under_title_2": " play together",
@@ -419,6 +435,7 @@
       "action_button_text": "Add results",
       "drag_and_drop_file": "You can drag and drop file",
       "upload_file_button_text": "or click here",
+      "show_last_matches_of_player": "Choose from last matches of player",
       "error": {
         "multiple_files_upload": "You can\"t upload multiple files",
         "choose_file_first": "You should choose file first",
@@ -464,7 +481,8 @@
       "delete_user": "Delete user",
       "back": "back",
       "cancel": "cancel",
-      "delete": "delete"
+      "delete": "delete",
+      "load": "Load"
     },
     "empty_message": {
       "no_claimed_rewards": "You don't have any not claimed rewards"

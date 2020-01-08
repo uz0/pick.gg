@@ -327,6 +327,22 @@
       "tournament_go": "Турнир идёт прямо сейчас",
       "is_over": "Турнир окончен"
     },
+    "forms": {
+      "user_settings": {
+        "general_info": "Общая информация",
+
+        "login": "Логин:",
+        "email": "Электронная почта:",
+        "contact": "Контактная информация:",
+        "twitch": "Ссылка на Twitch:",
+        "userpic": "Ссылка на аватар:",
+        "about": "Обо мне:",
+        "lol_name": "Display name в LoL:",
+        "lol_region": "Регион в LoL:",
+        "pubg_name": "Никнейм в PUBG:",
+        "pubg_region": "Регион в PUBG:"
+      }
+    },
     "home": {
       "under_title": "Где стримеры и зрители",
       "under_title_2": " играют вместе",
@@ -413,6 +429,7 @@
       "results": "Результаты",
       "results_choosed": "Результаты выбраны",
       "upload_file": "Загрузить результаты",
+      "show_last_matches_of_player": "Выбрать из последних матчей игрока",
       "action_button_text": "Обновить матч",
       "notification": {
         "match_updated": "Матч {{name}} успешно обновлен"
@@ -471,7 +488,8 @@
       "delete_user": "Удалить",
       "back": "назад",
       "cancel": "отменить",
-      "delete": "удалить"
+      "delete": "удалить",
+      "load": "Загрузить"
     },
     "empty_message": {
       "no_claimed_rewards": "У вас нет никаких наград"

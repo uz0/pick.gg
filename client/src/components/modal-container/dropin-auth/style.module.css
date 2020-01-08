@@ -1,11 +1,11 @@
-.modal {
-}
-
 .modal .modal_content {
+  display: grid;
+  grid-row-gap: 12px;
+  grid-template-columns: 1fr;
   padding: var(--layout-padding);
 }
 
-.modal .modal_content .summonerName {
-  margin-top: 12px;
-  margin-left: auto;
+.modal .modal_content .button {
+  justify-self: end;
+  margin-top: 18px;
 }
