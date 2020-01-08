@@ -1,5 +1,6 @@
 import { param, body } from 'express-validator/check';
 import omit from 'lodash/omit';
+import map from 'lodash/map';
 
 import tournament from '../../../models/tournament';
 import match from '../../../models/match';
@@ -12,9 +13,13 @@ export const validator = [
   param('matchId').custom(id => isEntityExists(id, match)),
   param().custom(async (_, { req }) => {
     const { tournamentId, matchId } = req.params;
-    const { matches } = await tournament.findById(tournamentId).exec();
 
-    if (!matches.includes(matchId)) throw new Error("Match don't exist on this tournament");
+    const { matches } = await tournament
+      .findById(tournamentId)
+      .populate('matches')
+      .exec();
+
+    if (!map(matches, match => `${match._id}`).includes(matchId)) throw new Error("Match don't exist on this tournament");
   }),
   body()
     .not()
