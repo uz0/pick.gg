@@ -64,10 +64,15 @@
 }
 
 .button[appearance^="_widget"] {
-  height: 16px;
-  font-size: 16px;
-  line-height: 16px;
-  color: var(--accent-color);
+  --size: 18px;
+  --color: var(--accent-color);
+  --icon-size: var(--size);
+
+  height: var(--size);
+  width: var(--size);
+  font-size: var(--size);
+  line-height: var(--size);
+  color: var(--color);
   font-weight: var(--font-weight-bold);
   background-color: transparent;
   transition-property: color;
