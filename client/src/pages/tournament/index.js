@@ -211,7 +211,7 @@ class Tournament extends Component {
 
     const { isCurrentUserCanEdit } = getUserPermissions(currentUser, tournament);
 
-    const isUserCanAddMatch = isCurrentUserCanEdit && !isEmpty(summoners) && teams.length >= 2;
+    const isUserCanAddMatch = isCurrentUserCanEdit && !isEmpty(summoners) && teams.length >= 1;
     const isSummonersWidgetVisible = !isTournamentEmpty;
     const isApplicantsWidgetVisible = isApplicationsAvailable && isCurrentUserCanEdit;
     const isInviteWidgetVisible = isApplicationsAvailable || isForecastingActive;
