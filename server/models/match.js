@@ -19,12 +19,8 @@ export default mongoose.model('Match',
       type: Boolean,
       default: false
     },
-    teams: {
-      LOL: {
-        blue: refTo('Team'),
-        red: refTo('Team')
-      }
-    },
+    players: [[refTo('User')]],
+    teams: [refTo('Team')],
     startedAt: Date,
     endAt: Date,
     updatedAt: Date

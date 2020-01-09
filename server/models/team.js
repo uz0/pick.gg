@@ -12,10 +12,6 @@ export default mongoose.model('Team', new Schema(
     color: { type: String, required: true },
 
     users: [{ type: String }]
-    // users: [{
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'User',
-    // }],
   },
 
   {
