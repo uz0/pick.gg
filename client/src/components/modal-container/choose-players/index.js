@@ -25,23 +25,27 @@ const cx = classnames.bind(style);
 
 const enhance = compose(
   connect(
-    null,
+    (state, props) => ({
+      game: state.tournaments.list[props.options.tournamentId].game,
+      users: state.users.list,
+    }),
 
     {
       updateTournament: tournamentsActions.updateTournament,
     }
   ),
   withStateHandlers(
-    ({ options }) => {
-      const summoners = Object
-        .values(options.summoners)
-        .filter(summoner => !isEmpty(summoner.gameSpecificFields[options.game].displayName))
-        .sort((summoner, nextsummoner) => summoner.gameSpecificFields[options.game].displayName
-          .localeCompare(nextsummoner.gameSpecificFields[options.game].displayName));
+    ({ options, users, game }) => {
+      const players = Object
+        .values(users)
+        .filter(player => !isEmpty(player.gameSpecificFields[game].displayName))
+        .sort((player, nextPlayer) => player.gameSpecificFields[game].displayName
+          .localeCompare(nextPlayer.gameSpecificFields[game].displayName));
 
       return {
-        selectedSummoners: options.selectedSummoners.length > 0 ? options.selectedSummoners : [],
-        summonersList: summoners,
+        disabledPlayers: options.disabledPlayers,
+        selectedPlayers: options.selectedPlayers,
+        playersList: players,
         filter: '',
         isSubmitting: false,
       };
@@ -51,17 +55,17 @@ const enhance = compose(
       clearFilter: state => () => ({ ...state, filter: '' }),
       handleFilterInput: state => e => ({ ...state, filter: e.target.value }),
       toggleSubmitting: state => () => ({ ...state, isSubmitting: !state.isSubmitting }),
-      toggleSelectSummoner: state => id => {
-        const { selectedSummoners } = state;
-        if (selectedSummoners.length >= 10) {
+      toggleSelectPlayer: state => id => {
+        const { selectedPlayers } = state;
+        if (selectedPlayers.length >= 10) {
           return state;
         }
 
         return {
           ...state,
-          selectedSummoners: selectedSummoners.includes(id) ?
-            selectedSummoners.filter(nextId => nextId !== id) :
-            [...selectedSummoners, id],
+          selectedPlayers: selectedPlayers.includes(id) ?
+            selectedPlayers.filter(nextId => nextId !== id) :
+            [...selectedPlayers, id],
         };
       },
     }
@@ -70,7 +74,7 @@ const enhance = compose(
     choose: props => async () => {
       props.toggleSubmitting();
 
-      const { selectedSummoners } = props;
+      const { selectedPlayers } = props;
       const { tournamentId } = props.options;
 
       try {
@@ -79,7 +83,7 @@ const enhance = compose(
             'Content-Type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify({ summoners: selectedSummoners }),
+          body: JSON.stringify({ summoners: selectedPlayers }),
         });
 
         const { tournament } = await response.json();
@@ -96,44 +100,47 @@ const enhance = compose(
 );
 
 export default enhance(props => {
-  const { isSubmitting, summonersList } = props;
-  const { game } = props.options;
+  const { isSubmitting, playersList, game } = props;
 
-  const summoners = filter(summonersList, summoner =>
-    summoner.gameSpecificFields[game].displayName.toLowerCase().startsWith(props.filter.toLowerCase())
+  const players = filter(playersList, player =>
+    player.gameSpecificFields[game].displayName.toLowerCase().startsWith(props.filter.toLowerCase())
   );
-  const group = groupBy(summoners, summoner => summoner.gameSpecificFields[game].displayName[0]);
+  const group = groupBy(players, player => player.gameSpecificFields[game].displayName[0]);
 
-  const isSelectedSummoners = props.selectedSummoners.length > 0;
+  const isSelectedPlayers = props.selectedPlayers.length > 0;
   const isFiltering = props.filter.length > 0;
 
   return (
     <Modal
-      title={i18n.t('modal.choose_tournament_summoners')}
+      title={i18n.t('players_modal.title')}
       close={props.close}
       className={style.modal_content}
       wrapClassName={style.wrapper}
       actions={[{
-        text: 'Choose',
+        text: i18n.t('players_modal.action'),
         appearance: '_basic-accent',
         disabled: isSubmitting,
-        onClick: props.choose,
+        onClick: () => {
+          props.options.action(props.selectedPlayers);
+          props.close();
+        },
       }]}
     >
       <div className={style.sidebar}>
-        <h3 className={style.title}>Choosen summoners</h3>
+        <h3 className={style.title}>{i18n.t('players_modal.chosen_players')}</h3>
 
-        {(isSelectedSummoners && !isFiltering) ? (
-          props.selectedSummoners.map((id, index) => {
-            const summoner = find(summoners, { _id: id });
+        {(isSelectedPlayers && !isFiltering) ? (
+          props.selectedPlayers.map((id, index) => {
+            const player = find(props.users, { _id: id });
+
             return (
-              <p key={summoner._id} className={style.summoner}>
-                {index + 1}. {summoner.gameSpecificFields[game].displayName}
+              <p key={player._id} className={style.player}>
+                {index + 1}. {player.gameSpecificFields[game].displayName}
               </p>
             );
           })
         ) : (
-          <p className={style.empty}>You haven`t chosen any summoners yet</p>
+          <p className={style.empty}>{i18n.t('players_modal.empty')}</p>
         )}
       </div>
 
@@ -141,7 +148,7 @@ export default enhance(props => {
         <div className={style.search_container}>
           <input
             className={style.field}
-            placeholder={i18n.t('modal.find_summoner_name')}
+            placeholder={i18n.t('players_modal.filter_placeholder')}
             value={props.filter}
             onChange={props.handleFilterInput}
           />
@@ -155,20 +162,21 @@ export default enhance(props => {
           </button>
         </div>
 
-        <div className={style.summoners}>
+        <div className={style.players}>
           {isFiltering ? (
             <div className={style.section}>
               <div className={style.list}>
-                {summoners.map(summoner => (
+                {players.map(player => (
                   <button
-                    key={summoner._id}
+                    key={player._id}
+                    disabled={props.disabledPlayers.includes(player._id)}
                     className={cx('item', {
-                      '_is-selected': props.selectedSummoners.includes(summoner._id),
+                      '_is-selected': props.selectedPlayers.includes(player._id),
                     })}
                     type="button"
-                    onClick={() => props.toggleSelectSummoner(summoner._id)}
+                    onClick={() => props.toggleSelectPlayer(player._id)}
                   >
-                    {summoner.gameSpecificFields[game].displayName}
+                    {player.gameSpecificFields[game].displayName}
                   </button>
                 ))}
               </div>
@@ -179,18 +187,19 @@ export default enhance(props => {
                 <h3 className={style.letter}>{key}</h3>
 
                 <div className={style.list}>
-                  {group[key].map(summoner => (
+                  {group[key].map(player => (
                     <button
-                      key={summoner._id}
+                      key={player._id}
+                      disabled={props.disabledPlayers.includes(player._id)}
                       className={cx('item', {
-                        '_is-selected': props.selectedSummoners.includes(
-                          summoner._id
+                        '_is-selected': props.selectedPlayers.includes(
+                          player._id
                         ),
                       })}
                       type="button"
-                      onClick={() => props.toggleSelectSummoner(summoner._id)}
+                      onClick={() => props.toggleSelectPlayer(player._id)}
                     >
-                      {summoner.gameSpecificFields[game].displayName}
+                      {player.gameSpecificFields[game].displayName}
                     </button>
                   ))}
                 </div>
