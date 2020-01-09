@@ -6,8 +6,22 @@
 
 .wrapper .modal_content {
   padding-top: var(--layout-padding);
+  display: grid;
+  grid-row-gap: 12px;
 }
 
-.wrapper .modal_content .field:nth-of-type(n+2) {
-  margin-top: 12px;
+.wrapper .modal_content .rosters .title {
+  overflow: hidden;
+  min-width: 0;
+  font-size: 15px;
+  margin-bottom: 12px;
+  text-transform: none;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: var(--font-weight-bold);
+}
+
+.wrapper .modal_content .rosters .list {
+  margin-bottom: 12px;
 }
