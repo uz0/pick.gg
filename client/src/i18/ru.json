@@ -405,9 +405,7 @@
       "rules_type": "Формат правил (FFA, Bo3, Bo5)",
       "add_rules_label": "Правила турнира",
       "rules_formula_label": "Формула подсчёта результатов",
-      "find_summoner_name": "Найти призывателя по имени",
       "find_moderator_name": "Найти по имени",
-      "choose_tournament_summoners": "Выберите турнирных призывателей",
       "choose_tournament_moderators": "Выберите модераторов турнира",
       "contacts": "Как с вами связаться (VK, Facebook, Discord, or email link)",
       "results_file": "Файл результатов",
@@ -420,6 +418,14 @@
       "description_required": "Поле описания обязательно для заполнения!",
       "user_required": "Поле id пользователя обязательно для заполнения!",
       "key_required": "Поле ключа обязательно для заполнения!"
+    },
+    "players_modal": {
+      "title": "Выберите игроков",
+      "action": "Выбрать",
+      "chosen_players": "Выбранные игроки",
+      "filter_placeholder": "Найти игрока по имени",
+      "empty": "Вы пока не выбрали ни одного игрока",
+      "empty_roster": "Вы можете выбрать членов команды"
     },
     "match_modal": {
       "modal_title": "Редактировать матч {{name}}",

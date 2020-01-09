@@ -401,9 +401,7 @@
       "rules_type": "Rules type (FFA, Bo3, Bo5)",
       "add_rules_label": "Write your rules below",
       "rules_formula_label": "Rules formula",
-      "find_summoner_name": "Find a summoner by name",
       "find_moderator_name": "Find a moderator by name",
-      "choose_tournament_summoners": "Choose tournament summoners",
       "choose_tournament_moderators": "Choose tournament moderators",
       "contacts": "Contact (VK, Facebook, Discord, or email link)",
       "results_file": "Results file",
@@ -416,6 +414,14 @@
       "description_required": "Description field is required!",
       "user_required": "UserId field is required!",
       "key_required": "Key field is required!"
+    },
+    "players_modal": {
+      "title": "Choose players",
+      "action": "Choose",
+      "find_summoner_name": "Find a summoner by name",
+      "filter_placeholder": "Find player by name",
+      "empty": "You haven't chosen any summoners yet",
+      "empty_roster": "You can choose team members"
     },
     "match_modal": {
       "modal_title": "Edit match {{name}}",
