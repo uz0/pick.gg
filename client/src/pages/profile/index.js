@@ -42,13 +42,13 @@ const validationSchema = Yup.object().shape({
     LOL: Yup.object().shape({
       displayName: Yup.string()
         .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
+        .max(50, 'Too Long!'),
     }),
 
     PUBG: Yup.object().shape({
       displayName: Yup.string()
         .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
+        .max(50, 'Too Long!'),
     }),
   }),
 });
