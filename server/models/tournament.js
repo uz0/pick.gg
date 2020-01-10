@@ -26,6 +26,10 @@ const schema = new Schema(
     },
     rulesTitle: String,
     rules: String,
+    hasBracket: {
+      type: Boolean,
+      default: false
+    },
     isForecastingActive: {
       type: Boolean,
       default: false

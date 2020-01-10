@@ -56,12 +56,14 @@ const handler = withValidationHandler(async (req, res) => {
           'name',
           'description',
           'dateDetails',
+          'hasBracket',
           'startAt',
           'price',
           'imageUrl'
         ]),
         {
           isReady: false,
+          hasBracket: false,
           description: '',
           dateDetails: '',
           imageUrl: image,

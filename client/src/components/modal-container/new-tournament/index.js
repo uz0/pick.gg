@@ -91,6 +91,14 @@ const NewTournament = props => {
         />
 
         <Field
+          type="checkbox"
+          name="hasBracket"
+          label="Использовать турнирую сетку"
+          component={FormInput}
+          className={style.field}
+        />
+
+        <Field
           component={FormInput}
           label={`${i18n.t('modal.tournament_image')} (500x150)`}
           name="imageUrl"
@@ -131,6 +139,7 @@ const enhance = compose(
     mapPropsToValues: () => ({
       name: '',
       game: '',
+      hasBracket: false,
       description: '',
       imageUrl: '',
       price: 0,
