@@ -33,47 +33,49 @@ const Rewards = ({
 }) => {
   const isRewardsExist = tournament.unfoldedRewards && tournament.unfoldedRewards.length !== 0;
 
-  return <div className={cx(style.rewards, className)}>
-    <div className={cx(style.content)}>
+  return (
+    <div className={cx(style.rewards, className)}>
+      <div className={cx(style.content)}>
 
-      {isRewardsExist && (
-        <div className={style.prizes}>
-          <div className={style.list}>
-            {tournament.unfoldedRewards.map(reward => {
-              return (
-                <div key={reward._id} className={style.item}>
-                  <div className={style.avatar}>
-                    <img
-                      src={reward.image}
-                      alt="reward"
-                      onError={e => {
-                        e.currentTarget.src = RewardPlaceholder;
-                      }}
-                    />
-                  </div>
-                  <div className={style.info}>
-                    <div className={style.name}>
-                      {reward.description}
+        {isRewardsExist && (
+          <div className={style.prizes}>
+            <div className={style.list}>
+              {tournament.unfoldedRewards.map(reward => {
+                return (
+                  <div key={reward._id} className={style.item}>
+                    <div className={style.avatar}>
+                      <img
+                        src={reward.image}
+                        alt="reward"
+                        onError={e => {
+                          e.currentTarget.src = RewardPlaceholder;
+                        }}
+                      />
                     </div>
-                    <div className={style.position}>
-                      {
-                        `${i18n.t('for')} ${REWARD_POSITIONS[tournament.rewards[reward._id]].role} ${i18n.t('and')}
+                    <div className={style.info}>
+                      <div className={style.name}>
+                        {reward.description}
+                      </div>
+                      <div className={style.position}>
+                        {
+                          `${i18n.t('for')} ${REWARD_POSITIONS[tournament.rewards[reward._id]].role} ${i18n.t('and')}
                         ${REWARD_POSITIONS[tournament.rewards[reward._id]].place} ${i18n.t('place')}`
-                      }
+                        }
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {!isRewardsExist &&
-        <p className={style.empty}>{i18n.t('empty_message.no_claimed_rewards')}</p>
-      }
+        {!isRewardsExist &&
+          <p className={style.empty}>{i18n.t('empty_message.no_claimed_rewards')}</p>
+        }
+      </div>
     </div>
-  </div>
+  );
 };
 
 export default compose(
