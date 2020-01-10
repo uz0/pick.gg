@@ -139,6 +139,7 @@ const Summoners = ({
   isApplicantRejected,
   isAlreadyApplicant,
   isAlreadySummoner,
+  choosePlayers,
   addSummoners,
   applyTournament,
   openPlayerInfoModal,
@@ -178,7 +179,7 @@ const Summoners = ({
             appearance="_icon-transparent"
             icon="edit"
             className={style.button}
-            onClick={addSummoners}
+            onClick={() => addSummoners(choosePlayers)}
           />
         )}
       </div>
@@ -201,7 +202,7 @@ const Summoners = ({
             appearance="_small-accent"
             text={i18n.t('choose_summoners')}
             className={style.button}
-            onClick={addSummoners}
+            onClick={() => addSummoners(choosePlayers)}
           />
         )}
 
@@ -285,6 +286,7 @@ export default compose(
         userId,
         teams: props.tournament.teams,
         tournamentId: props.id,
+        action: players => props.choosePlayers(players),
       },
     }),
 
@@ -325,6 +327,26 @@ export default compose(
         }
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    choosePlayers: props => async selectedPlayers => {
+      const tournamentId = props.id;
+
+      try {
+        const response = await http(`/api/tournaments/${tournamentId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify({ summoners: selectedPlayers }),
+        });
+
+        const { tournament } = await response.json();
+
+        props.updateTournament(tournament);
+      } catch (error) {
+        console.log(error);
       }
     },
 
