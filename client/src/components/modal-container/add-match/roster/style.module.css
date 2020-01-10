@@ -4,6 +4,7 @@
 
 .team .header {
   --size: 14px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -61,7 +62,6 @@
 .team .content .list .player {
   --item-background-color: #2f2f5b;
   --item-text-color: #909095;
-
   --height: 24px;
 
   height: var(--height);
