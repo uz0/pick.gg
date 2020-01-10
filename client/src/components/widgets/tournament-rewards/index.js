@@ -30,11 +30,13 @@ const tableCaptions = ({ t, isMobile }) => ({
 const Rewards = ({
   tournament,
   className,
-}) => (
-  <div className={cx(style.rewards, className)}>
+}) => {
+  const isRewardsExist = tournament.unfoldedRewards && tournament.unfoldedRewards.length !== 0;
+
+  return <div className={cx(style.rewards, className)}>
     <div className={cx(style.content)}>
 
-      {tournament.unfoldedRewards && tournament.unfoldedRewards.length !== 0 && (
+      {isRewardsExist && (
         <div className={style.prizes}>
           <div className={style.list}>
             {tournament.unfoldedRewards.map(reward => {
@@ -66,9 +68,13 @@ const Rewards = ({
           </div>
         </div>
       )}
+
+      {!isRewardsExist &&
+        <p className={style.empty}>{i18n.t('empty_message.no_claimed_rewards')}</p>
+      }
     </div>
   </div>
-);
+};
 
 export default compose(
   connect(
