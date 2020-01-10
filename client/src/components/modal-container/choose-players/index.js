@@ -7,15 +7,20 @@ import flatten from 'lodash/flatten';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
+import includes from 'lodash/includes';
+import concat from 'lodash/concat';
+import map from 'lodash/map';
+import assign from 'lodash/assign';
+import eq from 'lodash/eq';
 import compose from 'recompose/compose';
 import withStateHandlers from 'recompose/withStateHandlers';
 import withProps from 'recompose/withProps';
-import withHandlers from 'recompose/withHandlers';
 import { actions as tournamentsActions } from 'pages/tournaments';
 
 import Modal from 'components/modal';
 
-import { http } from 'helpers';
+import { getPlayerName } from 'helpers';
 
 import i18n from 'i18n';
 
@@ -38,77 +43,61 @@ const enhance = compose(
     ({ options, users, game }) => {
       const players = Object
         .values(users)
-        .filter(player => !isEmpty(player.gameSpecificFields[game].displayName))
-        .sort((player, nextPlayer) => player.gameSpecificFields[game].displayName
-          .localeCompare(nextPlayer.gameSpecificFields[game].displayName));
+        .filter(player => !isEmpty(getPlayerName(player, game)))
+        .sort((player, nextPlayer) => getPlayerName(player, game).localeCompare(getPlayerName(nextPlayer, game)));
 
       return {
-        disabledPlayers: options.disabledPlayers,
-        selectedPlayers: options.selectedPlayers,
+        disabledPlayers: get(options, 'disabledPlayers', []),
+        selectedPlayers: get(options, 'selectedPlayers', []),
         playersList: players,
-        filter: '',
+        filterValue: '',
         isSubmitting: false,
       };
     },
 
     {
-      clearFilter: state => () => ({ ...state, filter: '' }),
-      handleFilterInput: state => e => ({ ...state, filter: e.target.value }),
-      toggleSubmitting: state => () => ({ ...state, isSubmitting: !state.isSubmitting }),
+      clearFilter: state => () => assign(state, { filterValue: '' }),
+      handleFilterInput: state => event => assign(state, { filterValue: event.target.value }),
+      toggleSubmitting: state => () => assign(state, { isSubmitting: !state.isSubmitting }),
       toggleSelectPlayer: state => id => {
-        const { selectedPlayers } = state;
+        let { selectedPlayers } = state;
+
         if (selectedPlayers.length >= 10) {
           return state;
         }
 
-        return {
-          ...state,
-          selectedPlayers: selectedPlayers.includes(id) ?
-            selectedPlayers.filter(nextId => nextId !== id) :
-            [...selectedPlayers, id],
-        };
+        selectedPlayers = includes(selectedPlayers, id) ?
+          filter(selectedPlayers, playerId => !eq(playerId, id)) :
+          concat(selectedPlayers, id);
+
+        return assign(state, { selectedPlayers });
       },
     }
   ),
-  withHandlers({
-    choose: props => async () => {
-      props.toggleSubmitting();
-
-      const { selectedPlayers } = props;
-      const { tournamentId } = props.options;
-
-      try {
-        const response = await http(`/api/tournaments/${tournamentId}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'PATCH',
-          body: JSON.stringify({ summoners: selectedPlayers }),
-        });
-
-        const { tournament } = await response.json();
-        props.updateTournament(tournament);
-        props.close();
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  }),
   withProps(() => ({
     getSortedKeys: keys => flatten(partition(keys, key => isNaN(parseInt(key, 10)))),
   }))
 );
 
 export default enhance(props => {
-  const { isSubmitting, playersList, game } = props;
+  const {
+    selectedPlayers,
+    isSubmitting,
+    playersList,
+    filterValue,
+    game,
+  } = props;
 
-  const players = filter(playersList, player =>
-    player.gameSpecificFields[game].displayName.toLowerCase().startsWith(props.filter.toLowerCase())
-  );
-  const group = groupBy(players, player => player.gameSpecificFields[game].displayName[0]);
+  const players = filter(playersList, player => {
+    const [lowerCaseName, lowerCaseFilter] = map([getPlayerName(player, game), filterValue], item => item.toLowerCase());
 
-  const isSelectedPlayers = props.selectedPlayers.length > 0;
-  const isFiltering = props.filter.length > 0;
+    return lowerCaseName.startsWith(lowerCaseFilter);
+  });
+
+  const group = groupBy(players, player => getPlayerName(player, game)[0]);
+
+  const isSelectedPlayers = !isEmpty(selectedPlayers);
+  const isFiltering = !isEmpty(filterValue);
 
   return (
     <Modal
@@ -121,7 +110,8 @@ export default enhance(props => {
         appearance: '_basic-accent',
         disabled: isSubmitting,
         onClick: () => {
-          props.options.action(props.selectedPlayers);
+          props.toggleSubmitting();
+          props.options.action(selectedPlayers);
           props.close();
         },
       }]}
@@ -130,12 +120,12 @@ export default enhance(props => {
         <h3 className={style.title}>{i18n.t('players_modal.chosen_players')}</h3>
 
         {(isSelectedPlayers && !isFiltering) ? (
-          props.selectedPlayers.map((id, index) => {
+          selectedPlayers.map((id, index) => {
             const player = find(props.users, { _id: id });
 
             return (
               <p key={player._id} className={style.player}>
-                {index + 1}. {player.gameSpecificFields[game].displayName}
+                {index + 1}. {getPlayerName(player, game)}
               </p>
             );
           })
@@ -149,13 +139,13 @@ export default enhance(props => {
           <input
             className={style.field}
             placeholder={i18n.t('players_modal.filter_placeholder')}
-            value={props.filter}
+            value={filterValue}
             onChange={props.handleFilterInput}
           />
 
           <button
-            className={style.clear}
             type="button"
+            className={style.clear}
             onClick={props.clearFilter}
           >
             {i18n.t('clear_button')}
@@ -169,14 +159,12 @@ export default enhance(props => {
                 {players.map(player => (
                   <button
                     key={player._id}
-                    disabled={props.disabledPlayers.includes(player._id)}
-                    className={cx('item', {
-                      '_is-selected': props.selectedPlayers.includes(player._id),
-                    })}
                     type="button"
+                    disabled={includes(props.disabledPlayers, player._id)}
+                    className={cx('item', { '_is-selected': includes(selectedPlayers, player._id) })}
                     onClick={() => props.toggleSelectPlayer(player._id)}
                   >
-                    {player.gameSpecificFields[game].displayName}
+                    {getPlayerName(player, game)}
                   </button>
                 ))}
               </div>
@@ -190,16 +178,12 @@ export default enhance(props => {
                   {group[key].map(player => (
                     <button
                       key={player._id}
-                      disabled={props.disabledPlayers.includes(player._id)}
-                      className={cx('item', {
-                        '_is-selected': props.selectedPlayers.includes(
-                          player._id
-                        ),
-                      })}
                       type="button"
+                      disabled={includes(props.disabledPlayers, player._id)}
+                      className={cx('item', { '_is-selected': includes(selectedPlayers, player._id) })}
                       onClick={() => props.toggleSelectPlayer(player._id)}
                     >
-                      {player.gameSpecificFields[game].displayName}
+                      {getPlayerName(player, game)}
                     </button>
                   ))}
                 </div>
