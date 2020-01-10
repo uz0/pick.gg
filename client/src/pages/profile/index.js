@@ -28,6 +28,29 @@ const validationSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
+
+  contact: Yup.string()
+    .url('Contact should be a link'),
+
+  twitchAccount: Yup.string()
+    .url('Twitch should be a link'),
+
+  imageUrl: Yup.string()
+    .url('Avatar should be a link'),
+
+  gameSpecificFields: Yup.object().shape({
+    LOL: Yup.object().shape({
+      displayName: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+    }),
+
+    PUBG: Yup.object().shape({
+      displayName: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+    }),
+  }),
 });
 
 const Profile = () => {
