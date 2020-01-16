@@ -35,9 +35,28 @@ export const isEntityExists = async (_id, model) => {
   return true;
 };
 
+const convertObjectToDotNotation = object => {
+  var res = {};
+
+  (function recurse (obj, current) {
+    for (var key in obj) {
+      const value = obj[key];
+      const newKey = (current ? `${current}.${key}` : key);
+
+      if (value && typeof value === 'object') {
+        recurse(value, newKey);
+      } else {
+        res[newKey] = value;
+      }
+    }
+  })(object);
+
+  return Object.keys(res);
+};
+
 export const isRequestHasCorrectFields = (requestFields, model) => {
   const modelFields = getModelFields(model);
-  const diff = difference(Object.keys(requestFields), modelFields);
+  const diff = difference(convertObjectToDotNotation(requestFields), modelFields);
 
   if (diff.length) {
     throw new Error(`${model.modelName} shouldn't contain ${diff.join(', ')} fields`);
