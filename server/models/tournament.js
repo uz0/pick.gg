@@ -93,8 +93,14 @@ schema.virtual('matches', {
 });
 
 schema.virtual('isEmpty').get(function () {
-  if (isEmpty(this.rules) || isEmpty(this.rewards)) {
-    return true;
+  if (this.game === 'LOL') {
+    if (isEmpty(this.rules) || isEmpty(this.rewards)) {
+      return true;
+    }
+  } else {
+    if (isEmpty(this.rewards)) {
+      return true;
+    }
   }
 
   return false;

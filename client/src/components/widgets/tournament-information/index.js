@@ -22,7 +22,7 @@ const cx = classnames.bind(style);
 const Information = props => {
   const [isFullDescriptionShown, toggleDescription] = useState(false);
 
-  const { rules, rewards, description } = get(props, 'tournament');
+  const { game, rules, rewards, description } = get(props, 'tournament');
 
   const { isCurrentUserCanEdit } = getUserPermissions(props.currentUser, props.tournament);
 
@@ -43,7 +43,7 @@ const Information = props => {
           <Icon name="trophy"/>
         </Control>
         <Control onClick={rulesAction}>
-          {props.tournament.rulesTitle || 'SET ME'}
+          {props.tournament.rulesTitle || game === 'PUBG' ? 'RULES' : 'SET ME'}
         </Control>
       </div>
       <div className={style.description}>
@@ -67,6 +67,7 @@ export default compose(
   connect(
     (state, props) => ({
       currentUser: state.currentUser,
+      game: state.tournaments.list[props.id].game,
       tournament: state.tournaments.list[props.id],
     }),
   ),

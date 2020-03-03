@@ -41,7 +41,7 @@ const Modal = ({
           />
         </div>
 
-        <div className={cx('content', className)}>{children}</div>
+        <div className={cx('content', { 'has-no-actions': !isActionsShown }, className)}>{children}</div>
 
         {isActionsShown && (
           <div className={style.actions}>

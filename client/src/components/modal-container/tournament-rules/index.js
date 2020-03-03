@@ -65,7 +65,7 @@ const AddRules = props => {
   const getModalTitle = () => {
     let title = 'Tournament rules';
 
-    if (isCurrentUserAdminOrCreator) {
+    if (isCurrentUserAdminOrCreator && props.game !== 'PUBG') {
       title = props.options.isEditing ? i18n.t('modal.edit_rules') : i18n.t('modal.add_rules');
     }
 
@@ -144,7 +144,7 @@ const AddRules = props => {
     }
   };
 
-  if (isCurrentUserAdminOrCreator) {
+  if (isCurrentUserAdminOrCreator && props.game !== 'PUBG') {
     modalActions.push({
       text: props.options.isEditing ? i18n.t('edit') : i18n.t('add'),
       type: 'button',
@@ -162,35 +162,43 @@ const AddRules = props => {
       wrapClassName={style.wrapper}
       actions={modalActions}
     >
-      <Input
-        isTouched={rulesTitleInputTouched}
-        disabled={!isCurrentUserAdminOrCreator}
-        name="rulesTitle"
-        label={i18n.t('modal.rules_type')}
-        value={rulesTitle}
-        error={rulesTitleError}
-        className={style.rulearea}
-        onChange={handleRulesTitleInputChange}
-        onFocus={handleInputFocus}
-      />
-      <Table
-        captions={tableCaptions}
-        items={props.ruleNames}
-        renderRow={renderRow}
-        isLoading={false}
-        className={style.table}
-        emptyMessage={i18n.t('no_game_rules_help')}
-      />
-      <TextArea
-        disabled={!isCurrentUserAdminOrCreator}
-        name="rules"
-        label={textAreaLabel}
-        value={rules}
-        error={rulesError}
-        className={style.rulearea}
-        onChange={handleRulesInputChange}
-        onFocus={handleInputFocus}
-      />
+      {props.game === 'LOL' && (
+        <>
+          <Input
+            isTouched={rulesTitleInputTouched}
+            disabled={!isCurrentUserAdminOrCreator}
+            name="rulesTitle"
+            label={i18n.t('modal.rules_type')}
+            value={rulesTitle}
+            error={rulesTitleError}
+            className={style.rulearea}
+            onChange={handleRulesTitleInputChange}
+            onFocus={handleInputFocus}
+          />
+          <Table
+            captions={tableCaptions}
+            items={props.ruleNames}
+            renderRow={renderRow}
+            isLoading={false}
+            className={style.table}
+            emptyMessage={i18n.t('no_game_rules_help')}
+          />
+          <TextArea
+            disabled={!isCurrentUserAdminOrCreator}
+            name="rules"
+            label={textAreaLabel}
+            value={rules}
+            error={rulesError}
+            className={style.rulearea}
+            onChange={handleRulesInputChange}
+            onFocus={handleInputFocus}
+          />
+        </>
+      )}
+
+      {props.game === 'PUBG' && (
+        <p>Очки считаются на места в общем зачете выживших игроков, а также за количество убийств.</p>
+      )}
     </Modal>
   );
 };
@@ -199,6 +207,7 @@ const enhance = compose(
   connect(
     (state, props) => ({
       tournament: state.tournaments.list[props.options.tournamentId],
+      game: state.tournaments.list[props.options.tournamentId].game,
     }),
 
     {

@@ -69,6 +69,10 @@
   padding-right: var(--layout-padding);
 }
 
+.wrapper .modal .content.has-no-actions {
+  padding-bottom: var(--layout-padding);
+}
+
 .wrapper .modal .actions {
   flex-shrink: 0;
   display: flex;
