@@ -12,7 +12,22 @@ const Footer = () => {
     i18n.changeLanguage(event.target.name);
 
     ym('reachGoal', `choosed_${event.target.name}_locale`);
-    window.location.reload();
+
+    if (window.location.hostname.includes('pick.gg')) {
+      if (event.target.name === 'ru') {
+        window.location.hostname = 'ru.pick.gg';
+      } else {
+        window.location.hostname = 'pick.gg';
+      }
+    } else {
+      window.location.reload();
+    }
+  };
+
+  const underline = lang => {
+    if (localStorage.getItem('_pgg_locale') === lang) {
+      return style.underline;
+    }
   };
 
   return (
@@ -26,8 +41,8 @@ const Footer = () => {
         </div>
 
         <div className={style.lang_settings}>
-          <button type="button" name="ru" onClick={changeLocale}>RU</button>
-          <button type="button" name="en" onClick={changeLocale}>EN</button>
+          <button className={underline('ru')} type="button" name="ru" onClick={changeLocale}>RU</button>
+          <button className={underline('en')} type="button" name="en" onClick={changeLocale}>EN</button>
         </div>
       </div>
     </footer>
