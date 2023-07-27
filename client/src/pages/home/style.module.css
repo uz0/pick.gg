@@ -544,6 +544,10 @@ h2 .orange {
   color: #fafafa;
 }
 
+.lang_settings .underline {
+  text-decoration: underline;
+}
+
 .team_goals {
   padding: 200px 0 200px;
   background-size: cover;
